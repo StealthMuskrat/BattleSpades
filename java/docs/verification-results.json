@@ -33,11 +33,22 @@
     }
   },
   "verification_stage": "Authored spawn geometry, source threat selection and bounded rescue",
-  "java_implementation_commit": null,
-  "tested_tree": null,
+  "java_implementation_commit": "6792f538924d0bbd52a62e0b1fa85d8ead0c5b5e",
+  "tested_tree": "5608362cd28586e9d89adef82719d4ac2b8235f6",
   "ci": {
-    "status": "pending for current tree",
-    "previous_run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38749518170"
+    "status": "success",
+    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38784215231",
+    "jobs": {
+      "native-enet": "success",
+      "build": "success",
+      "platform (windows-latest)": "success",
+      "platform (ubuntu-latest)": "success",
+      "platform (macos-latest)": "success"
+    },
+    "repeated_jar_comparison": "success",
+    "source_fixtures_and_catalogs_reproduced": true,
+    "spawn_fixtures_and_provenance_reproduced": true,
+    "admission_fixtures_and_unicode_table_reproduced": true
   },
   "movement": {
     "cases": 118,

@@ -17,8 +17,8 @@ physics integration and modes remain pending. The ordinary JAR launcher delibera
 - Previous configured-scene tree: `eadba7cd03e37328f9e8ce2cbdfc07e452697998`.
 - Previous admission implementation: `4c9b6014a1d6aab45a7ee8ee3e9232693de0f855`.
 - Previous admission tree: `2dcb997a71ff93209d754d657f7c8bc68c503843`.
-- Current spawn checkpoint is locally verified; publication/CI evidence will be
-  recorded in the follow-up documentation commit.
+- Current spawn implementation: `6792f538924d0bbd52a62e0b1fa85d8ead0c5b5e`.
+- Current tested/published tree: `5608362cd28586e9d89adef82719d4ac2b8235f6`.
 - Independent execution: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -43,7 +43,8 @@ The reference Unicode 15 database is pinned independently of host JDK tables.
 Source comparisons cover every Unicode scalar plus 18,568 name, 6,192 team and
 14,256 class vectors. The binding still delegates actual life creation and mode
 hooks; see [PLAYER_ADMISSION.md](PLAYER_ADMISSION.md). The preceding admission
-checkpoint passed all five CI jobs. Current spawn CI is pending.
+checkpoint passed all five CI jobs. The current spawn checkpoint also passes all
+five jobs, including source fixture regeneration and the same JAR on three OSes.
 
 Java 25, pinned Gradle 9.1 wrapper, locked/checksummed pure-Java dependencies and
 portable package checks remain in place. Production dependencies are tomlj 1.1.1,
@@ -100,7 +101,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | Pending for the spawn checkpoint; preceding admission CI passed all five jobs |
+| Current-tree independent platform CI | All five jobs PASS: Ubuntu build, native/source oracle, Windows/Linux/macOS |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -142,6 +143,12 @@ Independent CI uses ordinary Java 25 runners and wrapper/Maven resolution. Platf
 smoke downloads one Ubuntu-built JAR; source tests additionally run on all three OSes.
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
+
+Current spawn CI: [run38784215231](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38784215231), all five jobs passed.
+The source-oracle job reproduced all spawn fixtures/provenance without a diff,
+alongside the earlier movement/query/scene/catalog/name/admission gates.
+The build rebuilt and byte-compared its JAR before upload; all three OSes tested
+that same artifact and passed their source/component/UDP suites.
 
 Previous admission CI: [run38749518170](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38749518170), all five jobs passed.
 The build rebuilt/byte-compared the JAR before upload. The source-oracle job

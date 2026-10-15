@@ -1,7 +1,7 @@
 # Java test results
 
 Stage: spawn geometry, threat selection and bounded rescue, 2026-10-15 UTC.
-Current-tree independent CI is pending; the preceding admission result is in [CI_STATUS.md](CI_STATUS.md).
+Implementation: `6792f538924d0bbd52a62e0b1fa85d8ead0c5b5e`. All five independent CI jobs pass: [run38784215231](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38784215231). Details: [CI_STATUS.md](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

@@ -19,7 +19,9 @@ physics integration and modes remain pending. The ordinary JAR launcher delibera
 - Previous admission tree: `2dcb997a71ff93209d754d657f7c8bc68c503843`.
 - Previous spawn implementation: `6792f538924d0bbd52a62e0b1fa85d8ead0c5b5e`.
 - Previous spawn tested/published tree: `5608362cd28586e9d89adef82719d4ac2b8235f6`.
-- Current metadata checkpoint is locally verified; publication/CI evidence follows.
+- Metadata feature implementation: `091c3408bb23bfa13a04535a17476544eac110a3`.
+- Current implementation, including strict JSON whitespace: `9b822d80e40fc390eea3fb471822a1fec0a878cb`.
+- Current tested/published tree: `b4581018e5647ab630fd3b808dfae4577a3d15a7`.
 - Independent execution: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -113,7 +115,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | Pending for metadata checkpoint; prior spawn checkpoint passed all five jobs |
+| Current-tree independent platform CI | All five jobs PASS: Ubuntu build, native/source oracle, Windows/Linux/macOS |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -156,6 +158,12 @@ Independent CI uses ordinary Java 25 runners and wrapper/Maven resolution. Platf
 smoke downloads one Ubuntu-built JAR; source tests additionally run on all three OSes.
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
+
+Current metadata CI: [run38790040711](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38790040711), all five jobs passed.
+It includes strict JSON whitespace regression coverage, source metadata/catalog
+regeneration, packaged native sidecar/reload checks, reproducible packaging and
+the same JAR on all three OSes. The initial metadata implementation also passed
+all five jobs in [run38789238339](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38789238339).
 
 Previous spawn CI: [run38784215231](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38784215231), all five jobs passed.
 The source-oracle job reproduced all spawn fixtures/provenance without a diff,

@@ -1,53 +1,51 @@
 # Independent CI verification
 
-The new map-metadata checkpoint passes 1927 unit/component and 8 UDP tests locally.
-Its independent CI is pending publication. The completed spawn run below remains
-previous evidence until this checkpoint finishes CI.
+Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/38790040711
 
-Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/38784215231
-
-Implementation: `6792f538924d0bbd52a62e0b1fa85d8ead0c5b5e`.
-Tested/published tree: `5608362cd28586e9d89adef82719d4ac2b8235f6`.
+Implementation: `9b822d80e40fc390eea3fb471822a1fec0a878cb`.
+Tested/published tree: `b4581018e5647ab630fd3b808dfae4577a3d15a7`.
 Observed 2026-10-15 UTC: **all five jobs succeeded**.
 
 | Job | Result | Scope |
 |---|---|---|
-| build (Ubuntu) | PASS | clean check/build; 1296 unit/component + 8 UDP tests; config smoke; rebuild and byte-compare JAR before upload |
-| native-enet (Ubuntu) | PASS | native transport/packaged loader; loss/password/reload; original source rebuild and exact fixture/catalog/Unicode regeneration |
-| platform (ubuntu-latest) | PASS | same uploaded JAR smoke; 1304 component/UDP tests and portability checks |
-| platform (windows-latest) | PASS | same uploaded JAR smoke; 1304 component/UDP tests and portability checks |
-| platform (macos-latest) | PASS | same uploaded JAR smoke; 1304 component/UDP tests and portability checks |
+| build (Ubuntu) | PASS | clean check/build; 1927 unit/component + 8 UDP tests; config smoke; rebuild and byte-compare JAR before upload |
+| native-enet (Ubuntu) | PASS | native transport/packaged loader; sidecar layering and metadata reload; original source rebuild and exact fixture/catalog/Unicode regeneration |
+| platform (ubuntu-latest) | PASS | same uploaded JAR smoke; 1935 component/UDP tests and portability checks |
+| platform (windows-latest) | PASS | same uploaded JAR smoke; 1935 component/UDP tests and portability checks |
+| platform (macos-latest) | PASS | same uploaded JAR smoke; 1935 component/UDP tests and portability checks |
 
 Platform smoke steps download **one Ubuntu-built JAR**, unchanged by OS.
 Each runner also compiles/tests the source. The native loader uses production
-classes, dependencies, catalogs and Unicode data from the JAR; its player
-lifecycle remains a test-only fixture excluded from that artifact.
+classes, dependencies and catalogs from the JAR. Its player lives remain fixtures
+excluded from that artifact.
 
-New source comparisons cover 18,124 geometry/segment vectors, 822 selection,
-score and rescue events, 16,000 random operations, 3,064 hypot and 3,000 compensated
-sum vectors. Resolved spawns settle through 8,640 exact original-engine ticks
-across all 18 classes. The source-oracle job executes original policy modules
-and compiled VXL/world, then requires an empty diff for every spawn fixture and
-its provenance. Earlier movement/query/scene/catalog/name/admission gates pass.
-Python -S passes without extra policy dependencies; compiled reference extensions
-are development-only and excluded from the production JAR.
+New comparisons execute the original map metadata loader and common scene
+builders: 332 input groups, 785 metadata cases, 659 exact packet pairs and 4316
+map-pool vectors. Independent source digests verify complete metadata values
+without decoding expected numbers through the Java JSON reader. CI reproduces
+all metadata fixtures/provenance and the 97-row production catalog without a diff.
+Earlier movement/query/scene/catalog/name/admission/spawn gates also pass.
+The correction retains the original JSON reader's ASCII whitespace grammar.
 
-The new real-UDP test removes terrain below a first placement and verifies that
-the next configured admission gets a safe live position. Fresh local native
-transport and packaged-loader probes pass nominal and impaired/private runs.
-Two final local archives pass CRC and match byte-for-byte: 1,187,524 bytes,
-SHA-256 `a3b38a6cf981b039835ef9d71afa0ce4c5cc28c795ab050a5f1d315ac11b0a07`.
-CI also passes its own rebuild/byte comparison before upload.
-The focused original spawn subset passes 42 local pytest tests.
+The real-UDP terrain test now reads layered sidecars and verifies gravity, fog,
+palette and safe live placement. Fresh local and independent native loader probes
+verify sidecar layering and changed gravity after scene reload in nominal and
+impaired/private profiles. Transport probes also pass. Compiled original packet,
+VXL/world and ENet oracles are development-only, excluded from the production JAR.
 
-This verifies placement components. Playable hosting, authenticated identity,
-sidecar assembly, full Character/death/respawn lifecycle, concrete mode hooks,
-original-client gameplay and capacity remain unverified or unimplemented.
-See [SPAWNING.md](SPAWNING.md), [JAVA_TEST_RESULTS.md](JAVA_TEST_RESULTS.md)
+Two final local archives pass CRC and match byte-for-byte: 1,227,317 bytes,
+SHA-256 `a1955c5f48f010c3cd761b0b80b433c31f0280d8ec28c76dace65cf06b36eb06`.
+CI independently passes its own rebuild/byte comparison before upload.
+Focused original metadata tests: **71 passed, 4 skipped** (retail .txtc absent).
+
+This verifies metadata, map/layout assembly, packet and placement components.
+Authenticated identity, Character/death/respawn, concrete mode/entity policies,
+live gameplay, original-game-client sessions and capacity remain incomplete.
+See [MAP_METADATA.md](MAP_METADATA.md), [JAVA_TEST_RESULTS.md](JAVA_TEST_RESULTS.md)
 and [verification-results.json](verification-results.json).
 
-Previous admission CI:
-https://github.com/StealthMuskrat/BattleSpades/actions/runs/38749518170.
-Previous configured-scene CI:
-https://github.com/StealthMuskrat/BattleSpades/actions/runs/38742439157.
-Earlier local truncated archives were rejected; no packaging gate was waived.
+The initial metadata implementation passed all five jobs in
+https://github.com/StealthMuskrat/BattleSpades/actions/runs/38789238339.
+Previous spawn CI:
+https://github.com/StealthMuskrat/BattleSpades/actions/runs/38784215231.
+No packaging or source-regeneration gate was waived.

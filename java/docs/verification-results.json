@@ -33,11 +33,22 @@
     }
   },
   "verification_stage": "Layered inert metadata, mode/UGC layout and map assembly",
-  "java_implementation_commit": null,
-  "tested_tree": null,
+  "java_implementation_commit": "9b822d80e40fc390eea3fb471822a1fec0a878cb",
+  "tested_tree": "b4581018e5647ab630fd3b808dfae4577a3d15a7",
   "ci": {
-    "status": "pending for current tree",
-    "previous_run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38789238339"
+    "status": "success",
+    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38790040711",
+    "jobs": {
+      "build": "success",
+      "native-enet": "success",
+      "platform (ubuntu-latest)": "success",
+      "platform (macos-latest)": "success",
+      "platform (windows-latest)": "success"
+    },
+    "repeated_jar_comparison": "success",
+    "source_fixtures_and_catalogs_reproduced": true,
+    "map_metadata_fixtures_and_catalog_reproduced": true,
+    "packaged_native_sidecar_reload": true
   },
   "movement": {
     "cases": 118,

@@ -1,7 +1,7 @@
 # Java test results
 
 Stage: layered map metadata, mode/UGC layouts and map assembly, 2026-10-15 UTC.
-Current-tree CI is pending; preceding spawn evidence is in [CI_STATUS.md](CI_STATUS.md).
+Implementation: `9b822d80e40fc390eea3fb471822a1fec0a878cb`. All five independent CI jobs pass: [run38790040711](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38790040711). Details: [CI_STATUS.md](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

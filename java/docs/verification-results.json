@@ -1,0 +1,33 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "java_implementation_commit": "6a4dc5eb52d96812dd9ae565f42de4746b414b1b",
+  "jar_sha256": "a3053fcdd85c6accbba9750cf0ae6e94e20b6b8487f36b88bc8e8ffe5184f985",
+  "jar_bytes": 870943,
+  "java_class_major": 69,
+  "prohibited_packaged_files": [],
+  "licenses": [
+    "META-INF/LICENSE.txt",
+    "META-INF/licenses/",
+    "META-INF/licenses/antlr4-BSD-3-Clause.txt",
+    "META-INF/licenses/checker-qual-LICENSE.txt",
+    "META-INF/licenses/tomlj-APACHE-2.0.txt",
+    "META-INF/LICENSE-BattleSpades",
+    "META-INF/THIRD_PARTY_NOTICES.md",
+    "META-INF/JAVA-THIRD-PARTY-NOTICES.md"
+  ],
+  "repeated_build_identical": true,
+  "junit": {
+    "test": {
+      "tests": 249,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  }
+}

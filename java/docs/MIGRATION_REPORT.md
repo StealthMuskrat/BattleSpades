@@ -24,6 +24,8 @@ modes remain pending. The ordinary JAR launcher deliberately returns exit 2 for 
 - Previous metadata tested/published tree: `b4581018e5647ab630fd3b808dfae4577a3d15a7`.
 - Previous lifecycle implementation: `d03cb25c420323ef6a94379f06de349cd58ded0e`.
 - Previous lifecycle tested/published tree: `f46b2a5736cd9dc49afae067df58f35e1239212a`.
+- Current accepted-health implementation: `e9e06e5af17deb9cb4f939c9ddd9112ad18a9881`.
+- Current accepted-health tested/published tree: `8195a734f9d048246bb17da572a0f2bf829cd824`.
 - Independent execution: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -139,7 +141,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | Pending current health publication; previous lifecycle all five PASS |
+| Current-tree independent platform CI | All five PASS: Ubuntu build, native/source oracle, Linux/Windows/macOS |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -187,6 +189,11 @@ Independent CI uses ordinary Java 25 runners and wrapper/Maven resolution. Platf
 smoke downloads one Ubuntu-built JAR; source tests additionally run on all three OSes.
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
+
+Current accepted-health CI: [run38826339114](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38826339114), all five migration jobs passed.
+It reproduces original health fixtures, verifies HP/death order through UDP,
+byte-compares its rebuilt JAR and tests one uploaded artifact on three OSes.
+The separately documented original VIP reference failure remains unresolved.
 
 Previous lifecycle CI: [run38795898680](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38795898680), all five jobs passed.
 It reproduces life fixtures/catalogs, runs the production-domain UDP lifecycle test,

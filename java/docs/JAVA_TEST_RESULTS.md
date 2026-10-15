@@ -1,7 +1,7 @@
 # Java test results
 
 Stage: accepted damage/healing, history and reliable HP/death ordering, 2026-10-15 UTC.
-Current-tree CI pending; previous lifecycle evidence is in [CI_STATUS.md](CI_STATUS.md).
+Implementation: `e9e06e5af17deb9cb4f939c9ddd9112ad18a9881`. All five migration CI jobs pass: [run38826339114](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38826339114). Details: [CI_STATUS.md](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

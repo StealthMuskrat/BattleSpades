@@ -71,6 +71,11 @@ public final class PacketCodec {
             case 4 -> ClientInput.read(r);
             case 21 -> new CreateEntity(EntityRecord.read(r));
             case 37 -> DamagePacket.read(r);
+            case 45 -> StateData.read(r);
+            case 55 -> new LoadingPackets.MapSyncStart();
+            case 56,57 -> LoadingPackets.MapChunk.read(id,r);
+            case 105 -> LoadingPackets.SteamSessionTicket.read(r);
+            case 114 -> InitialInfo.read(r);
             default -> throw new ProtocolException("Unsupported packet ID: " + id);
         };
         r.end();

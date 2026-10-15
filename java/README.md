@@ -1,8 +1,8 @@
 # BattleSpades Java 25 migration
 
 **Development components, not a playable server.** This executable deliberately
-returns exit code 2 for normal game startup. ENet delivery/session management,
-application join/map transfer, physics and gameplay remain unimplemented.
+returns exit code 2 for normal game startup. Application join and live map journals,
+physics and gameplay remain unimplemented. ENet delivery and loader components exist.
 See [FEATURE_PARITY.md](docs/FEATURE_PARITY.md) and the
 [migration plan](../JAVA25_MIGRATION_PLAN.md). Do not deploy this JAR as a game server.
 
@@ -38,14 +38,18 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
-- Typed codecs for 61 distinct application packet IDs: 57 straight-line source
-  definitions plus ClientData, WorldUpdate, CreateEntity and Damage.
+- Typed codecs for 67 distinct application packet IDs: 57 straight-line source
+  definitions plus ClientData, WorldUpdate, CreateEntity, Damage, InitialInfo,
+  StateData, MapSyncStart, both map chunks and SteamSessionTicket.
 - Little-endian primitives, signed/unsigned values, UTF-8 strings, BGR colors,
   asymmetric signed-magnitude 1/64, orientation and quarter-unit conversions.
 - Source-equivalent LZF framing and inbound ticket XOR.
 - ENet network-endian command envelope, range coding, modular sequences,
-  bounded fragment-group assembler, and standalone connection handshake phase.
-- Pure Java nonblocking UDP endpoint; real loopback integration test.
+  bounded peer/host delivery, ACK/retransmission timers, RTT throttling, sequence
+  windows, fragment groups, lifecycle/disconnect and reconnect.
+- Pure Java nonblocking UDP endpoint; real loopback integration tests.
+- Immutable full/delta map compression and a bounded transfer cursor with server CRC,
+  five-second validation timeout, loader delay, generation cancellation and prefixes.
 - VXL loader, classic64 normalization, floor/fill behavior and MapSync column
   serialization. Standard/legacy KV6 decoding and byte-preserving serialization.
 - Core TOML composition/validation and bounded, owned 60/30 Hz scheduling core.
@@ -81,16 +85,17 @@ actual bytes rather than replacing its rounding rules.
 `./gradlew test integrationTest verifyPortable` runs JUnit and scans the packaged
 artifact plus production source/dependency allowlist for prohibited native/runtime
 content. Golden files are committed, so Java builds do not need Python or C.
-`docs/native-handshake-result.json` records the separate native ENet connection
-probe. This is not an original game-client compatibility result.
+`docs/native-transport-results.json` records separate native ENet delivery probes
+with loss, delay, duplicates and reconnect. This is not an original game-client test.
 
 To regenerate reference fixtures, build the original Python/Cython environment
 at the recorded source commit, then run from repository root:
 
 ```sh
 python java/tools/generate_simple_packets.py
-python java/tools/generate_golden.py
 python java/tools/generate_world_golden.py
+python java/tools/generate_loading_golden.py
+python java/tools/generate_golden.py
 ```
 
 Run `generate_golden.py` last to refresh the full fixture provenance manifest.
@@ -98,11 +103,26 @@ Range fixtures use the development-only `range_oracle.c` adapter with the vendor
 ENet C source and `generate_range_golden.py`. Native code is never linked into or
 loaded by the Java application. See those scripts for exact invocation.
 
+For the development-only native interoperability test on Linux, after building
+`integrationTestClasses`, install Cython3.0.12 and setuptools80.9.0 in a Python3.12
+test environment and run from the repository root:
+
+```sh
+python java/tools/build_reference_enet.py
+python java/tools/test_native_transport.py
+```
+
+The transport probe is a test echo endpoint, not a gameplay hosting command.
+Map snapshots accept already-canonical dirty columns; marker cleanup, mutation
+watermarks, catch-up journals and player reveal remain application work. ENet host
+bandwidth epoch redistribution remains pending; the current default host advertises
+unlimited bandwidth, matching the original server configuration.
+
 ## Cross-platform verification and limitations
 
 The workflow builds one JAR and downloads that same artifact to Windows, Linux
 and macOS for startup/config smoke tests. It also runs component and UDP tests
-on each platform. It does not claim original-client movement/combat verification,
+on each platform, plus the native ENet impaired-relay oracle on Linux. It does not claim original-client movement/combat verification,
 mode rounds, bot capacity, plugin behavior or a 15-minute game soak.
 
 A Java-native plugin API has not been delivered; existing Python plugins do not

@@ -1,8 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "java_implementation_commit": "6a4dc5eb52d96812dd9ae565f42de4746b414b1b",
-  "jar_sha256": "a3053fcdd85c6accbba9750cf0ae6e94e20b6b8487f36b88bc8e8ffe5184f985",
-  "jar_bytes": 870943,
+  "jar_sha256": "1ade4eecc5651e6ec6307a8a875eeb7ffc92e6059d973fba036a0ba151148a15",
+  "jar_bytes": 937171,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -18,16 +17,17 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 249,
+      "tests": 289,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
-      "tests": 1,
+      "tests": 3,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
-  }
+  },
+  "verification_stage": "ENet peer/host and loader components"
 }

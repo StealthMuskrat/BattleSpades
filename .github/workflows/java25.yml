@@ -68,3 +68,31 @@ jobs:
           path: |
             java/build/test-results
             java/build/reports/tests
+  native-enet:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile Java transport probe
+        working-directory: java
+        run: ./gradlew --no-daemon integrationTestClasses
+      - name: Build development-only native ENet oracle
+        run: |
+          python -m pip install Cython==3.0.12 setuptools==80.9.0
+          python java/tools/build_reference_enet.py
+      - name: Native interoperability with loss, reorder, duplicates and reconnect
+        timeout-minutes: 5
+        run: python java/tools/test_native_transport.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-enet-results
+          path: java/docs/native-transport-results.json

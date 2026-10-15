@@ -36,7 +36,7 @@ public final class Main {
                 return 2;
             }
         }
-        error.println("Java migration incomplete: ENet sessions, map synchronization and gameplay are not available.");
+        error.println("Java migration incomplete: application join, live map synchronization and gameplay are not available.");
         error.println("Use --help for diagnostics. Continue using the reference server for gameplay.");
         return 2;
     }

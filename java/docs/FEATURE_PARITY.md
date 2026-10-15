@@ -9,15 +9,15 @@ has passed. Nothing below is a production-readiness claim.
 |---|---|---|
 | shared/bytes.pyx | Implemented binary component | byte order, widths, UTF-8, BGR, truncation tests; legacy Python façade quirks not reproduced |
 | server/util.py | Implemented LZF | source golden literals; backreferences, overlap, bounded malformed/fuzz tests |
-| shared/packet.pyx | 61 distinct packet IDs encoded/decoded | 171 simple vectors, ClientData, WorldUpdate, CreateEntity, Damage source fixtures; remaining IDs pending |
+| shared/packet.pyx | 67 distinct packet IDs encoded/decoded | 171 simple vectors, ClientData/complex and 11 loading source vectors; remaining IDs pending |
 | server/connection.py framing/decrypt | Implemented framing component | outbound literal chunks for 0x30/31/32, inbound 0x31 decode then XOR; full connection state pending |
 | vendor ENet compress.c | Pure Java range coder | 30 native-C encode/decode vectors, rescaling/reset; bounded malformed fuzz |
 | vendor ENet protocol.h | Implemented envelope component | all command layout sizes, MTU/bounds, network byte order, compressed region tests |
 | vendor ENet protocol.c connect phase | Standalone handshake component | native pyenet CONNECT event + Java VERIFY_CONNECT ACK; no game client |
-| ENet sequencing/fragments | Supporting components only | wrap arithmetic and bounded single-group reorder/dedup/overlap tests; full peer delivery queues pending |
-| ENet host/session delivery | **Pending** | retransmission, timeouts, congestion, unsequenced windows, lifecycle/reconnect/loss; must precede gameplay hosting |
-| InitialInfo/StateData/application handshake | **Pending** | complete packet codecs, source fixtures, actual loader lifecycle |
-| Map transfer, CRC, late joins | **Pending end to end** | source CRC32 and VXL columns exist; map protocols, reliable cursors, journals/reveal gates missing |
+| ENet sequencing/fragments | Bounded peer components implemented | reliable reorder/dedup, 66,000-message sequence/time wrap, unsequenced windows, atomic outgoing bounds and grouped fragmentation |
+| ENet host/session delivery | Server host/peer implemented; not fully certified | native ENet nominal/loss/reorder/duplicate/reconnect tests, ACK/retransmit/RTT throttle/windows, disconnect and backpressure; bandwidth-epoch redistribution and full capacity testing pending |
+| InitialInfo/StateData/application handshake | Typed loader codecs implemented; application join pending | source fixtures include 373 prefabs, embedded entities, ZYX vectors, RGBA, unsigned query port and loadouts; password/ticket/identity dispatch still missing |
+| Map transfer, CRC, late joins | Snapshot and transfer cursor implemented; **pending end to end** | 12 source record hashes, compact full spans, small-map fallback, canonical overlays, CRC/delay/prefix/cancellation/backpressure; live marker/mutation/catch-up/reveal gates missing |
 | aoslib/vxl.pyx | Loader / column serializer implemented | 6 synthetic source fixtures, 3,264 source point samples, classic64/floor/fill and source column bytes |
 | aoslib/kv6.pyx | Format codec implemented | standard/legacy roundtrip and malformed bounds; model operations/palette interpretation pending |
 | Voxel edits/collapse/world persistence | **Pending** | original mutation, health, structure collapse and atomic editing semantics |
@@ -44,10 +44,11 @@ has passed. Nothing below is a production-readiness claim.
 
 ## Ordered remaining implementation work
 
-1. Complete host/peer reliability, retransmission, sequencing/windows, unsequenced
-   and fragment-group management; verify against native ENet under loss/reordering.
-2. Port remaining application packets, full configuration/rules, InitialInfo,
-   StateData, password/ticket/identity and map transfer/snapshot/journal gates.
+1. Integrate the host and loading components into the application owner/dispatch
+   architecture; add identity/password/ticket and complete configuration/rules.
+2. Port remaining application packets, marker cleanup, mutable world capture,
+   map epochs and late-join journals/reveal gates. Complete transport bandwidth
+   redistribution and broaden interoperability/capacity cases as needed.
 3. Connect an unmodified supported game client and verify complete map synchronization.
 4. Port original strict-float movement/collision/projectile/world mutation behavior
    with existing retail fixtures and differential traces.

@@ -46,5 +46,12 @@ public final class ConnectionHandshake {
         }
         return false;
     }
+    public int localPeerId() { return localPeer; }
+    public int remotePeerId() { return remotePeer; }
+    public int incomingSessionId() { return incomingSession; }
+    public int outgoingSessionId() { return outgoingSession; }
+    public int mtu() { return ByteBuffer.wrap(verify.parameters()).getInt(4); }
+    public int connectId() { return ByteBuffer.wrap(verify.parameters()).getInt(36); }
+    public int connectData() { return protocol; }
     public State state() { return state; }
 }

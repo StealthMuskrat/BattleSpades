@@ -1,0 +1,79 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+group = 'net.battlespades'
+version = '0.1.0-java25-dev'
+repositories { mavenCentral() }
+java { toolchain { languageVersion = JavaLanguageVersion.of(25) } }
+application { mainClass = 'net.battlespades.app.Main' }
+dependencies {
+    implementation 'org.tomlj:tomlj:1.1.1'
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+dependencyLocking { lockAllConfigurations() }
+sourceSets {
+    integrationTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+configurations {
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+tasks.register('integrationTest', Test) {
+    description = 'Run transport and lifecycle integration tests.'
+    group = 'verification'
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    shouldRunAfter test
+}
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+    maxHeapSize = '768m'
+    testLogging { events 'failed', 'skipped'; exceptionFormat 'full' }
+}
+tasks.withType(JavaCompile).configureEach {
+    options.release = 25
+    options.encoding = 'UTF-8'
+    options.compilerArgs += ['-Xlint:all', '-Werror']
+}
+tasks.withType(AbstractArchiveTask).configureEach {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}
+jar {
+    archiveFileName = 'BattleSpades.jar'
+    manifest { attributes 'Main-Class': application.mainClass.get() }
+    from({ configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } })
+    from('licenses') { into 'META-INF/licenses' }
+    from('../LICENSE') { into 'META-INF'; rename { 'LICENSE-BattleSpades' } }
+    from('../THIRD_PARTY_NOTICES.md') { into 'META-INF' }
+    from('THIRD_PARTY_NOTICES.md') { into 'META-INF'; rename { 'JAVA-THIRD-PARTY-NOTICES.md' } }
+    exclude 'META-INF/*.SF', 'META-INF/*.RSA', 'META-INF/*.DSA'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+tasks.register('verifyPortable', DefaultTask) {
+    description = 'Reject native artifacts and prohibited production references.'
+    group = 'verification'
+    dependsOn jar
+    doLast {
+        def forbidden = zipTree(tasks.jar.archiveFile).matching {
+            include '**/*.so', '**/*.dll', '**/*.dylib', '**/*.jnilib', '**/*.exe', '**/*.py', '**/*.pyc', '**/*.pyd'
+        }.files
+        if (!forbidden.empty) throw new GradleException("Forbidden packaged files: $forbidden")
+        def patterns = ['System.load(', 'System.loadLibrary(', 'java.lang.foreign', 'com.sun.jna', 'ProcessBuilder', 'Runtime.getRuntime().exec']
+        fileTree('src/main/java').matching { include '**/*.java' }.each { source ->
+            patterns.each { p -> if (source.text.contains(p)) throw new GradleException("Prohibited API $p in $source") }
+        }
+        configurations.runtimeClasspath.resolvedConfiguration.resolvedArtifacts.each {
+            if (!(it.moduleVersion.id.group in ['org.tomlj', 'org.antlr', 'org.checkerframework'])) {
+                throw new GradleException("Unaudited production dependency: ${it.moduleVersion.id}")
+            }
+        }
+    }
+}
+check.dependsOn integrationTest, verifyPortable

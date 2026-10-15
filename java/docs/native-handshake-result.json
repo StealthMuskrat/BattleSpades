@@ -1,0 +1,9 @@
+{
+  "native_enet_connect_event": true,
+  "java_received_verify_ack": true,
+  "protocol": 168,
+  "channel_count": 1,
+  "range_coder_enabled": true,
+  "game_client_test": false,
+  "result": "PASS"
+}

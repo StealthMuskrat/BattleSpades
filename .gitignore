@@ -115,3 +115,9 @@ aceofspades/
 
 # Local GUI playtest configuration (paths, ports and private host settings).
 /configs/unofficial/gui-playtest.toml
+
+# Java migration local outputs
+.reference-venv/
+.gradle/
+java/.gradle/
+java/build/

@@ -1,0 +1,42 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "generator": "java/tools/generate_golden.py",
+  "oracles": {
+    "packet": "compiled shared.packet + server.util",
+    "world": "compiled aoslib.vxl / aoslib.kv6",
+    "range": "vendored ENet compress.c"
+  },
+  "generators": [
+    "generate_golden.py",
+    "generate_world_golden.py",
+    "generate_range_golden.py"
+  ],
+  "fixtures": {
+    "client-input.tsv": "883efa80bec71476936cfd002c47fc03817ebe0051393b075fb6314e299b3c0a",
+    "complex.tsv": "6c370c16e0e29440226988cd8ae1def2d5833e9e10d228acd758b1d61da3502e",
+    "lzf.tsv": "7cc5a7f78789d986e665043392f7be29b09b6de8c6f109d24583b3907bd72f76",
+    "packets.tsv": "f77b6555d924b17317b98c8c8a794c9e6df133578ffb337db246ea9e7d3ebb48",
+    "range.tsv": "d70c143dfce3d6bf1c8524aa2ee193680b1c1b7d8a6ca5194df0522f4c7b4ea0",
+    "world/cave.columns.tsv": "2c7740d05549db5aecbe27887e92dd1e60132000d6c7d093edfd0b9d017f2609",
+    "world/cave.json": "a87887142440a5904c8fdbd5ac838c21da78c7a089252ab0d79052d326bf6bf7",
+    "world/cave.vxl": "941a8625966864c633dcdf86a06749376b50d6820625fc3f1a0db0d0523b750c",
+    "world/classic_water.columns.tsv": "36e428b448d8f0631c669a83de4165ce5abe3d4943cf604bec3d4af449c05381",
+    "world/classic_water.json": "719c90d6def9171f7269c344fb8d9deee0615771f46305d626cc13aa9ed0959e",
+    "world/classic_water.vxl": "5d3c6ae6431741cb6e3ba3f20b07c6e5f0835fca0f0606ccb38f35d85ea71d5c",
+    "world/empty.columns.tsv": "36e428b448d8f0631c669a83de4165ce5abe3d4943cf604bec3d4af449c05381",
+    "world/empty.json": "3a076283a53fe8447f23eeda9b49418a437bc92a1d3519930eb973c82e9410dd",
+    "world/empty.vxl": "6e32140e02226d22980b7e785f1e2b7b9781f19b45eba67efa7b7761a3b6da0c",
+    "world/island.columns.tsv": "b07f2fe4820681c3241da8bafde10776b9fa9b55b46dae756c2102f48efac8e5",
+    "world/island.json": "cbc660e4b10c6f5030973d40d2bf2a1a828dfbd0877a99ae75e74d46589dab40",
+    "world/island.vxl": "e902d22eb0f06c7f3c7e8423192a43b391a23893f3d2e452b89f63786a4acc5b",
+    "world/legacy.kv6": "af6f24d000f8eb099d2ca82a5e27317d462c6f5b6650bfe8ebceab77bfd2ff8d",
+    "world/points.tsv": "58eb25b50970ecf1bd5c88010b61edcdb01c391f2b4624270c51a5af663a8618",
+    "world/small_grid.columns.tsv": "a90acc6db0843f4fb1f912416e1dad94b0dc7e026211aa4542ca1f58c87be224",
+    "world/small_grid.json": "fca9748885fb46533b21c85e9d074e02f4302f88fcc1312717d34a81a97d9f8a",
+    "world/small_grid.vxl": "daf6dd2df69caa6928ee0497df164591bb5f5fc38966e8c737bc7b96e932775e",
+    "world/standard.kv6": "db6106c5246d1a0df2e00e4303d655e63ea748bf8444bd7a33d5bd82956f33ef",
+    "world/surface.columns.tsv": "c0d0ec93989b2accacdeef9795ea9b92f4c729d812edddc73355818a4c7fd9c4",
+    "world/surface.json": "6caf138705b01919040c5540c79d660ca5c415f4be5f4697fe34147eab2c68f6",
+    "world/surface.vxl": "6475c906757b7da5d2a21dc3e797cc10544ab94908d722ae499bd3d2e3da6f4e"
+  }
+}

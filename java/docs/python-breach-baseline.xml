@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="4" time="0.912" timestamp="2026-10-14T20:46:47.348011-04:00" hostname="ba0dda0716c2"><testcase classname="tests.test_bot_built_block_breach" name="test_built_wall_costs_more_swings_than_map_terrain" time="0.002"><failure message="AttributeError: 'types.SimpleNamespace' object has no attribute 'can_dig'">def test_built_wall_costs_more_swings_than_map_terrain() -&gt; None:
+        expectations = (
+            # tool, map swings, built swings
+            (int(C.SPADE_TOOL), 1, 2),
+            (int(C.ZOMBIEHAND_TOOL), 1, 2),
+            # Stock pickaxe block damage is 7 (the modded nonsteam value was 9):
+            # one hit per 5-health map voxel, two per 9-health built voxel.
+            (int(C.PICKAXE_TOOL), 2, 4),
+            (int(C.KNIFE_TOOL), 10, 18),
+        )
+        for tool_id, map_swings, built_swings in expectations:
+&gt;           _world_map, natural = _breach_for(tool_id, built=False)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_bot_built_block_breach.py:76: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_bot_built_block_breach.py:56: in _breach_for
+    abilities=_movement_abilities(observer),
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+server/bot_ai/simple_worker.py:7235: in _movement_abilities
+    if _dig_profile(observer) is not None:
+       ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+observer = namespace(can_shoot=True, loadout=(2,))
+
+    def _dig_profile(observer: PlayerSnapshot) -&gt; DigProfile | None:
+        """Return the fastest owned tool under the authoritative dig model."""
+    
+&gt;       if not observer.can_shoot or not observer.can_dig:
+                                         ^^^^^^^^^^^^^^^^
+E       AttributeError: 'types.SimpleNamespace' object has no attribute 'can_dig'
+
+server/bot_ai/simple_worker.py:7184: AttributeError</failure></testcase><testcase classname="tests.test_bot_built_block_breach" name="test_removed_built_cell_forgets_its_health" time="0.002"><failure message="AttributeError: 'types.SimpleNamespace' object has no attribute 'can_dig'">def test_removed_built_cell_forgets_its_health() -&gt; None:
+&gt;       world, _breach = _breach_for(int(C.SPADE_TOOL), built=True)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_bot_built_block_breach.py:85: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_bot_built_block_breach.py:56: in _breach_for
+    abilities=_movement_abilities(observer),
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+server/bot_ai/simple_worker.py:7235: in _movement_abilities
+    if _dig_profile(observer) is not None:
+       ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+observer = namespace(can_shoot=True, loadout=(2,))
+
+    def _dig_profile(observer: PlayerSnapshot) -&gt; DigProfile | None:
+        """Return the fastest owned tool under the authoritative dig model."""
+    
+&gt;       if not observer.can_shoot or not observer.can_dig:
+                                         ^^^^^^^^^^^^^^^^
+E       AttributeError: 'types.SimpleNamespace' object has no attribute 'can_dig'
+
+server/bot_ai/simple_worker.py:7184: AttributeError</failure></testcase><testcase classname="tests.test_bot_built_block_breach" name="test_zombie_hand_breach_timeout_covers_every_retail_damage_roll" time="0.002"><failure message="AttributeError: 'types.SimpleNamespace' object has no attribute 'can_dig'">def test_zombie_hand_breach_timeout_covers_every_retail_damage_roll() -&gt; None:
+        """Zombie hands (2 + 8r per cell) must not give up on a built wall.
+    
+        Replays the retail cube footprint for every Damage seed until the aimed
+        built blocker breaks, and checks the executor's breach timeout
+        (simple_worker: max(3, swings * interval * 3 + 1.5)) covers the slowest.
+        """
+    
+        profile = PRIMARY_DIG_PROFILES[int(C.ZOMBIEHAND_TOOL)]
+&gt;       _world_state, breach = _breach_for(int(C.ZOMBIEHAND_TOOL), built=True)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_bot_built_block_breach.py:99: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_bot_built_block_breach.py:56: in _breach_for
+    abilities=_movement_abilities(observer),
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+server/bot_ai/simple_worker.py:7235: in _movement_abilities
+    if _dig_profile(observer) is not None:
+       ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+observer = namespace(can_shoot=True, loadout=(24,))
+
+    def _dig_profile(observer: PlayerSnapshot) -&gt; DigProfile | None:
+        """Return the fastest owned tool under the authoritative dig model."""
+    
+&gt;       if not observer.can_shoot or not observer.can_dig:
+                                         ^^^^^^^^^^^^^^^^
+E       AttributeError: 'types.SimpleNamespace' object has no attribute 'can_dig'
+
+server/bot_ai/simple_worker.py:7184: AttributeError</failure></testcase><testcase classname="tests.test_bot_built_block_breach" name="test_director_publishes_built_block_health_to_the_worker" time="0.000" /></testsuite></testsuites>

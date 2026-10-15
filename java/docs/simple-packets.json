@@ -1,0 +1,1434 @@
+[
+  {
+    "name": "BlockBuild",
+    "id": 32,
+    "fields": [
+      [
+        "loop_count",
+        "loop_count",
+        "int"
+      ],
+      [
+        "player_id",
+        "player_id",
+        "int"
+      ],
+      [
+        "x",
+        "x",
+        "int"
+      ],
+      [
+        "y",
+        "y",
+        "int"
+      ],
+      [
+        "z",
+        "z",
+        "int"
+      ],
+      [
+        "block_type",
+        "block_type",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i32()",
+      "r.u8()",
+      "r.i16()",
+      "r.i16()",
+      "r.i16()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.i32(loop_count);",
+      "w.u8(player_id);",
+      "w.i16(x);",
+      "w.i16(y);",
+      "w.i16(z);",
+      "w.u8(block_type);"
+    ]
+  },
+  {
+    "name": "BlockBuildColored",
+    "id": 33,
+    "fields": [
+      [
+        "loop_count",
+        "loop_count",
+        "int"
+      ],
+      [
+        "player_id",
+        "player_id",
+        "int"
+      ],
+      [
+        "x",
+        "x",
+        "int"
+      ],
+      [
+        "y",
+        "y",
+        "int"
+      ],
+      [
+        "z",
+        "z",
+        "int"
+      ],
+      [
+        "color",
+        "color",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i32()",
+      "r.u8()",
+      "r.i16()",
+      "r.i16()",
+      "r.i16()",
+      "r.color()"
+    ],
+    "writes": [
+      "w.i32(loop_count);",
+      "w.u8(player_id);",
+      "w.i16(x);",
+      "w.i16(y);",
+      "w.i16(z);",
+      "w.color(color);"
+    ]
+  },
+  {
+    "name": "BlockLiberate",
+    "id": 35,
+    "fields": [
+      [
+        "loop_count",
+        "loop_count",
+        "int"
+      ],
+      [
+        "player_id",
+        "player_id",
+        "int"
+      ],
+      [
+        "x",
+        "x",
+        "int"
+      ],
+      [
+        "y",
+        "y",
+        "int"
+      ],
+      [
+        "z",
+        "z",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i32()",
+      "r.u8()",
+      "r.i16()",
+      "r.i16()",
+      "r.i16()"
+    ],
+    "writes": [
+      "w.i32(loop_count);",
+      "w.u8(player_id);",
+      "w.i16(x);",
+      "w.i16(y);",
+      "w.i16(z);"
+    ]
+  },
+  {
+    "name": "BlockLine",
+    "id": 40,
+    "fields": [
+      [
+        "loop_count",
+        "loop_count",
+        "int"
+      ],
+      [
+        "player_id",
+        "player_id",
+        "int"
+      ],
+      [
+        "x1",
+        "x1",
+        "int"
+      ],
+      [
+        "y1",
+        "y1",
+        "int"
+      ],
+      [
+        "z1",
+        "z1",
+        "int"
+      ],
+      [
+        "x2",
+        "x2",
+        "int"
+      ],
+      [
+        "y2",
+        "y2",
+        "int"
+      ],
+      [
+        "z2",
+        "z2",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i32()",
+      "r.u8()",
+      "r.i16()",
+      "r.i16()",
+      "r.i16()",
+      "r.i16()",
+      "r.i16()",
+      "r.i16()"
+    ],
+    "writes": [
+      "w.i32(loop_count);",
+      "w.u8(player_id);",
+      "w.i16(x1);",
+      "w.i16(y1);",
+      "w.i16(z1);",
+      "w.i16(x2);",
+      "w.i16(y2);",
+      "w.i16(z2);"
+    ]
+  },
+  {
+    "name": "BlockOccupy",
+    "id": 34,
+    "fields": [
+      [
+        "loop_count",
+        "loop_count",
+        "int"
+      ],
+      [
+        "player_id",
+        "player_id",
+        "int"
+      ],
+      [
+        "x",
+        "x",
+        "int"
+      ],
+      [
+        "y",
+        "y",
+        "int"
+      ],
+      [
+        "z",
+        "z",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i32()",
+      "r.u8()",
+      "r.i16()",
+      "r.i16()",
+      "r.i16()"
+    ],
+    "writes": [
+      "w.i32(loop_count);",
+      "w.u8(player_id);",
+      "w.i16(x);",
+      "w.i16(y);",
+      "w.i16(z);"
+    ]
+  },
+  {
+    "name": "BlockSuckerPacket",
+    "id": 94,
+    "fields": [
+      [
+        "loop_count",
+        "loop_count",
+        "int"
+      ],
+      [
+        "shooter_id",
+        "shooter_id",
+        "int"
+      ],
+      [
+        "state",
+        "state",
+        "int"
+      ],
+      [
+        "shot",
+        "shot",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i32()",
+      "r.u8()",
+      "r.u8()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.i32(loop_count);",
+      "w.u8(shooter_id);",
+      "w.u8(state);",
+      "w.u8(shot);"
+    ]
+  },
+  {
+    "name": "ChangeClass",
+    "id": 78,
+    "fields": [
+      [
+        "player_id",
+        "player_id",
+        "int"
+      ],
+      [
+        "class_id",
+        "class_id",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(player_id);",
+      "w.u8(class_id);"
+    ]
+  },
+  {
+    "name": "ChangeTeam",
+    "id": 77,
+    "fields": [
+      [
+        "player_id",
+        "player_id",
+        "int"
+      ],
+      [
+        "team",
+        "team",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(player_id);",
+      "w.u8(team);"
+    ]
+  },
+  {
+    "name": "ChatMessage",
+    "id": 49,
+    "fields": [
+      [
+        "player_id",
+        "player_id",
+        "int"
+      ],
+      [
+        "chat_type",
+        "chat_type",
+        "int"
+      ],
+      [
+        "value",
+        "value",
+        "String"
+      ]
+    ],
+    "reads": [
+      "r.u8()",
+      "r.u8()",
+      "r.string()"
+    ],
+    "writes": [
+      "w.u8(player_id);",
+      "w.u8(chat_type);",
+      "w.string(value);"
+    ]
+  },
+  {
+    "name": "ClientInMenu",
+    "id": 110,
+    "fields": [
+      [
+        "in_menu",
+        "in_menu",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(in_menu);"
+    ]
+  },
+  {
+    "name": "ClockSync",
+    "id": 0,
+    "fields": [
+      [
+        "client_time",
+        "client_time",
+        "int"
+      ],
+      [
+        "server_loop_count",
+        "server_loop_count",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i32()",
+      "r.i32()"
+    ],
+    "writes": [
+      "w.i32(client_time);",
+      "w.i32(server_loop_count);"
+    ]
+  },
+  {
+    "name": "DestroyEntity",
+    "id": 19,
+    "fields": [
+      [
+        "entity_id",
+        "entity_id",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i16()"
+    ],
+    "writes": [
+      "w.i16(entity_id);"
+    ]
+  },
+  {
+    "name": "DetonateC4",
+    "id": 93,
+    "fields": [
+      [
+        "loop_count",
+        "loop_count",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i32()"
+    ],
+    "writes": [
+      "w.i32(loop_count);"
+    ]
+  },
+  {
+    "name": "DisableEntity",
+    "id": 96,
+    "fields": [
+      [
+        "entity_id",
+        "entity_id",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i16()"
+    ],
+    "writes": [
+      "w.i16(entity_id);"
+    ]
+  },
+  {
+    "name": "DisguisePacket",
+    "id": 95,
+    "fields": [
+      [
+        "loop_count",
+        "loop_count",
+        "int"
+      ],
+      [
+        "active",
+        "active",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i32()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.i32(loop_count);",
+      "w.u8(active);"
+    ]
+  },
+  {
+    "name": "DisplayCountdown",
+    "id": 84,
+    "fields": [
+      [
+        "timer",
+        "timer",
+        "float"
+      ]
+    ],
+    "reads": [
+      "r.f32()"
+    ],
+    "writes": [
+      "w.f32(timer);"
+    ]
+  },
+  {
+    "name": "ExplodeCorpse",
+    "id": 36,
+    "fields": [
+      [
+        "player_id",
+        "player_id",
+        "int"
+      ],
+      [
+        "show_explosion_effect",
+        "show_explosion_effect",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(player_id);",
+      "w.u8(show_explosion_effect);"
+    ]
+  },
+  {
+    "name": "ForceShowScores",
+    "id": 72,
+    "fields": [
+      [
+        "forced",
+        "forced",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(forced);"
+    ]
+  },
+  {
+    "name": "ForceTeamJoin",
+    "id": 115,
+    "fields": [
+      [
+        "team_id",
+        "team_id",
+        "int"
+      ],
+      [
+        "instant",
+        "instant",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(team_id);",
+      "w.u8(instant);"
+    ]
+  },
+  {
+    "name": "InitiateKickMessage",
+    "id": 48,
+    "fields": [
+      [
+        "player_id",
+        "player_id",
+        "int"
+      ],
+      [
+        "target_id",
+        "target_id",
+        "int"
+      ],
+      [
+        "reason",
+        "reason",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()",
+      "r.u8()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(player_id);",
+      "w.u8(target_id);",
+      "w.u8(reason);"
+    ]
+  },
+  {
+    "name": "LockTeam",
+    "id": 79,
+    "fields": [
+      [
+        "team_id",
+        "team_id",
+        "int"
+      ],
+      [
+        "locked",
+        "locked",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(team_id);",
+      "w.u8(locked);"
+    ]
+  },
+  {
+    "name": "LockToZone",
+    "id": 108,
+    "fields": [
+      [
+        "A2018",
+        "A2018",
+        "int"
+      ],
+      [
+        "A2020",
+        "A2020",
+        "int"
+      ],
+      [
+        "A2022",
+        "A2022",
+        "int"
+      ],
+      [
+        "A2019",
+        "A2019",
+        "int"
+      ],
+      [
+        "A2021",
+        "A2021",
+        "int"
+      ],
+      [
+        "A2023",
+        "A2023",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i16()",
+      "r.i16()",
+      "r.i16()",
+      "r.i16()",
+      "r.i16()",
+      "r.i16()"
+    ],
+    "writes": [
+      "w.i16(A2018);",
+      "w.i16(A2020);",
+      "w.i16(A2022);",
+      "w.i16(A2019);",
+      "w.i16(A2021);",
+      "w.i16(A2023);"
+    ]
+  },
+  {
+    "name": "MapDataValidation",
+    "id": 60,
+    "fields": [
+      [
+        "crc",
+        "crc",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i32()"
+    ],
+    "writes": [
+      "w.i32(crc);"
+    ]
+  },
+  {
+    "name": "MapEnded",
+    "id": 52,
+    "fields": [],
+    "reads": [],
+    "writes": []
+  },
+  {
+    "name": "MinimapBillboardClear",
+    "id": 42,
+    "fields": [
+      [
+        "entity_id",
+        "entity_id",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i16()"
+    ],
+    "writes": [
+      "w.i16(entity_id);"
+    ]
+  },
+  {
+    "name": "MinimapZoneClear",
+    "id": 44,
+    "fields": [
+      [
+        "A2018",
+        "A2018",
+        "int"
+      ],
+      [
+        "A2020",
+        "A2020",
+        "int"
+      ],
+      [
+        "A2022",
+        "A2022",
+        "int"
+      ],
+      [
+        "A2019",
+        "A2019",
+        "int"
+      ],
+      [
+        "A2021",
+        "A2021",
+        "int"
+      ],
+      [
+        "A2023",
+        "A2023",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i16()",
+      "r.i16()",
+      "r.i16()",
+      "r.i16()",
+      "r.i16()",
+      "r.i16()"
+    ],
+    "writes": [
+      "w.i16(A2018);",
+      "w.i16(A2020);",
+      "w.i16(A2022);",
+      "w.i16(A2019);",
+      "w.i16(A2021);",
+      "w.i16(A2023);"
+    ]
+  },
+  {
+    "name": "PackResponse",
+    "id": 62,
+    "fields": [
+      [
+        "value",
+        "value",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(value);"
+    ]
+  },
+  {
+    "name": "PackStart",
+    "id": 61,
+    "fields": [
+      [
+        "size",
+        "size",
+        "int"
+      ],
+      [
+        "checksum",
+        "checksum",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i32()",
+      "r.i32()"
+    ],
+    "writes": [
+      "w.i32(size);",
+      "w.i32(checksum);"
+    ]
+  },
+  {
+    "name": "Password",
+    "id": 111,
+    "fields": [
+      [
+        "password",
+        "password",
+        "String"
+      ]
+    ],
+    "reads": [
+      "r.string()"
+    ],
+    "writes": [
+      "w.string(password);"
+    ]
+  },
+  {
+    "name": "PasswordNeeded",
+    "id": 112,
+    "fields": [],
+    "reads": [],
+    "writes": []
+  },
+  {
+    "name": "PasswordProvided",
+    "id": 113,
+    "fields": [
+      [
+        "password",
+        "password",
+        "String"
+      ]
+    ],
+    "reads": [
+      "r.string()"
+    ],
+    "writes": [
+      "w.string(password);"
+    ]
+  },
+  {
+    "name": "PickPickup",
+    "id": 70,
+    "fields": [
+      [
+        "player_id",
+        "player_id",
+        "int"
+      ],
+      [
+        "pickup_id",
+        "pickup_id",
+        "int"
+      ],
+      [
+        "burdensome",
+        "burdensome",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()",
+      "r.u8()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(player_id);",
+      "w.u8(pickup_id);",
+      "w.u8(burdensome);"
+    ]
+  },
+  {
+    "name": "PlaceUGC",
+    "id": 97,
+    "fields": [
+      [
+        "loop_count",
+        "loop_count",
+        "int"
+      ],
+      [
+        "x",
+        "x",
+        "int"
+      ],
+      [
+        "y",
+        "y",
+        "int"
+      ],
+      [
+        "z",
+        "z",
+        "int"
+      ],
+      [
+        "ugc_item_id",
+        "ugc_item_id",
+        "int"
+      ],
+      [
+        "placing",
+        "placing",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i32()",
+      "r.i16()",
+      "r.i16()",
+      "r.i16()",
+      "r.u8()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.i32(loop_count);",
+      "w.i16(x);",
+      "w.i16(y);",
+      "w.i16(z);",
+      "w.u8(ugc_item_id);",
+      "w.u8(placing);"
+    ]
+  },
+  {
+    "name": "PlayerLeft",
+    "id": 64,
+    "fields": [
+      [
+        "player_id",
+        "player_id",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(player_id);"
+    ]
+  },
+  {
+    "name": "PrefabComplete",
+    "id": 29,
+    "fields": [],
+    "reads": [],
+    "writes": []
+  },
+  {
+    "name": "ReqestUGCEntities",
+    "id": 99,
+    "fields": [
+      [
+        "game_mode",
+        "game_mode",
+        "int"
+      ],
+      [
+        "in_ugc_mode",
+        "in_ugc_mode",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(game_mode);",
+      "w.u8(in_ugc_mode);"
+    ]
+  },
+  {
+    "name": "Restock",
+    "id": 69,
+    "fields": [
+      [
+        "player_id",
+        "player_id",
+        "int"
+      ],
+      [
+        "type",
+        "typeValue",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(player_id);",
+      "w.u8(typeValue);"
+    ]
+  },
+  {
+    "name": "SetColor",
+    "id": 11,
+    "fields": [
+      [
+        "player_id",
+        "player_id",
+        "int"
+      ],
+      [
+        "value",
+        "value",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()",
+      "r.color()"
+    ],
+    "writes": [
+      "w.u8(player_id);",
+      "w.color(value);"
+    ]
+  },
+  {
+    "name": "SetScore",
+    "id": 85,
+    "fields": [
+      [
+        "type",
+        "typeValue",
+        "int"
+      ],
+      [
+        "reason",
+        "reason",
+        "int"
+      ],
+      [
+        "specifier",
+        "specifier",
+        "int"
+      ],
+      [
+        "value",
+        "value",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()",
+      "r.u8()",
+      "r.u8()",
+      "r.i32()"
+    ],
+    "writes": [
+      "w.u8(typeValue);",
+      "w.u8(reason);",
+      "w.u8(specifier);",
+      "w.i32(value);"
+    ]
+  },
+  {
+    "name": "SetUGCEditMode",
+    "id": 12,
+    "fields": [
+      [
+        "mode",
+        "mode",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(mode);"
+    ]
+  },
+  {
+    "name": "ShootFeedbackPacket",
+    "id": 8,
+    "fields": [
+      [
+        "loop_count",
+        "loop_count",
+        "int"
+      ],
+      [
+        "shooter_id",
+        "shooter_id",
+        "int"
+      ],
+      [
+        "tool_id",
+        "tool_id",
+        "int"
+      ],
+      [
+        "shot_on_world_update",
+        "shot_on_world_update",
+        "int"
+      ],
+      [
+        "seed",
+        "seed",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i32()",
+      "r.u8()",
+      "r.u8()",
+      "r.i32()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.i32(loop_count);",
+      "w.u8(shooter_id);",
+      "w.u8(tool_id);",
+      "w.i32(shot_on_world_update);",
+      "w.u8(seed);"
+    ]
+  },
+  {
+    "name": "ShowGameStats",
+    "id": 53,
+    "fields": [],
+    "reads": [],
+    "writes": []
+  },
+  {
+    "name": "SkyboxData",
+    "id": 51,
+    "fields": [
+      [
+        "value",
+        "value",
+        "String"
+      ]
+    ],
+    "reads": [
+      "r.string()"
+    ],
+    "writes": [
+      "w.string(value);"
+    ]
+  },
+  {
+    "name": "StopMusic",
+    "id": 27,
+    "fields": [],
+    "reads": [],
+    "writes": []
+  },
+  {
+    "name": "StopSound",
+    "id": 25,
+    "fields": [
+      [
+        "loop_id",
+        "loop_id",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(loop_id);"
+    ]
+  },
+  {
+    "name": "TeamInfiniteBlocks",
+    "id": 82,
+    "fields": [
+      [
+        "team_id",
+        "team_id",
+        "int"
+      ],
+      [
+        "infinite_blocks",
+        "infinite_blocks",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(team_id);",
+      "w.u8(infinite_blocks);"
+    ]
+  },
+  {
+    "name": "TeamLockClass",
+    "id": 80,
+    "fields": [
+      [
+        "team_id",
+        "team_id",
+        "int"
+      ],
+      [
+        "locked",
+        "locked",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(team_id);",
+      "w.u8(locked);"
+    ]
+  },
+  {
+    "name": "TeamLockScore",
+    "id": 81,
+    "fields": [
+      [
+        "team_id",
+        "team_id",
+        "int"
+      ],
+      [
+        "locked",
+        "locked",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(team_id);",
+      "w.u8(locked);"
+    ]
+  },
+  {
+    "name": "TeamMapVisibility",
+    "id": 83,
+    "fields": [
+      [
+        "team_id",
+        "team_id",
+        "int"
+      ],
+      [
+        "visible",
+        "visible",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()",
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(team_id);",
+      "w.u8(visible);"
+    ]
+  },
+  {
+    "name": "UGCMapLoadingFromHost",
+    "id": 101,
+    "fields": [
+      [
+        "percent_complete",
+        "percent_complete",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(percent_complete);"
+    ]
+  },
+  {
+    "name": "UGCMessage",
+    "id": 100,
+    "fields": [
+      [
+        "message_id",
+        "message_id",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.u8()"
+    ],
+    "writes": [
+      "w.u8(message_id);"
+    ]
+  },
+  {
+    "name": "UseCommand",
+    "id": 86,
+    "fields": [],
+    "reads": [],
+    "writes": []
+  },
+  {
+    "name": "PaintBlockPacket",
+    "id": 7,
+    "fields": [
+      [
+        "loop_count",
+        "loop_count",
+        "int"
+      ],
+      [
+        "x",
+        "x",
+        "int"
+      ],
+      [
+        "y",
+        "y",
+        "int"
+      ],
+      [
+        "z",
+        "z",
+        "int"
+      ],
+      [
+        "color",
+        "color",
+        "int"
+      ]
+    ],
+    "reads": [
+      "r.i32()",
+      "r.i16()",
+      "r.i16()",
+      "r.i16()",
+      "r.color()"
+    ],
+    "writes": [
+      "w.i32(loop_count);",
+      "w.i16(x);",
+      "w.i16(y);",
+      "w.i16(z);",
+      "w.color(color);"
+    ]
+  },
+  {
+    "name": "MapSyncEnd",
+    "id": 59,
+    "fields": [],
+    "reads": [],
+    "writes": []
+  },
+  {
+    "name": "MapDataEnd",
+    "id": 58,
+    "fields": [],
+    "reads": [],
+    "writes": []
+  },
+  {
+    "name": "MapDataStart",
+    "id": 54,
+    "fields": [],
+    "reads": [],
+    "writes": []
+  },
+  {
+    "name": "NewPlayerConnection",
+    "id": 15,
+    "fields": [
+      [
+        "team",
+        "team",
+        "int"
+      ],
+      [
+        "class_id",
+        "class_id",
+        "int"
+      ],
+      [
+        "forced_team",
+        "forced_team",
+        "int"
+      ],
+      [
+        "local_language",
+        "local_language",
+        "int"
+      ],
+      [
+        "name",
+        "name",
+        "String"
+      ]
+    ],
+    "reads": [
+      "r.u8()",
+      "r.u8()",
+      "r.u8()",
+      "r.u8()",
+      "r.string()"
+    ],
+    "writes": [
+      "w.u8(team);",
+      "w.u8(class_id);",
+      "w.u8(forced_team);",
+      "w.u8(local_language);",
+      "w.string(name);"
+    ]
+  }
+]

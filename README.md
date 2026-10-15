@@ -41,6 +41,16 @@ classic game stays alive and playable — and so it's a solid base for ports to 
 - [Credits](#credits)
 - [License](#license)
 
+## Java 25 migration
+
+The `port/java25` branch contains an **incomplete pure Java 25 port** under
+[`java/`](java/README.md). It currently provides verified binary/compression,
+packet, map-format and scheduling components plus a diagnostic executable JAR.
+It does not yet host a playable game. Native ENet peer handshake validation is
+not original-client gameplay validation. See the [migration plan](JAVA25_MIGRATION_PLAN.md)
+and [feature parity/backlog](java/docs/FEATURE_PARITY.md). The Python/Cython
+implementation below remains the gameplay reference.
+
 ## Status
 
 **Playable.** The source implements movement, combat, terrain edits/collapse,

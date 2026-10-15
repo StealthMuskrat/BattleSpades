@@ -24,12 +24,13 @@ public final class Main {
         if (args.length == 2 && args[0].equals("--check-config")) {
             try {
                 var config = ServerConfig.load(Path.of(args[1]));
+                net.battlespades.scene.SceneConfig.from(config);
                 if (!config.unsupportedIntegrations().isEmpty()) {
                     error.println("Unsupported native integrations enabled: " + config.unsupportedIntegrations());
                     return 2;
                 }
                 out.printf("Core configuration valid: %s, UDP %d, %d players, 60 Hz%n", config.name(), config.port(), config.maxPlayers());
-                out.println("Validation covers core server/network and join settings; remaining gameplay rules are pending.");
+                out.println("Validation covers core/network/join, Match Lobby rules and common scene settings; full gameplay is pending.");
                 return 0;
             } catch (IOException | IllegalArgumentException exception) {
                 error.println("Configuration error: " + exception.getMessage());

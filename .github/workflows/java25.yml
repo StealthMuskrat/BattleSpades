@@ -23,6 +23,12 @@ jobs:
         run: ./gradlew --no-daemon clean check build
       - name: Core configuration smoke test
         run: java -jar java/build/libs/BattleSpades.jar --check-config config.toml
+      - name: Verify reproducible application archive
+        run: |
+          cp java/build/libs/BattleSpades.jar "$RUNNER_TEMP/BattleSpades-first.jar"
+          cd java
+          ./gradlew --no-daemon jar --rerun-tasks
+          cmp build/libs/BattleSpades.jar "$RUNNER_TEMP/BattleSpades-first.jar"
       - uses: actions/upload-artifact@v4
         with:
           name: BattleSpades-java25
@@ -70,7 +76,7 @@ jobs:
             java/build/reports/tests
   native-enet:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -83,7 +89,7 @@ jobs:
           python-version: '3.12'
       - name: Compile Java transport probe
         working-directory: java
-        run: ./gradlew --no-daemon integrationTestClasses
+        run: ./gradlew --no-daemon integrationTestClasses jar
       - name: Build development-only native ENet oracle
         run: |
           python -m pip install Cython==3.0.12 setuptools==80.9.0
@@ -94,12 +100,14 @@ jobs:
       - name: Native application loader, password, live catch-up and scene reload
         timeout-minutes: 5
         run: python java/tools/test_native_loader.py
-      - name: Build original Cython world oracle and reproduce exact movement fixtures
+      - name: Rebuild original world and scene oracles and reproduce fixtures
         run: |
-          python java/tools/build_reference_world.py
+          python java/tools/build_reference_world.py --domain
           python java/tools/generate_movement_golden.py
           python java/tools/generate_query_golden.py
-          git diff --exit-code -- java/src/test/resources/golden/movement.tsv.gz java/src/test/resources/golden/movement-provenance.json java/src/test/resources/golden/queries.tsv.gz java/src/test/resources/golden/query-cells.tsv
+          python java/tools/export_domain_catalogs.py
+          python java/tools/generate_scene_golden.py
+          git diff --exit-code -- java/src/test/resources/golden/movement.tsv.gz java/src/test/resources/golden/movement-provenance.json java/src/test/resources/golden/queries.tsv.gz java/src/test/resources/golden/query-cells.tsv java/src/test/resources/golden/rules.tsv java/src/test/resources/golden/selections.tsv java/src/test/resources/golden/rule-movement.tsv java/src/test/resources/golden/scene-builders.tsv java/src/test/resources/golden/skyboxes.tsv java/src/main/resources/net/battlespades/catalog
       - uses: actions/upload-artifact@v4
         if: always()
         with:

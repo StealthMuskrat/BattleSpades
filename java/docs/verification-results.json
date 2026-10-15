@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "a1b4fb5e89ed4d2d375cc93fda564f9c1d79282d85efb8ee85f913e84e3cc242",
-  "jar_bytes": 1034516,
+  "jar_sha256": "a0144ba4500553b180e1e8ff546e197c1a42ab0baa19d0136898efa0d26d42f0",
+  "jar_bytes": 1078969,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -17,31 +17,24 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 459,
+      "tests": 688,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
-      "tests": 5,
+      "tests": 6,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Source-exact player movement and world queries",
-  "java_implementation_commit": "9cfe665bbb3340f2606a2486a3f337dc4c6f3386",
-  "tested_tree": "04c4c8b042a71ec31ff172e79b8d971f2613e35b",
+  "verification_stage": "Configured scene metadata, Match Lobby rules and stock class selection",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38705329003",
-    "implementation_commit": "9cfe665bbb3340f2606a2486a3f337dc4c6f3386",
-    "jobs": {
-      "build": "success",
-      "native-enet": "success",
-      "platform (ubuntu-latest)": "success",
-      "platform (windows-latest)": "success",
-      "platform (macos-latest)": "success"
-    }
+    "status": "pending for current tree",
+    "previous_run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38705329003"
   },
   "movement": {
     "cases": 118,
@@ -68,11 +61,36 @@
     },
     "config": {
       "exit": 0,
-      "output": "Core configuration valid: BattleSpades Server, UDP 27015, 24 players, 60 Hz\nValidation covers core server/network and join settings; remaining gameplay rules are pending."
+      "output": "Core configuration valid: BattleSpades Server, UDP 27015, 24 players, 60 Hz\nValidation covers core/network/join, Match Lobby rules and common scene settings; full gameplay is pending."
     },
     "hosting": {
       "exit": 2,
       "output": "Java migration incomplete: a configured gameplay scene, player simulation and game modes are not available.\nUse --help for diagnostics. Continue using the reference server for gameplay."
     }
-  }
+  },
+  "scene": {
+    "rule_definitions": 102,
+    "rule_coercion_inputs": 1958,
+    "stock_classes": 18,
+    "selection_vectors": 336,
+    "mode_metadata_entries": 43,
+    "common_packet_pairs": 99,
+    "rule_movement_profiles": 864,
+    "rule_movement_source_ticks": 10368,
+    "comparison": "exact packet bytes and exposed motion bits",
+    "production_catalogs_reproduced": true,
+    "original_source_oracle_rebuilt": true,
+    "gameplay_domain": "not implemented; fixture domain only"
+  },
+  "reference_scene_tests": {
+    "tests": 78,
+    "failures": 0,
+    "command": "python -m pytest -q tests/test_game_rules.py tests/test_class_selection.py tests/test_class_speed_scale.py tests/test_initial_info_features.py tests/test_state_data_environment.py"
+  },
+  "production_catalogs": [
+    "net/battlespades/catalog/classes.toml",
+    "net/battlespades/catalog/modes.toml",
+    "net/battlespades/catalog/rules.toml"
+  ],
+  "local_packaging_note": "Some incremental local archives were truncated despite reported Gradle success. Two final valid builds matched byte-for-byte; CI additionally rebuilds and compares before upload."
 }

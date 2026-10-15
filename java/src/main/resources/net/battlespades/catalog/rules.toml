@@ -1,0 +1,1021 @@
+# Source data: 6216b771282d2d349ccd67ee58c378f035c83553; regenerate with export_domain_catalogs.py
+
+[[rule]]
+key = "RULE_ENABLE_BLOCKS"
+category = "GENERAL"
+default = true
+choices = [false,true]
+modes = []
+tool = 5
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_FLARE_BLOCKS"
+category = "GENERAL"
+default = true
+choices = [false,true]
+modes = []
+tool = 22
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_PREFABS"
+category = "GENERAL"
+default = true
+choices = [false,true]
+modes = []
+tool = 23
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_GRAVESTONES"
+category = "GENERAL"
+default = true
+choices = [false,true]
+modes = []
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_CORPSE_EXPLOSION"
+category = "GENERAL"
+default = true
+choices = [false,true]
+modes = []
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_SNIPER_BEAM"
+category = "GENERAL"
+default = true
+choices = [false,true]
+modes = []
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_DEATH_CAM"
+category = "GENERAL"
+default = true
+choices = [false,true]
+modes = []
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_MINI_MAP"
+category = "GENERAL"
+default = true
+choices = [false,true]
+modes = []
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_SPECTATORS"
+category = "GENERAL"
+default = true
+choices = [false,true]
+modes = []
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_FALL_ON_WATER_DAMAGE"
+category = "GENERAL"
+default = true
+choices = [false,true]
+modes = []
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_COLOUR_PICKER"
+category = "GENERAL"
+default = true
+choices = [false,true]
+modes = []
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ONE_HIT_KILL"
+category = "GENERAL"
+default = false
+choices = [false,true]
+modes = []
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_POINTS_FROM_TEABAGGING"
+category = "GENERAL"
+default = false
+choices = [false,true]
+modes = []
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_RESPAWN_TIMES"
+category = "GENERAL"
+default = 10
+choices = [0,5,10,15,20,25,30,35,40,45,50,55,60]
+modes = []
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_BLOCK_HEALTH"
+category = "GENERAL"
+default = 1.0
+choices = [0.5,1.0,2.0]
+modes = []
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_WEAPON_DAMAGE"
+category = "GENERAL"
+default = 1.0
+choices = [0.5,1.0,2.0]
+modes = []
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_SPAWN_PROTECTION_TIME"
+category = "GENERAL"
+default = 3.0
+choices = [0.0,1.0,2.0,3.0]
+modes = []
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_CHARACTER_BLOCK_WALLETS"
+category = "GENERAL"
+default = 1.0
+choices = [0.5,1.0,2.0]
+modes = []
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_CHARACTER_SPEED"
+category = "GENERAL"
+default = 1.0
+choices = [0.5,1.0,1.5,2.0]
+modes = []
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_CRATES_SPAWN_TIME"
+category = "GENERAL"
+default = 25
+choices = [10,15,20,25,30,35,40,45,50,55,60]
+modes = []
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_VOTES_REQUIRED_FOR_KICK"
+category = "GENERAL"
+default = 0.5
+choices = [0.25,0.5,0.75]
+modes = []
+tool = -1
+class_id = -1
+visible = false
+
+[[rule]]
+key = "RULE_ENABLE_CLASS_COMMANDO"
+category = "CLASSES"
+default = true
+choices = [false,true]
+modes = []
+tool = -1
+class_id = 0
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_CLASS_MARKSMAN"
+category = "CLASSES"
+default = true
+choices = [false,true]
+modes = []
+tool = -1
+class_id = 1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_CLASS_MINER"
+category = "CLASSES"
+default = true
+choices = [false,true]
+modes = []
+tool = -1
+class_id = 3
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_CLASS_ENGINEER"
+category = "CLASSES"
+default = true
+choices = [false,true]
+modes = []
+tool = -1
+class_id = 12
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_CLASS_ROCKETEER"
+category = "CLASSES"
+default = true
+choices = [false,true]
+modes = []
+tool = -1
+class_id = 2
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_CLASS_SPECIALIST"
+category = "CLASSES"
+default = true
+choices = [false,true]
+modes = []
+tool = -1
+class_id = 16
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_CLASS_MEDIC"
+category = "CLASSES"
+default = true
+choices = [false,true]
+modes = []
+tool = -1
+class_id = 17
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_CLASSIC_SPADE"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 4
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_CLASSIC_GRENADE"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 31
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_SPADE"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 2
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_GRENADE"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 11
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_ANTIPERSONNEL_GRENADE"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 32
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_SNOWBLOWER"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 29
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_PICKAXE"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 0
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_LANDMINE"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 20
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_ROCKET_TURRET"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 16
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_GLIDE_JETPACK"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 67
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_JUMP_JETPACK"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 66
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_JETPACK"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 68
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_SUPER_SPADE"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 3
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_DRILL_CANNON"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 14
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_DYNAMITE"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 21
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_MEDPACK"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 51
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_CHEMICALBOMB"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 54
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_RADAR_STATION"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 56
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_C4"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 59
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_DISGUISE"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 64
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_EQUIPMENT_PARACHUTE_NORMAL"
+category = "EQUIPMENT"
+default = true
+choices = [false,true]
+modes = []
+tool = 72
+class_id = -1
+visible = false
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_KNIFE"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_MINIGUN"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 8
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_RPG"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 12
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_TRIPLE_BARREL_RPG"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 13
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_PISTOL"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 17
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_SNIPER_RIFLE"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 18
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_SNIPER_RIFLE2"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 19
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_RIFLE"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 6
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_DOUBLE_BARREL_SHOTGUN"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 10
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_PUMP_ACTION_SHOTGUN"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 9
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_SMG"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 7
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_CLASSIC_SHOTGUN"
+category = "WEAPONS"
+default = false
+choices = [false,true]
+modes = []
+tool = 37
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_CLASSIC_SMG"
+category = "WEAPONS"
+default = false
+choices = [false,true]
+modes = []
+tool = 38
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_TOMMYGUN"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 35
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_SNUB_PISTOL"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 36
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_CROWBAR"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 34
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_MOLOTOV"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 33
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_RIOTSTICK"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 49
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_RIOTSHIELD"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 52
+class_id = -1
+visible = false
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_MACHETE"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 50
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_AUTOPISTOL"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 53
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_GRENADE_LAUNCHER"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 55
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_STICKY_GRENADE"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 57
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_MINE_LAUNCHER"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 58
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_ASSAULTRIFLE"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 60
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_LIGHTMACHINEGUN"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 61
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_AUTOSHOTGUN"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 62
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_WEAPON_BLOCKSUCKER"
+category = "WEAPONS"
+default = true
+choices = [false,true]
+modes = []
+tool = 63
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_TDM_SCORE_TARGET"
+category = "tdm"
+default = 200
+choices = [false,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,200]
+modes = ["tdm"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_CTF_ENABLE_SHOOT_WITH_INTEL"
+category = "ctf"
+default = false
+choices = [false,true]
+modes = ["ctf","cctf"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_CTF_ENABLE_INTEL_RETURN_ON_TOUCH"
+category = "ctf"
+default = false
+choices = [false,true]
+modes = ["ctf","cctf"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_CTF_SCORE_TARGET"
+category = "ctf"
+default = 5
+choices = [1,2,3,4,5,6,7,8,9,10]
+modes = ["ctf","cctf"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_CTF_ENABLE_INTEL_AUTO_RETURN"
+category = "ctf"
+default = true
+choices = [false,true]
+modes = ["ctf","cctf"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_CTF_ENABLE_INTEL_IN_OWN_BASE_TO_SCORE"
+category = "ctf"
+default = false
+choices = [false,true]
+modes = ["ctf","cctf"]
+tool = -1
+class_id = -1
+visible = false
+
+[[rule]]
+key = "RULE_ZOMBIE_NOOF_ROUNDS"
+category = "zom"
+default = 3
+choices = [1,2,3,4,5]
+modes = ["zom"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_NOOF_FIRST_INFECTED_ZOMBIES"
+category = "zom"
+default = 2
+choices = [1,2,3,4,5]
+modes = ["zom"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_CLASS_SPEED"
+category = "zom"
+default = 1.0
+choices = [0.5,1.0,2.0]
+modes = ["zom"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ZOMBIE_CLASS_DAMAGE"
+category = "zom"
+default = 1.0
+choices = [0.5,1.0,2.0]
+modes = ["zom"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_VIP_NOOF_ROUNDS"
+category = "vip"
+default = 3
+choices = [1,2,3,4,5]
+modes = ["vip"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_VIP_HEALTH"
+category = "vip"
+default = 1.0
+choices = [0.5,1.0,2.0]
+modes = ["vip"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_ENABLE_SUDDEN_DEATH"
+category = "vip"
+default = true
+choices = [false,true]
+modes = ["vip"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_MULTIHILL_MAX_ACTIVE_BASES"
+category = "mh"
+default = 1
+choices = [1,2,3,4,5]
+modes = ["mh"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_BASE_ACTIVE_TIME"
+category = "mh"
+default = 240
+choices = [30,60,90,120,180,240,300,360,420,480,540,600]
+modes = ["mh"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_TC_MAX_ACTIVE_BASES"
+category = "tc"
+default = 5
+choices = [2,3,4,5]
+modes = ["tc"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_CAPTURE_RATE"
+category = "tc"
+default = 1.0
+choices = [0.5,1.0,2.0]
+modes = ["tc"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_DIAMOND_MAX_ACTIVE_BASES"
+category = "dia"
+default = 1
+choices = [1,2,3,4,5]
+modes = ["dia"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_DIA_SCORE_TARGET"
+category = "dia"
+default = 15
+choices = [5,10,15,20,25,30,35,40,45,50,55,60]
+modes = ["dia"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_MAX_ACTIVE_DIAMONDS"
+category = "dia"
+default = 2
+choices = [1,2,3,4,5]
+modes = ["dia"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_DIAMOND_LIFETIME"
+category = "dia"
+default = 60
+choices = [10,20,30,40,50,60]
+modes = ["dia"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_BUILD_STATE_LENGTH"
+category = "dem"
+default = 30
+choices = [false,10,20,30,40,50,60,70,80,90,100,110,120]
+modes = ["dem"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_OCC_SCORE_TARGET"
+category = "oc"
+default = 30
+choices = [false,3,6,9,15,30,45,60,75,90,150]
+modes = ["oc"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_MAX_ACTIVE_BOMBS"
+category = "oc"
+default = 1
+choices = [1,2,3]
+modes = ["oc"]
+tool = -1
+class_id = -1
+visible = true
+
+[[rule]]
+key = "RULE_BOMB_FUSE_TIME"
+category = "oc"
+default = 10
+choices = [5,10,15,20]
+modes = ["oc"]
+tool = -1
+class_id = -1
+visible = true

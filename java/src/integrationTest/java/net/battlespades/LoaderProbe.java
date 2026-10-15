@@ -14,10 +14,16 @@ import net.battlespades.support.FixtureScene;
 import net.battlespades.transport.enet.EnetSettings;
 import net.battlespades.world.BoundedSnapshotCompression;
 import net.battlespades.world.MutableWorld;
+import net.battlespades.scene.*;
+import net.battlespades.config.ServerConfig;
+import java.nio.file.Path;
 
 /** Test-only protocol fixture, never a gameplay launcher. stdin controls run on the application owner. */
 public final class LoaderProbe {
     private LoaderProbe() {}
+    private static ConfiguredScene configured(FixtureScene domain,SceneConfig config){
+        return new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",domain.world().sourceCrc()),()->ScenePackets.State.initial(config),domain);
+    }
     public static void main(String[] args) throws Exception {
         var commands=new ArrayBlockingQueue<String>(32);
         Thread.ofPlatform().daemon(true).name("probe-stdin").start(()->{
@@ -28,8 +34,9 @@ public final class LoaderProbe {
         String secret=args.length>0?args[0]:"";
         var settings=FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO,"replayBudget",1,"password",new JoinPasswordGate.Policy(secret,3,60000,60000)));
         FixtureScene scene=new FixtureScene(1,64);long epoch=1;
+        var config=SceneConfig.from(ServerConfig.load(Path.of("config.toml")));
         try(var compression=new BoundedSnapshotCompression(1,4);
-                var host=new ApplicationHost(new InetSocketAddress(InetAddress.getByName("127.0.0.1"),0),EnetSettings.defaults(),2,settings,scene,compression)) {
+                var host=new ApplicationHost(new InetSocketAddress(InetAddress.getByName("127.0.0.1"),0),EnetSettings.defaults(),2,settings,configured(scene,config),compression)) {
             System.out.println("READY "+((InetSocketAddress)host.address()).getPort());System.out.flush();
             long start=System.nanoTime();
             while(System.nanoTime()-start<120_000_000_000L) {
@@ -41,7 +48,7 @@ public final class LoaderProbe {
                             System.out.println("APPLIED "+scene.world().revision());
                         }
                         case "STATS" -> System.out.println("STATS "+host.occupiedSlots()+" "+host.sessions().stream().map(m->m.state().name()).collect(java.util.stream.Collectors.joining(",")));
-                        case "RELOAD" -> {var replacement=new FixtureScene(++epoch,64);host.replaceScene(replacement);scene.close();scene=replacement;System.out.println("RELOADED "+epoch);}
+                        case "RELOAD" -> {var replacement=new FixtureScene(++epoch,64);host.replaceScene(configured(replacement,config));scene.close();scene=replacement;System.out.println("RELOADED "+epoch);}
                         case "STOP" -> {System.out.println("RESULT "+host.occupiedSlots()+" "+scene.world().activeLeases()+" "+scene.world().journalSize());System.out.flush();return;}
                         default -> throw new IllegalArgumentException("Unknown probe command");
                     }

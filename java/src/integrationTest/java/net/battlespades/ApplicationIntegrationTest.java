@@ -19,6 +19,8 @@ import net.battlespades.support.FixtureScene;
 import net.battlespades.transport.UdpEndpoint;
 import net.battlespades.transport.enet.*;
 import net.battlespades.world.*;
+import net.battlespades.scene.*;
+import net.battlespades.rules.GameRules;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -93,6 +95,25 @@ class ApplicationIntegrationTest {
                     var good=new Client(host.address());var bad=new Client(host.address())) {
                 var loop=new Loop(host);loop.ticketAndLoad(good,scene);loop.clients.add(bad);bad.connect();loop.until(()->bad.peerId>=0);bad.wire(new byte[]{0x31,31,0},false);loop.until(()->bad.reason>=0);
                 assertEquals(13,bad.reason);assertEquals(1,host.occupiedSlots());good.send(new SimplePackets.NewPlayerConnection(1,5,0,0,"good"),false);loop.until(()->good.has(28));assertEquals(-1,good.reason);
+            }
+        });
+    }
+    @Test void configuredMetadataAndNormalizedSelectionCrossRealUdpSession(){
+        assertTimeoutPreemptively(Duration.ofSeconds(10),()->{
+            var rules=GameRules.serverDefaults().apply(Map.of("RULE_CHARACTER_SPEED",1.5,"RULE_ENABLE_WEAPON_MINIGUN",false));
+            var config=new SceneConfig("Configured UDP",27015,90087911866072064L,ModeCatalog.get("tdm"),"CityOfChicago",false,false,true,200,0x123456,"ArcticBase.txt",new SceneConfig.Team("Blue",0x0040ff),new SceneConfig.Team("Green",0xff2000),rules);
+            try(var domain=new FixtureScene(1,64)){
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("CityOfChicago",domain.world().sourceCrc()),()->ScenePackets.State.initial(config),domain);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),2,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var client=new Client(host.address())){
+                    var loop=new Loop(host);loop.ticketAndLoad(client,domain);
+                    var info=(InitialInfo)client.packets.stream().filter(p->p.id()==114).findFirst().orElseThrow();assertEquals("Configured UDP",info.serverName());assertEquals("City of Chicago",info.map().name());assertEquals(List.of(37,38,8).stream().sorted().toList(),info.disabledTools());assertEquals(1.5,info.movementSpeedMultipliers().get(0));
+                    var state=(StateData)client.packets.stream().filter(p->p.id()==45).findFirst().orElseThrow();assertEquals(200,state.scoreLimit());assertEquals(0x123456,state.fogColor());assertEquals("Blue",state.team1().name());
+                    client.send(new PlayerPackets.SetClassLoadout(255,0,1,List.of(8,51),List.of(),List.of()),false);client.send(new SimplePackets.NewPlayerConnection(2,0,0,1,"Configured"),false);loop.until(()->client.has(28));
+                    var create=(PlayerPackets.CreatePlayer)client.packets.stream().filter(p->p.id()==28).findFirst().orElseThrow();assertEquals(0,create.playerId());assertTrue(create.loadout().contains(60));assertFalse(create.loadout().contains(8));assertFalse(create.loadout().contains(51));
+                    loop.until(()->{try{client.send(new ClientInput(1,0,false,60,1,0,0,0,0,0,0),true);}catch(Exception e){throw new IllegalStateException(e);}return !domain.inputs.isEmpty();});
+                    assertEquals(1,host.broadcast(new SimplePackets.ChatMessage(0,0,"configured live"),Delivery.RELIABLE));assertEquals(1.05f,scene.movement(0).acceleration());
+                }
+                assertTrue(domain.players.isEmpty());
             }
         });
     }

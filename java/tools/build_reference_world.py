@@ -1,9 +1,11 @@
 """Build only the three original Cython movement oracle modules, for development/CI.
 
 Never called by Gradle or the production JAR. Strict compiler flags match setup.py.
+Pass --domain to include the original packet/byte codecs for scene-builder fixtures.
 The in-place extensions are ignored development outputs, not production dependencies.
 """
 import os
+import sys
 import pathlib
 from setuptools import Extension, setup
 from Cython.Build import cythonize
@@ -16,6 +18,6 @@ setup(name='battlespades-world-test-oracle',version='0',
       ext_modules=cythonize([
           Extension(name,[name.replace('.','/')+'.pyx'],
                     extra_compile_args=['-O3','-fno-fast-math','-ffp-contract=off'])
-          for name in ['shared.glm','aoslib.vxl','aoslib.world']
+          for name in (['shared.bytes','shared.packet'] if '--domain' in sys.argv else [])+['shared.glm','aoslib.vxl','aoslib.world']
       ],build_dir=str(BUILD/'cython'),force=True,
           compiler_directives={'language_level':'3','boundscheck':False,'wraparound':False,'cdivision':True}))

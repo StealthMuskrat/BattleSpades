@@ -56,6 +56,9 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 - Composed ENet application sessions, password/XOR/capability handling, promised IDs,
   asynchronous snapshots, committed cell journals and concrete roster life catch-up.
 - Core and join TOML validation and bounded, owned 60/30 Hz scheduling core.
+- All 102 Match Lobby rules, stock selection for all 18 classes and configured
+  InitialInfo/StateData builders bound to sessions. Rule-adjusted movement uses
+  the same scale as the menus. See [configured scene evidence and limits](docs/CONFIGURED_SCENES.md).
 - Source-exact player movement/collision, all 18 class profiles, flight/crouch/peer
   and landing behavior, plus ray/cube/face queries. See [movement evidence and
   integration limits](docs/MOVEMENT_PHYSICS.md):12924 original-engine ticks and 941

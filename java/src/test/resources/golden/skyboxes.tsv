@@ -1,0 +1,14 @@
+null	null
+""	null
+"User_Grassland.txt"	"User_Grassland.txt"
+" ArcticBase.txt "	"ArcticBase.txt"
+"path/foo.txt"	null
+"../escape.txt"	null
+"x.exe"	null
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.txt"	null
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.txt"	"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.txt"
+"a..b.txt"	"a..b.txt"
+"skybox_day"	null
+"A\u0000.txt"	null
+"A\\B.txt"	null
+"a\n.txt"	null

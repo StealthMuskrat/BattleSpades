@@ -1,5 +1,10 @@
 # Independent CI verification
 
+Current configured-scene tree: **pending independent CI**. Evidence below belongs
+to the previous movement checkpoint.
+
+## Previous movement checkpoint
+
 Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/38705329003
 
 Implementation: `9cfe665bbb3340f2606a2486a3f337dc4c6f3386`.

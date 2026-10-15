@@ -21,7 +21,7 @@ def unlzf(data):
     return bytes(out)
 
 def run(impaired,private):
-    classes=[ROOT/'java/build/classes/java'/p for p in ['main','testSupport','integrationTest']]+[ROOT/'java/build/resources/testSupport']
+    classes=[ROOT/'java/build/libs/BattleSpades.jar']+[ROOT/'java/build/classes/java'/p for p in ['testSupport','integrationTest']]+[ROOT/'java/build/resources/testSupport']
     java=pathlib.Path(os.environ['JAVA_HOME'])/'bin/java';secret='test-password' if private else ''
     process=subprocess.Popen([str(java),'-cp',os.pathsep.join(map(str,classes)),'net.battlespades.LoaderProbe',secret],cwd=ROOT,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
     output=queue.Queue()
@@ -81,7 +81,10 @@ def run(impaired,private):
             pump(lambda:c.count(114)==1 or c.reason is not None)
         def initial_crc(body):
             assert body[0]==114;pos=17
-            for _ in range(7):pos=body.index(0,pos)+1
+            strings=[]
+            for _ in range(7):
+                end=body.index(0,pos);strings.append(body[pos:end].decode('utf-8'));pos=end+1
+            assert strings[0]=='TDM_TITLE' and strings[-2:]==['fixture','fixture'],strings
             return struct.unpack_from('<I',body,pos)[0]
         def validate(c,crc,full):
             before=len(c.frames);c.send(b'\x3c'+struct.pack('<I',crc),compressed=True)
@@ -106,6 +109,7 @@ def run(impaired,private):
         first.send(b'\x0d\xff\x05\x01\x01\x07\x01one\0');ticket(first,2)
         assert first.bodies(114)[0].endswith(b'BSFP\x02'+struct.pack('<B9H',7,64,1920,576,480,1280,1280,1280,256,160))
         expected_crc=initial_crc(first.bodies(114)[0]);actual_crc,full_chunks,full_hash=validate(first,0,True);assert expected_crc==actual_crc;assert first.player==0
+        pump(lambda:first.count(51)>0);assert first.bodies(51)[-1][1:].endswith(b'.txt\0')
         second=Client();pump(lambda:second.connected);ticket(second,0);_,delta_chunks,_=validate(second,actual_crc,False);assert second.player==1
         third=Client();pump(lambda:third.connected);third.send(b'\x69\x00\x00\x00\x00')
         if private:
@@ -135,7 +139,7 @@ def run(impaired,private):
         pump(lambda:all(c.count(45)>0 for c in [first,second]));assert all(c.count(112)==0 and c.count(57)==0 and c.count(55)==1 and c.count(59)==1 for c in [first,second])
         process.stdin.write('STOP\n');process.stdin.flush();process.wait(timeout=5);assert process.returncode==0,process.stderr.read()
         return dict(profile='impaired' if impaired else 'nominal',private_password=private,full_chunks=full_chunks,full_records_sha256=full_hash,delta_chunks=delta_chunks,
-                    dropped_datagrams=sum(c.relay.dropped for c in clients),duplicate_datagrams=sum(c.relay.duplicates for c in clients),delayed_datagrams=sum(c.relay.delayed for c in clients),concurrent_reserved_ids=[0,1],full_refusal_reason=third.reason,ticket_xor=True,capability_trailer=True,canonical_health=True,canonical_removal=True,roster_reconcile=True,scene_reload=True,game_client_test=False,result='PASS')
+                    dropped_datagrams=sum(c.relay.dropped for c in clients),duplicate_datagrams=sum(c.relay.duplicates for c in clients),delayed_datagrams=sum(c.relay.delayed for c in clients),concurrent_reserved_ids=[0,1],full_refusal_reason=third.reason,ticket_xor=True,capability_trailer=True,canonical_health=True,canonical_removal=True,roster_reconcile=True,scene_reload=True,configured_metadata=True,packaged_application=True,game_client_test=False,result='PASS')
     finally:
         for c in clients:c.relay.close()
         if process.poll() is None:process.kill();process.wait()

@@ -16,7 +16,7 @@ import net.battlespades.world.MutableWorld;
 import net.battlespades.world.VxlMap;
 
 /** Test-only protocol scene: no production gameplay is simulated by this fixture. */
-public final class FixtureScene implements JoinScene,AutoCloseable {
+public final class FixtureScene implements JoinScene,net.battlespades.scene.ConfiguredScene.Gameplay,AutoCloseable {
     private final MutableWorld world;
     private final InitialInfo info;
     private final StateData state;
@@ -63,6 +63,10 @@ public final class FixtureScene implements JoinScene,AutoCloseable {
     @Override public Admission admit(int id,SimplePackets.NewPlayerConnection request,PlayerPackets.SetClassLoadout selection,int capability) {
         var player=new PlayerPackets.CreatePlayer(id,0,request.class_id(),request.team(),0,request.local_language(),new Vector3f(256,256,237),new Vector3f(1,0,0),request.name(),selection==null?List.of(7):selection.loadout(),selection==null?List.of():selection.prefabs());
         var admission=new Admission(player,0x123456,List.of());players.put(id,admission);capabilities.put(id,capability);roster.create(player,admission.color());onAdmission.run();if(failAdmission) throw new IllegalStateException("Fixture admission failure");return admission;
+    }
+    @Override public Admission admit(int id,SimplePackets.NewPlayerConnection request,net.battlespades.player.ClassCatalog.Selection selection,int capability){
+        var normalized=new SimplePackets.NewPlayerConnection(request.team(),selection.classId(),request.forced_team(),request.local_language(),request.name());
+        return admit(id,normalized,new PlayerPackets.SetClassLoadout(id,selection.classId(),0,selection.loadout(),selection.prefabs(),selection.ugcTools()),capability);
     }
     @Override public List<GamePacket> reveal(int id) {reveals++;return List.of(new SimplePackets.ChatMessage(id,0,"fixture-reveal"));}
     @Override public void input(int id,LiveClientInput input,int receivedServerLoop) {inputs.add(input);receivedLoops.add(receivedServerLoop);}

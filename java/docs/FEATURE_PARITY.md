@@ -16,15 +16,16 @@ has passed. Nothing below is a production-readiness claim.
 | vendor ENet protocol.c connect phase | Standalone handshake component | native pyenet CONNECT event + Java VERIFY_CONNECT ACK; no game client |
 | ENet sequencing/fragments | Bounded peer components implemented | reliable reorder/dedup, 66,000-message sequence/time wrap, unsequenced windows, atomic outgoing bounds and grouped fragmentation |
 | ENet host/session delivery | Server host/peer implemented; not fully certified | native ENet nominal/loss/reorder/duplicate/reconnect tests, ACK/retransmit/RTT throttle/windows, disconnect and backpressure; bandwidth-epoch redistribution and full capacity testing pending |
-| InitialInfo/StateData/application handshake | Application session component implemented; game domain pending | password/XOR/capability, stable ID reservation, real ENet loader/admission and reload probes; actual identity/authentication and game scene builders still pending |
+| InitialInfo/StateData/application handshake | Common configured builders/session binding implemented; game domain pending | 99 source packet pairs, config/map/team metadata, amendment order and actual-JAR native loading; identity, mode policies and actual player domain pending |
 | Map transfer, CRC, late joins | Snapshot, committed journal and live gate implemented; **game client unverified** | 12 record hashes, immutable compression, bounded canonical catch-up, first-input gate, life-token roster reconciliation and native loader tests; marker cleanup and full player/entity lifecycles pending |
 | aoslib/vxl.pyx | Loader / column serializer implemented | 6 synthetic source fixtures, 3,264 source point samples, classic64/floor/fill and source column bytes |
 | aoslib/kv6.pyx | Format codec implemented | standard/legacy roundtrip and malformed bounds; model operations/palette interpretation pending |
 | Voxel edits/collapse/world persistence | Committed-cell subset implemented | 792 source cell samples/72 column bytes, opaque dynamic colors, exposed-surface materialization, initial health and exact journal repair; gameplay validation, damage/shades, collapse/editor/persistence pending |
 | shared/glm.pyx / aoslib/world.pyx | Player mover and world-query components implemented; gameplay integration pending | 12924 exact source ticks across118 cases/all 18 classes;941 exact query vectors; float stores, flight/crouch/peer/voxel/landing branches; remaining GLM/projectiles and live domain pending |
 | server/simulation_runtime.py | Scheduling core implemented | 60/30 cadence, 5-step batches, 2s retained debt, bounded input drain and ownership tests; domain step functions missing |
-| server/config.py | Core subset implemented | root config and join-policy smoke; password/ranges, map mode, grace and clock settings; most rules/overlays/fleet validation pending |
-| Players/team/class/spawn/respawn/identity | **Pending** | requires transport/loader and source lifecycle tests |
+| server/config.py / game_rules.py | Core/join/common scene and full Match Lobby rule catalog implemented | 102 definitions, 1958 coercion inputs, aliases/explicit precedence; diagnostics validate common settings; overlays/fleet/full domain configuration pending |
+| class_data.py / class_selection.py | Stock class selection and rule-adjusted movement components implemented | all 18 classes, 336 source selections, 864 rule-scaled physics profiles, inventory gate; map/UGC extensions, mounted entities and mode authorization pending |
+| Players/team/spawn/respawn/identity | **Pending** | actual lifecycle and live timing remain separate from the configured metadata binding |
 | Combat/ammo/reload/grenades/deployables | **Pending** | packet codecs do not implement combat |
 | TDM/CTF/ClassicCTF/Arena/VIP/Zombie | **Pending** | complete playable rounds, not identifiers/classes |
 | Multi Hill/TC/Diamond/Demolition/Occupation | **Pending** | rules/objectives/timers/round reset and joins |
@@ -44,8 +45,9 @@ has passed. Nothing below is a production-readiness claim.
 
 ## Ordered remaining implementation work
 
-1. Build actual configured game scenes and mode/rule/class builders behind JoinScene;
-   implement player identity, admission, spawn/death/respawn and full entity reveals.
+1. Implement the actual Gameplay domain behind ConfiguredScene: identity/names,
+   team/mode authorization, threat-aware admission/spawn/death/respawn and entity
+   reveals. Common source metadata builders and stock selection now have evidence.
 2. Port remaining packets, marker cleanup, damage/shade history and terrain gameplay
    validation/collapse. Complete transport bandwidth redistribution and full configuration.
    Application snapshot/cell/life-token gates now have source and real-UDP coverage.

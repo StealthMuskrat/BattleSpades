@@ -1,7 +1,7 @@
 # Java test results
 
-Stage: source-exact player movement and world queries,2026-10-15 UTC.
-Implementation: `9cfe665bbb3340f2606a2486a3f337dc4c6f3386`. [All five independent CI jobs passed](CI_STATUS.md).
+Stage: configured scene metadata, Match Lobby rules and stock class selection,2026-10-15 UTC.
+Current-tree independent CI is pending; previous evidence is retained in [CI_STATUS.md](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -20,23 +20,29 @@ Implementation: `9cfe665bbb3340f2606a2486a3f337dc4c6f3386`. [All five independen
 | net.battlespades.PlayerPhysicsTest | 120 | 0 | 0 | 0 |
 | net.battlespades.PlayerRosterTest | 2 | 0 | 0 | 0 |
 | net.battlespades.RangeCoderTest | 31 | 0 | 0 | 0 |
+| net.battlespades.ScenePolicyTest | 229 | 0 | 0 | 0 |
 | net.battlespades.SessionProtocolTest | 18 | 0 | 0 | 0 |
 | net.battlespades.SimulationTest | 4 | 0 | 0 | 0 |
 | net.battlespades.WorldFormatTest | 4 | 0 | 0 | 0 |
 | net.battlespades.WorldQueriesTest | 2 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 13 | 0 | 0 | 0 |
-| net.battlespades.ApplicationIntegrationTest | 2 | 0 | 0 | 0 |
+| net.battlespades.ApplicationIntegrationTest | 3 | 0 | 0 | 0 |
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **464 passed; zero failures,errors or skips.**
+Total: **694 passed; zero failures,errors or skips.**
 
-Includes118 source movement traces (12924 original-engine ticks), live mutable-terrain
-collision and ownership validation,941 source world-query vectors and5 real UDP tests.
-Every exposed movement position/velocity and ray hit is checked by exact double bits.
-No numeric tolerance is used. The strict-compiled source oracle reproduces all new
-fixtures exactly. See [MOVEMENT_PHYSICS.md](MOVEMENT_PHYSICS.md).
+Includes 1958 source rule coercion inputs,336 source selections,99 exact common
+scene packet pairs and 864 rule-adjusted motion traces (10368 source ticks).
+The earlier 12924 source ticks and 941 world queries remain covered. Tests compare
+packet bytes, value types and exposed motion bits exactly. Six real UDP tests include
+configured metadata/normalized selection and the first-input live gate.
 
-Native transport/application oracles remain additional development checks outside
-the JUnit count; both passed in the current CI run. These use a test-only scene, not a game client.
-Configured gameplay scenes, live movement integration, combat and complete modes remain pending.
+The native loader passed nominal/open and impaired/private runs using
+the packaged JAR and root config. It retains a test-only player domain.
+Fresh source bytes/packet/glm/VXL/world rebuilds reproduced all new fixtures and
+production catalogs exactly. The focused original rule/class/builder subset passed 78 tests.
+
+See [CONFIGURED_SCENES.md](CONFIGURED_SCENES.md), [MOVEMENT_PHYSICS.md](MOVEMENT_PHYSICS.md)
+and [APPLICATION_LOADING.md](APPLICATION_LOADING.md). Full player lifecycle, live
+input timing/reconciliation, combat and modes remain pending.

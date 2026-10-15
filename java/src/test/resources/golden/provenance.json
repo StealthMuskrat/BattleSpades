@@ -9,7 +9,8 @@
     "session": "compiled shared.packet, protocol.runtime_packets, server.flight_profile, prefab_actions.encode_block_manager_state",
     "mutations": "compiled aoslib.vxl + server.world_manager.WorldManager",
     "movement": "compiled aoslib.world.Player + aoslib.vxl.VXL; exact public float/double stores",
-    "queries": "compiled aoslib.world raycast/cube_line/face/is_centered"
+    "queries": "compiled aoslib.world raycast/cube_line/face/is_centered",
+    "scene": "server.game_rules/class_data/class_selection, common initial_info/state_data builders and compiled packet/world codecs"
   },
   "generators": [
     "generate_golden.py",
@@ -18,7 +19,9 @@
     "generate_loading_golden.py",
     "generate_session_golden.py",
     "generate_movement_golden.py",
-    "generate_query_golden.py"
+    "generate_query_golden.py",
+    "generate_scene_golden.py",
+    "export_domain_catalogs.py"
   ],
   "fixtures": {
     "client-input.tsv": "883efa80bec71476936cfd002c47fc03817ebe0051393b075fb6314e299b3c0a",
@@ -36,7 +39,12 @@
     "queries.tsv.gz": "18c22a44d9fab95ce03da8237aaa66d60388f33ee802a90ee9ab1bdbcf381160",
     "query-cells.tsv": "a4a945ef0e0eb51feb4ffa0e39ae75f9d8644d0fa4f302f3848013ec2c402646",
     "range.tsv": "d70c143dfce3d6bf1c8524aa2ee193680b1c1b7d8a6ca5194df0522f4c7b4ea0",
+    "rule-movement.tsv": "cb5a1aeff0c4c7cff3ea1e8e729fcf72a6119a7f81a214c747a7956575e87d68",
+    "rules.tsv": "04220876878494a168e4847d743f2170841e80c36955eb572d5d41ba68e78242",
+    "scene-builders.tsv": "f73023383c6aa071c5ee51be5fcd95941f716df7fe28b1ea13d39da687b340d5",
+    "selections.tsv": "6e736f3ccc8caf6cf6d3854de0f6eab5a3768bf49a03e9f07f2ff0de42fe015b",
     "session.tsv": "ec2ab45fb0ec560984c6feb42cdfb19c3b6d968322de0bc8940562760881c203",
+    "skyboxes.tsv": "1cb1fbb3c0dc364ed6aa48b1dc461f4a3a09841a383b739baa42101c9087113a",
     "world/cave.columns.tsv": "2c7740d05549db5aecbe27887e92dd1e60132000d6c7d093edfd0b9d017f2609",
     "world/cave.json": "a87887142440a5904c8fdbd5ac838c21da78c7a089252ab0d79052d326bf6bf7",
     "world/cave.vxl": "941a8625966864c633dcdf86a06749376b50d6820625fc3f1a0db0d0523b750c",
@@ -58,5 +66,10 @@
     "world/surface.columns.tsv": "c0d0ec93989b2accacdeef9795ea9b92f4c729d812edddc73355818a4c7fd9c4",
     "world/surface.json": "6caf138705b01919040c5540c79d660ca5c415f4be5f4697fe34147eab2c68f6",
     "world/surface.vxl": "6475c906757b7da5d2a21dc3e797cc10544ab94908d722ae499bd3d2e3da6f4e"
+  },
+  "catalogs": {
+    "net/battlespades/catalog/classes.toml": "b68352cace8b09d31a4e765df3d13b7109b204438a7953494606eac207e13128",
+    "net/battlespades/catalog/modes.toml": "de08c404908c365b6fa5bb27d092da4e98139cf1ad39f5f7446b36bff828dc16",
+    "net/battlespades/catalog/rules.toml": "2a5e94bfdc2146942465dd171faefe0b8d954c73207f89b4ce8abd4d3ea0c05f"
   }
 }

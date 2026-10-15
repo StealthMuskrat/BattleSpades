@@ -88,6 +88,12 @@ public final class VxlMap {
         if(bounds(x,y,z)) { int key=index(x,y,z);solid.set(key);colors.put(key,color); }
     }
     public boolean solid(int x,int y,int z) { return bounds(x,y,z) && solid.get(index(x,y,z)); }
+    /** Raw column scan used by spawn safety; independent of native get_z indexing. */
+    public int surfaceZ(int x,int y) {
+        if(x<0||x>=SIZE||y<0||y>=SIZE)return HEIGHT-1;
+        for(int z=0;z<HEIGHT;z++)if(solid.get(index(x,y,z)))return z;
+        return HEIGHT-1;
+    }
     public boolean hasExplicitColor(int x,int y,int z) { return bounds(x,y,z) && colors.contains(index(x,y,z)); }
     /** Full BGRA bit pattern as in the native color table, including alpha. */
     public int color(int x,int y,int z) {

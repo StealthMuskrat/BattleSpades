@@ -1,9 +1,7 @@
 # Java test results
 
-Stage: player names and common pre-life team/class admission, 2026-10-15 UTC.
-Implementation: `4c9b6014a1d6aab45a7ee8ee3e9232693de0f855`.
-[All five independent CI jobs passed](CI_STATUS.md), including source regeneration,
-reproducible packaging and same-artifact Linux/macOS/Windows smoke tests.
+Stage: spawn geometry, threat selection and bounded rescue, 2026-10-15 UTC.
+Current-tree independent CI is pending; the preceding admission result is in [CI_STATUS.md](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -28,27 +26,27 @@ reproducible packaging and same-artifact Linux/macOS/Windows smoke tests.
 | net.battlespades.WorldFormatTest | 4 | 0 | 0 | 0 |
 | net.battlespades.WorldQueriesTest | 2 | 0 | 0 | 0 |
 | net.battlespades.player.AdmissionPolicyTest | 571 | 0 | 0 | 0 |
+| net.battlespades.player.SpawnPolicyTest | 36 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 13 | 0 | 0 | 0 |
-| net.battlespades.ApplicationIntegrationTest | 4 | 0 | 0 | 0 |
+| net.battlespades.ApplicationIntegrationTest | 5 | 0 | 0 | 0 |
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **1,267 passed; zero failures, errors or skips.**
+Total: **1,304 passed; zero failures, errors or skips.**
 
-New source comparisons: 1,112,064 Unicode scalar values; 18,568 name vectors;
-6,192 team decisions; 14,256 class admission vectors. The four-client UDP test
-checks names, balancing, neutral/spectator teams, forged forced_team and class
-fallback using each connection's StateData-reserved identity. Earlier packet,
-rule/scene and exact movement/query comparisons remain covered.
+New source comparisons: 18,124 geometry/segment vectors, 822 selection/rescue/score
+events, 16,000 random operations, 3,064 hypot and 3,000 compensated-sum vectors.
+All 18 class movers settle resolved spawns through 8,640 exact original-engine
+ticks, including flags and landing returns. The new UDP test removes terrain
+under a first admission and verifies safe placement on the next join.
 
-The focused original name/mode-lifecycle/class subset passes 60 tests.
-See [PLAYER_ADMISSION.md](PLAYER_ADMISSION.md) and [CONFIGURED_SCENES.md](CONFIGURED_SCENES.md).
-Authenticated identity, actual mode hooks, spawning/lifecycle, live input timing,
+The focused original retail-box/smart-spawn/TDM/spawn-lock subset passes 42 tests.
+Earlier source-name/admission/rule/scene/movement/query and UDP gates remain covered.
+See [SPAWNING.md](SPAWNING.md) and [FEATURE_PARITY.md](FEATURE_PARITY.md).
+Full Character lifecycle, sidecar assembly, actual modes, input/equipment timing,
 combat and playable hosting remain pending.
 
-The packaged JAR passed fresh native ENet transport and configured-loader probes,
-including loss/reorder/duplicates, password handling, full/delta synchronization,
-roster/cell catch-up and scene reloads. Two valid final archives match byte-for-byte:
-1,150,799 bytes; SHA-256
-`841212008c429f3da0832a6daf9e76ca6d2e0d739d154acdd97880e1b19b1b17`.
-These probes are not supported-original-game-client tests.
+Fresh packaged-JAR native transport and configured-loader probes pass nominal
+and impaired/private scenarios, including loss/reorder/duplicates, full/delta map
+loading, canonical catch-up and scene reloads. These remain test endpoints, not
+supported-original-game-client sessions.

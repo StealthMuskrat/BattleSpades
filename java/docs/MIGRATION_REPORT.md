@@ -1,8 +1,9 @@
 # Java 25 migration report
 
 Date: 2026-10-15 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage adds source-backed player names and pre-life team/class checks
-to the configured scene binding. Actual player identity/lifecycle, live
+The current stage adds authored spawn geometry, source threat selection and
+bounded rescue, with seeded random/math parity and all-class settling traces.
+Actual player identity/lifecycle, live
 physics integration and modes remain pending. The ordinary JAR launcher deliberately returns exit 2 for hosting.
 
 ## Repository and provenance
@@ -14,8 +15,10 @@ physics integration and modes remain pending. The ordinary JAR launcher delibera
 - Previous documented checkpoint: `1f4755d6d212a5c125cf723c393221c029c5a8e8`.
 - Previous configured-scene implementation: `9e8b320709b35d6cece3c5078ea59af246f4ccbb`.
 - Previous configured-scene tree: `eadba7cd03e37328f9e8ce2cbdfc07e452697998`.
-- Current name/admission implementation: `4c9b6014a1d6aab45a7ee8ee3e9232693de0f855`.
-- Tested/published tree: `2dcb997a71ff93209d754d657f7c8bc68c503843`.
+- Previous admission implementation: `4c9b6014a1d6aab45a7ee8ee3e9232693de0f855`.
+- Previous admission tree: `2dcb997a71ff93209d754d657f7c8bc68c503843`.
+- Current spawn checkpoint is locally verified; publication/CI evidence will be
+  recorded in the follow-up documentation commit.
 - Independent execution: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -26,13 +29,21 @@ credentials/direct GitHub networking are unavailable. No release is created.
 
 ## Current implementation
 
+SpawnGeometry/SpawnResolver now port authored floors/sea spawns, live body/support
+checks, roof/pocket rejection, stable base anchors, threat scoring and bounded
+rescue from invalid/raising mode proposals. MutableWorld supplies cached surface
+scans and committed revision invalidation. SourceRandom/SpawnMath retain Python
+3.12 seeded selection and compensated arithmetic. Typed raw positions reach
+rescue before strict physics-vector construction. See [SPAWNING.md](SPAWNING.md)
+for behavior and remaining layout/mode/Character boundaries.
+
 PlayerNames/NameUnicode/AdmissionPolicy now run name allocation, common team
 resolution/balancing and rule/mode class fallback before configured admission.
 The reference Unicode 15 database is pinned independently of host JDK tables.
 Source comparisons cover every Unicode scalar plus 18,568 name, 6,192 team and
 14,256 class vectors. The binding still delegates actual life creation and mode
-hooks; see [PLAYER_ADMISSION.md](PLAYER_ADMISSION.md). Independent current-tree
-CI passed all five jobs for the published implementation/tree.
+hooks; see [PLAYER_ADMISSION.md](PLAYER_ADMISSION.md). The preceding admission
+checkpoint passed all five CI jobs. Current spawn CI is pending.
 
 Java 25, pinned Gradle 9.1 wrapper, locked/checksummed pure-Java dependencies and
 portable package checks remain in place. Production dependencies are tomlj 1.1.1,
@@ -69,8 +80,10 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Check | Current local result |
 |---|---|
 | Java 25 clean check/build | PASS |
-| Unit/component tests | 1260 passed; 0 failures/errors/skips |
-| Real UDP integration tests | 7 passed; 0 failures/errors/skips |
+| Unit/component tests | 1296 passed; 0 failures/errors/skips |
+| Real UDP integration tests | 8 passed; 0 failures/errors/skips |
+| Spawn geometry / selection / arithmetic | 18,124 geometry, 822 event, 16,000 random, 3,064 hypot and 3,000 sum vectors |
+| Spawn-to-mover settling | 8,640 exact source ticks across all 18 class profiles |
 | Name normalization/allocation | 1,112,064 Unicode scalars and 18,568 source vectors |
 | Pre-life team/class admission | 6,192 team and 14,256 class source vectors |
 | Rule coercion / class selection | 1958 source coercion inputs +336 source selections |
@@ -87,7 +100,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | All five jobs passed; same-artifact smoke and 1267 component/UDP tests on each OS |
+| Current-tree independent platform CI | Pending for the spawn checkpoint; preceding admission CI passed all five jobs |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -103,7 +116,8 @@ tests collected with those modules excluded; interrupted run reached 1087 pass
 symbols/3 failures. Bot breach reproduced 1 pass/3 failures, and an earlier focused
 suite had 79 pass/1 psutil environment failure. The 1640-test movement subset
 passes; the preceding scene stage passed 78 focused rule/class/builder regressions.
-This stage passes 60 focused name/mode-lifecycle/class regressions;
+The admission stage passed 60 focused name/mode-lifecycle/class regressions.
+The spawn stage passes 42 focused retail-box/TDM/smart-spawn/spawn-lock regressions;
 neither replaces a full reference run. See [PYTHON_BASELINE.md](PYTHON_BASELINE.md).
 
 ## Build and runtime
@@ -129,7 +143,7 @@ smoke downloads one Ubuntu-built JAR; source tests additionally run on all three
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
 
-Current implementation CI: [run38749518170](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38749518170), all five jobs passed.
+Previous admission CI: [run38749518170](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38749518170), all five jobs passed.
 The build rebuilt/byte-compared the JAR before upload. The source-oracle job
 reproduced name/admission fixtures, provenance and the pinned Unicode table with
 an empty diff, alongside all earlier movement/query/scene/catalog gates.
@@ -152,7 +166,7 @@ packaging check. Exact final SHA/size are in verification-results.json.
 ## Remaining work and readiness
 
 Next: implement the actual Gameplay domain, identity verification and actual
-mode-specific admission, threat-aware spawn/death/respawn; connect the verified
+mode-specific admission, layout assembly and Character death/respawn; connect the verified
 mover and configured rule profile to input/equipment policy,
 the owned 60 Hz loop, prediction history/anticheat and WorldUpdate construction.
 Continue remaining packets and entity/projectile physics, terrain validation,

@@ -1,5 +1,10 @@
 # Independent CI verification
 
+The spawn checkpoint passes locally: 1296 unit/component + 8 UDP tests, with
+source geometry/selection/random/math and all-class settling traces. Its
+independent CI is pending publication. The completed admission run below is
+retained as previous evidence.
+
 Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/38749518170
 
 Implementation: `4c9b6014a1d6aab45a7ee8ee3e9232693de0f855`.

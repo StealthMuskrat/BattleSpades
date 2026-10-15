@@ -109,6 +109,8 @@ jobs:
           python -S java/tools/generate_scene_golden.py
           python -S java/tools/export_name_unicode.py
           python -S java/tools/generate_admission_golden.py
+          python -S java/tools/generate_spawn_golden.py
+          git diff --exit-code -- java/src/test/resources/golden/spawn-layouts.tsv.gz java/src/test/resources/golden/spawn-geometry.tsv.gz java/src/test/resources/golden/spawn-events.tsv.gz java/src/test/resources/golden/spawn-random.tsv.gz java/src/test/resources/golden/spawn-hypot.tsv.gz java/src/test/resources/golden/spawn-sums.tsv.gz java/src/test/resources/golden/spawn-settle.tsv.gz java/src/test/resources/golden/spawn-provenance.json
           git diff --exit-code -- java/src/test/resources/golden/name-unicode.tsv.gz java/src/test/resources/golden/names.tsv.gz java/src/test/resources/golden/admission-teams.tsv.gz java/src/test/resources/golden/admission-classes.tsv.gz java/src/test/resources/golden/admission-provenance.json java/src/main/resources/net/battlespades/player/name-unicode.bin.gz
           git diff --exit-code -- java/src/test/resources/golden/movement.tsv.gz java/src/test/resources/golden/movement-provenance.json java/src/test/resources/golden/queries.tsv.gz java/src/test/resources/golden/query-cells.tsv java/src/test/resources/golden/rules.tsv java/src/test/resources/golden/selections.tsv java/src/test/resources/golden/rule-movement.tsv java/src/test/resources/golden/scene-builders.tsv java/src/test/resources/golden/skyboxes.tsv java/src/main/resources/net/battlespades/catalog
       - uses: actions/upload-artifact@v4

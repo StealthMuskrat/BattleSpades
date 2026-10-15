@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "841212008c429f3da0832a6daf9e76ca6d2e0d739d154acdd97880e1b19b1b17",
-  "jar_bytes": 1150799,
+  "jar_sha256": "a3b38a6cf981b039835ef9d71afa0ce4c5cc28c795ab050a5f1d315ac11b0a07",
+  "jar_bytes": 1187524,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -9,6 +9,8 @@
     "META-INF/licenses/",
     "META-INF/licenses/antlr4-BSD-3-Clause.txt",
     "META-INF/licenses/checker-qual-LICENSE.txt",
+    "META-INF/licenses/mt19937.txt",
+    "META-INF/licenses/python-psf.txt",
     "META-INF/licenses/tomlj-APACHE-2.0.txt",
     "META-INF/licenses/unicode-15.txt",
     "META-INF/LICENSE-BattleSpades",
@@ -18,34 +20,24 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 1260,
+      "tests": 1296,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
-      "tests": 7,
+      "tests": 8,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Player names and common pre-life team/class admission",
-  "java_implementation_commit": "4c9b6014a1d6aab45a7ee8ee3e9232693de0f855",
-  "tested_tree": "2dcb997a71ff93209d754d657f7c8bc68c503843",
+  "verification_stage": "Authored spawn geometry, source threat selection and bounded rescue",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38749518170",
-    "implementation_commit": "4c9b6014a1d6aab45a7ee8ee3e9232693de0f855",
-    "jobs": {
-      "native-enet": "success",
-      "build": "success",
-      "platform (windows-latest)": "success",
-      "platform (macos-latest)": "success",
-      "platform (ubuntu-latest)": "success"
-    },
-    "repeated_jar_comparison": "success",
-    "source_fixtures_and_catalogs_reproduced": true,
-    "admission_fixtures_and_unicode_table_reproduced": true
+    "status": "pending for current tree",
+    "previous_run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38749518170"
   },
   "movement": {
     "cases": 118,
@@ -105,7 +97,7 @@
     "net/battlespades/catalog/modes.toml",
     "net/battlespades/catalog/rules.toml"
   ],
-  "local_packaging_note": "Two final admission archives match byte-for-byte and pass ZIP CRC. Earlier environment-specific truncated archives were rejected; CI independently rebuilds and compares before upload.",
+  "local_packaging_note": "Two final spawn-policy archives match byte-for-byte and pass ZIP CRC. CI independently rebuilds and compares before upload.",
   "admission": {
     "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
     "unicode": "15.0.0",
@@ -140,5 +132,44 @@
     "tests": 60,
     "failures": 0,
     "command": "python -m pytest -q tests/test_player_names.py tests/test_mode_lifecycle_contracts.py tests/test_rocketeer_restore.py"
+  },
+  "spawning": {
+    "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+    "cases": 8,
+    "geometry_vectors": 18124,
+    "event_vectors": 822,
+    "random_vectors": 16000,
+    "hypot_vectors": 3064,
+    "sum_vectors": 3000,
+    "spawn_settle_ticks": 8640,
+    "policy_substitutions": false,
+    "inputs": "compiled original VXL/world; explicit synthetic cuboids/layout; controlled monotonic clock, seeds and mode proposal callbacks",
+    "source_files": {
+      "server/world_manager.py": "b2ef9c97255c290ea946dc4a4a415b46ba26bd69db9997276bcce6a3ef45fc63",
+      "server/spawn_selection.py": "50c82cee5f3d2f681614aab191732c91c4b8eb8214f3690ffd8cd6783f9df9fd",
+      "server/round_lifecycle.py": "305323162e64b63b6fe2dd56fae89f1926b950605d03b697068325053321c683",
+      "server/map_metadata.py": "66a868d65f47cdb3d2eb3956f04652ae637f03a2f2cb4cebf26f956a329f8161",
+      "server/combat_runtime.py": "1063d83823e07e103a7a65cc30aa3a94398d860abb8ba6ee345b7120f767d677",
+      "aoslib/vxl.pyx": "c24f5102983d08f72aa710bbe6315ac5714b2226dafc67b968dcbd789876460d",
+      "aoslib/world.pyx": "5290568a97c5b74503642b29d6da9eda56f2fdba0453f9e5c7c3f676d840b1bc"
+    },
+    "fixtures": {
+      "spawn-events.tsv.gz": "cfa7f924e25d9f88cf22150e9767b7b90649bb0dbd97a12352ed7500bda57736",
+      "spawn-geometry.tsv.gz": "014f6e5366fb6e52be6dedfeb2137b0f79ee3eb73424cb2f5f862d2db7b6cfe2",
+      "spawn-hypot.tsv.gz": "3a8dd1679c3411953db3f38f9a5f7e8a3ede3207206ce612493e9ed2ebf47082",
+      "spawn-layouts.tsv.gz": "a47306181482f11cda52cbd69060fa8500ef893a5a480db2fbc6f585e4ca93b3",
+      "spawn-random.tsv.gz": "46ea550f7e702eb2fb77e6cf61d3dadfc247d835a3cba6da04d7b29ff33dfb98",
+      "spawn-settle.tsv.gz": "4fb742168fb7dad2a7e791e0fb116b462f2e5e326670cffd1cc28fa49a5bbef2",
+      "spawn-sums.tsv.gz": "6347daf819807f38e2cb8ab90a62b56bc85815c66b3855abeed4c722899a424e"
+    },
+    "source_fixtures_reproduced": true,
+    "gameplay_lifecycle": false,
+    "sidecar_parser": false,
+    "real_udp_terrain_revalidation": true
+  },
+  "reference_spawn_tests": {
+    "tests": 42,
+    "failures": 0,
+    "command": "python -m pytest -q tests/test_tdm_spawn.py tests/test_retail_spawn_boxes.py tests/test_smart_spawns.py tests/test_spawn_lock.py"
   }
 }

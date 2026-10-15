@@ -30,6 +30,7 @@ public final class FixtureScene implements JoinScene,net.battlespades.scene.Conf
     public int reveals,requiredCapability;
     public boolean failAdmission;
     public Runnable onAdmission=()->{};
+    public java.util.function.BiFunction<Integer,SimplePackets.NewPlayerConnection,Vector3f> placement=(id,request)->new Vector3f(256,256,237);
     public FixtureScene(long epoch,int journalLimit) {
         this(VxlMap.load(new byte[]{0,(byte)240,(byte)239,0},"auto"),epoch,journalLimit);
     }
@@ -64,7 +65,7 @@ public final class FixtureScene implements JoinScene,net.battlespades.scene.Conf
         return net.battlespades.player.AdmissionPolicy.Context.ordinary(players.values().stream().map(a->new net.battlespades.player.AdmissionPolicy.Occupant(a.player().playerId(),a.player().name(),false,a.player().team())).toList());
     }
     @Override public Admission admit(int id,SimplePackets.NewPlayerConnection request,PlayerPackets.SetClassLoadout selection,int capability) {
-        var player=new PlayerPackets.CreatePlayer(id,0,request.class_id(),request.team(),0,request.local_language(),new Vector3f(256,256,237),new Vector3f(1,0,0),request.name(),selection==null?List.of(7):selection.loadout(),selection==null?List.of():selection.prefabs());
+        var player=new PlayerPackets.CreatePlayer(id,0,request.class_id(),request.team(),0,request.local_language(),placement.apply(id,request),new Vector3f(1,0,0),request.name(),selection==null?List.of(7):selection.loadout(),selection==null?List.of():selection.prefabs());
         var admission=new Admission(player,0x123456,List.of());players.put(id,admission);capabilities.put(id,capability);roster.create(player,admission.color());onAdmission.run();if(failAdmission) throw new IllegalStateException("Fixture admission failure");return admission;
     }
     @Override public Admission admit(int id,SimplePackets.NewPlayerConnection request,net.battlespades.player.ClassCatalog.Selection selection,int capability){

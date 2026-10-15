@@ -49,7 +49,9 @@ bots.name_prefix, including the source six-character printable-ASCII prefix boun
 The domain still owns authenticated nickname substitution, identity-required/join
 ticket rejection and asynchronous scene-generation checks, admin grants, actual
 mode hooks, team membership, map/UGC selection extensions, real Character creation,
-spawn geometry/threat scoring, reveal notices, equipment/input timing and lifecycle.
+layout assembly/concrete mode spawn hooks, reveal notices, equipment/input timing
+and lifecycle. Common spawn geometry/threat scoring/rescue are now ported as
+separate placement components; see [SPAWNING.md](SPAWNING.md).
 The UDP/native probes use a test-only fixture domain; a metadata catalog entry
 does not implement a mode. Normal hosting continues to return exit 2.
 

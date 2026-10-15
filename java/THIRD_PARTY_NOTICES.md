@@ -19,6 +19,18 @@ in licenses/unicode-15.txt and packaged under META-INF/licenses. No ICU or Pytho
 implementation/runtime is included. Reference license:
 https://github.com/unicode-org/icu/blob/release-72-1/icu4c/LICENSE.
 
+SourceRandom ports MT19937 and CPython 3.12 integer seeding and sequence selection
+to Java. SpawnMath ports CPython's compensated two-coordinate norm. MT19937
+copyright (C) 1997-2002 Makoto Matsumoto and Takuji Nishimura, BSD-3-Clause;
+CPython adaptations copyright Python Software Foundation, PSF-2.0. Notices are in
+licenses/mt19937.txt and licenses/python-psf.txt and packaged in the JAR. Changes:
+Java owner-confined state/collections and portable arithmetic replace Python/C
+objects, interpreter callbacks and native implementation. Integer seeds only;
+no Python runtime is included. Reference sources:
+https://github.com/python/cpython/blob/v3.12.0/Modules/_randommodule.c,
+https://github.com/python/cpython/blob/v3.12.0/Lib/random.py,
+https://github.com/python/cpython/blob/v3.12.0/Modules/mathmodule.c.
+
 ENet wire constants and command layout derive from the vendored ENet MIT source
 Copyright (c) 2002-2020 Lee Salzman; complete MIT notice is preserved in the root
 THIRD_PARTY_NOTICES.md and packaged in the JAR. No ENet native binary is included.

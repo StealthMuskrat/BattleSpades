@@ -11,7 +11,8 @@
     "movement": "compiled aoslib.world.Player + aoslib.vxl.VXL; exact public float/double stores",
     "queries": "compiled aoslib.world raycast/cube_line/face/is_centered",
     "scene": "server.game_rules/class_data/class_selection, common initial_info/state_data builders and compiled packet/world codecs",
-    "admission": "original player_names; unmodified connection AST methods; original equipment/rules/class selection; Python 3.12 Unicode 15"
+    "admission": "original player_names; unmodified connection AST methods; original equipment/rules/class selection; Python 3.12 Unicode 15",
+    "spawns": "original WorldManager/spawn_selection/RoundLifecycle/combat segment; compiled VXL/world; Python 3.12 random/math"
   },
   "generators": [
     "generate_golden.py",
@@ -24,7 +25,8 @@
     "generate_scene_golden.py",
     "export_domain_catalogs.py",
     "export_name_unicode.py",
-    "generate_admission_golden.py"
+    "generate_admission_golden.py",
+    "generate_spawn_golden.py"
   ],
   "fixtures": {
     "admission-classes.tsv.gz": "ebf173e1524c23c44d40ff644da805431510b0bf34c299582b57da2ed5ea3840",
@@ -53,6 +55,14 @@
     "selections.tsv": "6e736f3ccc8caf6cf6d3854de0f6eab5a3768bf49a03e9f07f2ff0de42fe015b",
     "session.tsv": "ec2ab45fb0ec560984c6feb42cdfb19c3b6d968322de0bc8940562760881c203",
     "skyboxes.tsv": "1cb1fbb3c0dc364ed6aa48b1dc461f4a3a09841a383b739baa42101c9087113a",
+    "spawn-events.tsv.gz": "cfa7f924e25d9f88cf22150e9767b7b90649bb0dbd97a12352ed7500bda57736",
+    "spawn-geometry.tsv.gz": "014f6e5366fb6e52be6dedfeb2137b0f79ee3eb73424cb2f5f862d2db7b6cfe2",
+    "spawn-hypot.tsv.gz": "3a8dd1679c3411953db3f38f9a5f7e8a3ede3207206ce612493e9ed2ebf47082",
+    "spawn-layouts.tsv.gz": "a47306181482f11cda52cbd69060fa8500ef893a5a480db2fbc6f585e4ca93b3",
+    "spawn-provenance.json": "f8b8b311ad18e6cbce76c34d05903813ae318c55ecbe2490b39921fd5ad7969e",
+    "spawn-random.tsv.gz": "46ea550f7e702eb2fb77e6cf61d3dadfc247d835a3cba6da04d7b29ff33dfb98",
+    "spawn-settle.tsv.gz": "4fb742168fb7dad2a7e791e0fb116b462f2e5e326670cffd1cc28fa49a5bbef2",
+    "spawn-sums.tsv.gz": "6347daf819807f38e2cb8ab90a62b56bc85815c66b3855abeed4c722899a424e",
     "world/cave.columns.tsv": "2c7740d05549db5aecbe27887e92dd1e60132000d6c7d093edfd0b9d017f2609",
     "world/cave.json": "a87887142440a5904c8fdbd5ac838c21da78c7a089252ab0d79052d326bf6bf7",
     "world/cave.vxl": "941a8625966864c633dcdf86a06749376b50d6820625fc3f1a0db0d0523b750c",

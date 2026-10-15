@@ -58,5 +58,7 @@ manifest['fixtures']={str(p.relative_to(ROOT/'java/src/test/resources/golden')):
 manifest['catalogs']={str(p.relative_to(ROOT/'java/src/main/resources')):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((ROOT/'java/src/main/resources/net/battlespades/catalog').glob('*.toml'))}
 manifest['oracles']['admission']='original player_names; unmodified connection AST methods; original equipment/rules/class selection; Python 3.12 Unicode 15'
 manifest['generators']+=['export_name_unicode.py','generate_admission_golden.py']
+manifest['generators']+=['generate_spawn_golden.py']
+manifest['oracles']['spawns']='original WorldManager/spawn_selection/RoundLifecycle/combat segment; compiled VXL/world; Python 3.12 random/math'
 manifest['unicode_data']={'net/battlespades/player/name-unicode.bin.gz':hashlib.sha256((ROOT/'java/src/main/resources/net/battlespades/player/name-unicode.bin.gz').read_bytes()).hexdigest()}
 (ROOT/'java/src/test/resources/golden/provenance.json').write_text(json.dumps(manifest,indent=2)+'\n')

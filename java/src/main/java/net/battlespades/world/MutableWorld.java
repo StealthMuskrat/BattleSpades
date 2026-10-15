@@ -34,18 +34,26 @@ public final class MutableWorld implements AutoCloseable {
     private final Map<Integer,ColumnState> columns=new HashMap<>();
     private final Map<Integer,BitSet> air=new HashMap<>();
     private final Map<Cell,Double> health=new HashMap<>();
+    private final int[] surfaces=new int[512*512];
     private final ArrayDeque<Mutation> journal=new ArrayDeque<>();
     private final LinkedHashSet<Lease> leases=new LinkedHashSet<>();
     private long revision;
     private boolean closed;
     public MutableWorld(VxlMap base,long epoch,int journalLimit) {
         this.base=java.util.Objects.requireNonNull(base);this.epoch=epoch;this.journalLimit=journalLimit;sourceCrc=(int)base.sourceCrc();
+        java.util.Arrays.fill(surfaces,-1);
         if(epoch<0 || journalLimit<1) throw new IllegalArgumentException("World epoch/journal limit");
     }
     private void owned() { if(Thread.currentThread()!=owner) throw new IllegalStateException("World accessed outside owner"); }
     private void active() { owned();if(closed) throw new IllegalStateException("World retired"); }
     public long epoch() { return epoch; }
     public long revision() { active();return revision; }
+    public long topologyVersion() { return revision(); }
+    public int surfaceZ(int x,int y) {
+        active();if(x<0||x>=512||y<0||y>=512)return 239;int key=x+y*512;
+        if(surfaces[key]<0){var column=columns.get(key);int z=column==null?base.surfaceZ(x,y):column.solid.nextSetBit(0);surfaces[key]=z<0?239:z;}
+        return surfaces[key];
+    }
     public int journalSize() { active();return journal.size(); }
     public int activeLeases() { active();return leases.size(); }
     public int sourceCrc() { return sourceCrc; }
@@ -67,7 +75,8 @@ public final class MutableWorld implements AutoCloseable {
         active();
         if(!solid && cell.z==239) throw new IllegalArgumentException("Canonical seabed cannot be removed");
         if(initialHealth!=null && (!Double.isFinite(initialHealth) || initialHealth<=0)) throw new IllegalArgumentException("Block health");
-        boolean recolor=solid && initialHealth==null && solid(cell);var column=mutable(cell.column());
+        boolean previous=solid(cell),recolor=solid && initialHealth==null && previous;var column=mutable(cell.column());
+        if(previous!=solid)surfaces[cell.column()]=-1;
         column.solid.set(cell.z,solid);column.explicit.set(cell.z,solid);column.colors[cell.z]=solid?0x80000000|(rgb&0xffffff):0;
         if(solid && initialHealth!=null) health.put(cell,initialHealth);else if(!recolor) health.remove(cell);
         if(solid) {

@@ -1,7 +1,7 @@
 # BattleSpades Java 25 migration
 
 **Development components, not a playable server.** This executable deliberately
-returns exit code 2 for normal game startup. Configured gameplay scenes, live physics integration and game modes remain unimplemented.
+returns exit code 2 for normal game startup. Common scene/lifecycle components exist; live input/combat integration and concrete game modes remain unimplemented.
 Owned application sessions and live catch-up are tested with a domain fixture.
 See [FEATURE_PARITY.md](docs/FEATURE_PARITY.md) and the
 [migration plan](../JAVA25_MIGRATION_PLAN.md). Do not deploy this JAR as a game server.
@@ -61,6 +61,9 @@ implemented. Today it fails explicitly with the incomplete-migration message.
   the same scale as the menus. See [configured scene evidence and limits](docs/CONFIGURED_SCENES.md).
 - Unicode-safe retail names and common pre-life team/class checks, bound before
   configured admission. See [source comparisons and remaining identity/lifecycle work](docs/PLAYER_ADMISSION.md).
+- Common Character creation/death/respawn, fresh world-bound movers, life inventory
+  and quiet roster repair behind explicit mode/input/effect ports. See
+  [lifecycle evidence and remaining integration](docs/PLAYER_LIFECYCLE.md).
 - Layered inert map metadata, mode/UGC layout assembly and stock catalogue filtering,
   connected to scene packets and spawn geometry. See [metadata evidence and limits](docs/MAP_METADATA.md).
 - Authored spawn geometry, threat-aware selection and bounded rescue, with source

@@ -213,6 +213,10 @@ public final class JoinSession implements AutoCloseable {
     public boolean gameplay(GamePacket packet,Delivery delivery) {
         owned();if(state!=State.LIVE) return false;return sink.send(new SessionFrame(0x30,packet.encode(),delivery));
     }
+    /** Source Connection.send path: reliable owner control packets may arrive after admission while loading. */
+    public boolean direct(GamePacket packet) {
+        owned();if(!admitted||state==State.CLOSED)return false;return enqueue(List.of(new SessionFrame(packet)));
+    }
     public void replaceScene(JoinScene replacement) {
         owned();if(state==State.CLOSED) return;
         boolean carry=stateSent;

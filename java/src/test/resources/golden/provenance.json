@@ -13,7 +13,8 @@
     "scene": "server.game_rules/class_data/class_selection, common initial_info/state_data builders and compiled packet/world codecs",
     "admission": "original player_names; unmodified connection AST methods; original equipment/rules/class selection; Python 3.12 Unicode 15",
     "spawns": "original WorldManager/spawn_selection/RoundLifecycle/combat segment; compiled VXL/world; Python 3.12 random/math",
-    "map_metadata": "original sidecar/map-mode/UGC/catalogue policies and original scene builders; inert data inputs only"
+    "map_metadata": "original sidecar/map-mode/UGC/catalogue policies and original scene builders; inert data inputs only",
+    "life": "original Player/RoundLifecycle/roster/kill_feed/deployable inventory and compiled world/packet methods; explicit mode/clock/effect ports"
   },
   "generators": [
     "generate_golden.py",
@@ -29,7 +30,9 @@
     "generate_admission_golden.py",
     "generate_spawn_golden.py",
     "export_map_catalog.py",
-    "generate_metadata_golden.py"
+    "generate_metadata_golden.py",
+    "export_life_catalog.py",
+    "generate_life_golden.py"
   ],
   "fixtures": {
     "admission-classes.tsv.gz": "ebf173e1524c23c44d40ff644da805431510b0bf34c299582b57da2ed5ea3840",
@@ -37,6 +40,13 @@
     "admission-teams.tsv.gz": "7685d19a3ffe8bc3275c7cb9888e287d78c3fc6f7759d9ce94bceb9f018c55d5",
     "client-input.tsv": "883efa80bec71476936cfd002c47fc03817ebe0051393b075fb6314e299b3c0a",
     "complex.tsv": "6c370c16e0e29440226988cd8ae1def2d5833e9e10d228acd758b1d61da3502e",
+    "life-inventory.tsv.gz": "95a43c8b16ecb457e9f712e4606305a393d3cc44cfeba4105c45ea5a631c51dd",
+    "life-killfeed.tsv.gz": "ea02d89d539c00901d7bd7627248bc7be8d9843db2154fcb6335d3b0cb624d9c",
+    "life-packets.tsv.gz": "741dc38900b33175032f77f95ce0853b162d75a8bd6ee2bd87f3e759a0a3dd46",
+    "life-provenance.json": "145737cfaa21a1ccce752f4e309c06119a143099bd1fd4b607f87e294ab6ef21",
+    "life-roster.tsv.gz": "af723f328640e9ec3526dd06eefe24cb2fa77faaa78832c8a2cbd9909185a759",
+    "life-runtime.tsv.gz": "568c548c41e63335fb5d15387a32878d14324e94ccd7d1490fc1e630016c43b3",
+    "life-spawn.tsv.gz": "964d7b41d806437a597688a1da52606a7c8469a1f1934433ec3dab21fd42d470",
     "live-input.tsv": "3da48e9c645bdaf82212b7572a0b599bec5d38653f75fd26875dca8ac0893ba6",
     "loading.tsv": "f86f951f165009de3e1bd3c20c5fd57084f8343b28eb792b9b0dded87d2d1d0e",
     "lzf.tsv": "7cc5a7f78789d986e665043392f7be29b09b6de8c6f109d24583b3907bd72f76",
@@ -95,6 +105,7 @@
   },
   "catalogs": {
     "net/battlespades/catalog/classes.toml": "b68352cace8b09d31a4e765df3d13b7109b204438a7953494606eac207e13128",
+    "net/battlespades/catalog/life.toml": "3a8ca924be6b24ecbc428e40a9fa19eabb9a1cd94f40294ea6687a0f52a00842",
     "net/battlespades/catalog/map-metadata.toml": "833edd7e1f738bb860038245f2291b4dedaf77df75c23bc49d77999d2c5f9e5e",
     "net/battlespades/catalog/modes.toml": "77f252b5e3be07476d6fd8796604e1aaa0368f47b8e6322b5efdb23b6c5c4c18",
     "net/battlespades/catalog/rules.toml": "2a5e94bfdc2146942465dd171faefe0b8d954c73207f89b4ce8abd4d3ea0c05f"

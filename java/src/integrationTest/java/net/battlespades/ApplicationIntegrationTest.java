@@ -18,6 +18,7 @@ import java.util.function.BooleanSupplier;
 import net.battlespades.protocol.*;
 import net.battlespades.session.*;
 import net.battlespades.support.FixtureScene;
+import net.battlespades.support.LifeHarness;
 import net.battlespades.transport.UdpEndpoint;
 import net.battlespades.transport.enet.*;
 import net.battlespades.world.*;
@@ -73,9 +74,10 @@ class ApplicationIntegrationTest {
         Loop(ApplicationHost host) {this.host=host;}
         void step() throws Exception {host.service(++now,(int)(now*60/1000));for(var client:clients) client.drain();}
         void until(BooleanSupplier condition) throws Exception {long deadline=System.nanoTime()+4_000_000_000L;while(!condition.getAsBoolean()) {assertTrue(System.nanoTime()<deadline,"UDP application loop timed out");step();Thread.onSpinWait();}}
-        void ticketAndLoad(Client client,FixtureScene scene) throws Exception {
+        void ticketAndLoad(Client client,FixtureScene scene) throws Exception {ticketAndLoad(client,scene.world());}
+        void ticketAndLoad(Client client,MutableWorld world) throws Exception {
             clients.add(client);client.connect();until(()->client.peerId>=0);client.send(new LoadingPackets.SteamSessionTicket(new byte[]{3,7,19}),false);client.key=new byte[]{3,7,19};
-            until(()->client.has(114));client.send(new SimplePackets.MapDataValidation(scene.world().sourceCrc()),false);until(()->client.has(45));
+            until(()->client.has(114));client.send(new SimplePackets.MapDataValidation(world.sourceCrc()),false);until(()->client.has(45));
         }
     }
     @Test void realUdpTicketMapStateSelectionAndCanonicalFirstInputCatchup() {
@@ -177,6 +179,29 @@ class ApplicationIntegrationTest {
                     assertTrue(geometry.safePosition(new SpawnGeometry.Position(q.x(),q.y(),q.z())));assertTrue((int)q.x()!=holeX||(int)q.y()!=holeY);
                 }
                 assertTrue(domain.players.isEmpty());
+            }
+        });
+    }
+    @Test void productionLifeDeathRespawnAndGatedOwnerRepairCrossRealUdp(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("Life UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var h=new LifeHarness()){
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),()->ScenePackets.State.initial(config),h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),2,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var first=new Client(host.address());var second=new Client(host.address())){
+                    h.destination=new LifeRuntime.Messages(){public void broadcast(GamePacket p){host.broadcast(p,Delivery.RELIABLE);}public void owner(int id,GamePacket p){assertTrue(host.sendPlayer(id,p));}};
+                    var loop=new Loop(host);loop.ticketAndLoad(first,h.world);first.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"one"),false);loop.until(()->first.has(28));
+                    var original=h.runtime.player(0).body();assertEquals(2,h.runtime.player(0).inventory().turrets());
+                    loop.until(()->{try{first.send(new ClientInput(100,0,false,6,1,0,0,0,0,0,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.sessions().stream().anyMatch(s->s.state()==JoinSession.State.LIVE);});
+                    loop.ticketAndLoad(second,h.world);h.denied.add(1);second.send(new SimplePackets.NewPlayerConnection(3,0,0,0,"two"),false);loop.until(()->second.packets.stream().anyMatch(p->p instanceof LifePackets.KillAction k&&k.playerId()==1));
+                    assertTrue(h.runtime.die(0,1,0));h.denied.add(0);h.denied.remove(1);h.advance(1.5);assertFalse(h.runtime.player(0).alive());assertTrue(h.runtime.player(1).alive());assertEquals(1,h.runtime.player(1).generation());
+                    loop.until(()->{try{second.send(new ClientInput(101,1,false,6,1,0,0,0,0,0,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.sessions().stream().allMatch(s->s.state()==JoinSession.State.LIVE);});
+                    loop.until(()->second.packets.stream().filter(p->p instanceof PlayerPackets.CreatePlayer c&&c.playerId()==1).count()==2&&second.packets.stream().anyMatch(p->p instanceof LifePackets.KillAction k&&k.playerId()==0));
+                    var replay=(LifePackets.KillAction)second.packets.stream().filter(p->p instanceof LifePackets.KillAction k&&k.playerId()==0).findFirst().orElseThrow();assertEquals(0,replay.killCount());assertFalse(replay.domination());assertFalse(replay.revenge());
+                    assertTrue(second.packets.stream().anyMatch(p->p instanceof LifePackets.SetHP hp&&hp.hp()==100));h.denied.remove(0);h.advance(0);
+                    loop.until(()->first.packets.stream().filter(p->p instanceof PlayerPackets.CreatePlayer c&&c.playerId()==0).count()==2&&second.packets.stream().filter(p->p instanceof PlayerPackets.CreatePlayer c&&c.playerId()==0).count()==2);
+                    assertEquals(2,h.runtime.player(0).generation());assertNotSame(original,h.runtime.player(0).body());assertEquals(4,h.runtime.player(0).inventory().turrets());assertEquals(0,h.world.activeLeases());assertTrue(h.inputCount>=2);
+                }
+                assertTrue(h.runtime.players().isEmpty());
             }
         });
     }

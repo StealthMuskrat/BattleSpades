@@ -1,10 +1,9 @@
 # Java 25 migration report
 
 Date: 2026-10-15 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage adds layered inert map metadata, stock/mode/UGC layout assembly
-and catalogue filtering, connected to scene packets and owned spawn geometry.
-Actual player identity/lifecycle, live
-physics integration and modes remain pending. The ordinary JAR launcher deliberately returns exit 2 for hosting.
+The current stage adds common Character creation/death/respawn, owned inventory
+and fresh world-bound movers behind explicit mode/input/effect ports. Complete
+input chronology, combat, authenticated identity and concrete modes remain pending. The ordinary JAR launcher deliberately returns exit 2 for hosting.
 
 ## Repository and provenance
 
@@ -20,8 +19,8 @@ physics integration and modes remain pending. The ordinary JAR launcher delibera
 - Previous spawn implementation: `6792f538924d0bbd52a62e0b1fa85d8ead0c5b5e`.
 - Previous spawn tested/published tree: `5608362cd28586e9d89adef82719d4ac2b8235f6`.
 - Metadata feature implementation: `091c3408bb23bfa13a04535a17476544eac110a3`.
-- Current implementation, including strict JSON whitespace: `9b822d80e40fc390eea3fb471822a1fec0a878cb`.
-- Current tested/published tree: `b4581018e5647ab630fd3b808dfae4577a3d15a7`.
+- Previous metadata implementation, including strict JSON whitespace: `9b822d80e40fc390eea3fb471822a1fec0a878cb`.
+- Previous metadata tested/published tree: `b4581018e5647ab630fd3b808dfae4577a3d15a7`.
 - Independent execution: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -31,6 +30,14 @@ publication uses the connected app, with an expected-head lease; normal CLI push
 credentials/direct GitHub networking are unavailable. No release is created.
 
 ## Current implementation
+
+PlayerLife/LifeRuntime now compose common admission, fresh Character bodies, death
+and wall-clock respawn scheduling behind required mode/identity/input/effect ports.
+LifeInventory and KillFeed preserve source wallet grants, timing and kill banners.
+PlayerRoster now distinguishes death, respawn and reused identities, preserving
+source ledger order; dead-join owner repair crosses the real UDP loading gate.
+See [PLAYER_LIFECYCLE.md](PLAYER_LIFECYCLE.md) for exact source comparisons and
+remaining integration requirements. Ordinary hosting remains disabled.
 
 MapMetadata/MetadataDocument read prioritized JSON/UGC/legacy sidecars into
 immutable atmosphere, layout, objective/entity and catalogue data. MapAssembly
@@ -69,7 +76,8 @@ The binding uses the source amendment order and retains explicit domain callback
 for verified identity, concrete mode hooks and spawn policy. Rule-adjusted profiles preserve source double
 multiplication before native float stores; canonical gravity matches StateData.
 The native loader now runs the packaged JAR with root config and production
-metadata. Its remaining player lifecycle is a test fixture, excluded from the JAR.
+metadata. Its earlier native-probe player domain remains a test fixture, excluded from the JAR;
+the new UDP lifecycle test uses production LifeRuntime with explicit test ports.
 See [CONFIGURED_SCENES.md](CONFIGURED_SCENES.md) for exact behavior and limits.
 
 Existing physics components port original Player.update, boxclipmove, crouch clearance,
@@ -81,7 +89,7 @@ MutableWorld adapter preserve simulation ownership and immediate terrain reads.
 Ray/cube/face queries retain source traversal ties. See [MOVEMENT_PHYSICS.md](MOVEMENT_PHYSICS.md)
 for exact scope, query work bounds and integration requirements.
 
-Previous components remain: 71 packet IDs, framing/LZF/XOR, range coder, bounded
+Previous components plus life codecs now cover 74 packet IDs, framing/LZF/XOR, range coder, bounded
 ENet host/peers, ACK/retry/fragmentation/RTT/ordering, application loader/password/
 capability/ID reservation, full/delta map snapshots and committed terrain/roster
 journals with a first-input live gate. VXL/KV6 codecs, core/join TOML validation and
@@ -93,8 +101,10 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Check | Current local result |
 |---|---|
 | Java 25 clean check/build | PASS |
-| Unit/component tests | 1927 passed; 0 failures/errors/skips |
-| Real UDP integration tests | 8 passed; 0 failures/errors/skips |
+| Unit/component tests | 3016 passed; 0 failures/errors/skips |
+| Real UDP integration tests | 9 passed; 0 failures/errors/skips |
+| Common lifecycle source comparisons | 756 spawn/pre-spawn, 3624 inventory, 4000 kill-feed, 300 packet, 183 scheduler, 592 roster vectors |
+| Focused original lifecycle/inventory regressions | 128 passed, zero skips |
 | Layered metadata / scene packets / map pools | 785 metadata cases, 659 packet pairs, 4316 pool vectors; 332 input groups |
 | Focused original metadata regressions | 71 passed, 4 missing retail .txtc skips |
 | Spawn geometry / selection / arithmetic | 18,124 geometry, 822 event, 16,000 random, 3,064 hypot and 3,000 sum vectors |
@@ -115,7 +125,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | All five jobs PASS: Ubuntu build, native/source oracle, Windows/Linux/macOS |
+| Current-tree independent platform CI | Pending publication; preceding metadata all five PASS |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -133,8 +143,9 @@ suite had 79 pass/1 psutil environment failure. The 1640-test movement subset
 passes; the preceding scene stage passed 78 focused rule/class/builder regressions.
 The admission stage passed 60 focused name/mode-lifecycle/class regressions.
 The spawn stage passes 42 focused retail-box/TDM/smart-spawn/spawn-lock regressions.
-The metadata stage passes 71 focused tests with four missing retail .txtc skips;
-these subsets do not replace a full reference run. See [PYTHON_BASELINE.md](PYTHON_BASELINE.md).
+The metadata stage passes 71 focused tests with four missing retail .txtc skips.
+The lifecycle stage passes 128 focused ammo/kill-feed/deployable/lifecycle/reset/handshake
+tests with no skips; these subsets do not replace a full reference run. See [PYTHON_BASELINE.md](PYTHON_BASELINE.md).
 
 ## Build and runtime
 
@@ -159,7 +170,7 @@ smoke downloads one Ubuntu-built JAR; source tests additionally run on all three
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
 
-Current metadata CI: [run38790040711](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38790040711), all five jobs passed.
+Previous metadata CI: [run38790040711](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38790040711), all five jobs passed.
 It includes strict JSON whitespace regression coverage, source metadata/catalog
 regeneration, packaged native sidecar/reload checks, reproducible packaging and
 the same JAR on all three OSes. The initial metadata implementation also passed
@@ -193,9 +204,9 @@ packaging check. Exact final SHA/size are in verification-results.json.
 
 ## Remaining work and readiness
 
-Next: implement the actual Gameplay domain, identity verification and actual
-mode-specific admission, layout assembly and Character death/respawn; connect the verified
-mover and configured rule profile to input/equipment policy,
+Next: implement full ClientData chronology and accepted-frame simulation, wire
+the common Character lifecycle to concrete modes/effects and authenticated identity,
+and connect the verified mover and configured rule profile to input/equipment policy,
 the owned 60 Hz loop, prediction history/anticheat and WorldUpdate construction.
 Continue remaining packets and entity/projectile physics, terrain validation,
 damage/shades/collapse, combat, all modes, bots, creator/tutorial, plugins, admin,

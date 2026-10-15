@@ -20,4 +20,14 @@ class PlayerRosterTest {
         var roster=new PlayerRoster();roster.create(player(0),0);roster.create(player(1),0x123456);var plan=roster.reconcile(Map.of(),0);assertEquals(1,plan.known().size());assertFalse(plan.known().containsKey(0));
         roster.color(1,0xffffff);assertEquals(0x123456,plan.known().get(1).color());assertThrows(UnsupportedOperationException.class,()->plan.known().clear());
     }
+    @Test void deathIsReplayedOnceWithoutBannersAndDeadUnknownLivesStayHidden(){
+        var roster=new PlayerRoster();roster.create(player(1),0x123456);var initial=roster.reconcile(Map.of(),0);var death=new LifePackets.KillAction(1,2,3,2,5,true,true);roster.death(death);
+        assertTrue(roster.reconcile(Map.of(),0).packets().isEmpty());var caught=roster.reconcile(initial.known(),0);assertEquals(List.of(death.quiet()),caught.packets());assertTrue(roster.reconcile(caught.known(),0).packets().isEmpty());
+        roster.create(player(1),0x123456);assertEquals(List.of(28,11),roster.reconcile(caught.known(),0).packets().stream().map(GamePacket::id).toList());assertFalse(initial.known().get(1).dead());
+    }
+    @Test void reusedIdRetiresTheOldIdentityBeforeCreatingOrHidingItsReplacement(){
+        var roster=new PlayerRoster();roster.create(player(1),0);var initial=roster.reconcile(Map.of(),0);roster.remove(1);roster.create(player(1),0);var replaced=roster.reconcile(initial.known(),0);
+        assertEquals(List.of(64,28,11),replaced.packets().stream().map(GamePacket::id).toList());assertNotEquals(initial.known().get(1).identity(),replaced.known().get(1).identity());
+        roster.death(new LifePackets.KillAction(1,1,0,0,0,false,false));assertEquals(List.of(64),roster.reconcile(initial.known(),0).packets().stream().map(GamePacket::id).toList());
+    }
 }

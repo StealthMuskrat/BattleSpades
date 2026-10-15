@@ -23,7 +23,7 @@ public final class ApplicationHost implements AutoCloseable {
     private final SnapshotCompression compression;
     private final int eventBudget;
     private JoinScene scene;
-    private boolean closed;
+    private boolean closed,closing;
     private long lastNow=-1;
     public ApplicationHost(InetSocketAddress bind,EnetSettings transportSettings,int maxPlayers,
             JoinSettings settings,JoinScene scene,SnapshotCompression compression) throws IOException {
@@ -50,10 +50,11 @@ public final class ApplicationHost implements AutoCloseable {
         }
         for(var session:sessions.values()) session.pulse(nowMillis,loopCount);
     }
-    public int broadcast(GamePacket packet,Delivery delivery) {owned();int accepted=0;for(var session:sessions.values()) if(session.gameplay(packet,delivery)) accepted++;return accepted;}
+    public int broadcast(GamePacket packet,Delivery delivery) {owned();if(closing)return 0;int accepted=0;for(var session:sessions.values()) if(session.gameplay(packet,delivery)) accepted++;return accepted;}
+    public boolean sendPlayer(int id,GamePacket packet) {owned();if(closing)return false;for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return session.direct(packet);return false;}
     public void replaceScene(JoinScene replacement) {owned();if(replacement==scene) throw new IllegalArgumentException("Scene must change");for(var session:sessions.values()) session.replaceScene(replacement);scene=replacement;}
     @Override public void close() throws IOException {
-        if(Thread.currentThread()!=owner) throw new IllegalStateException("Application host closed outside owner");if(closed) return;
-        closed=true;try {for(var session:sessions.values()) session.close();sessions.clear();compression.close();} finally {transport.close();}
+        if(Thread.currentThread()!=owner) throw new IllegalStateException("Application host closed outside owner");if(closed||closing) return;
+        closing=true;try {for(var session:sessions.values()) session.close();sessions.clear();compression.close();} finally {closed=true;transport.close();}
     }
 }

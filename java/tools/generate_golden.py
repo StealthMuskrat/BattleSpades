@@ -62,5 +62,7 @@ manifest['generators']+=['generate_spawn_golden.py']
 manifest['oracles']['spawns']='original WorldManager/spawn_selection/RoundLifecycle/combat segment; compiled VXL/world; Python 3.12 random/math'
 manifest['generators']+=['export_map_catalog.py','generate_metadata_golden.py']
 manifest['oracles']['map_metadata']='original sidecar/map-mode/UGC/catalogue policies and original scene builders; inert data inputs only'
+manifest['generators']+=['export_life_catalog.py','generate_life_golden.py']
+manifest['oracles']['life']='original Player/RoundLifecycle/roster/kill_feed/deployable inventory and compiled world/packet methods; explicit mode/clock/effect ports'
 manifest['unicode_data']={'net/battlespades/player/name-unicode.bin.gz':hashlib.sha256((ROOT/'java/src/main/resources/net/battlespades/player/name-unicode.bin.gz').read_bytes()).hexdigest()}
 (ROOT/'java/src/test/resources/golden/provenance.json').write_text(json.dumps(manifest,indent=2)+'\n')

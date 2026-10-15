@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "a1955c5f48f010c3cd761b0b80b433c31f0280d8ec28c76dace65cf06b36eb06",
-  "jar_bytes": 1227317,
+  "jar_sha256": "28a91a2f05c44df1fc0c296406854f0080a3d7c07c2e01969ac41f0bc883fd8a",
+  "jar_bytes": 1270671,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -20,35 +20,24 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 1927,
+      "tests": 3016,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
-      "tests": 8,
+      "tests": 9,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Layered inert metadata, mode/UGC layout and map assembly",
-  "java_implementation_commit": "9b822d80e40fc390eea3fb471822a1fec0a878cb",
-  "tested_tree": "b4581018e5647ab630fd3b808dfae4577a3d15a7",
+  "verification_stage": "Common Character lifecycle, inventory, death and respawn behind explicit policy ports",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38790040711",
-    "jobs": {
-      "build": "success",
-      "native-enet": "success",
-      "platform (ubuntu-latest)": "success",
-      "platform (macos-latest)": "success",
-      "platform (windows-latest)": "success"
-    },
-    "repeated_jar_comparison": "success",
-    "source_fixtures_and_catalogs_reproduced": true,
-    "map_metadata_fixtures_and_catalog_reproduced": true,
-    "packaged_native_sidecar_reload": true
+    "status": "pending for current tree",
+    "previous_run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38790040711"
   },
   "movement": {
     "cases": 118,
@@ -108,7 +97,7 @@
     "net/battlespades/catalog/modes.toml",
     "net/battlespades/catalog/rules.toml"
   ],
-  "local_packaging_note": "Two final metadata archives match byte-for-byte and pass ZIP CRC. CI independently rebuilds and compares before upload.",
+  "local_packaging_note": "Two complete archives pass ZIP CRC and match byte-for-byte.",
   "admission": {
     "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
     "unicode": "15.0.0",
@@ -256,5 +245,45 @@
     "skipped": 4,
     "skip_reason": "retail .txtc files absent",
     "command": "python -m pytest -q tests/test_map_metadata.py tests/test_map_metadata_retail.py"
+  },
+  "life": {
+    "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+    "policy_substitutions": false,
+    "scope": "original Player.spawn/die/selection/tool/restock, RoundLifecycle scheduler, roster reconciliation, deployable inventory and kill_feed; compiled world/VXL/packets; no input timeline or combat replay",
+    "controlled_ports": "mode proposals/delays/gates/failures, clocks, inert mode events; server create broadcast callback records packet IDs only (not an oracle for Main creation policy); Java palette packets are independently tested extensions to source roster catch-up",
+    "source_files": {
+      "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+      "server/round_lifecycle.py": "305323162e64b63b6fe2dd56fae89f1926b950605d03b697068325053321c683",
+      "server/roster.py": "78ec79bac07417dcd224ccb07ac785dd343fe9f7fccb312dbff9de69e1721bdc",
+      "server/connection.py": "5dc2789152970de62c3e4953d1a9a0915a04d03221c96d050054b5265a8151e4",
+      "server/kill_feed.py": "fed721c464535bdd8f12d8d8f5e93a1d6fde6fb66f67618638645e5d7aeea25b",
+      "server/deployable_inventory.py": "caa8bd69fe870af51af98147ba5007de66b7e5110ff14d6e77db66bc57f0356d",
+      "server/class_selection.py": "9be152403938ca104e45b7361cddc34b69c487d3d8cc140533510c8181617e61",
+      "server/game_rules.py": "106994a6c99a3fd0ff541a2d0e217b4fb01b086d6fe208d7900d1731bd61d475",
+      "shared/packet.pyx": "26e0bd6cc3ad92f931b8396ab21f395b199f11965a80dd96464b5907fb5b6819",
+      "aoslib/world.pyx": "5290568a97c5b74503642b29d6da9eda56f2fdba0453f9e5c7c3f676d840b1bc"
+    },
+    "fixtures": {
+      "life-inventory.tsv.gz": "95a43c8b16ecb457e9f712e4606305a393d3cc44cfeba4105c45ea5a631c51dd",
+      "life-killfeed.tsv.gz": "ea02d89d539c00901d7bd7627248bc7be8d9843db2154fcb6335d3b0cb624d9c",
+      "life-packets.tsv.gz": "741dc38900b33175032f77f95ce0853b162d75a8bd6ee2bd87f3e759a0a3dd46",
+      "life-roster.tsv.gz": "af723f328640e9ec3526dd06eefe24cb2fa77faaa78832c8a2cbd9909185a759",
+      "life-runtime.tsv.gz": "568c548c41e63335fb5d15387a32878d14324e94ccd7d1490fc1e630016c43b3",
+      "life-spawn.tsv.gz": "964d7b41d806437a597688a1da52606a7c8469a1f1934433ec3dab21fd42d470"
+    },
+    "source_fixtures_reproduced": true,
+    "production_catalog_reproduced": true,
+    "real_udp_lifecycle": true,
+    "complete_gameplay": false,
+    "input_timeline": false,
+    "combat_damage": false,
+    "concrete_modes": false,
+    "packaged_native_probe_uses_life_runtime": false
+  },
+  "reference_life_tests": {
+    "tests": 128,
+    "failures": 0,
+    "skipped": 0,
+    "command": "python -m pytest -q tests/test_retail_ammo.py tests/test_killfeed_retail.py tests/test_deployable_inventory.py tests/test_mode_lifecycle_contracts.py tests/test_round_runtime_reset.py tests/test_spawn_handshake.py"
   }
 }

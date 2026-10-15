@@ -1,0 +1,427 @@
+# Source 6216b771282d2d349ccd67ee58c378f035c83553; export_life_catalog.py
+
+[[settings]]
+health = 100
+weapon = 6
+multikill_gap = 6.0
+domination_kills = 4
+turret_initial = 2
+turret_max = 4
+turret_restock = 2
+disguise_initial = 2
+disguise_max = 3
+disguise_restock = 3
+transitions = [8, 9, 10]
+domination_reset = [8, 9]
+one_hit = [0, 1, 2, 3, 4, 5, 6, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 24]
+fall_kill = 7
+zombies = [4, 14, 15]
+weapon_tools = [6, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 19, 35, 36, 37, 38, 53, 60, 61, 62]
+
+[[weapon]]
+tool = 6
+clip = 10
+reserve = 50
+initial = 30
+restock = 50
+reload = 2.5
+clip_reload = false
+
+[[weapon]]
+tool = 7
+clip = 25
+reserve = 100
+initial = 100
+restock = 100
+reload = 1.25
+clip_reload = false
+
+[[weapon]]
+tool = 8
+clip = 100
+reserve = 300
+initial = 300
+restock = 300
+reload = 2.0
+clip_reload = false
+
+[[weapon]]
+tool = 9
+clip = 5
+reserve = 20
+initial = 20
+restock = 20
+reload = 0.5
+clip_reload = true
+
+[[weapon]]
+tool = 10
+clip = 2
+reserve = 14
+initial = 14
+restock = 14
+reload = 1.0
+clip_reload = true
+
+[[weapon]]
+tool = 15
+clip = 100
+reserve = 400
+initial = 400
+restock = 400
+reload = 4.0
+clip_reload = false
+
+[[weapon]]
+tool = 17
+clip = 6
+reserve = 30
+initial = 30
+restock = 30
+reload = 0.6
+clip_reload = false
+
+[[weapon]]
+tool = 18
+clip = 1
+reserve = 7
+initial = 7
+restock = 7
+reload = 2.0
+clip_reload = false
+
+[[weapon]]
+tool = 19
+clip = 5
+reserve = 15
+initial = 15
+restock = 15
+reload = 3.0
+clip_reload = false
+
+[[weapon]]
+tool = 35
+clip = 30
+reserve = 120
+initial = 120
+restock = 120
+reload = 2.0
+clip_reload = false
+
+[[weapon]]
+tool = 36
+clip = 6
+reserve = 30
+initial = 30
+restock = 30
+reload = 0.75
+clip_reload = true
+
+[[weapon]]
+tool = 37
+clip = 5
+reserve = 45
+initial = 20
+restock = 20
+reload = 0.5
+clip_reload = true
+
+[[weapon]]
+tool = 38
+clip = 25
+reserve = 100
+initial = 100
+restock = 100
+reload = 1.25
+clip_reload = false
+
+[[weapon]]
+tool = 53
+clip = 15
+reserve = 50
+initial = 50
+restock = 50
+reload = 1.0
+clip_reload = false
+
+[[weapon]]
+tool = 60
+clip = 15
+reserve = 60
+initial = 60
+restock = 60
+reload = 0.9
+clip_reload = false
+
+[[weapon]]
+tool = 61
+clip = 50
+reserve = 250
+initial = 250
+restock = 250
+reload = 2.0
+clip_reload = false
+
+[[weapon]]
+tool = 62
+clip = 8
+reserve = 40
+initial = 40
+restock = 40
+reload = 2.5
+clip_reload = false
+
+[[blocks]]
+id = 0
+start = 200
+maximum = 1000
+
+[[blocks]]
+id = 1
+start = 400
+maximum = 1000
+
+[[blocks]]
+id = 2
+start = 500
+maximum = 1500
+
+[[blocks]]
+id = 3
+start = 0
+maximum = 1000
+
+[[blocks]]
+id = 4
+start = 1000
+maximum = 2000
+
+[[blocks]]
+id = 5
+start = 25
+maximum = 100
+
+[[blocks]]
+id = 6
+start = 500
+maximum = 1200
+
+[[blocks]]
+id = 7
+start = 500
+maximum = 1200
+
+[[blocks]]
+id = 8
+start = 500
+maximum = 1200
+
+[[blocks]]
+id = 9
+start = 500
+maximum = 1200
+
+[[blocks]]
+id = 10
+start = 500
+maximum = 1200
+
+[[blocks]]
+id = 11
+start = 500
+maximum = 1200
+
+[[blocks]]
+id = 12
+start = 2000
+maximum = 3000
+
+[[blocks]]
+id = 13
+start = 1
+maximum = 1
+
+[[blocks]]
+id = 14
+start = 500
+maximum = 1000
+
+[[blocks]]
+id = 15
+start = 500
+maximum = 1000
+
+[[blocks]]
+id = 16
+start = 400
+maximum = 1000
+
+[[blocks]]
+id = 17
+start = 900
+maximum = 2000
+
+[[oriented]]
+tool = 11
+stock = [4, 2, 0, 0, 4]
+
+[[oriented]]
+tool = 12
+stock = [1, 1, 3, 3, 3]
+
+[[oriented]]
+tool = 13
+stock = [3, 3, 3, 3, 3]
+
+[[oriented]]
+tool = 14
+stock = [1, 1, 3, 1, 2]
+
+[[oriented]]
+tool = 31
+stock = [4, 2, 0, 0, 4]
+
+[[oriented]]
+tool = 32
+stock = [4, 2, 0, 0, 4]
+
+[[oriented]]
+tool = 33
+stock = [3, 3, 0, 0, 3]
+
+[[oriented]]
+tool = 54
+stock = [4, 2, 0, 0, 2]
+
+[[oriented]]
+tool = 55
+stock = [1, 1, 5, 3, 5]
+
+[[oriented]]
+tool = 57
+stock = [4, 2, 0, 0, 2]
+
+[[oriented]]
+tool = 58
+stock = [1, 1, 5, 3, 5]
+
+[[deployable]]
+tool = 20
+initial = 3
+maximum = 5
+restock = 5
+interval = 1.0
+
+[[deployable]]
+tool = 21
+initial = 1
+maximum = 1
+restock = 1
+interval = 1.0
+
+[[deployable]]
+tool = 51
+initial = 2
+maximum = 2
+restock = 1
+interval = 1.0
+
+[[deployable]]
+tool = 56
+initial = 1
+maximum = 1
+restock = 1
+interval = 1.5
+
+[[deployable]]
+tool = 59
+initial = 2
+maximum = 2
+restock = 1
+interval = 1.0
+
+[[cadence]]
+tool = 15
+interval = 0.5
+
+[[cadence]]
+tool = 16
+interval = 1.5
+
+[[cadence]]
+tool = 20
+interval = 1.0
+
+[[cadence]]
+tool = 21
+interval = 1.0
+
+[[cadence]]
+tool = 51
+interval = 1.0
+
+[[cadence]]
+tool = 56
+interval = 1.5
+
+[[cadence]]
+tool = 59
+interval = 1.0
+
+[[pack]]
+id = 66
+fuel = 100.0
+
+[[pack]]
+id = 67
+fuel = 100.0
+
+[[pack]]
+id = 68
+fuel = 100.0
+
+[[pack]]
+id = 69
+fuel = 100.0
+
+[[launcher]]
+tool = 12
+clip = 1
+reload = 1.5
+interval = 0.7
+cycles = false
+
+[[launcher]]
+tool = 13
+clip = 3
+reload = 1.0
+interval = 0.75
+cycles = true
+
+[[launcher]]
+tool = 14
+clip = 1
+reload = 4.0
+interval = 0.2
+cycles = false
+
+[[launcher]]
+tool = 47
+clip = 1
+reload = 4.0
+interval = 0.2
+cycles = false
+
+[[launcher]]
+tool = 55
+clip = 1
+reload = 2.0
+interval = 0.35
+cycles = false
+
+[[launcher]]
+tool = 58
+clip = 1
+reload = 2.0
+interval = 0.35
+cycles = false

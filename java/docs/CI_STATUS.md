@@ -1,5 +1,9 @@
 # Independent CI verification
 
+The new player-name/admission checkpoint passes locally (1,260 unit/component +
+7 UDP tests; fresh native probes; two identical JARs). Its independent CI is pending
+publication. The completed run below is the preceding configured-scene checkpoint.
+
 Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/38742439157
 
 Implementation: `9e8b320709b35d6cece3c5078ea59af246f4ccbb`.

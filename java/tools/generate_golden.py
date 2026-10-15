@@ -56,4 +56,7 @@ damage=packet.Damage();damage.player_id=3;damage.type=6;damage.damage=31.75;dama
 # Refresh provenance after all fixtures.
 manifest['fixtures']={str(p.relative_to(ROOT/'java/src/test/resources/golden')):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((ROOT/'java/src/test/resources/golden').rglob('*')) if p.is_file() and p.name!='provenance.json'}
 manifest['catalogs']={str(p.relative_to(ROOT/'java/src/main/resources')):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((ROOT/'java/src/main/resources/net/battlespades/catalog').glob('*.toml'))}
+manifest['oracles']['admission']='original player_names; unmodified connection AST methods; original equipment/rules/class selection; Python 3.12 Unicode 15'
+manifest['generators']+=['export_name_unicode.py','generate_admission_golden.py']
+manifest['unicode_data']={'net/battlespades/player/name-unicode.bin.gz':hashlib.sha256((ROOT/'java/src/main/resources/net/battlespades/player/name-unicode.bin.gz').read_bytes()).hexdigest()}
 (ROOT/'java/src/test/resources/golden/provenance.json').write_text(json.dumps(manifest,indent=2)+'\n')

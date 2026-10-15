@@ -117,4 +117,28 @@ class ApplicationIntegrationTest {
             }
         });
     }
+    @Test void configuredAdmissionNamesTeamsAndClassFallbackCrossRealUdp(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("Admission UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",1),new SceneConfig.Team("Green",2),GameRules.serverDefaults());
+            try(var domain=new FixtureScene(1,64)){
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",domain.world().sourceCrc()),()->ScenePackets.State.initial(config),domain);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),4,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,4));
+                    var a=new Client(host.address());var b=new Client(host.address());var c=new Client(host.address());var spectator=new Client(host.address())){
+                    var loop=new Loop(host);var clients=List.of(a,b,c,spectator);var names=List.of("Admin","Ρlayer","Player","Watcher");
+                    for(int i=0;i<clients.size();i++){
+                        var client=clients.get(i);loop.ticketAndLoad(client,domain);
+                        int reserved=((StateData)client.packets.stream().filter(p->p.id()==45).findFirst().orElseThrow()).playerId();
+                        client.send(new PlayerPackets.SetClassLoadout(255,4,1,List.of(7,51),List.of(),List.of()),false);
+                        client.send(new SimplePackets.NewPlayerConnection(i==3?0:i==1?1:2,4,3,1,names.get(i)),false);
+                        loop.until(()->client.packets.stream().anyMatch(p->p instanceof PlayerPackets.CreatePlayer player&&player.playerId()==reserved));
+                        var create=(PlayerPackets.CreatePlayer)client.packets.stream().filter(p->p instanceof PlayerPackets.CreatePlayer player&&player.playerId()==reserved).findFirst().orElseThrow();
+                        assertEquals(i,create.playerId());assertEquals(i==3?0:i==2?3:2,create.team());assertEquals(i==3?4:0,create.classId());
+                        assertEquals(List.of("Player","Ρlayer~2","Player~3","Watcher").get(i),create.name());
+                        assertFalse(create.loadout().contains(51));
+                    }
+                }
+                assertTrue(domain.players.isEmpty());
+            }
+        });
+    }
 }

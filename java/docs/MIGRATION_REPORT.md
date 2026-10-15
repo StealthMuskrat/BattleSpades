@@ -1,8 +1,8 @@
 # Java 25 migration report
 
 Date: 2026-10-15 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage adds source-backed Match Lobby rules, stock class selection and
-configured scene metadata/session binding. Actual player identity/lifecycle, live
+The current stage adds source-backed player names and pre-life team/class checks
+to the configured scene binding. Actual player identity/lifecycle, live
 physics integration and modes remain pending. The ordinary JAR launcher deliberately returns exit 2 for hosting.
 
 ## Repository and provenance
@@ -12,8 +12,10 @@ physics integration and modes remain pending. The ordinary JAR launcher delibera
 - Behavioral source: `6216b771282d2d349ccd67ee58c378f035c83553`.
 - Previous movement implementation: `9cfe665bbb3340f2606a2486a3f337dc4c6f3386`.
 - Previous documented checkpoint: `1f4755d6d212a5c125cf723c393221c029c5a8e8`.
-- Current implementation: `9e8b320709b35d6cece3c5078ea59af246f4ccbb`.
-- Tested/published tree: `eadba7cd03e37328f9e8ce2cbdfc07e452697998`.
+- Previous configured-scene implementation: `9e8b320709b35d6cece3c5078ea59af246f4ccbb`.
+- Previous configured-scene tree: `eadba7cd03e37328f9e8ce2cbdfc07e452697998`.
+- Current name/admission implementation is verified locally; publication/CI evidence
+  will be recorded in the follow-up checkpoint.
 - Independent execution: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -23,6 +25,14 @@ publication uses the connected app, with an expected-head lease; normal CLI push
 credentials/direct GitHub networking are unavailable. No release is created.
 
 ## Current implementation
+
+PlayerNames/NameUnicode/AdmissionPolicy now run name allocation, common team
+resolution/balancing and rule/mode class fallback before configured admission.
+The reference Unicode 15 database is pinned independently of host JDK tables.
+Source comparisons cover every Unicode scalar plus 18,568 name, 6,192 team and
+14,256 class vectors. The binding still delegates actual life creation and mode
+hooks; see [PLAYER_ADMISSION.md](PLAYER_ADMISSION.md). Independent current-tree
+CI will be recorded after publication; the previous checkpoint is listed below.
 
 Java 25, pinned Gradle 9.1 wrapper, locked/checksummed pure-Java dependencies and
 portable package checks remain in place. Production dependencies are tomlj 1.1.1,

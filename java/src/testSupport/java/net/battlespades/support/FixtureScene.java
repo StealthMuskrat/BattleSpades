@@ -60,6 +60,9 @@ public final class FixtureScene implements JoinScene,net.battlespades.scene.Conf
     @Override public StateData stateData(int id,int capability) {return copy(state,Map.of("playerId",id));}
     @Override public String skybox() {return "skybox/default";}
     @Override public PlayerRoster roster() {return roster;}
+    @Override public net.battlespades.player.AdmissionPolicy.Context admissionContext(int id){
+        return net.battlespades.player.AdmissionPolicy.Context.ordinary(players.values().stream().map(a->new net.battlespades.player.AdmissionPolicy.Occupant(a.player().playerId(),a.player().name(),false,a.player().team())).toList());
+    }
     @Override public Admission admit(int id,SimplePackets.NewPlayerConnection request,PlayerPackets.SetClassLoadout selection,int capability) {
         var player=new PlayerPackets.CreatePlayer(id,0,request.class_id(),request.team(),0,request.local_language(),new Vector3f(256,256,237),new Vector3f(1,0,0),request.name(),selection==null?List.of(7):selection.loadout(),selection==null?List.of():selection.prefabs());
         var admission=new Admission(player,0x123456,List.of());players.put(id,admission);capabilities.put(id,capability);roster.create(player,admission.color());onAdmission.run();if(failAdmission) throw new IllegalStateException("Fixture admission failure");return admission;

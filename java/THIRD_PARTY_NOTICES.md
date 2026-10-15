@@ -12,6 +12,13 @@ for exact resolved artifacts.
 Development: JUnit Jupiter/Platform 5.11.4/1.11.4 (EPL-2.0), Gradle 9.1.0
 (Apache-2.0 and bundled notices). Neither is required by the application runtime.
 
+Player-name matching includes a transformed Unicode Character Database 15.0.0
+export (normalization, casefold and properties) from Python 3.12's unicodedata.
+Unicode data copyright © 1991-2022 Unicode, Inc.; the permission notice is retained
+in licenses/unicode-15.txt and packaged under META-INF/licenses. No ICU or Python
+implementation/runtime is included. Reference license:
+https://github.com/unicode-org/icu/blob/release-72-1/icu4c/LICENSE.
+
 ENet wire constants and command layout derive from the vendored ENet MIT source
 Copyright (c) 2002-2020 Lee Salzman; complete MIT notice is preserved in the root
 THIRD_PARTY_NOTICES.md and packaged in the JAR. No ENet native binary is included.

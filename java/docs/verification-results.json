@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "d391d03b65759a082b6555336cbb9ec2600f1bc35a93d191df62fe1c26d6beb8",
-  "jar_bytes": 1080089,
+  "jar_sha256": "841212008c429f3da0832a6daf9e76ca6d2e0d739d154acdd97880e1b19b1b17",
+  "jar_bytes": 1150799,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -10,6 +10,7 @@
     "META-INF/licenses/antlr4-BSD-3-Clause.txt",
     "META-INF/licenses/checker-qual-LICENSE.txt",
     "META-INF/licenses/tomlj-APACHE-2.0.txt",
+    "META-INF/licenses/unicode-15.txt",
     "META-INF/LICENSE-BattleSpades",
     "META-INF/THIRD_PARTY_NOTICES.md",
     "META-INF/JAVA-THIRD-PARTY-NOTICES.md"
@@ -17,33 +18,24 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 688,
+      "tests": 1260,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
-      "tests": 6,
+      "tests": 7,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Configured scene metadata, Match Lobby rules and stock class selection",
-  "java_implementation_commit": "9e8b320709b35d6cece3c5078ea59af246f4ccbb",
-  "tested_tree": "eadba7cd03e37328f9e8ce2cbdfc07e452697998",
+  "verification_stage": "Player names and common pre-life team/class admission",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38742439157",
-    "implementation_commit": "9e8b320709b35d6cece3c5078ea59af246f4ccbb",
-    "jobs": {
-      "build": "success",
-      "native-enet": "success",
-      "platform (ubuntu-latest)": "success",
-      "platform (windows-latest)": "success",
-      "platform (macos-latest)": "success"
-    },
-    "repeated_jar_comparison": "success",
-    "source_fixtures_and_catalogs_reproduced": true
+    "status": "pending for current tree",
+    "previous_run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38742439157"
   },
   "movement": {
     "cases": 118,
@@ -103,5 +95,40 @@
     "net/battlespades/catalog/modes.toml",
     "net/battlespades/catalog/rules.toml"
   ],
-  "local_packaging_note": "Earlier incremental local archives were truncated despite reported task success. Two final valid builds match byte-for-byte; CI also rebuilds and compares before upload."
+  "local_packaging_note": "Two final admission archives match byte-for-byte and pass ZIP CRC. Earlier environment-specific truncated archives were rejected; CI independently rebuilds and compares before upload.",
+  "admission": {
+    "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+    "unicode": "15.0.0",
+    "unicode_scalar_values": 1112064,
+    "name_examples": 844,
+    "name_vectors": 18568,
+    "team_vectors": 6192,
+    "class_vectors": 14256,
+    "connection_method_bodies": "unmodified AST extraction; original rules/equipment/selection imports",
+    "sha256": {
+      "name-unicode.bin.gz": "13a2ba9418ae9bec2eb7e7916ae1888fb48174a72c6edfbabbf154ecaf5b098b",
+      "admission-classes.tsv.gz": "ebf173e1524c23c44d40ff644da805431510b0bf34c299582b57da2ed5ea3840",
+      "admission-teams.tsv.gz": "7685d19a3ffe8bc3275c7cb9888e287d78c3fc6f7759d9ce94bceb9f018c55d5",
+      "name-unicode.tsv.gz": "276f3f38e9616d489cb381ee3d0b1f53a1347b3bea58b9d187eb38bc5929c154",
+      "names.tsv.gz": "a55d8095c64701e990163fef01014e2f25f4c5f8ef7a03a3fe8954c8e98965a4"
+    },
+    "source_files": {
+      "server/player_names.py": "84ec38e4f67513b9e09ee26d1b0570681863d917d2cfad551d0794973bc28069",
+      "server/connection.py": "5dc2789152970de62c3e4953d1a9a0915a04d03221c96d050054b5265a8151e4",
+      "server/handlers/equipment.py": "b591f276d8d2fde912643f54fb6e86050ea934cb7cf008631828f05cf30dfd35",
+      "server/class_selection.py": "9be152403938ca104e45b7361cddc34b69c487d3d8cc140533510c8181617e61",
+      "server/game_rules.py": "106994a6c99a3fd0ff541a2d0e217b4fb01b086d6fe208d7900d1731bd61d475",
+      "shared/constants.py": "125d8fdb66ed78db6927ee8fee0d4be700421d23ca79a6bbabc09351e628d59a"
+    },
+    "source_fixtures_reproduced": true,
+    "production_unicode_table_reproduced": true,
+    "gameplay_lifecycle": false,
+    "identity_verification": false,
+    "four_client_udp": true
+  },
+  "reference_admission_tests": {
+    "tests": 60,
+    "failures": 0,
+    "command": "python -m pytest -q tests/test_player_names.py tests/test_mode_lifecycle_contracts.py tests/test_rocketeer_restore.py"
+  }
 }

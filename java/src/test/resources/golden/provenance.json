@@ -10,7 +10,8 @@
     "mutations": "compiled aoslib.vxl + server.world_manager.WorldManager",
     "movement": "compiled aoslib.world.Player + aoslib.vxl.VXL; exact public float/double stores",
     "queries": "compiled aoslib.world raycast/cube_line/face/is_centered",
-    "scene": "server.game_rules/class_data/class_selection, common initial_info/state_data builders and compiled packet/world codecs"
+    "scene": "server.game_rules/class_data/class_selection, common initial_info/state_data builders and compiled packet/world codecs",
+    "admission": "original player_names; unmodified connection AST methods; original equipment/rules/class selection; Python 3.12 Unicode 15"
   },
   "generators": [
     "generate_golden.py",
@@ -21,9 +22,14 @@
     "generate_movement_golden.py",
     "generate_query_golden.py",
     "generate_scene_golden.py",
-    "export_domain_catalogs.py"
+    "export_domain_catalogs.py",
+    "export_name_unicode.py",
+    "generate_admission_golden.py"
   ],
   "fixtures": {
+    "admission-classes.tsv.gz": "ebf173e1524c23c44d40ff644da805431510b0bf34c299582b57da2ed5ea3840",
+    "admission-provenance.json": "7f3970241679abf0ccd4e91bbdd6e2923444f3e7b96c841693dfe7885a3d20ad",
+    "admission-teams.tsv.gz": "7685d19a3ffe8bc3275c7cb9888e287d78c3fc6f7759d9ce94bceb9f018c55d5",
     "client-input.tsv": "883efa80bec71476936cfd002c47fc03817ebe0051393b075fb6314e299b3c0a",
     "complex.tsv": "6c370c16e0e29440226988cd8ae1def2d5833e9e10d228acd758b1d61da3502e",
     "live-input.tsv": "3da48e9c645bdaf82212b7572a0b599bec5d38653f75fd26875dca8ac0893ba6",
@@ -35,6 +41,8 @@
     "mutations.columns.tsv": "1b2d0ef17ae2e5e2afa29ee54159348aa2d05dcab889e496f71dbc029fd8ec93",
     "mutations.ops.tsv": "d1cf03554a31f5e640b19d5f5ef7c1927faf2d1dfc5c2fa27cfdb0612bef2e65",
     "mutations.points.tsv": "b8b7d0fea7b0aa7d730294db29548f1a0e52bb64951969da0978b96c4a1b8f70",
+    "name-unicode.tsv.gz": "276f3f38e9616d489cb381ee3d0b1f53a1347b3bea58b9d187eb38bc5929c154",
+    "names.tsv.gz": "a55d8095c64701e990163fef01014e2f25f4c5f8ef7a03a3fe8954c8e98965a4",
     "packets.tsv": "f77b6555d924b17317b98c8c8a794c9e6df133578ffb337db246ea9e7d3ebb48",
     "queries.tsv.gz": "18c22a44d9fab95ce03da8237aaa66d60388f33ee802a90ee9ab1bdbcf381160",
     "query-cells.tsv": "a4a945ef0e0eb51feb4ffa0e39ae75f9d8644d0fa4f302f3848013ec2c402646",
@@ -71,5 +79,8 @@
     "net/battlespades/catalog/classes.toml": "b68352cace8b09d31a4e765df3d13b7109b204438a7953494606eac207e13128",
     "net/battlespades/catalog/modes.toml": "77f252b5e3be07476d6fd8796604e1aaa0368f47b8e6322b5efdb23b6c5c4c18",
     "net/battlespades/catalog/rules.toml": "2a5e94bfdc2146942465dd171faefe0b8d954c73207f89b4ce8abd4d3ea0c05f"
+  },
+  "unicode_data": {
+    "net/battlespades/player/name-unicode.bin.gz": "13a2ba9418ae9bec2eb7e7916ae1888fb48174a72c6edfbabbf154ecaf5b098b"
   }
 }

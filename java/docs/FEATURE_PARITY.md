@@ -25,7 +25,8 @@ has passed. Nothing below is a production-readiness claim.
 | server/simulation_runtime.py | Scheduling core implemented | 60/30 cadence, 5-step batches, 2s retained debt, bounded input drain and ownership tests; domain step functions missing |
 | server/config.py / game_rules.py | Core/join/common scene and full Match Lobby rule catalog implemented | 102 definitions, 1958 coercion inputs, aliases/explicit precedence; diagnostics validate common settings; overlays/fleet/full domain configuration pending |
 | class_data.py / class_selection.py | Stock class selection and rule-adjusted movement components implemented | all 18 classes, 336 source selections, 864 rule-scaled physics profiles, inventory gate; map/UGC extensions, mounted entities and mode authorization pending |
-| Players/team/spawn/respawn/identity | **Pending** | actual lifecycle and live timing remain separate from the configured metadata binding |
+| Player names / pre-life team and class admission | Implemented policy component | 1,112,064 Unicode scalars, 18,568 name vectors, 6,192 team and 14,256 class vectors; configured binding and four-client UDP coverage; authenticated identity and actual mode hooks pending |
+| Players/spawn/respawn/identity | **Pending** | actual life creation, spawn geometry/threat policy, authenticated identity, notices and live timing remain separate from admission checks |
 | Combat/ammo/reload/grenades/deployables | **Pending** | packet codecs do not implement combat |
 | TDM/CTF/ClassicCTF/Arena/VIP/Zombie | **Pending** | complete playable rounds, not identifiers/classes |
 | Multi Hill/TC/Diamond/Demolition/Occupation | **Pending** | rules/objectives/timers/round reset and joins |
@@ -45,9 +46,10 @@ has passed. Nothing below is a production-readiness claim.
 
 ## Ordered remaining implementation work
 
-1. Implement the actual Gameplay domain behind ConfiguredScene: identity/names,
-   team/mode authorization, threat-aware admission/spawn/death/respawn and entity
-   reveals. Common source metadata builders and stock selection now have evidence.
+1. Implement the actual Gameplay domain behind ConfiguredScene: identity verification,
+   actual mode policies, threat-aware spawn/death/respawn and entity reveals.
+   Names and common team/class admission checks now have source and UDP evidence;
+   they require real domain occupants, verified identity and concrete mode hooks.
 2. Port remaining packets, marker cleanup, damage/shade history and terrain gameplay
    validation/collapse. Complete transport bandwidth redistribution and full configuration.
    Application snapshot/cell/life-token gates now have source and real-UDP coverage.

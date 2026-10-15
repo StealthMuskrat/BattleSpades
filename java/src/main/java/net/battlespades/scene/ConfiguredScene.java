@@ -6,18 +6,21 @@ import java.util.Objects;
 import java.util.function.Supplier;
 import net.battlespades.physics.MovementProfile;
 import net.battlespades.player.ClassCatalog;
+import net.battlespades.player.AdmissionPolicy;
 import net.battlespades.protocol.*;
 import net.battlespades.session.*;
 import net.battlespades.world.MutableWorld;
 
-/** Configured metadata and stock atomic selection around a separately owned game domain.
- * The game domain must resolve identity/team/mode restrictions and create an actual life.
+/** Configured metadata and admission checks around a separately owned game domain.
+ * The game domain supplies verified identity/mode context and creates an actual life.
  * This binding does not stand in for those implementations.
  */
 public final class ConfiguredScene implements JoinScene {
     public interface Gameplay {
         MutableWorld world();
         PlayerRoster roster();
+        AdmissionPolicy.Context admissionContext(int id);
+        default void admissionResolved(int id,AdmissionPolicy.Decision decision){}
         Admission admit(int id,SimplePackets.NewPlayerConnection request,ClassCatalog.Selection selection,int capability);
         default InitialInfo configureInitialInfo(InitialInfo packet,int capability){return packet;}
         default StateData configureStateData(StateData packet,int capability){return packet;}
@@ -47,8 +50,13 @@ public final class ConfiguredScene implements JoinScene {
     @Override public StateData stateData(int id,int capability){owned();return ScenePackets.finishState(config,gameplay.configureStateData(ScenePackets.baseState(config,environment,state.get(),id),capability));}
     @Override public String skybox(){owned();return ScenePackets.skybox(config,environment);}
     @Override public Admission admit(int id,SimplePackets.NewPlayerConnection request,PlayerPackets.SetClassLoadout pending,int capability){
-        owned();var selection=ClassCatalog.normalize(pending!=null?pending.classId():request.class_id(),pending!=null?pending.loadout():List.of(),pending!=null?pending.prefabs():List.of(),pending!=null?pending.ugcTools():List.of(),request.class_id(),config.rules().disabledTools());
-        return gameplay.admit(id,request,selection,capability);
+        // Packet 13 is cached independently before packet 15: its invalid class uses Classic (5),
+        // rather than borrowing a later NewPlayerConnection class as its fallback.
+        owned();var selection=ClassCatalog.normalize(pending!=null?pending.classId():request.class_id(),pending!=null?pending.loadout():List.of(),pending!=null?pending.prefabs():List.of(),pending!=null?pending.ugcTools():List.of(),pending!=null?null:request.class_id(),config.rules().disabledTools());
+        var decision=AdmissionPolicy.resolve(id,request,selection,config.admission(),config.rules(),config.mode(),gameplay.admissionContext(id));
+        gameplay.admissionResolved(id,decision);
+        var admitted=new SimplePackets.NewPlayerConnection(decision.team().wire(),decision.selection().classId(),request.forced_team(),request.local_language(),decision.name());
+        return gameplay.admit(id,admitted,decision.selection(),capability);
     }
     @Override public List<GamePacket> reveal(int id){owned();return gameplay.reveal(id);}
     @Override public void input(int id,LiveClientInput input,int loop){owned();gameplay.input(id,input,loop);}

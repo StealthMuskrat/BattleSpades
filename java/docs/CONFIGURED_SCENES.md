@@ -34,7 +34,9 @@ map gravity used by its declarations for the authoritative mover's caller.
 The stock inventory tool gate checks life/spawn, recovered tool range, enabled
 rules and committed membership. Mounted-gun entity authorization, active-tool
 agreement, mode action gates and actual combat/deployables remain unimplemented.
-Class/team authorization at admission remains the game domain's responsibility.
+Common class/team checks now run in AdmissionPolicy before admission. Concrete
+mode hooks and verified identity remain the game domain's responsibility; see
+[PLAYER_ADMISSION.md](PLAYER_ADMISSION.md).
 
 ## Scene builders and session binding
 
@@ -57,7 +59,7 @@ canonicalized to the same 1/64 value for packets and simulation.
 ConfiguredScene binds those builders to JoinSession and a separately owned
 Gameplay domain. It validates the metadata/world CRC, normalizes the pending
 stock selection and retains the reserved player ID through the session boundary.
-The domain supplies current state, real admission, roster and input/lifecycle
+The domain supplies occupants/identity/mode context, current state, real admission, roster and input/lifecycle
 callbacks. Its mode amendments run before the final source gravestone extension
 and rule-disabled team-class filters. The binding enforces owner-thread access.
 It does not own or close the caller's world.

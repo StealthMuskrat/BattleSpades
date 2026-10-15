@@ -128,6 +128,7 @@ class ScenePolicyTest {
             var config=config("tdm",1);var gameplay=new ConfiguredScene.Gameplay(){
                 @Override public net.battlespades.world.MutableWorld world(){return domain.world();}
                 @Override public net.battlespades.session.PlayerRoster roster(){return domain.roster();}
+                @Override public net.battlespades.player.AdmissionPolicy.Context admissionContext(int id){return domain.admissionContext(id);}
                 @Override public net.battlespades.session.JoinScene.Admission admit(int id,SimplePackets.NewPlayerConnection request,ClassCatalog.Selection selection,int capability){return domain.admit(id,request,selection,capability);}
                 @Override public InitialInfo configureInitialInfo(InitialInfo p,int capability){return FixtureScene.copy(p,Map.of("customRules",List.of(new InitialInfo.Rule("mode-rule",String.valueOf(capability)),new InitialInfo.Rule("RULE_ENABLE_GRAVESTONES","1"))));}
                 @Override public StateData configureStateData(StateData p,int capability){return FixtureScene.copy(p,Map.of("team1",FixtureScene.copy(p.team1(),Map.of("classes",List.of(0,12),"locked",true))));}
@@ -135,6 +136,13 @@ class ScenePolicyTest {
             var scene=new ConfiguredScene(config,environment(0,domain.world().sourceCrc()),()->ScenePackets.State.initial(config),gameplay);
             assertEquals(List.of(new InitialInfo.Rule("mode-rule","2"),new InitialInfo.Rule("RULE_ENABLE_GRAVESTONES","0")),scene.initialInfo(2).customRules());
             assertEquals(List.of(12),scene.stateData(1,2).team1().classes());assertTrue(scene.stateData(1,2).team1().locked());
+        }
+    }
+    @Test void invalidCachedClassUsesItsOwnFallbackBeforeNewPlayerRequest(){
+        try(var domain=new FixtureScene(1,64)){
+            var config=config("nor",0);var scene=new ConfiguredScene(config,environment(0,domain.world().sourceCrc()),()->ScenePackets.State.initial(config),domain);
+            var admission=scene.admit(1,new SimplePackets.NewPlayerConnection(0,0,3,1,"Kiko"),new PlayerPackets.SetClassLoadout(255,255,1,List.of(8,51),List.of(),List.of()),2);
+            assertEquals(0,admission.player().team());assertEquals(5,admission.player().classId());assertFalse(admission.player().loadout().contains(8));assertFalse(admission.player().loadout().contains(51));
         }
     }
 }

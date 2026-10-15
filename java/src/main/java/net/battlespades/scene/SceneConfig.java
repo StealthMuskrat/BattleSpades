@@ -4,14 +4,16 @@ package net.battlespades.scene;
 import java.util.*;
 import net.battlespades.config.ServerConfig;
 import net.battlespades.rules.GameRules;
+import net.battlespades.player.AdmissionPolicy;
 import org.tomlj.TomlTable;
 
 /** Config fields actually consumed by the common source scene builders. */
 public record SceneConfig(String name,int port,long steamId,ModeCatalog.Definition mode,String mapName,
                           boolean sameTeamCollision,boolean friendlyFire,boolean fallDamage,int scoreLimit,
-                          int fogColor,String skybox,Team team1,Team team2,GameRules rules,String modeCode) {
+                          int fogColor,String skybox,Team team1,Team team2,GameRules rules,String modeCode,AdmissionPolicy.Settings admission) {
     public record Team(String name,int color){}
-    public SceneConfig {Objects.requireNonNull(rules);Objects.requireNonNull(mode);}
+    public SceneConfig {Objects.requireNonNull(rules);Objects.requireNonNull(mode);Objects.requireNonNull(admission);}
+    public SceneConfig(String name,int port,long steamId,ModeCatalog.Definition mode,String mapName,boolean sameTeamCollision,boolean friendlyFire,boolean fallDamage,int scoreLimit,int fogColor,String skybox,Team team1,Team team2,GameRules rules,String modeCode){this(name,port,steamId,mode,mapName,sameTeamCollision,friendlyFire,fallDamage,scoreLimit,fogColor,skybox,team1,team2,rules,modeCode,AdmissionPolicy.Settings.defaults());}
     public SceneConfig(String name,int port,long steamId,ModeCatalog.Definition mode,String mapName,boolean sameTeamCollision,boolean friendlyFire,boolean fallDamage,int scoreLimit,int fogColor,String skybox,Team team1,Team team2,GameRules rules){this(name,port,steamId,mode,mapName,sameTeamCollision,friendlyFire,fallDamage,scoreLimit,fogColor,skybox,team1,team2,rules,mode.code());}
     public static SceneConfig from(ServerConfig core){
         var raw=core.raw();var rules=GameRules.serverDefaults();var ruleTable=raw.getTable("game_rules");if(ruleTable!=null)rules=rules.apply(ruleTable);
@@ -21,7 +23,7 @@ public record SceneConfig(String name,int port,long steamId,ModeCatalog.Definiti
         String modeCode=ModeCatalog.resolve(text(raw,"game.default_mode","tdm"));var mode=ModeCatalog.get(modeCode);
         // Hardcore uses extra rule, class and wire-profile policies. Reject until they are ported.
         if(modeCode.startsWith("hc_"))throw new IllegalArgumentException("Hardcore scene policy is not implemented");
-        return new SceneConfig(name,core.port(),core.steamId(),mode,text(raw,"game.default_map","MayanJungle"),bool(raw,"game.same_team_collision",false),bool(raw,"game.friendly_fire",false),fall,(int)Math.max(0,number(raw,"game.score_limit",10)),color(raw,"world.fog_color_rgb",0x0c0d0b),normalizeSkybox(text(raw,"world.default_skybox",DEFAULT_SKYBOX)),new Team(text(raw,"teams.team1_name","TEAM1_COLOR"),color(raw,"teams.team1_color",0x2c75b3)),new Team(text(raw,"teams.team2_name","TEAM2_COLOR"),color(raw,"teams.team2_color",0x89b32c)),rules,modeCode);
+        return new SceneConfig(name,core.port(),core.steamId(),mode,text(raw,"game.default_map","MayanJungle"),bool(raw,"game.same_team_collision",false),bool(raw,"game.friendly_fire",false),fall,(int)Math.max(0,number(raw,"game.score_limit",10)),color(raw,"world.fog_color_rgb",0x0c0d0b),normalizeSkybox(text(raw,"world.default_skybox",DEFAULT_SKYBOX)),new Team(text(raw,"teams.team1_name","TEAM1_COLOR"),color(raw,"teams.team1_color",0x2c75b3)),new Team(text(raw,"teams.team2_name","TEAM2_COLOR"),color(raw,"teams.team2_color",0x89b32c)),rules,modeCode,AdmissionPolicy.Settings.from(raw));
     }
     public static final String DEFAULT_SKYBOX="User_Grassland.txt";
     static String text(TomlTable t,String key,String fallback){Object v=t.get(key);if(v==null)return fallback;if(v instanceof String s)return s;throw new IllegalArgumentException(key+" must be text");}

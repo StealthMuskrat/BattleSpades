@@ -88,6 +88,7 @@ public final class VxlMap {
         if(bounds(x,y,z)) { int key=index(x,y,z);solid.set(key);colors.put(key,color); }
     }
     public boolean solid(int x,int y,int z) { return bounds(x,y,z) && solid.get(index(x,y,z)); }
+    public boolean hasExplicitColor(int x,int y,int z) { return bounds(x,y,z) && colors.contains(index(x,y,z)); }
     /** Full BGRA bit pattern as in the native color table, including alpha. */
     public int color(int x,int y,int z) {
         if(!bounds(x,y,z)) return 0;

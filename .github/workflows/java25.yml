@@ -91,8 +91,13 @@ jobs:
       - name: Native interoperability with loss, reorder, duplicates and reconnect
         timeout-minutes: 5
         run: python java/tools/test_native_transport.py
+      - name: Native application loader, password, live catch-up and scene reload
+        timeout-minutes: 5
+        run: python java/tools/test_native_loader.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: native-enet-results
-          path: java/docs/native-transport-results.json
+          path: |
+            java/docs/native-transport-results.json
+            java/docs/native-loader-results.json

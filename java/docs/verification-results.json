@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "1ade4eecc5651e6ec6307a8a875eeb7ffc92e6059d973fba036a0ba151148a15",
-  "jar_bytes": 937171,
+  "jar_sha256": "9b6c9f4b203ea1a21626a0e18eb58d5dc3bff6f117b8af88740e83d52362ed87",
+  "jar_bytes": 1011877,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -17,30 +17,17 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 289,
+      "tests": 337,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
-      "tests": 3,
+      "tests": 5,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "ENet peer/host and loader components",
-  "java_implementation_commit": "93f2ea2e934ffd776c0c01b25d3594c658cf1acb",
-  "tested_tree": "86aa49fea0b4b27a652477a0dce5631c52468766",
-  "ci": {
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38667711995",
-    "implementation_commit": "93f2ea2e934ffd776c0c01b25d3594c658cf1acb",
-    "jobs": {
-      "build": "success",
-      "native-enet": "success",
-      "platform (ubuntu-latest)": "success",
-      "platform (windows-latest)": "success",
-      "platform (macos-latest)": "success"
-    }
-  }
+  "verification_stage": "Application sessions and live map catch-up"
 }

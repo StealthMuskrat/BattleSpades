@@ -5,22 +5,30 @@
     "packet": "compiled shared.packet + server.util",
     "world": "compiled aoslib.vxl / aoslib.kv6",
     "loading": "compiled shared.packet + server.world_manager.MapSyncSnapshot",
-    "range": "vendored ENet compress.c"
+    "range": "vendored ENet compress.c",
+    "session": "compiled shared.packet, protocol.runtime_packets, server.flight_profile, prefab_actions.encode_block_manager_state",
+    "mutations": "compiled aoslib.vxl + server.world_manager.WorldManager"
   },
   "generators": [
     "generate_golden.py",
     "generate_world_golden.py",
     "generate_range_golden.py",
-    "generate_loading_golden.py"
+    "generate_loading_golden.py",
+    "generate_session_golden.py"
   ],
   "fixtures": {
     "client-input.tsv": "883efa80bec71476936cfd002c47fc03817ebe0051393b075fb6314e299b3c0a",
     "complex.tsv": "6c370c16e0e29440226988cd8ae1def2d5833e9e10d228acd758b1d61da3502e",
+    "live-input.tsv": "3da48e9c645bdaf82212b7572a0b599bec5d38653f75fd26875dca8ac0893ba6",
     "loading.tsv": "f86f951f165009de3e1bd3c20c5fd57084f8343b28eb792b9b0dded87d2d1d0e",
     "lzf.tsv": "7cc5a7f78789d986e665043392f7be29b09b6de8c6f109d24583b3907bd72f76",
     "map-sync.tsv": "5f5a34c7119d26e759e5371fdaa55d51bfcba8b449dcf67166ae1996d3433f77",
+    "mutations.columns.tsv": "1b2d0ef17ae2e5e2afa29ee54159348aa2d05dcab889e496f71dbc029fd8ec93",
+    "mutations.ops.tsv": "d1cf03554a31f5e640b19d5f5ef7c1927faf2d1dfc5c2fa27cfdb0612bef2e65",
+    "mutations.points.tsv": "b8b7d0fea7b0aa7d730294db29548f1a0e52bb64951969da0978b96c4a1b8f70",
     "packets.tsv": "f77b6555d924b17317b98c8c8a794c9e6df133578ffb337db246ea9e7d3ebb48",
     "range.tsv": "d70c143dfce3d6bf1c8524aa2ee193680b1c1b7d8a6ca5194df0522f4c7b4ea0",
+    "session.tsv": "ec2ab45fb0ec560984c6feb42cdfb19c3b6d968322de0bc8940562760881c203",
     "world/cave.columns.tsv": "2c7740d05549db5aecbe27887e92dd1e60132000d6c7d093edfd0b9d017f2609",
     "world/cave.json": "a87887142440a5904c8fdbd5ac838c21da78c7a089252ab0d79052d326bf6bf7",
     "world/cave.vxl": "941a8625966864c633dcdf86a06749376b50d6820625fc3f1a0db0d0523b750c",

@@ -56,7 +56,11 @@ for spec in specs:
 text+='}\n'; (base/'SimplePackets.java').write_text(text)
 switch=header+'import static net.battlespades.protocol.SimplePackets.*;\n\npublic final class PacketCodec {\n    private PacketCodec() {}\n    public static GamePacket decode(byte[] data) {\n        var r = new Wire.Reader(data);\n        int id = r.u8();\n        GamePacket packet = switch(id) {\n'
 for spec in sorted(specs,key=lambda x:x['id']): switch+=f"            case {spec['id']} -> new {spec['name']}({', '.join(spec['reads'])});\n"
-switch+='            case 2 -> WorldUpdate.read(r);\n            case 4 -> ClientInput.read(r);\n            case 21 -> new CreateEntity(EntityRecord.read(r));\n            case 37 -> DamagePacket.read(r);\n            case 45 -> StateData.read(r);\n            case 55 -> new LoadingPackets.MapSyncStart();\n            case 56,57 -> LoadingPackets.MapChunk.read(id,r);\n            case 105 -> LoadingPackets.SteamSessionTicket.read(r);\n            case 114 -> InitialInfo.read(r);\n            default -> throw new ProtocolException("Unsupported packet ID: " + id);\n        };\n        r.end();\n        return packet;\n    }\n}\n'
+switch+='            case 2 -> WorldUpdate.read(r);\n            case 4 -> ClientInput.read(r);\n            case 13 -> PlayerPackets.SetClassLoadout.read(r);\n            case 14 -> PlayerPackets.ExistingPlayer.read(r);\n            case 28 -> PlayerPackets.CreatePlayer.read(r);\n            case 38 -> BlockManagerState.read(r);\n            case 21 -> new CreateEntity(EntityRecord.read(r));\n            case 37 -> DamagePacket.read(r);\n            case 45 -> StateData.read(r);\n            case 55 -> new LoadingPackets.MapSyncStart();\n            case 56,57 -> LoadingPackets.MapChunk.read(id,r);\n            case 105 -> LoadingPackets.SteamSessionTicket.read(r);\n            case 114 -> InitialInfo.read(r);\n            default -> throw new ProtocolException("Unsupported packet ID: " + id);\n        };\n        r.end();\n        return packet;\n    }\n}\n'
+manual_ids=[2,4,13,14,21,28,37,38,45,55,56,57,105,114]
+ids=sorted({p['id'] for p in specs}|set(manual_ids))
+support='    public static boolean supports(int id) { return switch(id) { case '+','.join(map(str,ids))+' -> true; default -> false; }; }\n'
+switch=switch[:-2]+support+'}\n'
 (base/'PacketCodec.java').write_text(switch)
 (ROOT/'java/docs/simple-packets.json').write_text(__import__('json').dumps(specs,indent=2)+'\n')
 print(len(specs),'typed packet codecs:', ', '.join(p['name'] for p in specs))

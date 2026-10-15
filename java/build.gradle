@@ -15,9 +15,18 @@ dependencies {
 }
 dependencyLocking { lockAllConfigurations() }
 sourceSets {
-    integrationTest {
+    testSupport {
         compileClasspath += sourceSets.main.output
         runtimeClasspath += sourceSets.main.output
+        resources { srcDir 'src/test/resources'; include 'golden/loading.tsv' }
+    }
+    test {
+        compileClasspath += sourceSets.testSupport.output
+        runtimeClasspath += sourceSets.testSupport.output
+    }
+    integrationTest {
+        compileClasspath += sourceSets.main.output + sourceSets.testSupport.output
+        runtimeClasspath += sourceSets.main.output + sourceSets.testSupport.output
     }
 }
 configurations {

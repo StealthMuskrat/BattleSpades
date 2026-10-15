@@ -1,8 +1,8 @@
 # BattleSpades Java 25 migration
 
 **Development components, not a playable server.** This executable deliberately
-returns exit code 2 for normal game startup. Application join and live map journals,
-physics and gameplay remain unimplemented. ENet delivery and loader components exist.
+returns exit code 2 for normal game startup. Configured gameplay scenes, physics and game modes remain unimplemented.
+Owned application sessions and live catch-up are tested with a domain fixture.
 See [FEATURE_PARITY.md](docs/FEATURE_PARITY.md) and the
 [migration plan](../JAVA25_MIGRATION_PLAN.md). Do not deploy this JAR as a game server.
 
@@ -38,9 +38,10 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
-- Typed codecs for 67 distinct application packet IDs: 57 straight-line source
+- Typed codecs for 71 distinct application packet IDs: 57 straight-line source
   definitions plus ClientData, WorldUpdate, CreateEntity, Damage, InitialInfo,
-  StateData, MapSyncStart, both map chunks and SteamSessionTicket.
+  StateData, MapSyncStart, both map chunks, SteamSessionTicket, class loadouts,
+  CreatePlayer, ExistingPlayer and actual retail health-state packets.
 - Little-endian primitives, signed/unsigned values, UTF-8 strings, BGR colors,
   asymmetric signed-magnitude 1/64, orientation and quarter-unit conversions.
 - Source-equivalent LZF framing and inbound ticket XOR.
@@ -52,7 +53,9 @@ implemented. Today it fails explicitly with the incomplete-migration message.
   five-second validation timeout, loader delay, generation cancellation and prefixes.
 - VXL loader, classic64 normalization, floor/fill behavior and MapSync column
   serialization. Standard/legacy KV6 decoding and byte-preserving serialization.
-- Core TOML composition/validation and bounded, owned 60/30 Hz scheduling core.
+- Composed ENet application sessions, password/XOR/capability handling, promised IDs,
+  asynchronous snapshots, committed cell journals and concrete roster life catch-up.
+- Core and join TOML validation and bounded, owned 60/30 Hz scheduling core.
 
 A codec does not mean the corresponding gameplay feature or packet handler exists.
 
@@ -61,15 +64,18 @@ A codec does not mean the corresponding gameplay feature or packet handler exist
 Core validation covers server name, port, player limit, Steam identity bits,
 60 Hz requirement, connection/queue/drain bounds and version-check flag. It retains
 all other TOML values for later domain ports but does **not** claim to validate
-or implement those domains. Startup rejects enabled native `steam`/`steam_host`
+or implement those domains. Join settings additionally validate password policy,
+map sync mode, clock bias, reload grace and air-replay settings. Startup rejects enabled native `steam`/`steam_host`
 integrations instead of silently ignoring them. The original root config remains
 the behavioral reference. Full 102-rule, lobby, overlays and fleet validation is pending.
 
 ## Architecture and ownership
 
-Packages: `app`, `config`, `protocol`, `transport`, `transport.enet`, `simulation`,
-`world`. UDP ownership stays outside authoritative state. Producers offer bounded
-messages; only the simulation owner drains them before a fixed step. Catch-up
+Packages include `app`, `config`, `protocol`, `transport.enet`, `session`,
+`simulation` and `world`. The current application composition services UDP, sessions
+and scene callbacks on one event-loop owner. Compression workers receive immutable
+bytes only. The scheduling component accepts bounded external messages, which only
+its simulation owner drains before a fixed step. Catch-up
 retains at most two seconds and processes five steps per batch. Replication
 callbacks run every second completed step. The class is a scheduling component,
 not a complete server loop or gameplay implementation.
@@ -95,6 +101,7 @@ at the recorded source commit, then run from repository root:
 python java/tools/generate_simple_packets.py
 python java/tools/generate_world_golden.py
 python java/tools/generate_loading_golden.py
+python java/tools/generate_session_golden.py
 python java/tools/generate_golden.py
 ```
 
@@ -110,11 +117,15 @@ test environment and run from the repository root:
 ```sh
 python java/tools/build_reference_enet.py
 python java/tools/test_native_transport.py
+python java/tools/test_native_loader.py
 ```
 
-The transport probe is a test echo endpoint, not a gameplay hosting command.
-Map snapshots accept already-canonical dirty columns; marker cleanup, mutation
-watermarks, catch-up journals and player reveal remain application work. ENet host
+Both probes are test endpoints, not gameplay hosting commands. The application
+probe uses a source-fixture scene under `src/testSupport`, excluded from the JAR.
+MutableWorld captures dirty columns and journals committed cells through the live
+admission boundary. [APPLICATION_LOADING.md](docs/APPLICATION_LOADING.md) describes
+the state machine, ownership, roster reconciliation and remaining domain work.
+Marker cleanup, full damage/collapse and actual player/scene builders remain pending. ENet host
 bandwidth epoch redistribution remains pending; the current default host advertises
 unlimited bandwidth, matching the original server configuration.
 

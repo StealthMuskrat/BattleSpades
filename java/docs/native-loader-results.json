@@ -1,0 +1,51 @@
+{
+  "oracle": "vendored native ENet with independently decoded application packets",
+  "profiles": [
+    {
+      "profile": "nominal",
+      "private_password": false,
+      "full_chunks": 453,
+      "full_records_sha256": "a04e25f22eff412ed7565b1cdd13ca0fa4033fdde416d2d0b4890ffcdbd4dc10",
+      "delta_chunks": 0,
+      "dropped_datagrams": 0,
+      "duplicate_datagrams": 0,
+      "delayed_datagrams": 0,
+      "concurrent_reserved_ids": [
+        0,
+        1
+      ],
+      "full_refusal_reason": 4,
+      "ticket_xor": true,
+      "capability_trailer": true,
+      "canonical_health": true,
+      "canonical_removal": true,
+      "roster_reconcile": true,
+      "scene_reload": true,
+      "game_client_test": false,
+      "result": "PASS"
+    },
+    {
+      "profile": "impaired",
+      "private_password": true,
+      "full_chunks": 453,
+      "full_records_sha256": "a04e25f22eff412ed7565b1cdd13ca0fa4033fdde416d2d0b4890ffcdbd4dc10",
+      "delta_chunks": 0,
+      "dropped_datagrams": 114,
+      "duplicate_datagrams": 76,
+      "delayed_datagrams": 927,
+      "concurrent_reserved_ids": [
+        0,
+        1
+      ],
+      "full_refusal_reason": 4,
+      "ticket_xor": true,
+      "capability_trailer": true,
+      "canonical_health": true,
+      "canonical_removal": true,
+      "roster_reconcile": true,
+      "scene_reload": true,
+      "game_client_test": false,
+      "result": "PASS"
+    }
+  ]
+}

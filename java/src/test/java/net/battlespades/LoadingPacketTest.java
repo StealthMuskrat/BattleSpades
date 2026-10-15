@@ -63,7 +63,8 @@ class LoadingPacketTest {
         }
         var cuts=expected.length<5000?IntStream.range(0,expected.length):IntStream.of(0,1,2,3,expected.length/2,expected.length-1);
         cuts.forEach(n->assertThrows(ProtocolException.class,()->PacketCodec.decode(Arrays.copyOf(expected,n)),p[0]+" at "+n));
-        assertThrows(ProtocolException.class,()->PacketCodec.decode(Arrays.copyOf(expected,expected.length+1)));
+        if(packet.id()==105) assertEquals(1,((LoadingPackets.SteamSessionTicket)PacketCodec.decode(Arrays.copyOf(expected,expected.length+1))).trailer().length);
+        else assertThrows(ProtocolException.class,()->PacketCodec.decode(Arrays.copyOf(expected,expected.length+1)));
     }
     private byte[] bytes(int count,int multiplier) { byte[] data=new byte[count];for(int i=0;i<count;i++) data[i]=(byte)(i*multiplier);return data; }
     @Test void immutableCollectionsAndSignedCountValidation() {

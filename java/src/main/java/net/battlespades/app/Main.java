@@ -29,14 +29,14 @@ public final class Main {
                     return 2;
                 }
                 out.printf("Core configuration valid: %s, UDP %d, %d players, 60 Hz%n", config.name(), config.port(), config.maxPlayers());
-                out.println("Validation currently covers core server/network fields; gameplay rule validation is pending.");
+                out.println("Validation covers core server/network and join settings; remaining gameplay rules are pending.");
                 return 0;
             } catch (IOException | IllegalArgumentException exception) {
                 error.println("Configuration error: " + exception.getMessage());
                 return 2;
             }
         }
-        error.println("Java migration incomplete: application join, live map synchronization and gameplay are not available.");
+        error.println("Java migration incomplete: a configured gameplay scene, player simulation and game modes are not available.");
         error.println("Use --help for diagnostics. Continue using the reference server for gameplay.");
         return 2;
     }

@@ -89,6 +89,7 @@ public final class MapSyncSnapshot {
         return output.finish();
     }
     private static long record(OutputStream out,Column key,byte[] column,long written,int limit) throws IOException {
+        if(Thread.currentThread().isInterrupted()) throw new java.util.concurrent.CancellationException("Map compression cancelled");
         long next=written+8+column.length;if(next>limit) throw new ProtocolException("Map snapshot exceeds uncompressed limit");
         out.write(new Wire.Writer().i32(key.x).i32(key.y).toByteArray());out.write(column);return next;
     }

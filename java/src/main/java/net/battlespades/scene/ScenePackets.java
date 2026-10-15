@@ -31,7 +31,7 @@ public final class ScenePackets {
     static InitialInfo baseInitial(SceneConfig c,Environment e,ServerIdentity identity){
         var r=c.rules();var m=c.mode();var allowed=new HashSet<>(m.classes());var disabled=new TreeSet<Integer>();
         if(!allowed.isEmpty()){disabled.addAll(ClassCatalog.definitions().keySet());disabled.removeAll(allowed);disabled.addAll(r.disabledClasses());}
-        var speeds=new ArrayList<Double>();for(int id=0;id<18;id++)speeds.add(ClassCatalog.speedScale(id,m.code(),r));
+        var speeds=new ArrayList<Double>();for(int id=0;id<18;id++)speeds.add(ClassCatalog.speedScale(id,c.modeCode(),r));
         String filename=e.filename()==null||e.filename().isEmpty()?c.mapName():e.filename();if(filename==null||filename.isEmpty())filename="MayanJungle";
         var colors=e.groundColors().isEmpty()?List.of(new InitialInfo.Rgba(59,58,55,238),new InitialInfo.Rgba(40,54,64,239)):e.groundColors();
         return new InitialInfo(new InitialInfo.Identity(identity.registeredSteamId()!=0?identity.registeredSteamId():c.steamId(),(int)identity.publicIp(),c.port(),identity.queryActive()?identity.queryPort():c.port()),new InitialInfo.Mode(m.title(),m.description(),m.info().get(0),m.info().get(1),m.info().get(2),m.id()),new InitialInfo.MapInfo(displayName(filename),filename,e.sourceCrc(),0),

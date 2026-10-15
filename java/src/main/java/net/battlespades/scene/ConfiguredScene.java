@@ -34,11 +34,11 @@ public final class ConfiguredScene implements JoinScene {
     private final Gameplay gameplay;
     public ConfiguredScene(SceneConfig config,ScenePackets.Environment environment,Supplier<ScenePackets.State> state,Gameplay gameplay){
         this.config=Objects.requireNonNull(config);this.environment=Objects.requireNonNull(environment);this.state=Objects.requireNonNull(state);this.gameplay=Objects.requireNonNull(gameplay);
-        if(config.mode().code().startsWith("hc_"))throw new IllegalArgumentException("Hardcore scene policy is not implemented");
+        if(config.modeCode().startsWith("hc_"))throw new IllegalArgumentException("Hardcore scene policy is not implemented");
         if(environment.sourceCrc()!=gameplay.world().sourceCrc())throw new IllegalArgumentException("Metadata CRC differs from committed world");
     }
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Scene accessed outside owner");}
-    public MovementProfile movement(int classId){owned();return ClassCatalog.movement(classId,config.mode().code(),config.rules());}
+    public MovementProfile movement(int classId){owned();return ClassCatalog.movement(classId,config.modeCode(),config.rules());}
     public double gravity(){owned();return environment.gravity();}
     @Override public MutableWorld world(){owned();return gameplay.world();}
     @Override public PlayerRoster roster(){owned();return gameplay.roster();}

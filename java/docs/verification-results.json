@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "a0144ba4500553b180e1e8ff546e197c1a42ab0baa19d0136898efa0d26d42f0",
-  "jar_bytes": 1078969,
+  "jar_sha256": "d391d03b65759a082b6555336cbb9ec2600f1bc35a93d191df62fe1c26d6beb8",
+  "jar_bytes": 1080089,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -80,7 +80,9 @@
     "comparison": "exact packet bytes and exposed motion bits",
     "production_catalogs_reproduced": true,
     "original_source_oracle_rebuilt": true,
-    "gameplay_domain": "not implemented; fixture domain only"
+    "gameplay_domain": "not implemented; fixture domain only",
+    "registered_mode_names": 90,
+    "source_oracle_site_packages_required": false
   },
   "reference_scene_tests": {
     "tests": 78,
@@ -92,5 +94,5 @@
     "net/battlespades/catalog/modes.toml",
     "net/battlespades/catalog/rules.toml"
   ],
-  "local_packaging_note": "Some incremental local archives were truncated despite reported Gradle success. Two final valid builds matched byte-for-byte; CI additionally rebuilds and compares before upload."
+  "local_packaging_note": "Earlier incremental local archives were truncated despite reported task success. Two final valid builds match byte-for-byte; CI also rebuilds and compares before upload."
 }

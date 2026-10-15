@@ -39,7 +39,9 @@ Class/team authorization at admission remains the game domain's responsibility.
 ## Scene builders and session binding
 
 ModeCatalog exports 43 metadata entries (13 base modes, 20 community entries,
-10 Hardcore entries) and source aliases. These are wire metadata, not mode
+10 Hardcore entries) and source aliases. Configuration validates against the 90-name actual mode registry;
+unknown names fail, and Arena keeps its registry identity even though its common
+wire metadata falls back to Normal. These are wire metadata, not mode
 implementations. Configured hosting of Hardcore is explicitly rejected until its
 additional movement, rules, loadout and negotiated wire policies are ported.
 
@@ -87,6 +89,10 @@ and compiled original packet/world modules:
 
 The focused original regression subset passed 78 tests. The complete original
 suite remains incomplete as documented in PYTHON_BASELINE.md.
+
+The policy exporters create a server package namespace without executing the
+unrelated server launcher imports; original policy modules/tables are unchanged.
+Both exporters pass with Python -S (no site packages).
 
 CI additionally rebuilds original bytes/packet/glm/VXL/world, regenerates source
 fixtures and production catalogs, and requires an empty diff. The normal Java

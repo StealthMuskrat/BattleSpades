@@ -563,3 +563,363 @@ target = "floor_tax"
 [[alias]]
 name = "survival"
 target = "night_shift"
+
+[[registration]]
+name = "arena"
+canonical = "arena"
+
+[[registration]]
+name = "bhop"
+canonical = "crumbling_run"
+
+[[registration]]
+name = "block-hunt"
+canonical = "block_hunt"
+
+[[registration]]
+name = "block_hunt"
+canonical = "block_hunt"
+
+[[registration]]
+name = "borrowed-arsenal"
+canonical = "borrowed_arsenal"
+
+[[registration]]
+name = "borrowed_arsenal"
+canonical = "borrowed_arsenal"
+
+[[registration]]
+name = "bridge-chicken"
+canonical = "bridge_chicken"
+
+[[registration]]
+name = "bridge_chicken"
+canonical = "bridge_chicken"
+
+[[registration]]
+name = "bridge_race"
+canonical = "bridge_chicken"
+
+[[registration]]
+name = "cctf"
+canonical = "cctf"
+
+[[registration]]
+name = "classic-ctf"
+canonical = "cctf"
+
+[[registration]]
+name = "classic_ctf"
+canonical = "cctf"
+
+[[registration]]
+name = "crumbling-run"
+canonical = "crumbling_run"
+
+[[registration]]
+name = "crumbling_run"
+canonical = "crumbling_run"
+
+[[registration]]
+name = "ctf"
+canonical = "ctf"
+
+[[registration]]
+name = "dem"
+canonical = "dem"
+
+[[registration]]
+name = "demolition"
+canonical = "dem"
+
+[[registration]]
+name = "dia"
+canonical = "dia"
+
+[[registration]]
+name = "diamond"
+canonical = "dia"
+
+[[registration]]
+name = "diamond_mine"
+canonical = "dia"
+
+[[registration]]
+name = "extraction"
+canonical = "last_exit"
+
+[[registration]]
+name = "false-wall"
+canonical = "false_wall"
+
+[[registration]]
+name = "false_wall"
+canonical = "false_wall"
+
+[[registration]]
+name = "ffa"
+canonical = "borrowed_arsenal"
+
+[[registration]]
+name = "floor-tax"
+canonical = "floor_tax"
+
+[[registration]]
+name = "floor_tax"
+canonical = "floor_tax"
+
+[[registration]]
+name = "gun_game"
+canonical = "borrowed_arsenal"
+
+[[registration]]
+name = "hardcore_cctf"
+canonical = "hc_cctf"
+
+[[registration]]
+name = "hardcore_ctf"
+canonical = "hc_ctf"
+
+[[registration]]
+name = "hardcore_dem"
+canonical = "hc_dem"
+
+[[registration]]
+name = "hardcore_dia"
+canonical = "hc_dia"
+
+[[registration]]
+name = "hardcore_mh"
+canonical = "hc_mh"
+
+[[registration]]
+name = "hardcore_oc"
+canonical = "hc_oc"
+
+[[registration]]
+name = "hardcore_tc"
+canonical = "hc_tc"
+
+[[registration]]
+name = "hardcore_tdm"
+canonical = "hc_tdm"
+
+[[registration]]
+name = "hardcore_vip"
+canonical = "hc_vip"
+
+[[registration]]
+name = "hardcore_zom"
+canonical = "hc_zom"
+
+[[registration]]
+name = "hc_cctf"
+canonical = "hc_cctf"
+
+[[registration]]
+name = "hc_ctf"
+canonical = "hc_ctf"
+
+[[registration]]
+name = "hc_dem"
+canonical = "hc_dem"
+
+[[registration]]
+name = "hc_dia"
+canonical = "hc_dia"
+
+[[registration]]
+name = "hc_mh"
+canonical = "hc_mh"
+
+[[registration]]
+name = "hc_oc"
+canonical = "hc_oc"
+
+[[registration]]
+name = "hc_tc"
+canonical = "hc_tc"
+
+[[registration]]
+name = "hc_tdm"
+canonical = "hc_tdm"
+
+[[registration]]
+name = "hc_vip"
+canonical = "hc_vip"
+
+[[registration]]
+name = "hc_zom"
+canonical = "hc_zom"
+
+[[registration]]
+name = "hot-potato"
+canonical = "hot_potato"
+
+[[registration]]
+name = "hot_potato"
+canonical = "hot_potato"
+
+[[registration]]
+name = "kingmaker"
+canonical = "kingmaker"
+
+[[registration]]
+name = "koth"
+canonical = "kingmaker"
+
+[[registration]]
+name = "last-exit"
+canonical = "last_exit"
+
+[[registration]]
+name = "last_exit"
+canonical = "last_exit"
+
+[[registration]]
+name = "lockdown"
+canonical = "lockdown"
+
+[[registration]]
+name = "mh"
+canonical = "mh"
+
+[[registration]]
+name = "multi-hill"
+canonical = "mh"
+
+[[registration]]
+name = "multihill"
+canonical = "mh"
+
+[[registration]]
+name = "night-shift"
+canonical = "night_shift"
+
+[[registration]]
+name = "night_shift"
+canonical = "night_shift"
+
+[[registration]]
+name = "oc"
+canonical = "oc"
+
+[[registration]]
+name = "occupation"
+canonical = "oc"
+
+[[registration]]
+name = "one-in-the-spade"
+canonical = "one_in_the_spade"
+
+[[registration]]
+name = "one_in_the_chamber"
+canonical = "one_in_the_spade"
+
+[[registration]]
+name = "one_in_the_spade"
+canonical = "one_in_the_spade"
+
+[[registration]]
+name = "paint-raid"
+canonical = "paint_raid"
+
+[[registration]]
+name = "paint_raid"
+canonical = "paint_raid"
+
+[[registration]]
+name = "parkour"
+canonical = "crumbling_run"
+
+[[registration]]
+name = "prop_hunt"
+canonical = "block_hunt"
+
+[[registration]]
+name = "prophunt"
+canonical = "block_hunt"
+
+[[registration]]
+name = "red-light-raid"
+canonical = "red_light_raid"
+
+[[registration]]
+name = "red_light_raid"
+canonical = "red_light_raid"
+
+[[registration]]
+name = "reverse-siege"
+canonical = "reverse_siege"
+
+[[registration]]
+name = "reverse_siege"
+canonical = "reverse_siege"
+
+[[registration]]
+name = "scrapyard-engineers"
+canonical = "scrapyard_engineers"
+
+[[registration]]
+name = "scrapyard_engineers"
+canonical = "scrapyard_engineers"
+
+[[registration]]
+name = "smugglers-run"
+canonical = "smugglers_run"
+
+[[registration]]
+name = "smugglers_run"
+canonical = "smugglers_run"
+
+[[registration]]
+name = "spadeball"
+canonical = "spadeball"
+
+[[registration]]
+name = "spleef"
+canonical = "floor_tax"
+
+[[registration]]
+name = "survival"
+canonical = "night_shift"
+
+[[registration]]
+name = "tc"
+canonical = "tc"
+
+[[registration]]
+name = "tdm"
+canonical = "tdm"
+
+[[registration]]
+name = "territory-control"
+canonical = "tc"
+
+[[registration]]
+name = "territory_control"
+canonical = "tc"
+
+[[registration]]
+name = "towerfall"
+canonical = "towerfall"
+
+[[registration]]
+name = "tunnel-rats"
+canonical = "tunnel_rats"
+
+[[registration]]
+name = "tunnel_rats"
+canonical = "tunnel_rats"
+
+[[registration]]
+name = "vip"
+canonical = "vip"
+
+[[registration]]
+name = "zom"
+canonical = "zom"
+
+[[registration]]
+name = "zombie"
+canonical = "zom"

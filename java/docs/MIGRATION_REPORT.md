@@ -115,8 +115,12 @@ smoke downloads one Ubuntu-built JAR; source tests additionally run on all three
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
 
-Current-tree independent CI is pending. The previous checkpoint passed all five
-jobs in run38705329003; that evidence must not be applied to the edited tree.
+Current-tree independent CI is pending. The first configured-scene attempt,
+run38741477499, passed the build/reproducibility and all three platform jobs, but
+its source-oracle job failed when server/__init__ eagerly imported an unrelated
+toml dependency. Policy exporters now isolate that launcher namespace and pass
+with Python -S, preserving original policy/table behavior. The previous movement
+checkpoint passed all five jobs in run38705329003.
 Local JAR verification found truncated incremental archives despite reported
 Gradle task success. A prior valid archive is retained; final integrity/repeated-
 artifact outcomes are recorded separately. CI now performs an explicit rebuild

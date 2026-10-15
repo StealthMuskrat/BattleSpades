@@ -1,11 +1,14 @@
 """Export original immutable data tables, not implementation logic, for the Java port."""
 import json,pathlib,sys
-ROOT=pathlib.Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT))
+ROOT=pathlib.Path(__file__).resolve().parents[2]
+from reference_imports import prepare
+prepare(ROOT)
 from shared import constants as C
 from server import class_data,mode_data
 from server.game_rules import RULE_DEFINITIONS
 from server.class_selection import _allowed_prefabs,_allowed_ugc_tools
 from modes.unofficial.catalog import ALIASES
+from modes import registered_mode_codes,canonical_mode_code
 OUT=ROOT/'java/src/main/resources/net/battlespades/catalog'
 def value(v):return json.dumps(v,ensure_ascii=False,separators=(',',':'))
 def write(name,rows):
@@ -19,5 +22,6 @@ rows=[]
 for m in mode_data.MODES.values():
  rows.append(('mode',dict(code=m.code,id=m.mode_id,title=m.title_string,description=m.description_string,info=[m.infographic1,m.infographic2,m.infographic3],score=m.default_score_limit,time=m.default_time_limit,classic=m.classic,mafia=m.mafia,classes=list(m.allowed_classes))))
 for alias,target in sorted(ALIASES.items()):rows.append(('alias',dict(name=alias,target=target)))
+for name in registered_mode_codes():rows.append(('registration',dict(name=name,canonical=canonical_mode_code(name))))
 write('modes.toml',rows)
 print(len(RULE_DEFINITIONS),'rules;',len(class_data.CLASS_IDS),'classes;',len(mode_data.MODES),'mode metadata entries;',len(ALIASES),'community aliases')

@@ -12,6 +12,7 @@ public final class ModeCatalog {
     }
     private static final Map<String,Definition> MODES;
     private static final Map<String,String> ALIASES;
+    private static final Map<String,String> REGISTRY;
     static {
         var data=SourceCatalog.load("modes");var modes=new LinkedHashMap<String,Definition>();var rows=data.getArray("mode");
         for(int i=0;i<rows.size();i++){
@@ -21,9 +22,17 @@ public final class ModeCatalog {
         aliases.putAll(Map.ofEntries(Map.entry("zombie","zom"),Map.entry("classic_ctf","cctf"),Map.entry("classic-ctf","cctf"),Map.entry("multihill","mh"),Map.entry("multi-hill","mh"),Map.entry("territory_control","tc"),Map.entry("territory-control","tc"),Map.entry("diamond","dia"),Map.entry("diamond_mine","dia"),Map.entry("demolition","dem"),Map.entry("occupation","oc"),Map.entry("tutorial","tut")));
         rows=data.getArray("alias");for(int i=0;i<rows.size();i++){var r=rows.getTable(i);aliases.put(r.getString("name"),r.getString("target"));}
         ALIASES=Map.copyOf(aliases);
+        var registry=new TreeMap<String,String>();rows=data.getArray("registration");
+        for(int i=0;i<rows.size();i++){var r=rows.getTable(i);registry.put(r.getString("name"),r.getString("canonical"));}REGISTRY=Collections.unmodifiableMap(registry);
     }
     private ModeCatalog(){}
     public static Map<String,Definition> definitions(){return MODES;}
+    /** Configuration uses the actual mode registry; the metadata helper's NOR fallback is not validation. */
+    public static String resolve(String requested){
+        String code=REGISTRY.get(requested.strip().toLowerCase(Locale.ROOT));
+        if(code==null)throw new IllegalArgumentException("game.default_mode is not a registered game mode: "+requested);return code;
+    }
+    public static Map<String,String> registrations(){return REGISTRY;}
     public static Definition get(String requested){
         String code=requested==null?"":requested.strip().toLowerCase(Locale.ROOT);
         if(code.startsWith("hardcore_")&&MODES.containsKey("hc_"+code.substring(9)))code="hc_"+code.substring(9);

@@ -33,15 +33,15 @@ Current-tree independent CI is pending; previous evidence is retained in [CI_STA
 Total: **694 passed; zero failures,errors or skips.**
 
 Includes 1958 source rule coercion inputs,336 source selections,99 exact common
-scene packet pairs and 864 rule-adjusted motion traces (10368 source ticks).
-The earlier 12924 source ticks and 941 world queries remain covered. Tests compare
+scene packet pairs and864 rule-adjusted motion traces (10368 source ticks).
+The earlier12924 source ticks and941 world queries remain covered. Tests compare
 packet bytes, value types and exposed motion bits exactly. Six real UDP tests include
 configured metadata/normalized selection and the first-input live gate.
 
 The native loader passed nominal/open and impaired/private runs using
 the packaged JAR and root config. It retains a test-only player domain.
 Fresh source bytes/packet/glm/VXL/world rebuilds reproduced all new fixtures and
-production catalogs exactly. The focused original rule/class/builder subset passed 78 tests.
+production catalogs exactly. The focused original rule/class/builder subset passed78 tests.
 
 See [CONFIGURED_SCENES.md](CONFIGURED_SCENES.md), [MOVEMENT_PHYSICS.md](MOVEMENT_PHYSICS.md)
 and [APPLICATION_LOADING.md](APPLICATION_LOADING.md). Full player lifecycle, live

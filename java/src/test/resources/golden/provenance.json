@@ -69,7 +69,7 @@
   },
   "catalogs": {
     "net/battlespades/catalog/classes.toml": "b68352cace8b09d31a4e765df3d13b7109b204438a7953494606eac207e13128",
-    "net/battlespades/catalog/modes.toml": "de08c404908c365b6fa5bb27d092da4e98139cf1ad39f5f7446b36bff828dc16",
+    "net/battlespades/catalog/modes.toml": "77f252b5e3be07476d6fd8796604e1aaa0368f47b8e6322b5efdb23b6c5c4c18",
     "net/battlespades/catalog/rules.toml": "2a5e94bfdc2146942465dd171faefe0b8d954c73207f89b4ce8abd4d3ea0c05f"
   }
 }

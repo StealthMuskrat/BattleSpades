@@ -89,9 +89,11 @@ class ScenePolicyTest {
         assertEquals(1.5,c.rules().number("RULE_CHARACTER_SPEED"));assertEquals(10,c.rules().number("RULE_RESPAWN_TIMES"));assertFalse(c.rules().enabled("RULE_ENABLE_FALL_ON_WATER_DAMAGE"));assertEquals(0x0040ff,c.team1().color());assertEquals("ArcticBase.txt",c.skybox());
         assertEquals(7,SceneConfig.from(core("[game]\nrespawn_time=7")).rules().number("RULE_RESPAWN_TIMES"));
         assertEquals("zom",ModeCatalog.get(" zombie ").code());assertEquals("hc_ctf",ModeCatalog.get("hardcore_ctf").code());assertEquals("nor",ModeCatalog.get("no-such-mode").code());
+        assertEquals("arena",SceneConfig.from(core("[game]\ndefault_mode='arena'")).modeCode());assertEquals("nor",ModeCatalog.get("arena").code());
+        assertEquals("zom",ModeCatalog.resolve(" zombie "));assertThrows(IllegalArgumentException.class,()->ModeCatalog.resolve("typo"));
     }
     @Test void configDiagnosticsRejectUnknownRulesAndUnavailableHardcorePolicy() throws Exception {
-        for(String text:List.of("[game_rules]\nRULE_UNKNOWN=true","[game_rules]\nRULE_CHARACTER_SPEED=true","[world]\nfog_color_rgb=[1,2,256]","[game]\ndefault_mode='hc_tdm'")){
+        for(String text:List.of("[game_rules]\nRULE_UNKNOWN=true","[game_rules]\nRULE_CHARACTER_SPEED=true","[world]\nfog_color_rgb=[1,2,256]","[game]\ndefault_mode='hc_tdm'","[game]\ndefault_mode='typo'")){
             var file=core(text).root().resolve("scene.toml");assertEquals(2,Main.run(new String[]{"--check-config",file.toString()},new PrintStream(OutputStream.nullOutputStream()),new PrintStream(OutputStream.nullOutputStream())));
         }
     }

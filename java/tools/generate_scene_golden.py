@@ -1,7 +1,9 @@
 """Execute source rules/class selection and common scene builders; no Java expected values."""
 import gzip,json,pathlib,random,struct,sys
 from types import SimpleNamespace as NS
-ROOT=pathlib.Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT))
+ROOT=pathlib.Path(__file__).resolve().parents[2]
+from reference_imports import prepare
+prepare(ROOT)
 from server.game_rules import GameRules,RULE_DEFINITIONS
 from server.class_selection import normalize_class_selection
 from server.class_data import rule_speed_scale,get_movement

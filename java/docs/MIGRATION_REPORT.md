@@ -12,7 +12,8 @@ physics integration and modes remain pending. The ordinary JAR launcher delibera
 - Behavioral source: `6216b771282d2d349ccd67ee58c378f035c83553`.
 - Previous movement implementation: `9cfe665bbb3340f2606a2486a3f337dc4c6f3386`.
 - Previous documented checkpoint: `1f4755d6d212a5c125cf723c393221c029c5a8e8`.
-- Current implementation/tree: recorded after publication in verification-results.json.
+- Current implementation: `9e8b320709b35d6cece3c5078ea59af246f4ccbb`.
+- Tested/published tree: `eadba7cd03e37328f9e8ce2cbdfc07e452697998`.
 - Independent execution: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -69,12 +70,12 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Focused original movement regressions | 1640 passed: test_retail_world_branches.py and test_retail_binary_movement.py |
 | Live terrain collision adapter | Builds/removals affect the same mover; ownership checks pass |
 | Existing protocol/session/map/ENet tests | PASS in full check |
-| Native ENet transport/application oracles | Prior transport passed; current packaged/configured loader nominal + impaired/private PASS; current full CI pending |
+| Native ENet transport/application oracles | Current native transport and packaged/configured loader nominal + impaired/private PASS in CI |
 | Version/core+join config smoke | Recorded with current artifact verification |
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | Pending; previous checkpoint evidence retained in CI_STATUS.md |
+| Current-tree independent platform CI | All five jobs passed; one-artifact platform smoke plus 694 component/UDP tests on each OS |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -115,16 +116,22 @@ smoke downloads one Ubuntu-built JAR; source tests additionally run on all three
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
 
-Current-tree independent CI is pending. The first configured-scene attempt,
+All five jobs succeeded in [run38742439157](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38742439157) for the current implementation.
+The build also repeated and byte-compared the application JAR before upload.
+The source-oracle job reproduced all selected fixtures and production catalogs,
+including the 90-name registry, with the minimal interpreter environment.
+
+The first configured-scene attempt,
 run38741477499, passed the build/reproducibility and all three platform jobs, but
 its source-oracle job failed when server/__init__ eagerly imported an unrelated
 toml dependency. Policy exporters now isolate that launcher namespace and pass
 with Python -S, preserving original policy/table behavior. The previous movement
 checkpoint passed all five jobs in run38705329003.
 Local JAR verification found truncated incremental archives despite reported
-Gradle task success. A prior valid archive is retained; final integrity/repeated-
-artifact outcomes are recorded separately. CI now performs an explicit rebuild
-and byte comparison before upload, so this cannot silently pass as reproducibility.
+Gradle task success. Two final valid local builds matched exactly;
+CI independently passed an explicit rebuild and byte comparison before upload.
+The earlier local archive failures remain an environment limitation, not a waived
+packaging check. Exact final SHA/size are in verification-results.json.
 
 ## Remaining work and readiness
 

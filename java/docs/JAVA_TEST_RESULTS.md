@@ -1,7 +1,7 @@
 # Java test results
 
 Stage: configured scene metadata, Match Lobby rules and stock class selection,2026-10-15 UTC.
-Current-tree independent CI is pending; previous evidence is retained in [CI_STATUS.md](CI_STATUS.md).
+Implementation: `9e8b320709b35d6cece3c5078ea59af246f4ccbb`. [All five independent CI jobs passed](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -46,3 +46,8 @@ production catalogs exactly. The focused original rule/class/builder subset pass
 See [CONFIGURED_SCENES.md](CONFIGURED_SCENES.md), [MOVEMENT_PHYSICS.md](MOVEMENT_PHYSICS.md)
 and [APPLICATION_LOADING.md](APPLICATION_LOADING.md). Full player lifecycle, live
 input timing/reconciliation, combat and modes remain pending.
+
+The clean Ubuntu CI build also regenerated the JAR and compared it byte-for-byte
+before upload. All platform smoke tests downloaded that one artifact; source tests
+also passed on Linux,Windows and macOS. Native transport/packaged-loader and source
+fixture/catalog regeneration passed in the same run.

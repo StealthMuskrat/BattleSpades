@@ -57,3 +57,15 @@ The three completed reference runs' XML reports are committed with this baseline
 Native ENet handshake and golden-fixture generation are separate evidence, recorded
 in the migration report and fixture provenance manifest. No baseline performance
 or original-client result has been inferred from unit-test results.
+
+
+## Accepted-health checkpoint, 2026-10-15
+
+Original kill-feed, combat-score, conduct and explosion-rounding subsets pass
+46 tests. The additional original rules audit passes 45 and fails
+`test_vip_match_ends_after_the_configured_rounds_played`; isolated reproduction
+fails the same way. After one win per team and a draw, `rounds_played` is 3 but
+the expected termination callback `[3]` remains `[]`. The original server,
+shared, aoslib, protocol and mode source files match reference commit
+`6216b771282d2d349ccd67ee58c378f035c83553`. This is retained reference evidence;
+the full Python baseline is not reported as passing. See PLAYER_HEALTH.md.

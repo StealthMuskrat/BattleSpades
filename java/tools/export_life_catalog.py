@@ -6,7 +6,7 @@ from reference_imports import prepare
 prepare(ROOT)
 from shared import constants as C
 from server import game_constants as G, player as P, deployable_inventory as D, kill_feed as K
-rows=[('settings',dict(health=G.MAX_HEALTH,weapon=G.DEFAULT_WEAPON_TOOL,multikill_gap=K.MULTIKILL_MAX_TIME_GAP,domination_kills=K.DOMINATION_KILLS,
+rows=[('settings',dict(health=G.MAX_HEALTH,weapon=G.DEFAULT_WEAPON_TOOL,multikill_gap=K.MULTIKILL_MAX_TIME_GAP,domination_kills=K.DOMINATION_KILLS,interaction_window=float(C.PLAYER_INTERACTION_EXPIRY_SECONDS),transition_credit_kill=G.KILL_WEAPON,
                       turret_initial=int(C.ROCKET_TURRET_INITIAL_STOCK),turret_max=int(C.ROCKET_TURRET_STOCK),turret_restock=int(C.ROCKET_TURRET_RESTOCK_AMOUNT),
                       disguise_initial=int(C.DISGUISE_INITIAL_STOCK),disguise_max=int(C.DISGUISE_STOCK),disguise_restock=int(C.DISGUISE_RESTOCK_AMOUNT),
                       transitions=[int(C.FORCED_TEAM_CHANGE_KILL),int(C.TEAM_CHANGE_KILL),int(C.CLASS_CHANGE_KILL)],

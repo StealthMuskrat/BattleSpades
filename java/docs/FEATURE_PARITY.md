@@ -9,7 +9,7 @@ has passed. Nothing below is a production-readiness claim.
 |---|---|---|
 | shared/bytes.pyx | Implemented binary component | byte order, widths, UTF-8, BGR, truncation tests; legacy Python façade quirks not reproduced |
 | server/util.py | Implemented LZF | source golden literals; backreferences, overlap, bounded malformed/fuzz tests |
-| shared/packet.pyx | 71 distinct packet IDs encoded/decoded | 171 simple vectors, ClientData/complex and 11 loading +4 session packet vectors,4 profile and12 live-input vectors; remaining IDs pending |
+| shared/packet.pyx | 74 distinct packet IDs encoded/decoded | 171 simple vectors, ClientData/complex and 11 loading +4 session packet vectors,4 profile and12 live-input vectors; remaining IDs pending |
 | server/connection.py framing/decrypt | Implemented framing component | owned application sessions compose outbound framing, inbound LZF/XOR, password gate and clock routing; no full gameplay handler set |
 | vendor ENet compress.c | Pure Java range coder | 30 native-C encode/decode vectors, rescaling/reset; bounded malformed fuzz |
 | vendor ENet protocol.h | Implemented envelope component | all command layout sizes, MTU/bounds, network byte order, compressed region tests |
@@ -28,8 +28,8 @@ has passed. Nothing below is a production-readiness claim.
 | Player names / pre-life team and class admission | Implemented policy component | 1,112,064 Unicode scalars, 18,568 name vectors, 6,192 team and 14,256 class vectors; configured binding and four-client UDP coverage; authenticated identity and actual mode hooks pending |
 | Map metadata / mode layout / retail pools | Implemented data and assembly components | 785 source metadata cases, 659 packet pairs, 4316 pool vectors; layered JSON/legacy/UGC, stock presentation and owned-map CRC; full mode/entity lifecycle pending |
 | Spawn geometry/threat selection/rescue | Implemented placement components | 18,124 geometry vectors, seeded event/score traces, 16,000 random vectors, 8,640 all-class settling ticks; file-backed layout input and UDP terrain revalidation; concrete mode policies/lifecycle pending |
-| Player lives/respawn/identity | **Pending** | actual Character creation/health/equipment lifecycle, authenticated identity, notices and live timing remain separate from admission/placement components |
-| Combat/ammo/reload/grenades/deployables | **Pending** | packet codecs do not implement combat |
+| Player lives/respawn/identity | Common life/health components implemented | Fresh bodies, life wallets, death/respawn, accepted HP and roster repair; concrete mode/input/effect integration and authenticated identity remain pending; see PLAYER_LIFECYCLE.md and PLAYER_HEALTH.md |
+| Combat/ammo/reload/grenades/deployables | Accepted HP/history and owned inventory components implemented | Source damage/heal/attribution and stock reset/crate accounting; hit/friendly-fire/action authorization, firing/reload, projectiles and complete scoring/awards remain pending |
 | TDM/CTF/ClassicCTF/Arena/VIP/Zombie | **Pending** | complete playable rounds, not identifiers/classes |
 | Multi Hill/TC/Diamond/Demolition/Occupation | **Pending** | rules/objectives/timers/round reset and joins |
 | Hardcore and all 20 community variants | **Pending** | all registered/revised/retired-but-loadable variants |

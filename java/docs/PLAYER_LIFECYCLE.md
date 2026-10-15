@@ -55,7 +55,8 @@ Callbacks run on the owner thread; recipients must queue asynchronous mode work.
 The caller drives `processRespawns` from its server loop. These are explicit
 required ports; test harness implementations do not ship in the JAR.
 
-The component does not implement hit validation/damage/healing, full flight fuel
+Accepted damage/healing and contribution history are now added by the
+[health checkpoint](PLAYER_HEALTH.md). The component does not implement hit validation, full flight fuel
 and transition timelines, WorldUpdate replication, corpses/entities, source class
 change cooldown/interaction gates, concrete modes, authentication or the complete
 server loop. Validated staging APIs do not authorize raw packet 13. Main hosting

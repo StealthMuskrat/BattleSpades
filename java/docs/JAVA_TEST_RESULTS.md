@@ -1,7 +1,7 @@
 # Java test results
 
-Stage: common Character lifecycle, inventory, death and respawn, 2026-10-15 UTC.
-Implementation: `d03cb25c420323ef6a94379f06de349cd58ded0e`. All five CI jobs pass: [run38795898680](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38795898680). Details: [CI_STATUS.md](CI_STATUS.md).
+Stage: accepted damage/healing, history and reliable HP/death ordering, 2026-10-15 UTC.
+Current-tree CI pending; previous lifecycle evidence is in [CI_STATUS.md](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -13,7 +13,7 @@ Implementation: `d03cb25c420323ef6a94379f06de349cd58ded0e`. All five CI jobs pas
 | net.battlespades.GoldenPacketTest | 178 | 0 | 0 | 0 |
 | net.battlespades.HandshakeTest | 2 | 0 | 0 | 0 |
 | net.battlespades.JoinPolicyTest | 4 | 0 | 0 | 0 |
-| net.battlespades.JoinSessionTest | 17 | 0 | 0 | 0 |
+| net.battlespades.JoinSessionTest | 19 | 0 | 0 | 0 |
 | net.battlespades.LoadingPacketTest | 12 | 0 | 0 | 0 |
 | net.battlespades.MapMetadataTest | 631 | 0 | 0 | 0 |
 | net.battlespades.MapSyncTest | 15 | 0 | 0 | 0 |
@@ -27,31 +27,33 @@ Implementation: `d03cb25c420323ef6a94379f06de349cd58ded0e`. All five CI jobs pas
 | net.battlespades.WorldFormatTest | 4 | 0 | 0 | 0 |
 | net.battlespades.WorldQueriesTest | 2 | 0 | 0 | 0 |
 | net.battlespades.player.AdmissionPolicyTest | 571 | 0 | 0 | 0 |
+| net.battlespades.player.HealthGoldenTest | 1368 | 0 | 0 | 0 |
+| net.battlespades.player.HealthRuntimeTest | 4 | 0 | 0 | 0 |
 | net.battlespades.player.LifeGoldenTest | 1082 | 0 | 0 | 0 |
 | net.battlespades.player.LifeRuntimeTest | 5 | 0 | 0 | 0 |
 | net.battlespades.player.SpawnPolicyTest | 36 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 13 | 0 | 0 | 0 |
-| net.battlespades.ApplicationIntegrationTest | 6 | 0 | 0 | 0 |
+| net.battlespades.ApplicationIntegrationTest | 7 | 0 | 0 | 0 |
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **3,025 passed; zero failures, errors or skips.**
+Total: **4,400 Java tests passed; zero failures, errors or skips.**
 
-New original-source comparisons cover 756 all-class spawn/pre-spawn states,
-3624 inventory operations, 4000 kill-feed operations/observations, 300 exact
-encoded/decoded packets, 183 death/respawn transitions and 592 roster operations.
-The production catalog contains 69 source data rows. CI reproduces these fixtures
-and catalog without policy substitution. See [PLAYER_LIFECYCLE.md](PLAYER_LIFECYCLE.md).
+Original-method comparisons: 1152 damage cases, 120 healing cases, 80 nested
+attribution cases and 832 stateful operations. Expected values include complete
+owned health/history state, HP/death bytes and original observer-boundary evidence.
+See [PLAYER_HEALTH.md](PLAYER_HEALTH.md) for exact scope and controlled inputs.
 
-The additional UDP test exercises production LifeRuntime/PlayerLife and fresh
-world-bound movers with explicit test mode/input/effect ports. It verifies a
-loading-time respawn, one owner repair, quiet peer death replay and a later
-fresh body. Packaged native loader/transport probes retain fixture player lives.
+The additional real-UDP test exercises production HP/loading/death/respawn code.
+Backpressure regressions verify that owner HP cannot be overtaken by reliable
+death traffic and that bounded queue overflow retires the session. Packaged
+native probes retain fixture player lives.
 
-Focused original ammo/kill-feed/deployable/lifecycle/round-reset/handshake suites:
-**128 passed, zero skips**. Prior metadata/name/admission/spawn/physics/protocol
-and transport gates remain covered.
+Focused original kill-feed/combat-score/conduct/explosion suites: **46 passed**.
+Additional original rules audit: **45 passed, one existing VIP round-limit failure**,
+reproduced in isolation with the original source unchanged. This is retained
+reference evidence, not a passing full Python baseline.
 
-Complete input chronology, combat damage/healing, concrete modes/effects,
-authenticated identity, supported-client sessions, capacity and soak remain pending.
-Ordinary hosting remains disabled (exit 2).
+Hit/action/friendly-fire authorization, detached projectiles, complete awards and
+assist payouts, input timelines, concrete modes and supported-client/capacity
+verification remain pending. Ordinary hosting still exits 2.

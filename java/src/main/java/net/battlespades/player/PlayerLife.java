@@ -14,13 +14,16 @@ public final class PlayerLife {
     private final CollisionMap world;
     private final GameRules rules;
     private final LifeInventory inventory=new LifeInventory();
+    private final DamageHistory damageHistory=new DamageHistory();
     private ClassCatalog.Selection selection,pending;
     private PlayerPhysics body;
     private PlayerPhysics.Vector position=new PlayerPhysics.Vector(0,0,0),aim=new PlayerPhysics.Vector(1,0,0);
     private double sideX,sideY=1,spawnedAt,deathTime,walletScale;
     private long generation;
-    private int health=LifeCatalog.HEALTH,jetpack,parachute,color=0x707070;
-    private boolean alive,spawned,protectionCancelled;
+    private int health=LifeCatalog.HEALTH,maxHealth=LifeCatalog.HEALTH,jetpack,parachute,color=0x707070,lastDamageSource=-1,lastDamageType=-1;
+    private double lastDamageWall,lastCombatHit;
+    private PlayerPhysics.Vector lastDamagePosition;
+    private boolean alive,spawned,protectionCancelled,god;
     private Double protectionCap;
     private LifePackets.KillAction lastDeath;
     public PlayerLife(int id,int team,int language,String name,String mode,CollisionMap world,GameRules rules,ClassCatalog.Selection selection){
@@ -32,6 +35,15 @@ public final class PlayerLife {
     }
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Life accessed outside owner");}
     public int id(){owned();return id;}public int team(){owned();return team;}public int health(){owned();return health;}
+    public int maxHealth(){owned();return maxHealth;}public boolean god(){owned();return god;}
+    public double lastDamageWall(){owned();return lastDamageWall;}public double lastCombatHit(){owned();return lastCombatHit;}
+    public int lastDamageSource(){owned();return lastDamageSource;}public int lastDamageType(){owned();return lastDamageType;}
+    public PlayerPhysics.Vector lastDamagePosition(){owned();return lastDamagePosition;}public DamageHistory damageHistory(){owned();return damageHistory;}
+    /** Trusted mode state, not a packet handler or a damage/heal event. */
+    public void health(int value){owned();if(value<0)throw new IllegalArgumentException("Negative HP");health=value;}
+    public void maxHealth(int value){owned();maxHealth=value;}public void god(boolean value){owned();god=value;}
+    void damageStamp(double wall){owned();lastDamageWall=wall;}
+    void combatStamp(PlayerLife source,int type,double now){owned();lastCombatHit=now;lastDamageSource=source.id();lastDamagePosition=source.position();lastDamageType=type;}
     public long generation(){owned();return generation;}public boolean alive(){owned();return alive;}public boolean spawned(){owned();return spawned;}
     public double deathTime(){owned();return deathTime;}public double spawnedAt(){owned();return spawnedAt;}
     public int jetpack(){owned();return jetpack;}public int parachute(){owned();return parachute;}public int color(){owned();return color;}
@@ -59,7 +71,7 @@ public final class PlayerLife {
     /** Called after pending selection and synchronous mode preparation, with a verified spawn point. */
     public void spawn(PlayerPhysics.Vector at,double monotonic,double walletScale,int teamColor){
         owned();if(team==0)throw new IllegalStateException("Spectator cannot spawn");if(!Double.isFinite(monotonic))throw new IllegalArgumentException("Spawn clock");
-        walletScale(walletScale);inventory.spawn(selection.classId(),walletScale);position=Objects.requireNonNull(at);generation++;health=LifeCatalog.HEALTH;spawnedAt=monotonic;protectionCancelled=false;protectionCap=null;alive=true;spawned=true;lastDeath=null;color=teamColor&0xffffff;
+        walletScale(walletScale);inventory.spawn(selection.classId(),walletScale);position=Objects.requireNonNull(at);generation++;health=maxHealth=LifeCatalog.HEALTH;damageHistory.clear();spawnedAt=monotonic;protectionCancelled=false;protectionCap=null;alive=true;spawned=true;lastDeath=null;color=teamColor&0xffffff;
         jetpack=selection.loadout().stream().filter(LifeCatalog.PACK_FUEL::containsKey).findFirst().orElse(0);parachute=selection.loadout().contains(72)?72:0;
         body=new PlayerPhysics(world);body.position(at);body.profile(ClassCatalog.movement(selection.classId(),mode,rules));orientBody();body.flight(new PlayerPhysics.Flight(jetpack==0?0:jetpack-65,false,false,false,parachute!=0,false,0.1f,0.05f,false));
         // RoundLifecycle, rather than Player.spawn itself, clears death_time after a successful spawn.
@@ -81,5 +93,5 @@ public final class PlayerLife {
     public boolean endProtection(double now){owned();if(protectionRemaining(now)<=0)return false;protectionCancelled=true;return true;}
     private static Vector3f wire(PlayerPhysics.Vector p){return new Vector3f((float)p.x(),(float)p.y(),(float)p.z());}
     public PlayerPackets.CreatePlayer create(){owned();return new PlayerPackets.CreatePlayer(id,0,selection.classId(),team,0,language,wire(position()),wire(aim),name,selection.loadout(),selection.prefabs());}
-    public List<GamePacket> spawnOwnerPackets(){owned();return List.of(new LifePackets.SetHP(health,2,new Vector3f(0,0,0)),new SimplePackets.Restock(id,0));}
+    public List<GamePacket> spawnOwnerPackets(){owned();return List.of(new LifePackets.SetHP(LifeCatalog.HEALTH,2,new Vector3f(0,0,0)),new SimplePackets.Restock(id,0));}
 }

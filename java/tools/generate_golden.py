@@ -64,5 +64,7 @@ manifest['generators']+=['export_map_catalog.py','generate_metadata_golden.py']
 manifest['oracles']['map_metadata']='original sidecar/map-mode/UGC/catalogue policies and original scene builders; inert data inputs only'
 manifest['generators']+=['export_life_catalog.py','generate_life_golden.py']
 manifest['oracles']['life']='original Player/RoundLifecycle/roster/kill_feed/deployable inventory and compiled world/packet methods; explicit mode/clock/effect ports'
+manifest['generators']+=['generate_health_golden.py']
+manifest['oracles']['health']='unmodified Player.damage/heal, conduct blast attribution, combat contribution/healing ledger, recent enemy/transition credit; original-call profile observations'
 manifest['unicode_data']={'net/battlespades/player/name-unicode.bin.gz':hashlib.sha256((ROOT/'java/src/main/resources/net/battlespades/player/name-unicode.bin.gz').read_bytes()).hexdigest()}
 (ROOT/'java/src/test/resources/golden/provenance.json').write_text(json.dumps(manifest,indent=2)+'\n')

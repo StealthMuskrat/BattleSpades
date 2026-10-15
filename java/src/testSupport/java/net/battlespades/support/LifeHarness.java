@@ -14,14 +14,21 @@ public final class LifeHarness implements AutoCloseable {
     public final LifeRuntime runtime;
     public double wall=1000,monotonic=100,delay=1.5;
     public final Set<Integer> denied=new HashSet<>(),failing=new HashSet<>();
+    public final Set<Integer> loading=new HashSet<>();
+    public Optional<LifeRuntime.DamageModifier> damageModifier=Optional.empty();
+    public boolean scoringActive=true;
+    public final List<LifeRuntime.DamageEvidence> damageEvidence=new ArrayList<>();
+    public final List<LifeRuntime.HealingEvidence> healingEvidence=new ArrayList<>();
+    public final List<LifeRuntime.DeathEvidence> deathEvidence=new ArrayList<>();
     public final List<GamePacket> wire=new ArrayList<>();
     public final List<String> events=new ArrayList<>();
     public int inputCount;
     public LifeRuntime.Messages destination;
     public LifeHarness(){this(GameRules.serverDefaults());}
-    public LifeHarness(GameRules rules){
+    public LifeHarness(GameRules rules){this(rules,"tdm");}
+    public LifeHarness(GameRules rules,String mode){
         world=new MutableWorld(VxlMap.load(new byte[]{0,(byte)240,(byte)239,0},"auto"),1,10000);
-        runtime=new LifeRuntime(world,rules,"tdm",new LifeRuntime.Clock(){public double wall(){return wall;}public double monotonic(){return monotonic;}},new LifeRuntime.Policy(){
+        runtime=new LifeRuntime(world,rules,mode,new LifeRuntime.Clock(){public double wall(){return wall;}public double monotonic(){return monotonic;}},new LifeRuntime.Policy(){
             public AdmissionPolicy.Context admissionContext(int id){return AdmissionPolicy.Context.ordinary(runtime.players().stream().map(p->new AdmissionPolicy.Occupant(p.id(),p.create().name(),false,p.team())).toList());}
             public void prepareSpawn(PlayerLife p){events.add("prepare:"+p.id()+":"+p.selection().classId());if(failing.contains(p.id()))throw new IllegalStateException("Controlled prepare failure");}
             public PlayerPhysics.Vector spawnPoint(PlayerLife p){return new PlayerPhysics.Vector(36,36,97);}
@@ -33,15 +40,22 @@ public final class LifeHarness implements AutoCloseable {
             public int score(PlayerLife p){return 0;}
             public boolean opponents(PlayerLife a,PlayerLife b){return a.team()!=b.team();}
             public int deathType(PlayerLife v,PlayerLife k,int type){return type;}
+            public Optional<LifeRuntime.DamageModifier> damageModifier(){return damageModifier;}
+            public boolean combatScoringActive(){return scoringActive;}
         },new LifeRuntime.Effects(){
             public void beforeSpawn(PlayerLife p){events.add("before:"+p.id());}
             public void spawned(PlayerLife p){events.add("spawn:"+p.id());}
             public void died(PlayerLife v,PlayerLife k,int weapon,int presentation,boolean enemy){events.add("death:"+v.id());}
+            public void damaged(LifeRuntime.DamageEvidence d){damageEvidence.add(d);events.add("damage:"+d.victim().id());}
+            public void healed(LifeRuntime.HealingEvidence h){healingEvidence.add(h);events.add("heal:"+h.victim().id());}
+            public void beforeDeath(LifeRuntime.DeathEvidence d){deathEvidence.add(d);events.add("before-death:"+d.victim().id());}
+            public void transitionCredited(PlayerLife v,PlayerLife a,int type){events.add("transition-credit:"+v.id()+":"+a.id()+":"+type);}
             public void forget(PlayerLife p){events.add("forget:"+p.id());}
             public void respawnFailed(PlayerLife p,RuntimeException failure){events.add("failed:"+p.id());}
         },new LifeRuntime.Messages(){
             public void broadcast(GamePacket p){wire.add(p);if(destination!=null)destination.broadcast(p);}
             public void owner(int id,GamePacket p){wire.add(p);if(destination!=null)destination.owner(id,p);}
+            public boolean inGame(int id){return !loading.contains(id)&&(destination==null||destination.inGame(id));}
         },new LifeRuntime.Inputs(){
             public void reset(PlayerLife p){events.add("reset:"+p.id());}
             public void receive(PlayerLife p,LiveClientInput input,int loop){inputCount++;}

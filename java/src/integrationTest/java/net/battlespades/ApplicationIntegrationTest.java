@@ -188,7 +188,7 @@ class ApplicationIntegrationTest {
             try(var h=new LifeHarness()){
                 var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),()->ScenePackets.State.initial(config),h.runtime);
                 try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),2,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var first=new Client(host.address());var second=new Client(host.address())){
-                    h.destination=new LifeRuntime.Messages(){public void broadcast(GamePacket p){host.broadcast(p,Delivery.RELIABLE);}public void owner(int id,GamePacket p){assertTrue(host.sendPlayer(id,p));}};
+                    h.destination=new LifeRuntime.Messages(){public void broadcast(GamePacket p){host.broadcast(p,Delivery.RELIABLE);}public void owner(int id,GamePacket p){assertTrue(host.sendPlayer(id,p));}public boolean inGame(int id){return host.inGame(id);}};
                     var loop=new Loop(host);loop.ticketAndLoad(first,h.world);first.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"one"),false);loop.until(()->first.has(28));
                     var original=h.runtime.player(0).body();assertEquals(2,h.runtime.player(0).inventory().turrets());
                     loop.until(()->{try{first.send(new ClientInput(100,0,false,6,1,0,0,0,0,0,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.sessions().stream().anyMatch(s->s.state()==JoinSession.State.LIVE);});
@@ -202,6 +202,23 @@ class ApplicationIntegrationTest {
                     assertEquals(2,h.runtime.player(0).generation());assertNotSame(original,h.runtime.player(0).body());assertEquals(4,h.runtime.player(0).inventory().turrets());assertEquals(0,h.world.activeLeases());assertTrue(h.inputCount>=2);
                 }
                 assertTrue(h.runtime.players().isEmpty());
+            }
+        });
+    }
+    @Test void acceptedDamageHealingAndOwnerHealthGateCrossRealUdp(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("Health UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var h=new LifeHarness()){
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),()->ScenePackets.State.initial(config),h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),1,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var client=new Client(host.address())){
+                    h.destination=new LifeRuntime.Messages(){public void broadcast(GamePacket p){host.broadcast(p,Delivery.RELIABLE);}public void owner(int id,GamePacket p){assertTrue(host.sendPlayer(id,p));}public boolean inGame(int id){return host.inGame(id);}};
+                    var loop=new Loop(host);loop.ticketAndLoad(client,h.world);client.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"one"),false);loop.until(()->client.has(69));assertFalse(host.inGame(0));long initial=client.packets.stream().filter(p->p.id()==5).count();assertEquals(1,initial);
+                    h.runtime.damage(0,25,null,7);h.runtime.heal(0,10);for(int i=0;i<20;i++)loop.step();assertEquals(85,h.runtime.player(0).health());assertEquals(initial,client.packets.stream().filter(p->p.id()==5).count());
+                    loop.until(()->{try{client.send(new ClientInput(100,0,false,6,1,0,0,0,0,0,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0);});
+                    h.runtime.damage(0,5,null,7);loop.until(()->client.packets.stream().anyMatch(p->p instanceof LifePackets.SetHP hp&&hp.hp()==80&&hp.damageType()==0));h.runtime.heal(0,100);loop.until(()->client.packets.stream().filter(p->p instanceof LifePackets.SetHP hp&&hp.hp()==100&&hp.damageType()==2).count()==2);
+                    h.runtime.player(0).god(true);assertFalse(h.runtime.damage(0,100,null,7));assertTrue(h.runtime.player(0).alive());h.runtime.player(0).god(false);assertTrue(h.runtime.damage(0,100,null,7));loop.until(()->client.has(46));
+                    int death=-1,zero=-1;for(int i=0;i<client.packets.size();i++){var p=client.packets.get(i);if(p instanceof LifePackets.KillAction)death=i;if(p instanceof LifePackets.SetHP hp&&hp.hp()==0)zero=i;}assertTrue(zero>=0&&zero<death);assertEquals(1,h.runtime.score(0).deaths());h.advance(1.5);loop.until(()->client.packets.stream().filter(p->p.id()==28).count()==2);assertEquals(100,h.runtime.player(0).health());assertEquals(2,h.runtime.player(0).generation());
+                }
             }
         });
     }

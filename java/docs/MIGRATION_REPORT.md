@@ -1,9 +1,10 @@
 # Java 25 migration report
 
 Date: 2026-10-15 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage adds common Character creation/death/respawn, owned inventory
-and fresh world-bound movers behind explicit mode/input/effect ports. Complete
-input chronology, combat, authenticated identity and concrete modes remain pending. The ordinary JAR launcher deliberately returns exit 2 for hosting.
+The current stage adds accepted damage/healing, contribution history, chained-blast
+and recent-enemy credit, connected to real life/death and ordered reliable HP.
+Complete input/hit authorization, projectiles, authenticated identity and concrete
+modes remain pending. The ordinary JAR launcher deliberately returns exit 2 for hosting.
 
 ## Repository and provenance
 
@@ -21,8 +22,8 @@ input chronology, combat, authenticated identity and concrete modes remain pendi
 - Metadata feature implementation: `091c3408bb23bfa13a04535a17476544eac110a3`.
 - Previous metadata implementation, including strict JSON whitespace: `9b822d80e40fc390eea3fb471822a1fec0a878cb`.
 - Previous metadata tested/published tree: `b4581018e5647ab630fd3b808dfae4577a3d15a7`.
-- Current lifecycle implementation: `d03cb25c420323ef6a94379f06de349cd58ded0e`.
-- Current lifecycle tested/published tree: `f46b2a5736cd9dc49afae067df58f35e1239212a`.
+- Previous lifecycle implementation: `d03cb25c420323ef6a94379f06de349cd58ded0e`.
+- Previous lifecycle tested/published tree: `f46b2a5736cd9dc49afae067df58f35e1239212a`.
 - Independent execution: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -32,6 +33,15 @@ publication uses the connected app, with an expected-head lease; normal CLI push
 credentials/direct GitHub networking are unavailable. No release is created.
 
 ## Current implementation
+
+LifeRuntime now applies accepted connected-player/world damage and integer healing
+to PlayerLife, with protection/mode/scale/rounding order, DamageHistory identity and
+life evidence, proportional healing, source blast attribution and fall/transition
+credit. Reliable HP and gameplay broadcasts share bounded ordering under transport
+backpressure. Required observers receive pre-broadcast death contributions; full
+awards/assist payouts and hit/action authorization remain pending. New comparisons
+execute 1152 damage, 120 healing, 80 attribution and 832 stateful source operations.
+See [PLAYER_HEALTH.md](PLAYER_HEALTH.md).
 
 PlayerLife/LifeRuntime now compose common admission, fresh Character bodies, death
 and wall-clock respawn scheduling behind required mode/identity/input/effect ports.
@@ -103,8 +113,10 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Check | Current local result |
 |---|---|
 | Java 25 clean check/build | PASS |
-| Unit/component tests | 3016 passed; 0 failures/errors/skips |
-| Real UDP integration tests | 9 passed; 0 failures/errors/skips |
+| Unit/component tests | 4390 passed; 0 failures/errors/skips |
+| Real UDP integration tests | 10 passed; 0 failures/errors/skips |
+| Accepted HP/history source comparisons | 1152 damage, 120 heal, 80 attribution and 832 stateful operations |
+| Focused original health regressions | 46 passed; broader original audit 45 passed / 1 existing VIP failure |
 | Common lifecycle source comparisons | 756 spawn/pre-spawn, 3624 inventory, 4000 kill-feed, 300 packet, 183 scheduler, 592 roster vectors |
 | Focused original lifecycle/inventory regressions | 128 passed, zero skips |
 | Layered metadata / scene packets / map pools | 785 metadata cases, 659 packet pairs, 4316 pool vectors; 332 input groups |
@@ -127,7 +139,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | All five PASS: Ubuntu build, native/source oracle, Linux/Windows/macOS |
+| Current-tree independent platform CI | Pending current health publication; previous lifecycle all five PASS |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -147,7 +159,11 @@ The admission stage passed 60 focused name/mode-lifecycle/class regressions.
 The spawn stage passes 42 focused retail-box/TDM/smart-spawn/spawn-lock regressions.
 The metadata stage passes 71 focused tests with four missing retail .txtc skips.
 The lifecycle stage passes 128 focused ammo/kill-feed/deployable/lifecycle/reset/handshake
-tests with no skips; these subsets do not replace a full reference run. See [PYTHON_BASELINE.md](PYTHON_BASELINE.md).
+tests with no skips. The health stage passes 46 focused original tests. Its broader
+rules audit has 45 passes and one existing VIP-round termination failure, reproduced
+in isolation (expected callback [3], observed []). Original server/shared/aoslib/
+protocol/mode files remain unchanged; this reference discrepancy is retained,
+not corrected in the Python source. These subsets do not replace a full reference run. See [PYTHON_BASELINE.md](PYTHON_BASELINE.md).
 
 ## Build and runtime
 
@@ -172,7 +188,7 @@ smoke downloads one Ubuntu-built JAR; source tests additionally run on all three
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
 
-Current lifecycle CI: [run38795898680](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38795898680), all five jobs passed.
+Previous lifecycle CI: [run38795898680](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38795898680), all five jobs passed.
 It reproduces life fixtures/catalogs, runs the production-domain UDP lifecycle test,
 rebuilds/byte-compares its archive and tests the same uploaded JAR on three OSes.
 
@@ -210,7 +226,8 @@ packaging check. Exact final SHA/size are in verification-results.json.
 
 ## Remaining work and readiness
 
-Next: implement full ClientData chronology and accepted-frame simulation, wire
+Next: implement full ClientData chronology, accepted-frame simulation and hit/action
+authorization; connect detached projectile actors and full scoring/award observers; wire
 the common Character lifecycle to concrete modes/effects and authenticated identity,
 and connect the verified mover and configured rule profile to input/equipment policy,
 the owned 60 Hz loop, prediction history/anticheat and WorldUpdate construction.

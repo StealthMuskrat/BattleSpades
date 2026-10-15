@@ -1,0 +1,22 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "policy_substitutions": false,
+  "scope": "Player.damage/heal, accepted-damage and healing ledger, conduct blast attribution, recent enemy and transition/fall credit, death integration; HP/KillAction wire packets",
+  "inputs": "original native World/VXL, explicit clocks/rule values/mode arithmetic/camera positions; conduct warning/kick thresholds configured outside the test; no raw hit validation",
+  "observation": "sys.setprofile observes original record_damage_taken entry, record_healing return and record_death entry; no method is replaced; other source observers run but awards/assist-score packets are excluded from expected state",
+  "source_files": {
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/conduct.py": "4e3d267a96381720536d0693dfd0af2db98436c4a528e97f242eed96f1eccb47",
+    "server/combat_scores.py": "efd40db2f8e456a285216487d5613048cbea8dfd7bee26d7eb4159e6eaee4f06",
+    "server/handlers/team.py": "083bf1feb9685b7a4703d10aa88c8b6bd76c7b47d9ef5e1b2a2b2f509ade2c15",
+    "server/game_rules.py": "106994a6c99a3fd0ff541a2d0e217b4fb01b086d6fe208d7900d1731bd61d475",
+    "server/kill_feed.py": "fed721c464535bdd8f12d8d8f5e93a1d6fde6fb66f67618638645e5d7aeea25b",
+    "shared/packet.pyx": "26e0bd6cc3ad92f931b8396ab21f395b199f11965a80dd96464b5907fb5b6819"
+  },
+  "fixtures": {
+    "health-attribution.tsv.gz": "4adfe7ea004327139900cfcb12ef48311dc9e60c212fa74524c2a627d6bc9acf",
+    "health-damage.tsv.gz": "3e7b6c8a110d8c0eab9cdaf1a1f614c39f7e5ed9df7142a9c52ad71245b30be7",
+    "health-healing.tsv.gz": "ab1d69b1beb6eafc33188e6250e75bf01ddd73800f60bda77719bbc4a6b99b20",
+    "health-traces.tsv.gz": "5e79370f506c0af9992a33632defd864e4b88a8dd3b55446d5604797ccfe38b4"
+  }
+}

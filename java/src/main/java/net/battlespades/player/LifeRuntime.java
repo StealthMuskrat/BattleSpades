@@ -14,6 +14,7 @@ import net.battlespades.world.MutableWorld;
  */
 public final class LifeRuntime implements ConfiguredScene.Gameplay {
     public interface Clock {double wall();double monotonic();}
+    @FunctionalInterface public interface DamageModifier {double apply(PlayerLife victim,double amount,PlayerLife source,int killType);}
     public interface Policy {
         AdmissionPolicy.Context admissionContext(int id);
         void prepareSpawn(PlayerLife player);
@@ -26,12 +27,19 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
         int score(PlayerLife player);
         boolean opponents(PlayerLife killer,PlayerLife victim);
         int deathType(PlayerLife victim,PlayerLife killer,int weaponType);
+        Optional<DamageModifier> damageModifier();
+        boolean combatScoringActive();
     }
     /** Effects run synchronously where the source does; mode notifications must be queued by the recipient. */
     public interface Effects {
         void beforeSpawn(PlayerLife player);
         void spawned(PlayerLife player);
         void died(PlayerLife victim,PlayerLife killer,int weaponType,int presentationType,boolean enemyKill);
+        void damaged(DamageEvidence damage);
+        void healed(HealingEvidence healing);
+        /** Source profile/combat/achievement observers occur before the reliable death broadcast. */
+        void beforeDeath(DeathEvidence death);
+        void transitionCredited(PlayerLife victim,PlayerLife attacker,int requestedType);
         void forget(PlayerLife player);
         void respawnFailed(PlayerLife player,RuntimeException failure);
     }
@@ -39,6 +47,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
         void broadcast(GamePacket packet);
         /** Direct reliable sends must reach admitted owners even during map loading. */
         void owner(int playerId,GamePacket packet);
+        boolean inGame(int playerId);
     }
     public interface Inputs {
         void reset(PlayerLife player);
@@ -48,6 +57,15 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     }
     public record Score(int kills,int deaths,int streak,int lastKilledBy,Map<Integer,Bonus> bonuses){public Score{bonuses=Map.copyOf(bonuses);}}
     public record Bonus(boolean revenge,boolean payback){}
+    public record DamageEvidence(PlayerLife victim,PlayerLife source,int healthBefore,int removed,int killType,boolean killed){}
+    public record HealingEvidence(PlayerLife victim,int healthBefore,int restored){}
+    public record DeathEvidence(PlayerLife victim,PlayerLife killer,int weaponType,int presentationType,boolean enemyKill,boolean domination,boolean revenge,List<DamageHistory.Contribution> contributions){public DeathEvidence{contributions=List.copyOf(contributions);}}
+    public final class BlastScope implements AutoCloseable {
+        private final PlayerLife instigator;
+        private boolean closed;
+        private BlastScope(PlayerLife instigator){this.instigator=instigator;}
+        @Override public void close(){owned();if(closed)return;if(blasts.peekLast()!=this)throw new IllegalStateException("Blast scopes must close in order");blasts.removeLast();closed=true;}
+    }
     private static final class Counters {int kills,deaths,streak,lastKilledBy=-1;final Map<Integer,Bonus> bonuses=new HashMap<>();}
     private final Thread owner=Thread.currentThread();
     private final MutableWorld world;
@@ -63,6 +81,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     private final Map<Integer,PlayerLife> players=new LinkedHashMap<>();
     private final Map<Integer,Counters> scores=new HashMap<>();
     private final Map<Integer,Long> deadJoin=new HashMap<>();
+    private final ArrayDeque<BlastScope> blasts=new ArrayDeque<>();
     public LifeRuntime(MutableWorld world,GameRules rules,String mode,Clock clock,Policy policy,Effects effects,Messages messages,Inputs inputs){
         this.world=Objects.requireNonNull(world);this.rules=Objects.requireNonNull(rules);this.mode=Objects.requireNonNull(mode);this.clock=Objects.requireNonNull(clock);this.policy=Objects.requireNonNull(policy);this.effects=Objects.requireNonNull(effects);this.messages=Objects.requireNonNull(messages);this.inputs=Objects.requireNonNull(inputs);
         if(mode.startsWith("hc_"))throw new IllegalArgumentException("Hardcore lifecycle requires its own policy");
@@ -73,6 +92,36 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     public PlayerLife player(int id){owned();return Objects.requireNonNull(players.get(id),"Unknown player");}
     public List<PlayerLife> players(){owned();return List.copyOf(players.values());}
     public Score score(int id){owned();var s=Objects.requireNonNull(scores.get(id));return new Score(s.kills,s.deaths,s.streak,s.lastKilledBy,s.bonuses);}
+    /** Synchronous chained blasts retain the outermost non-null instigator, as conduct.blast_instigator does. */
+    public BlastScope blast(Integer instigatorId){owned();PlayerLife current=blasts.isEmpty()?null:blasts.getLast().instigator;var scope=new BlastScope(current!=null?current:instigatorId==null?null:player(instigatorId));blasts.addLast(scope);return scope;}
+    private PlayerLife attributed(PlayerLife victim,PlayerLife source){var instigator=blasts.isEmpty()?null:blasts.getLast().instigator;return instigator!=null&&instigator!=source&&instigator!=victim&&source!=null&&instigator.team()==victim.team()?instigator:source;}
+    /** Accepted connected-player/world damage only. Hit authorization and detached projectile actors remain caller work. */
+    public boolean damage(int victimId,double amount,Integer sourceId,int killType,Integer hpType){
+        owned();var victim=player(victimId);if(!victim.alive()||victim.god())return false;
+        var source=attributed(victim,sourceId==null?null:player(sourceId));
+        if(source!=null&&source!=victim&&victim.protectionRemaining(clock.monotonic())>0)return false;
+        if(source!=null&&source!=victim)source.endProtection(clock.monotonic());
+        var modifier=policy.damageModifier();if(modifier.isPresent()){amount=modifier.get().apply(victim,amount,source,killType);if(amount<=0)return false;}
+        if(source!=null&&source!=victim){amount*=rules.number("RULE_WEAPON_DAMAGE");if((mode.equals("zom")||mode.equals("zombie"))&&LifeCatalog.ZOMBIES.contains(source.selection().classId()))amount*=rules.number("RULE_ZOMBIE_CLASS_DAMAGE");if(rules.enabled("RULE_ONE_HIT_KILL")&&LifeCatalog.ONE_HIT.contains(killType))amount=Math.max(amount,victim.health());}
+        victim.damageStamp(clock.wall());if(!Double.isFinite(amount))throw new IllegalArgumentException("Nonfinite accepted damage");double rounded=Math.max(0,Math.rint(amount));if(rounded<=0)return false;
+        int before=victim.health();victim.health((int)Math.max(0,before-rounded));int removed=before-victim.health();
+        if(policy.combatScoringActive()&&source!=null&&source!=victim&&source.team()!=0&&victim.team()!=0&&policy.opponents(source,victim)&&removed>0)victim.damageHistory().record(source,removed,clock.monotonic(),players::get);
+        effects.damaged(new DamageEvidence(victim,source,before,removed,killType,victim.health()<=0));
+        var position=source==null?victim.position():source.position();if(source!=null)victim.combatStamp(source,killType,clock.monotonic());
+        if(messages.inGame(victimId))messages.owner(victimId,new LifePackets.SetHP(clamp(victim.health()),hpType!=null?hpType:source==null||source==victim?0:1,new Vector3f((float)position.x(),(float)position.y(),(float)position.z())));
+        if(victim.health()>0)return false;
+        var killer=source;if(killer==null&&killType==LifeCatalog.FALL_KILL)killer=recentEnemyAttacker(victimId);die(victimId,killer==null?null:killer.id(),killType);return true;
+    }
+    public boolean damage(int victimId,double amount,Integer sourceId,int killType){return damage(victimId,amount,sourceId,killType,null);}
+    public void heal(int id,int amount){
+        owned();var p=player(id);if(!p.alive())return;int before=p.health();p.health((int)Math.max(before,Math.min(Math.max(1,p.maxHealth()),(long)before+amount)));int restored=p.health()-before;p.damageHistory().heal(restored);effects.healed(new HealingEvidence(p,before,restored));
+        if(messages.inGame(id))messages.owner(id,new LifePackets.SetHP(clamp(p.health()),2,new Vector3f(0,0,0)));
+    }
+    public PlayerLife recentEnemyAttacker(int id){
+        owned();var p=player(id);double last=p.lastCombatHit();if(!p.alive()||last<=0||last<p.spawnedAt()||clock.monotonic()-last>LifeCatalog.INTERACTION_WINDOW||p.lastDamageSource()<0||p.lastDamageSource()==id)return null;
+        var source=players.get(p.lastDamageSource());return source!=null&&source!=p&&source.team()!=0&&source.team()!=p.team()?source:null;
+    }
+    public PlayerLife endLifeForTransition(int id,int transitionType){owned();var p=player(id);if(!p.alive())return null;var source=recentEnemyAttacker(id);if(source!=null)effects.transitionCredited(p,source,transitionType);die(id,source==null?null:source.id(),source==null?transitionType:LifeCatalog.TRANSITION_CREDIT_KILL);return source;}
     @Override public AdmissionPolicy.Context admissionContext(int id){owned();return policy.admissionContext(id);}
     private void spawn(PlayerLife player){
         player.walletScale(policy.walletScale());player.applyPending();policy.prepareSpawn(player);var at=policy.spawnPoint(player);policy.spawnOrientation(player).ifPresent(v->player.orientation(v.x(),v.y(),v.z()));effects.beforeSpawn(player);
@@ -115,6 +164,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
         var victimScore=scores.get(id);if(!transition)victimScore.deaths++;victimScore.streak=0;feed.resetMultikill(id);int count=0;var flags=new KillFeed.Flags(false,false);
         if(enemy){var k=scores.get(killer.id());k.kills++;k.streak=Math.min(255,k.streak+1);count=feed.registerMultikill(killer.id(),clock.monotonic());flags=feed.registerDomination(killer.id(),id);boolean payback=k.lastKilledBy==id;k.bonuses.put(id,new Bonus(flags.revenge(),payback));if(payback)k.lastKilledBy=-1;victimScore.lastKilledBy=killer.id();}
         else if(LifeCatalog.DOMINATION_RESET.contains(type))feed.clearPlayer(id);
+        effects.beforeDeath(new DeathEvidence(p,killer,weaponType,type,enemy,flags.domination(),flags.revenge(),p.damageHistory().consume()));
         int delay=clamp((int)Math.ceil(policy.respawnDelay(p)-1e-6));var death=new LifePackets.KillAction(id,killer==null?id:killer.id(),type,delay,count,flags.domination(),flags.revenge());p.rememberDeath(death);roster.death(death);messages.broadcast(death);effects.died(p,killer,weaponType,type,enemy);return true;
     }
     @Override public void input(int id,LiveClientInput input,int loop){owned();inputs.receive(player(id),input,loop);}

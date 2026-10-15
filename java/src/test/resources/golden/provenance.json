@@ -14,7 +14,8 @@
     "admission": "original player_names; unmodified connection AST methods; original equipment/rules/class selection; Python 3.12 Unicode 15",
     "spawns": "original WorldManager/spawn_selection/RoundLifecycle/combat segment; compiled VXL/world; Python 3.12 random/math",
     "map_metadata": "original sidecar/map-mode/UGC/catalogue policies and original scene builders; inert data inputs only",
-    "life": "original Player/RoundLifecycle/roster/kill_feed/deployable inventory and compiled world/packet methods; explicit mode/clock/effect ports"
+    "life": "original Player/RoundLifecycle/roster/kill_feed/deployable inventory and compiled world/packet methods; explicit mode/clock/effect ports",
+    "health": "unmodified Player.damage/heal, conduct blast attribution, combat contribution/healing ledger, recent enemy/transition credit; original-call profile observations"
   },
   "generators": [
     "generate_golden.py",
@@ -32,7 +33,8 @@
     "export_map_catalog.py",
     "generate_metadata_golden.py",
     "export_life_catalog.py",
-    "generate_life_golden.py"
+    "generate_life_golden.py",
+    "generate_health_golden.py"
   ],
   "fixtures": {
     "admission-classes.tsv.gz": "ebf173e1524c23c44d40ff644da805431510b0bf34c299582b57da2ed5ea3840",
@@ -40,6 +42,11 @@
     "admission-teams.tsv.gz": "7685d19a3ffe8bc3275c7cb9888e287d78c3fc6f7759d9ce94bceb9f018c55d5",
     "client-input.tsv": "883efa80bec71476936cfd002c47fc03817ebe0051393b075fb6314e299b3c0a",
     "complex.tsv": "6c370c16e0e29440226988cd8ae1def2d5833e9e10d228acd758b1d61da3502e",
+    "health-attribution.tsv.gz": "4adfe7ea004327139900cfcb12ef48311dc9e60c212fa74524c2a627d6bc9acf",
+    "health-damage.tsv.gz": "3e7b6c8a110d8c0eab9cdaf1a1f614c39f7e5ed9df7142a9c52ad71245b30be7",
+    "health-healing.tsv.gz": "ab1d69b1beb6eafc33188e6250e75bf01ddd73800f60bda77719bbc4a6b99b20",
+    "health-provenance.json": "f4bbbfb7c147cb94e352fc786fd80019bc83308adfc0eb3c4f3f48cbd608cef3",
+    "health-traces.tsv.gz": "5e79370f506c0af9992a33632defd864e4b88a8dd3b55446d5604797ccfe38b4",
     "life-inventory.tsv.gz": "95a43c8b16ecb457e9f712e4606305a393d3cc44cfeba4105c45ea5a631c51dd",
     "life-killfeed.tsv.gz": "ea02d89d539c00901d7bd7627248bc7be8d9843db2154fcb6335d3b0cb624d9c",
     "life-packets.tsv.gz": "741dc38900b33175032f77f95ce0853b162d75a8bd6ee2bd87f3e759a0a3dd46",
@@ -105,7 +112,7 @@
   },
   "catalogs": {
     "net/battlespades/catalog/classes.toml": "b68352cace8b09d31a4e765df3d13b7109b204438a7953494606eac207e13128",
-    "net/battlespades/catalog/life.toml": "3a8ca924be6b24ecbc428e40a9fa19eabb9a1cd94f40294ea6687a0f52a00842",
+    "net/battlespades/catalog/life.toml": "fa7f851a39b7c92d4419700c9157c1eb697ecbb0dff65bfdc0dcdca52106da40",
     "net/battlespades/catalog/map-metadata.toml": "833edd7e1f738bb860038245f2291b4dedaf77df75c23bc49d77999d2c5f9e5e",
     "net/battlespades/catalog/modes.toml": "77f252b5e3be07476d6fd8796604e1aaa0368f47b8e6322b5efdb23b6c5c4c18",
     "net/battlespades/catalog/rules.toml": "2a5e94bfdc2146942465dd171faefe0b8d954c73207f89b4ce8abd4d3ea0c05f"

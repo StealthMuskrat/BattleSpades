@@ -34,6 +34,7 @@ public final class ApplicationHost implements AutoCloseable {
     public SocketAddress address() throws IOException {owned();return transport.address();}
     public List<JoinSession.Metrics> sessions() {owned();return sessions.values().stream().map(JoinSession::metrics).toList();}
     public int occupiedSlots() {owned();return slots.occupied();}
+    public boolean inGame(int id) {owned();if(closing)return false;for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return session.inGame();return false;}
     public void service(long nowMillis,int loopCount) throws IOException {
         owned();if(nowMillis<0 || nowMillis<lastNow) throw new IllegalArgumentException("Application clock moved backwards");lastNow=nowMillis;
         transport.service(nowMillis);

@@ -19,14 +19,16 @@ public final class LifeCatalog {
     public static final Map<Integer,Double> CADENCE,PACK_FUEL;
     public static final Map<Integer,Launcher> LAUNCHERS;
     public static final Set<Integer> TRANSITIONS,DOMINATION_RESET,ONE_HIT,ZOMBIES,WEAPON_TOOLS;
-    public static final double MULTIKILL_GAP;
-    public static final int HEALTH,DEFAULT_WEAPON,TURRET_INITIAL,TURRET_MAX,TURRET_RESTOCK,DISGUISE_INITIAL,DISGUISE_MAX,DISGUISE_RESTOCK,FALL_KILL,DOMINATION_KILLS;
+    public static final double MULTIKILL_GAP,INTERACTION_WINDOW;
+    public static final int HEALTH,DEFAULT_WEAPON,TURRET_INITIAL,TURRET_MAX,TURRET_RESTOCK,DISGUISE_INITIAL,DISGUISE_MAX,DISGUISE_RESTOCK,FALL_KILL,DOMINATION_KILLS,TRANSITION_CREDIT_KILL;
     static {
         var data=SourceCatalog.load("life");var settings=data.getArray("settings").getTable(0);
         HEALTH=i(settings,"health");DEFAULT_WEAPON=i(settings,"weapon");TURRET_INITIAL=i(settings,"turret_initial");TURRET_MAX=i(settings,"turret_max");TURRET_RESTOCK=i(settings,"turret_restock");DISGUISE_INITIAL=i(settings,"disguise_initial");DISGUISE_RESTOCK=i(settings,"disguise_restock");FALL_KILL=i(settings,"fall_kill");MULTIKILL_GAP=n(settings,"multikill_gap");DOMINATION_KILLS=i(settings,"domination_kills");
         TRANSITIONS=Set.copyOf(SourceCatalog.integers(settings.getArray("transitions")));DOMINATION_RESET=Set.copyOf(SourceCatalog.integers(settings.getArray("domination_reset")));ONE_HIT=Set.copyOf(SourceCatalog.integers(settings.getArray("one_hit")));ZOMBIES=Set.copyOf(SourceCatalog.integers(settings.getArray("zombies")));
         WEAPON_TOOLS=Set.copyOf(SourceCatalog.integers(settings.getArray("weapon_tools")));
         DISGUISE_MAX=i(settings,"disguise_max");
+        INTERACTION_WINDOW=n(settings,"interaction_window");
+        TRANSITION_CREDIT_KILL=i(settings,"transition_credit_kill");
         var weapons=new LinkedHashMap<Integer,Weapon>();for(var r:rows(data,"weapon"))weapons.put(i(r,"tool"),new Weapon(i(r,"clip"),i(r,"reserve"),i(r,"initial"),i(r,"restock"),n(r,"reload"),r.getBoolean("clip_reload")));WEAPONS=Collections.unmodifiableMap(weapons);
         var blocks=new TreeMap<Integer,Blocks>();for(var r:rows(data,"blocks"))blocks.put(i(r,"id"),new Blocks(i(r,"start"),i(r,"maximum")));BLOCKS=Map.copyOf(blocks);
         var oriented=new TreeMap<Integer,Oriented>();for(var r:rows(data,"oriented")){var v=SourceCatalog.integers(r.getArray("stock"));oriented.put(i(r,"tool"),new Oriented(v.get(0),v.get(1),v.get(2),v.get(3),v.get(4)));}ORIENTED=Collections.unmodifiableMap(oriented);

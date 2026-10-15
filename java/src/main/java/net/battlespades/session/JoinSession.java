@@ -211,11 +211,13 @@ public final class JoinSession implements AutoCloseable {
     }
     /** Broadcasts are admitted only after the first-input replay boundary. */
     public boolean gameplay(GamePacket packet,Delivery delivery) {
-        owned();if(state!=State.LIVE) return false;return sink.send(new SessionFrame(0x30,packet.encode(),delivery));
+        owned();if(state!=State.LIVE) return false;var frame=new SessionFrame(0x30,packet.encode(),delivery);return delivery==Delivery.RELIABLE?reliable(frame):sink.send(frame);
     }
+    /** One reliable order for live owner controls and broadcasts, including transport backpressure. */
+    private boolean reliable(SessionFrame frame){if(controls.isEmpty()&&sink.send(frame))return true;return enqueue(List.of(frame));}
     /** Source Connection.send path: reliable owner control packets may arrive after admission while loading. */
     public boolean direct(GamePacket packet) {
-        owned();if(!admitted||state==State.CLOSED)return false;return enqueue(List.of(new SessionFrame(packet)));
+        owned();if(!admitted||state==State.CLOSED)return false;var frame=new SessionFrame(packet);return state==State.LIVE?reliable(frame):enqueue(List.of(frame));
     }
     public void replaceScene(JoinScene replacement) {
         owned();if(state==State.CLOSED) return;

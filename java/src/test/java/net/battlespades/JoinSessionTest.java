@@ -184,4 +184,13 @@ class JoinSessionTest {
     @Test void disconnectionReleasesAdmission() {
         try(var h=new Flow()) {h.load();h.select();h.session.close();assertEquals(List.of(0),h.scene.departed);assertEquals(0,h.slots.occupied());assertEquals(0,h.scene.world().activeLeases());assertFalse(h.session.inGame());}
     }
+    @Test void liveReliableHealthAndDeathKeepOrderAcrossBackpressure(){try(var h=new Flow()){
+        h.load();h.select();h.game();h.wire.frames.clear();h.wire.blockedId=5;
+        assertTrue(h.session.direct(new LifePackets.SetHP(0,1,new Vector3f(1,2,3))));assertTrue(h.session.gameplay(new LifePackets.KillAction(0,1,0,2,1,false,false),Delivery.RELIABLE));assertTrue(h.wire.frames.isEmpty());assertEquals(2,h.session.metrics().queuedControls());
+        h.wire.blockedId=-1;h.pulse(0);assertEquals(List.of(5,46),h.wire.ids());assertEquals(0,h.session.metrics().queuedControls());
+        h.wire.frames.clear();h.wire.accepted=false;assertTrue(h.session.gameplay(new SimplePackets.ChatMessage(0,0,"backpressured"),Delivery.RELIABLE));assertTrue(h.session.direct(new SimplePackets.Restock(0,0)));h.wire.accepted=true;h.pulse(0);assertEquals(List.of(49,69),h.wire.ids());
+    }}
+    @Test void boundedLiveReliableQueueRetiresSessionOnOverflow(){try(var h=new Flow(FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO,"controlCapacity",4)))){
+        h.load();h.select();h.game();h.wire.accepted=false;assertTrue(h.session.direct(new LifePackets.SetHP(0,0,new Vector3f(0,0,0))));assertTrue(h.session.gameplay(new LifePackets.KillAction(0,0,7,2,0,false,false),Delivery.RELIABLE));assertTrue(h.session.gameplay(new SimplePackets.SetColor(0,0),Delivery.RELIABLE));assertTrue(h.session.direct(new SimplePackets.Restock(0,0)));assertEquals(4,h.session.metrics().queuedControls());assertFalse(h.session.gameplay(new SimplePackets.SetScore(1,0,0,0),Delivery.RELIABLE));assertEquals(JoinSession.State.CLOSED,h.session.state());assertEquals(13,h.wire.reason);assertEquals(0,h.slots.occupied());assertTrue(h.scene.players.isEmpty());
+    }}
 }

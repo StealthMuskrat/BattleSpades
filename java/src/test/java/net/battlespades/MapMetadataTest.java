@@ -100,7 +100,7 @@ class MapMetadataTest {
         assertThrows(IOException.class,()->MapAssembly.load(path,"tdm"));
     }
     @Test void malformedAndExcessiveDocumentsStayInert()throws IOException{
-        for(String value:List.of("[1,]","{\"x\":01}","{\"x\":True}","\"\\x41\"","\"line\nfeed\"","[".repeat(66)+"]".repeat(66)))assertThrows(IllegalArgumentException.class,()->MetadataDocument.json(value),value);
+        for(String value:List.of("[1,]","{\"x\":01}","{\"x\":True}","\"\\x41\"","\"line\nfeed\"","[\u2003]","{\"x\":\u001c1}","[".repeat(66)+"]".repeat(66)))assertThrows(IllegalArgumentException.class,()->MetadataDocument.json(value),value);
         assertNull(MetadataDocument.sidecar("gravity = __import__('os').system('bad')",Set.of("gravity")));
         assertThrows(IllegalArgumentException.class,()->MetadataDocument.json(" ".repeat(MetadataDocument.MAX_BYTES+1)));
         Object value=MetadataDocument.json("{\"a\":null,\"b\":[true,false,1,-0.0,1e3],\"c\":\"\\ud83d\\udc31\"}");assertInstanceOf(Map.class,value);assertEquals("🐱",((Map<?,?>)value).get("c"));

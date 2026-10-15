@@ -53,7 +53,7 @@ The reference Unicode 15 database is pinned independently of host JDK tables.
 Source comparisons cover every Unicode scalar plus 18,568 name, 6,192 team and
 14,256 class vectors. The binding still delegates actual life creation and mode
 hooks; see [PLAYER_ADMISSION.md](PLAYER_ADMISSION.md). The preceding admission
-checkpoint passed all five CI jobs. The current spawn checkpoint also passes all
+checkpoint passed all five CI jobs. The preceding spawn checkpoint also passes all
 five jobs, including source fixture regeneration and the same JAR on three OSes.
 
 Java 25, pinned Gradle 9.1 wrapper, locked/checksummed pure-Java dependencies and
@@ -157,7 +157,7 @@ smoke downloads one Ubuntu-built JAR; source tests additionally run on all three
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
 
-Previous spawn CI: [run38785215231](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38785215231), all five jobs passed.
+Previous spawn CI: [run38784215231](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38784215231), all five jobs passed.
 The source-oracle job reproduced all spawn fixtures/provenance without a diff,
 alongside the earlier movement/query/scene/catalog/name/admission gates.
 The build rebuilt and byte-compared its JAR before upload; all three OSes tested

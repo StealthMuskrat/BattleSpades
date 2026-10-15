@@ -4,7 +4,7 @@ The new map-metadata checkpoint passes 1927 unit/component and 8 UDP tests local
 Its independent CI is pending publication. The completed spawn run below remains
 previous evidence until this checkpoint finishes CI.
 
-Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/38785215231
+Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/38784215231
 
 Implementation: `6792f538924d0bbd52a62e0b1fa85d8ead0c5b5e`.
 Tested/published tree: `5608362cd28586e9d89adef82719d4ac2b8235f6`.

@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "f9c55ef23898a59a1bd4a6d412533608749c173ef2b275e47a405b9dd7a0ccf8",
-  "jar_bytes": 1227310,
+  "jar_sha256": "a1955c5f48f010c3cd761b0b80b433c31f0280d8ec28c76dace65cf06b36eb06",
+  "jar_bytes": 1227317,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -37,7 +37,7 @@
   "tested_tree": null,
   "ci": {
     "status": "pending for current tree",
-    "previous_run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38785215231"
+    "previous_run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38789238339"
   },
   "movement": {
     "cases": 118,

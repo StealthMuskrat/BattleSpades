@@ -50,7 +50,7 @@ public final class MetadataDocument {
         IllegalArgumentException bad(){return new IllegalArgumentException("Invalid or unsupported metadata literal at "+index);}
         void space(){
             while(index<text.length()){
-                char c=text.charAt(index);if(Character.isWhitespace(c)){index++;continue;}
+                char c=text.charAt(index);if(c==' '||c=='\t'||c=='\n'||c=='\r'||python&&c=='\f'){index++;continue;}
                 if(python&&c=='#'){while(index<text.length()&&text.charAt(index)!='\n')index++;continue;}break;
             }
         }

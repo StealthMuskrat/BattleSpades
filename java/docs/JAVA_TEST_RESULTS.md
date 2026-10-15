@@ -1,7 +1,7 @@
 # Java test results
 
-Stage: spawn geometry, threat selection and bounded rescue, 2026-10-15 UTC.
-Implementation: `6792f538924d0bbd52a62e0b1fa85d8ead0c5b5e`. All five independent CI jobs pass: [run38784215231](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38784215231). Details: [CI_STATUS.md](CI_STATUS.md).
+Stage: layered map metadata, mode/UGC layouts and map assembly, 2026-10-15 UTC.
+Current-tree CI is pending; preceding spawn evidence is in [CI_STATUS.md](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -15,6 +15,7 @@ Implementation: `6792f538924d0bbd52a62e0b1fa85d8ead0c5b5e`. All five independent
 | net.battlespades.JoinPolicyTest | 4 | 0 | 0 | 0 |
 | net.battlespades.JoinSessionTest | 17 | 0 | 0 | 0 |
 | net.battlespades.LoadingPacketTest | 12 | 0 | 0 | 0 |
+| net.battlespades.MapMetadataTest | 631 | 0 | 0 | 0 |
 | net.battlespades.MapSyncTest | 15 | 0 | 0 | 0 |
 | net.battlespades.MutableWorldTest | 5 | 0 | 0 | 0 |
 | net.battlespades.PlayerPhysicsTest | 120 | 0 | 0 | 0 |
@@ -32,21 +33,23 @@ Implementation: `6792f538924d0bbd52a62e0b1fa85d8ead0c5b5e`. All five independent
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **1,304 passed; zero failures, errors or skips.**
+Total: **1,935 passed; zero failures, errors or skips.**
 
-New source comparisons: 18,124 geometry/segment vectors, 822 selection/rescue/score
-events, 16,000 random operations, 3,064 hypot and 3,000 compensated-sum vectors.
-All 18 class movers settle resolved spawns through 8,640 exact original-engine
-ticks, including flags and landing returns. The new UDP test removes terrain
-under a first admission and verifies safe placement on the next join.
+The metadata source oracle supplies 332 input groups, 785 complete metadata cases,
+659 exact InitialInfo/StateData pairs and 4316 map-pool comparisons. Independent
+canonical hashes from the original loader verify all metadata values without
+decoding expected numeric values through the Java JSON reader. Source fixtures
+and the 97-row production catalog reproduce byte-for-byte.
 
-The focused original retail-box/smart-spawn/TDM/spawn-lock subset passes 42 tests.
-Earlier source-name/admission/rule/scene/movement/query and UDP gates remain covered.
-See [SPAWNING.md](SPAWNING.md) and [FEATURE_PARITY.md](FEATURE_PARITY.md).
-Full Character lifecycle, sidecar assembly, actual modes, input/equipment timing,
-combat and playable hosting remain pending.
+The file-backed UDP terrain test verifies sidecar gravity, fog and palette before
+safe placement and terrain-removal rescue. Existing protocol/session/map/physics,
+name/admission, spawn-selection and real-UDP gates remain covered.
 
-Fresh packaged-JAR native transport and configured-loader probes pass nominal
-and impaired/private scenarios, including loss/reorder/duplicates, full/delta map
-loading, canonical catch-up and scene reloads. These remain test endpoints, not
-supported-original-game-client sessions.
+Focused original metadata tests: **71 passed, 4 skipped** (retail .txtc absent).
+See [MAP_METADATA.md](MAP_METADATA.md) for literal grammar and loading bounds.
+Actual identity, Character/death/respawn, mode/entity policies, live input/combat
+and playable hosting remain pending.
+
+Fresh packaged-JAR native transport and loader probes pass nominal and impaired/
+private profiles, including sidecar layering and changed gravity after reload.
+These endpoints retain fixture player lives.

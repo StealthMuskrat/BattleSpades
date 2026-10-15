@@ -8,7 +8,8 @@ camera lifecycle, death/respawn scheduling and playable modes remain pending.
 
 ## Geometry and live terrain
 
-SpawnGeometry consumes a caller-supplied immutable Layout of authored spawn/base
+MapMetadata/MapAssembly now supply file-backed layouts; see [MAP_METADATA.md](MAP_METADATA.md).
+SpawnGeometry consumes an immutable Layout of authored spawn/base
 zones and fallback regions. It retains source truncation/inclusive XY bounds,
 mirrored spawn-box drop ranges, floor discovery, water-zone priority and ordered
 candidate enumeration. Candidates distinguish top-surface columns from explicit
@@ -95,7 +96,8 @@ The focused original retail-box, smart-spawn, TDM-spawn and spawn-lock subset
 passes 42 tests; this does not replace the incomplete full Python baseline.
 CI regenerates all spawn fixtures/provenance and requires an empty diff.
 
-The sidecar parser and map/mode-to-Layout assembly are not yet ported. The legacy
+The sidecar parser and map/mode-to-Layout assembly are described in
+[MAP_METADATA.md](MAP_METADATA.md). The legacy
 plain get_spawn_point shuffle/cluster/exhaustive fallback and non-playable native
 random-position path are not exposed as implemented APIs here. Concrete modes
 must supply their actual resolver through the boundary; the supported bounded

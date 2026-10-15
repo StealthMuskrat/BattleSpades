@@ -1,0 +1,501 @@
+# Source 6216b771282d2d349ccd67ee58c378f035c83553; export_map_catalog.py
+
+[[settings]]
+legacy_keys = ["ambient_light_color", "ambient_light_intensity", "ambient_sounds", "ammo_crate_drop_points", "back_light_color", "back_light_direction", "block_crate_drop_points", "cap_limit", "ctf_base_points", "ctf_base_w_h_d", "diamond_base_capacity", "diamond_base_points", "diamond_base_teams", "diamond_base_w_h_d", "fog_color", "gravity", "ground_colors", "health_crate_drop_points", "light_color", "light_direction", "mh_base_points", "mh_base_w_h_d", "name", "oc_team_one_spawn_area", "oc_team_two_spawn_area", "occupation_base_point", "occupation_base_w_h_d", "occupation_bomb_points", "skybox", "skybox_name", "skybox_texture", "static_light_color0", "static_light_color1", "survivor_spawn_area", "tc_base_points", "tc_base_w_h_d", "team_one_base_point", "team_one_base_w_h_d", "team_one_min_destruction", "team_one_spawn", "team_one_spawn_area", "team_two_base_point", "team_two_base_w_h_d", "team_two_min_destruction", "team_two_spawn", "team_two_spawn_area", "time_limit", "vxl_format", "zombie_spawn_area"]
+ambient_assets = ["amb_alcatraz", "amb_arctic", "amb_area51", "amb_castlewars", "amb_castula", "amb_city", "amb_desert", "amb_doomwind", "amb_harbour", "amb_high", "amb_invasion", "amb_jungle", "amb_moon", "amb_oldchicago", "amb_poolhall", "amb_rural", "amb_western", "amb_ww_coastalcold", "amb_ww_lighter", "amb_zombieisland", "em_river"]
+
+[[stock]]
+name = "20thcenturytown"
+skybox = "WW1.txt"
+gravity = 1.0
+ambient = "amb_city"
+
+[[stock]]
+name = "alcatraz"
+skybox = "Alcatraz.txt"
+gravity = 1.0
+ambient = "amb_alcatraz"
+
+[[stock]]
+name = "ancientegypt"
+skybox = "Egypt.txt"
+gravity = 1.0
+ambient = ""
+
+[[stock]]
+name = "arcticbase"
+skybox = "ArcticBase.txt"
+gravity = 1.0
+ambient = "amb_arctic"
+
+[[stock]]
+name = "atlantis"
+skybox = "Atlantis.txt"
+gravity = 1.0
+ambient = ""
+
+[[stock]]
+name = "blockness"
+skybox = "User_Grassland.txt"
+gravity = 1.0
+ambient = ""
+
+[[stock]]
+name = "brancastle"
+skybox = "BranCastle.txt"
+gravity = 1.0
+ambient = ""
+
+[[stock]]
+name = "castlewars"
+skybox = "Invasion.txt"
+gravity = 1.0
+ambient = "amb_castlewars"
+
+[[stock]]
+name = "cityofchicago"
+skybox = "Chicago.txt"
+gravity = 1.0
+ambient = "amb_oldchicago"
+
+[[stock]]
+name = "classic"
+skybox = "Classic.txt"
+gravity = 1.0
+ambient = ""
+
+[[stock]]
+name = "crossroads"
+skybox = "WW1.txt"
+gravity = 1.0
+ambient = ""
+
+[[stock]]
+name = "doubledragon"
+skybox = "SecretBase_Night.txt"
+gravity = 1.0
+ambient = ""
+
+[[stock]]
+name = "dragonisland"
+skybox = "SecretBase.txt"
+gravity = 1.0
+ambient = "amb_doomwind"
+
+[[stock]]
+name = "frontier"
+skybox = "Frontier.txt"
+gravity = 1.0
+ambient = ""
+
+[[stock]]
+name = "greatwall"
+skybox = "GreatWall.txt"
+gravity = 1.0
+ambient = ""
+
+[[stock]]
+name = "hiesville"
+skybox = "WW2.txt"
+gravity = 1.0
+ambient = ""
+
+[[stock]]
+name = "invasion"
+skybox = "Invasion.txt"
+gravity = 1.0
+ambient = ""
+
+[[stock]]
+name = "london"
+skybox = "London.txt"
+gravity = 1.0
+ambient = ""
+
+[[stock]]
+name = "lunarbase"
+skybox = "LunarBase.txt"
+gravity = 0.4
+ambient = ""
+
+[[stock]]
+name = "mayanjungle"
+skybox = "MayanJungle.txt"
+gravity = 1.0
+ambient = "amb_jungle"
+
+[[stock]]
+name = "spookymansion"
+skybox = "BranCastle.txt"
+gravity = 1.0
+ambient = "amb_zombieisland"
+
+[[stock]]
+name = "thecolosseum"
+skybox = "Colosseum.txt"
+gravity = 1.0
+ambient = ""
+
+[[stock]]
+name = "tokyoneon"
+skybox = "Tokyo.txt"
+gravity = 1.0
+ambient = ""
+
+[[stock]]
+name = "tothebridge"
+skybox = "WW2_DockLands.txt"
+gravity = 1.0
+ambient = ""
+
+[[stock]]
+name = "training"
+skybox = "Classic_B.txt"
+gravity = 1.0
+ambient = ""
+
+[[stock]]
+name = "trenches"
+skybox = "WW1.txt"
+gravity = 1.0
+ambient = "amb_ww_lighter"
+
+[[stock]]
+name = "wintervalley"
+skybox = "ArcticBase.txt"
+gravity = 1.0
+ambient = ""
+
+[[stock]]
+name = "ww1"
+skybox = "WW1.txt"
+gravity = 1.0
+ambient = ""
+
+[[sky]]
+name = "Alcatraz.txt"
+fog = [77, 68, 66]
+ambient = "amb_alcatraz"
+
+[[sky]]
+name = "ArcticBase.txt"
+fog = [114, 174, 175]
+ambient = "amb_arctic"
+
+[[sky]]
+name = "Atlantis.txt"
+fog = [61, 100, 214]
+ambient = "amb_harbour"
+
+[[sky]]
+name = "BranCastle.txt"
+fog = [30, 30, 30]
+ambient = "amb_castula"
+
+[[sky]]
+name = "Chicago.txt"
+fog = [0, 0, 0]
+ambient = "amb_oldchicago"
+
+[[sky]]
+name = "Classic.txt"
+fog = [30, 30, 30]
+ambient = "amb_rural"
+
+[[sky]]
+name = "Classic_B.txt"
+fog = [111, 215, 223]
+ambient = "amb_rural"
+
+[[sky]]
+name = "Colosseum.txt"
+fog = [162, 110, 64]
+ambient = "amb_desert"
+
+[[sky]]
+name = "Egypt.txt"
+fog = [195, 116, 77]
+ambient = "amb_desert"
+
+[[sky]]
+name = "Frontier.txt"
+fog = [163, 111, 65]
+ambient = "amb_western"
+
+[[sky]]
+name = "GreatWall.txt"
+fog = [163, 153, 138]
+ambient = "amb_high"
+
+[[sky]]
+name = "Invasion.txt"
+fog = [61, 61, 53]
+ambient = "amb_invasion"
+
+[[sky]]
+name = "London.txt"
+fog = [33, 32, 27]
+ambient = "amb_city"
+
+[[sky]]
+name = "LunarBase.txt"
+fog = [62, 59, 57]
+ambient = "amb_moon"
+
+[[sky]]
+name = "MayanJungle.txt"
+fog = [69, 76, 39]
+ambient = "amb_jungle"
+
+[[sky]]
+name = "SecretBase.txt"
+fog = [69, 92, 100]
+ambient = "amb_area51"
+
+[[sky]]
+name = "SecretBase_Night.txt"
+fog = [0, 0, 0]
+ambient = "amb_area51"
+
+[[sky]]
+name = "Tokyo.txt"
+fog = [0, 0, 0]
+ambient = "amb_city"
+
+[[sky]]
+name = "User_Desert.txt"
+fog = [195, 116, 77]
+ambient = "amb_desert"
+
+[[sky]]
+name = "User_Grassland.txt"
+fog = [111, 215, 223]
+ambient = "amb_ww_lighter"
+
+[[sky]]
+name = "User_Lunar.txt"
+fog = [62, 59, 57]
+ambient = "amb_moon"
+
+[[sky]]
+name = "User_Mountain.txt"
+fog = [50, 59, 61]
+ambient = "amb_castula"
+
+[[sky]]
+name = "User_Temple.txt"
+fog = [61, 61, 53]
+ambient = "amb_invasion"
+
+[[sky]]
+name = "User_Urban.txt"
+fog = [128, 128, 127]
+ambient = "amb_ww_lighter"
+
+[[sky]]
+name = "WW1.txt"
+fog = [168, 134, 109]
+ambient = "amb_ww_lighter"
+
+[[sky]]
+name = "WW2.txt"
+fog = [168, 134, 109]
+ambient = "amb_ww_coastalcold"
+
+[[sky]]
+name = "WW2_DockLands.txt"
+fog = [168, 134, 109]
+ambient = "amb_harbour"
+
+[[region]]
+name = "atlantis"
+team = 2
+bounds = [48, 48, 176, 176]
+
+[[region]]
+name = "atlantis"
+team = 3
+bounds = [336, 336, 464, 464]
+
+[[region]]
+name = "castlewars"
+team = 2
+bounds = [336, 336, 480, 480]
+
+[[region]]
+name = "castlewars"
+team = 3
+bounds = [32, 32, 176, 176]
+
+[[region]]
+name = "crossroads"
+team = 2
+bounds = [160, 80, 352, 208]
+
+[[region]]
+name = "crossroads"
+team = 3
+bounds = [160, 304, 352, 432]
+
+[[region]]
+name = "doubledragon"
+team = 2
+bounds = [160, 352, 288, 496]
+
+[[region]]
+name = "doubledragon"
+team = 3
+bounds = [224, 16, 352, 160]
+
+[[region]]
+name = "tokyoneon"
+team = 2
+bounds = [320, 128, 448, 384]
+
+[[region]]
+name = "tokyoneon"
+team = 3
+bounds = [64, 128, 192, 384]
+
+[[region]]
+name = "tothebridge"
+team = 2
+bounds = [64, 336, 448, 480]
+
+[[region]]
+name = "tothebridge"
+team = 3
+bounds = [64, 32, 448, 176]
+
+[[region]]
+name = "ww1"
+team = 2
+bounds = [64, 352, 448, 464]
+
+[[region]]
+name = "ww1"
+team = 3
+bounds = [64, 48, 448, 160]
+
+[[zone]]
+item = "ugc_spawngreen_small"
+team = 3
+extents = [-5, 5, -5, 5, -8, 2]
+
+[[zone]]
+item = "ugc_spawngreen_med"
+team = 3
+extents = [-12, 12, -12, 12, -21, 3]
+
+[[zone]]
+item = "ugc_spawngreen_large"
+team = 3
+extents = [-20, 20, -20, 20, -36, 4]
+
+[[zone]]
+item = "ugc_spawnblue_small"
+team = 2
+extents = [-5, 5, -5, 5, -8, 2]
+
+[[zone]]
+item = "ugc_spawnblue_med"
+team = 2
+extents = [-12, 12, -12, 12, -21, 3]
+
+[[zone]]
+item = "ugc_spawnblue_large"
+team = 2
+extents = [-20, 20, -20, 20, -36, 4]
+
+[[zone]]
+item = "ugc_basegreen_small"
+team = 3
+extents = [-5, 5, -5, 5, -8, 2]
+
+[[zone]]
+item = "ugc_basegreen_med"
+team = 3
+extents = [-12, 12, -12, 12, -21, 3]
+
+[[zone]]
+item = "ugc_basegreen_large"
+team = 3
+extents = [-20, 20, -20, 20, -36, 4]
+
+[[zone]]
+item = "ugc_baseblue_small"
+team = 2
+extents = [-5, 5, -5, 5, -8, 2]
+
+[[zone]]
+item = "ugc_baseblue_med"
+team = 2
+extents = [-12, 12, -12, 12, -21, 3]
+
+[[zone]]
+item = "ugc_baseblue_large"
+team = 2
+extents = [-20, 20, -20, 20, -36, 4]
+
+[[zone]]
+item = "ugc_base_small"
+team = 1
+extents = [-5, 5, -5, 5, -8, 2]
+
+[[zone]]
+item = "ugc_base_med"
+team = 1
+extents = [-12, 12, -12, 12, -21, 3]
+
+[[zone]]
+item = "ugc_base_large"
+team = 1
+extents = [-20, 20, -20, 20, -36, 4]
+
+[[playlist]]
+mode = "cctf"
+name = "classic"
+
+[[playlist]]
+mode = "ctf"
+name = "ctf"
+
+[[playlist]]
+mode = "dem"
+name = "demolition"
+
+[[playlist]]
+mode = "dia"
+name = "diamond"
+
+[[playlist]]
+mode = "mh"
+name = "multihill"
+
+[[playlist]]
+mode = "oc"
+name = "occupation"
+
+[[playlist]]
+mode = "tc"
+name = "tc"
+
+[[playlist]]
+mode = "tdm"
+name = "tdm"
+
+[[playlist]]
+mode = "tut"
+name = "tutorial"
+
+[[playlist]]
+mode = "ugc"
+name = "ugc"
+
+[[playlist]]
+mode = "vip"
+name = "vip"
+
+[[playlist]]
+mode = "zom"
+name = "zombie"

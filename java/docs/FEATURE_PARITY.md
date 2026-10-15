@@ -26,7 +26,8 @@ has passed. Nothing below is a production-readiness claim.
 | server/config.py / game_rules.py | Core/join/common scene and full Match Lobby rule catalog implemented | 102 definitions, 1958 coercion inputs, aliases/explicit precedence; diagnostics validate common settings; overlays/fleet/full domain configuration pending |
 | class_data.py / class_selection.py | Stock class selection and rule-adjusted movement components implemented | all 18 classes, 336 source selections, 864 rule-scaled physics profiles, inventory gate; map/UGC extensions, mounted entities and mode authorization pending |
 | Player names / pre-life team and class admission | Implemented policy component | 1,112,064 Unicode scalars, 18,568 name vectors, 6,192 team and 14,256 class vectors; configured binding and four-client UDP coverage; authenticated identity and actual mode hooks pending |
-| Spawn geometry/threat selection/rescue | Implemented placement components | 18,124 geometry vectors, seeded event/score traces, 16,000 random vectors, 8,640 all-class settling ticks; typed layout input and UDP terrain revalidation; sidecar assembly/concrete mode policies pending |
+| Map metadata / mode layout / retail pools | Implemented data and assembly components | 785 source metadata cases, 659 packet pairs, 4316 pool vectors; layered JSON/legacy/UGC, stock presentation and owned-map CRC; full mode/entity lifecycle pending |
+| Spawn geometry/threat selection/rescue | Implemented placement components | 18,124 geometry vectors, seeded event/score traces, 16,000 random vectors, 8,640 all-class settling ticks; file-backed layout input and UDP terrain revalidation; concrete mode policies/lifecycle pending |
 | Player lives/respawn/identity | **Pending** | actual Character creation/health/equipment lifecycle, authenticated identity, notices and live timing remain separate from admission/placement components |
 | Combat/ammo/reload/grenades/deployables | **Pending** | packet codecs do not implement combat |
 | TDM/CTF/ClassicCTF/Arena/VIP/Zombie | **Pending** | complete playable rounds, not identifiers/classes |
@@ -49,7 +50,7 @@ has passed. Nothing below is a production-readiness claim.
 
 1. Implement the actual Gameplay domain behind ConfiguredScene: identity verification,
    actual mode policies, Character creation/death/respawn and entity reveals.
-   Names, common team/class checks and spawn placement now have source/UDP evidence;
+   Names, common team/class checks, map layout assembly and spawn placement now have source/UDP evidence;
    they require real domain occupants, verified identity and concrete mode hooks.
 2. Port remaining packets, marker cleanup, damage/shade history and terrain gameplay
    validation/collapse. Complete transport bandwidth redistribution and full configuration.

@@ -103,13 +103,14 @@ def run(impaired,private):
                     x,y=struct.unpack_from('<II',records,index*16);assert (x,y)==(index%512,index//512);assert records[index*16+8:index*16+16]==b'\x00\xef\xef\x00\x00\x00\x00\x00'
                 digest=hashlib.sha256(records).hexdigest()
             else:assert chunks==[];digest=hashlib.sha256(b'').hexdigest()
-            c.player=c.bodies(45)[-1][1];return actual_crc,len(chunks),digest
+            state=c.bodies(45)[-1];assert state[2:5]==bytes([57,59,62]);assert struct.unpack_from('<h',state,5)[0]==26
+            c.player=state[1];return actual_crc,len(chunks),digest
         first=Client();pump(lambda:first.connected);first.send(b'\x0f\x01\x05\x00\x01forged\0');assert command('STATS','STATS').split()[1]=='0'
         # Optional UGC tail is absent in this observed class-selection layout.
         first.send(b'\x0d\xff\x05\x01\x01\x07\x01one\0');ticket(first,2)
         assert first.bodies(114)[0].endswith(b'BSFP\x02'+struct.pack('<B9H',7,64,1920,576,480,1280,1280,1280,256,160))
         expected_crc=initial_crc(first.bodies(114)[0]);actual_crc,full_chunks,full_hash=validate(first,0,True);assert expected_crc==actual_crc;assert first.player==0
-        pump(lambda:first.count(51)>0);assert first.bodies(51)[-1][1:].endswith(b'.txt\0')
+        pump(lambda:first.count(51)>0);assert first.bodies(51)[-1][1:]==b'User_Lunar.txt\0'
         second=Client();pump(lambda:second.connected);ticket(second,0);_,delta_chunks,_=validate(second,actual_crc,False);assert second.player==1
         third=Client();pump(lambda:third.connected);third.send(b'\x69\x00\x00\x00\x00')
         if private:
@@ -137,9 +138,10 @@ def run(impaired,private):
         for c in [first,second]:
             assert c.count(52)==1;c.frames=[];c.send(b'\x3c'+struct.pack('<I',actual_crc),compressed=True)
         pump(lambda:all(c.count(45)>0 for c in [first,second]));assert all(c.count(112)==0 and c.count(57)==0 and c.count(55)==1 and c.count(59)==1 for c in [first,second])
+        assert all(struct.unpack_from('<h',c.bodies(45)[-1],5)[0]==48 for c in [first,second])
         process.stdin.write('STOP\n');process.stdin.flush();process.wait(timeout=5);assert process.returncode==0,process.stderr.read()
         return dict(profile='impaired' if impaired else 'nominal',private_password=private,full_chunks=full_chunks,full_records_sha256=full_hash,delta_chunks=delta_chunks,
-                    dropped_datagrams=sum(c.relay.dropped for c in clients),duplicate_datagrams=sum(c.relay.duplicates for c in clients),delayed_datagrams=sum(c.relay.delayed for c in clients),concurrent_reserved_ids=[0,1],full_refusal_reason=third.reason,ticket_xor=True,capability_trailer=True,canonical_health=True,canonical_removal=True,roster_reconcile=True,scene_reload=True,configured_metadata=True,packaged_application=True,game_client_test=False,result='PASS')
+                    dropped_datagrams=sum(c.relay.dropped for c in clients),duplicate_datagrams=sum(c.relay.duplicates for c in clients),delayed_datagrams=sum(c.relay.delayed for c in clients),concurrent_reserved_ids=[0,1],full_refusal_reason=third.reason,ticket_xor=True,capability_trailer=True,canonical_health=True,canonical_removal=True,roster_reconcile=True,scene_reload=True,configured_metadata=True,sidecar_layering=True,metadata_reload=True,packaged_application=True,game_client_test=False,result='PASS')
     finally:
         for c in clients:c.relay.close()
         if process.poll() is None:process.kill();process.wait()

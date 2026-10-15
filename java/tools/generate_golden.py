@@ -60,5 +60,7 @@ manifest['oracles']['admission']='original player_names; unmodified connection A
 manifest['generators']+=['export_name_unicode.py','generate_admission_golden.py']
 manifest['generators']+=['generate_spawn_golden.py']
 manifest['oracles']['spawns']='original WorldManager/spawn_selection/RoundLifecycle/combat segment; compiled VXL/world; Python 3.12 random/math'
+manifest['generators']+=['export_map_catalog.py','generate_metadata_golden.py']
+manifest['oracles']['map_metadata']='original sidecar/map-mode/UGC/catalogue policies and original scene builders; inert data inputs only'
 manifest['unicode_data']={'net/battlespades/player/name-unicode.bin.gz':hashlib.sha256((ROOT/'java/src/main/resources/net/battlespades/player/name-unicode.bin.gz').read_bytes()).hexdigest()}
 (ROOT/'java/src/test/resources/golden/provenance.json').write_text(json.dumps(manifest,indent=2)+'\n')

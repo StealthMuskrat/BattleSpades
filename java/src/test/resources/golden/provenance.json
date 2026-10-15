@@ -12,7 +12,8 @@
     "queries": "compiled aoslib.world raycast/cube_line/face/is_centered",
     "scene": "server.game_rules/class_data/class_selection, common initial_info/state_data builders and compiled packet/world codecs",
     "admission": "original player_names; unmodified connection AST methods; original equipment/rules/class selection; Python 3.12 Unicode 15",
-    "spawns": "original WorldManager/spawn_selection/RoundLifecycle/combat segment; compiled VXL/world; Python 3.12 random/math"
+    "spawns": "original WorldManager/spawn_selection/RoundLifecycle/combat segment; compiled VXL/world; Python 3.12 random/math",
+    "map_metadata": "original sidecar/map-mode/UGC/catalogue policies and original scene builders; inert data inputs only"
   },
   "generators": [
     "generate_golden.py",
@@ -26,7 +27,9 @@
     "export_domain_catalogs.py",
     "export_name_unicode.py",
     "generate_admission_golden.py",
-    "generate_spawn_golden.py"
+    "generate_spawn_golden.py",
+    "export_map_catalog.py",
+    "generate_metadata_golden.py"
   ],
   "fixtures": {
     "admission-classes.tsv.gz": "ebf173e1524c23c44d40ff644da805431510b0bf34c299582b57da2ed5ea3840",
@@ -38,6 +41,11 @@
     "loading.tsv": "f86f951f165009de3e1bd3c20c5fd57084f8343b28eb792b9b0dded87d2d1d0e",
     "lzf.tsv": "7cc5a7f78789d986e665043392f7be29b09b6de8c6f109d24583b3907bd72f76",
     "map-sync.tsv": "5f5a34c7119d26e759e5371fdaa55d51bfcba8b449dcf67166ae1996d3433f77",
+    "metadata-inputs.tsv.gz": "545b88be191924e7795054cc837eb71ce15014b21c367d8915d1f909fed5ab8e",
+    "metadata-packets.tsv.gz": "b89caa1df8b010f54c9fffb930b9d34a29dc29ee00ae9cc93391e5fd4007ee97",
+    "metadata-pools.tsv.gz": "2dcfcbbbf241791be56e1630845c4af63e4a9ae88589b7af839c301c8790c351",
+    "metadata-provenance.json": "8e679134d4ed0b6413f9e66cace98bbf9f40f8c31cb9b26dd1f6b128bc6d803a",
+    "metadata-results.tsv.gz": "7f2b970ea3219d9ce8e1791c137656780fc983cccea549794cdf40260a47b885",
     "movement-provenance.json": "43953819466346bdb02cd90e66a58db0d5090357258441dd98e5440a30366b06",
     "movement.tsv.gz": "89f9074a863f54c4264935f7305aeb538dbaaac9eddfd030d702414e6451d4d9",
     "mutations.columns.tsv": "1b2d0ef17ae2e5e2afa29ee54159348aa2d05dcab889e496f71dbc029fd8ec93",
@@ -87,6 +95,7 @@
   },
   "catalogs": {
     "net/battlespades/catalog/classes.toml": "b68352cace8b09d31a4e765df3d13b7109b204438a7953494606eac207e13128",
+    "net/battlespades/catalog/map-metadata.toml": "833edd7e1f738bb860038245f2291b4dedaf77df75c23bc49d77999d2c5f9e5e",
     "net/battlespades/catalog/modes.toml": "77f252b5e3be07476d6fd8796604e1aaa0368f47b8e6322b5efdb23b6c5c4c18",
     "net/battlespades/catalog/rules.toml": "2a5e94bfdc2146942465dd171faefe0b8d954c73207f89b4ce8abd4d3ea0c05f"
   },

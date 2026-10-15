@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.zip.GZIPInputStream;
 
 /** Reference Unicode 15 normalization/properties, independent of JDK Unicode upgrades. */
-final class NameUnicode {
+public final class NameUnicode {
     private static final int[] STARTS, PROPERTIES;
     private static final Map<Integer,String> DECOMPOSITION, CASEFOLD;
     private static final Map<Long,Integer> COMPOSITION;
@@ -46,8 +46,13 @@ final class NameUnicode {
     static boolean space(int cp){return (properties(cp)&4)!=0;}
     static boolean alnum(int cp){return (properties(cp)&8)!=0;}
     private static int combining(int cp){return properties(cp)>>>8;}
-    static String casefold(String text){
+    public static String casefold(String text){
         var out=new StringBuilder();text.codePoints().forEach(cp->out.append(CASEFOLD.getOrDefault(cp,new String(Character.toChars(cp)))));return out.toString();
+    }
+    /** Python str.strip using the pinned reference Unicode whitespace property. */
+    public static String strip(String text){
+        int start=0,end=text.length();while(start<end&&space(text.codePointAt(start)))start+=Character.charCount(text.codePointAt(start));
+        while(end>start&&space(text.codePointBefore(end)))end-=Character.charCount(text.codePointBefore(end));return text.substring(start,end);
     }
     static String nfkd(String text){return string(decompose(text));}
     static String nfkc(String text){

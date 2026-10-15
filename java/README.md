@@ -61,6 +61,8 @@ implemented. Today it fails explicitly with the incomplete-migration message.
   the same scale as the menus. See [configured scene evidence and limits](docs/CONFIGURED_SCENES.md).
 - Unicode-safe retail names and common pre-life team/class checks, bound before
   configured admission. See [source comparisons and remaining identity/lifecycle work](docs/PLAYER_ADMISSION.md).
+- Layered inert map metadata, mode/UGC layout assembly and stock catalogue filtering,
+  connected to scene packets and spawn geometry. See [metadata evidence and limits](docs/MAP_METADATA.md).
 - Authored spawn geometry, threat-aware selection and bounded rescue, with source
   random/math parity and all-class settling traces. See [spawn evidence and integration limits](docs/SPAWNING.md).
 - Source-exact player movement/collision, all 18 class profiles, flight/crouch/peer

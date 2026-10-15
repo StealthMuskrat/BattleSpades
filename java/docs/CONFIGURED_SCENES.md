@@ -110,3 +110,9 @@ WorldUpdate construction, entities or complete modes. Active-mode policies must
 be ported behind the supplied hooks. Map/UGC-specific selection extensions and
 sidecar discovery/parsing are also pending; Environment is typed caller input.
 No game-client or capacity/soak claim is made. Ordinary hosting remains disabled.
+
+MapMetadata now reads layered sidecars into this environment and the spawn layout.
+The metadata constructor checks active mode and world CRC before accepting the
+scene binding. File-backed gravity/fog/palette and metadata reload are covered by
+UDP/native probes. See [MAP_METADATA.md](MAP_METADATA.md) for parsing and remaining
+mode/entity/lifecycle boundaries.

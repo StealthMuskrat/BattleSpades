@@ -35,6 +35,10 @@ public final class ConfiguredScene implements JoinScene {
     private final ScenePackets.Environment environment;
     private final Supplier<ScenePackets.State> state;
     private final Gameplay gameplay;
+    public ConfiguredScene(SceneConfig config,net.battlespades.world.MapMetadata metadata,Supplier<ScenePackets.State> state,Gameplay gameplay){
+        this(config,metadata.environment(),state,gameplay);
+        if(!net.battlespades.world.MapMetadata.canonicalMode(config.modeCode()).equals(metadata.activeMode()))throw new IllegalArgumentException("Map layout belongs to another mode");
+    }
     public ConfiguredScene(SceneConfig config,ScenePackets.Environment environment,Supplier<ScenePackets.State> state,Gameplay gameplay){
         this.config=Objects.requireNonNull(config);this.environment=Objects.requireNonNull(environment);this.state=Objects.requireNonNull(state);this.gameplay=Objects.requireNonNull(gameplay);
         if(config.modeCode().startsWith("hc_"))throw new IllegalArgumentException("Hardcore scene policy is not implemented");

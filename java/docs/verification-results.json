@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "a3b38a6cf981b039835ef9d71afa0ce4c5cc28c795ab050a5f1d315ac11b0a07",
-  "jar_bytes": 1187524,
+  "jar_sha256": "f9c55ef23898a59a1bd4a6d412533608749c173ef2b275e47a405b9dd7a0ccf8",
+  "jar_bytes": 1227310,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -20,7 +20,7 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 1296,
+      "tests": 1927,
       "failures": 0,
       "errors": 0,
       "skipped": 0
@@ -32,23 +32,12 @@
       "skipped": 0
     }
   },
-  "verification_stage": "Authored spawn geometry, source threat selection and bounded rescue",
-  "java_implementation_commit": "6792f538924d0bbd52a62e0b1fa85d8ead0c5b5e",
-  "tested_tree": "5608362cd28586e9d89adef82719d4ac2b8235f6",
+  "verification_stage": "Layered inert metadata, mode/UGC layout and map assembly",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38784215231",
-    "jobs": {
-      "native-enet": "success",
-      "build": "success",
-      "platform (windows-latest)": "success",
-      "platform (ubuntu-latest)": "success",
-      "platform (macos-latest)": "success"
-    },
-    "repeated_jar_comparison": "success",
-    "source_fixtures_and_catalogs_reproduced": true,
-    "spawn_fixtures_and_provenance_reproduced": true,
-    "admission_fixtures_and_unicode_table_reproduced": true
+    "status": "pending for current tree",
+    "previous_run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38785215231"
   },
   "movement": {
     "cases": 118,
@@ -108,7 +97,7 @@
     "net/battlespades/catalog/modes.toml",
     "net/battlespades/catalog/rules.toml"
   ],
-  "local_packaging_note": "Two final spawn-policy archives match byte-for-byte and pass ZIP CRC. CI independently rebuilds and compares before upload.",
+  "local_packaging_note": "Two final metadata archives match byte-for-byte and pass ZIP CRC. CI independently rebuilds and compares before upload.",
   "admission": {
     "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
     "unicode": "15.0.0",
@@ -175,12 +164,86 @@
     },
     "source_fixtures_reproduced": true,
     "gameplay_lifecycle": false,
-    "sidecar_parser": false,
-    "real_udp_terrain_revalidation": true
+    "sidecar_parser": true,
+    "real_udp_terrain_revalidation": true,
+    "map_mode_layout_assembly": true
   },
   "reference_spawn_tests": {
     "tests": 42,
     "failures": 0,
     "command": "python -m pytest -q tests/test_tdm_spawn.py tests/test_retail_spawn_boxes.py tests/test_smart_spawns.py tests/test_spawn_lock.py"
+  },
+  "metadata": {
+    "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+    "policy_substitutions": false,
+    "input_groups": 332,
+    "metadata_vectors": 785,
+    "packet_pairs": 659,
+    "pool_vectors": 4316,
+    "source_files": {
+      "server/map_metadata.py": "66a868d65f47cdb3d2eb3956f04652ae637f03a2f2cb4cebf26f956a329f8161",
+      "server/mode_data.py": "77ae45b0601a0daeda4ce3b17cdaad08c276f3692dff3284dce63c1c2e645c96",
+      "server/hardcore.py": "51bac4d2924e55054e709b4453a732bfca3f1c58e394b996d158238fa2827355",
+      "shared/constants.py": "125d8fdb66ed78db6927ee8fee0d4be700421d23ca79a6bbabc09351e628d59a",
+      "server/builders/initial_info.py": "4e26cbe827966d4af78b220f3a35906517752458a3dd2cffdb91b2105e918095",
+      "server/builders/state_data.py": "e7bc3ec168570f2259a64bb88d118ddad5ccdd009967d86da4bc3a69332ffe24"
+    },
+    "source_inputs": {
+      "maps/20thCenturyTown.json": "7223f79e100ae452a52e444e939d1eed37214a6f89724d8c6902dbe11a9a0ab7",
+      "maps/ArcticBase.json": "bb45e1cf12894d37b2aab1d1d25a215ba35cc4991780639b08d260591e23943d",
+      "maps/CastleWars.json": "3664e857d03bb242807ee8f99d2e2209d472700209bd081e7b6061dab7038ede",
+      "maps/CityOfChicago.json": "6962d64596d271908278e4ea5ac3f124bf6334817bc4b36bdbd336ef966075dd",
+      "maps/DragonIsland.json": "f2fae960c18b46e455cc63d574f6595af875acf7f2fe4850ece49713cd276521",
+      "maps/MayanJungle.json": "6ed697bc84e17e636d5b3045d92bea24c51f2ccd9487d959536c99b07330b93f",
+      "maps/SpookyMansion.json": "f76660228dd87adee0305f2b7eb7e924b92b66dd08fbf584a9d652095225b926",
+      "maps/Trenches.json": "1e944281ca6b19a4357eb8dcf7b43eb9a4e4eb87cf73b906dcd9a4a2c8a9531b",
+      "maps/unofficial/ArsenalArcade.txt": "80f788d3711bd90142faec3fa6b6bda8043a7a101df02dbd58309351327292a6",
+      "maps/unofficial/BlackPineOutpost.txt": "82cd097b1f34a20e73469f7cb696dd9025676ca973872de1aa51da2435dd397f",
+      "maps/unofficial/BreachCitadel.txt": "e6d15f8d7ce6fee3312c741071f293d2e081cd1694a6d3c987ee97691668a036",
+      "maps/unofficial/BreakwaterPrison.txt": "625e2297d70e606e94e0d55388748bae04facf180a689fceb1c82a6a03dfe67a",
+      "maps/unofficial/ChromaticPlaza.txt": "1d2fd3684b3b56d050c80450479598a194a66d80f8787c35a87cdb07463b5f61",
+      "maps/unofficial/Coppercatacombs.txt": "3a6b93005bc3ec8179dac49ddbdcc6f0234602144aec8574292e9376624fd445",
+      "maps/unofficial/CrownGardens.txt": "7e27120c091c19b54ab5755b48b648afc4e6f2689a6d04f7712359f2a6ff6fec",
+      "maps/unofficial/DuskwaterDocks.txt": "7141c20e204dc7762ca132303958aa08f35822a927110afe5a2d9db87eb215fd",
+      "maps/unofficial/FacadeDistrict.txt": "ca72d0fb97ad68f370859f6daa1168e1346d0a9bd57e0fa13f12a94b2315090e",
+      "maps/unofficial/FoundryRun.txt": "982c3341177c479e2fccc3157a594288c14d6cb31bd34332b1991a4ae2f3944b",
+      "maps/unofficial/FunBridge.txt": "16ef7b17a622edfe62bc1ad4843bfcada80667158db20bf8f6f0cb3c93d5c7fe",
+      "maps/unofficial/FunCourse.txt": "75024d438f12cfc906462114df134552d75a71f3fb33ae46c8eba25414fffab0",
+      "maps/unofficial/FunFloors.txt": "6423f72b906b087143723b91aa79798ec65358cffb0342dad20cb9e1e6f45839",
+      "maps/unofficial/FunFort.txt": "1fa40f270460e3c2a14eefd278db74778425e501f4a3e0f98c720bc605f131c3",
+      "maps/unofficial/FunTowers.txt": "32e9611bda7072698f74e8740a800c03e0deddc3aab0a36ca4170d6d2f2b8f96",
+      "maps/unofficial/FunTunnels.txt": "f3ae35b0c83260f24c3f908dcb2777884ee555ae2ae403417595b65ab5bce39a",
+      "maps/unofficial/FunYard.txt": "d520aafb79698bb553bd2ba1eb223954a4886f8063bef87a2a19150e671888f3",
+      "maps/unofficial/FuseCourtyard.txt": "8c558d436bb94a6309fe2bdedff8b05278b054a81343fdb77dc94b2a6cb060a3",
+      "maps/unofficial/Glassworks.txt": "f59748e17e02299a4dc9781fa00cd8e1c63e420d4d4c557baf2eafbf3e3f2afb",
+      "maps/unofficial/LanternQuarter.txt": "1f5afd16f4d7215714b09948c64677985b0f8412b3a208dfd0fdf0c08a49d590",
+      "maps/unofficial/MoonshineWharf.txt": "792eea836c9c8a5d212bf488ca07dee2ce9044cf906c31bdff7f381a4582d423",
+      "maps/unofficial/RelayViaduct.txt": "bf843e59742a0551fefac9954639f492892cccce9ae7990fdc35c81e6fa6f5e8",
+      "maps/unofficial/SalvageWorks.txt": "76629944de9aeb515f2d0e3a3a141ff4e29942a26cc6351d365cd247a4f5f125",
+      "maps/unofficial/SignalSprint.txt": "81f0013ba01ff6a9810961b2b94e90fff72b74142477a4ddbc876293bde6b1d9",
+      "maps/unofficial/SpadeStadium.txt": "53b5c854a39648903e6efc5fc5a9880a30c08f81aa44523dac8ecb0a454f43d4",
+      "maps/unofficial/TheKiln.txt": "b768edf96a353232db75c23f2cd81adc9520cd822b8a3d9fa403ada840be83dd",
+      "maps/unofficial/TwinBellFoundry.txt": "ea54bfa288b471379f0ab2b0a38da94fa3138a715d7b295b2de740746d708a7f",
+      "maps/retail_map_info.json": "da631340ace7569d54a2cdb63a3651da6c80f318eeb26d8a0c9a8dfe9614fe4f"
+    },
+    "fixtures": {
+      "metadata-inputs.tsv.gz": "545b88be191924e7795054cc837eb71ce15014b21c367d8915d1f909fed5ab8e",
+      "metadata-packets.tsv.gz": "b89caa1df8b010f54c9fffb930b9d34a29dc29ee00ae9cc93391e5fd4007ee97",
+      "metadata-pools.tsv.gz": "2dcfcbbbf241791be56e1630845c4af63e4a9ae88589b7af839c301c8790c351",
+      "metadata-results.tsv.gz": "7f2b970ea3219d9ce8e1791c137656780fc983cccea549794cdf40260a47b885"
+    },
+    "source_fixtures_reproduced": true,
+    "production_catalog_reproduced": true,
+    "independent_source_digest": true,
+    "real_udp_sidecar_assembly": true,
+    "packaged_native_metadata_reload": true,
+    "gameplay_lifecycle": false
+  },
+  "reference_metadata_tests": {
+    "tests": 71,
+    "failures": 0,
+    "skipped": 4,
+    "skip_reason": "retail .txtc files absent",
+    "command": "python -m pytest -q tests/test_map_metadata.py tests/test_map_metadata_retail.py"
   }
 }

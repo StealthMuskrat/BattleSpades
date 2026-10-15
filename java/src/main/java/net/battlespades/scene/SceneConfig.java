@@ -34,5 +34,5 @@ public record SceneConfig(String name,int port,long steamId,ModeCatalog.Definiti
     public static String normalizeSkybox(String value){
         String normalized=validSkybox(value);return normalized!=null?normalized:DEFAULT_SKYBOX;
     }
-    public static String validSkybox(String value){if(value==null)return null;String name=value.strip();return name.matches("[A-Za-z0-9][A-Za-z0-9 _.\\-]{0,62}\\.txt")?name:null;}
+    public static String validSkybox(String value){if(value==null)return null;String name=net.battlespades.player.NameUnicode.strip(value);return name.matches("[A-Za-z0-9][A-Za-z0-9 _.\\-]{0,62}\\.txt")?name:null;}
 }

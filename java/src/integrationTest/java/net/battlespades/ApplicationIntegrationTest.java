@@ -5,6 +5,8 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,9 +25,11 @@ import net.battlespades.scene.*;
 import net.battlespades.rules.GameRules;
 import net.battlespades.player.*;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ApplicationIntegrationTest {
+    @TempDir Path temp;
     private static final class Client implements AutoCloseable {
         final UdpEndpoint udp;
         final SocketAddress server;
@@ -147,17 +151,23 @@ class ApplicationIntegrationTest {
             var config=new SceneConfig("Spawn UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",1),new SceneConfig.Team("Green",2),GameRules.serverDefaults());
             try(var domain=new FixtureScene(1,10000)){
                 for(int x=95;x<=109;x++)for(int y=95;y<=109;y++)for(int z=100;z<=238;z++)domain.world().set(new MutableWorld.Cell(x,y,z),true,0x123456,null);
-                var zone=new SpawnGeometry.Zone("spawn",2,102,102,94,-6,6,-6,6,-12,145,"team_spawn_area");
-                var geometry=new SpawnGeometry(domain.world(),new SpawnGeometry.Layout(Map.of(2,List.of(zone)),Map.of(),Map.of(2,new SpawnGeometry.Region(96,96,108,108))));
+                Files.writeString(temp.resolve("fixture.json"),"{\"gravity\":0.4,\"ground_colors\":[[1,2,3,4]]}");
+                Files.writeString(temp.resolve("fixture.ugc"),"{\"skybox_name\":\"User_Lunar.txt\",\"ugc_entities\":[{\"position\":[102,102,94],\"item\":\"ugc_spawnblue_small\",\"mode\":\"tdm\"}]}");
+                Files.writeString(temp.resolve("fixture.txt"),"fog_color=(1,2,3)\nteam_one_spawn_area=[((102,102,94),(12,12,24))]\n");
+                var metadata=MapMetadata.load(temp.resolve("fixture.vxl"),config.modeCode(),domain.world().sourceCrc());
+                var geometry=new SpawnGeometry(domain.world(),metadata.spawnLayout());
                 geometry.prewarm();var resolver=new SpawnResolver(geometry,new Object(),new SourceRandom(168));
                 domain.placement=(id,request)->{
                     var player=new SpawnResolver.Player(id,request.team(),false,false,new SpawnGeometry.Position(102.5,102.5,97.25),null);
                     var occupants=domain.players.values().stream().map(a->{var p=a.player();var v=p.position();return new SpawnResolver.Player(p.playerId(),p.team(),true,true,new SpawnGeometry.Position(v.x(),v.y(),v.z()),null);}).toList();
                     var p=resolver.resolve(request.team(),()->resolver.choose(player,occupants,id+1),id+1);return new Vector3f((float)p.x(),(float)p.y(),(float)p.z());
                 };
-                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",domain.world().sourceCrc()),()->ScenePackets.State.initial(config),domain);
+                var scene=new ConfiguredScene(config,metadata,()->ScenePackets.State.initial(config),domain);
+                assertEquals(26.0/64,scene.gravity());assertEquals("User_Lunar.txt",scene.skybox());
                 try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),2,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var first=new Client(host.address());var second=new Client(host.address())){
                     var loop=new Loop(host);loop.ticketAndLoad(first,domain);first.send(new SimplePackets.NewPlayerConnection(2,0,0,1,"one"),false);loop.until(()->first.has(28));
+                    var state=(StateData)first.packets.stream().filter(p->p instanceof StateData).findFirst().orElseThrow();assertEquals((float)(26.0/64),state.gravity());assertEquals(0x3e3b39,state.fogColor());
+                    var initial=(InitialInfo)first.packets.stream().filter(p->p instanceof InitialInfo).findFirst().orElseThrow();assertEquals(List.of(new InitialInfo.Rgba(1,2,3,4)),initial.groundColors());
                     var a=(PlayerPackets.CreatePlayer)first.packets.stream().filter(p->p.id()==28).findFirst().orElseThrow();var p=a.position();assertTrue(geometry.safePosition(new SpawnGeometry.Position(p.x(),p.y(),p.z())));
                     int holeX=(int)p.x(),holeY=(int)p.y();for(int z=100;z<=238;z++)domain.world().set(new MutableWorld.Cell(holeX,holeY,z),false,0,null);
                     assertFalse(geometry.safePosition(new SpawnGeometry.Position(p.x(),p.y(),p.z())));

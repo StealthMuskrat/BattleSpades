@@ -1,8 +1,8 @@
 # Java 25 migration report
 
 Date: 2026-10-15 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage adds authored spawn geometry, source threat selection and
-bounded rescue, with seeded random/math parity and all-class settling traces.
+The current stage adds layered inert map metadata, stock/mode/UGC layout assembly
+and catalogue filtering, connected to scene packets and owned spawn geometry.
 Actual player identity/lifecycle, live
 physics integration and modes remain pending. The ordinary JAR launcher deliberately returns exit 2 for hosting.
 
@@ -17,8 +17,9 @@ physics integration and modes remain pending. The ordinary JAR launcher delibera
 - Previous configured-scene tree: `eadba7cd03e37328f9e8ce2cbdfc07e452697998`.
 - Previous admission implementation: `4c9b6014a1d6aab45a7ee8ee3e9232693de0f855`.
 - Previous admission tree: `2dcb997a71ff93209d754d657f7c8bc68c503843`.
-- Current spawn implementation: `6792f538924d0bbd52a62e0b1fa85d8ead0c5b5e`.
-- Current tested/published tree: `5608362cd28586e9d89adef82719d4ac2b8235f6`.
+- Previous spawn implementation: `6792f538924d0bbd52a62e0b1fa85d8ead0c5b5e`.
+- Previous spawn tested/published tree: `5608362cd28586e9d89adef82719d4ac2b8235f6`.
+- Current metadata checkpoint is locally verified; publication/CI evidence follows.
 - Independent execution: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -28,6 +29,15 @@ publication uses the connected app, with an expected-head lease; normal CLI push
 credentials/direct GitHub networking are unavailable. No release is created.
 
 ## Current implementation
+
+MapMetadata/MetadataDocument read prioritized JSON/UGC/legacy sidecars into
+immutable atmosphere, layout, objective/entity and catalogue data. MapAssembly
+validates VXL format/source CRC before returning a new map; ConfiguredScene rejects
+a different mode/world. Source comparisons cover 785 full metadata cases, 659
+packet pairs and 4316 map pools, with independent canonical source hashes.
+File-backed sidecars now drive the UDP terrain test and packaged native loader
+including changed gravity after reload. See [MAP_METADATA.md](MAP_METADATA.md)
+for strict loading bounds, literal grammar coverage and remaining gameplay scope.
 
 SpawnGeometry/SpawnResolver now port authored floors/sea spawns, live body/support
 checks, roof/pocket rejection, stable base anchors, threat scoring and bounded
@@ -81,8 +91,10 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Check | Current local result |
 |---|---|
 | Java 25 clean check/build | PASS |
-| Unit/component tests | 1296 passed; 0 failures/errors/skips |
+| Unit/component tests | 1927 passed; 0 failures/errors/skips |
 | Real UDP integration tests | 8 passed; 0 failures/errors/skips |
+| Layered metadata / scene packets / map pools | 785 metadata cases, 659 packet pairs, 4316 pool vectors; 332 input groups |
+| Focused original metadata regressions | 71 passed, 4 missing retail .txtc skips |
 | Spawn geometry / selection / arithmetic | 18,124 geometry, 822 event, 16,000 random, 3,064 hypot and 3,000 sum vectors |
 | Spawn-to-mover settling | 8,640 exact source ticks across all 18 class profiles |
 | Name normalization/allocation | 1,112,064 Unicode scalars and 18,568 source vectors |
@@ -101,7 +113,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | All five jobs PASS: Ubuntu build, native/source oracle, Windows/Linux/macOS |
+| Current-tree independent platform CI | Pending for metadata checkpoint; prior spawn checkpoint passed all five jobs |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -118,8 +130,9 @@ symbols/3 failures. Bot breach reproduced 1 pass/3 failures, and an earlier focu
 suite had 79 pass/1 psutil environment failure. The 1640-test movement subset
 passes; the preceding scene stage passed 78 focused rule/class/builder regressions.
 The admission stage passed 60 focused name/mode-lifecycle/class regressions.
-The spawn stage passes 42 focused retail-box/TDM/smart-spawn/spawn-lock regressions;
-neither replaces a full reference run. See [PYTHON_BASELINE.md](PYTHON_BASELINE.md).
+The spawn stage passes 42 focused retail-box/TDM/smart-spawn/spawn-lock regressions.
+The metadata stage passes 71 focused tests with four missing retail .txtc skips;
+these subsets do not replace a full reference run. See [PYTHON_BASELINE.md](PYTHON_BASELINE.md).
 
 ## Build and runtime
 
@@ -144,7 +157,7 @@ smoke downloads one Ubuntu-built JAR; source tests additionally run on all three
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
 
-Current spawn CI: [run38784215231](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38784215231), all five jobs passed.
+Previous spawn CI: [run38785215231](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38785215231), all five jobs passed.
 The source-oracle job reproduced all spawn fixtures/provenance without a diff,
 alongside the earlier movement/query/scene/catalog/name/admission gates.
 The build rebuilt and byte-compared its JAR before upload; all three OSes tested

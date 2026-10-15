@@ -1,6 +1,7 @@
 # Java test results
 
 Stage: application sessions and live map catch-up,2026-10-15 UTC.
+Implementation: `a9c29842e67cc96eade2be3b2908044e44bd4e53`. [All five independent CI jobs passed](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

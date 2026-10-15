@@ -11,12 +11,17 @@ modes are missing. Test fixtures are not shipped as game implementations.
 - Branch: `port/java25`; upstream and the fork's default branch are unchanged.
 - Behavioral source: `6216b771282d2d349ccd67ee58c378f035c83553`.
 - Prior ENet/loader implementation: `93f2ea2e934ffd776c0c01b25d3594c658cf1acb`.
-- Current implementation commit, tested tree and CI execution: [CI_STATUS.md](CI_STATUS.md).
+- Current implementation: `a9c29842e67cc96eade2be3b2908044e44bd4e53`.
+- Tested/published tree: `aa4e78c70ea4e965cafc5fa66c81e6fd59580160`.
+- Independent execution: [CI_STATUS.md](CI_STATUS.md).
 - Original production Python/Cython sources remain unchanged and available.
 
 CLI push credentials are unavailable. The connected GitHub app publishes tested
-Git objects with an expected-head lease; local/remote tree equality is checked by
-public fetch. No release, upstream change or default-branch change is made.
+Git objects with an expected-head lease. The returned tree SHA exactly matches the
+tested local tree. A later CLI read encountered a CONNECT403 restriction; the
+connected GitHub API independently verified the branch commit/tree, and the exact
+commit object was reconstructed and SHA-checked locally to synchronize history.
+No release, upstream change or default-branch change is made.
 
 ## Current implementation
 
@@ -144,6 +149,13 @@ This verifies local repeatability, not cross-JDK byte identity or game portabili
 Production dependencies remain tomlj 1.1.1, ANTLR Java runtime 4.11.1 and
 checker-qual 3.21.2. Their checksums, licenses and ENet attribution remain packaged.
 No proprietary client assets were added.
+
+## Independent platform verification
+
+All five jobs passed in [CI run38700225938](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38700225938): clean Ubuntu build,
+the native transport/application oracles and identical-artifact diagnostic smoke
+plus component/UDP tests on Linux, macOS and Windows. This is not game-client/UI
+or gameplay verification.
 
 ## Remaining work and readiness
 

@@ -29,5 +29,18 @@
       "skipped": 0
     }
   },
-  "verification_stage": "Application sessions and live map catch-up"
+  "verification_stage": "Application sessions and live map catch-up",
+  "java_implementation_commit": "a9c29842e67cc96eade2be3b2908044e44bd4e53",
+  "tested_tree": "aa4e78c70ea4e965cafc5fa66c81e6fd59580160",
+  "ci": {
+    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38700225938",
+    "implementation_commit": "a9c29842e67cc96eade2be3b2908044e44bd4e53",
+    "jobs": {
+      "build": "success",
+      "native-enet": "success",
+      "platform (ubuntu-latest)": "success",
+      "platform (windows-latest)": "success",
+      "platform (macos-latest)": "success"
+    }
+  }
 }

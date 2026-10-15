@@ -15,6 +15,9 @@ The diagnostic Main does not instantiate the fixture or advertise game hosting.
 | BoundedSnapshotCompression | Fixed worker/queue limits; owner collects results, cancels retired jobs and handles submission backpressure |
 | JoinScene | Supplies actual InitialInfo, StateData, roster and admission; receives capability and authoritative input-arrival tick |
 
+The caller owns scene/world disposal. ApplicationHost closes sessions, compression
+and transport; it does not silently dispose an externally owned scene.
+
 Only immutable snapshot work crosses the worker boundary. A cancelled compressor
 checks interruption at record boundaries. Completed, uncollected jobs still consume
 capacity so retaining results cannot silently bypass the queue limit.

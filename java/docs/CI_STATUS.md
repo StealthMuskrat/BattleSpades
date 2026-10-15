@@ -1,5 +1,10 @@
 # Independent CI verification
 
+Current movement/query tree: **pending independent CI**. The evidence below is for the
+previous application checkpoint, not the newly edited tree.
+
+## Previous application checkpoint
+
 Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/38700225938
 
 Implementation: `a9c29842e67cc96eade2be3b2908044e44bd4e53`.

@@ -21,7 +21,7 @@ has passed. Nothing below is a production-readiness claim.
 | aoslib/vxl.pyx | Loader / column serializer implemented | 6 synthetic source fixtures, 3,264 source point samples, classic64/floor/fill and source column bytes |
 | aoslib/kv6.pyx | Format codec implemented | standard/legacy roundtrip and malformed bounds; model operations/palette interpretation pending |
 | Voxel edits/collapse/world persistence | Committed-cell subset implemented | 792 source cell samples/72 column bytes, opaque dynamic colors, exposed-surface materialization, initial health and exact journal repair; gameplay validation, damage/shades, collapse/editor/persistence pending |
-| shared/glm.pyx / aoslib/world.pyx | **Pending** | binary32 vector wire record exists; no movement/physics port or physics parity claim |
+| shared/glm.pyx / aoslib/world.pyx | Player mover and world-query components implemented; gameplay integration pending | 12924 exact source ticks across118 cases/all 18 classes;941 exact query vectors; float stores, flight/crouch/peer/voxel/landing branches; remaining GLM/projectiles and live domain pending |
 | server/simulation_runtime.py | Scheduling core implemented | 60/30 cadence, 5-step batches, 2s retained debt, bounded input drain and ownership tests; domain step functions missing |
 | server/config.py | Core subset implemented | root config and join-policy smoke; password/ranges, map mode, grace and clock settings; most rules/overlays/fleet validation pending |
 | Players/team/class/spawn/respawn/identity | **Pending** | requires transport/loader and source lifecycle tests |
@@ -50,8 +50,9 @@ has passed. Nothing below is a production-readiness claim.
    validation/collapse. Complete transport bandwidth redistribution and full configuration.
    Application snapshot/cell/life-token gates now have source and real-UDP coverage.
 3. Connect an unmodified supported game client and verify complete map synchronization.
-4. Port original strict-float movement/collision/projectile/world mutation behavior
-   with existing retail fixtures and differential traces.
+4. Connect verified strict-float PlayerPhysics and queries to the actual player
+   lifecycle, input/equipment policy, 60 Hz loop and reconciliation/WorldUpdate.
+   Port remaining GLM/projectile/world behavior with differential traces.
 5. Implement player/combat/terrain lifecycle and one full source-equivalent mode.
 6. Complete all modes, bots, creator/tutorial, plugins/admin/persistence/discovery.
 7. Evaluate full regression, real-client multiplayer, identical-artifact platform

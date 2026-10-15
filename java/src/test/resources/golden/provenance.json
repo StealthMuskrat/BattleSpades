@@ -7,14 +7,18 @@
     "loading": "compiled shared.packet + server.world_manager.MapSyncSnapshot",
     "range": "vendored ENet compress.c",
     "session": "compiled shared.packet, protocol.runtime_packets, server.flight_profile, prefab_actions.encode_block_manager_state",
-    "mutations": "compiled aoslib.vxl + server.world_manager.WorldManager"
+    "mutations": "compiled aoslib.vxl + server.world_manager.WorldManager",
+    "movement": "compiled aoslib.world.Player + aoslib.vxl.VXL; exact public float/double stores",
+    "queries": "compiled aoslib.world raycast/cube_line/face/is_centered"
   },
   "generators": [
     "generate_golden.py",
     "generate_world_golden.py",
     "generate_range_golden.py",
     "generate_loading_golden.py",
-    "generate_session_golden.py"
+    "generate_session_golden.py",
+    "generate_movement_golden.py",
+    "generate_query_golden.py"
   ],
   "fixtures": {
     "client-input.tsv": "883efa80bec71476936cfd002c47fc03817ebe0051393b075fb6314e299b3c0a",
@@ -23,10 +27,14 @@
     "loading.tsv": "f86f951f165009de3e1bd3c20c5fd57084f8343b28eb792b9b0dded87d2d1d0e",
     "lzf.tsv": "7cc5a7f78789d986e665043392f7be29b09b6de8c6f109d24583b3907bd72f76",
     "map-sync.tsv": "5f5a34c7119d26e759e5371fdaa55d51bfcba8b449dcf67166ae1996d3433f77",
+    "movement-provenance.json": "43953819466346bdb02cd90e66a58db0d5090357258441dd98e5440a30366b06",
+    "movement.tsv.gz": "89f9074a863f54c4264935f7305aeb538dbaaac9eddfd030d702414e6451d4d9",
     "mutations.columns.tsv": "1b2d0ef17ae2e5e2afa29ee54159348aa2d05dcab889e496f71dbc029fd8ec93",
     "mutations.ops.tsv": "d1cf03554a31f5e640b19d5f5ef7c1927faf2d1dfc5c2fa27cfdb0612bef2e65",
     "mutations.points.tsv": "b8b7d0fea7b0aa7d730294db29548f1a0e52bb64951969da0978b96c4a1b8f70",
     "packets.tsv": "f77b6555d924b17317b98c8c8a794c9e6df133578ffb337db246ea9e7d3ebb48",
+    "queries.tsv.gz": "18c22a44d9fab95ce03da8237aaa66d60388f33ee802a90ee9ab1bdbcf381160",
+    "query-cells.tsv": "a4a945ef0e0eb51feb4ffa0e39ae75f9d8644d0fa4f302f3848013ec2c402646",
     "range.tsv": "d70c143dfce3d6bf1c8524aa2ee193680b1c1b7d8a6ca5194df0522f4c7b4ea0",
     "session.tsv": "ec2ab45fb0ec560984c6feb42cdfb19c3b6d968322de0bc8940562760881c203",
     "world/cave.columns.tsv": "2c7740d05549db5aecbe27887e92dd1e60132000d6c7d093edfd0b9d017f2609",

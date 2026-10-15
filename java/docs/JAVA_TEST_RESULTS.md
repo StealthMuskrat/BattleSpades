@@ -1,7 +1,7 @@
 # Java test results
 
-Stage: application sessions and live map catch-up,2026-10-15 UTC.
-Implementation: `a9c29842e67cc96eade2be3b2908044e44bd4e53`. [All five independent CI jobs passed](CI_STATUS.md).
+Stage: source-exact player movement and world queries,2026-10-15 UTC.
+Current-tree independent CI is pending; previous checkpoint evidence is retained in [CI_STATUS.md](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -17,21 +17,26 @@ Implementation: `a9c29842e67cc96eade2be3b2908044e44bd4e53`. [All five independen
 | net.battlespades.LoadingPacketTest | 12 | 0 | 0 | 0 |
 | net.battlespades.MapSyncTest | 15 | 0 | 0 | 0 |
 | net.battlespades.MutableWorldTest | 5 | 0 | 0 | 0 |
+| net.battlespades.PlayerPhysicsTest | 120 | 0 | 0 | 0 |
 | net.battlespades.PlayerRosterTest | 2 | 0 | 0 | 0 |
 | net.battlespades.RangeCoderTest | 31 | 0 | 0 | 0 |
 | net.battlespades.SessionProtocolTest | 18 | 0 | 0 | 0 |
 | net.battlespades.SimulationTest | 4 | 0 | 0 | 0 |
 | net.battlespades.WorldFormatTest | 4 | 0 | 0 | 0 |
+| net.battlespades.WorldQueriesTest | 2 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 13 | 0 | 0 | 0 |
 | net.battlespades.ApplicationIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **342 passed; zero failures,errors or skips.**
+Total: **464 passed; zero failures,errors or skips.**
 
-Native transport and native application loader oracles are additional development
-checks outside this JUnit count. They use a test-only scene, not an original game
-client. Results: [native-transport-results.json](native-transport-results.json) and
-[native-loader-results.json](native-loader-results.json).
+Includes118 source movement traces (12924 original-engine ticks), live mutable-terrain
+collision and ownership validation,941 source world-query vectors and5 real UDP tests.
+Every exposed movement position/velocity and ray hit is checked by exact double bits.
+No numeric tolerance is used. The strict-compiled source oracle reproduces all new
+fixtures exactly. See [MOVEMENT_PHYSICS.md](MOVEMENT_PHYSICS.md).
 
-See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) for exact behavior and limits.
+Native transport/application oracles remain additional development checks outside
+the JUnit count; current CI reruns them. These use a test-only scene, not a game client.
+Configured gameplay scenes, live movement integration, combat and complete modes remain pending.

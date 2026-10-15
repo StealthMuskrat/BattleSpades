@@ -94,6 +94,12 @@ jobs:
       - name: Native application loader, password, live catch-up and scene reload
         timeout-minutes: 5
         run: python java/tools/test_native_loader.py
+      - name: Build original Cython world oracle and reproduce exact movement fixtures
+        run: |
+          python java/tools/build_reference_world.py
+          python java/tools/generate_movement_golden.py
+          python java/tools/generate_query_golden.py
+          git diff --exit-code -- java/src/test/resources/golden/movement.tsv.gz java/src/test/resources/golden/movement-provenance.json java/src/test/resources/golden/queries.tsv.gz java/src/test/resources/golden/query-cells.tsv
       - uses: actions/upload-artifact@v4
         if: always()
         with:

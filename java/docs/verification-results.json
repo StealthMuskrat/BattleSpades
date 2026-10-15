@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "9b6c9f4b203ea1a21626a0e18eb58d5dc3bff6f117b8af88740e83d52362ed87",
-  "jar_bytes": 1011877,
+  "jar_sha256": "a1b4fb5e89ed4d2d375cc93fda564f9c1d79282d85efb8ee85f913e84e3cc242",
+  "jar_bytes": 1034516,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -17,7 +17,7 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 337,
+      "tests": 459,
       "failures": 0,
       "errors": 0,
       "skipped": 0
@@ -29,18 +29,43 @@
       "skipped": 0
     }
   },
-  "verification_stage": "Application sessions and live map catch-up",
-  "java_implementation_commit": "a9c29842e67cc96eade2be3b2908044e44bd4e53",
-  "tested_tree": "aa4e78c70ea4e965cafc5fa66c81e6fd59580160",
+  "verification_stage": "Source-exact player movement and world queries",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38700225938",
-    "implementation_commit": "a9c29842e67cc96eade2be3b2908044e44bd4e53",
-    "jobs": {
-      "build": "success",
-      "native-enet": "success",
-      "platform (ubuntu-latest)": "success",
-      "platform (windows-latest)": "success",
-      "platform (macos-latest)": "success"
+    "status": "pending for current tree",
+    "previous_run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38700225938"
+  },
+  "movement": {
+    "cases": 118,
+    "commands": 13745,
+    "ticks": 12924,
+    "comparison": "exact exposed double bits, flags and landing results",
+    "original_source_oracle_rebuilt": true,
+    "gameplay_integration": false,
+    "fixture_compression": "deterministic gzip, decoded only by Java tests"
+  },
+  "world_queries": {
+    "vectors": 941,
+    "comparison": "exact hit position bits, cells/faces/lines and decisions"
+  },
+  "reference_movement_tests": {
+    "tests": 1640,
+    "failures": 0,
+    "command": "python -m pytest -q tests/test_retail_world_branches.py tests/test_retail_binary_movement.py"
+  },
+  "smoke": {
+    "version": {
+      "exit": 0,
+      "output": "BattleSpades 0.1.0-java25-dev; protocol 168; gameplay incomplete"
+    },
+    "config": {
+      "exit": 0,
+      "output": "Core configuration valid: BattleSpades Server, UDP 27015, 24 players, 60 Hz\nValidation covers core server/network and join settings; remaining gameplay rules are pending."
+    },
+    "hosting": {
+      "exit": 2,
+      "output": "Java migration incomplete: a configured gameplay scene, player simulation and game modes are not available.\nUse --help for diagnostics. Continue using the reference server for gameplay."
     }
   }
 }

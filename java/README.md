@@ -1,7 +1,7 @@
 # BattleSpades Java 25 migration
 
 **Development components, not a playable server.** This executable deliberately
-returns exit code 2 for normal game startup. Configured gameplay scenes, physics and game modes remain unimplemented.
+returns exit code 2 for normal game startup. Configured gameplay scenes, live physics integration and game modes remain unimplemented.
 Owned application sessions and live catch-up are tested with a domain fixture.
 See [FEATURE_PARITY.md](docs/FEATURE_PARITY.md) and the
 [migration plan](../JAVA25_MIGRATION_PLAN.md). Do not deploy this JAR as a game server.
@@ -56,6 +56,10 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 - Composed ENet application sessions, password/XOR/capability handling, promised IDs,
   asynchronous snapshots, committed cell journals and concrete roster life catch-up.
 - Core and join TOML validation and bounded, owned 60/30 Hz scheduling core.
+- Source-exact player movement/collision, all 18 class profiles, flight/crouch/peer
+  and landing behavior, plus ray/cube/face queries. See [movement evidence and
+  integration limits](docs/MOVEMENT_PHYSICS.md):12924 original-engine ticks and 941
+  query vectors; the live gameplay domain remains pending.
 
 A codec does not mean the corresponding gameplay feature or packet handler exists.
 

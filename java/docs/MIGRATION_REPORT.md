@@ -21,6 +21,8 @@ input chronology, combat, authenticated identity and concrete modes remain pendi
 - Metadata feature implementation: `091c3408bb23bfa13a04535a17476544eac110a3`.
 - Previous metadata implementation, including strict JSON whitespace: `9b822d80e40fc390eea3fb471822a1fec0a878cb`.
 - Previous metadata tested/published tree: `b4581018e5647ab630fd3b808dfae4577a3d15a7`.
+- Current lifecycle implementation: `d03cb25c420323ef6a94379f06de349cd58ded0e`.
+- Current lifecycle tested/published tree: `f46b2a5736cd9dc49afae067df58f35e1239212a`.
 - Independent execution: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -125,7 +127,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | Pending publication; preceding metadata all five PASS |
+| Current-tree independent platform CI | All five PASS: Ubuntu build, native/source oracle, Linux/Windows/macOS |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -169,6 +171,10 @@ Independent CI uses ordinary Java 25 runners and wrapper/Maven resolution. Platf
 smoke downloads one Ubuntu-built JAR; source tests additionally run on all three OSes.
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
+
+Current lifecycle CI: [run38795898680](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38795898680), all five jobs passed.
+It reproduces life fixtures/catalogs, runs the production-domain UDP lifecycle test,
+rebuilds/byte-compares its archive and tests the same uploaded JAR on three OSes.
 
 Previous metadata CI: [run38790040711](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38790040711), all five jobs passed.
 It includes strict JSON whitespace regression coverage, source metadata/catalog

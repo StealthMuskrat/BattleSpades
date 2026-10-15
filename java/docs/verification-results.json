@@ -33,11 +33,23 @@
     }
   },
   "verification_stage": "Common Character lifecycle, inventory, death and respawn behind explicit policy ports",
-  "java_implementation_commit": null,
-  "tested_tree": null,
+  "java_implementation_commit": "d03cb25c420323ef6a94379f06de349cd58ded0e",
+  "tested_tree": "f46b2a5736cd9dc49afae067df58f35e1239212a",
   "ci": {
-    "status": "pending for current tree",
-    "previous_run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38790040711"
+    "status": "success",
+    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38795898680",
+    "jobs": {
+      "build": "success",
+      "native-enet": "success",
+      "platform (macos-latest)": "success",
+      "platform (ubuntu-latest)": "success",
+      "platform (windows-latest)": "success"
+    },
+    "repeated_jar_comparison": "success",
+    "source_fixtures_and_catalogs_reproduced": true,
+    "life_fixtures_and_catalog_reproduced": true,
+    "same_uploaded_jar_on_three_platforms": true,
+    "packaged_native_probes": "prior fixture player domain; new lifecycle uses separate production-domain UDP test"
   },
   "movement": {
     "cases": 118,

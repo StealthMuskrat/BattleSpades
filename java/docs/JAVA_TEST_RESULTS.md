@@ -1,7 +1,7 @@
 # Java test results
 
 Stage: common Character lifecycle, inventory, death and respawn, 2026-10-15 UTC.
-Current-tree CI pending; preceding metadata evidence is in [CI_STATUS.md](CI_STATUS.md).
+Implementation: `d03cb25c420323ef6a94379f06de349cd58ded0e`. All five CI jobs pass: [run38795898680](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38795898680). Details: [CI_STATUS.md](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

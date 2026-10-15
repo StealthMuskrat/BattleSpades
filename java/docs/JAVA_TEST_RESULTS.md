@@ -1,6 +1,8 @@
 # Java test results
 
 Verification stage: ENet peer/host and loader components, 2026-10-15 UTC.
+Implementation: `93f2ea2e934ffd776c0c01b25d3594c658cf1acb`.
+Independent Linux, macOS, Windows and native ENet CI: [all five jobs passed](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

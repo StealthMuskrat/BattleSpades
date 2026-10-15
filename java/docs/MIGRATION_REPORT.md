@@ -10,7 +10,9 @@ full original-client compatibility, feature parity or milestones B–F.
 - Branch: `port/java25`; upstream and the fork's default branch are unchanged.
 - Behavioral source: `6216b771282d2d349ccd67ee58c378f035c83553`.
 - Previous foundation: `6a4dc5eb52d96812dd9ae565f42de4746b414b1b`.
-- Current implementation commit and independent execution: see [CI_STATUS.md](CI_STATUS.md).
+- Current implementation: `93f2ea2e934ffd776c0c01b25d3594c658cf1acb`.
+- Tested/published tree: `86aa49fea0b4b27a652477a0dce5631c52468766`.
+- Independent execution: see [CI_STATUS.md](CI_STATUS.md).
 - Original production Python/Cython source remains available and unchanged.
 
 The connected GitHub app publishes the tested tree with an expected-head lease;
@@ -38,7 +40,8 @@ protocol rejection, reliable delivery and ACKs, bounded pending/in-flight queues
 reordering and duplicate suppression, reliable/unreliable fragment groups,
 unsequenced windows, retry/timeout timers, RTT-based throttling, send windows,
 pings, graceful/immediate disconnect and session-safe reconnect. Socket enqueue
-backpressure does not discard reliable data. Range coding matches original C
+backpressure does not discard reliable data; host shutdown frees peer queues even
+when an application retains the peer handle. Range coding matches original C
 fixtures. Host bandwidth-epoch redistribution is still pending; the default host
 advertises zero/unlimited bandwidth, as the original server does. This is a tested
 server transport component, not a claim of complete ENet certification or gameplay.
@@ -129,6 +132,13 @@ This proves repeated local packaging, not cross-JDK byte identity or gameplay.
 Production dependencies remain tomlj 1.1.1, ANTLR Java runtime 4.11.1 and
 checker-qual 3.21.2. Lock/checksum files and packaged license texts retain attribution.
 No proprietary client assets were added.
+
+## Independent platform verification
+
+All five jobs passed in [CI run 38667711995](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38667711995):
+clean Ubuntu build, Linux native ENet interoperability, and same-artifact diagnostic
+smoke plus component/UDP tests on Linux, macOS and Windows. This does not verify
+original-client gameplay on those platforms. See [CI_STATUS.md](CI_STATUS.md).
 
 ## Remaining work and readiness
 

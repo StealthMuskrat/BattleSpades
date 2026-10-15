@@ -29,5 +29,18 @@
       "skipped": 0
     }
   },
-  "verification_stage": "ENet peer/host and loader components"
+  "verification_stage": "ENet peer/host and loader components",
+  "java_implementation_commit": "93f2ea2e934ffd776c0c01b25d3594c658cf1acb",
+  "tested_tree": "86aa49fea0b4b27a652477a0dce5631c52468766",
+  "ci": {
+    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38667711995",
+    "implementation_commit": "93f2ea2e934ffd776c0c01b25d3594c658cf1acb",
+    "jobs": {
+      "build": "success",
+      "native-enet": "success",
+      "platform (ubuntu-latest)": "success",
+      "platform (windows-latest)": "success",
+      "platform (macos-latest)": "success"
+    }
+  }
 }

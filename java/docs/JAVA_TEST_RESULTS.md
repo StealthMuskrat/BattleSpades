@@ -1,7 +1,7 @@
 # Java test results
 
 Stage: source-exact player movement and world queries,2026-10-15 UTC.
-Current-tree independent CI is pending; previous checkpoint evidence is retained in [CI_STATUS.md](CI_STATUS.md).
+Implementation: `9cfe665bbb3340f2606a2486a3f337dc4c6f3386`. [All five independent CI jobs passed](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -38,5 +38,5 @@ No numeric tolerance is used. The strict-compiled source oracle reproduces all n
 fixtures exactly. See [MOVEMENT_PHYSICS.md](MOVEMENT_PHYSICS.md).
 
 Native transport/application oracles remain additional development checks outside
-the JUnit count; current CI reruns them. These use a test-only scene, not a game client.
+the JUnit count; both passed in the current CI run. These use a test-only scene, not a game client.
 Configured gameplay scenes, live movement integration, combat and complete modes remain pending.

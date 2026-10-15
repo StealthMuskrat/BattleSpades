@@ -30,11 +30,18 @@
     }
   },
   "verification_stage": "Source-exact player movement and world queries",
-  "java_implementation_commit": null,
-  "tested_tree": null,
+  "java_implementation_commit": "9cfe665bbb3340f2606a2486a3f337dc4c6f3386",
+  "tested_tree": "04c4c8b042a71ec31ff172e79b8d971f2613e35b",
   "ci": {
-    "status": "pending for current tree",
-    "previous_run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38700225938"
+    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38705329003",
+    "implementation_commit": "9cfe665bbb3340f2606a2486a3f337dc4c6f3386",
+    "jobs": {
+      "build": "success",
+      "native-enet": "success",
+      "platform (ubuntu-latest)": "success",
+      "platform (windows-latest)": "success",
+      "platform (macos-latest)": "success"
+    }
   },
   "movement": {
     "cases": 118,

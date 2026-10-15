@@ -12,7 +12,8 @@ pending. The ordinary JAR launcher deliberately returns exit 2 for hosting.
 - Behavioral source: `6216b771282d2d349ccd67ee58c378f035c83553`.
 - Previous application implementation: `a9c29842e67cc96eade2be3b2908044e44bd4e53`.
 - Previous documented checkpoint: `e4a221097ce7596b473533c6d3dea29bcbda33a4`.
-- Current implementation SHA/tree: recorded after publication in verification-results.json.
+- Current implementation: `9cfe665bbb3340f2606a2486a3f337dc4c6f3386`.
+- Tested/published tree: `04c4c8b042a71ec31ff172e79b8d971f2613e35b`.
 - Independent execution: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -56,12 +57,12 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Focused original movement regressions | 1640 passed: test_retail_world_branches.py and test_retail_binary_movement.py |
 | Live terrain collision adapter | Builds/removals affect the same mover; ownership checks pass |
 | Existing protocol/session/map/ENet tests | PASS in full check |
-| Native ENet transport/application oracles | Previous checkpoint passed; rerun in current CI |
+| Native ENet transport/application oracles | PASS in current independent CI |
 | Version/core+join config smoke | Recorded with current artifact verification |
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | Pending; see CI_STATUS.md |
+| Current-tree independent platform CI | All five jobs passed; Linux/Windows/macOS components and one-artifact smoke |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -99,6 +100,11 @@ Independent CI uses ordinary Java 25 runners and wrapper/Maven resolution. Platf
 smoke downloads one Ubuntu-built JAR; source tests additionally run on all three OSes.
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
+
+All five jobs succeeded in [run 38705329003](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38705329003) for the exact implementation
+commit and tree above. The native job also rebuilt original glm/VXL/world and
+regenerated all four new fixture files without differences. This verifies the
+listed components, rather than a complete game/client session.
 
 ## Remaining work and readiness
 

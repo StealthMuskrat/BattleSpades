@@ -14,8 +14,8 @@ physics integration and modes remain pending. The ordinary JAR launcher delibera
 - Previous documented checkpoint: `1f4755d6d212a5c125cf723c393221c029c5a8e8`.
 - Previous configured-scene implementation: `9e8b320709b35d6cece3c5078ea59af246f4ccbb`.
 - Previous configured-scene tree: `eadba7cd03e37328f9e8ce2cbdfc07e452697998`.
-- Current name/admission implementation is verified locally; publication/CI evidence
-  will be recorded in the follow-up checkpoint.
+- Current name/admission implementation: `4c9b6014a1d6aab45a7ee8ee3e9232693de0f855`.
+- Tested/published tree: `2dcb997a71ff93209d754d657f7c8bc68c503843`.
 - Independent execution: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -32,7 +32,7 @@ The reference Unicode 15 database is pinned independently of host JDK tables.
 Source comparisons cover every Unicode scalar plus 18,568 name, 6,192 team and
 14,256 class vectors. The binding still delegates actual life creation and mode
 hooks; see [PLAYER_ADMISSION.md](PLAYER_ADMISSION.md). Independent current-tree
-CI will be recorded after publication; the previous checkpoint is listed below.
+CI passed all five jobs for the published implementation/tree.
 
 Java 25, pinned Gradle 9.1 wrapper, locked/checksummed pure-Java dependencies and
 portable package checks remain in place. Production dependencies are tomlj 1.1.1,
@@ -42,7 +42,7 @@ New GameRules/ClassCatalog/ModeCatalog and SceneConfig/ScenePackets/ConfiguredSc
 components port all 102 Match Lobby definitions, stock atomic selection for all
 18 classes, 43 mode metadata entries and actual config/map/team packet builders.
 The binding uses the source amendment order and retains explicit domain callbacks
-for identity/team/spawn policy. Rule-adjusted profiles preserve source double
+for verified identity, concrete mode hooks and spawn policy. Rule-adjusted profiles preserve source double
 multiplication before native float stores; canonical gravity matches StateData.
 The native loader now runs the packaged JAR with root config and production
 metadata. Its remaining player lifecycle is a test fixture, excluded from the JAR.
@@ -69,8 +69,10 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Check | Current local result |
 |---|---|
 | Java 25 clean check/build | PASS |
-| Unit/component tests | 688 passed; 0 failures/errors/skips |
-| Real UDP integration tests | 6 passed; 0 failures/errors/skips |
+| Unit/component tests | 1260 passed; 0 failures/errors/skips |
+| Real UDP integration tests | 7 passed; 0 failures/errors/skips |
+| Name normalization/allocation | 1,112,064 Unicode scalars and 18,568 source vectors |
+| Pre-life team/class admission | 6,192 team and 14,256 class source vectors |
 | Rule coercion / class selection | 1958 source coercion inputs +336 source selections |
 | Configured scene builders | 99 source InitialInfo/StateData packet pairs, byte-for-byte |
 | Rule-adjusted movement | 864 walk/sprint/sneak profiles,10368 source ticks; exact final state bits |
@@ -80,12 +82,12 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Focused original movement regressions | 1640 passed: test_retail_world_branches.py and test_retail_binary_movement.py |
 | Live terrain collision adapter | Builds/removals affect the same mover; ownership checks pass |
 | Existing protocol/session/map/ENet tests | PASS in full check |
-| Native ENet transport/application oracles | Current native transport and packaged/configured loader nominal + impaired/private PASS in CI |
+| Native ENet transport/application oracles | Fresh local and CI transport/packaged loader nominal + impaired/private PASS |
 | Version/core+join config smoke | Recorded with current artifact verification |
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | All five jobs passed; one-artifact platform smoke plus 694 component/UDP tests on each OS |
+| Current-tree independent platform CI | All five jobs passed; same-artifact smoke and 1267 component/UDP tests on each OS |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -100,7 +102,8 @@ The earlier Python baseline remains incomplete: two Tk collection errors; 11795
 tests collected with those modules excluded; interrupted run reached 1087 pass
 symbols/3 failures. Bot breach reproduced 1 pass/3 failures, and an earlier focused
 suite had 79 pass/1 psutil environment failure. The 1640-test movement subset
-passes, and this stage adds 78 passing focused rule/class/builder regressions;
+passes; the preceding scene stage passed 78 focused rule/class/builder regressions.
+This stage passes 60 focused name/mode-lifecycle/class regressions;
 neither replaces a full reference run. See [PYTHON_BASELINE.md](PYTHON_BASELINE.md).
 
 ## Build and runtime
@@ -126,10 +129,13 @@ smoke downloads one Ubuntu-built JAR; source tests additionally run on all three
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
 
-All five jobs succeeded in [run38742439157](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38742439157) for the current implementation.
-The build also repeated and byte-compared the application JAR before upload.
-The source-oracle job reproduced all selected fixtures and production catalogs,
-including the 90-name registry, with the minimal interpreter environment.
+Current implementation CI: [run38749518170](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38749518170), all five jobs passed.
+The build rebuilt/byte-compared the JAR before upload. The source-oracle job
+reproduced name/admission fixtures, provenance and the pinned Unicode table with
+an empty diff, alongside all earlier movement/query/scene/catalog gates.
+The preceding configured-scene implementation passed all five jobs in
+[run38742439157](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38742439157),
+including archive byte comparison, native probes and source regeneration.
 
 The first configured-scene attempt,
 run38741477499, passed the build/reproducibility and all three platform jobs, but
@@ -145,7 +151,7 @@ packaging check. Exact final SHA/size are in verification-results.json.
 
 ## Remaining work and readiness
 
-Next: implement the actual Gameplay domain, identity/names/team assignment,
+Next: implement the actual Gameplay domain, identity verification and actual
 mode-specific admission, threat-aware spawn/death/respawn; connect the verified
 mover and configured rule profile to input/equipment policy,
 the owned 60 Hz loop, prediction history/anticheat and WorldUpdate construction.

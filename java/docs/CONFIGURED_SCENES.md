@@ -102,8 +102,9 @@ build uses committed fixtures and needs no Python or native compiler.
 
 ## Remaining boundary
 
-This does not implement actual player identity/name handling, team assignment and
-balance, per-mode admission restrictions, threat-aware spawn resolution, health,
+Common names, team/balance and class admission checks are implemented separately
+in [PLAYER_ADMISSION.md](PLAYER_ADMISSION.md). This does not implement authenticated
+identity, actual per-mode admission restrictions, threat-aware spawn resolution, health,
 death/respawn, live input scheduling/history/reconciliation, equipment activation,
 WorldUpdate construction, entities or complete modes. Active-mode policies must
 be ported behind the supplied hooks. Map/UGC-specific selection extensions and

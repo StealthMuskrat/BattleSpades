@@ -1,7 +1,9 @@
 # Java test results
 
 Stage: player names and common pre-life team/class admission, 2026-10-15 UTC.
-Current-tree independent CI is pending; earlier evidence is in [CI_STATUS.md](CI_STATUS.md).
+Implementation: `4c9b6014a1d6aab45a7ee8ee3e9232693de0f855`.
+[All five independent CI jobs passed](CI_STATUS.md), including source regeneration,
+reproducible packaging and same-artifact Linux/macOS/Windows smoke tests.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

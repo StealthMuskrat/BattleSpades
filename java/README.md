@@ -59,6 +59,8 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 - All 102 Match Lobby rules, stock selection for all 18 classes and configured
   InitialInfo/StateData builders bound to sessions. Rule-adjusted movement uses
   the same scale as the menus. See [configured scene evidence and limits](docs/CONFIGURED_SCENES.md).
+- Unicode-safe retail names and common pre-life team/class checks, bound before
+  configured admission. See [source comparisons and remaining identity/lifecycle work](docs/PLAYER_ADMISSION.md).
 - Source-exact player movement/collision, all 18 class profiles, flight/crouch/peer
   and landing behavior, plus ray/cube/face queries. See [movement evidence and
   integration limits](docs/MOVEMENT_PHYSICS.md):12924 original-engine ticks and 941
@@ -74,7 +76,8 @@ all other TOML values for later domain ports but does **not** claim to validate
 or implement those domains. Join settings additionally validate password policy,
 map sync mode, clock bias, reload grace and air-replay settings. Startup rejects enabled native `steam`/`steam_host`
 integrations instead of silently ignoring them. The original root config remains
-the behavioral reference. Full 102-rule, lobby, overlays and fleet validation is pending.
+the behavioral reference. Match Lobby rules, common scene settings and admission
+name/team settings are validated; overlays, fleet and full domain validation remain pending.
 
 ## Architecture and ownership
 
@@ -132,7 +135,7 @@ probe uses a source-fixture scene under `src/testSupport`, excluded from the JAR
 MutableWorld captures dirty columns and journals committed cells through the live
 admission boundary. [APPLICATION_LOADING.md](docs/APPLICATION_LOADING.md) describes
 the state machine, ownership, roster reconciliation and remaining domain work.
-Marker cleanup, full damage/collapse and actual player/scene builders remain pending. ENet host
+Marker cleanup, full damage/collapse, actual player lives/spawns and complete modes remain pending. ENet host
 bandwidth epoch redistribution remains pending; the current default host advertises
 unlimited bandwidth, matching the original server configuration.
 

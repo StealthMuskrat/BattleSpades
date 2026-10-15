@@ -31,11 +31,21 @@
     }
   },
   "verification_stage": "Player names and common pre-life team/class admission",
-  "java_implementation_commit": null,
-  "tested_tree": null,
+  "java_implementation_commit": "4c9b6014a1d6aab45a7ee8ee3e9232693de0f855",
+  "tested_tree": "2dcb997a71ff93209d754d657f7c8bc68c503843",
   "ci": {
-    "status": "pending for current tree",
-    "previous_run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38742439157"
+    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38749518170",
+    "implementation_commit": "4c9b6014a1d6aab45a7ee8ee3e9232693de0f855",
+    "jobs": {
+      "native-enet": "success",
+      "build": "success",
+      "platform (windows-latest)": "success",
+      "platform (macos-latest)": "success",
+      "platform (ubuntu-latest)": "success"
+    },
+    "repeated_jar_comparison": "success",
+    "source_fixtures_and_catalogs_reproduced": true,
+    "admission_fixtures_and_unicode_table_reproduced": true
   },
   "movement": {
     "cases": 118,

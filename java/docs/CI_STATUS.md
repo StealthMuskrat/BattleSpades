@@ -1,53 +1,44 @@
 # Independent CI verification
 
-The new player-name/admission checkpoint passes locally (1,260 unit/component +
-7 UDP tests; fresh native probes; two identical JARs). Its independent CI is pending
-publication. The completed run below is the preceding configured-scene checkpoint.
+Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/38749518170
 
-Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/38742439157
-
-Implementation: `9e8b320709b35d6cece3c5078ea59af246f4ccbb`.
-Tested/published tree: `eadba7cd03e37328f9e8ce2cbdfc07e452697998`.
+Implementation: `4c9b6014a1d6aab45a7ee8ee3e9232693de0f855`.
+Tested/published tree: `2dcb997a71ff93209d754d657f7c8bc68c503843`.
 Observed 2026-10-15 UTC: **all five jobs succeeded**.
 
 | Job | Result | Scope |
 |---|---|---|
-| build (Ubuntu) | PASS | clean check/build; 688 unit/component + 6 real UDP tests; config smoke; rebuild and byte-compare application JAR before upload |
-| native-enet (Ubuntu) | PASS | native transport and packaged/configured loader, loss/password/reload probes; strict original bytes/packet/glm/VXL/world rebuild; reproduce fixtures and production catalogs |
-| platform (ubuntu-latest) | PASS | one uploaded JAR smoke; 694 component/UDP tests and portable checks |
-| platform (windows-latest) | PASS | one uploaded JAR smoke; 694 component/UDP tests and portable checks |
-| platform (macos-latest) | PASS | one uploaded JAR smoke; 694 component/UDP tests and portable checks |
+| build (Ubuntu) | PASS | clean check/build; 1260 unit/component + 7 UDP tests; config smoke; rebuild and byte-compare JAR before upload |
+| native-enet (Ubuntu) | PASS | native transport/packaged loader; loss/password/reload; original source rebuild and fixture/catalog/Unicode regeneration |
+| platform (ubuntu-latest) | PASS | same uploaded JAR smoke; 1267 component/UDP tests and portability checks |
+| platform (windows-latest) | PASS | same uploaded JAR smoke; 1267 component/UDP tests and portability checks |
+| platform (macos-latest) | PASS | same uploaded JAR smoke; 1267 component/UDP tests and portability checks |
 
-The platform smoke steps downloaded **one Ubuntu-built JAR**, unchanged by OS.
-Each runner additionally compiled and tested the source. The native loader runs
-its production classes/dependencies/catalogs from the packaged application JAR;
-its remaining player domain is a test-only fixture, excluded from that artifact.
+Platform smoke steps download **one Ubuntu-built JAR**, unchanged by OS.
+Each runner also compiles/tests the source. The native loader uses production
+classes, dependencies, catalogs and Unicode data from the JAR; its player
+lifecycle remains a test-only fixture excluded from that artifact.
 
-Current evidence includes 1958 source rule coercion inputs,336 source selections,
-99 source InitialInfo/StateData pairs and 864 rule-adjusted movement profiles
-(10368 source ticks), plus earlier 12924 movement ticks/941 world queries. Packet
-bytes, value types and exposed motion bits are compared exactly. Production
-catalogs include 102 rules, 18 classes, 43 mode metadata entries and 90 registered
-names/aliases. Source regeneration requires an empty Git diff.
+New source comparisons cover 1,112,064 Unicode scalar values, 18,568 name vectors,
+6,192 team decisions and 14,256 class vectors. CI executes original name policy,
+unmodified selected connection AST methods and original equipment/rules/selection,
+then requires an empty diff for fixtures/provenance and production Unicode data.
+Python -S passes without extra policy dependencies; original compiled packet/world
+extensions are development-only. Earlier scene/rule/movement/query gates also pass.
 
-The first configured-scene run38741477499 passed the build/reproducibility and
-three platform jobs, but its source-oracle job hit an unrelated eager server
-launcher import of toml. Reference exporters now prepare a package namespace
-without changing original policy code/tables and pass with Python -S; the current
-run reproduces the fixtures/catalogs successfully without that dependency.
+The four-client UDP test covers name uniqueness, reserved fallback, neutral/team
+balance, spectators, class fallback, forged forced_team and reserved identities.
+Fresh local native probes pass nominal and impaired/private runs. Two final local
+archives pass CRC and match byte-for-byte: 1,150,799 bytes, SHA-256
+`841212008c429f3da0832a6daf9e76ca6d2e0d739d154acdd97880e1b19b1b17`.
+CI also passes its own rebuild/byte comparison before upload.
 
-Local incremental archive truncations were detected and rejected. Final local
-valid archives matched, and the independent CI rebuild/byte-comparison passed.
-Native/Python oracles are development-only; normal Gradle builds and the JAR need
-no Python/native compiler. Production dependencies remain pure Java.
+This verifies components, not playable hosting, authenticated identity, concrete
+mode hooks, spawning/lifecycle, original-client gameplay or capacity.
+See [PLAYER_ADMISSION.md](PLAYER_ADMISSION.md),
+[JAVA_TEST_RESULTS.md](JAVA_TEST_RESULTS.md) and
+[verification-results.json](verification-results.json).
 
-This verifies components, not playable hosting, original-client gameplay or
-capacity. Actual identity/team/mode authorization, spawn/lifecycle, live input
-scheduling/reconciliation, combat/modes/bots and release readiness remain pending.
-
-Evidence: [verification-results.json](verification-results.json),
-[JAVA_TEST_RESULTS.md](JAVA_TEST_RESULTS.md), [CONFIGURED_SCENES.md](CONFIGURED_SCENES.md).
-The stored native-loader data is from the final local configured-JAR run; the same
-asserted scenarios passed in CI. Retry/delay counts vary with scheduling.
-
-Previous movement checkpoint: https://github.com/StealthMuskrat/BattleSpades/actions/runs/38705329003
+Previous configured-scene CI:
+https://github.com/StealthMuskrat/BattleSpades/actions/runs/38742439157.
+Earlier local truncated archives were rejected; no packaging gate was waived.

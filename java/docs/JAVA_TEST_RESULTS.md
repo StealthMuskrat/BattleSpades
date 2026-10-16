@@ -1,9 +1,9 @@
 # Java test results
 
 Stage: ClientData chronology and action cadence, 2026-10-16 UTC.
-Current implementation publication and all five CI jobs are pending. The preceding
-accepted-health checkpoint passed all five jobs in run 38826339114.
-See [CI_STATUS.md](CI_STATUS.md) for exact implementation/CI evidence.
+Implementation: `7d0d68e8e3fda4974fe7ebc070e24f7833b74a25`; tested/published tree: `e7c13efb769da9833c27e056f69df57832118a30`.
+All five migration CI jobs pass: [run 38830815361](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38830815361).
+Details: [CI_STATUS.md](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

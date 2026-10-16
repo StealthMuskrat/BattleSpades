@@ -82,3 +82,8 @@ exercise a supported client's full gameplay loop or WorldUpdate reconciliation.
 Packaged native loader/transport probes still use the earlier FixtureScene domain.
 Ordinary hosting remains disabled with exit 2; complete modes, supported-client
 rounds, gameplay platform coverage, capacity and soak remain unverified.
+
+Independent CI: [run 38830815361](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38830815361) passes all five jobs on
+`7d0d68e8e3fda4974fe7ebc070e24f7833b74a25`, including exact source-fixture regeneration, repeat-archive
+comparison and same-artifact smoke/component coverage on all three OSes. These
+results retain the gameplay limitations above.

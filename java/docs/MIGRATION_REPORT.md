@@ -27,7 +27,10 @@ identity and concrete modes remain pending. Ordinary hosting deliberately exits 
 - Previous lifecycle tested/published tree: `f46b2a5736cd9dc49afae067df58f35e1239212a`.
 - Previous accepted-health implementation: `e9e06e5af17deb9cb4f939c9ddd9112ad18a9881`.
 - Previous accepted-health tested/published tree: `8195a734f9d048246bb17da572a0f2bf829cd824`.
-- Independent execution: [CI_STATUS.md](CI_STATUS.md).
+- Current input implementation: `7d0d68e8e3fda4974fe7ebc070e24f7833b74a25`.
+- Current input tested tree: `e7c13efb769da9833c27e056f69df57832118a30`.
+- Current input CI: [run 38830815361](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38830815361); all five jobs passed.
+- Exact job evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
 The clean checkout was cloned from the fork and matched the authoritative
@@ -152,7 +155,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | Pending publication; previous accepted-health run passed all five |
+| Current-tree independent platform CI | All five PASS: Ubuntu build, native/source oracle, Linux/Windows/macOS |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -200,6 +203,11 @@ Independent CI uses ordinary Java 25 runners and wrapper/Maven resolution. Platf
 smoke downloads one Ubuntu-built JAR; source tests additionally run on all three OSes.
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
+
+Current input/cadence CI: [run 38830815361](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38830815361), all five migration
+jobs passed on `7d0d68e8e3fda4974fe7ebc070e24f7833b74a25`. It reproduces new input/cadence fixtures and
+all earlier source gates, byte-compares its rebuilt archive, and smokes the same
+uploaded JAR on three OSes. Complete gameplay remains unverified.
 
 Previous accepted-health CI: [run38826339114](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38826339114), all five migration jobs passed.
 It reproduces original health fixtures, verifies HP/death order through UDP,

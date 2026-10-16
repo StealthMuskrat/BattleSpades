@@ -1,9 +1,41 @@
 # Current input checkpoint verification
 
-Publication and all five CI jobs for the ClientData/action-cadence checkpoint are
-**pending**. Local clean check/build passes 4,451 unit/component and 11 UDP tests.
-Both source fixtures regenerate exactly; 31 focused original tests pass.
-No current-tree CI result is inferred from the preceding checkpoint below.
+Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/38830815361
+
+Implementation: `7d0d68e8e3fda4974fe7ebc070e24f7833b74a25`.
+Tested/published tree: `e7c13efb769da9833c27e056f69df57832118a30`.
+Observed 2026-10-16 UTC: **all five migration CI jobs succeeded**.
+
+| Job | Result | Scope |
+|---|---|---|
+| build (Ubuntu) | PASS | clean check/build, config smoke, repeated JAR byte comparison and artifact upload |
+| native-enet (Ubuntu) | PASS | native transport/packaged loader; original codecs rebuilt; input/cadence and earlier fixtures/catalogs reproduced exactly |
+| platform (ubuntu-latest) | PASS | same uploaded JAR smoke; component/UDP tests and portability checks |
+| platform (windows-latest) | PASS | same uploaded JAR smoke; component/UDP tests and portability checks |
+| platform (macos-latest) | PASS | same uploaded JAR smoke; component/UDP tests and portability checks |
+
+Local clean check/build passes **4,451 unit/component + 11 UDP tests**, with no
+failures, errors or skips. The unchanged original input-loss/action-clock modules
+pass **31 tests**. Input comparisons cover 14,234 operations in 24 traces; cadence
+comparisons cover 26,234 operations in 32 traces. CI regenerates both fixtures and
+provenance and checks exact differences, alongside all preceding source gates.
+
+Two CRC-valid local archives are byte-identical: 1,305,475 bytes, SHA-256
+`3c828a867a4e0002e802c0a9cd040ace94fdad208e4a692541b15ebb51b273ce`.
+Production classes target Java 25, major 69; no native/Python/test code is packaged.
+CI separately rebuilds and byte-compares its archive, then uses one Ubuntu-built
+JAR unchanged on Linux, Windows and macOS. No local-to-CI artifact hash comparison
+is claimed.
+
+The production life receive path now records ClientData chronology and suppresses
+stale immediate state. Phase selection and action cadence are source-backed
+components. Outer pacing/equipment/impulse/mover/WorldUpdate integration, firing,
+reload and hit/friendly-fire/mode authorization remain pending. No raw handler
+authorizes damage in this checkpoint. Packaged native probes retain FixtureScene;
+the additional UDP chronology test uses production sessions/lives with explicit
+test policy ports. No supported-client round, gameplay platform/capacity or soak
+result is inferred. Ordinary hosting still exits 2. No CI gate was waived.
+See [PLAYER_INPUT.md](PLAYER_INPUT.md) for exact scope.
 
 ## Preceding accepted-health checkpoint
 

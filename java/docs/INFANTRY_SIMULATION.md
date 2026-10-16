@@ -89,3 +89,12 @@ sessions/lives/history, advances the owned scheduler, verifies real/refilled mov
 and starvation freeze, then observes a genuine lethal landing's zero HP before
 KillAction. It uses explicit test mode/reload/lag/effect ports. Packaged native
 probes retain FixtureScene and do not establish supported-client gameplay.
+
+Independent CI for implementation `1e4c34fced6e6fc96185fd72b212d62b1e3eab70` and tested tree
+`4a54308beb4e425dbfa9ea0ab2ba0176b619ccf6` passed all five jobs in
+[run 38834640118](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38834640118). The native job rebuilds the unchanged source world and
+regenerates the infantry fixture/provenance exactly. The build repeats and
+byte-compares its JAR; Linux, Windows and macOS test one uploaded artifact and
+run their source/component/UDP suites. Local clean check/build passes 4,499 Java
+tests (4,487 unit/component + 12 UDP), zero failures/errors/skips. These checks
+retain the gameplay and reference-baseline limits above.

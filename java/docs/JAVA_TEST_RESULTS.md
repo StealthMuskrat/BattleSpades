@@ -1,9 +1,10 @@
 # Java test results
 
 Stage: authoritative no-flight infantry simulation, 2026-10-16 UTC.
-Publication and all five current implementation CI jobs are pending. The preceding
-input/cadence implementation passed all five jobs in run 38830815361. Exact current
-implementation and CI evidence will be recorded in [CI_STATUS.md](CI_STATUS.md).
+Published implementation: `1e4c34fced6e6fc96185fd72b212d62b1e3eab70`; tested tree: `4a54308beb4e425dbfa9ea0ab2ba0176b619ccf6`.
+All five migration CI jobs passed in [run 38834640118](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38834640118), including exact
+source-fixture regeneration, repeat archive comparison and one uploaded JAR on
+Linux, Windows and macOS. See [CI_STATUS.md](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

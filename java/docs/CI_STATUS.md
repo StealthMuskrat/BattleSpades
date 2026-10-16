@@ -1,9 +1,40 @@
 # Current infantry checkpoint verification
 
-Publication and all five current implementation CI jobs are **pending**.
-Local clean check/build passes 4,487 unit/component and 12 UDP tests; 57 focused
-original tests pass. The 16,683-operation full-path source fixture reproduces
-exactly. No current-tree CI result is inferred from the preceding checkpoint.
+Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/38834640118
+
+Implementation: `1e4c34fced6e6fc96185fd72b212d62b1e3eab70`.
+Tested/published implementation tree: `4a54308beb4e425dbfa9ea0ab2ba0176b619ccf6`.
+Observed 2026-10-16 UTC: **all five migration CI jobs succeeded**.
+The branch was advanced without force from `87e4892c9b5b5ebe4861a80655b5e21d0fe62492`.
+
+| Job | Result | Scope |
+|---|---|---|
+| build (Ubuntu) | PASS | clean check/build, config smoke, repeated JAR byte comparison and artifact upload |
+| native-enet (Ubuntu) | PASS | native transport/packaged loader; original world rebuilt; infantry and earlier fixtures/catalogs reproduced exactly |
+| platform (ubuntu-latest) | PASS | same uploaded JAR smoke; component/UDP tests and portability checks |
+| platform (windows-latest) | PASS | same uploaded JAR smoke; component/UDP tests and portability checks |
+| platform (macos-latest) | PASS | same uploaded JAR smoke; component/UDP tests and portability checks |
+
+Local clean check/build passes **4,487 unit/component + 12 UDP tests** with zero
+failures/errors/skips; **57 focused original tests pass**. The 16,683-operation
+full-path fixture and provenance reproduce exactly, locally and in CI. Native
+transport and packaged loader pass nominal and impaired profiles. Two CRC-valid
+local archives are byte-identical: 1,322,465 bytes, SHA-256
+`2c8f3ae85b043cbfff56acf25e5d6cc6693b7ed6f22938354a1a14b221d135f6`.
+
+CI separately rebuilds and byte-compares its archive, then tests one uploaded JAR
+unchanged on Linux, Windows and macOS. No local-to-CI artifact hash comparison is
+claimed. No current CI gate was waived. The earlier publication approval block is
+resolved by explicit authorization for this and future verified branch checkpoints.
+
+This checkpoint binds no-flight infantry pacing, the production mover, eye history,
+labelled impulses and fall-health ordering. Required reload/lag/mode/effect hooks
+remain incomplete domain work. Flight equipment, upstream rate/conduct admission,
+owner WorldUpdate, firing/hit authorization and concrete modes remain pending.
+Native probes retain FixtureScene; production-domain movement uses the additional
+owned-scheduler UDP test. No supported-client round, capacity or soak result is
+inferred. The full Python baseline retains its documented discrepancy/incomplete
+runs. Ordinary hosting still exits 2. See [INFANTRY_SIMULATION.md](INFANTRY_SIMULATION.md).
 
 # Preceding input checkpoint verification
 

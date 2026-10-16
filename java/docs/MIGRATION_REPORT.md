@@ -30,7 +30,10 @@ remain pending. Ordinary hosting deliberately exits 2.
 - Previous input implementation: `7d0d68e8e3fda4974fe7ebc070e24f7833b74a25`.
 - Previous input tested tree: `e7c13efb769da9833c27e056f69df57832118a30`.
 - Previous input CI: [run 38830815361](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38830815361); all five jobs passed.
-- Exact job evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
+- Published infantry implementation: `1e4c34fced6e6fc96185fd72b212d62b1e3eab70`.
+- Infantry tested/published implementation tree: `4a54308beb4e425dbfa9ea0ab2ba0176b619ccf6`.
+- Current infantry CI: [run 38834640118](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38834640118); all five jobs passed.
+- Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
 The clean checkout was cloned from the fork and matched the authoritative
@@ -52,9 +55,11 @@ health/death packets. See [INFANTRY_SIMULATION.md](INFANTRY_SIMULATION.md).
 InputTimeline records bounded immutable frames and receive metadata, preserves the
 fresh immediate-state gate, selects source-latched movement phases, salvages late
 presses and retains connection action evidence across life resets. ActionClock
-preserves label/arrival cadence and server-time token budgets. This does not bind
-outer input policies, equipment, impulses, eye/lag history or WorldUpdate, and does
-not authorize raw hit packets. Original methods execute unchanged for 14,234 input
+preserves label/arrival cadence and server-time token budgets. The infantry binding
+above adds outer no-flight pacing, impulses and eye history;
+equipment, actual lag compensation, owner WorldUpdate and upstream rate/conduct
+admission remain pending. Raw hit packets do not authorize damage. Original methods
+execute unchanged for 14,234 input
 and 26,234 cadence comparisons. See [PLAYER_INPUT.md](PLAYER_INPUT.md).
 
 LifeRuntime now applies accepted connected-player/world damage and integer healing
@@ -165,7 +170,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | Pending publication and verification; preceding input checkpoint passed all five |
+| Current-tree independent platform CI | PASS: all five jobs; repeat archive, source regeneration and same JAR on three OSes |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -213,6 +218,12 @@ Independent CI uses ordinary Java 25 runners and wrapper/Maven resolution. Platf
 smoke downloads one Ubuntu-built JAR; source tests additionally run on all three OSes.
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
+
+Current infantry CI: [run 38834640118](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38834640118), all five jobs passed
+on `1e4c34fced6e6fc96185fd72b212d62b1e3eab70`. It reproduces the full infantry fixture/provenance and
+all earlier source gates, verifies native probes, byte-compares its rebuilt JAR,
+and tests one uploaded artifact on three OSes. No local-to-CI artifact hash
+comparison or complete gameplay result is claimed.
 
 Previous input/cadence CI: [run 38830815361](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38830815361), all five migration
 jobs passed on `7d0d68e8e3fda4974fe7ebc070e24f7833b74a25`. It reproduces new input/cadence fixtures and
@@ -266,8 +277,8 @@ Next: bind flight equipment/fuel and owner WorldUpdate reconciliation, complete
 upstream rate/conduct admission and required reload/lag/mode/effect ports; implement
 firing/reload and hit/action authorization; connect detached projectile actors and full scoring/award observers; wire
 the common Character lifecycle to concrete modes/effects and authenticated identity,
-and connect the verified mover and configured rule profile to input/equipment policy,
-the owned 60 Hz loop, prediction history/anticheat and WorldUpdate construction.
+and extend the owned infantry path with equipment policy, complete lag-compensation
+rewind/anticheat and WorldUpdate construction.
 Continue remaining packets and entity/projectile physics, terrain validation,
 damage/shades/collapse, combat, all modes, bots, creator/tutorial, plugins, admin,
 persistence and discovery. UGC pre-validation transfers and ENet bandwidth-epoch

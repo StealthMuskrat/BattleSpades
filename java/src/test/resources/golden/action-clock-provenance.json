@@ -1,0 +1,11 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_files": {
+    "server/action_clock.py": "488ee5d11c80b8fb63a52086efcf44a2e6a153de16bf99d73c6cda8588e87af3"
+  },
+  "operations": 26234,
+  "groups": 32,
+  "fixture_sha256": "856bbe9fff99f5b2a7fc0fe79eec7fc15718e0969d096fe18dfbd4992ec3dcda",
+  "method_substitutions": false,
+  "scope": "cadence peek/admit/reset, bounded token budget, tool-interval changes and ENet link-stall estimate; no weapon or hit authorization"
+}

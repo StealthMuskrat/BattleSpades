@@ -51,6 +51,9 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     }
     public interface Inputs {
         void reset(PlayerLife player);
+        /** Fresh immediate state only. All received rows are recorded by the production timeline first.
+         * This port still owns tool/action authorization and conduct; it must never step per arrival.
+         */
         void receive(PlayerLife player,LiveClientInput input,int receivedLoop);
         void packet(PlayerLife player,GamePacket packet);
         void forget(PlayerLife player);
@@ -167,7 +170,10 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
         effects.beforeDeath(new DeathEvidence(p,killer,weaponType,type,enemy,flags.domination(),flags.revenge(),p.damageHistory().consume()));
         int delay=clamp((int)Math.ceil(policy.respawnDelay(p)-1e-6));var death=new LifePackets.KillAction(id,killer==null?id:killer.id(),type,delay,count,flags.domination(),flags.revenge());p.rememberDeath(death);roster.death(death);messages.broadcast(death);effects.died(p,killer,weaponType,type,enemy);return true;
     }
-    @Override public void input(int id,LiveClientInput input,int loop){owned();inputs.receive(player(id),input,loop);}
+    @Override public void input(int id,LiveClientInput input,int loop){
+        owned();var p=player(id);var arrival=p.inputTimeline().receive(input,p.alive(),p.spawned(),p.aim(),loop,world.topologyVersion(),false);
+        if(arrival.fresh()){p.orientation(input.x(),input.y(),input.z());inputs.receive(p,input,loop);}
+    }
     @Override public void packet(int id,GamePacket packet){owned();inputs.packet(player(id),packet);}
     @Override public void disconnected(int id){owned();var p=players.get(id);if(p==null)return;inputs.forget(p);effects.forget(p);feed.forget(id);roster.remove(id);deadJoin.remove(id);scores.remove(id);players.remove(id);messages.broadcast(new SimplePackets.PlayerLeft(id));}
 }

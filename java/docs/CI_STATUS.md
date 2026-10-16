@@ -1,4 +1,11 @@
-# Independent CI verification
+# Current input checkpoint verification
+
+Publication and all five CI jobs for the ClientData/action-cadence checkpoint are
+**pending**. Local clean check/build passes 4,451 unit/component and 11 UDP tests.
+Both source fixtures regenerate exactly; 31 focused original tests pass.
+No current-tree CI result is inferred from the preceding checkpoint below.
+
+## Preceding accepted-health checkpoint
 
 Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/38826339114
 

@@ -1,7 +1,9 @@
 # Java test results
 
-Stage: accepted damage/healing, history and reliable HP/death ordering, 2026-10-15 UTC.
-Implementation: `e9e06e5af17deb9cb4f939c9ddd9112ad18a9881`. All five migration CI jobs pass: [run38826339114](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38826339114). Details: [CI_STATUS.md](CI_STATUS.md).
+Stage: ClientData chronology and action cadence, 2026-10-16 UTC.
+Current implementation publication and all five CI jobs are pending. The preceding
+accepted-health checkpoint passed all five jobs in run 38826339114.
+See [CI_STATUS.md](CI_STATUS.md) for exact implementation/CI evidence.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -26,34 +28,34 @@ Implementation: `e9e06e5af17deb9cb4f939c9ddd9112ad18a9881`. All five migration C
 | net.battlespades.SimulationTest | 4 | 0 | 0 | 0 |
 | net.battlespades.WorldFormatTest | 4 | 0 | 0 | 0 |
 | net.battlespades.WorldQueriesTest | 2 | 0 | 0 | 0 |
+| net.battlespades.player.ActionClockTest | 34 | 0 | 0 | 0 |
 | net.battlespades.player.AdmissionPolicyTest | 571 | 0 | 0 | 0 |
 | net.battlespades.player.HealthGoldenTest | 1368 | 0 | 0 | 0 |
 | net.battlespades.player.HealthRuntimeTest | 4 | 0 | 0 | 0 |
+| net.battlespades.player.InputTimelineGoldenTest | 24 | 0 | 0 | 0 |
+| net.battlespades.player.InputTimelineTest | 3 | 0 | 0 | 0 |
 | net.battlespades.player.LifeGoldenTest | 1082 | 0 | 0 | 0 |
 | net.battlespades.player.LifeRuntimeTest | 5 | 0 | 0 | 0 |
 | net.battlespades.player.SpawnPolicyTest | 36 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 13 | 0 | 0 | 0 |
-| net.battlespades.ApplicationIntegrationTest | 7 | 0 | 0 | 0 |
+| net.battlespades.ApplicationIntegrationTest | 8 | 0 | 0 | 0 |
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **4,400 Java tests passed; zero failures, errors or skips.**
+Total: **4,462 Java tests passed: 4,451 unit/component and 11 real UDP; zero failures, errors or skips.**
 
-Original-method comparisons: 1152 damage cases, 120 healing cases, 80 nested
-attribution cases and 832 stateful operations. Expected values include complete
-owned health/history state, HP/death bytes and original observer-boundary evidence.
-See [PLAYER_HEALTH.md](PLAYER_HEALTH.md) for exact scope and controlled inputs.
+Original input comparisons cover 14,234 operations in 24 traces and 26,234
+action-clock operations in 32 traces. Both new fixtures/provenance reproduce
+exactly from unchanged original methods. Focused original input-loss/action-clock
+regressions: **31 passed**. Source production and test files remain unchanged.
 
-The additional real-UDP test exercises production HP/loading/death/respawn code.
-Backpressure regressions verify that owner HP cannot be overtaken by reliable
-death traffic and that bounded queue overflow retires the session. Packaged
-native probes retain fixture player lives.
+The new UDP test exercises production session/life/receive-history code with
+explicit test policies; it verifies freshness, phase metadata, no movement on raw
+arrival, and respawn state. No complete movement/equipment/replication loop is
+claimed. Cadence success does not authorize a shot or damage. See [PLAYER_INPUT.md](PLAYER_INPUT.md).
 
-Focused original kill-feed/combat-score/conduct/explosion suites: **46 passed**.
-Additional original rules audit: **45 passed, one existing VIP round-limit failure**,
-reproduced in isolation with the original source unchanged. This is retained
-reference evidence, not a passing full Python baseline.
-
-Hit/action/friendly-fire authorization, detached projectiles, complete awards and
-assist payouts, input timelines, concrete modes and supported-client/capacity
-verification remain pending. Ordinary hosting still exits 2.
+Retained earlier health/lifecycle/movement tests pass in this full Java run. The
+full Python baseline remains incomplete, including the existing VIP discrepancy
+recorded in [PYTHON_BASELINE.md](PYTHON_BASELINE.md). Packaged native probes still
+use FixtureScene. Complete modes, supported-client rounds, capacity and soak
+remain pending; ordinary hosting still exits 2.

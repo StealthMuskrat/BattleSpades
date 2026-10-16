@@ -15,7 +15,9 @@
     "spawns": "original WorldManager/spawn_selection/RoundLifecycle/combat segment; compiled VXL/world; Python 3.12 random/math",
     "map_metadata": "original sidecar/map-mode/UGC/catalogue policies and original scene builders; inert data inputs only",
     "life": "original Player/RoundLifecycle/roster/kill_feed/deployable inventory and compiled world/packet methods; explicit mode/clock/effect ports",
-    "health": "unmodified Player.damage/heal, conduct blast attribution, combat contribution/healing ledger, recent enemy/transition credit; original-call profile observations"
+    "health": "unmodified Player.damage/heal, conduct blast attribution, combat contribution/healing ledger, recent enemy/transition credit; original-call profile observations",
+    "input": "unchanged ClientData handler, Player receive/one-frame phase/loss-salvage methods and real native Player.update; profile observations of phase boundaries",
+    "action_clock": "unchanged action_clock peek/admit/reset, interval carry and ENet stall estimate; typed labels and clocks"
   },
   "generators": [
     "generate_golden.py",
@@ -34,9 +36,13 @@
     "generate_metadata_golden.py",
     "export_life_catalog.py",
     "generate_life_golden.py",
-    "generate_health_golden.py"
+    "generate_health_golden.py",
+    "generate_input_golden.py",
+    "generate_action_clock_golden.py"
   ],
   "fixtures": {
+    "action-clock-provenance.json": "2bc22dfec90541fa8e56b1ddd53138d152ca623f721ea5bac6f555421acc9427",
+    "action-clock.tsv.gz": "856bbe9fff99f5b2a7fc0fe79eec7fc15718e0969d096fe18dfbd4992ec3dcda",
     "admission-classes.tsv.gz": "ebf173e1524c23c44d40ff644da805431510b0bf34c299582b57da2ed5ea3840",
     "admission-provenance.json": "7f3970241679abf0ccd4e91bbdd6e2923444f3e7b96c841693dfe7885a3d20ad",
     "admission-teams.tsv.gz": "7685d19a3ffe8bc3275c7cb9888e287d78c3fc6f7759d9ce94bceb9f018c55d5",
@@ -47,6 +53,8 @@
     "health-healing.tsv.gz": "ab1d69b1beb6eafc33188e6250e75bf01ddd73800f60bda77719bbc4a6b99b20",
     "health-provenance.json": "f4bbbfb7c147cb94e352fc786fd80019bc83308adfc0eb3c4f3f48cbd608cef3",
     "health-traces.tsv.gz": "5e79370f506c0af9992a33632defd864e4b88a8dd3b55446d5604797ccfe38b4",
+    "input-provenance.json": "2d0e16846547812134b804a6f55e7cd189b4ea1c80f44ff5637ed5ec8ce8f2ac",
+    "input-timeline.tsv.gz": "d5a85e4aaf5df0999cb4dba45d41b61cd4456e99c893180fd058d0167338a67d",
     "life-inventory.tsv.gz": "95a43c8b16ecb457e9f712e4606305a393d3cc44cfeba4105c45ea5a631c51dd",
     "life-killfeed.tsv.gz": "ea02d89d539c00901d7bd7627248bc7be8d9843db2154fcb6335d3b0cb624d9c",
     "life-packets.tsv.gz": "741dc38900b33175032f77f95ce0853b162d75a8bd6ee2bd87f3e759a0a3dd46",

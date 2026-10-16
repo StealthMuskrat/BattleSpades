@@ -115,6 +115,10 @@ jobs:
           python -S java/tools/export_life_catalog.py
           python -S java/tools/generate_life_golden.py
           python -S java/tools/generate_health_golden.py
+          python -S java/tools/generate_input_golden.py
+          python -S java/tools/generate_action_clock_golden.py
+          git diff --exit-code -- java/src/test/resources/golden/action-clock.tsv.gz java/src/test/resources/golden/action-clock-provenance.json
+          git diff --exit-code -- java/src/test/resources/golden/input-timeline.tsv.gz java/src/test/resources/golden/input-provenance.json
           git diff --exit-code -- java/src/test/resources/golden/health-damage.tsv.gz java/src/test/resources/golden/health-healing.tsv.gz java/src/test/resources/golden/health-traces.tsv.gz java/src/test/resources/golden/health-attribution.tsv.gz java/src/test/resources/golden/health-provenance.json
           git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/life.toml java/src/test/resources/golden/life-spawn.tsv.gz java/src/test/resources/golden/life-inventory.tsv.gz java/src/test/resources/golden/life-killfeed.tsv.gz java/src/test/resources/golden/life-packets.tsv.gz java/src/test/resources/golden/life-runtime.tsv.gz java/src/test/resources/golden/life-roster.tsv.gz java/src/test/resources/golden/life-provenance.json
           git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/map-metadata.toml java/src/test/resources/golden/metadata-inputs.tsv.gz java/src/test/resources/golden/metadata-results.tsv.gz java/src/test/resources/golden/metadata-packets.tsv.gz java/src/test/resources/golden/metadata-pools.tsv.gz java/src/test/resources/golden/metadata-provenance.json

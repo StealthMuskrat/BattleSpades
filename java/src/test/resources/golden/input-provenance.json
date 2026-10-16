@@ -1,0 +1,18 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "generator": "java/tools/generate_input_golden.py",
+  "source_files": {
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/handlers/movement.py": "c79b87556293ce351576d659503cc5538082b23bf893179d5612879f6a98632e",
+    "server/class_selection.py": "9be152403938ca104e45b7361cddc34b69c487d3d8cc140533510c8181617e61",
+    "server/anticheat.py": "e2fa7046b232464c99d54536e8c4b4561a5f6b36ee427a1178cb45438429f7ae",
+    "aoslib/world.pyx": "5290568a97c5b74503642b29d6da9eda56f2fdba0453f9e5c7c3f676d840b1bc",
+    "aoslib/vxl.pyx": "c24f5102983d08f72aa710bbe6315ac5714b2226dafc67b968dcbd789876460d"
+  },
+  "operations": 14234,
+  "groups": 24,
+  "fixture_sha256": "d5a85e4aaf5df0999cb4dba45d41b61cd4456e99c893180fd058d0167338a67d",
+  "method_substitutions": false,
+  "observation": "sys.setprofile at unchanged Player.update call boundary; original handler and native movement execute",
+  "scope": "receive chronology, one-frame phase selection, lost-label salvage, labelled action zoom/arrival and causal sequence; excludes outer backlog/starvation, flight results, impulses, eyes, tool/conduct policies and awards"
+}

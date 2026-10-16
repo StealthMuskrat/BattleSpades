@@ -67,6 +67,9 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 - Accepted damage/healing, contribution history and recent-enemy/blast attribution,
   connected to life/death and ordered reliable HP delivery. See
   [health evidence and remaining combat work](docs/PLAYER_HEALTH.md).
+- ClientData receive chronology, bounded label/action histories, one-frame phase
+  selection/loss salvage and source action-cadence gates. See
+  [input evidence and required gameplay integration](docs/PLAYER_INPUT.md).
 - Layered inert map metadata, mode/UGC layout assembly and stock catalogue filtering,
   connected to scene packets and spawn geometry. See [metadata evidence and limits](docs/MAP_METADATA.md).
 - Authored spawn geometry, threat-aware selection and bounded rescue, with source

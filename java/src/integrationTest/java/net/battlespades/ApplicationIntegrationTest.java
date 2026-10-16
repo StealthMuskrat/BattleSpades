@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
 import net.battlespades.protocol.*;
@@ -202,6 +203,27 @@ class ApplicationIntegrationTest {
                     assertEquals(2,h.runtime.player(0).generation());assertNotSame(original,h.runtime.player(0).body());assertEquals(4,h.runtime.player(0).inventory().turrets());assertEquals(0,h.world.activeLeases());assertTrue(h.inputCount>=2);
                 }
                 assertTrue(h.runtime.players().isEmpty());
+            }
+        });
+    }
+    @Test void productionInputChronologySurvivesUnsequencedUdpAndRespawn(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("Input UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var h=new LifeHarness()){
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),()->ScenePackets.State.initial(config),h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),1,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var client=new Client(host.address())){
+                    var loop=new Loop(host);loop.ticketAndLoad(client,h.world);client.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"input"),false);loop.until(()->client.has(69));
+                    var p=h.runtime.player(0);var initial=p.body().state();
+                    loop.until(()->{try{client.send(new ClientInput(100,127,false,6,1,0,0,17,1,4,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0);});
+                    client.send(new ClientInput(102,127,true,6,0,1,0,19,33,0,0),true);loop.until(()->Objects.equals(p.inputTimeline().state().newest(),102));
+                    int fresh=h.inputCount;client.send(new ClientInput(101,127,false,6,1,0,0,18,17,128,0),true);loop.until(()->p.inputTimeline().state().frames().size()==3);
+                    assertEquals(fresh,h.inputCount);assertEquals(1,p.aim().y());assertEquals(initial,p.body().state());assertEquals(1,p.inputTimeline().reorderSpread(p.inputTimeline().state().frames().get(1).receivedTick()));
+                    var first=p.inputTimeline().consumeOne(8,p.aim()).orElseThrow();assertEquals(100,first.label());assertEquals(0,first.movement());assertNull(first.sourceLabel());
+                    var second=p.inputTimeline().consumeOne(8,p.aim()).orElseThrow();assertEquals(101,second.label());assertEquals(1,second.movement());assertEquals(100,second.sourceLabel());assertEquals(128,second.actions());
+                    var third=p.inputTimeline().consumeOne(8,p.aim()).orElseThrow();assertEquals(102,third.label());assertEquals(49,third.movement());assertEquals(18,third.sourceUnknown());assertEquals(19,p.inputTimeline().state().pendingUnknown());
+                    assertTrue(p.inputTimeline().zoomForAction(102,false));assertEquals(100,p.health());assertTrue(p.inputTimeline().consumeOne(8,p.aim()).isEmpty());
+                    h.runtime.die(0,null,12);h.runtime.respawn(0);assertTrue(p.inputTimeline().state().frames().isEmpty());assertNull(p.inputTimeline().state().applied());assertEquals(102,p.inputTimeline().state().newest());
+                }
             }
         });
     }

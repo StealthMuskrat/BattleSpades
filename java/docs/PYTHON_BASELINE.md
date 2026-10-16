@@ -69,3 +69,13 @@ the expected termination callback `[3]` remains `[]`. The original server,
 shared, aoslib, protocol and mode source files match reference commit
 `6216b771282d2d349ccd67ee58c378f035c83553`. This is retained reference evidence;
 the full Python baseline is not reported as passing. See PLAYER_HEALTH.md.
+
+## ClientData/action-cadence checkpoint, 2026-10-16
+
+Unchanged `test_input_loss_recovery.py`, `test_action_clock.py` and
+`test_action_clock_recovery_review.py`: **31 passed**, no skips. The compiled
+original World/VXL/packet modules were rebuilt with strict floating-point flags.
+The new fixture generators execute original methods without replacement; their
+phase/timing comparison scope is documented in PLAYER_INPUT.md. Original source
+and test files still match the reference commit. This does not complete the full
+Python baseline or remove the existing VIP discrepancy.

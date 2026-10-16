@@ -1,10 +1,11 @@
 # Java 25 migration report
 
-Date: 2026-10-15 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage adds accepted damage/healing, contribution history, chained-blast
-and recent-enemy credit, connected to real life/death and ordered reliable HP.
-Complete input/hit authorization, projectiles, authenticated identity and concrete
-modes remain pending. The ordinary JAR launcher deliberately returns exit 2 for hosting.
+Date: 2026-10-16 UTC. **Incomplete migration; not playable or release-ready.**
+The current stage adds ClientData receive chronology, one-frame phase/loss-salvage
+selection and labelled action evidence, plus source action cadence. The lifecycle
+records actual session input but the complete equipment/mover/WorldUpdate loop is
+still pending. Hit authorization, firing/reload, detached projectiles, authenticated
+identity and concrete modes remain pending. Ordinary hosting deliberately exits 2.
 
 ## Repository and provenance
 
@@ -24,17 +25,25 @@ modes remain pending. The ordinary JAR launcher deliberately returns exit 2 for 
 - Previous metadata tested/published tree: `b4581018e5647ab630fd3b808dfae4577a3d15a7`.
 - Previous lifecycle implementation: `d03cb25c420323ef6a94379f06de349cd58ded0e`.
 - Previous lifecycle tested/published tree: `f46b2a5736cd9dc49afae067df58f35e1239212a`.
-- Current accepted-health implementation: `e9e06e5af17deb9cb4f939c9ddd9112ad18a9881`.
-- Current accepted-health tested/published tree: `8195a734f9d048246bb17da572a0f2bf829cd824`.
+- Previous accepted-health implementation: `e9e06e5af17deb9cb4f939c9ddd9112ad18a9881`.
+- Previous accepted-health tested/published tree: `8195a734f9d048246bb17da572a0f2bf829cd824`.
 - Independent execution: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
-The local checkout was restored from the published application checkpoint using
-SHA-checked blobs, exact Git commit objects and a matching complete tree. GitHub
-publication uses the connected app, with an expected-head lease; normal CLI push
-credentials/direct GitHub networking are unavailable. No release is created.
+The clean checkout was cloned from the fork and matched the authoritative
+21e5f91d52796069e9eb8f2a4c9de1385febc3c7 documentation HEAD and full tree.
+CLI push lacks credentials; publication uses the connected GitHub app with an
+expected-head lease and exact tested-tree comparison. No release is created.
 
 ## Current implementation
+
+InputTimeline records bounded immutable frames and receive metadata, preserves the
+fresh immediate-state gate, selects source-latched movement phases, salvages late
+presses and retains connection action evidence across life resets. ActionClock
+preserves label/arrival cadence and server-time token budgets. This does not bind
+outer input policies, equipment, impulses, eye/lag history or WorldUpdate, and does
+not authorize raw hit packets. Original methods execute unchanged for 14,234 input
+and 26,234 cadence comparisons. See [PLAYER_INPUT.md](PLAYER_INPUT.md).
 
 LifeRuntime now applies accepted connected-player/world damage and integer healing
 to PlayerLife, with protection/mode/scale/rounding order, DamageHistory identity and
@@ -115,8 +124,10 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Check | Current local result |
 |---|---|
 | Java 25 clean check/build | PASS |
-| Unit/component tests | 4390 passed; 0 failures/errors/skips |
-| Real UDP integration tests | 10 passed; 0 failures/errors/skips |
+| Unit/component tests | 4451 passed; 0 failures/errors/skips |
+| Real UDP integration tests | 11 passed; 0 failures/errors/skips |
+| ClientData / cadence source comparisons | 14,234 / 26,234 original operations; exact regeneration |
+| Focused original input/cadence regressions | 31 passed |
 | Accepted HP/history source comparisons | 1152 damage, 120 heal, 80 attribution and 832 stateful operations |
 | Focused original health regressions | 46 passed; broader original audit 45 passed / 1 existing VIP failure |
 | Common lifecycle source comparisons | 756 spawn/pre-spawn, 3624 inventory, 4000 kill-feed, 300 packet, 183 scheduler, 592 roster vectors |
@@ -141,7 +152,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | All five PASS: Ubuntu build, native/source oracle, Linux/Windows/macOS |
+| Current-tree independent platform CI | Pending publication; previous accepted-health run passed all five |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -190,7 +201,7 @@ smoke downloads one Ubuntu-built JAR; source tests additionally run on all three
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
 
-Current accepted-health CI: [run38826339114](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38826339114), all five migration jobs passed.
+Previous accepted-health CI: [run38826339114](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38826339114), all five migration jobs passed.
 It reproduces original health fixtures, verifies HP/death order through UDP,
 byte-compares its rebuilt JAR and tests one uploaded artifact on three OSes.
 The separately documented original VIP reference failure remains unresolved.
@@ -233,8 +244,8 @@ packaging check. Exact final SHA/size are in verification-results.json.
 
 ## Remaining work and readiness
 
-Next: implement full ClientData chronology, accepted-frame simulation and hit/action
-authorization; connect detached projectile actors and full scoring/award observers; wire
+Next: bind the input phase selector to outer pacing, equipment/impulse policies,
+accepted-frame simulation and WorldUpdate; implement hit/action authorization; connect detached projectile actors and full scoring/award observers; wire
 the common Character lifecycle to concrete modes/effects and authenticated identity,
 and connect the verified mover and configured rule profile to input/equipment policy,
 the owned 60 Hz loop, prediction history/anticheat and WorldUpdate construction.

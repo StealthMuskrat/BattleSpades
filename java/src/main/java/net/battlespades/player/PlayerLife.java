@@ -15,6 +15,8 @@ public final class PlayerLife {
     private final GameRules rules;
     private final LifeInventory inventory=new LifeInventory();
     private final DamageHistory damageHistory=new DamageHistory();
+    private final InputTimeline inputTimeline=new InputTimeline();
+    private final ActionClock actionClock=new ActionClock(inputTimeline);
     private ClassCatalog.Selection selection,pending;
     private PlayerPhysics body;
     private PlayerPhysics.Vector position=new PlayerPhysics.Vector(0,0,0),aim=new PlayerPhysics.Vector(1,0,0);
@@ -52,6 +54,8 @@ public final class PlayerLife {
     public PlayerPhysics body(){owned();if(body==null)throw new IllegalStateException("No Character body");return body;}
     public PlayerPhysics.Vector position(){owned();return body==null?position:body.state().position();}
     public PlayerPhysics.Vector aim(){owned();return aim;}public LifePackets.KillAction lastDeath(){owned();return lastDeath;}
+    public InputTimeline inputTimeline(){owned();return inputTimeline;}
+    public ActionClock actionClock(){owned();return actionClock;}
     /** This API accepts a previously validated selection; packet-13 cooldown/interaction gates are not bypassed here. */
     public void stage(ClassCatalog.Selection value){owned();validate(value);pending=value;}
     private static void validate(ClassCatalog.Selection value){Objects.requireNonNull(value);if(!ClassCatalog.definitions().containsKey(value.classId()))throw new IllegalArgumentException("Class id");}
@@ -73,7 +77,7 @@ public final class PlayerLife {
         owned();if(team==0)throw new IllegalStateException("Spectator cannot spawn");if(!Double.isFinite(monotonic))throw new IllegalArgumentException("Spawn clock");
         walletScale(walletScale);inventory.spawn(selection.classId(),walletScale);position=Objects.requireNonNull(at);generation++;health=maxHealth=LifeCatalog.HEALTH;damageHistory.clear();spawnedAt=monotonic;protectionCancelled=false;protectionCap=null;alive=true;spawned=true;lastDeath=null;color=teamColor&0xffffff;
         jetpack=selection.loadout().stream().filter(LifeCatalog.PACK_FUEL::containsKey).findFirst().orElse(0);parachute=selection.loadout().contains(72)?72:0;
-        body=new PlayerPhysics(world);body.position(at);body.profile(ClassCatalog.movement(selection.classId(),mode,rules));orientBody();body.flight(new PlayerPhysics.Flight(jetpack==0?0:jetpack-65,false,false,false,parachute!=0,false,0.1f,0.05f,false));
+        inputTimeline.resetLife();actionClock.reset(null);body=new PlayerPhysics(world);body.position(at);body.profile(ClassCatalog.movement(selection.classId(),mode,rules));orientBody();body.flight(new PlayerPhysics.Flight(jetpack==0?0:jetpack-65,false,false,false,parachute!=0,false,0.1f,0.05f,false));
         // RoundLifecycle, rather than Player.spawn itself, clears death_time after a successful spawn.
     }
     public void clearDeathTime(){owned();deathTime=0;}

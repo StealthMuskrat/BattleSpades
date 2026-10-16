@@ -52,6 +52,8 @@ achievements and conduct warnings/kicks remain observer work.
 Detached projectile actors, hit/friendly-fire/action authorization, firing/reload,
 full input and flight/fuel timelines and owner replication remain pending. A
 damage source ID names a current connection, not a disconnected projectile owner.
+Receive chronology, one-frame selection and timing evidence now have an independent
+[input checkpoint](PLAYER_INPUT.md); they do not authorize raw damage.
 Concrete modes, authentication and playable hosting remain incomplete. Main still
 returns exit 2 for ordinary hosting.
 

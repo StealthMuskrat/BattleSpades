@@ -47,9 +47,11 @@ mode policies, team colors/score and an already resolved, safe spawn point. The
 existing `SpawnResolver` is available for that placement policy; this component
 does not replace unported mode-specific spawn selection with an implicit default.
 
-`Inputs` must own real ClientData chronology, accepted-frame simulation, action
-dispatch and reset/forget handling. Raw packet arrival is never treated as one
-simulation tick. `Effects` must implement attachment/corpse/replication cleanup,
+The production life now owns ClientData receive chronology and phase selection;
+see [PLAYER_INPUT.md](PLAYER_INPUT.md). `Inputs` still supplies immediate action/tool
+policy, while the owner loop must bind accepted-frame simulation, outer pacing
+policies, equipment/impulses and replication. Raw packet arrival is never treated
+as one simulation tick. `Effects` must implement attachment/corpse/replication cleanup,
 queued mode notifications and external profile/combat/achievement observers.
 Callbacks run on the owner thread; recipients must queue asynchronous mode work.
 The caller drives `processRespawns` from its server loop. These are explicit

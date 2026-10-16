@@ -1,4 +1,11 @@
-# Current input checkpoint verification
+# Current infantry checkpoint verification
+
+Publication and all five current implementation CI jobs are **pending**.
+Local clean check/build passes 4,487 unit/component and 12 UDP tests; 57 focused
+original tests pass. The 16,683-operation full-path source fixture reproduces
+exactly. No current-tree CI result is inferred from the preceding checkpoint.
+
+# Preceding input checkpoint verification
 
 Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/38830815361
 

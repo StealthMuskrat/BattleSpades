@@ -41,7 +41,11 @@ used; the claimed ClientData player ID does not choose the actor.
 
 ## Required next integration
 
-This checkpoint does not drive `consumeOne` from a complete gameplay loop.
+The subsequent [infantry checkpoint](INFANTRY_SIMULATION.md) binds `consumeOne` to
+real no-flight movers with outer starvation/backlog, velocity impulses and eye
+history. It retains explicit reload/lag/mode/effect ports and does not complete
+the gameplay loop. This original chronology checkpoint does not itself drive
+`consumeOne` from a complete gameplay loop.
 The owner loop must bind outer starvation/backlog/rate/conduct policies, equipment
 and fuel transitions, velocity/explosion impulse queues, the verified mover,
 eye/lag history and owner WorldUpdate reconciliation at their original boundaries.

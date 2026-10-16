@@ -17,7 +17,8 @@
     "life": "original Player/RoundLifecycle/roster/kill_feed/deployable inventory and compiled world/packet methods; explicit mode/clock/effect ports",
     "health": "unmodified Player.damage/heal, conduct blast attribution, combat contribution/healing ledger, recent enemy/transition credit; original-call profile observations",
     "input": "unchanged ClientData handler, Player receive/one-frame phase/loss-salvage methods and real native Player.update; profile observations of phase boundaries",
-    "action_clock": "unchanged action_clock peek/admit/reset, interval carry and ENet stall estimate; typed labels and clocks"
+    "action_clock": "unchanged action_clock peek/admit/reset, interval carry and ENet stall estimate; typed labels and clocks",
+    "infantry": "unchanged SimulationRuntime._simulate_players, Player.simulate_tick/update and compiled original World mover; full no-flight body/eye/HP/timing traces and observed call boundaries"
   },
   "generators": [
     "generate_golden.py",
@@ -38,7 +39,8 @@
     "generate_life_golden.py",
     "generate_health_golden.py",
     "generate_input_golden.py",
-    "generate_action_clock_golden.py"
+    "generate_action_clock_golden.py",
+    "generate_simulation_golden.py"
   ],
   "fixtures": {
     "action-clock-provenance.json": "2bc22dfec90541fa8e56b1ddd53138d152ca623f721ea5bac6f555421acc9427",
@@ -53,6 +55,8 @@
     "health-healing.tsv.gz": "ab1d69b1beb6eafc33188e6250e75bf01ddd73800f60bda77719bbc4a6b99b20",
     "health-provenance.json": "f4bbbfb7c147cb94e352fc786fd80019bc83308adfc0eb3c4f3f48cbd608cef3",
     "health-traces.tsv.gz": "5e79370f506c0af9992a33632defd864e4b88a8dd3b55446d5604797ccfe38b4",
+    "infantry-provenance.json": "8e84b20852eedeeade62cc40836e3b8d88d238b1938ed6a1508355fde0f17443",
+    "infantry-simulation.tsv.gz": "740e9c13e5fe0f229b01118bfd606a273f19a125c283ee89727e56ebd913fdc4",
     "input-provenance.json": "2d0e16846547812134b804a6f55e7cd189b4ea1c80f44ff5637ed5ec8ce8f2ac",
     "input-timeline.tsv.gz": "d5a85e4aaf5df0999cb4dba45d41b61cd4456e99c893180fd058d0167338a67d",
     "life-inventory.tsv.gz": "95a43c8b16ecb457e9f712e4606305a393d3cc44cfeba4105c45ea5a631c51dd",

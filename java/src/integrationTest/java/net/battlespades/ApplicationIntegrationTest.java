@@ -20,6 +20,8 @@ import net.battlespades.protocol.*;
 import net.battlespades.session.*;
 import net.battlespades.support.FixtureScene;
 import net.battlespades.support.LifeHarness;
+import net.battlespades.support.InfantryPorts;
+import net.battlespades.simulation.FixedStepRuntime;
 import net.battlespades.transport.UdpEndpoint;
 import net.battlespades.transport.enet.*;
 import net.battlespades.world.*;
@@ -203,6 +205,28 @@ class ApplicationIntegrationTest {
                     assertEquals(2,h.runtime.player(0).generation());assertNotSame(original,h.runtime.player(0).body());assertEquals(4,h.runtime.player(0).inventory().turrets());assertEquals(0,h.world.activeLeases());assertTrue(h.inputCount>=2);
                 }
                 assertTrue(h.runtime.players().isEmpty());
+            }
+        });
+    }
+    @Test void udpInputDrivesOwnedInfantryStepsAndRealFallHealth(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("Infantry UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var h=new LifeHarness()){
+                for(int x=25;x<=50;x++)for(int y=30;y<=40;y++)h.world.set(new MutableWorld.Cell(x,y,100),true,0x123456,null);
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),()->ScenePackets.State.initial(config),h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),1,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var client=new Client(host.address())){
+                    h.destination=new LifeRuntime.Messages(){public void broadcast(GamePacket p){host.broadcast(p,Delivery.RELIABLE);}public void owner(int id,GamePacket p){assertTrue(host.sendPlayer(id,p));}public boolean inGame(int id){return host.inGame(id);}};
+                    var loop=new Loop(host);loop.ticketAndLoad(client,h.world);client.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"walker"),false);loop.until(()->client.has(69));var p=h.runtime.player(0);
+                    var ports=new InfantryPorts();var simulation=new InfantrySimulation(h.runtime,InfantrySimulation.Settings.defaults(),ports);int[] tick={1000};var fixed=new FixedStepRuntime(16,16,()->simulation.tick(++tick[0]),()->{},failure->{throw new AssertionError(failure);});
+                    var before=p.body().state();fixed.advance(FixedStepRuntime.DELTA);assertEquals(before,p.body().state());assertEquals(0,ports.moves);
+                    loop.until(()->{try{client.send(new ClientInput(100,127,false,6,1,0,0,0,1,24,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0);});
+                    assertEquals(before,p.body().state());fixed.advance(FixedStepRuntime.DELTA);assertEquals(100,p.inputTimeline().appliedLabel());assertEquals(before.position().x(),p.position().x());
+                    client.send(new ClientInput(102,127,false,6,1,0,0,0,1,24,0),true);loop.until(()->p.inputTimeline().size()==1);fixed.advance(FixedStepRuntime.DELTA);assertEquals(101,p.inputTimeline().appliedLabel());assertTrue(p.inputTimeline().state().synthesized());fixed.advance(FixedStepRuntime.DELTA);assertEquals(102,p.inputTimeline().appliedLabel());assertTrue(p.position().x()>before.position().x());
+                    int moved=ports.moves;var frozen=p.body().state();fixed.advance(FixedStepRuntime.DELTA*2);assertEquals(frozen,p.body().state());assertEquals(moved,ports.moves);
+                    p.spawn(new net.battlespades.physics.PlayerPhysics.Vector(36,36,20),h.monotonic,1,p.color());
+                    for(int label=200;label<560&&p.alive();label++){client.send(new ClientInput(label,0,false,6,1,0,0,0,0,24,0),true);loop.until(()->p.inputTimeline().size()>0);h.monotonic+=FixedStepRuntime.DELTA;h.wall+=FixedStepRuntime.DELTA;fixed.advance(FixedStepRuntime.DELTA);}
+                    loop.until(()->client.has(46));assertFalse(p.alive());int hp=-1,death=-1;for(int i=0;i<client.packets.size();i++){var packet=client.packets.get(i);if(packet instanceof LifePackets.SetHP value&&value.hp()==0)hp=i;if(packet instanceof LifePackets.KillAction)death=i;}assertTrue(hp>=0&&hp<death);assertTrue(ports.moves>50);
+                }
             }
         });
     }

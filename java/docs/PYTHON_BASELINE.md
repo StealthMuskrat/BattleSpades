@@ -79,3 +79,11 @@ The new fixture generators execute original methods without replacement; their
 phase/timing comparison scope is documented in PLAYER_INPUT.md. Original source
 and test files still match the reference commit. This does not complete the full
 Python baseline or remove the existing VIP discrepancy.
+
+## Infantry simulation checkpoint, 2026-10-16
+
+Unchanged `test_anticheat_movement.py` and `test_input_loss_recovery.py`:
+**57 passed**, zero skips. The new oracle runs original SimulationRuntime/Player
+and compiled native World without method replacement. Its full no-flight scope
+and observer exclusions are documented in INFANTRY_SIMULATION.md. Source and tests
+remain unchanged; this subset does not complete the full Python baseline.

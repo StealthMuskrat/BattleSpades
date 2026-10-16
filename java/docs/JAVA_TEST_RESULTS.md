@@ -1,9 +1,9 @@
 # Java test results
 
-Stage: ClientData chronology and action cadence, 2026-10-16 UTC.
-Implementation: `7d0d68e8e3fda4974fe7ebc070e24f7833b74a25`; tested/published tree: `e7c13efb769da9833c27e056f69df57832118a30`.
-All five migration CI jobs pass: [run 38830815361](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38830815361).
-Details: [CI_STATUS.md](CI_STATUS.md).
+Stage: authoritative no-flight infantry simulation, 2026-10-16 UTC.
+Publication and all five current implementation CI jobs are pending. The preceding
+input/cadence implementation passed all five jobs in run 38830815361. Exact current
+implementation and CI evidence will be recorded in [CI_STATUS.md](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -32,30 +32,34 @@ Details: [CI_STATUS.md](CI_STATUS.md).
 | net.battlespades.player.AdmissionPolicyTest | 571 | 0 | 0 | 0 |
 | net.battlespades.player.HealthGoldenTest | 1368 | 0 | 0 | 0 |
 | net.battlespades.player.HealthRuntimeTest | 4 | 0 | 0 | 0 |
+| net.battlespades.player.InfantryGoldenTest | 33 | 0 | 0 | 0 |
+| net.battlespades.player.InfantrySimulationTest | 3 | 0 | 0 | 0 |
 | net.battlespades.player.InputTimelineGoldenTest | 24 | 0 | 0 | 0 |
 | net.battlespades.player.InputTimelineTest | 3 | 0 | 0 | 0 |
 | net.battlespades.player.LifeGoldenTest | 1082 | 0 | 0 | 0 |
 | net.battlespades.player.LifeRuntimeTest | 5 | 0 | 0 | 0 |
 | net.battlespades.player.SpawnPolicyTest | 36 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 13 | 0 | 0 | 0 |
-| net.battlespades.ApplicationIntegrationTest | 8 | 0 | 0 | 0 |
+| net.battlespades.ApplicationIntegrationTest | 9 | 0 | 0 | 0 |
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **4,462 Java tests passed: 4,451 unit/component and 11 real UDP; zero failures, errors or skips.**
+Total: **4,499 Java tests passed: 4,487 unit/component and 12 real UDP; zero failures, errors or skips.**
 
-Original input comparisons cover 14,234 operations in 24 traces and 26,234
-action-clock operations in 32 traces. Both new fixtures/provenance reproduce
-exactly from unchanged original methods. Focused original input-loss/action-clock
-regressions: **31 passed**. Source production and test files remain unchanged.
+The new full-path oracle executes unchanged original SimulationRuntime/Player and
+the real native mover for 16,683 operations in 33 traces. Exact comparisons include
+raw body and clipped façade bits, input/pacing/eye history, observer boundaries and
+HP/death bytes. The fixture and provenance reproduce exactly. Focused unchanged
+original input-loss/movement-anticheat modules: **57 passed**.
 
-The new UDP test exercises production session/life/receive-history code with
-explicit test policies; it verifies freshness, phase metadata, no movement on raw
-arrival, and respawn state. No complete movement/equipment/replication loop is
-claimed. Cadence success does not authorize a shot or damage. See [PLAYER_INPUT.md](PLAYER_INPUT.md).
+The added UDP test uses production session/life/timeline/mover/health code, advances
+the owned fixed-step scheduler, verifies real/refilled movement and starvation
+freeze, then observes a genuine lethal landing's zero HP before KillAction.
+Required mode/reload/lag/effect hooks are explicit test ports; see
+[INFANTRY_SIMULATION.md](INFANTRY_SIMULATION.md) for exact scope.
 
-Retained earlier health/lifecycle/movement tests pass in this full Java run. The
-full Python baseline remains incomplete, including the existing VIP discrepancy
-recorded in [PYTHON_BASELINE.md](PYTHON_BASELINE.md). Packaged native probes still
-use FixtureScene. Complete modes, supported-client rounds, capacity and soak
-remain pending; ordinary hosting still exits 2.
+Earlier Java regression suites remain passing. The full Python baseline retains
+its documented failures/incomplete runs, including the prior VIP discrepancy.
+Flight-equipped bodies and Crumbling Run momentum require separate bindings;
+complete modes, owner WorldUpdate, hit authorization, supported-client rounds,
+capacity and soak remain pending. Ordinary hosting still exits 2.

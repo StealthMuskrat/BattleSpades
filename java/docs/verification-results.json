@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "3c828a867a4e0002e802c0a9cd040ace94fdad208e4a692541b15ebb51b273ce",
-  "jar_bytes": 1305475,
+  "jar_sha256": "2c8f3ae85b043cbfff56acf25e5d6cc6693b7ed6f22938354a1a14b221d135f6",
+  "jar_bytes": 1322465,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -20,47 +20,27 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 4451,
+      "tests": 4487,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
-      "tests": 11,
+      "tests": 12,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
-  "java_implementation_commit": "7d0d68e8e3fda4974fe7ebc070e24f7833b74a25",
-  "tested_tree": "e7c13efb769da9833c27e056f69df57832118a30",
+  "verification_stage": "Authoritative no-flight infantry simulation, pacing, eye history, velocity impulses and fall-health integration",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "run_id": 38830815361,
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38830815361",
-    "implementation_commit": "7d0d68e8e3fda4974fe7ebc070e24f7833b74a25",
-    "jobs": {
-      "native-enet": "success",
-      "build": "success",
-      "platform (macos-latest)": "success",
-      "platform (ubuntu-latest)": "success",
-      "platform (windows-latest)": "success"
-    },
-    "job_ids": {
-      "native-enet": 116748922587,
-      "build": 116748922977,
-      "platform (macos-latest)": 116749192584,
-      "platform (ubuntu-latest)": 116749192663,
-      "platform (windows-latest)": 116749192711
-    },
-    "repeated_jar_comparison": "success",
-    "source_fixtures_and_catalogs_reproduced": true,
-    "input_and_action_clock_fixtures_reproduced": true,
-    "same_uploaded_jar_on_three_platforms": true,
-    "local_to_ci_artifact_hash_compared": false,
+    "status": "pending",
+    "run_url": null,
+    "jobs": {},
     "full_reference_python_baseline_passing": false,
-    "packaged_native_probe_player_domain": "FixtureScene; receive chronology uses the production-domain UDP test"
+    "packaged_native_probe_player_domain": "FixtureScene; authoritative infantry uses the additional production-domain owned UDP test"
   },
   "movement": {
     "cases": 118,
@@ -69,7 +49,9 @@
     "comparison": "exact exposed double bits, flags and landing results",
     "original_source_oracle_rebuilt": true,
     "gameplay_integration": false,
-    "fixture_compression": "deterministic gzip, decoded only by Java tests"
+    "fixture_compression": "deterministic gzip, decoded only by Java tests",
+    "infantry_integration": true,
+    "full_gameplay_integration": false
   },
   "world_queries": {
     "vectors": 941,
@@ -301,7 +283,8 @@
     "input_timeline": false,
     "combat_damage": false,
     "concrete_modes": false,
-    "packaged_native_probe_uses_life_runtime": false
+    "packaged_native_probe_uses_life_runtime": false,
+    "infantry_simulation": true
   },
   "reference_life_tests": {
     "tests": 128,
@@ -389,7 +372,7 @@
     "raw_receive_advances_physics": false,
     "one_frame_phase_selection": true,
     "action_cadence": true,
-    "outer_starvation_backlog_policy": false,
+    "outer_starvation_backlog_policy": true,
     "equipment_fuel_impulses": false,
     "owner_worldupdate": false,
     "complete_hit_authorization": false,
@@ -397,7 +380,10 @@
     "source_provenance": [
       "src/test/resources/golden/input-provenance.json",
       "src/test/resources/golden/action-clock-provenance.json"
-    ]
+    ],
+    "outer_policy_scope": "Ordinary no-flight infantry; required hooks and upstream rate/conduct admission remain incomplete",
+    "eye_history": true,
+    "labelled_velocity_impulses": true
   },
   "reference_input_tests": {
     "passed": 31,
@@ -406,13 +392,71 @@
     "command": "python -m pytest -q tests/test_input_loss_recovery.py tests/test_action_clock.py tests/test_action_clock_recovery_review.py"
   },
   "publication": {
-    "commit_object_created": true,
-    "branch_updated": true,
     "branch": "port/java25",
-    "implementation_commit": "7d0d68e8e3fda4974fe7ebc070e24f7833b74a25",
-    "implementation_tree": "e7c13efb769da9833c27e056f69df57832118a30",
-    "expected_parent": "21e5f91d52796069e9eb8f2a4c9de1385febc3c7",
-    "non_force_update": true,
-    "ci_started": true
+    "branch_updated": false,
+    "expected_parent": "87e4892c9b5b5ebe4861a80655b5e21d0fe62492"
+  },
+  "previous_input_checkpoint": {
+    "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
+    "java_implementation_commit": "7d0d68e8e3fda4974fe7ebc070e24f7833b74a25",
+    "tested_tree": "e7c13efb769da9833c27e056f69df57832118a30",
+    "ci": {
+      "status": "success",
+      "run_id": 38830815361,
+      "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38830815361",
+      "implementation_commit": "7d0d68e8e3fda4974fe7ebc070e24f7833b74a25",
+      "jobs": {
+        "native-enet": "success",
+        "build": "success",
+        "platform (macos-latest)": "success",
+        "platform (ubuntu-latest)": "success",
+        "platform (windows-latest)": "success"
+      },
+      "job_ids": {
+        "native-enet": 116748922587,
+        "build": 116748922977,
+        "platform (macos-latest)": 116749192584,
+        "platform (ubuntu-latest)": 116749192663,
+        "platform (windows-latest)": 116749192711
+      },
+      "repeated_jar_comparison": "success",
+      "source_fixtures_and_catalogs_reproduced": true,
+      "input_and_action_clock_fixtures_reproduced": true,
+      "same_uploaded_jar_on_three_platforms": true,
+      "local_to_ci_artifact_hash_compared": false,
+      "full_reference_python_baseline_passing": false,
+      "packaged_native_probe_player_domain": "FixtureScene; receive chronology uses the production-domain UDP test"
+    }
+  },
+  "infantry": {
+    "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+    "operations": 16683,
+    "traces": 33,
+    "class_profiles": 18,
+    "method_substitutions": false,
+    "source_fixtures_reproduced": true,
+    "production_body_simulation": true,
+    "owned_scheduler_udp_movement": true,
+    "real_landing_hp_death_order": true,
+    "starvation_backlog": true,
+    "eye_history": true,
+    "labelled_velocity_impulses": true,
+    "fa\u00e7ade_velocity_clipping": true,
+    "full_flight_equipment": false,
+    "deferred_explosion_impulses": false,
+    "complete_reload_and_firing": false,
+    "upstream_rate_conduct_admission": false,
+    "actual_lag_compensation": false,
+    "concrete_modes": false,
+    "owner_worldupdate": false,
+    "supported_client_validation": false,
+    "capacity_or_soak": false,
+    "provenance": "src/test/resources/golden/infantry-provenance.json"
+  },
+  "reference_infantry_tests": {
+    "passed": 57,
+    "failures": 0,
+    "skipped": 0,
+    "command": "python -m pytest -q tests/test_anticheat_movement.py tests/test_input_loss_recovery.py"
   }
 }

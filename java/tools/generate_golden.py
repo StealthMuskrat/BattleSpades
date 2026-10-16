@@ -69,5 +69,7 @@ manifest['oracles']['health']='unmodified Player.damage/heal, conduct blast attr
 manifest['generators']+=['generate_input_golden.py','generate_action_clock_golden.py']
 manifest['oracles']['input']='unchanged ClientData handler, Player receive/one-frame phase/loss-salvage methods and real native Player.update; profile observations of phase boundaries'
 manifest['oracles']['action_clock']='unchanged action_clock peek/admit/reset, interval carry and ENet stall estimate; typed labels and clocks'
+manifest['generators']+=['generate_simulation_golden.py']
+manifest['oracles']['infantry']='unchanged SimulationRuntime._simulate_players, Player.simulate_tick/update and compiled original World mover; full no-flight body/eye/HP/timing traces and observed call boundaries'
 manifest['unicode_data']={'net/battlespades/player/name-unicode.bin.gz':hashlib.sha256((ROOT/'java/src/main/resources/net/battlespades/player/name-unicode.bin.gz').read_bytes()).hexdigest()}
 (ROOT/'java/src/test/resources/golden/provenance.json').write_text(json.dumps(manifest,indent=2)+'\n')

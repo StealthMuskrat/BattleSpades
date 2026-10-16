@@ -1,0 +1,16 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 16683,
+  "groups": 33,
+  "method_substitutions": false,
+  "source_files": {
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/simulation_runtime.py": "385c8793f38e3c340784018e91350d36e3612d1a3252aa8f65295aaf719021bd",
+    "server/handlers/movement.py": "c79b87556293ce351576d659503cc5538082b23bf893179d5612879f6a98632e",
+    "server/anticheat.py": "e2fa7046b232464c99d54536e8c4b4561a5f6b36ee427a1178cb45438429f7ae",
+    "aoslib/world.pyx": "5290568a97c5b74503642b29d6da9eda56f2fdba0453f9e5c7c3f676d840b1bc",
+    "server/game_rules.py": "106994a6c99a3fd0ff541a2d0e217b4fb01b086d6fe208d7900d1731bd61d475"
+  },
+  "fixture_sha256": "740e9c13e5fe0f229b01118bfd606a273f19a125c283ee89727e56ebd913fdc4",
+  "scope": "ordinary no-flight original SimulationRuntime._simulate_players, Player.simulate_tick/update and real native mover; profiles observe reload/lag/after-tick/report boundaries; excludes flight, concrete modes, award/reload results and replication"
+}

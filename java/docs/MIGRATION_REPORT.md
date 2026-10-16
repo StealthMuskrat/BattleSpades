@@ -1,11 +1,11 @@
 # Java 25 migration report
 
 Date: 2026-10-16 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage adds ClientData receive chronology, one-frame phase/loss-salvage
-selection and labelled action evidence, plus source action cadence. The lifecycle
-records actual session input but the complete equipment/mover/WorldUpdate loop is
-still pending. Hit authorization, firing/reload, detached projectiles, authenticated
-identity and concrete modes remain pending. Ordinary hosting deliberately exits 2.
+The current stage binds real no-flight infantry movement to accepted input phases,
+source starvation/backlog pacing, labelled velocity impulses, eye history and fall
+health. Required reload/lag/mode/effect ports remain explicit. Flight, owner
+WorldUpdate, raw hit authorization, full modes and supported-client/capacity gates
+remain pending. Ordinary hosting deliberately exits 2.
 
 ## Repository and provenance
 
@@ -27,9 +27,9 @@ identity and concrete modes remain pending. Ordinary hosting deliberately exits 
 - Previous lifecycle tested/published tree: `f46b2a5736cd9dc49afae067df58f35e1239212a`.
 - Previous accepted-health implementation: `e9e06e5af17deb9cb4f939c9ddd9112ad18a9881`.
 - Previous accepted-health tested/published tree: `8195a734f9d048246bb17da572a0f2bf829cd824`.
-- Current input implementation: `7d0d68e8e3fda4974fe7ebc070e24f7833b74a25`.
-- Current input tested tree: `e7c13efb769da9833c27e056f69df57832118a30`.
-- Current input CI: [run 38830815361](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38830815361); all five jobs passed.
+- Previous input implementation: `7d0d68e8e3fda4974fe7ebc070e24f7833b74a25`.
+- Previous input tested tree: `e7c13efb769da9833c27e056f69df57832118a30`.
+- Previous input CI: [run 38830815361](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38830815361); all five jobs passed.
 - Exact job evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -39,6 +39,15 @@ CLI push lacks credentials; publication uses the connected GitHub app with an
 expected-head lease and exact tested-tree comparison. No release is created.
 
 ## Current implementation
+
+InfantrySimulation now drives the actual world-bound mover from one accepted or
+refilled phase per fixed step. PlayerMotion retains current façade controls,
+source starvation/backlog policy, bounded eye/queue history, labelled impulses and
+fall timing. Required ports preserve original reload/lag/after-tick boundaries;
+unsupported flight and Crumbling Run bindings fail explicitly. The original full
+SimulationRuntime/Player/native-World path supplies 16,683 exact operations in 33
+traces; real UDP now drives owned movement and a genuine lethal landing's ordered
+health/death packets. See [INFANTRY_SIMULATION.md](INFANTRY_SIMULATION.md).
 
 InputTimeline records bounded immutable frames and receive metadata, preserves the
 fresh immediate-state gate, selects source-latched movement phases, salvages late
@@ -127,8 +136,9 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Check | Current local result |
 |---|---|
 | Java 25 clean check/build | PASS |
-| Unit/component tests | 4451 passed; 0 failures/errors/skips |
-| Real UDP integration tests | 11 passed; 0 failures/errors/skips |
+| Unit/component tests | 4487 passed; 0 failures/errors/skips |
+| Real UDP integration tests | 12 passed; 0 failures/errors/skips |
+| Infantry full-path source comparisons | 16,683 exact operations / 33 traces; 57 focused original regressions pass |
 | ClientData / cadence source comparisons | 14,234 / 26,234 original operations; exact regeneration |
 | Focused original input/cadence regressions | 31 passed |
 | Accepted HP/history source comparisons | 1152 damage, 120 heal, 80 attribution and 832 stateful operations |
@@ -155,7 +165,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | All five PASS: Ubuntu build, native/source oracle, Linux/Windows/macOS |
+| Current-tree independent platform CI | Pending publication and verification; preceding input checkpoint passed all five |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -204,7 +214,7 @@ smoke downloads one Ubuntu-built JAR; source tests additionally run on all three
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
 
-Current input/cadence CI: [run 38830815361](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38830815361), all five migration
+Previous input/cadence CI: [run 38830815361](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38830815361), all five migration
 jobs passed on `7d0d68e8e3fda4974fe7ebc070e24f7833b74a25`. It reproduces new input/cadence fixtures and
 all earlier source gates, byte-compares its rebuilt archive, and smokes the same
 uploaded JAR on three OSes. Complete gameplay remains unverified.
@@ -252,8 +262,9 @@ packaging check. Exact final SHA/size are in verification-results.json.
 
 ## Remaining work and readiness
 
-Next: bind the input phase selector to outer pacing, equipment/impulse policies,
-accepted-frame simulation and WorldUpdate; implement hit/action authorization; connect detached projectile actors and full scoring/award observers; wire
+Next: bind flight equipment/fuel and owner WorldUpdate reconciliation, complete
+upstream rate/conduct admission and required reload/lag/mode/effect ports; implement
+firing/reload and hit/action authorization; connect detached projectile actors and full scoring/award observers; wire
 the common Character lifecycle to concrete modes/effects and authenticated identity,
 and connect the verified mover and configured rule profile to input/equipment policy,
 the owned 60 Hz loop, prediction history/anticheat and WorldUpdate construction.

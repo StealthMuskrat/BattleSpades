@@ -51,6 +51,18 @@ public final class InputTimeline {
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Input timeline accessed outside owner");}
     public Integer newestLabel(){owned();return newest;}
     public Integer appliedLabel(){owned();return applied;}
+    public int size(){owned();return frames.size();}
+    public Frame firstFrame(){owned();return frames.isEmpty()?null:frames.firstEntry().getValue();}
+    public Frame frame(int label){owned();return frames.get(label);}
+    public int pendingMovement(){owned();return pendingMovement;}
+    public Integer appliedActions(){owned();return appliedActions;}
+    public boolean hasPresses(){owned();return pressMovement!=0||pressActions!=0;}
+    public Vector appliedAim(){owned();return appliedAim;}
+    public void pruneStale(){owned();while(applied!=null&&!frames.isEmpty()&&frames.firstKey()<=applied){frames.pollFirstEntry();stale++;dropped++;}}
+    /** Enforced backlog discard: no movement step or fresh receive witness is fabricated. */
+    public Optional<Frame> dropOldest(){
+        owned();if(frames.isEmpty())return Optional.empty();var f=frames.pollFirstEntry().getValue();applied=f.label;pendingMovement=f.movement;pendingLabel=f.label;pendingTick=f.receivedTick;pendingOwner=f.ownerSequence;pendingUnknown=f.unknown;appliedAim=f.aim;dropped++;return Optional.of(f);
+    }
     /** Source spawn clears life cursors, not the connection's label, zoom/arrival or owner-send history. */
     public void resetLife(){
         owned();frames.clear();guesses.clear();applied=null;pendingLabel=null;pendingTick=null;pendingUnknown=null;pendingOwner=null;

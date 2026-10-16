@@ -17,7 +17,7 @@ class InputTimelineGoldenTest {
     private static double number(String s){return Double.longBitsToDouble(Long.parseUnsignedLong(s,16));}
     private static String aim(Vector v){return v==null?"-":bits(v.x())+","+bits(v.y())+","+bits(v.z());}
     private static String join(Object... values){return Arrays.stream(values).map(InputTimelineGoldenTest::scalar).collect(Collectors.joining(","));}
-    private static String snapshot(InputTimeline timeline){
+    static String snapshot(InputTimeline timeline){
         var s=timeline.state();var c=s.counters();
         String frames=s.frames().stream().map(f->join(f.label(),f.movement(),aim(f.aim()),f.actions(),f.receivedTick(),f.ownerSequence(),f.inputSequence(),f.unknown(),f.topology())).collect(Collectors.joining(";"));
         String guesses=s.guesses().entrySet().stream().map(e->join(e.getKey(),e.getValue().get(0),e.getValue().get(1))).collect(Collectors.joining(";"));

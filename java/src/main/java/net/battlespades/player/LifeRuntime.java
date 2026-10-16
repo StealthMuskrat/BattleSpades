@@ -94,6 +94,8 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     @Override public PlayerRoster roster(){owned();return roster;}
     public PlayerLife player(int id){owned();return Objects.requireNonNull(players.get(id),"Unknown player");}
     public List<PlayerLife> players(){owned();return List.copyOf(players.values());}
+    public boolean inGame(int id){owned();return messages.inGame(id);}
+    double movementClock(){owned();return clock.monotonic();}
     public Score score(int id){owned();var s=Objects.requireNonNull(scores.get(id));return new Score(s.kills,s.deaths,s.streak,s.lastKilledBy,s.bonuses);}
     /** Synchronous chained blasts retain the outermost non-null instigator, as conduct.blast_instigator does. */
     public BlastScope blast(Integer instigatorId){owned();PlayerLife current=blasts.isEmpty()?null:blasts.getLast().instigator;var scope=new BlastScope(current!=null?current:instigatorId==null?null:player(instigatorId));blasts.addLast(scope);return scope;}
@@ -171,8 +173,8 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
         int delay=clamp((int)Math.ceil(policy.respawnDelay(p)-1e-6));var death=new LifePackets.KillAction(id,killer==null?id:killer.id(),type,delay,count,flags.domination(),flags.revenge());p.rememberDeath(death);roster.death(death);messages.broadcast(death);effects.died(p,killer,weaponType,type,enemy);return true;
     }
     @Override public void input(int id,LiveClientInput input,int loop){
-        owned();var p=player(id);var arrival=p.inputTimeline().receive(input,p.alive(),p.spawned(),p.aim(),loop,world.topologyVersion(),false);
-        if(arrival.fresh()){p.orientation(input.x(),input.y(),input.z());inputs.receive(p,input,loop);}
+        owned();var p=player(id);p.motion().received(clock.monotonic());var arrival=p.inputTimeline().receive(input,p.alive(),p.spawned(),p.aim(),loop,world.topologyVersion(),false);
+        if(arrival.fresh()){p.orientation(input.x(),input.y(),input.z());p.motion().controls(input.movementFlags(),(input.actionFlags()&255)|(input.paletteEnabled()?256:0));inputs.receive(p,input,loop);}
     }
     @Override public void packet(int id,GamePacket packet){owned();inputs.packet(player(id),packet);}
     @Override public void disconnected(int id){owned();var p=players.get(id);if(p==null)return;inputs.forget(p);effects.forget(p);feed.forget(id);roster.remove(id);deadJoin.remove(id);scores.remove(id);players.remove(id);messages.broadcast(new SimplePackets.PlayerLeft(id));}

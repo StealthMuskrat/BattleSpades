@@ -70,6 +70,9 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 - ClientData receive chronology, bounded label/action histories, one-frame phase
   selection/loss salvage and source action-cadence gates. See
   [input evidence and required gameplay integration](docs/PLAYER_INPUT.md).
+- Authoritative no-flight infantry steps, source starvation/backlog policy,
+  labelled impulses, eye history and fall-health integration. See
+  [infantry evidence and remaining loop/equipment work](docs/INFANTRY_SIMULATION.md).
 - Layered inert map metadata, mode/UGC layout assembly and stock catalogue filtering,
   connected to scene packets and spawn geometry. See [metadata evidence and limits](docs/MAP_METADATA.md).
 - Authored spawn geometry, threat-aware selection and bounded rescue, with source

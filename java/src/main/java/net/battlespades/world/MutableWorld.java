@@ -21,7 +21,7 @@ public final class MutableWorld implements AutoCloseable {
     public enum Replay { WAITING, COMPLETE, OVERFLOW, STALE }
     private record Mutation(long sequence,Cell cell) {}
     private record AirColumn(int column,BitSet mask) {}
-    private record CellState(boolean solid,int color,boolean explicit,double health) {}
+    private record CellState(boolean solid,int color,boolean explicit,double health,double damage,double healthScale) {}
     private static final class ColumnState {
         final BitSet solid=new BitSet(240),explicit=new BitSet(240);
         final int[] colors=new int[240];
@@ -33,7 +33,8 @@ public final class MutableWorld implements AutoCloseable {
     private final int sourceCrc;
     private final Map<Integer,ColumnState> columns=new HashMap<>();
     private final Map<Integer,BitSet> air=new HashMap<>();
-    private final Map<Cell,Double> health=new HashMap<>();
+    private final Map<Cell,Double> health=new java.util.LinkedHashMap<>();
+    private final TerrainHealth terrainHealth=new TerrainHealth(this);
     private final int[] surfaces=new int[512*512];
     private final ArrayDeque<Mutation> journal=new ArrayDeque<>();
     private final LinkedHashSet<Lease> leases=new LinkedHashSet<>();
@@ -61,6 +62,11 @@ public final class MutableWorld implements AutoCloseable {
     public int color(Cell cell) { active();var c=columns.get(cell.column());return c==null?base.color(cell.x,cell.y,cell.z):c.colors[cell.z]; }
     public boolean explicit(Cell cell) { active();var c=columns.get(cell.column());return c==null?base.hasExplicitColor(cell.x,cell.y,cell.z):c.explicit.get(cell.z); }
     public double initialHealth(Cell cell) { active();return health.getOrDefault(cell,5.0); }
+    public TerrainHealth terrainHealth() { active();return terrainHealth; }
+    Double healthOverrideOrNull(Cell cell) { active();return health.get(cell); }
+    double healthOverride(Cell cell,double fallback) { active();return health.getOrDefault(cell,fallback); }
+    List<Cell> healthCells() { active();return List.copyOf(health.keySet()); }
+    void forgetHealth(Cell cell) { active();health.remove(cell); }
     private ColumnState mutable(int key) {
         return columns.computeIfAbsent(key,k->{
             int x=k%512,y=k/512;var column=new ColumnState();
@@ -75,7 +81,10 @@ public final class MutableWorld implements AutoCloseable {
         active();
         if(!solid && cell.z==239) throw new IllegalArgumentException("Canonical seabed cannot be removed");
         if(initialHealth!=null && (!Double.isFinite(initialHealth) || initialHealth<=0)) throw new IllegalArgumentException("Block health");
-        boolean previous=solid(cell),recolor=solid && initialHealth==null && previous;var column=mutable(cell.column());
+        boolean previous=solid(cell),recolor=solid && initialHealth==null && previous;
+        terrainHealth.beforeSet(cell,recolor,rgb);
+        if(initialHealth!=null)initialHealth=terrainHealth.userHealth(initialHealth);
+        var column=mutable(cell.column());
         if(previous!=solid)surfaces[cell.column()]=-1;
         column.solid.set(cell.z,solid);column.explicit.set(cell.z,solid);column.colors[cell.z]=solid?0x80000000|(rgb&0xffffff):0;
         if(solid && initialHealth!=null) health.put(cell,initialHealth);else if(!recolor) health.remove(cell);
@@ -92,7 +101,10 @@ public final class MutableWorld implements AutoCloseable {
                 }
             }
         }
-        revision++;
+        recordCell(cell);
+    }
+    void recordCell(Cell cell) {
+        active();revision++;
         if(!leases.isEmpty()) {
             for(var lease:leases) lease.complete=false;
             journal.addLast(new Mutation(revision,cell));
@@ -136,7 +148,12 @@ public final class MutableWorld implements AutoCloseable {
         var packets=new ArrayList<GamePacket>();int rgb=color(cell)&0xffffff;
         packets.add(new SimplePackets.BlockBuildColored(loop,actor,cell.x,cell.y,cell.z,rgb));
         if(explicit(cell)) packets.add(new SimplePackets.PaintBlockPacket(loop,cell.x,cell.y,cell.z,rgb));
-        packets.add(new BlockManagerState(List.of(new BlockManagerState.User(cell.x,cell.y,cell.z,initialHealth(cell))),List.of()));
+        var rows=terrainHealth.rows(List.of(cell),false);
+        if(!rows.users().isEmpty())packets.add(new BlockManagerState(rows.users(),List.of()));
+        if(!rows.damaged().isEmpty()) {
+            packets.add(new BlockManagerState(List.of(),rows.damaged()));
+            for(var shade:terrainHealth.shades(List.of(cell)))packets.add(new SimplePackets.PaintBlockPacket(loop,cell.x,cell.y,cell.z,shade.rgb()));
+        }
         return List.copyOf(packets);
     }
     private void prune() {
@@ -192,6 +209,6 @@ public final class MutableWorld implements AutoCloseable {
         }
         @Override public void close() {owned();if(!released) {released=true;leases.remove(this);pendingPackets=List.of();cells=List.of();pendingCell=null;prune();}}
     }
-    private CellState stateOf(Cell cell) {return new CellState(solid(cell),color(cell),explicit(cell),initialHealth(cell));}
-    @Override public void close() {owned();if(closed) return;closed=true;for(var l:List.copyOf(leases)) l.close();journal.clear();columns.clear();air.clear();health.clear();}
+    private CellState stateOf(Cell cell) {return new CellState(solid(cell),color(cell),explicit(cell),initialHealth(cell),terrainHealth.accumulated(cell),terrainHealth.scale());}
+    @Override public void close() {owned();if(closed) return;closed=true;for(var l:List.copyOf(leases)) l.close();journal.clear();columns.clear();air.clear();health.clear();terrainHealth.close();}
 }

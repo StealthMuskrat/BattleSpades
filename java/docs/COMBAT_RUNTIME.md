@@ -1,5 +1,9 @@
 # Owned shot commit and player hit effects
 
+Later terrain damage/digging, health/shades, collapse and late-join health evidence
+is documented in [TERRAIN_DAMAGE.md](TERRAIN_DAMAGE.md). Pending terrain statements
+below describe this earlier checkpoint; concrete repair and gameplay domains remain open.
+
 Behavioral source: `6216b771282d2d349ccd67ee58c378f035c83553`, principally
 `server/combat_runtime.py`, `server/player.py`, the weapon/class catalogs and
 the original Cython packet codec. The new components compose the earlier timing,

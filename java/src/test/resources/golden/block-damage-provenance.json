@@ -1,0 +1,34 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_files_sha256": {
+    "server/block_damage_model.py": "43b2f189bf2c827067d50d35c8cd1c4ae470c23e42be1b45a372fc4b77686cf5",
+    "shared/constants.py": "125d8fdb66ed78db6927ee8fee0d4be700421d23ca79a6bbabc09351e628d59a"
+  },
+  "cases": 5363,
+  "footprint_cells": 163008,
+  "fixture_sha256": {
+    "block-damage-00.tsv.gz": "3abc4ef4eab419c7bb70e169242adec86858c42909e54869b42f207ae71f2de7",
+    "block-damage-01.tsv.gz": "1f1543daa7b9a9aa6156e3ed0e6e8b6eef0527299be352912b7c197d3542321a",
+    "block-damage-02.tsv.gz": "86f00a843cbe1d3db0f11fae92a138fea03c777d287d1535a8429e6cefd44eb9",
+    "block-damage-03.tsv.gz": "63e02d025c91dcce3daca51800237c66183ddfe08742cc6558f6fc353bfc2c80",
+    "block-damage-04.tsv.gz": "639229ae644d925d6af0184397c4baddaf70457925e6bb64bb8e9f32183741ba",
+    "block-damage-05.tsv.gz": "aab63689a33469c96dfe68d83681c7a0b127ca31a213eb1aa14f5d16e63b3508",
+    "block-damage-06.tsv.gz": "eef407fbe3a10bbf09aed022458b04264fabd6633879507d2e8494223fd4589e",
+    "block-damage-07.tsv.gz": "c527aed949853f886d1fb45c3c374531e3aca899a458428dc833a5c622dbd31f",
+    "block-damage-08.tsv.gz": "0845b873a38b476744443d4014544ec96f517c80b0fbe9631b28ded624c1d117",
+    "block-damage-09.tsv.gz": "4d7804a798d7a02960d43814c6ed71ec96ba4d22d5e1b273185fa086bd7e6dd3",
+    "block-damage-10.tsv.gz": "4de0071cab4c27bbe9ad77ab57376de316088e2c6055fc9df311378ed7c86ce9",
+    "block-damage-11.tsv.gz": "5529564bfa5684abdedcc3c2096164bf7b845e3b097f17460676b8f921478f58",
+    "block-damage-12.tsv.gz": "55a10f33ae622029a73f21df0b9bcf43f96d47a9f7d1f3a2ddb6d264ba332b74",
+    "block-damage-13.tsv.gz": "8174da12d33d78cb89d961c7b6d60a37a32f0cc3c8cefbd0ed4342ffcb7ac2af",
+    "block-damage-14.tsv.gz": "cfa2176a6db6cd4225c47f60aed49f826a25844b96f55791f6ff96748f196000",
+    "block-damage-15.tsv.gz": "142a35ea37825184c4dc2aabc76d4d67b9a19f18b37b332354f798f04c45b074",
+    "block-damage-16.tsv.gz": "24d0daf5efeb8f33db1fd48c9a1fa3478556012e3c19515d0d604656ea5a123e",
+    "block-damage-17.tsv.gz": "8dc9593709468fd83ebd62b54dfb9c1ed0d4448e9647d28cc7e38ea8e11ec3f8",
+    "block-damage-18.tsv.gz": "76bb05ab4d829ae6916ed5a0f5198ee6fe9a01aa810d8136311ab6eb40d8a441",
+    "block-damage-19.tsv.gz": "fef64f7d9e5f316bd0dbcd39ae200ad43865496cc2b0a1b66331a0c3e4907691",
+    "block-damage-20.tsv.gz": "116a01a0119223584a6d71e5c4e14aceb4eef965ce6d40af0509d26fe70c7606"
+  },
+  "method_substitutions": false,
+  "scope": "Unchanged source mathematical footprint, wire quantization, cell rounding, filtering and compounded per-channel shade functions. All 44 source types plus unknowns, signed/masked seeds, map boundary and adjacent rounding values. No actual map health, topology, digging or supported-client effects established by this fixture."
+}

@@ -160,7 +160,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
                     if(replay==MutableWorld.Replay.OVERFLOW || replay==MutableWorld.Replay.STALE) {fail(13);return;}
                     if(replay!=MutableWorld.Replay.COMPLETE) return;
                     if(!airDone) {
-                        long epoch=generation;var source=scene;var packets=source.reveal(slot.id()).stream().map(SessionFrame::new).toList();
+                        long epoch=generation;var source=scene;var packets=source.reveal(slot.id(),serverLoop).stream().map(SessionFrame::new).toList();
                         if(!current(epoch,source)) return;airDone=true;if(!enqueue(packets)) return;
                         if(!controls.isEmpty()) return;
                     }

@@ -1,4 +1,25 @@
-# Current owned-combat checkpoint verification
+# Current terrain checkpoint verification
+
+Local check/build passes **5,029 component + 20 real UDP tests**, zero
+failures, errors or skips. **53 focused original tests** pass. New source
+comparisons cover 10,483 operations plus 163,008 expanded cells; all 191 fixture/
+catalog hashes reproduce after a fresh original native build. Publication and
+all five current-head CI jobs are pending.
+
+Two CRC-valid local archives are byte-identical: 1542800 bytes,
+SHA-256 `37c59135b7b08dfac906670ddbb3c66793ecc752c905cb7d7cec5681851c2a06`. Class major 69 and packaging audits pass;
+version/config exits 0 and hosting exits 2. Native transport and packaged-loader
+probes pass unchanged nominal/impaired assertions in an isolated run. The earlier
+impaired-probe observation remains preceding-checkpoint evidence below.
+
+A real three-client UDP test composes bound admitted bullets/spades, canonical
+health/collapse/wallets and a fresh join's ordered health reveal, with explicit
+trusted mode/effect ports. Concrete repair scheduling, sound/profile/scoring/
+award/mode services, projectiles/entities/corpses and supported-client/capacity/
+soak gates remain pending. Native packaged-loader probes retain FixtureScene.
+See [TERRAIN_DAMAGE.md](TERRAIN_DAMAGE.md).
+
+# Preceding owned-combat checkpoint verification
 
 Local clean check/build passes **4,937 component + 19 real UDP tests**, zero
 failures, errors or skips. **223 focused original tests** pass (including

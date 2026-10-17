@@ -1,12 +1,13 @@
 # Java test results
 
-Stage: owned shot commit, player hitscan/melee damage, shields, feedback and
-trigger/seed aggregates, 2026-10-17 UTC. Implementation: `76a80d9f4b7840ab6730157215e69995d66323fd`; tested tree: `07ce07657fc3a84285fd212673dcef0e8d7ccab2`.
-All five jobs passed in [run 39078168462](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39078168462), including fixture regeneration,
-archive reproducibility and one uploaded JAR on three platforms.
+Stage: terrain damage/digging, health/shades, seeded footprints, collapse and
+configured late-join health reveal, 2026-10-17 UTC. Local check/build passes;
+publication and all five current-head CI jobs are pending.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
+| net.battlespades.BlockDamageGoldenTest | 21 | 0 | 0 | 0 |
+| net.battlespades.CollapseGoldenTest | 16 | 0 | 0 | 0 |
 | net.battlespades.CombatGeometryGoldenTest | 49 | 0 | 0 | 0 |
 | net.battlespades.CombatRayGoldenTest | 1 | 0 | 0 | 0 |
 | net.battlespades.ComplexPacketTest | 3 | 0 | 0 | 0 |
@@ -38,6 +39,8 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.ShotValidationGoldenTest | 16 | 0 | 0 | 0 |
 | net.battlespades.SimulationTest | 4 | 0 | 0 | 0 |
 | net.battlespades.SnapshotHoldsGoldenTest | 4 | 0 | 0 | 0 |
+| net.battlespades.TerrainHealthDeliveryTest | 3 | 0 | 0 | 0 |
+| net.battlespades.TerrainHealthGoldenTest | 36 | 0 | 0 | 0 |
 | net.battlespades.WorldFormatTest | 4 | 0 | 0 | 0 |
 | net.battlespades.WorldQueriesTest | 2 | 0 | 0 | 0 |
 | net.battlespades.player.ActionClockTest | 34 | 0 | 0 | 0 |
@@ -64,24 +67,24 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.player.PlayerSnapshotGoldenTest | 4 | 0 | 0 | 0 |
 | net.battlespades.player.ShotTallyGoldenTest | 16 | 0 | 0 | 0 |
 | net.battlespades.player.SpawnPolicyTest | 36 | 0 | 0 | 0 |
+| net.battlespades.player.TerrainCommitGoldenTest | 16 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 16 | 0 | 0 | 0 |
-| net.battlespades.ApplicationIntegrationTest | 16 | 0 | 0 | 0 |
+| net.battlespades.ApplicationIntegrationTest | 17 | 0 | 0 | 0 |
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **4,956 Java tests passed: 4,937 component and 19 real UDP; no failures,
-errors or skips.** The new fixtures contain 540,416 unchanged-source operations.
-All 162 new/prior fixture and catalog hashes reproduce after a fresh original
-native build. **223 focused original tests pass**; test_combat imports the
-reversed-combat tests, so these are not independent suites. The full reference
-Python baseline retains its documented incomplete runs and VIP discrepancy.
+Total: **5,049 Java tests passed: 5,029 component and 20 real UDP; no failures,
+errors or skips.** New comparisons cover 10,483 source operations plus 163,008
+expanded footprint cells. All 191 new/prior fixture/catalog hashes reproduce
+after a fresh original native build. **53 focused original tests pass**;
+the full Python baseline retains its documented incomplete runs and VIP discrepancy.
 
-The two additional UDP tests use automatic owned packet-6 dispatch. They verify
-admission/cadence/wallet, actual health/death, predicting-owner exclusion and wire
-delivery; delayed reliable fire damages a historical target while leaving its
-live position/velocity unchanged. Trusted equipment and mode/effect ports remain
-explicit test inputs. Concrete terrain/entity/corpse/mode/profile/scoring/award/
-aim services and upstream equipment/conduct admission remain pending. Damage,
-wire and aggregates are exact comparisons; preceding numeric geometry retains
-its documented 16-ULP bound, with exact classifications and voxel probes.
-Hosting still exits 2. See [COMBAT_RUNTIME.md](COMBAT_RUNTIME.md).
+New damage/topology/traversal/random/wire checks are exact. Original policy
+functions execute unchanged; test clocks, topology and mode/effect IO are explicit.
+The three-client UDP test uses automatic admitted shots, actual wall health,
+collapse and digging credit, then verifies a fresh join's reliable initial-health
+row before remaining health. Partial catch-up and rule-scale regressions retain
+current health while packets are queued. Concrete repair/audio/score/award/mode
+services, projectiles/entities/corpses and supported-client/capacity/soak gates
+remain pending. Preceding numeric geometry limits remain in force. Hosting still
+exits 2. See [TERRAIN_DAMAGE.md](TERRAIN_DAMAGE.md).

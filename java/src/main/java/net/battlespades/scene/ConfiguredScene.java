@@ -65,6 +65,9 @@ public final class ConfiguredScene implements JoinScene {
         return gameplay.admit(id,admitted,decision.selection(),capability);
     }
     @Override public List<GamePacket> reveal(int id){owned();return gameplay.reveal(id);}
+    @Override public List<GamePacket> reveal(int id,int serverLoop){
+        owned();var packets=new java.util.ArrayList<GamePacket>(gameplay.reveal(id));packets.addAll(world().terrainHealth().reveal(id,serverLoop,128));return List.copyOf(packets);
+    }
     @Override public void input(int id,LiveClientInput input,int loop){owned();gameplay.input(id,input,loop);}
     @Override public void roundTripMillis(int id,Double measurement){owned();gameplay.roundTripMillis(id,measurement);}
     @Override public void actionLink(int id,net.battlespades.player.ActionClock.Link link){owned();gameplay.actionLink(id,link);}

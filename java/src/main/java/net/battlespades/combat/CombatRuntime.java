@@ -43,6 +43,7 @@ public final class CombatRuntime {
         });
     }
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Combat runtime outside owner");}
+    public Integer activeShotTool(PlayerLife player){owned();return tally.active(player)?player.inventory().tool():null;}
     public void settings(Settings value){owned();settings=Objects.requireNonNull(value);}
     public void forgetPlayer(int id){owned();patterns.forgetPlayer(id);spread.forgetPlayer(id);}
     private void dropped(PlayerLife player,ShootPacket packet,String reason){try{domain.dropped(player,packet,reason);}catch(RuntimeException failure){/* Source diagnostic failures cannot interrupt combat. */}}

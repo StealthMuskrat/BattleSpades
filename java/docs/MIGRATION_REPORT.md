@@ -1,9 +1,9 @@
 # Java 25 migration report
 
 Date: 2026-10-17 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage composes the owned packet-6 commit path, player hitscan/melee
-damage and shields, health/death, feedback and trigger/seed aggregates. Concrete
-terrain/entity/corpse effects, mode/scoring/achievement/aim services and upstream
+The current stage adds owned terrain damage/digging, health and shades, seeded
+footprints, collapse and configured late-join health reveal. Concrete repair
+scheduling, entity/corpse/projectile effects, mode/score/award services and upstream
 input/equipment authorization remain required. Supported-client/capacity gates
 remain pending. Ordinary hosting deliberately exits 2.
 
@@ -45,9 +45,9 @@ remain pending. Ordinary hosting deliberately exits 2.
 - Previous shot-geometry implementation: `29156d7ccb3c47b582f7ae5570dcfde204c13282`.
 - Previous shot-geometry tested/published tree: `a0ab3bedac6a0777a30c620267bdb8188e4dc1f9`.
 - Previous shot-geometry CI: [run 39075436598](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39075436598); all five jobs passed.
-- Current owned-combat implementation: `76a80d9f4b7840ab6730157215e69995d66323fd`.
-- Current owned-combat tested/published tree: `07ce07657fc3a84285fd212673dcef0e8d7ccab2`.
-- Current owned-combat CI: [run 39078168462](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39078168462); all five jobs passed.
+- Previous owned-combat implementation: `76a80d9f4b7840ab6730157215e69995d66323fd`.
+- Previous owned-combat tested/published tree: `07ce07657fc3a84285fd212673dcef0e8d7ccab2`.
+- Previous owned-combat CI: [run 39078168462](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39078168462); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -57,6 +57,13 @@ CLI push lacks credentials; publication uses the connected GitHub app with an
 expected-head lease and exact tested-tree comparison. No release is created.
 
 ## Current implementation
+
+TerrainDamage, TerrainHealth, TerrainCollapse and BlockDamageModel add 10,483
+unchanged-source operations, plus 163,008 expanded-cell comparisons. A real
+three-client UDP test composes admitted bullets/spades, map health/collapse,
+block credit and a fresh join's ordered health reveal. Concrete sound/profile/
+score/achievement/mode and repair-scheduling ports remain required; see
+[TERRAIN_DAMAGE.md](TERRAIN_DAMAGE.md).
 
 CombatRuntime, DirectDamage, HitEffects and ShotTally add 540,416 unchanged-source
 operations. Two new automatic-dispatch UDP tests verify actual damage/death,
@@ -342,7 +349,7 @@ packaging check. Exact final SHA/size are in verification-results.json.
 
 ## Remaining work and readiness
 
-Next: implement concrete terrain damage/digging/shades/collapse and entity/corpse
+Next: implement concrete terrain repair scheduling and entity/corpse
 effects; connect detached projectiles, full score/award/aim services and upstream
 input/equipment authorization; wire the owned Character/combat/movement/flight
 components to concrete modes and authenticated identity. Complete presentation,

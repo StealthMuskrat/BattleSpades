@@ -1,0 +1,14 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_files_sha256": {
+    "server/world_manager.py": "b2ef9c97255c290ea946dc4a4a415b46ba26bd69db9997276bcce6a3ef45fc63",
+    "server/block_damage_model.py": "43b2f189bf2c827067d50d35c8cd1c4ae470c23e42be1b45a372fc4b77686cf5",
+    "server/terrain_repair.py": "9c7c7db955af46f236ad076669c833eebc276b54f875b76373613b40597459a3",
+    "server/prefab_actions.py": "758c767cb2825dd367d13a3b6a8fd038cbd88010524fa6dcf8c28723c9aa1a96"
+  },
+  "operations": 3840,
+  "traces": 36,
+  "fixture_sha256": "70bb3796be8609462f4be04c02518d4e2bfedf1976d8b3b3297224de9c1ea821",
+  "method_substitutions": false,
+  "scope": "Unchanged original WorldManager with actual native VXL and unchanged canonical repair/packet builders. Controlled normal/Classic/UGC modes and health-rule values; damage, replacement/paint/removal, raw colors/explicitness, initial/accumulated health, full/target/replay rows, compound shades, replay history and canonical repair bytes. No complete mode or live join/repair scheduling proven."
+}

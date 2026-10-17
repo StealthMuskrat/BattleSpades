@@ -1,0 +1,12 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_files_sha256": {
+    "server/world_manager.py": "b2ef9c97255c290ea946dc4a4a415b46ba26bd69db9997276bcce6a3ef45fc63",
+    "aoslib/vxl.pyx": "c24f5102983d08f72aa710bbe6315ac5714b2226dafc67b968dcbd789876460d"
+  },
+  "cases": 512,
+  "floating_cells": 8486,
+  "fixture_sha256": "950975324d356abb719d4aea0caf935dc949b35ff14914da38d246fa0217be9f",
+  "method_substitutions": false,
+  "scope": "Unchanged native VXL collapse policy and unchanged WorldManager fallback, with controlled topology, removed-cell order and work budget. Exact chunk and DFS cell order, bounds, 18-connectivity, grounded/budget-safe branches and an 8400-cell component; does not prove mutation, terrain repair, scores or supported-client animation."
+}

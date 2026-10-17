@@ -1,0 +1,356 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Source: 6216b771282d2d349ccd67ee58c378f035c83553
+[[settings]]
+max_damageable_z = 238
+radius_extra = 2.0
+
+[[footprint]]
+id = 0
+kind = "single"
+parameter = 0.0
+
+[[footprint]]
+id = 1
+kind = "single"
+parameter = 0.0
+
+[[footprint]]
+id = 2
+kind = "column"
+parameter = 0.0
+
+[[footprint]]
+id = 3
+kind = "cube"
+parameter = 5.0
+
+[[footprint]]
+id = 4
+kind = "single"
+parameter = 0.0
+
+[[footprint]]
+id = 5
+kind = "column"
+parameter = 0.0
+
+[[footprint]]
+id = 6
+kind = "single"
+parameter = 0.0
+
+[[footprint]]
+id = 7
+kind = "radius"
+parameter = 4.0
+
+[[footprint]]
+id = 8
+kind = "radius"
+parameter = 4.0
+
+[[footprint]]
+id = 9
+kind = "radius"
+parameter = 6.0
+
+[[footprint]]
+id = 10
+kind = "radius"
+parameter = 3.0
+
+[[footprint]]
+id = 11
+kind = "radius"
+parameter = 3.0
+
+[[footprint]]
+id = 12
+kind = "radius"
+parameter = 3.0
+
+[[footprint]]
+id = 13
+kind = "radius"
+parameter = 3.0
+
+[[footprint]]
+id = 14
+kind = "radius"
+parameter = 3.0
+
+[[footprint]]
+id = 15
+kind = "radius"
+parameter = 3.0
+
+[[footprint]]
+id = 16
+kind = "radius"
+parameter = 8.0
+
+[[footprint]]
+id = 17
+kind = "cube"
+parameter = 8.0
+
+[[footprint]]
+id = 18
+kind = "radius"
+parameter = 6.0
+
+[[footprint]]
+id = 19
+kind = "radius"
+parameter = 7.0
+
+[[footprint]]
+id = 20
+kind = "none"
+parameter = 0.0
+
+[[footprint]]
+id = 21
+kind = "radius"
+parameter = 3.0
+
+[[footprint]]
+id = 22
+kind = "radius"
+parameter = 2.0
+
+[[footprint]]
+id = 23
+kind = "radius"
+parameter = 2.0
+
+[[footprint]]
+id = 24
+kind = "radius"
+parameter = 4.0
+
+[[footprint]]
+id = 25
+kind = "single"
+parameter = 0.0
+
+[[footprint]]
+id = 26
+kind = "single"
+parameter = 0.0
+
+[[footprint]]
+id = 27
+kind = "none"
+parameter = 0.0
+
+[[footprint]]
+id = 28
+kind = "single"
+parameter = 0.0
+
+[[footprint]]
+id = 29
+kind = "single"
+parameter = 0.0
+
+[[footprint]]
+id = 30
+kind = "radius"
+parameter = 4.0
+
+[[footprint]]
+id = 31
+kind = "cube"
+parameter = 0.0
+
+[[footprint]]
+id = 32
+kind = "none"
+parameter = 0.0
+
+[[footprint]]
+id = 33
+kind = "radius"
+parameter = 3.0
+
+[[footprint]]
+id = 34
+kind = "single"
+parameter = 0.0
+
+[[footprint]]
+id = 35
+kind = "machete"
+parameter = 0.0
+
+[[footprint]]
+id = 36
+kind = "column"
+parameter = 0.0
+
+[[footprint]]
+id = 37
+kind = "radius"
+parameter = 4.0
+
+[[footprint]]
+id = 38
+kind = "radius"
+parameter = 3.0
+
+[[footprint]]
+id = 39
+kind = "radius"
+parameter = 5.0
+
+[[footprint]]
+id = 40
+kind = "radius"
+parameter = 3.0
+
+[[footprint]]
+id = 41
+kind = "radius"
+parameter = 8.0
+
+[[footprint]]
+id = 42
+kind = "single"
+parameter = 0.0
+
+[[footprint]]
+id = 43
+kind = "single"
+parameter = 0.0
+
+[[combat_settings]]
+melee_range = 4.0
+eye_slack = 1.5
+cell_half_diagonal = 0.8660254037844386
+kill_damage = 31.75
+ugc_superspade = 45
+ugc_secondary_type = 31
+ugc_secondary_damage = 7.5
+
+[[melee]]
+tool = -1
+type = 2
+amount = 5.0
+pattern = "column"
+
+[[melee]]
+tool = 0
+type = 0
+amount = 7.0
+pattern = "single"
+
+[[melee]]
+tool = 1
+type = 1
+amount = 1.0
+pattern = "single"
+
+[[melee]]
+tool = 2
+type = 2
+amount = 5.0
+pattern = "column"
+
+[[melee]]
+tool = 3
+type = 3
+amount = 7.5
+pattern = "cube"
+
+[[melee]]
+tool = 4
+type = 2
+amount = 3.0
+pattern = "column"
+
+[[melee]]
+tool = 24
+type = 17
+amount = 2.0
+pattern = "cube"
+
+[[melee]]
+tool = 34
+type = 26
+amount = 5.0
+pattern = "single"
+
+[[melee]]
+tool = 44
+type = 28
+amount = 9.0
+pattern = "single"
+
+[[melee]]
+tool = 45
+type = 29
+amount = 7.5
+pattern = "single"
+
+[[melee]]
+tool = 49
+type = 34
+amount = 1.75
+pattern = "single"
+
+[[melee]]
+tool = 50
+type = 35
+amount = 2.0
+pattern = "machete_vertical_pair"
+
+[[melee]]
+tool = 52
+type = 36
+amount = 2.0
+pattern = "column"
+
+[[sound]]
+type = 0
+id = 36
+
+[[sound]]
+type = 1
+id = 35
+
+[[sound]]
+type = 2
+id = 33
+
+[[sound]]
+type = 3
+id = 37
+
+[[sound]]
+type = 4
+id = 33
+
+[[sound]]
+type = 17
+id = 38
+
+[[sound]]
+type = 26
+id = 34
+
+[[sound]]
+type = 28
+id = 36
+
+[[sound]]
+type = 29
+id = 37
+
+[[sound]]
+type = 31
+id = 37
+
+[[sound]]
+type = 35
+id = 35

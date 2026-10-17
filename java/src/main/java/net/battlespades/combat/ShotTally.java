@@ -22,6 +22,7 @@ public final class ShotTally {
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Shot tally outside owner");}
     public void begin(PlayerLife player){owned();current=new Tally(Objects.requireNonNull(player));}
     public void notePlayerHit(PlayerLife player,boolean headshot){owned();if(current==null||current.player!=player)return;current.hit=true;current.headshot|=headshot;current.pellets++;}
+    public boolean active(PlayerLife player){owned();return current!=null&&current.player==player;}
     public boolean hadHit(PlayerLife player){owned();return current!=null&&current.player==player&&current.hit;}
     public void end(PlayerLife player,Consumer<Resolved> achievement){
         owned();var tally=current;current=null;if(tally==null||tally.player!=player||player.bot())return;

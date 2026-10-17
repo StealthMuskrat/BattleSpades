@@ -40,6 +40,11 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
+Terrain damage now composes owned health/shades, seeded footprints, melee digging,
+collapse and late-join health reveal, with 10,483 new source operations and a real
+three-client UDP test. Required concrete gameplay services remain pending; see
+[TERRAIN_DAMAGE.md](docs/TERRAIN_DAMAGE.md).
+
 The owned shot commit now composes validation, cadence, seeded pellets, target
 rewind and accepted player damage/death, with 540,416 additional source operations
 and two additional real UDP tests. Concrete terrain/entity/corpse effects and
@@ -165,7 +170,7 @@ probe uses a source-fixture scene under `src/testSupport`, excluded from the JAR
 MutableWorld captures dirty columns and journals committed cells through the live
 admission boundary. [APPLICATION_LOADING.md](docs/APPLICATION_LOADING.md) describes
 the state machine, ownership, roster reconciliation and remaining domain work.
-Marker cleanup, full damage/collapse, actual player lives/spawns and complete modes remain pending. ENet host
+Marker cleanup, concrete terrain-repair scheduling, entity/corpse effects and complete modes remain pending. ENet host
 bandwidth epoch redistribution remains pending; the current default host advertises
 unlimited bandwidth, matching the original server configuration.
 
@@ -178,8 +183,7 @@ mode rounds, bot capacity, plugin behavior or a 15-minute game soak.
 
 A Java-native plugin API has not been delivered; existing Python plugins do not
 run in this JAR. Steam SDK discovery/authentication/relay replacements and SQLite
-format migration remain unresolved under the no-native constraint. Full terrain
-mutation, collapse, physics, gameplay, bot AI, creator/tutorial and administration
+format migration remain unresolved under the no-native constraint. Complete construction/projectile terrain integration, gameplay, bot AI, creator/tutorial and administration
 are still in the backlog. No release-readiness or performance-parity claim is made.
 
 ## Troubleshooting

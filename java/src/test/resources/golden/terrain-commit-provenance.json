@@ -1,0 +1,14 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 768,
+  "cases": 256,
+  "fixture_sha256": "4bc8cea71ec4e83bf6c2415f425f9f5ffb12468ee444d58aa1c9ce40536fee9a",
+  "source_files_sha256": {
+    "server/combat_runtime.py": "1063d83823e07e103a7a65cc30aa3a94398d860abb8ba6ee345b7120f767d677",
+    "server/world_manager.py": "b2ef9c97255c290ea946dc4a4a415b46ba26bd69db9997276bcce6a3ef45fc63",
+    "server/dig_profiles.py": "1ea6f19041c329b705215a6dd2f4b6420da1182bd5a8b83eabe8fb89065f84f7",
+    "server/block_damage_model.py": "43b2f189bf2c827067d50d35c8cd1c4ae470c23e42be1b45a372fc4b77686cf5"
+  },
+  "method_substitutions": false,
+  "scope": "Unchanged admitted gun/spade terrain resolvers, actual original Player/native VXL, seeded global random, block health/collapse and Damage wire; sys.setprofile observes sound/profile/score/achievement boundaries. Controlled mode permissions, repairs and mode-event IO. No outer shot admission, full concrete mode/award/audio/repair scheduling or supported-client effects proven."
+}

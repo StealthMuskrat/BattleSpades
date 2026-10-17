@@ -22,6 +22,7 @@ import net.battlespades.support.FixtureScene;
 import net.battlespades.support.LifeHarness;
 import net.battlespades.support.InfantryPorts;
 import net.battlespades.support.CombatPorts;
+import net.battlespades.support.TerrainPorts;
 import net.battlespades.simulation.FixedStepRuntime;
 import net.battlespades.transport.UdpEndpoint;
 import net.battlespades.transport.enet.*;
@@ -98,6 +99,33 @@ class ApplicationIntegrationTest {
             clients.add(client);client.connect();until(()->client.peerId>=0);client.send(new LoadingPackets.SteamSessionTicket(new byte[]{3,7,19},capability==0?new byte[0]:new byte[]{'B','S','C','F',(byte)capability}),false);client.key=new byte[]{3,7,19};
             until(()->client.has(114));client.send(new SimplePackets.MapDataValidation(world.sourceCrc()),false);until(()->client.has(45));
         }
+    }
+    @Test void realUdpOwnedBulletAndSpadeCommitTerrainHealthCollapseAndCredit(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("Terrain commit UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var h=new LifeHarness()){
+                var ports=new CombatPorts(h);var combat=ports.bind();var terrainPorts=new TerrainPorts();terrainPorts.activeTool=combat::activeShotTool;var random=new SourceRandom(107);ports.terrain=new TerrainDamage(h.world,terrainPorts,()->random.below(256));
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),()->ScenePackets.State.initial(config),h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),3,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var b=new Client(host.address());var late=new Client(host.address())){
+                    h.destination=new LifeRuntime.Messages(){public void broadcast(GamePacket p){host.broadcast(p,Delivery.RELIABLE);}public void owner(int id,GamePacket p){assertTrue(host.sendPlayer(id,p));}public boolean inGame(int id){return host.inGame(id);}};ports.reliableSink=p->host.broadcast(p,Delivery.RELIABLE);ports.unreliableSink=p->host.broadcast(p,Delivery.UNRELIABLE);ports.feedbackSink=(p,owner)->host.broadcastExcept(p,Delivery.UNRELIABLE,owner);terrainPorts.reliableSink=p->host.broadcast(p,Delivery.RELIABLE);
+                    var loop=new Loop(host);loop.explicitTick=1000;loop.ticketAndLoad(a,h.world);a.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"shooter"),false);loop.until(()->a.has(69));loop.ticketAndLoad(b,h.world);b.send(new SimplePackets.NewPlayerConnection(3,0,0,0,"target"),false);loop.until(()->b.has(69));
+                    loop.until(()->{try{a.send(new ClientInput(100,127,false,6,1,0,0,0,0,24,0),true);b.send(new ClientInput(200,127,false,5,1,0,0,0,0,24,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0)&&host.inGame(1);});
+                    var shooter=h.runtime.player(0);var target=h.runtime.player(1);shooter.body().position(new Vector(36,36.5,97.5));target.body().position(new Vector(42,36.5,97));shooter.orientation(1,0,0);shooter.fire().tool(6,true);shooter.inventory().ammo(8,100);var wall=new MutableWorld.Cell(39,36,97);var floating=new MutableWorld.Cell(39,36,98);var edge=new MutableWorld.Cell(40,36,98);for(var c:List.of(wall,floating,edge))h.world.set(c,true,0x406080,null);
+                    for(int shot=0;shot<4;shot++){
+                        int label=100+180*shot;if(shot>0){h.monotonic+=3;h.wall+=3;ports.loop=loop.explicitTick+=180;a.send(new ClientInput(label,127,false,6,1,0,0,0,0,24,0),true);loop.until(()->Objects.equals(shooter.inputTimeline().newestLabel(),label));}a.packets.clear();a.commands.clear();b.packets.clear();b.commands.clear();a.send(new ShootPacket(label,254,0,new Vector3f(36,36.5f,97.5f),new Vector3f(1,0,0),32767,32767,true,true,0),false);
+                        if(shot<3){loop.until(()->a.has(37)&&b.has(37));assertEquals(100,target.health());var damage=(DamagePacket)a.packets.stream().filter(p->p.id()==37).findFirst().orElseThrow();assertEquals(6,damage.type());assertEquals(0,damage.playerId());assertEquals(new Vector3f(39,36,97),damage.position());assertEquals(shot==2?31.75f:2f,damage.damage());for(var client:List.of(a,b))for(int i=0;i<client.packets.size();i++)if(client.packets.get(i).id()==37)assertEquals(6,client.commands.get(i));if(shot<2){assertTrue(h.world.solid(wall));assertEquals((shot+1)*2,h.world.terrainHealth().accumulated(wall));}else{assertFalse(h.world.solid(wall));assertFalse(h.world.solid(floating));assertFalse(h.world.solid(edge));assertTrue(terrainPorts.events.stream().anyMatch(e->e.startsWith("collapsed:")));}}
+                        else{loop.until(()->a.has(9)&&b.has(5));assertEquals(30,target.health());}assertEquals(7-shot,shooter.inventory().ammo().clip());assertNull(combat.activeShotTool(shooter));
+                    }
+                    assertEquals(200,shooter.inventory().blocks(),"gun destruction never credits the digging wallet");h.world.set(wall,true,0x406080,9.);h.world.set(floating,true,0x406080,9.);shooter.fire().tool(2,true);var lease=h.world.capture(false,false).lease();
+                    for(int swing=0;swing<2;swing++){
+                        h.monotonic+=3;h.wall+=3;ports.loop=loop.explicitTick+=180;int label=820+180*swing;a.send(new ClientInput(label,127,false,2,1,0,0,0,0,24,0),true);loop.until(()->Objects.equals(shooter.inputTimeline().newestLabel(),label));a.packets.clear();b.packets.clear();a.send(new ShootPacket(label,254,0,new Vector3f(36,36.5f,97.5f),new Vector3f(1,0,0),32767,32767,true,false,0),false);loop.until(()->a.has(37)&&b.has(37));var damage=(DamagePacket)a.packets.stream().filter(p->p.id()==37).findFirst().orElseThrow();assertEquals(2,damage.type());assertEquals(5f,damage.damage());assertEquals(30,target.health());assertFalse(a.has(8));assertFalse(b.has(8));
+                        if(swing==0){assertEquals(5,h.world.terrainHealth().accumulated(wall));assertTrue(h.world.solid(wall));var catchup=new ArrayList<GamePacket>();assertEquals(MutableWorld.Replay.COMPLETE,lease.pump(0,ports.loop,99,p->{catchup.add(p);return true;}));assertTrue(catchup.stream().filter(BlockManagerState.class::isInstance).map(BlockManagerState.class::cast).flatMap(p->p.damaged().stream()).anyMatch(r->r.x()==39&&r.y()==36&&r.z()==97&&r.health()==4.));
+                            loop.ticketAndLoad(late,h.world);late.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"late"),false);loop.until(()->late.has(69));loop.until(()->{try{late.send(new ClientInput(900,127,false,5,1,0,0,0,0,24,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(2);});loop.until(()->late.packets.stream().filter(BlockManagerState.class::isInstance).map(BlockManagerState.class::cast).flatMap(p->p.damaged().stream()).anyMatch(r->r.x()==39&&r.y()==36&&r.z()==97&&r.health()==4.));int user=-1,damaged=-1;for(int i=0;i<late.packets.size();i++)if(late.packets.get(i) instanceof BlockManagerState state){assertEquals(6,late.commands.get(i));if(state.users().stream().anyMatch(r->r.x()==39&&r.y()==36&&r.z()==97&&r.health()==9.))user=i;if(state.damaged().stream().anyMatch(r->r.x()==39&&r.y()==36&&r.z()==97&&r.health()==4.))damaged=i;}assertTrue(user>=0&&damaged>user,"fresh join receives initial health before remaining health");}else{assertFalse(h.world.solid(wall));assertFalse(h.world.solid(floating));assertEquals(202,shooter.inventory().blocks());}
+                    }
+                    lease.close();assertTrue(terrainPorts.events.stream().anyMatch(e->e.startsWith("achieve:")&&e.endsWith(":2")));
+                }
+            }
+        });
     }
     @Test void delayedRealUdpShotDamagesRewoundTargetWithoutMovingItsLiveBody(){
         assertTimeoutPreemptively(Duration.ofSeconds(15),()->{

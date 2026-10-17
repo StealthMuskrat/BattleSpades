@@ -144,6 +144,12 @@ jobs:
           python -S java/tools/generate_melee_hit_effects_golden.py
           python -S java/tools/generate_shot_tally_golden.py
           python -S java/tools/generate_combat_commit_golden.py
+          python -S java/tools/export_block_damage_catalog.py
+          python -S java/tools/generate_block_damage_golden.py
+          python -S java/tools/generate_collapse_golden.py
+          python -S java/tools/generate_terrain_health_golden.py
+          python -S java/tools/generate_terrain_commit_golden.py
+          git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/block-damage.toml java/src/test/resources/golden/block-damage-* java/src/test/resources/golden/collapse* java/src/test/resources/golden/terrain-health* java/src/test/resources/golden/terrain-commit*
           git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/direct-damage.toml java/src/test/resources/golden/direct-damage-* java/src/test/resources/golden/shield-* java/src/test/resources/golden/hit-effect-packets* java/src/test/resources/golden/player-hit-effects* java/src/test/resources/golden/melee-hit-effects* java/src/test/resources/golden/shot-tally* java/src/test/resources/golden/combat-commit*
           git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/hitboxes.toml java/src/test/resources/golden/combat-geometry-* java/src/test/resources/golden/shot-validation-* java/src/test/resources/golden/firing-patterns* java/src/test/resources/golden/hit-trace* java/src/test/resources/golden/combat-ray*
           git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/combat.toml java/src/test/resources/golden/lag-history.tsv.gz java/src/test/resources/golden/lag-history-provenance.json java/src/test/resources/golden/lag-decisions.tsv.gz java/src/test/resources/golden/lag-decisions-provenance.json java/src/test/resources/golden/lag-connected.tsv.gz java/src/test/resources/golden/lag-connected-provenance.json java/src/test/resources/golden/shoot.tsv.gz java/src/test/resources/golden/shoot-provenance.json java/src/test/resources/golden/player-fire.tsv.gz java/src/test/resources/golden/player-fire-provenance.json java/src/test/resources/golden/pellets.tsv.gz java/src/test/resources/golden/pellets-provenance.json

@@ -1,8 +1,10 @@
 # Java test results
 
 Stage: firing/reload timing, seeded pellets and read-only target rewind, 2026-10-17 UTC.
-Local clean check/build passes; current implementation awaits publication and all
-five CI jobs. Prior replication evidence remains in [CI_STATUS.md](CI_STATUS.md).
+Published implementation: `0f6448231be6e93f3ce58d4682d9cd9963ac95ef`; tested tree: `9acb23de8fa14ae82f90188bf67f741bae3f563b`.
+All five jobs passed in [run 39073877248](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39073877248), including original-source fixture
+regeneration, archive reproducibility and the uploaded JAR on three platforms.
+See [CI_STATUS.md](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

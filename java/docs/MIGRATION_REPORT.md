@@ -36,9 +36,12 @@ Ordinary hosting deliberately exits 2.
 - Previous flight implementation: `0f943c69d4d6634b2eaebacc5512adfaf0399aaa`.
 - Previous flight tested/published tree: `e1742fc548591395ce8e44735ad0f2e543c38bae`.
 - Previous flight CI: [run 39068854866](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39068854866); all five jobs passed.
-- Current replication implementation: `00d96933315fc201e44234912e6e95c6ed17609d`.
-- Current replication tested/published tree: `276cf8712f4801de0171f8a8b37380a78c4f04e8`.
-- Current replication CI: [run 39071633850](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39071633850); all five jobs passed.
+- Previous replication implementation: `00d96933315fc201e44234912e6e95c6ed17609d`.
+- Previous replication tested/published tree: `276cf8712f4801de0171f8a8b37380a78c4f04e8`.
+- Previous replication CI: [run 39071633850](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39071633850); all five jobs passed.
+- Current combat-timing implementation: `0f6448231be6e93f3ce58d4682d9cd9963ac95ef`.
+- Current combat-timing tested/published tree: `9acb23de8fa14ae82f90188bf67f741bae3f563b`.
+- Current combat-timing CI: [run 39073877248](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39073877248); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 

@@ -4,8 +4,11 @@ Local clean check/build: **4,671 unit/component + 16 real UDP tests**, no failur
 errors or skips. **152 focused original tests** pass, including the reference
 impaired-link lab. New comparisons cover 67,151 source operations. All 112
 fixture/catalog hashes reproduce after a fresh original native build.
-All five current-head CI jobs await publication; historical runs below remain
-separate evidence.
+All five jobs passed for implementation `0f6448231be6e93f3ce58d4682d9cd9963ac95ef` and tested/published tree
+`9acb23de8fa14ae82f90188bf67f741bae3f563b` in [run 39073877248](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39073877248): build,
+native-enet and platform jobs on Ubuntu, Windows and macOS. The native job
+regenerated all original fixtures; the build byte-compared repeated archives;
+platform jobs tested one uploaded JAR. No local-to-CI archive hash identity is claimed.
 
 Native transport/packaged-loader probes pass nominal and impaired profiles.
 An earlier local impaired transport attempt reported disconnect reason 0 during

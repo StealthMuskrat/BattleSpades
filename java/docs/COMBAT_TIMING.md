@@ -87,3 +87,11 @@ hitboxes and hitscan/melee/terrain/entity resolution, projectiles, damage rules,
 awards and complete mode effects; concrete modes, identity, bots, editor/tutorial,
 plugins, admin/persistence/discovery, supported-client gameplay and capacity/soak
 gates. A running component test or original-reference lab is not a playable round.
+
+Independent verification for implementation `0f6448231be6e93f3ce58d4682d9cd9963ac95ef` and tested tree
+`9acb23de8fa14ae82f90188bf67f741bae3f563b` passed all five jobs in [run 39073877248](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39073877248).
+It regenerated original fixtures, byte-compared repeated build archives, passed
+native probes and tested one uploaded JAR on three platforms. Local evidence is
+4,687 Java tests and 152 focused original tests. The earlier local impaired-probe
+attempt remains recorded in verification-results.json and CI_STATUS.md; all
+scope limits above remain in force.

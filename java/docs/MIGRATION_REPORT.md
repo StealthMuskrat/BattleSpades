@@ -39,9 +39,12 @@ Ordinary hosting deliberately exits 2.
 - Previous replication implementation: `00d96933315fc201e44234912e6e95c6ed17609d`.
 - Previous replication tested/published tree: `276cf8712f4801de0171f8a8b37380a78c4f04e8`.
 - Previous replication CI: [run 39071633850](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39071633850); all five jobs passed.
-- Current combat-timing implementation: `0f6448231be6e93f3ce58d4682d9cd9963ac95ef`.
-- Current combat-timing tested/published tree: `9acb23de8fa14ae82f90188bf67f741bae3f563b`.
-- Current combat-timing CI: [run 39073877248](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39073877248); all five jobs passed.
+- Previous combat-timing implementation: `0f6448231be6e93f3ce58d4682d9cd9963ac95ef`.
+- Previous combat-timing tested/published tree: `9acb23de8fa14ae82f90188bf67f741bae3f563b`.
+- Previous combat-timing CI: [run 39073877248](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39073877248); all five jobs passed.
+- Current shot-geometry implementation: `29156d7ccb3c47b582f7ae5570dcfde204c13282`.
+- Current shot-geometry tested/published tree: `a0ab3bedac6a0777a30c620267bdb8188e4dc1f9`.
+- Current shot-geometry CI: [run 39075436598](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39075436598); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 

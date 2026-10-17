@@ -80,3 +80,9 @@ seed observations and pellet expansion, damage/shields, terrain edits/collapse,
 entity/corpse effects, melee reach/digging and mode integration. Source reference
 tests and component/UDP evidence do not establish a playable Java round. Full
 Python baseline, supported-client, capacity and soak limitations remain open.
+
+Implementation `29156d7ccb3c47b582f7ae5570dcfde204c13282` and tested tree `a0ab3bedac6a0777a30c620267bdb8188e4dc1f9` passed all five jobs
+in [run 39075436598](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39075436598). This includes original-source fixture regeneration,
+repeated archive comparison, native probes and one uploaded JAR tested on three
+platforms. Local verification passes 4,794 Java tests and 223 focused original
+tests. The numeric comparison bound and gameplay/domain limits above remain in force.

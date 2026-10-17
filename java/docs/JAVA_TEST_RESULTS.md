@@ -1,7 +1,9 @@
 # Java test results
 
 Stage: shot validation, assault/minigun cadence and read-only nearest-hit selection,
-2026-10-17 UTC. Local check/build passes; publication and all five CI jobs are pending.
+2026-10-17 UTC. Implementation: `29156d7ccb3c47b582f7ae5570dcfde204c13282`; tested tree: `a0ab3bedac6a0777a30c620267bdb8188e4dc1f9`.
+All five jobs passed in [run 39075436598](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39075436598), including fixture regeneration,
+archive reproducibility and one uploaded JAR on three platforms.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

@@ -1,7 +1,9 @@
 # Java test results
 
 Stage: bounded regular/collapse terrain repair scheduling, 2026-10-17 UTC.
-Local clean check/build passes; publication and all five current-head CI jobs are pending.
+Implementation: `d6990d6e33181547bfa38068bb228372245e79bb`; tested tree: `64cf08a198b804bda991d1886d15cff051c3ff8a`.
+All five jobs passed in [run 39080190230](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39080190230), including fixture regeneration,
+archive reproducibility and one uploaded JAR on three platforms.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

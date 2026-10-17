@@ -50,6 +50,9 @@ client/capacity gates remain pending. Ordinary hosting deliberately exits 2.
 - Previous terrain implementation: `939ac63a822d0ceacfb873ee0acc881e717457f8`.
 - Previous terrain tested/published tree: `b338c0bc04772517821ab0b32e5c93199877c27f`.
 - Previous terrain CI: [run 39079408578](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39079408578); all five jobs passed.
+- Current terrain-repair implementation: `d6990d6e33181547bfa38068bb228372245e79bb`.
+- Current terrain-repair tested/published tree: `64cf08a198b804bda991d1886d15cff051c3ff8a`.
+- Current terrain-repair CI: [run 39080190230](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39080190230); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 

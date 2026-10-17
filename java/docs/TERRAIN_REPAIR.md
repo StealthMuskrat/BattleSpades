@@ -31,5 +31,10 @@ supported-game-client convergence or full-mode/capacity/soak result.
 
 Local verification passes 5,081 Java checks and 53 focused original tests. All
 193 fixture/catalog hashes reproduce after a fresh original native build. Native
-probes, repeated archive comparison and portability/smoke checks pass. Publication
-and all five current-head CI jobs are pending; see [CI_STATUS.md](CI_STATUS.md).
+probes, repeated archive comparison and portability/smoke checks pass. See [CI_STATUS.md](CI_STATUS.md) for exact evidence.
+
+Implementation `d6990d6e33181547bfa38068bb228372245e79bb` and tested tree `64cf08a198b804bda991d1886d15cff051c3ff8a` passed all five jobs
+in [run 39080190230](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39080190230). This includes original-source fixture regeneration,
+repeated archive comparison, native probes and one uploaded JAR tested on three
+platforms. Local verification passes 5,081 Java tests and 53 focused original
+tests. The preceding numeric geometry bound and required concrete-domain/gameplay limits remain in force.

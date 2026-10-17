@@ -40,8 +40,8 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
-- Typed codecs for 71 distinct application packet IDs: 57 straight-line source
-  definitions plus ClientData, WorldUpdate, CreateEntity, Damage, InitialInfo,
+- Typed codecs for 75 distinct application packet IDs: 57 straight-line source
+  definitions plus ClientData, WorldUpdate, ShootPacket, CreateEntity, Damage, InitialInfo,
   StateData, MapSyncStart, both map chunks, SteamSessionTicket, class loadouts,
   CreatePlayer, ExistingPlayer and actual retail health-state packets.
 - Little-endian primitives, signed/unsigned values, UTF-8 strings, BGR colors,
@@ -80,6 +80,8 @@ implemented. Today it fails explicitly with the incomplete-migration message.
   [flight evidence and owner replication limits](docs/PLAYER_FLIGHT.md).
 - Owned WorldUpdate cadence, split owner/observer delivery, causal owner history and
   actual ENet lifecycle release barriers. See [replication evidence and domain limits](docs/WORLD_REPLICATION.md).
+- Source gun/reload cadence and wallets, own-frame seeded pellets, read-only target
+  rewind and reliable owned reload messages. See [combat timing evidence and remaining hit validation](docs/COMBAT_TIMING.md).
 - Layered inert map metadata, mode/UGC layout assembly and stock catalogue filtering,
   connected to scene packets and spawn geometry. See [metadata evidence and limits](docs/MAP_METADATA.md).
 - Authored spawn geometry, threat-aware selection and bounded rescue, with source

@@ -1,0 +1,7 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_file_sha256": "26e0bd6cc3ad92f931b8396ab21f395b199f11965a80dd96464b5907fb5b6819",
+  "operations": 768,
+  "fixture_sha256": "e4d0eaf786a8db7f6787ffe063367de40a51e2e5ef1b9e2335c22bf5e256ad55",
+  "scope": "Unmodified original Cython ShootPacket generate/read, signed integers and float32 stores, all flag bytes and ignored reserved bits."
+}

@@ -8,7 +8,7 @@ import net.battlespades.replication.ReplicationService;
 
 /** Live Character snapshot composition; effects, held tool and corpse authorization require their owning domains. */
 public final class PlayerSnapshot implements ReplicationService.Player {
-    public record Presentation(int tool,Integer pickup,boolean bot,boolean onFire,boolean disguised,boolean touchingGoo,
+    public record Presentation(int tool,Integer pickup,boolean onFire,boolean disguised,boolean touchingGoo,
         boolean replicateCorpse,boolean modeAllowsTool,boolean mountedMachineGunAuthorized) {}
     @FunctionalInterface public interface Domain {Presentation read(PlayerLife player);}
     private final PlayerLife life;
@@ -31,9 +31,9 @@ public final class PlayerSnapshot implements ReplicationService.Player {
         var row=new WorldUpdate.PlayerRow(life.id(),wire(life.position()),wire(life.aim()),wire(velocity),0,life.worldUpdateAck(),life.health(),motion.movement(),action,state,
             tool,presentation.pickup==null?255:presentation.pickup,flight.fuel(),life.protectionRemaining(now),0);
         var timeline=life.inputTimeline();var frames=timeline.lastFrame();
-        return new ReplicationService.State(life.id(),life.name(),presentation.bot,live||presentation.replicateCorpse,timeline.appliedLabel(),timeline.state().synthesized(),
+        return new ReplicationService.State(life.id(),life.name(),life.bot(),live||presentation.replicateCorpse,timeline.appliedLabel(),timeline.state().synthesized(),
             life.motion().flightCapability(),life.generation()>0&&life.body().state().airborne(),motion.retailJumpLabel(),frames==null?null:frames.label(),
-            presentation.bot?0:life.flight().roundTripMillis().orElse(0),flight.active(),flight.physicsActive(),flight.defer(),flight.tail(),
+            life.bot()?0:life.flight().roundTripMillis().orElse(0),flight.active(),flight.physicsActive(),flight.defer(),flight.tail(),
             flight.canopy(),flight.canopyPhysics(),flight.deployPending(),timeline.reorderSpread(loop),row,authorized);
     }
     @Override public void acknowledge(int stamp){life.worldUpdateAck(stamp);}

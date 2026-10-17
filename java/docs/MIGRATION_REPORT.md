@@ -1,11 +1,10 @@
 # Java 25 migration report
 
 Date: 2026-10-17 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage binds owned WorldUpdate cadence, owner/observer routing,
-causal owner anchors and actual reliable packet-release lifecycle barriers to the
-connected Character path. Required presentation, entity, reload/lag/mode/effect
-ports remain explicit; combat, concrete modes and supported-client/capacity gates
-remain pending.
+The current stage binds source firing/reload timing and reliable reload messages,
+actual RTT/variance, seeded pellets and read-only target rewind/history to owned
+Character components. Source shot/hit validation and resolution, concrete modes,
+required domains and supported-client/capacity gates remain pending.
 Ordinary hosting deliberately exits 2.
 
 ## Repository and provenance
@@ -49,6 +48,18 @@ CLI push lacks credentials; publication uses the connected GitHub app with an
 expected-head lease and exact tested-tree comparison. No release is created.
 
 ## Current implementation
+
+PlayerFire now executes original reload/fire cadence and wallet behavior with
+real link measurements. Owned housekeeping emits reload completion; packet 76
+uses bound identity/current tool and ignores completion claims. CombatCatalog and
+PelletSpread preserve all original weapon data and own-frame seeded bloom.
+LagCompensation records physical hitboxes before movement, keeps life/teleport
+barriers and computes read-only views with bounded arrival-dated late-shot
+allowance. Source comparisons total 67,151 operations; two additional UDP tests
+exercise delayed-shot views and reliable reload boundaries. The original
+reference's 152 focused tests pass. Full shot validation/hit resolution remains
+pending; see [COMBAT_TIMING.md](COMBAT_TIMING.md).
+
 
 ReplicationService now owns original cadence/recovery/transition rules, grouped
 and split delivery, reorder spacing, signed entity-tail filters, tool sanitization
@@ -308,8 +319,8 @@ packaging check. Exact final SHA/size are in verification-results.json.
 
 ## Remaining work and readiness
 
-Next: complete upstream rate/conduct admission and required reload/lag/mode/effect ports; implement
-firing/reload and hit/action authorization; connect detached projectile actors and full scoring/award observers; wire
+Next: complete shot-origin/aim and tool/action/hit authorization, special burst/spin-up
+gates and actual hit resolution; complete upstream rate/conduct and mode/effect ports; connect detached projectile actors and full scoring/award observers; wire
 the common Character lifecycle to concrete modes/effects and authenticated identity,
 and extend the owned movement/flight path with complete lag-compensation
 rewind/anticheat and complete entity/corpse/presentation domains.

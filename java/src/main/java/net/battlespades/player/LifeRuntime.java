@@ -101,6 +101,8 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     double movementClock(){owned();return clock.monotonic();}
     double movementWallClock(){owned();return clock.wall();}
     @Override public void roundTripMillis(int id,Double measurement){owned();player(id).flight().roundTripMillis(measurement);}
+    @Override public void actionLink(int id,ActionClock.Link link){owned();player(id).fire().link(link);}
+    void reloadAnnouncement(GamePacket packet){owned();messages.broadcast(packet);}
     public Score score(int id){owned();var s=Objects.requireNonNull(scores.get(id));return new Score(s.kills,s.deaths,s.streak,s.lastKilledBy,s.bonuses);}
     /** Synchronous chained blasts retain the outermost non-null instigator, as conduct.blast_instigator does. */
     public BlastScope blast(Integer instigatorId){owned();PlayerLife current=blasts.isEmpty()?null:blasts.getLast().instigator;var scope=new BlastScope(current!=null?current:instigatorId==null?null:player(instigatorId));blasts.addLast(scope);return scope;}
@@ -183,6 +185,14 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
         owned();var p=player(id);p.motion().received(clock.monotonic());var arrival=p.inputTimeline().receive(input,p.alive(),p.spawned(),p.aim(),loop,world.topologyVersion(),false);
         if(arrival.fresh()){p.orientation(input.x(),input.y(),input.z());p.motion().controls(input.movementFlags(),(input.actionFlags()&255)|(input.paletteEnabled()?256:0));inputs.receive(p,input,loop);}
     }
-    @Override public void packet(int id,GamePacket packet){owned();inputs.packet(player(id),packet);}
+    @Override public void packet(int id,GamePacket packet){
+        owned();var p=player(id);
+        if(packet instanceof LifePackets.WeaponReload reload){
+            // Source handler ignores client completion/tool/player claims; its owned timer and active tool decide.
+            if(!reload.done()&&p.alive()&&p.fire().startReload(clock.monotonic()))messages.broadcast(new LifePackets.WeaponReload(id,p.inventory().tool(),false));
+            return;
+        }
+        inputs.packet(p,packet);
+    }
     @Override public void disconnected(int id){owned();var p=players.get(id);if(p==null)return;inputs.forget(p);effects.forget(p);if(replication!=null)replication.forgetPlayer(id);feed.forget(id);roster.remove(id);deadJoin.remove(id);scores.remove(id);players.remove(id);messages.broadcast(new SimplePackets.PlayerLeft(id));}
 }

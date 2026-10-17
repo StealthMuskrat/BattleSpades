@@ -1,4 +1,29 @@
-# Current replication checkpoint verification
+# Current combat-timing checkpoint verification
+
+Local clean check/build: **4,671 unit/component + 16 real UDP tests**, no failures,
+errors or skips. **152 focused original tests** pass, including the reference
+impaired-link lab. New comparisons cover 67,151 source operations. All 112
+fixture/catalog hashes reproduce after a fresh original native build.
+All five current-head CI jobs await publication; historical runs below remain
+separate evidence.
+
+Native transport/packaged-loader probes pass nominal and impaired profiles.
+An earlier local impaired transport attempt reported disconnect reason 0 during
+a concurrent native rebuild. Its cause is not established; an isolated rerun
+passed every unchanged assertion. This observation is retained in
+verification-results.json. No gate was waived.
+
+Two CRC-valid local archives are byte-identical: 1427391 bytes, SHA-256
+`03e756ac28f212fba56b04c4e547e634ba92eb3a6b2a277f4c07ab5c46a397a2`. Class major 69 and production packaging audits pass;
+version/config exits 0 and normal hosting exits 2. No native or Python runtime is
+packaged.
+
+The owned UDP tests cover read-only shot preparation and actual reliable reload
+boundaries. Source reference-lab success does not imply a Java hit resolver or
+supported-client round. Full combat/domains/modes and capacity/soak gates remain
+pending. See [COMBAT_TIMING.md](COMBAT_TIMING.md).
+
+# Preceding replication checkpoint verification
 
 Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/39071633850
 

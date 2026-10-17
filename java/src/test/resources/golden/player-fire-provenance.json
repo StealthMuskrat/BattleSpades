@@ -1,0 +1,13 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 24882,
+  "groups": 33,
+  "fixture_sha256": "c9f0a2ce4a439644ca0985178bbadf694dadcadb00db6f520b0f0f81c8d526b6",
+  "source_files_sha256": {
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/action_clock.py": "488ee5d11c80b8fb63a52086efcf44a2e6a153de16bf99d73c6cda8588e87af3",
+    "server/game_constants.py": "11f5bbe992099a79e0270b15926960c9e9c54acd483bcbcd3a4021a8ec7fccab"
+  },
+  "scope": "Unchanged original Player can_fire/consume_shot, reload chains/grace/label floors, raw tool/weapon wallets, launcher reload relay and action_clock. Trusted selection, peer measurements, clocks and wallet states are controlled inputs; no tool or hit authorization proof.",
+  "method_substitutions": false
+}

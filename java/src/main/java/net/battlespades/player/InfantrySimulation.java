@@ -41,7 +41,7 @@ public final class InfantrySimulation {
         }
     }
     private void simulate(PlayerLife p,int tick){
-        hooks.lagHistory(p,tick);if(!p.alive()||!p.spawned())return;
+        p.lagTarget().history().record(p.lagTarget(),tick-1);hooks.lagHistory(p,tick);if(!p.alive()||!p.spawned())return;
         if(p.movementMode().equals("crumbling_run"))throw new IllegalStateException("Race momentum requires its own simulation binding");
         var m=p.motion();var timeline=p.inputTimeline();double now=runtime.movementClock();
         Double last=m.lastSimulated;m.lastSimulated=now;if(last==null||now-last>1)m.starvationBaseline=now;
@@ -63,7 +63,7 @@ public final class InfantrySimulation {
         Integer applied=timeline.appliedLabel();
         if(catchup&&p.alive()&&p.spawned()&&applied!=null&&applied<Integer.MAX_VALUE&&timeline.frame(applied+1)!=null){m.catchup++;consume(p,tick);}
     }
-    private void housekeeping(PlayerLife p){p.motion().housekeeping++;hooks.housekeeping(p);}
+    private void housekeeping(PlayerLife p){p.motion().housekeeping++;p.fire().advanceAndAnnounce(runtime.movementClock(),runtime::reloadAnnouncement);hooks.housekeeping(p);}
     private void consume(PlayerLife p,int tick){
         var t=p.inputTimeline();var m=p.motion();var first=t.firstFrame();
         var step=t.consumeOne(settings.gapLimit,p.aim()).orElseThrow();

@@ -28,6 +28,7 @@ public final class ConfiguredScene implements JoinScene {
         default List<GamePacket> reveal(int id){return List.of();}
         default void input(int id,LiveClientInput input,int receivedLoop){}
         default void roundTripMillis(int id,Double measurement){}
+        default void actionLink(int id,net.battlespades.player.ActionClock.Link link){}
         default void packet(int id,GamePacket packet){}
         default void disconnected(int id){}
     }
@@ -66,6 +67,7 @@ public final class ConfiguredScene implements JoinScene {
     @Override public List<GamePacket> reveal(int id){owned();return gameplay.reveal(id);}
     @Override public void input(int id,LiveClientInput input,int loop){owned();gameplay.input(id,input,loop);}
     @Override public void roundTripMillis(int id,Double measurement){owned();gameplay.roundTripMillis(id,measurement);}
+    @Override public void actionLink(int id,net.battlespades.player.ActionClock.Link link){owned();gameplay.actionLink(id,link);}
     @Override public void packet(int id,GamePacket packet){owned();gameplay.packet(id,packet);}
     @Override public void disconnected(int id){owned();gameplay.disconnected(id);}
 }

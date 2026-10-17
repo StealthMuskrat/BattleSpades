@@ -1,10 +1,8 @@
 # Java test results
 
-Stage: owned WorldUpdate replication, 2026-10-17 UTC.
-Published implementation: `00d96933315fc201e44234912e6e95c6ed17609d`; tested tree: `276cf8712f4801de0171f8a8b37380a78c4f04e8`.
-All five jobs passed in [run 39071633850](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39071633850), including exact fixture regeneration,
-archive reproducibility and one uploaded JAR tested on three platforms.
-See [CI_STATUS.md](CI_STATUS.md).
+Stage: firing/reload timing, seeded pellets and read-only target rewind, 2026-10-17 UTC.
+Local clean check/build passes; current implementation awaits publication and all
+five CI jobs. Prior replication evidence remains in [CI_STATUS.md](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -17,6 +15,8 @@ See [CI_STATUS.md](CI_STATUS.md).
 | net.battlespades.HandshakeTest | 2 | 0 | 0 | 0 |
 | net.battlespades.JoinPolicyTest | 4 | 0 | 0 | 0 |
 | net.battlespades.JoinSessionTest | 21 | 0 | 0 | 0 |
+| net.battlespades.LagGoldenTest | 26 | 0 | 0 | 0 |
+| net.battlespades.LagRuntimeTest | 3 | 0 | 0 | 0 |
 | net.battlespades.LoadingPacketTest | 12 | 0 | 0 | 0 |
 | net.battlespades.MapMetadataTest | 631 | 0 | 0 | 0 |
 | net.battlespades.MapSyncTest | 15 | 0 | 0 | 0 |
@@ -41,34 +41,38 @@ See [CI_STATUS.md](CI_STATUS.md).
 | net.battlespades.player.InfantrySimulationTest | 3 | 0 | 0 | 0 |
 | net.battlespades.player.InputTimelineGoldenTest | 24 | 0 | 0 | 0 |
 | net.battlespades.player.InputTimelineTest | 3 | 0 | 0 | 0 |
+| net.battlespades.player.LagConnectedGoldenTest | 4 | 0 | 0 | 0 |
 | net.battlespades.player.LifeGoldenTest | 1082 | 0 | 0 | 0 |
 | net.battlespades.player.LifeRuntimeTest | 5 | 0 | 0 | 0 |
 | net.battlespades.player.OwnerGoldenTest | 5 | 0 | 0 | 0 |
+| net.battlespades.player.PelletGoldenTest | 17 | 0 | 0 | 0 |
+| net.battlespades.player.PlayerFireGoldenTest | 33 | 0 | 0 | 0 |
 | net.battlespades.player.PlayerFlightTest | 3 | 0 | 0 | 0 |
 | net.battlespades.player.PlayerSnapshotGoldenTest | 4 | 0 | 0 | 0 |
 | net.battlespades.player.SpawnPolicyTest | 36 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 16 | 0 | 0 | 0 |
-| net.battlespades.ApplicationIntegrationTest | 11 | 0 | 0 | 0 |
+| net.battlespades.ApplicationIntegrationTest | 13 | 0 | 0 | 0 |
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **4,602 Java tests passed: 4,588 unit/component and 14 real UDP; zero failures, errors or skips.**
+Total: **4,687 Java tests passed: 4,671 unit/component and 16 real UDP; zero failures, errors or skips.**
 
-New source comparisons cover **33,987 operations**: 18,448 replication-service,
-2,235 wire-transform, 1,132 live Player snapshot, 3,714 owner-history and 8,458
-Connection lifecycle-hold operations. Original policy methods remain unchanged;
-the hold generator extracts unchanged AST methods and constants. A fresh original
-native world/packet rebuild reproduces all new fixture/provenance bytes and the
-preceding full infantry/flight fixtures. **154 focused original replication tests
-pass.** See [WORLD_REPLICATION.md](WORLD_REPLICATION.md).
+New source comparisons cover **67,151 operations**: 16,477 target-history,
+7,000 rewind-decision, 1,296 connected-history, 24,882 firing/reload, 16,728
+seeded-pellet and 768 ShootPacket vectors. Original policy methods remain
+unchanged. A fresh native original world/packet rebuild reproduces all new
+fixture/catalog bytes and prior infantry/flight/replication fixtures; all 112
+fixture/catalog hashes remain identical. **152 focused original tests pass**,
+including the reference impaired-link lab. See [COMBAT_TIMING.md](COMBAT_TIMING.md).
 
-The new composed two-client UDP test checks owner history/tool sentinel versus
-observer tool/unsequenced delivery, delays actual ENet ACKs across respawn, and
-verifies observer rows remain withheld until the reliable CreatePlayer releases.
-Fragment, disconnect, queue-pressure, ordering and rejection tests cover the new
-receipt/hold boundary. Native packaged probes still use FixtureScene.
+Two additional real UDP tests prepare a read-only view for an arrival-dated
+reliable shot and exercise bound reload identity/tool, ignored completion claims,
+actual RTT/variance forwarding and reliable completion from owned housekeeping.
+The shot test uses an explicit test handler and does not resolve a hit. Native
+packaged probes retain FixtureScene. Source lab success describes the reference
+server, not complete Java combat or supported-client gameplay.
 
-The full Python baseline retains documented failures/incomplete runs, including
-the existing VIP discrepancy. Complete combat, presentation/effect/entity/corpse/
-bot domains, concrete modes and supported-client/capacity/soak gates remain pending.
-Ordinary hosting exits 2.
+Origin/aim/tool/hit authorization, special burst/spin-up and actual hit resolution
+remain pending, along with other required domains, concrete modes and client/
+capacity/soak gates. The full Python baseline retains its documented discrepancy
+and incomplete runs. Ordinary hosting still exits 2.

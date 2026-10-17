@@ -20,7 +20,7 @@ class PlayerSnapshotGoldenTest {
             try(var replay=new FlightGoldenTest.Replay(Integer.parseInt(e.getKey()))){int index=0;
                 for(var row:e.getValue()){
                     replay.operation(row[2],row[3]);var a=Arrays.stream(row[4].split(",")).mapToInt(Integer::parseInt).toArray();
-                    var snapshot=new PlayerSnapshot(replay.p(),p->new PlayerSnapshot.Presentation(a[0],a[1]<0?null:a[1],false,a[2]!=0,a[3]!=0,a[4]!=0,false,true,false));
+                    var snapshot=new PlayerSnapshot(replay.p(),p->new PlayerSnapshot.Presentation(a[0],a[1]<0?null:a[1],a[2]!=0,a[3]!=0,a[4]!=0,false,true,false));
                     var result=new WorldUpdate(0,List.of(snapshot.state(0,replay.h.monotonic).row()),List.of(),List.of());
                     assertEquals(row[5],HexFormat.of().formatHex(result.encode()),"operation "+index+++" "+row[2]+" "+row[3]);
                 }

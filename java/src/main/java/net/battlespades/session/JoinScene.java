@@ -21,6 +21,7 @@ public interface JoinScene {
     default List<GamePacket> reveal(int playerId) {return List.of();}
     default void input(int playerId,LiveClientInput input,int receivedServerLoop) {}
     default void roundTripMillis(int playerId,Double measurement) {}
+    default void actionLink(int playerId,net.battlespades.player.ActionClock.Link link) {}
     default void packet(int playerId,GamePacket packet) {}
     default void disconnected(int playerId) {}
 }

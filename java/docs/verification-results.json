@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "b66dc523fe89d1b8fe4a095d23e727d9147963fc15629b4db683c944552a53d5",
-  "jar_bytes": 1385834,
+  "jar_sha256": "03e756ac28f212fba56b04c4e547e634ba92eb3a6b2a277f4c07ab5c46a397a2",
+  "jar_bytes": 1427391,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -20,39 +20,26 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 4588,
+      "tests": 4671,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
-      "tests": 14,
+      "tests": 16,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Owned WorldUpdate cadence, recipient routing, causal owner history and real ENet packet-release barriers",
-  "java_implementation_commit": "00d96933315fc201e44234912e6e95c6ed17609d",
-  "tested_tree": "276cf8712f4801de0171f8a8b37380a78c4f04e8",
+  "verification_stage": "Owned firing/reload clocks and reliable reload handling, seed expansion and read-only target rewind/history",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "run_id": 39071633850,
-    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39071633850",
-    "head_sha": "00d96933315fc201e44234912e6e95c6ed17609d",
-    "jobs": {
-      "build": "success",
-      "native-enet": "success",
-      "platform (windows-latest)": "success",
-      "platform (ubuntu-latest)": "success",
-      "platform (macos-latest)": "success"
-    },
-    "all_five_jobs_passed": true,
-    "native_original_fixtures_reproduced": true,
-    "repeated_ci_archive_identical": true,
-    "same_uploaded_jar_three_platforms": true,
+    "status": "pending_publication",
+    "jobs": {},
     "full_reference_python_baseline_passing": false,
-    "packaged_native_probe_player_domain": "FixtureScene; additional composed two-client UDP test covers owned replication and actual delayed ACKs"
+    "packaged_native_probe_player_domain": "FixtureScene; additional owned UDP tests cover read-only delayed-shot preparation and reliable reload start/timer completion"
   },
   "movement": {
     "cases": 118,
@@ -405,12 +392,10 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": true,
-    "expected_parent": "c5ae623e4b607b983a3bc5496fed81e88f10cf8e",
+    "branch_updated": false,
+    "expected_parent": "f666129a175f91da37ef29977613c4f4bcf04d73",
     "force": false,
-    "authorization": "User authorized this and future verified migration checkpoints, including code/workflow changes and all five CI jobs.",
-    "implementation_commit": "00d96933315fc201e44234912e6e95c6ed17609d",
-    "tested_tree": "276cf8712f4801de0171f8a8b37380a78c4f04e8"
+    "authorization": "User authorized this and future verified migration checkpoints, including code/workflow changes and all five CI jobs."
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -610,12 +595,84 @@
     "opt_in_flight_transition_diagnostics": false,
     "supported_game_client_reconciliation": false,
     "complete_gameplay": false,
-    "capacity_or_soak": false
+    "capacity_or_soak": false,
+    "bot_identity_now_owned_by_playerlife": true
   },
   "reference_replication_tests": {
     "passed": 154,
     "failures": 0,
     "skipped": 0,
     "command": "python -m pytest -q tests/test_world_update.py tests/test_world_update_delivery.py tests/test_reversed_world_update.py"
+  },
+  "previous_replication_checkpoint": {
+    "verification_stage": "Owned WorldUpdate cadence, recipient routing, causal owner history and real ENet packet-release barriers",
+    "java_implementation_commit": "00d96933315fc201e44234912e6e95c6ed17609d",
+    "tested_tree": "276cf8712f4801de0171f8a8b37380a78c4f04e8",
+    "ci": {
+      "status": "success",
+      "run_id": 39071633850,
+      "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39071633850",
+      "head_sha": "00d96933315fc201e44234912e6e95c6ed17609d",
+      "jobs": {
+        "build": "success",
+        "native-enet": "success",
+        "platform (windows-latest)": "success",
+        "platform (ubuntu-latest)": "success",
+        "platform (macos-latest)": "success"
+      },
+      "all_five_jobs_passed": true,
+      "native_original_fixtures_reproduced": true,
+      "repeated_ci_archive_identical": true,
+      "same_uploaded_jar_three_platforms": true,
+      "full_reference_python_baseline_passing": false,
+      "packaged_native_probe_player_domain": "FixtureScene; additional composed two-client UDP test covers owned replication and actual delayed ACKs"
+    }
+  },
+  "earlier_local_native_probe_attempt": {
+    "profile": "loss-reorder-duplicate",
+    "failure": "disconnect reason 0 instead of 18",
+    "concurrent_original_native_rebuild": true,
+    "causation_established": false,
+    "isolated_retry_same_assertions_passed": true
+  },
+  "combat_timing": {
+    "target_history_operations": 16477,
+    "rewind_decisions": 7000,
+    "connected_history_operations": 1296,
+    "firing_reload_operations": 24882,
+    "pellet_operations": 16728,
+    "shoot_packet_vectors": 768,
+    "total_source_operations": 67151,
+    "source_weapon_profiles": 65,
+    "source_bloom_curves": 12,
+    "source_zoom_overrides": 2,
+    "source_fixtures_reproduced": true,
+    "fresh_native_source_build": true,
+    "method_substitutions": false,
+    "physical_crouch_hover_history": true,
+    "life_and_teleport_barriers": true,
+    "readonly_target_geometry": true,
+    "nested_shot_scope_restore": true,
+    "real_clientdata_arrival_dates_and_enet_rtt": true,
+    "real_enet_rtt_and_variance_forwarding": true,
+    "reliable_owned_reload_start_and_completion": true,
+    "client_reload_identity_tool_and_done_claims_ignored": true,
+    "source_auto_reload_floor_and_pending_completion_lifetime_preserved": true,
+    "source_rng_seed_mask_and_own_frame_zoom": true,
+    "source_origin_aim_hit_validation": false,
+    "special_burst_and_spinup_gates": false,
+    "actual_hit_resolution": false,
+    "complete_combat": false,
+    "complete_gameplay": false,
+    "supported_game_client": false,
+    "capacity_or_soak": false
+  },
+  "reference_combat_tests": {
+    "passed": 152,
+    "failures": 0,
+    "skipped": 0,
+    "command": "PYTHONPATH=java/build/reference-python python -m pytest -q tests/test_retail_ammo.py tests/test_lag_compensation.py tests/test_weapon_catalog.py tests/test_weapons_retail.py tests/test_shot_registration.py",
+    "reference_native_enet_oracle_built": true,
+    "impaired_link_lab_is_reference_server_only": true
   }
 }

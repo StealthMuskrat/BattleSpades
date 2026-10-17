@@ -1,0 +1,8 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_file_sha256": "200005b94fb13c11028ba80709cee5a58ff6d6d962faa999aa2f4b45446eef08",
+  "operations": 7000,
+  "fixture_sha256": "7517b648513da457061936efe9e8e72d8710a983872ea8025e26ab0e61458f3e",
+  "scope": "Unmodified rewind decision/late-label search and log-only diagnostics; controlled settings, ENet RTT, server clock and ClientData arrival dates.",
+  "method_substitutions": false
+}

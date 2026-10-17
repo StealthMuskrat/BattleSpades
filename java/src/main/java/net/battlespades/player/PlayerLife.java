@@ -20,16 +20,19 @@ public final class PlayerLife {
     private final ActionClock actionClock=new ActionClock(inputTimeline);
     private final PlayerMotion motion=new PlayerMotion();
     private final PlayerFlight flight=new PlayerFlight();
+    private final PlayerFire fire=new PlayerFire(this);
+    private final net.battlespades.combat.LagCompensation.PlayerTarget lagTarget=new net.battlespades.combat.LagCompensation.PlayerTarget(this);
     private ClassCatalog.Selection selection,pending;
     private PlayerPhysics body;
     private PlayerPhysics.Vector position=new PlayerPhysics.Vector(0,0,0),aim=new PlayerPhysics.Vector(1,0,0);
     private double sideX,sideY=1,spawnedAt,deathTime,walletScale;
     private long generation;
     private int worldUpdateAck;
+    private Double lastLagRewindMillis;
     private int health=LifeCatalog.HEALTH,maxHealth=LifeCatalog.HEALTH,jetpack,parachute,color=0x707070,lastDamageSource=-1,lastDamageType=-1;
     private double lastDamageWall,lastCombatHit;
     private PlayerPhysics.Vector lastDamagePosition;
-    private boolean alive,spawned,protectionCancelled,god;
+    private boolean alive,spawned,protectionCancelled,god,bot;
     private Double protectionCap;
     private LifePackets.KillAction lastDeath;
     public PlayerLife(int id,int team,int language,String name,String mode,CollisionMap world,GameRules rules,ClassCatalog.Selection selection){
@@ -44,8 +47,11 @@ public final class PlayerLife {
     public String name(){owned();return name;}
     public int worldUpdateAck(){owned();return worldUpdateAck;}
     public void worldUpdateAck(int value){owned();worldUpdateAck=value;}
+    public OptionalDouble lastLagRewindMillis(){owned();return lastLagRewindMillis==null?OptionalDouble.empty():OptionalDouble.of(lastLagRewindMillis);}
+    public void lastLagRewindMillis(double value){owned();lastLagRewindMillis=value;}
     public boolean toolEnabled(int tool){owned();return rules.toolEnabled(tool);}
     public int maxHealth(){owned();return maxHealth;}public boolean god(){owned();return god;}
+    public boolean bot(){owned();return bot;}public void bot(boolean value){owned();bot=value;}
     public double lastDamageWall(){owned();return lastDamageWall;}public double lastCombatHit(){owned();return lastCombatHit;}
     public int lastDamageSource(){owned();return lastDamageSource;}public int lastDamageType(){owned();return lastDamageType;}
     public PlayerPhysics.Vector lastDamagePosition(){owned();return lastDamagePosition;}public DamageHistory damageHistory(){owned();return damageHistory;}
@@ -66,6 +72,8 @@ public final class PlayerLife {
     public ActionClock actionClock(){owned();return actionClock;}
     public PlayerMotion motion(){owned();return motion;}
     public PlayerFlight flight(){owned();return flight;}
+    public PlayerFire fire(){owned();return fire;}
+    public net.battlespades.combat.LagCompensation.PlayerTarget lagTarget(){owned();return lagTarget;}
     public OwnerAnchors ownerAnchors(){owned();return ownerAnchors;}
     /** Call only after a self WorldUpdate carrying these exact values was queued to this owner. */
     public void recordOwnerAnchor(int stamp,PlayerPhysics.Vector position,PlayerPhysics.Vector velocity,Integer serverTick,Long suppliedSequence){
@@ -109,7 +117,7 @@ public final class PlayerLife {
         owned();if(team==0)throw new IllegalStateException("Spectator cannot spawn");if(!Double.isFinite(monotonic))throw new IllegalArgumentException("Spawn clock");
         walletScale(walletScale);inventory.spawn(selection.classId(),walletScale);position=Objects.requireNonNull(at);generation++;health=maxHealth=LifeCatalog.HEALTH;damageHistory.clear();spawnedAt=monotonic;protectionCancelled=false;protectionCap=null;alive=true;spawned=true;lastDeath=null;color=teamColor&0xffffff;
         jetpack=selection.loadout().stream().filter(LifeCatalog.PACK_FUEL::containsKey).findFirst().orElse(0);parachute=selection.loadout().contains(72)?72:0;
-        inputTimeline.resetLife();actionClock.reset(null);motion.resetLife();flight.resetLife();ownerAnchors.resetLife(at);body=new PlayerPhysics(world);body.position(at);body.profile(movementProfile());orientBody();body.flight(flight.mover(this));
+        inputTimeline.resetLife();actionClock.reset(null);motion.resetLife();flight.resetLife();fire.resetLife();ownerAnchors.resetLife(at);body=new PlayerPhysics(world);body.position(at);body.profile(movementProfile());orientBody();body.flight(flight.mover(this));
         // RoundLifecycle, rather than Player.spawn itself, clears death_time after a successful spawn.
     }
     public void clearDeathTime(){owned();deathTime=0;}

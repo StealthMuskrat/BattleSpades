@@ -22,6 +22,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
         boolean send(SessionFrame frame);
         void disconnect(int reason);
         default Double roundTripMillis(){return null;}
+        default net.battlespades.player.ActionClock.Link actionLink(){return null;}
         default boolean releaseTracking(){return false;}
         default Sent sendTracked(SessionFrame frame){return new Sent(send(frame),null);}
         default int unfragmentedWireLimit(){return 1372;}
@@ -80,6 +81,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     private boolean current(long epoch,JoinScene expected) {return state!=State.CLOSED && generation==epoch && scene==expected;}
     private void owned() {if(Thread.currentThread()!=owner) throw new IllegalStateException("Session accessed outside owner");}
     private void time(long now) {owned();if(now<0 || now<lastNow) throw new IllegalArgumentException("Session clock moved backwards");lastNow=now;}
+    private void refreshLink(){if(admitted&&slot!=null){scene.roundTripMillis(slot.id(),sink.roundTripMillis());scene.actionLink(slot.id(),sink.actionLink());}}
     public State state() {owned();return state;}
     public boolean inGame() {owned();return state==State.LIVE;}
     public OptionalInt playerId() {owned();return slot==null?OptionalInt.empty():OptionalInt.of(slot.id());}
@@ -92,6 +94,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
         time(now);if(state==State.CLOSED) return;currentLoop=serverLoop;
         if(state==State.PASSWORD && passwordAsked>=0 && now-passwordAsked>=passwords.timeoutMillis()) {fail(11);return;}
         try {
+            refreshLink();
             long maxWire=1L+settings.maxInboundBytes()+(settings.maxInboundBytes()+31L)/32;
             if(wire.length>maxWire) throw new ProtocolException("Application frame exceeds limit");
             byte[] body=Framing.inbound(wire,key,settings.maxInboundBytes());int id=body[0]&255;
@@ -214,7 +217,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     public void pulse(long now,int loop) {
         time(now);if(state==State.CLOSED) return;currentLoop=loop;
         try {
-            if(admitted&&slot!=null)scene.roundTripMillis(slot.id(),sink.roundTripMillis());
+            refreshLink();
             if(state==State.PASSWORD && passwordAsked>=0 && now-passwordAsked>=passwords.timeoutMillis()) {fail(11);return;}
             int budget=settings.packetBudget();budget-=drain(budget,now);if(!controls.isEmpty()) return;
             if(state==State.RETIRING) {

@@ -24,9 +24,12 @@ public final class LifeInventory {
     public void ammo(int magazine,int remaining){owned();if(magazine<0||remaining<0)throw new IllegalArgumentException("Negative ammo");clip=magazine;reserve=remaining;}
     public void reloadState(boolean active,double end){owned();if(!Double.isFinite(end))throw new IllegalArgumentException("Reload clock");reloading=active;reloadEnd=end;}
     public void tool(int value){
+        tool(value,true);
+    }
+    public void tool(int value,boolean raw){
         owned();if(value!=tool){reloading=false;reloadEnd=0;}tool=value;
-        if(LifeCatalog.WEAPONS.containsKey(value)&&value!=weapon){weapons.put(weapon,new Ammo(clip,reserve));weapon=value;var ammo=weapons.get(value);clip=ammo.clip();reserve=ammo.reserve();}
-        if(!LifeCatalog.WEAPON_TOOLS.contains(value)){reloading=false;reloadEnd=0;}
+        if(raw&&LifeCatalog.WEAPONS.containsKey(value)&&value!=weapon){weapons.put(weapon,new Ammo(clip,reserve));weapon=value;var ammo=weapons.get(value);clip=ammo.clip();reserve=ammo.reserve();}
+        if(!(raw?LifeCatalog.WEAPON_TOOLS.contains(value):LifeCatalog.WEAPONS.containsKey(weapon))){reloading=false;reloadEnd=0;}
     }
     public void classWallet(int id,double multiplier,boolean reset){
         owned();if(!Double.isFinite(multiplier)||multiplier<0)throw new IllegalArgumentException("Wallet scale");var profile=Objects.requireNonNull(LifeCatalog.BLOCKS.get(id),"Unknown class wallet");
@@ -44,6 +47,7 @@ public final class LifeInventory {
         double gap=now-state.time(),interval=Math.max(0,p.interval()),reloadGap=Math.max(interval,interval+p.reload()-(0.25+0.1*p.reload()));
         if(gap<reloadGap)return state.left();if(p.cycles()){int cycles=1+(int)Math.floor((gap-reloadGap)/Math.max(p.reload(),1e-6));return Math.min(p.clip(),state.left()+cycles);}return p.clip();
     }
+    public Integer launcherClipLeft(int id,double now,boolean bot){owned();return clipLeft(id,now,bot);}
     public void restock(int type,double now,boolean bot){
         owned();int disguiseBefore=disguise;
         if(type==3){

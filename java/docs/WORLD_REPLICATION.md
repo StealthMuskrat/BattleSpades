@@ -23,7 +23,7 @@ unreliable fragments; they never acquire reliable fragmentation accidentally.
 
 `PlayerSnapshot` composes real owned position, orientation, clipped velocity,
 health, controls, flight fuel/state and spawn protection. It requires a trusted
-presentation domain for selected tool/pickup, effects, bot identity, corpse
+presentation domain for selected tool/pickup, effects and corpse
 visibility, mode tool permission and mounted-gun authorization. Unauthorized tool
 rows clear the original weapon-action mask; authorized mounted MG rows preserve
 their action bits but always send tool 255. Raw client fire flags do not create
@@ -84,3 +84,7 @@ It reproduces original fixtures, byte-compares the repeated build archive, runs
 native probes and tests one uploaded JAR on three OSes. Local verification passes
 4,602 Java tests and 154 focused original tests. The gameplay/domain limits above
 remain in force.
+
+The subsequent [combat-timing checkpoint](COMBAT_TIMING.md) moves bot identity
+into owned PlayerLife state and adds real reload/rewind components. Full
+shot/hit resolution, entity/effect domains and gameplay gates remain pending.

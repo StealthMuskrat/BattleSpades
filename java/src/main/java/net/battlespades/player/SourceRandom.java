@@ -7,7 +7,7 @@ package net.battlespades.player;
 import java.math.BigInteger;
 import java.util.*;
 
-/** Source random stream for seeded spawn replays; not a cryptographic generator. */
+/** Source random stream for seeded spawn and shot replays; not a cryptographic generator. */
 public final class SourceRandom {
     private final Thread owner=Thread.currentThread();
     private final int[] state=new int[624];

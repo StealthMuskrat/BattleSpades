@@ -24,6 +24,7 @@ public final class LifeHarness implements AutoCloseable {
     public final List<String> events=new ArrayList<>();
     public int inputCount;
     public LifeRuntime.Messages destination;
+    public java.util.function.BiConsumer<PlayerLife,GamePacket> packetHandler=(player,packet)->{};
     public LifeHarness(){this(GameRules.serverDefaults());}
     public LifeHarness(GameRules rules){this(rules,"tdm");}
     public LifeHarness(GameRules rules,String mode){
@@ -59,7 +60,7 @@ public final class LifeHarness implements AutoCloseable {
         },new LifeRuntime.Inputs(){
             public void reset(PlayerLife p){events.add("reset:"+p.id());}
             public void receive(PlayerLife p,LiveClientInput input,int loop){inputCount++;}
-            public void packet(PlayerLife p,GamePacket packet){events.add("packet:"+p.id());}
+            public void packet(PlayerLife p,GamePacket packet){events.add("packet:"+p.id());packetHandler.accept(p,packet);}
             public void forget(PlayerLife p){events.add("input-forget:"+p.id());}
         });
     }

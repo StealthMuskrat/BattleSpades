@@ -29,6 +29,7 @@ import net.battlespades.scene.*;
 import net.battlespades.rules.GameRules;
 import net.battlespades.player.*;
 import net.battlespades.replication.*;
+import net.battlespades.combat.LagCompensation;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import static org.junit.jupiter.api.Assertions.*;
@@ -81,9 +82,9 @@ class ApplicationIntegrationTest {
         @Override public void close() throws java.io.IOException {udp.close();}
     }
     private static final class Loop {
-        final ApplicationHost host;final List<Client> clients=new ArrayList<>();long now;int tickOffset;
+        final ApplicationHost host;final List<Client> clients=new ArrayList<>();long now;int tickOffset,explicitTick=-1;
         Loop(ApplicationHost host) {this.host=host;}
-        void step() throws Exception {host.service(++now,tickOffset+(int)(now*60/1000));for(var client:clients) client.drain();}
+        void step() throws Exception {host.service(++now,explicitTick>=0?explicitTick:tickOffset+(int)(now*60/1000));for(var client:clients) client.drain();}
         void until(BooleanSupplier condition) throws Exception {long deadline=System.nanoTime()+4_000_000_000L;while(!condition.getAsBoolean()) {assertTrue(System.nanoTime()<deadline,"UDP application loop timed out");step();Thread.onSpinWait();}}
         void ticketAndLoad(Client client,FixtureScene scene) throws Exception {ticketAndLoad(client,scene.world());}
         void ticketAndLoad(Client client,MutableWorld world) throws Exception {
@@ -95,6 +96,61 @@ class ApplicationIntegrationTest {
             until(()->client.has(114));client.send(new SimplePackets.MapDataValidation(world.sourceCrc()),false);until(()->client.has(45));
         }
     }
+    @Test void delayedRealUdpShotUsesBoundLifeAndArrivalDatesWithoutMutatingTheTarget(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("Lag UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var h=new LifeHarness()){
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),()->ScenePackets.State.initial(config),h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),2,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var b=new Client(host.address())){
+                    var loop=new Loop(host);loop.explicitTick=1000;loop.ticketAndLoad(a,h.world);a.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"shooter"),false);loop.until(()->a.has(69));
+                    loop.ticketAndLoad(b,h.world);b.send(new SimplePackets.NewPlayerConnection(3,0,0,0,"target"),false);loop.until(()->b.has(69));
+                    loop.until(()->{try{a.send(new ClientInput(100,127,false,5,1,0,0,0,0,24,0),true);b.send(new ClientInput(200,127,false,5,1,0,0,0,1,24,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0)&&host.inGame(1);});
+                    var shooter=h.runtime.player(0);var target=h.runtime.player(1);var simulation=new InfantrySimulation(h.runtime,InfantrySimulation.Settings.defaults(),new InfantryPorts());
+                    for(int frame=0;frame<50;frame++){
+                        int label=201+frame;b.send(new ClientInput(label,127,false,5,1,0,0,0,1,24,0),true);loop.until(()->Objects.equals(target.inputTimeline().newestLabel(),label));
+                        h.monotonic+=FixedStepRuntime.DELTA;h.wall+=FixedStepRuntime.DELTA;simulation.tick(++loop.explicitTick);
+                    }
+                    var before=target.body().state();var ammo=shooter.inventory().ammo();var result=new java.util.concurrent.atomic.AtomicReference<LagCompensation.Context>();
+                    var owner=new LagCompensation.ShotOwner();
+                    h.packetHandler=(bound,packet)->{
+                        if(!(packet instanceof ShootPacket shot))return;
+                        assertEquals(0,bound.id());assertEquals(254,shot.shooterId());
+                        var context=LagCompensation.prepare(LagCompensation.Settings.defaults(),loop.explicitTick,FixedStepRuntime.DELTA,bound,shot,event->{});assertNotNull(context);result.set(context);
+                        try(var scope=owner.install(context)){assertSame(context,scope.context());var body=owner.body(target.lagTarget());assertTrue(body instanceof LagCompensation.Rewound);assertTrue(body.position().x()<before.position().x());assertSame(target.lagTarget(),body.target());}
+                        assertSame(target.lagTarget(),owner.body(target.lagTarget()));assertEquals(before,target.body().state());
+                    };
+                    a.send(new ShootPacket(100,254,0,new Vector3f(999,999,999),new Vector3f(1,0,0),32767,32767,true,true,255),false);loop.until(()->result.get()!=null);
+                    assertTrue(result.get().rewindMillis()>=400);assertTrue(shooter.flight().roundTripMillis().isPresent());
+                    assertEquals(result.get().rewindMillis(),shooter.lastLagRewindMillis().orElseThrow());assertEquals(before,target.body().state());
+                    assertEquals(ammo,shooter.inventory().ammo());assertEquals(100,shooter.health());assertEquals(100,target.health());
+                }
+            }
+        });
+    }
+    @Test void realUdpReloadIgnoresClaimedIdentityAndCompletionAndUsesOwnedHousekeeping(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("Reload UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var h=new LifeHarness()){
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),()->ScenePackets.State.initial(config),h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),1,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var client=new Client(host.address())){
+                    h.destination=new LifeRuntime.Messages(){public void broadcast(GamePacket packet){host.broadcast(packet,Delivery.RELIABLE);}public void owner(int id,GamePacket packet){assertTrue(host.sendPlayer(id,packet));}public boolean inGame(int id){return host.inGame(id);}};
+                    var loop=new Loop(host);loop.explicitTick=1000;loop.ticketAndLoad(client,h.world);client.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"reload"),false);loop.until(()->client.has(69));
+                    loop.until(()->{try{client.send(new ClientInput(100,0,false,5,1,0,0,0,0,24,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0);});
+                    var p=h.runtime.player(0);int tool=p.selection().loadout().stream().filter(LifeCatalog.WEAPONS::containsKey).findFirst().orElseThrow();p.fire().tool(tool,true);p.inventory().ammo(0,3);
+                    client.send(new LifePackets.WeaponReload(254,255,false),false);loop.until(()->p.inventory().reloading());loop.until(()->client.packets.stream().anyMatch(packet->packet instanceof LifePackets.WeaponReload reload&&!reload.done()));
+                    var started=(LifePackets.WeaponReload)client.packets.stream().filter(packet->packet instanceof LifePackets.WeaponReload reload&&!reload.done()).findFirst().orElseThrow();assertEquals(0,started.playerId());assertEquals(tool,started.toolId());
+                    assertNotNull(p.fire().link());assertTrue(p.fire().link().varianceMillis()>=0);double end=p.inventory().reloadEnd();
+                    client.send(new LifePackets.WeaponReload(254,255,true),false);client.send(new SimplePackets.ClockSync(91234,0),false);loop.until(()->client.packets.stream().anyMatch(packet->packet instanceof SimplePackets.ClockSync clock&&clock.client_time()==91234));
+                    assertTrue(p.inventory().reloading());assertEquals(end,p.inventory().reloadEnd());assertEquals(0,p.inventory().ammo().clip());
+                    var simulation=new InfantrySimulation(h.runtime,InfantrySimulation.Settings.defaults(),new InfantryPorts());h.monotonic=end-1e-6;simulation.tick(++loop.explicitTick);assertTrue(p.inventory().reloading());
+                    h.monotonic=end;simulation.tick(++loop.explicitTick);loop.until(()->client.packets.stream().anyMatch(packet->packet instanceof LifePackets.WeaponReload reload&&reload.done()));
+                    assertFalse(p.inventory().reloading());assertEquals(3,p.inventory().ammo().clip());assertEquals(0,p.inventory().ammo().reserve());
+                    for(int i=0;i<client.packets.size();i++)if(client.packets.get(i) instanceof LifePackets.WeaponReload)assertEquals(6,client.commands.get(i),"reload events remain reliable");
+                    assertEquals(100,p.health());
+                }
+            }
+        });
+    }
     @Test void ownedReplicationCrossesRealUdpAndHoldsRespawnRowsUntilReliableRelease(){
         assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
             var config=new SceneConfig("Replication UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
@@ -103,7 +159,7 @@ class ApplicationIntegrationTest {
                 try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),2,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var b=new Client(host.address())){
                     h.destination=new LifeRuntime.Messages(){public void broadcast(GamePacket p){host.broadcast(p,Delivery.RELIABLE);}public void owner(int id,GamePacket p){assertTrue(host.sendPlayer(id,p));}public boolean inGame(int id){return host.inGame(id);}};
                     var replication=new ReplicationService(new ReplicationService.World(){
-                        public List<PlayerSnapshot> players(){return h.runtime.players().stream().map(p->new PlayerSnapshot(p,life->new PlayerSnapshot.Presentation(5,null,false,false,false,false,false,true,false))).toList();}
+                        public List<PlayerSnapshot> players(){return h.runtime.players().stream().map(p->new PlayerSnapshot(p,life->new PlayerSnapshot.Presentation(5,null,false,false,false,false,true,false))).toList();}
                         public List<? extends WorldUpdateLink> connections(){return host.snapshotLinks();}
                         public List<EntityRecord> entities(){return List.of();}public List<WorldUpdate.TurretRow> turrets(){return List.of();}
                         public void delivered(int packets,long bytes){}

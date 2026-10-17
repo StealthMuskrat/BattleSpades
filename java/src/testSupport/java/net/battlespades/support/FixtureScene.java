@@ -18,6 +18,7 @@ import net.battlespades.world.VxlMap;
 /** Test-only protocol scene: no production gameplay is simulated by this fixture. */
 public final class FixtureScene implements JoinScene,net.battlespades.scene.ConfiguredScene.Gameplay,AutoCloseable {
     @Override public void roundTripMillis(int id,Double measurement){}
+    @Override public void actionLink(int id,net.battlespades.player.ActionClock.Link link){}
     private final MutableWorld world;
     private final InitialInfo info;
     private final StateData state;

@@ -124,6 +124,13 @@ jobs:
           python -S java/tools/generate_replication_golden.py
           python -S java/tools/generate_replication_wire_golden.py
           python -S java/tools/generate_player_snapshot_golden.py
+          python -S java/tools/export_combat_catalog.py
+          python -S java/tools/generate_lag_golden.py
+          python -S java/tools/generate_lag_connected_golden.py
+          python -S java/tools/generate_shoot_golden.py
+          python -S java/tools/generate_fire_golden.py
+          python -S java/tools/generate_pellet_golden.py
+          git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/combat.toml java/src/test/resources/golden/lag-history.tsv.gz java/src/test/resources/golden/lag-history-provenance.json java/src/test/resources/golden/lag-decisions.tsv.gz java/src/test/resources/golden/lag-decisions-provenance.json java/src/test/resources/golden/lag-connected.tsv.gz java/src/test/resources/golden/lag-connected-provenance.json java/src/test/resources/golden/shoot.tsv.gz java/src/test/resources/golden/shoot-provenance.json java/src/test/resources/golden/player-fire.tsv.gz java/src/test/resources/golden/player-fire-provenance.json java/src/test/resources/golden/pellets.tsv.gz java/src/test/resources/golden/pellets-provenance.json
           git diff --exit-code -- java/src/test/resources/golden/owner-history.tsv.gz java/src/test/resources/golden/owner-provenance.json java/src/test/resources/golden/snapshot-holds.tsv.gz java/src/test/resources/golden/snapshot-holds-provenance.json java/src/test/resources/golden/replication.tsv.gz java/src/test/resources/golden/replication-provenance.json java/src/test/resources/golden/replication-wire.tsv.gz java/src/test/resources/golden/replication-wire-provenance.json java/src/test/resources/golden/player-snapshot.tsv.gz java/src/test/resources/golden/player-snapshot-provenance.json
           git diff --exit-code -- java/src/test/resources/golden/flight-simulation java/src/test/resources/golden/flight-impact.tsv.gz java/src/test/resources/golden/flight-provenance.json
           git diff --exit-code -- java/src/test/resources/golden/infantry-simulation.tsv.gz java/src/test/resources/golden/infantry-provenance.json

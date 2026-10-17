@@ -1,0 +1,8 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_file_sha256": "200005b94fb13c11028ba80709cee5a58ff6d6d962faa999aa2f4b45446eef08",
+  "operations": 16477,
+  "fixture_sha256": "b02be959b5a4267994bafb795e5183256613bcad5c158030c3a76fda66e81190",
+  "scope": "Unmodified target ring, epochs, life/death checks, interpolation and context identity cache, with controlled target properties.",
+  "method_substitutions": false
+}

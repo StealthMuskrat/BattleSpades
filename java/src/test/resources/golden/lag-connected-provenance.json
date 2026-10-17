@@ -1,0 +1,11 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 1296,
+  "fixture_sha256": "a60fc11e760fb3dafe72fc05ff3b015b3fe6161bdf8aab54c743f6f29393de2b",
+  "source_files_sha256": {
+    "server/lag_compensation.py": "200005b94fb13c11028ba80709cee5a58ff6d6d962faa999aa2f4b45446eef08",
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/simulation_runtime.py": "385c8793f38e3c340784018e91350d36e3612d1a3252aa8f65295aaf719021bd"
+  },
+  "scope": "Unchanged original Player/SimulationRuntime/native movement/flight recording lag history before movement under loop_count-1, including physical crouch/hover and respawn generations. No policy method substitution."
+}

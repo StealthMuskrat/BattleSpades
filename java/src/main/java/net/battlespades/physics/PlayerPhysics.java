@@ -42,6 +42,7 @@ public final class PlayerPhysics {
     public PlayerPhysics(CollisionMap map) {this.map=Objects.requireNonNull(map);}
     private void owned() {if(Thread.currentThread()!=owner)throw new IllegalStateException("Physics accessed outside owner");}
     public State state() {owned();return new State(new Vector(x,y,z),new Vector(vx,vy,vz),airborne,wade,crouch,jump,jumped,fallDistance,climbTimer);}
+    public boolean hitboxCrouched(){owned();return crouch&&!flight.hover;}
     public void position(Vector p) {owned();x=p.x;y=p.y;z=p.z;}
     public void velocity(Vector v) {owned();vx=v.x;vy=v.y;vz=v.z;}
     public void orientation(Vector v) {

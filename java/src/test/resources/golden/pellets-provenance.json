@@ -1,0 +1,13 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 16728,
+  "groups": 17,
+  "fixture_sha256": "4bf9aed8d6a004b4aeb0cf6341971b1337f8e0e8a1779f1fb8f1d9ff60d98071",
+  "source_files_sha256": {
+    "server/combat_runtime.py": "1063d83823e07e103a7a65cc30aa3a94398d860abb8ba6ee345b7120f767d677",
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/game_constants.py": "11f5bbe992099a79e0270b15926960c9e9c54acd483bcbcd3a4021a8ec7fccab"
+  },
+  "scope": "Unchanged original CombatSystem seeded-pellet/bloom methods and Player zoom-label lookups, Python random.Random seed masking; trusted tools, labels, times and shot directions are controlled. No shot/hit authorization proof.",
+  "method_substitutions": false
+}

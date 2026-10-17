@@ -46,6 +46,7 @@ public final class ApplicationHost implements AutoCloseable {
                     @Override public boolean send(SessionFrame frame) {return peer.send(frame.encode(),frame.delivery());}
                     @Override public void disconnect(int reason) {peer.disconnect(reason);}
                     @Override public Double roundTripMillis(){return (double)peer.metrics().roundTripTime();}
+                    @Override public net.battlespades.player.ActionClock.Link actionLink(){var metrics=peer.metrics();return new net.battlespades.player.ActionClock.Link(metrics.roundTripTime(),metrics.roundTripVariance());}
                     @Override public boolean releaseTracking(){return true;}
                     @Override public JoinSession.Sent sendTracked(SessionFrame frame){var receipt=peer.sendTrackedReliable(frame.encode());return new JoinSession.Sent(receipt.isPresent(),receipt.orElse(null));}
                     @Override public int unfragmentedWireLimit(){return Math.max(64,peer.mtu()-28);}

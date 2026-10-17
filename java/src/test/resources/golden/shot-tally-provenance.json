@@ -1,0 +1,13 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 11200,
+  "groups": 16,
+  "fixture_sha256": "b61dff948ae4aea708b6cda2d67d925c5e7607cdb55e6a7035f59d5a275ee221",
+  "source_files_sha256": {
+    "server/combat_runtime.py": "1063d83823e07e103a7a65cc30aa3a94398d860abb8ba6ee345b7120f767d677",
+    "server/achievements.py": "946e44bc5e21691e458e759204b89d059dc109744e716b5014d6625af38638d3",
+    "server/anticheat.py": "e2fa7046b232464c99d54536e8c4b4561a5f6b36ee427a1178cb45438429f7ae"
+  },
+  "method_substitutions": false,
+  "scope": "Unchanged trigger tally, per-tool head/pellet aggregates, seed-mask/skew/chi-square and source achievement-hook call boundaries. Controlled actual Player tool/bot/spawn inputs; profiles observe diagnostics/callbacks without replacing functions. No achievement-rule or persistence proof."
+}

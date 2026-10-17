@@ -1,0 +1,13 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 800,
+  "fixture_sha256": "b09af887e09338e5048af478ec4911bf52cb29e2e4ba2051323626f70e2a519c",
+  "source_files_sha256": {
+    "server/combat_runtime.py": "1063d83823e07e103a7a65cc30aa3a94398d860abb8ba6ee345b7120f767d677",
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/anticheat.py": "e2fa7046b232464c99d54536e8c4b4561a5f6b36ee427a1178cb45438429f7ae",
+    "server/class_selection.py": "9be152403938ca104e45b7361cddc34b69c487d3d8cc140533510c8181617e61"
+  },
+  "method_substitutions": false,
+  "scope": "Unchanged handle_shot/validation/cadence/pellets/actual native geometry/Player HP/death/tally and codecs. Controlled ordinary-mode inputs, original mounted-MG authority with controlled registry entry, no terrain on dig rays. Observed source callback boundaries via sys.setprofile; complete concrete modes, scoring/profile/aim-report implementations, attachments and terrain mutations remain outside this fixture."
+}

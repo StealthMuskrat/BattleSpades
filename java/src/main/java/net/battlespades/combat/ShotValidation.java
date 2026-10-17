@@ -33,7 +33,8 @@ public final class ShotValidation {
         public Map<String,Map<String,Long>> histograms(){owned();var copy=new LinkedHashMap<String,Map<String,Long>>();histograms.forEach((k,v)->copy.put(k,Map.copyOf(v)));return Map.copyOf(copy);}
         public Map<String,Long> violations(){owned();return Map.copyOf(violations);}
         private void count(String key,String bucket){owned();histograms.computeIfAbsent(key,k->new LinkedHashMap<>()).merge(bucket,1L,Long::sum);}
-        private void report(Event event,Consumer<Event> observer){owned();violations.merge(event.kind+(event.enforced?"":":observed"),1L,Long::sum);observer.accept(event);}
+        public void reject(PlayerLife player,String kind,Map<String,Object> detail,Consumer<Event> observer){report(new Event(kind,true,detail),observer);if(!player.bot())count("rejected",kind);}
+        void report(Event event,Consumer<Event> observer){owned();violations.merge(event.kind+(event.enforced?"":":observed"),1L,Long::sum);observer.accept(event);}
     }
     public static View view(PlayerLife player){return new View(player.position(),player.aim(),player.generation()>0?PlayerMotion.clipped(player.body().state().velocity()):new Vector(0,0,0),player.inputTimeline().appliedLabel(),player.bot(),player.inventory().tool(),player.motion()::eyeAt);}
     public static Reference references(View player,Integer label){

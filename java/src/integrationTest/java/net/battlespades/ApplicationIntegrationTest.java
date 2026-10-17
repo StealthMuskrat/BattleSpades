@@ -21,6 +21,7 @@ import net.battlespades.session.*;
 import net.battlespades.support.FixtureScene;
 import net.battlespades.support.LifeHarness;
 import net.battlespades.support.InfantryPorts;
+import net.battlespades.support.CombatPorts;
 import net.battlespades.simulation.FixedStepRuntime;
 import net.battlespades.transport.UdpEndpoint;
 import net.battlespades.transport.enet.*;
@@ -97,6 +98,51 @@ class ApplicationIntegrationTest {
             clients.add(client);client.connect();until(()->client.peerId>=0);client.send(new LoadingPackets.SteamSessionTicket(new byte[]{3,7,19},capability==0?new byte[0]:new byte[]{'B','S','C','F',(byte)capability}),false);client.key=new byte[]{3,7,19};
             until(()->client.has(114));client.send(new SimplePackets.MapDataValidation(world.sourceCrc()),false);until(()->client.has(45));
         }
+    }
+    @Test void delayedRealUdpShotDamagesRewoundTargetWithoutMovingItsLiveBody(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("Rewound damage UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var h=new LifeHarness()){
+                for(int x=30;x<48;x++)for(int y=30;y<62;y++)h.world.set(new MutableWorld.Cell(x,y,100),true,0x777777,9.0);
+                var ports=new CombatPorts(h);ports.rewindEnabled=true;var combat=ports.bind();combat.settings(new CombatRuntime.Settings(ShotValidation.Settings.defaults(),LagCompensation.Settings.defaults()));
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),()->ScenePackets.State.initial(config),h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),2,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var b=new Client(host.address())){
+                    h.destination=new LifeRuntime.Messages(){public void broadcast(GamePacket p){host.broadcast(p,Delivery.RELIABLE);}public void owner(int id,GamePacket p){assertTrue(host.sendPlayer(id,p));}public boolean inGame(int id){return host.inGame(id);}};ports.reliableSink=p->host.broadcast(p,Delivery.RELIABLE);ports.unreliableSink=p->host.broadcast(p,Delivery.UNRELIABLE);ports.feedbackSink=(p,owner)->host.broadcastExcept(p,Delivery.UNRELIABLE,owner);
+                    var loop=new Loop(host);loop.explicitTick=1000;loop.ticketAndLoad(a,h.world);a.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"shooter"),false);loop.until(()->a.has(69));loop.ticketAndLoad(b,h.world);b.send(new SimplePackets.NewPlayerConnection(3,0,0,0,"target"),false);loop.until(()->b.has(69));
+                    loop.until(()->{try{a.send(new ClientInput(100,127,false,6,1,0,0,0,0,24,0),true);b.send(new ClientInput(200,127,false,5,1,0,0,0,8,24,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0)&&host.inGame(1);});
+                    var shooter=h.runtime.player(0);var target=h.runtime.player(1);shooter.body().position(new Vector(36,36,97));target.body().position(new Vector(39,36,97));shooter.fire().tool(6,true);shooter.inventory().ammo(8,100);var simulation=new InfantrySimulation(h.runtime,InfantrySimulation.Settings.defaults(),new InfantryPorts());
+                    for(int frame=0;frame<50;frame++){int label=201+frame;b.send(new ClientInput(label,127,false,5,1,0,0,0,8,24,0),true);loop.until(()->Objects.equals(target.inputTimeline().newestLabel(),label));h.monotonic+=FixedStepRuntime.DELTA;h.wall+=FixedStepRuntime.DELTA;ports.loop=++loop.explicitTick;simulation.tick(loop.explicitTick);}
+                    var before=target.body().state();var origin=shooter.position();var probe=new ShootPacket(100,254,0,new Vector3f((float)origin.x(),(float)origin.y(),(float)origin.z()),new Vector3f(1,0,0),32767,32767,true,true,0);var context=LagCompensation.prepare(LagCompensation.Settings.defaults(),ports.loop,FixedStepRuntime.DELTA,shooter,probe,event->{});assertNotNull(context);var earlier=context.body(target.lagTarget());assertTrue(earlier.position().y()<before.position().y()-.5);
+                    var aim=CombatGeometry.normalize(new Vector(earlier.position().x()-origin.x(),earlier.position().y()-origin.y(),earlier.position().z()+.7-origin.z()));shooter.orientation(aim.x(),aim.y(),aim.z());var map=CollisionMap.of(h.world);
+                    var liveTrace=new HitTrace(new HitTrace.Scene(){public CombatGeometry.Cell raycast(Vector p,Vector d,double max){return HitTrace.terrainRay(map,p,d,max);}public Iterable<PlayerLife> players(){return h.runtime.players();}public boolean enemies(PlayerLife p,PlayerLife q){return p.team()!=q.team();}public Iterable<HitTrace.Entity> entities(){return List.of();}public Iterable<HitTrace.Corpse> corpses(){return List.of();}},new LagCompensation.ShotOwner());assertFalse(liveTrace.trace(shooter,origin,aim,128) instanceof HitTrace.PlayerHit,"live body is outside this historical ray");
+                    a.packets.clear();b.packets.clear();a.send(new ShootPacket(100,254,0,probe.origin(),new Vector3f((float)aim.x(),(float)aim.y(),(float)aim.z()),32767,32767,true,true,0),false);loop.until(()->a.has(9)&&b.has(5));assertEquals(7,shooter.inventory().ammo().clip());assertTrue(target.health()<100);assertEquals(before.position(),target.body().state().position());assertEquals(before.velocity(),target.body().state().velocity());assertTrue(shooter.lastLagRewindMillis().orElseThrow()>=400);assertTrue(ports.rewindEvents.stream().anyMatch(e->e.kind().equals("lag_comp_late_shot")));
+                    var response=(CombatPackets.ShootResponse)a.packets.stream().filter(p->p.id()==9).findFirst().orElseThrow();assertEquals(0,response.damageBy());assertTrue(response.position().y()<before.position().y()-.3);assertEquals(1,shooter.combatStatistics().snapshot().hits());
+                }
+            }
+        });
+    }
+    @Test void realUdpOwnedShotCommitConsumesOnceAndSendsHealthDeathAndRemoteFeedback(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("Combat commit UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var h=new LifeHarness()){
+                var ports=new CombatPorts(h);ports.bind();h.packetHandler=(p,packet)->{if(packet instanceof ShootPacket)throw new AssertionError("Owned combat must handle packet 6 before the test input port");};
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),()->ScenePackets.State.initial(config),h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),2,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var b=new Client(host.address())){
+                    h.destination=new LifeRuntime.Messages(){public void broadcast(GamePacket p){ports.capture("B",true,null,p);host.broadcast(p,Delivery.RELIABLE);}public void owner(int id,GamePacket p){ports.capture("O"+id,true,null,p);assertTrue(host.sendPlayer(id,p));}public boolean inGame(int id){return host.inGame(id);}};
+                    ports.reliableSink=p->host.broadcast(p,Delivery.RELIABLE);ports.unreliableSink=p->host.broadcast(p,Delivery.UNRELIABLE);ports.feedbackSink=(p,owner)->host.broadcastExcept(p,Delivery.UNRELIABLE,owner);
+                    var loop=new Loop(host);loop.explicitTick=1000;loop.ticketAndLoad(a,h.world);a.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"shooter"),false);loop.until(()->a.has(69));loop.ticketAndLoad(b,h.world);b.send(new SimplePackets.NewPlayerConnection(3,0,0,0,"target"),false);loop.until(()->b.has(69));
+                    loop.until(()->{try{a.send(new ClientInput(100,127,false,6,1,0,0,0,0,24,0),true);b.send(new ClientInput(200,127,false,5,1,0,0,0,0,24,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0)&&host.inGame(1);});
+                    var shooter=h.runtime.player(0);var target=h.runtime.player(1);shooter.body().position(new Vector(36,36,97));target.body().position(new Vector(39,36,96.5));shooter.orientation(1,0,0);target.orientation(1,0,0);shooter.fire().tool(6,true);shooter.inventory().ammo(8,100);a.packets.clear();a.commands.clear();b.packets.clear();b.commands.clear();ports.events.clear();ports.wire.clear();
+                    a.send(new ShootPacket(100,254,0,new Vector3f(999,999,999),new Vector3f(1,0,0),32767,32767,true,true,0),false);loop.until(()->ports.events.stream().anyMatch(e->e.startsWith("drop:shot_origin_far")));assertEquals(8,shooter.inventory().ammo().clip());assertEquals(100,target.health());assertTrue(ports.disguised);
+                    ports.events.clear();var valid=new ShootPacket(100,254,0,new Vector3f(36,36,97),new Vector3f(1,0,0),32767,32767,true,true,0);a.send(valid,false);loop.until(()->a.has(9)&&b.has(9)&&b.has(5)&&b.has(8));assertEquals(7,shooter.inventory().ammo().clip());assertEquals(30,target.health());assertFalse(ports.disguised);assertFalse(a.has(8));
+                    var feedback=(SimplePackets.ShootFeedbackPacket)b.packets.stream().filter(p->p.id()==8).findFirst().orElseThrow();assertEquals(0,feedback.shooter_id());assertEquals(6,feedback.tool_id());assertEquals(1000,feedback.loop_count());
+                    for(var client:List.of(a,b))for(int i=0;i<client.packets.size();i++){int id=client.packets.get(i).id();if(id==8||id==9)assertEquals(7,client.commands.get(i),"cosmetic shot/hit events stay sequenced-unreliable");if(id==5)assertEquals(6,client.commands.get(i),"HP is reliable");}
+                    ports.events.clear();a.send(valid,false);loop.until(()->ports.events.contains("drop:fire_rate"));assertEquals(7,shooter.inventory().ammo().clip());assertEquals(30,target.health());assertEquals(1,shooter.combatStatistics().snapshot().shots());
+                    h.monotonic+=3;h.wall+=3;ports.loop=1180;loop.explicitTick=1180;a.send(new ClientInput(280,127,false,6,1,0,0,0,0,24,0),true);loop.until(()->Objects.equals(shooter.inputTimeline().newestLabel(),280));a.send(new ShootPacket(280,254,0,new Vector3f(36,36,97),new Vector3f(1,0,0),32767,32767,true,true,0),false);loop.until(()->a.has(46)&&b.has(46));assertEquals(6,shooter.inventory().ammo().clip());assertEquals(0,target.health());assertFalse(target.alive());assertEquals(1,h.runtime.score(0).kills());assertEquals(2,shooter.combatStatistics().snapshot().shots());assertEquals(2,shooter.combatStatistics().snapshot().hits());
+                    var death=(LifePackets.KillAction)a.packets.stream().filter(p->p.id()==46).findFirst().orElseThrow();assertEquals(0,death.killerId());assertEquals(1,death.playerId());
+                }
+            }
+        });
     }
     @Test void realUdpShotValidationRejectsForgedOriginsAndTracesOwnedBodiesAndTerrain(){
         assertTimeoutPreemptively(Duration.ofSeconds(15),()->{

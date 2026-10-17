@@ -12,6 +12,10 @@ public final class CombatCatalog {
         int damageType,boolean melee,boolean projectile,double blastRadius,double fuse,List<Double> partDamage,double entityDamage,
         int initialReserve,int restock,boolean clipReload,double shortRange,double accuracyMinimum,double accuracyMaximum,double secondaryInterval) {
         public Profile {partDamage=List.copyOf(partDamage);}
+        public double damageForPart(int part){
+            if(partDamage.isEmpty())return part==0&&headDamage!=0?headDamage:damage;
+            int slot=switch(part){case 0->1;case 2->2;case 3->3;case 4->4;default->0;};return partDamage.get(slot);
+        }
     }
     public static final Map<Integer,Profile> WEAPONS;
     public record Accuracy(double minimum,double maximum,double increase,double reduction) {}

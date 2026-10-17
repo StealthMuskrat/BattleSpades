@@ -1,9 +1,8 @@
 # Java test results
 
-Stage: shot validation, assault/minigun cadence and read-only nearest-hit selection,
-2026-10-17 UTC. Implementation: `29156d7ccb3c47b582f7ae5570dcfde204c13282`; tested tree: `a0ab3bedac6a0777a30c620267bdb8188e4dc1f9`.
-All five jobs passed in [run 39075436598](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39075436598), including fixture regeneration,
-archive reproducibility and one uploaded JAR on three platforms.
+Stage: owned shot commit, player hitscan/melee damage, shields, feedback and
+trigger/seed aggregates, 2026-10-17 UTC. Local clean check/build passes;
+publication and all five current-head CI jobs are pending.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -13,9 +12,11 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.CompressionOwnershipTest | 2 | 0 | 0 | 0 |
 | net.battlespades.CompressionTest | 16 | 0 | 0 | 0 |
 | net.battlespades.ConfigTest | 4 | 0 | 0 | 0 |
+| net.battlespades.DirectDamageGoldenTest | 65 | 0 | 0 | 0 |
 | net.battlespades.EnetTest | 7 | 0 | 0 | 0 |
 | net.battlespades.GoldenPacketTest | 178 | 0 | 0 | 0 |
 | net.battlespades.HandshakeTest | 2 | 0 | 0 | 0 |
+| net.battlespades.HitEffectPacketsGoldenTest | 12 | 0 | 0 | 0 |
 | net.battlespades.HitTraceGoldenTest | 20 | 0 | 0 | 0 |
 | net.battlespades.JoinPolicyTest | 4 | 0 | 0 | 0 |
 | net.battlespades.JoinSessionTest | 21 | 0 | 0 | 0 |
@@ -32,6 +33,7 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.ReplicationWireGoldenTest | 1 | 0 | 0 | 0 |
 | net.battlespades.ScenePolicyTest | 230 | 0 | 0 | 0 |
 | net.battlespades.SessionProtocolTest | 18 | 0 | 0 | 0 |
+| net.battlespades.ShieldGoldenTest | 14 | 0 | 0 | 0 |
 | net.battlespades.ShotValidationGoldenTest | 16 | 0 | 0 | 0 |
 | net.battlespades.SimulationTest | 4 | 0 | 0 | 0 |
 | net.battlespades.SnapshotHoldsGoldenTest | 4 | 0 | 0 | 0 |
@@ -39,6 +41,8 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.WorldQueriesTest | 2 | 0 | 0 | 0 |
 | net.battlespades.player.ActionClockTest | 34 | 0 | 0 | 0 |
 | net.battlespades.player.AdmissionPolicyTest | 571 | 0 | 0 | 0 |
+| net.battlespades.player.CombatCommitGoldenTest | 16 | 0 | 0 | 0 |
+| net.battlespades.player.CombatRuntimeTest | 3 | 0 | 0 | 0 |
 | net.battlespades.player.FiringPatternsGoldenTest | 20 | 0 | 0 | 0 |
 | net.battlespades.player.FlightGoldenTest | 62 | 0 | 0 | 0 |
 | net.battlespades.player.HealthGoldenTest | 1368 | 0 | 0 | 0 |
@@ -50,33 +54,33 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.player.LagConnectedGoldenTest | 4 | 0 | 0 | 0 |
 | net.battlespades.player.LifeGoldenTest | 1082 | 0 | 0 | 0 |
 | net.battlespades.player.LifeRuntimeTest | 5 | 0 | 0 | 0 |
+| net.battlespades.player.MeleeHitEffectsGoldenTest | 17 | 0 | 0 | 0 |
 | net.battlespades.player.OwnerGoldenTest | 5 | 0 | 0 | 0 |
 | net.battlespades.player.PelletGoldenTest | 17 | 0 | 0 | 0 |
 | net.battlespades.player.PlayerFireGoldenTest | 33 | 0 | 0 | 0 |
 | net.battlespades.player.PlayerFlightTest | 3 | 0 | 0 | 0 |
+| net.battlespades.player.PlayerHitEffectsGoldenTest | 17 | 0 | 0 | 0 |
 | net.battlespades.player.PlayerSnapshotGoldenTest | 4 | 0 | 0 | 0 |
+| net.battlespades.player.ShotTallyGoldenTest | 16 | 0 | 0 | 0 |
 | net.battlespades.player.SpawnPolicyTest | 36 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 16 | 0 | 0 | 0 |
-| net.battlespades.ApplicationIntegrationTest | 14 | 0 | 0 | 0 |
+| net.battlespades.ApplicationIntegrationTest | 16 | 0 | 0 | 0 |
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **4,794 Java tests passed: 4,777 component and 17 real UDP; no failures,
-errors or skips.** The new fixtures contain 87,260 unchanged-source operations.
-All 135 new/prior fixture and catalog hashes reproduce after a fresh original
-native build. **223 focused original tests pass**; this does not establish
-that the full reference Python baseline passes.
+Total: **4,956 Java tests passed: 4,937 component and 19 real UDP; no failures,
+errors or skips.** The new fixtures contain 540,416 unchanged-source operations.
+All 162 new/prior fixture and catalog hashes reproduce after a fresh original
+native build. **223 focused original tests pass**; test_combat imports the
+reversed-combat tests, so these are not independent suites. The full reference
+Python baseline retains its documented incomplete runs and VIP discrepancy.
 
-Geometry has exact classification, body-part and voxel-probe checks, with a
-16-ULP coordinate-scaled numeric intersection bound for native libm differences.
-The local maximum measured absolute error is 7.105427357601002e-15; 101 numeric
-components differ in low bits. Boundary cases cover all source class/crouch
-profiles, slab faces and adjacent representable coordinates. Validation compares
-exact reasons, reports/counters and signed zero. Pattern tests compose actual
-owned wallets, ActionClock, reload floors, controls and peer measurements.
-
-The additional two-client UDP test rejects forged and wall-occluded origins,
-then selects an owned body and newly committed intervening wall without HP/ammo
-mutation. It uses an explicit test handler and explicit test registries. Full
-shot commit, damage/effects, concrete domains/modes and supported-client/capacity/
-soak gates remain pending. Hosting still exits 2. See [SHOT_GEOMETRY.md](SHOT_GEOMETRY.md).
+The two additional UDP tests use automatic owned packet-6 dispatch. They verify
+admission/cadence/wallet, actual health/death, predicting-owner exclusion and wire
+delivery; delayed reliable fire damages a historical target while leaving its
+live position/velocity unchanged. Trusted equipment and mode/effect ports remain
+explicit test inputs. Concrete terrain/entity/corpse/mode/profile/scoring/award/
+aim services and upstream equipment/conduct admission remain pending. Damage,
+wire and aggregates are exact comparisons; preceding numeric geometry retains
+its documented 16-ULP bound, with exact classifications and voxel probes.
+Hosting still exits 2. See [COMBAT_RUNTIME.md](COMBAT_RUNTIME.md).

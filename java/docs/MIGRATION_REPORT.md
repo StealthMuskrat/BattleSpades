@@ -1,11 +1,11 @@
 # Java 25 migration report
 
 Date: 2026-10-17 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage adds source shot-origin/aim/LOS validation, assault/minigun
-cadence and read-only nearest-hit selection to the existing owned timing, pellet
-and rewind components. Full shot commit, damage/effects, concrete registries and
-modes, required domains and supported-client/capacity gates remain pending.
-Ordinary hosting deliberately exits 2.
+The current stage composes the owned packet-6 commit path, player hitscan/melee
+damage and shields, health/death, feedback and trigger/seed aggregates. Concrete
+terrain/entity/corpse effects, mode/scoring/achievement/aim services and upstream
+input/equipment authorization remain required. Supported-client/capacity gates
+remain pending. Ordinary hosting deliberately exits 2.
 
 ## Repository and provenance
 
@@ -42,9 +42,9 @@ Ordinary hosting deliberately exits 2.
 - Previous combat-timing implementation: `0f6448231be6e93f3ce58d4682d9cd9963ac95ef`.
 - Previous combat-timing tested/published tree: `9acb23de8fa14ae82f90188bf67f741bae3f563b`.
 - Previous combat-timing CI: [run 39073877248](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39073877248); all five jobs passed.
-- Current shot-geometry implementation: `29156d7ccb3c47b582f7ae5570dcfde204c13282`.
-- Current shot-geometry tested/published tree: `a0ab3bedac6a0777a30c620267bdb8188e4dc1f9`.
-- Current shot-geometry CI: [run 39075436598](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39075436598); all five jobs passed.
+- Previous shot-geometry implementation: `29156d7ccb3c47b582f7ae5570dcfde204c13282`.
+- Previous shot-geometry tested/published tree: `a0ab3bedac6a0777a30c620267bdb8188e4dc1f9`.
+- Previous shot-geometry CI: [run 39075436598](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39075436598); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -55,11 +55,18 @@ expected-head lease and exact tested-tree comparison. No release is created.
 
 ## Current implementation
 
+CombatRuntime, DirectDamage, HitEffects and ShotTally add 540,416 unchanged-source
+operations. Two new automatic-dispatch UDP tests verify actual damage/death,
+wallet/cadence, excluded-owner feedback and delayed target rewind with live bodies
+unchanged. Mode/profile/scoring/achievement and terrain/entity/corpse interfaces
+are required concrete work; test callback boundaries do not establish full service
+parity. See [COMBAT_RUNTIME.md](COMBAT_RUNTIME.md).
+
 ShotValidation, CombatGeometry, FiringPatterns and HitTrace now compare 87,260
 new unchanged-source operations. A real UDP test binds decoded shots to actual
 lives and verifies origin rejection, target/body selection and an intervening
-committed wall without health/ammo mutation. Full shot commit and damage/effects
-remain pending. See [SHOT_GEOMETRY.md](SHOT_GEOMETRY.md), including the explicit
+committed wall without health/ammo mutation. The new owned commit evidence is separate from this earlier read-only test.
+See [SHOT_GEOMETRY.md](SHOT_GEOMETRY.md), including the explicit
 numeric intersection roundoff bound and exact classification/probe checks.
 
 PlayerFire now executes original reload/fire cadence and wallet behavior with
@@ -70,7 +77,7 @@ LagCompensation records physical hitboxes before movement, keeps life/teleport
 barriers and computes read-only views with bounded arrival-dated late-shot
 allowance. Source comparisons total 67,151 operations; two additional UDP tests
 exercise delayed-shot views and reliable reload boundaries. The original
-reference's 152 focused tests pass. Full packet-6 commit and damage/effects remain
+reference's 152 focused tests pass. Concrete domain integration remains
 pending; see [COMBAT_TIMING.md](COMBAT_TIMING.md).
 
 
@@ -181,7 +188,7 @@ MutableWorld adapter preserve simulation ownership and immediate terrain reads.
 Ray/cube/face queries retain source traversal ties. See [MOVEMENT_PHYSICS.md](MOVEMENT_PHYSICS.md)
 for exact scope, query work bounds and integration requirements.
 
-Previous components plus life codecs now cover 74 packet IDs, framing/LZF/XOR, range coder, bounded
+Previous components plus life codecs now cover 77 packet IDs, framing/LZF/XOR, range coder, bounded
 ENet host/peers, ACK/retry/fragmentation/RTT/ordering, application loader/password/
 capability/ID reservation, full/delta map snapshots and committed terrain/roster
 journals with a first-input live gate. VXL/KV6 codecs, core/join TOML validation and
@@ -332,11 +339,11 @@ packaging check. Exact final SHA/size are in verification-results.json.
 
 ## Remaining work and readiness
 
-Next: complete shot-origin/aim and tool/action/hit authorization, special burst/spin-up
-gates and actual hit resolution; complete upstream rate/conduct and mode/effect ports; connect detached projectile actors and full scoring/award observers; wire
-the common Character lifecycle to concrete modes/effects and authenticated identity,
-and extend the owned movement/flight path with complete lag-compensation
-rewind/anticheat and complete entity/corpse/presentation domains.
+Next: implement concrete terrain damage/digging/shades/collapse and entity/corpse
+effects; connect detached projectiles, full score/award/aim services and upstream
+input/equipment authorization; wire the owned Character/combat/movement/flight
+components to concrete modes and authenticated identity. Complete presentation,
+bot and registry domains remain required.
 Continue remaining packets and entity/projectile physics, terrain validation,
 damage/shades/collapse, combat, all modes, bots, creator/tutorial, plugins, admin,
 persistence and discovery. UGC pre-validation transfers and ENet bandwidth-epoch

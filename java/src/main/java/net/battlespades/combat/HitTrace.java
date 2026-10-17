@@ -10,7 +10,7 @@ import net.battlespades.combat.CombatGeometry.*;
 /** Source nearest-hit selection using current terrain and scoped read-only player rewind. No damage is committed here. */
 public final class HitTrace {
     public interface Entity {
-        boolean alive();boolean takesDamage();double hitRadius();Vector hitCenter();
+        int id();boolean alive();boolean takesDamage();double hitRadius();Vector hitCenter();
     }
     public interface Corpse {Vector position();Vector orientation();}
     /** Concrete domain registries and enemy policy are required; no empty production registries are invented. */
@@ -30,12 +30,7 @@ public final class HitTrace {
     public Hit trace(PlayerLife attacker,Vector origin,Vector direction,double maximum){
         if(Thread.currentThread()!=owner)throw new IllegalStateException("Hit trace outside owner");
         var block=scene.raycast(origin,direction,maximum);var center=block==null?null:new Vector(block.x()+.5,block.y()+.5,block.z()+.5);double limit=center==null?maximum:Math.min(maximum,CombatGeometry.distance(origin,center));
-        PlayerLife player=null;BodyHit playerBody=null;double nearest=limit+1;
-        for(var target:scene.players()){
-            if(target==attacker||!target.alive()||!target.spawned()||!scene.enemies(attacker,target))continue;
-            var hit=CombatGeometry.body(origin,direction,limit,target.selection().classId(),rewind.body(target.lagTarget()));
-            if(hit!=null&&hit.entry().distance()<nearest){player=target;playerBody=hit;nearest=hit.entry().distance();}
-        }
+        var playerChoice=firstPlayer(attacker,origin,direction,limit);PlayerLife player=playerChoice==null?null:playerChoice.player;BodyHit playerBody=playerChoice==null?null:playerChoice.body;double nearest=playerBody==null?limit+1:playerBody.entry().distance();
         Candidate<Entity> entity=null;
         for(var target:scene.entities()){
             double radius=target.hitRadius();if(!target.alive()||!target.takesDamage()||radius<=0)continue;
@@ -49,6 +44,22 @@ public final class HitTrace {
         if(corpse!=null&&(entity==null||corpse.entry.distance()<=entity.entry.distance()))return new CorpseHit(corpse.target,corpse.entry.position());
         if(entity!=null)return new EntityHit(entity.target,entity.entry.position());
         return block==null?null:new BlockHit(block,center);
+    }
+    private record PlayerChoice(PlayerLife player,BodyHit body) {}
+    private PlayerChoice firstPlayer(PlayerLife attacker,Vector origin,Vector direction,double limit){
+        PlayerLife player=null;BodyHit playerBody=null;double nearest=limit+1;
+        for(var target:scene.players()){
+            if(target==attacker||!target.alive()||!target.spawned()||!scene.enemies(attacker,target))continue;
+            var hit=CombatGeometry.body(origin,direction,limit,target.selection().classId(),rewind.body(target.lagTarget()));
+            if(hit!=null&&hit.entry().distance()<nearest){player=target;playerBody=hit;nearest=hit.entry().distance();}
+        }
+        return player==null?null:new PlayerChoice(player,playerBody);
+    }
+    /** Source melee path considers players and intervening terrain, without entity/corpse hit competition. */
+    public PlayerHit playerRay(PlayerLife attacker,Vector origin,Vector direction,double maximum){
+        if(Thread.currentThread()!=owner)throw new IllegalStateException("Hit trace outside owner");
+        var block=scene.raycast(origin,direction,maximum);double limit=block==null?maximum:Math.min(maximum,CombatGeometry.distance(origin,new Vector(block.x()+.5,block.y()+.5,block.z()+.5)));
+        var choice=firstPlayer(attacker,origin,direction,limit);return choice==null?null:new PlayerHit(choice.player,choice.body.headshot(),choice.body.entry().position(),choice.body.part());
     }
     /** Actual WorldManager.raycast: accurate native-equivalent query, then source 0.1-step fallback. */
     public static Cell terrainRay(CollisionMap map,Vector origin,Vector direction,double maximum){

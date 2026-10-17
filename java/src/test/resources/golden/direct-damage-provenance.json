@@ -1,0 +1,51 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 500240,
+  "profiles": 65,
+  "parts": [
+    {
+      "path": "direct-damage-00.tsv.gz",
+      "sha256": "d4fdee144eb6c5aa7f36972cb158cf66f2f3d93e86bf67692dddcbd0264efcc3"
+    },
+    {
+      "path": "direct-damage-01.tsv.gz",
+      "sha256": "1f517661ce8465581890b69b34813c16fd739dcd2a189872332194d94ac3332b"
+    },
+    {
+      "path": "direct-damage-02.tsv.gz",
+      "sha256": "28c540cc1af9be7640d3d9111d886f9f328f2bec420eae969ac51af5aa8a0cac"
+    },
+    {
+      "path": "direct-damage-03.tsv.gz",
+      "sha256": "c8312add1e9eae72aae95af773ac824cedd46fe13daca4ef3d841caf2f102ce9"
+    },
+    {
+      "path": "direct-damage-04.tsv.gz",
+      "sha256": "394396b79b40d1380e6993b2a9acbc2d73f8586e3f26031417ee9658d401b213"
+    },
+    {
+      "path": "direct-damage-05.tsv.gz",
+      "sha256": "f4b56c35a0444f95f444923ff97f82276694082c6330ccc68b8698c5a72ecd4b"
+    },
+    {
+      "path": "direct-damage-06.tsv.gz",
+      "sha256": "9972c309c0cc1e065ccb371d9f4dc0ca8861fdfd9093ce6240dcaac124fbf00a"
+    },
+    {
+      "path": "direct-damage-07.tsv.gz",
+      "sha256": "840de59d081d673bfd36aa58434d623bf779bbb121d9fe4bdbd8e3db7d684450"
+    },
+    {
+      "path": "direct-damage-08.tsv.gz",
+      "sha256": "1d61690718f11f77c77b0bb1dad9e819d278466eb2925c1acb7f873fa14100ae"
+    }
+  ],
+  "source_files_sha256": {
+    "server/combat_runtime.py": "1063d83823e07e103a7a65cc30aa3a94398d860abb8ba6ee345b7120f767d677",
+    "server/game_constants.py": "11f5bbe992099a79e0270b15926960c9e9c54acd483bcbcd3a4021a8ec7fccab",
+    "server/weapons_retail.py": "49e0d10f9ab5eca67cacf1cb0855a11eb826343ae38b77a3f0f820409f86d000",
+    "server/hardcore.py": "51bac4d2924e55054e709b4453a732bfca3f1c58e394b996d158238fa2827355"
+  },
+  "method_substitutions": false,
+  "scope": "Unchanged original damage_for_part, direct victim class/flying-pack/Hardcore policy and entity-damage helpers. Controlled profile and victim domain states; unrounded floating damage only, not health admission or damage effects."
+}

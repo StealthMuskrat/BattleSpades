@@ -40,13 +40,13 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
-Shot validation, special firing cadence and read-only hit selection now have
-87,260 new source comparisons and owned UDP coverage. Complete shot commit,
-damage/effects and concrete domains remain pending; see
-[SHOT_GEOMETRY.md](docs/SHOT_GEOMETRY.md).
+The owned shot commit now composes validation, cadence, seeded pellets, target
+rewind and accepted player damage/death, with 540,416 additional source operations
+and two additional real UDP tests. Concrete terrain/entity/corpse effects and
+mode/scoring domains remain required; see [COMBAT_RUNTIME.md](docs/COMBAT_RUNTIME.md).
 
-- Typed codecs for 75 distinct application packet IDs: 57 straight-line source
-  definitions plus ClientData, WorldUpdate, ShootPacket, CreateEntity, Damage, InitialInfo,
+- Typed codecs for 77 distinct application packet IDs: 57 straight-line source
+  definitions plus ClientData, WorldUpdate, ShootPacket, ShootResponse, HitEntity, CreateEntity, Damage, InitialInfo,
   StateData, MapSyncStart, both map chunks, SteamSessionTicket, class loadouts,
   CreatePlayer, ExistingPlayer and actual retail health-state packets.
 - Little-endian primitives, signed/unsigned values, UTF-8 strings, BGR colors,

@@ -1,0 +1,11 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 12000,
+  "fixture_sha256": "efaf850b8669241c2c6b1afc3e6b5670d862c21aad7e8bdca8b8a566803ac2db",
+  "source_files_sha256": {
+    "shared/packet.pyx": "26e0bd6cc3ad92f931b8396ab21f395b199f11965a80dd96464b5907fb5b6819",
+    "server/combat_runtime.py": "1063d83823e07e103a7a65cc30aa3a94398d860abb8ba6ee345b7120f767d677"
+  },
+  "method_substitutions": false,
+  "scope": "Unchanged original Cython packet20/9 encode/decode, source ShootFeedback builder and codec. Controlled field values; no damage/shot authorization proof."
+}

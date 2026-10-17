@@ -1,5 +1,9 @@
 # Combat timing and read-only target rewind
 
+Later owned shot commit and player damage evidence is documented in
+[COMBAT_RUNTIME.md](COMBAT_RUNTIME.md). The pending statements below describe
+this earlier checkpoint; concrete domain and gameplay gates remain open.
+
 Source: `6216b771282d2d349ccd67ee58c378f035c83553`, principally
 `server/player.py`, `server/action_clock.py`, `server/lag_compensation.py`,
 `server/combat_runtime.py` and the original Cython packet codec.

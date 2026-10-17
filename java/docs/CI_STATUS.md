@@ -1,4 +1,25 @@
-# Current shot-geometry checkpoint verification
+# Current owned-combat checkpoint verification
+
+Local clean check/build passes **4,937 component + 19 real UDP tests**, zero
+failures, errors or skips. **223 focused original tests** pass (including
+the combat test alias, not independent extra suites). The 540,416 new source
+operations and all 162 fixture/catalog hashes reproduce after a fresh original
+native build. Publication and all five current-head CI jobs are pending.
+
+Two CRC-valid local archives are byte-identical: 1507470 bytes,
+SHA-256 `46946f1df63067fe7fd504bc6e7039fc6dd95fa37481230221f8dd954b5fd207`. Class major 69 and packaging audits pass;
+version/config exits 0 and hosting exits 2. Native transport and packaged-loader
+probes pass their unchanged nominal/impaired assertions in an isolated run.
+The earlier impaired-probe observation below remains preceding-checkpoint evidence.
+
+Two new automatic-dispatch UDP tests verify actual player damage/death, wallet
+and feedback, plus delayed target rewind without live-body movement. Tests use
+explicit controlled mode/effect ports. Concrete terrain/entity/corpse/mode and
+profile/scoring/achievement/aim services, upstream input/equipment admission and
+supported-client/capacity/soak gates remain pending. Native packaged-loader probes
+retain FixtureScene. See [COMBAT_RUNTIME.md](COMBAT_RUNTIME.md).
+
+# Preceding shot-geometry checkpoint verification
 
 Local check/build passes **4,777 component + 17 real UDP tests**, zero failures,
 errors or skips. **223 focused original tests** pass. The 87,260 new source

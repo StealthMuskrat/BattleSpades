@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "046f4f82e4e6e02771b7b1b5b257ec1044fac14ee87495418faec2e67eacae0b",
-  "jar_bytes": 1470800,
+  "jar_sha256": "46946f1df63067fe7fd504bc6e7039fc6dd95fa37481230221f8dd954b5fd207",
+  "jar_bytes": 1507470,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -20,47 +20,26 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 4777,
+      "tests": 4937,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
-      "tests": 17,
+      "tests": 19,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Source shot origin/aim/LOS, assault/minigun cadence and read-only nearest-hit selection",
-  "java_implementation_commit": "29156d7ccb3c47b582f7ae5570dcfde204c13282",
-  "tested_tree": "a0ab3bedac6a0777a30c620267bdb8188e4dc1f9",
+  "verification_stage": "Owned shot commit, player hitscan/melee damage, shields, feedback and trigger/seed aggregates",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "run_id": 39075436598,
-    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39075436598",
-    "head_sha": "29156d7ccb3c47b582f7ae5570dcfde204c13282",
-    "jobs": {
-      "build": "success",
-      "native-enet": "success",
-      "platform (macos-latest)": "success",
-      "platform (windows-latest)": "success",
-      "platform (ubuntu-latest)": "success"
-    },
-    "job_ids": {
-      "build": 117521505283,
-      "native-enet": 117521505450,
-      "platform (macos-latest)": 117521807865,
-      "platform (windows-latest)": 117521807909,
-      "platform (ubuntu-latest)": 117521807930
-    },
-    "all_five_jobs_passed": true,
-    "native_original_fixtures_reproduced": true,
-    "repeated_ci_archive_identical": true,
-    "same_uploaded_jar_three_platforms": true,
-    "local_to_ci_artifact_hash_compared": false,
+    "status": "pending_publication",
+    "jobs": {},
     "full_reference_python_baseline_passing": false,
-    "packaged_native_probe_player_domain": "FixtureScene; additional owned UDP shot-origin/terrain/body tests are read-only, not a full shot commit or damage path"
+    "packaged_native_probe_player_domain": "FixtureScene; two additional owned UDP tests use automatic CombatRuntime dispatch with explicit test mode/effect ports, actual player damage/death/ammo and delayed read-only target rewind"
   },
   "movement": {
     "cases": 118,
@@ -413,12 +392,10 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": true,
-    "expected_parent": "219910d923f3c47bedff3b18022a4c127dfdf303",
+    "branch_updated": false,
+    "expected_parent": "88ad1aa3464a94d220dc52d01529094845fe114f",
     "force": false,
-    "authorization": "User authorized this and future verified migration checkpoints, including code/workflow changes and all five CI jobs.",
-    "implementation_commit": "29156d7ccb3c47b582f7ae5570dcfde204c13282",
-    "tested_tree": "a0ab3bedac6a0777a30c620267bdb8188e4dc1f9"
+    "authorization": "User authorized this and future verified migration checkpoints, including code/workflow changes and all five CI jobs."
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -738,43 +715,114 @@
     }
   },
   "both_archives_crc_valid": true,
-  "shot_geometry": {
-    "geometry_operations": 48440,
-    "shot_validation_operations": 6400,
-    "firing_pattern_operations": 24820,
-    "hit_selection_operations": 6000,
-    "world_manager_ray_operations": 1600,
-    "total_source_operations": 87260,
-    "source_class_bounds": 18,
-    "source_fixtures_reproduced": true,
-    "fresh_native_source_build": true,
-    "checked_fixture_catalog_hashes": 135,
-    "method_substitutions": false,
-    "exact_visibility_probe_order": true,
-    "exact_classifications_and_body_parts": true,
-    "numeric_intersection_bound": "16 ULP of coordinate scale; no hit/miss or part tolerance",
-    "local_numeric_components_differing_from_native_libm": 101,
-    "local_maximum_absolute_numeric_error": 7.105427357601002e-15,
-    "signed_zero_reason_and_report_rounding": true,
-    "owned_statistics_survive_respawn": true,
-    "source_burst_spin_and_reload_floor": true,
-    "stable_live_targets_and_scoped_rewind": true,
-    "explicit_required_registry_and_enemy_ports": true,
-    "real_udp_bound_life_origin_rejection_target_wall_trace": true,
-    "automatic_packet6_commit_handler": false,
-    "source_action_tool_objective_mg_authorization": false,
-    "damage_shield_and_terrain_effects": false,
-    "concrete_entity_corpse_registries": false,
-    "complete_combat": false,
-    "complete_gameplay": false,
-    "supported_client": false,
-    "capacity_or_soak": false
-  },
   "reference_shot_geometry_tests": {
     "passed": 223,
     "failures": 0,
     "skipped": 0,
     "command": "PYTHONPATH=java/build/reference-python python -m pytest -q tests/test_input_validation_combat.py tests/test_anticheat_combat.py tests/test_shot_registration.py tests/test_retail_ammo.py tests/test_combat.py tests/test_reversed_combat.py",
     "reference_impaired_link_lab_is_not_java_hit_resolution": true
+  },
+  "previous_shot_geometry_checkpoint": {
+    "verification_stage": "Source shot origin/aim/LOS, assault/minigun cadence and read-only nearest-hit selection",
+    "java_implementation_commit": "29156d7ccb3c47b582f7ae5570dcfde204c13282",
+    "tested_tree": "a0ab3bedac6a0777a30c620267bdb8188e4dc1f9",
+    "ci": {
+      "status": "success",
+      "run_id": 39075436598,
+      "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39075436598",
+      "head_sha": "29156d7ccb3c47b582f7ae5570dcfde204c13282",
+      "jobs": {
+        "build": "success",
+        "native-enet": "success",
+        "platform (macos-latest)": "success",
+        "platform (windows-latest)": "success",
+        "platform (ubuntu-latest)": "success"
+      },
+      "job_ids": {
+        "build": 117521505283,
+        "native-enet": 117521505450,
+        "platform (macos-latest)": 117521807865,
+        "platform (windows-latest)": 117521807909,
+        "platform (ubuntu-latest)": 117521807930
+      },
+      "all_five_jobs_passed": true,
+      "native_original_fixtures_reproduced": true,
+      "repeated_ci_archive_identical": true,
+      "same_uploaded_jar_three_platforms": true,
+      "local_to_ci_artifact_hash_compared": false,
+      "full_reference_python_baseline_passing": false,
+      "packaged_native_probe_player_domain": "FixtureScene; additional owned UDP shot-origin/terrain/body tests are read-only, not a full shot commit or damage path"
+    },
+    "source_evidence": {
+      "geometry_operations": 48440,
+      "shot_validation_operations": 6400,
+      "firing_pattern_operations": 24820,
+      "hit_selection_operations": 6000,
+      "world_manager_ray_operations": 1600,
+      "total_source_operations": 87260,
+      "source_class_bounds": 18,
+      "source_fixtures_reproduced": true,
+      "fresh_native_source_build": true,
+      "checked_fixture_catalog_hashes": 135,
+      "method_substitutions": false,
+      "exact_visibility_probe_order": true,
+      "exact_classifications_and_body_parts": true,
+      "numeric_intersection_bound": "16 ULP of coordinate scale; no hit/miss or part tolerance",
+      "local_numeric_components_differing_from_native_libm": 101,
+      "local_maximum_absolute_numeric_error": 7.105427357601002e-15,
+      "signed_zero_reason_and_report_rounding": true,
+      "owned_statistics_survive_respawn": true,
+      "source_burst_spin_and_reload_floor": true,
+      "stable_live_targets_and_scoped_rewind": true,
+      "explicit_required_registry_and_enemy_ports": true,
+      "real_udp_bound_life_origin_rejection_target_wall_trace": true,
+      "automatic_packet6_commit_handler": false,
+      "source_action_tool_objective_mg_authorization": false,
+      "damage_shield_and_terrain_effects": false,
+      "concrete_entity_corpse_registries": false,
+      "complete_combat": false,
+      "complete_gameplay": false,
+      "supported_client": false,
+      "capacity_or_soak": false
+    }
+  },
+  "combat_runtime": {
+    "direct_damage_operations": 500240,
+    "shield_operations": 14000,
+    "hit_effect_packet_operations": 12000,
+    "player_hitscan_operations": 1088,
+    "melee_operations": 1088,
+    "shot_tally_operations": 11200,
+    "complete_handler_operations": 800,
+    "total_source_operations": 540416,
+    "source_fixtures_reproduced": true,
+    "fresh_native_source_build": true,
+    "checked_fixture_catalog_hashes": 162,
+    "method_substitutions": false,
+    "numeric_damage_wire_and_aggregate_checks": "exact; preceding geometry retains documented numeric-only 16-ULP intersection bound",
+    "supported_packet_ids": 77,
+    "automatic_bound_packet6_dispatch": true,
+    "owned_cadence_wallet_and_life_damage_death": true,
+    "shield_impact_before_health_admission": true,
+    "actual_shield_attachment_registry": false,
+    "gun_feedback_excludes_predicting_owner": true,
+    "real_udp_health_death_ammo_and_remote_feedback": true,
+    "real_udp_late_shot_hits_rewound_target_without_live_body_mutation": true,
+    "concrete_mode_objective_mounted_registry_services": false,
+    "concrete_profile_score_aim_achievement_services": false,
+    "concrete_terrain_entity_corpse_effects": false,
+    "upstream_equipment_input_conduct_authorization": false,
+    "complete_combat": false,
+    "complete_gameplay": false,
+    "supported_client": false,
+    "capacity_or_soak": false
+  },
+  "reference_combat_runtime_tests": {
+    "passed": 223,
+    "failures": 0,
+    "skipped": 0,
+    "command": "PYTHONPATH=java/build/reference-python python -m pytest -q tests/test_input_validation_combat.py tests/test_anticheat_combat.py tests/test_shot_registration.py tests/test_retail_ammo.py tests/test_combat.py tests/test_reversed_combat.py",
+    "test_combat_aliases_reversed_combat": true,
+    "reference_impaired_link_lab_is_not_supported_java_game_client": true
   }
 }

@@ -1,8 +1,9 @@
 # Java test results
 
 Stage: terrain damage/digging, health/shades, seeded footprints, collapse and
-configured late-join health reveal, 2026-10-17 UTC. Local check/build passes;
-publication and all five current-head CI jobs are pending.
+configured late-join health reveal, 2026-10-17 UTC. Implementation: `939ac63a822d0ceacfb873ee0acc881e717457f8`; tested tree: `b338c0bc04772517821ab0b32e5c93199877c27f`.
+All five jobs passed in [run 39079408578](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39079408578), including fixture regeneration,
+archive reproducibility and one uploaded JAR on three platforms.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

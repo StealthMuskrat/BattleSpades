@@ -87,4 +87,10 @@ Python baseline retains its documented incomplete runs and VIP discrepancy.
 
 Local verification passes 5,049 Java tests and 53 focused original tests.
 All 191 fixture/catalog hashes reproduce after a fresh original native build.
-Publication and all five CI jobs are pending; see [CI_STATUS.md](CI_STATUS.md).
+See [CI_STATUS.md](CI_STATUS.md) for exact evidence.
+
+Implementation `939ac63a822d0ceacfb873ee0acc881e717457f8` and tested tree `b338c0bc04772517821ab0b32e5c93199877c27f` passed all five jobs
+in [run 39079408578](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39079408578). This includes original-source fixture regeneration,
+repeated archive comparison, native probes and one uploaded JAR tested on three
+platforms. Local verification passes 5,049 Java tests and 53 focused original
+tests. The preceding numeric geometry bound and required concrete-domain/gameplay limits remain in force.

@@ -48,6 +48,9 @@ remain pending. Ordinary hosting deliberately exits 2.
 - Previous owned-combat implementation: `76a80d9f4b7840ab6730157215e69995d66323fd`.
 - Previous owned-combat tested/published tree: `07ce07657fc3a84285fd212673dcef0e8d7ccab2`.
 - Previous owned-combat CI: [run 39078168462](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39078168462); all five jobs passed.
+- Current terrain implementation: `939ac63a822d0ceacfb873ee0acc881e717457f8`.
+- Current terrain tested/published tree: `b338c0bc04772517821ab0b32e5c93199877c27f`.
+- Current terrain CI: [run 39079408578](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39079408578); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 

@@ -86,4 +86,10 @@ retains its documented incomplete runs and VIP discrepancy.
 
 Local verification passes 4,956 Java tests and 223 focused original tests.
 All 162 fixture/catalog hashes reproduce after a fresh original native build.
-Publication and all five CI jobs are pending; see [CI_STATUS.md](CI_STATUS.md).
+See [CI_STATUS.md](CI_STATUS.md) for exact evidence.
+
+Implementation `76a80d9f4b7840ab6730157215e69995d66323fd` and tested tree `07ce07657fc3a84285fd212673dcef0e8d7ccab2` passed all five jobs
+in [run 39078168462](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39078168462). This includes original-source fixture regeneration,
+repeated archive comparison, native probes and one uploaded JAR tested on three
+platforms. Local verification passes 4,956 Java tests and 223 focused original
+tests. The preceding numeric geometry bound and required concrete-domain/gameplay limits remain in force.

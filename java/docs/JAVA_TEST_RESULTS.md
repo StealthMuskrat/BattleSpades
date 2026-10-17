@@ -1,8 +1,9 @@
 # Java test results
 
 Stage: owned shot commit, player hitscan/melee damage, shields, feedback and
-trigger/seed aggregates, 2026-10-17 UTC. Local clean check/build passes;
-publication and all five current-head CI jobs are pending.
+trigger/seed aggregates, 2026-10-17 UTC. Implementation: `76a80d9f4b7840ab6730157215e69995d66323fd`; tested tree: `07ce07657fc3a84285fd212673dcef0e8d7ccab2`.
+All five jobs passed in [run 39078168462](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39078168462), including fixture regeneration,
+archive reproducibility and one uploaded JAR on three platforms.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

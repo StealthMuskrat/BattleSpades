@@ -45,6 +45,9 @@ remain pending. Ordinary hosting deliberately exits 2.
 - Previous shot-geometry implementation: `29156d7ccb3c47b582f7ae5570dcfde204c13282`.
 - Previous shot-geometry tested/published tree: `a0ab3bedac6a0777a30c620267bdb8188e4dc1f9`.
 - Previous shot-geometry CI: [run 39075436598](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39075436598); all five jobs passed.
+- Current owned-combat implementation: `76a80d9f4b7840ab6730157215e69995d66323fd`.
+- Current owned-combat tested/published tree: `07ce07657fc3a84285fd212673dcef0e8d7ccab2`.
+- Current owned-combat CI: [run 39078168462](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39078168462); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 

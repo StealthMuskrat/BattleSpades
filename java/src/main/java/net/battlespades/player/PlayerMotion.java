@@ -30,6 +30,7 @@ public final class PlayerMotion {
     void controls(int flags,Integer action){owned();movement=flags&255;if(action!=null)actions=action&511;}
     void died(){owned();impulses.clear();}
     public void flightCapability(Boolean value){owned();flightCapable=value;}
+    public Boolean flightCapability(){owned();return flightCapable;}
     public void noteOwnBlast(double now,int type){owned();if(type==4||type==5||type==27)ownBlast=now;}
     public Eye eyeAt(int label){owned();return eyes.get(label);}
     void eye(int label,Vector position,Vector aim){eyes.put(label,new Eye(position,aim));while(eyes.size()>128)eyes.remove(eyes.keySet().iterator().next());}

@@ -51,6 +51,30 @@ class PeerDeliveryTest {
         assertEquals(0,h.peer.metrics().outgoingBytes());assertEquals(0,h.peer.metrics().inFlightBytes());
         h.peer.maintain(270);assertEquals(2,h.peer.metrics().retransmissions());
     }
+    @Test void reliableReceiptWaitsForEveryFragmentAndIgnoresDuplicateAcks() throws Exception {
+        var h=new Harness();var receipt=h.peer.sendTrackedReliable(new byte[3000]).orElseThrow();assertFalse(receipt.released());h.flush(200);
+        int[] released={0};assertTrue(receipt.onRelease(()->released[0]++));
+        h.ack(0,3,200,210);h.ack(0,1,200,210);h.ack(0,1,200,210);assertFalse(receipt.released());
+        h.peer.maintain(241);h.flush(242);assertFalse(receipt.released());h.ack(0,2,242,250);assertTrue(receipt.released());
+        assertEquals(1,released[0]);h.ack(0,2,242,251);assertEquals(1,released[0]);assertThrows(IllegalStateException.class,()->receipt.onRelease(()->{}));
+        java.util.concurrent.CompletableFuture.runAsync(()->assertThrows(IllegalStateException.class,receipt::released)).join();
+    }
+    @Test void realFragmentReceiptsReleaseLifecycleHoldsOnlyAfterAllAcksOrDiscard()throws Exception {
+        var h=new Harness();var holds=new net.battlespades.session.SnapshotHolds();byte[] create=new byte[3000];create[0]=28;create[1]=7;
+        var receipt=h.peer.sendTrackedReliable(create).orElseThrow();holds.queued(create,receipt,100);h.flush(200);
+        h.ack(0,1,200,210);h.ack(0,3,200,210);assertFalse(holds.heldRows(100).isEmpty());assertTrue(holds.reliableUnackedThrough(1,100));
+        h.ack(0,2,200,211);assertTrue(holds.heldRows(100).isEmpty());assertFalse(holds.reliableUnackedThrough(1,100));
+        var discarded=h.peer.sendTrackedReliable(create).orElseThrow();holds.queued(create,discarded,100);h.peer.disconnect(18);
+        assertTrue(holds.heldRows(100).isEmpty());assertFalse(holds.reliableUnackedThrough(2,100));
+        var other=new Harness();var alreadyReleased=other.peer.sendTrackedReliable(new byte[]{1}).orElseThrow();other.peer.disconnect(18);
+        int[] late={0};assertTrue(alreadyReleased.onRelease(()->late[0]++));assertEquals(1,late[0]);
+    }
+    @Test void failedTrackedEnqueueIsAtomicAndDisconnectReleasesQueuedReceipts() throws Exception {
+        var h=new Harness(new EnetSettings(1,4,8,8,32,4,8,32,32,true));
+        var first=h.peer.sendTrackedReliable(new byte[4]).orElseThrow();var second=h.peer.sendTrackedReliable(new byte[4]).orElseThrow();assertTrue(h.peer.sendTrackedReliable(new byte[]{3}).isEmpty());
+        assertFalse(first.released());assertFalse(second.released());h.flush(200);h.ack(0,1,200,210);assertTrue(first.released());assertFalse(second.released());
+        var next=h.peer.sendTrackedReliable(new byte[]{3}).orElseThrow();h.flush(211);assertEquals(3,h.sent.getLast().commands().getFirst().reliableSequence());h.peer.disconnect(18);assertTrue(second.released());assertTrue(next.released());
+    }
     @Test void reliableOrderingDuplicateSuppressionAndAckHeader() throws Exception {
         var h=new Harness();h.input(200,EnetDatagram.reliable(0,2,new byte[]{2}));assertTrue(h.data().isEmpty());
         h.input(201,EnetDatagram.reliable(0,1,new byte[]{1}));assertEquals(List.of(1,2),h.data());

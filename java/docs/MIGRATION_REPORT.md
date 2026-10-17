@@ -1,11 +1,11 @@
 # Java 25 migration report
 
 Date: 2026-10-17 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage binds connected jetpack resources/thrust and canopy
-deployment, owner-handoff timing and landing protection to owned accepted-input
-movement. Retail, BSCF v1 and BSCF v2+ profiles share the InitialInfo encoder.
-Reload/lag/mode/effect ports remain explicit; owner WorldUpdate reconciliation,
-combat, concrete modes and supported-client/capacity gates remain pending.
+The current stage binds owned WorldUpdate cadence, owner/observer routing,
+causal owner anchors and actual reliable packet-release lifecycle barriers to the
+connected Character path. Required presentation, entity, reload/lag/mode/effect
+ports remain explicit; combat, concrete modes and supported-client/capacity gates
+remain pending.
 Ordinary hosting deliberately exits 2.
 
 ## Repository and provenance
@@ -47,6 +47,15 @@ expected-head lease and exact tested-tree comparison. No release is created.
 
 ## Current implementation
 
+ReplicationService now owns original cadence/recovery/transition rules, grouped
+and split delivery, reorder spacing, signed entity-tail filters, tool sanitization
+and causal owner history. Live rows compose owned movement/health/flight with
+required trusted presentation domains. Real ENet receipts gate new-life rows and
+ordered-to-unsequenced transitions. A composed two-client UDP test delays actual
+ACKs across respawn and verifies row withholding/resumption. See
+[WORLD_REPLICATION.md](WORLD_REPLICATION.md) for exact source evidence and limits.
+
+
 PlayerFlight now runs original fuel/start/defer/tail/release/recharge policy,
 canopy edges/clearance/owner-label schedule and impact-speed damage around the
 production mover. FlightProfile unifies negotiation bytes and the admitted life;
@@ -73,7 +82,7 @@ fresh immediate-state gate, selects source-latched movement phases, salvages lat
 presses and retains connection action evidence across life resets. ActionClock
 preserves label/arrival cadence and server-time token budgets. The infantry binding
 above adds outer pacing, impulses and eye history, and PlayerFlight adds connected
-equipment resources and physical transitions. Actual lag compensation, owner WorldUpdate and upstream rate/conduct
+equipment resources and physical transitions. Actual lag compensation and upstream rate/conduct
 admission remain pending. Raw hit packets do not authorize damage. Original methods
 execute unchanged for 14,234 input
 and 26,234 cadence comparisons. See [PLAYER_INPUT.md](PLAYER_INPUT.md).
@@ -296,12 +305,11 @@ packaging check. Exact final SHA/size are in verification-results.json.
 
 ## Remaining work and readiness
 
-Next: implement owner WorldUpdate eligibility/queueing/reconciliation and complete
-upstream rate/conduct admission and required reload/lag/mode/effect ports; implement
+Next: complete upstream rate/conduct admission and required reload/lag/mode/effect ports; implement
 firing/reload and hit/action authorization; connect detached projectile actors and full scoring/award observers; wire
 the common Character lifecycle to concrete modes/effects and authenticated identity,
 and extend the owned movement/flight path with complete lag-compensation
-rewind/anticheat and WorldUpdate construction.
+rewind/anticheat and complete entity/corpse/presentation domains.
 Continue remaining packets and entity/projectile physics, terrain validation,
 damage/shades/collapse, combat, all modes, bots, creator/tutorial, plugins, admin,
 persistence and discovery. UGC pre-validation transfers and ENet bandwidth-epoch

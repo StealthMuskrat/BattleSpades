@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SimulationTest {
-    @Test void fixedSixtyHzAndThirtyHzReplication() {
+    @Test void everyPhysicsStepInvokesReplicationPolicyIncludingOddTransitions() {
         var steps=new AtomicInteger();var snapshots=new AtomicInteger();
         var runtime=new FixedStepRuntime(16,8,steps::incrementAndGet,snapshots::incrementAndGet,e->fail(e));
         for(int i=0;i<600;i++) runtime.advance(FixedStepRuntime.DELTA);
-        assertEquals(600,steps.get());assertEquals(300,snapshots.get());assertEquals(600,runtime.ticks());
+        assertEquals(600,steps.get());assertEquals(600,snapshots.get());assertEquals(600,runtime.ticks());
     }
     @Test void debtSurvivesFiveStepBatchAndSuspensionIsCapped() {
         var runtime=new FixedStepRuntime(2,1,()->{},()->{},e->fail(e));
@@ -32,9 +32,9 @@ class SimulationTest {
         assertTrue(runtime.offer(()->{throw new IllegalStateException("bad message");}));
         assertFalse(runtime.offer(()->fail("overflow was executed")));
         assertTrue(events.isEmpty());runtime.advance(FixedStepRuntime.DELTA);
-        assertEquals(List.of("input","step"),events);
+        assertEquals(List.of("input","step","snapshot"),events);
         runtime.advance(FixedStepRuntime.DELTA);
-        assertEquals(List.of("input","step","step","snapshot"),events);
+        assertEquals(List.of("input","step","snapshot","step","snapshot"),events);
         assertEquals(1,failures.size());assertEquals(1,runtime.rejectedMessages());
     }
     @Test void stateOwnershipRejectsOtherThread() throws InterruptedException {

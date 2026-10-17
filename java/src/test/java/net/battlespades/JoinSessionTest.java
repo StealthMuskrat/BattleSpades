@@ -32,7 +32,18 @@ class JoinSessionTest {
     }
     static final class Wire implements JoinSession.WireSink {
         final List<SessionFrame> frames=new ArrayList<>();int reason=-1;boolean accepted=true;int blockedId=-1;
+        boolean tracking;int wireLimit=1372;
+        final List<Receipt> receipts=new ArrayList<>();
+        static final class Receipt implements net.battlespades.transport.enet.DeliveryReceipt {
+            Runnable observer;boolean released;
+            public boolean released(){return released;}
+            public boolean onRelease(Runnable callback){observer=callback;if(released)callback.run();return true;}
+            void release(){if(released)return;released=true;if(observer!=null)observer.run();}
+        }
         @Override public boolean send(SessionFrame frame) {if(!accepted || frame.id()==blockedId) return false;frames.add(frame);return true;}
+        @Override public boolean releaseTracking(){return tracking;}
+        @Override public JoinSession.Sent sendTracked(SessionFrame frame){if(!send(frame))return new JoinSession.Sent(false,null);var receipt=new Receipt();receipts.add(receipt);return new JoinSession.Sent(true,receipt);}
+        @Override public int unfragmentedWireLimit(){return wireLimit;}
         @Override public void disconnect(int reason) {this.reason=reason;}
         List<Integer> ids() {return frames.stream().map(SessionFrame::id).toList();}
     }
@@ -59,6 +70,38 @@ class JoinSessionTest {
         @Override public void close() {session.close();scene.close();compression.close();}
     }
     private static final class WireWriter {byte[] frame(byte[] data) {return new net.battlespades.protocol.Wire.Writer().u8(0x30).bytes(data).toByteArray();}}
+    @Test void lifecycleHoldsStartAtApplicationQueueAndOutliveRespawnUntilEveryRelease(){
+        try(var h=new Flow()){
+            h.load();h.select();h.game();h.wire.tracking=true;h.wire.blockedId=28;
+            var create=h.scene.players.get(0).player();var row=new SnapshotHolds.Row(false,create.playerId());
+            assertTrue(h.session.gameplay(create,Delivery.RELIABLE));assertTrue(h.session.heldSnapshotRows(6).contains(row));
+            assertEquals(1,h.session.reliableSendIndex());assertTrue(h.session.reliableUnackedThrough(1,6));assertTrue(h.wire.receipts.isEmpty());
+            assertTrue(h.session.gameplay(create,Delivery.RELIABLE));assertEquals(2,h.session.reliableSendIndex());
+            h.wire.blockedId=-1;h.pulse(0);assertEquals(2,h.wire.receipts.size());
+            h.wire.receipts.get(0).release();assertTrue(h.session.heldSnapshotRows(6).contains(row));assertTrue(h.session.reliableUnackedThrough(2,6));
+            h.wire.receipts.get(1).release();assertTrue(h.session.heldSnapshotRows(6).isEmpty());assertFalse(h.session.reliableUnackedThrough(2,6));
+            assertTrue(h.session.gameplay(create,Delivery.RELIABLE));assertEquals(3,h.session.reliableSendIndex());h.wire.receipts.get(0).release();assertTrue(h.session.heldSnapshotRows(6).contains(row));
+            h.wire.receipts.get(2).release();assertTrue(h.session.heldSnapshotRows(6).isEmpty());
+        }
+    }
+    @Test void snapshotsKeepOrderedControlsAndOversizeNeverPromotesToReliable(){
+        try(var h=new Flow()){
+            h.load();h.select();h.game();h.wire.frames.clear();h.wire.tracking=true;
+            h.wire.blockedId=49;assertTrue(h.session.gameplay(new SimplePackets.ChatMessage(0,0,"barrier"),Delivery.RELIABLE));
+            byte[] snapshot=new WorldUpdate(7,List.of(),List.of(),List.of()).encode();
+            assertTrue(h.session.snapshot(snapshot,Delivery.UNRELIABLE,7));assertTrue(h.wire.frames.isEmpty());
+            assertTrue(h.session.snapshot(snapshot,Delivery.UNSEQUENCED,7));assertEquals(Delivery.UNSEQUENCED,h.wire.frames.getFirst().delivery());
+            h.wire.blockedId=-1;h.pulse(0);assertEquals(List.of(2,49,2),h.wire.ids());assertEquals(Delivery.UNRELIABLE,h.wire.frames.getLast().delivery());
+            assertEquals(1329,h.session.snapshotPayloadLimit());h.wire.wireLimit=64;
+            var entities=new ArrayList<EntityRecord>();
+            for(int i=0;i<4;i++)entities.add(new EntityRecord(i,12,0,0,new Vector3f(i,i,i),new Vector3f(0,0,0),0,new Vector3f(0,0,0),0,0,0,0,List.of(),List.of()));
+            snapshot=new WorldUpdate(8,List.of(),entities,List.of()).encode();
+            for(var delivery:List.of(Delivery.UNRELIABLE,Delivery.UNSEQUENCED)){
+                assertTrue(h.session.snapshot(snapshot,delivery,8));assertEquals(Delivery.UNRELIABLE_FRAGMENT,h.wire.frames.getLast().delivery());
+            }
+            assertThrows(ProtocolException.class,()->h.session.snapshot(new SimplePackets.ClockSync(1,2).encode(),Delivery.UNSEQUENCED,8));
+        }
+    }
     @Test void realLoaderOrderPromisedIdentityAndFirstInputBroadcastGate() {
         try(var h=new Flow()) {
             h.client(new SimplePackets.NewPlayerConnection(1,5,0,1,"forged"));assertEquals(0,h.slots.occupied());assertTrue(h.scene.players.isEmpty());

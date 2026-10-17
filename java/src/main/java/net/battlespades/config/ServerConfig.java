@@ -20,6 +20,7 @@ public record ServerConfig(String name, int port, int maxPlayers, long steamId,
         int rate = bounded(raw, "server.tick_rate", 60, 1, 240);
         if (rate != 60) throw new IllegalArgumentException("server.tick_rate must be 60 for protocol 168");
         net.battlespades.session.JoinSettings.from(raw);
+        net.battlespades.replication.ReplicationService.Settings.from(raw);
         return new ServerConfig(name, port, players, integer(raw, "server.steam_id", 90087911866072064L),
             bounded(raw, "network.max_connections", 64, 1, 4095),
             bounded(raw, "network.max_pending_packets", 4096, 1, 1_000_000),

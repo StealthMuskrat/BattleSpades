@@ -119,6 +119,12 @@ jobs:
           python -S java/tools/generate_action_clock_golden.py
           python -S java/tools/generate_simulation_golden.py
           python -S java/tools/generate_flight_golden.py
+          python -S java/tools/generate_owner_golden.py
+          python -S java/tools/generate_snapshot_holds_golden.py
+          python -S java/tools/generate_replication_golden.py
+          python -S java/tools/generate_replication_wire_golden.py
+          python -S java/tools/generate_player_snapshot_golden.py
+          git diff --exit-code -- java/src/test/resources/golden/owner-history.tsv.gz java/src/test/resources/golden/owner-provenance.json java/src/test/resources/golden/snapshot-holds.tsv.gz java/src/test/resources/golden/snapshot-holds-provenance.json java/src/test/resources/golden/replication.tsv.gz java/src/test/resources/golden/replication-provenance.json java/src/test/resources/golden/replication-wire.tsv.gz java/src/test/resources/golden/replication-wire-provenance.json java/src/test/resources/golden/player-snapshot.tsv.gz java/src/test/resources/golden/player-snapshot-provenance.json
           git diff --exit-code -- java/src/test/resources/golden/flight-simulation java/src/test/resources/golden/flight-impact.tsv.gz java/src/test/resources/golden/flight-provenance.json
           git diff --exit-code -- java/src/test/resources/golden/infantry-simulation.tsv.gz java/src/test/resources/golden/infantry-provenance.json
           git diff --exit-code -- java/src/test/resources/golden/action-clock.tsv.gz java/src/test/resources/golden/action-clock-provenance.json

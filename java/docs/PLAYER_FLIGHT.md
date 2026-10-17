@@ -104,3 +104,8 @@ from the unchanged original source, verifies native probes and archive
 reproducibility, and tests one uploaded JAR on three OSes. Local verification passes
 4,565 Java tests (4,552 unit/component + 13 UDP), zero failures/errors/skips.
 The gameplay and reference-baseline limits above remain in force.
+
+The subsequent [WorldUpdate checkpoint](WORLD_REPLICATION.md) binds real accepted
+owner rows to the canopy handoff and verifies the broadcast/queue path. The
+historical flight-only notification and CI evidence above retain their original
+scope; complete presentation/entity/mode/client validation remains pending.

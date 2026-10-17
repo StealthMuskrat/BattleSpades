@@ -2,7 +2,7 @@
 
 **Development components, not a playable server.** This executable deliberately
 returns exit code 2 for normal game startup. Common scene/lifecycle and owned
-movement/flight components exist; combat, owner replication and concrete modes
+movement/flight and WorldUpdate replication components exist; combat and concrete modes
 remain incomplete.
 Owned application sessions and live catch-up are tested with a domain fixture.
 See [FEATURE_PARITY.md](docs/FEATURE_PARITY.md) and the
@@ -57,7 +57,7 @@ implemented. Today it fails explicitly with the incomplete-migration message.
   serialization. Standard/legacy KV6 decoding and byte-preserving serialization.
 - Composed ENet application sessions, password/XOR/capability handling, promised IDs,
   asynchronous snapshots, committed cell journals and concrete roster life catch-up.
-- Core and join TOML validation and bounded, owned 60/30 Hz scheduling core.
+- Core/join/replication TOML validation and an owned 60 Hz scheduling core with source-cadenced replication.
 - All 102 Match Lobby rules, stock selection for all 18 classes and configured
   InitialInfo/StateData builders bound to sessions. Rule-adjusted movement uses
   the same scale as the menus. See [configured scene evidence and limits](docs/CONFIGURED_SCENES.md).
@@ -78,6 +78,8 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 - Connected jetpack fuel/thrust and parachute deployment/landing timelines,
   negotiated flight profiles and real ENet RTT input. See
   [flight evidence and owner replication limits](docs/PLAYER_FLIGHT.md).
+- Owned WorldUpdate cadence, split owner/observer delivery, causal owner history and
+  actual ENet lifecycle release barriers. See [replication evidence and domain limits](docs/WORLD_REPLICATION.md).
 - Layered inert map metadata, mode/UGC layout assembly and stock catalogue filtering,
   connected to scene packets and spawn geometry. See [metadata evidence and limits](docs/MAP_METADATA.md).
 - Authored spawn geometry, threat-aware selection and bounded rescue, with source

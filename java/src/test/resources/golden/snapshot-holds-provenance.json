@@ -1,0 +1,14 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_file_sha256": "5dc2789152970de62c3e4953d1a9a0915a04d03221c96d050054b5265a8151e4",
+  "operations": 8458,
+  "groups": 4,
+  "original_method_bodies_unchanged": true,
+  "methods": [
+    "_hold_snapshot_rows_for",
+    "held_snapshot_rows",
+    "reliable_unacked_through"
+  ],
+  "fixture_sha256": "9bae97d78027b48a8d017bd997fee586e5d8bcb0d5938eabb0df4a3ce1106c67",
+  "scope": "Original Connection packet-release holds and ordered-barrier predicates; controlled clocks/headers/free callbacks, separate real ENet receipt tests."
+}

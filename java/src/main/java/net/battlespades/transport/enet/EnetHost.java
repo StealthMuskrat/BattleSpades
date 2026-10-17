@@ -69,6 +69,11 @@ public final class EnetHost implements AutoCloseable {
             peer.maintain(nowMillis);
             if(peer.finished()) peers[i]=null;
         }
+        flush(nowMillis);
+    }
+    /** Bounded outgoing work only; does not receive, dispatch or wait for acknowledgements. */
+    public void flush(long nowMillis)throws IOException {
+        owned();if(nowMillis<0||nowMillis<lastNow)throw new IllegalArgumentException("ENet clock moved backwards");lastNow=nowMillis;
         int remaining=limits.sendBudget(),visited=0;
         while(remaining>0 && visited<peers.length) {
             int i=sendCursor++%peers.length;visited++;EnetPeer peer=peers[i];if(peer==null) continue;

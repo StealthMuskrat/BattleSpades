@@ -52,7 +52,8 @@ public final class FixedStepRuntime {
             ticks++;
             steps++;
             guarded(step);
-            if ((ticks & 1) == 0) guarded(replicate);
+            // The replication service owns cadence and odd-tick urgent transitions.
+            guarded(replicate);
         }
         return steps;
     }

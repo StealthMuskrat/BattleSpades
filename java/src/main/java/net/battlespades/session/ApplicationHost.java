@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import net.battlespades.protocol.GamePacket;
+import net.battlespades.replication.WorldUpdateLink;
 import net.battlespades.transport.enet.*;
 import net.battlespades.world.SnapshotCompression;
 
@@ -45,6 +46,11 @@ public final class ApplicationHost implements AutoCloseable {
                     @Override public boolean send(SessionFrame frame) {return peer.send(frame.encode(),frame.delivery());}
                     @Override public void disconnect(int reason) {peer.disconnect(reason);}
                     @Override public Double roundTripMillis(){return (double)peer.metrics().roundTripTime();}
+                    @Override public boolean releaseTracking(){return true;}
+                    @Override public JoinSession.Sent sendTracked(SessionFrame frame){var receipt=peer.sendTrackedReliable(frame.encode());return new JoinSession.Sent(receipt.isPresent(),receipt.orElse(null));}
+                    @Override public int unfragmentedWireLimit(){return Math.max(64,peer.mtu()-28);}
+                    @Override public boolean snapshotUnsequenced(){return true;}
+                    @Override public void flushSnapshots(){try{transport.flush(Math.max(0,lastNow));}catch(IOException failure){throw new java.io.UncheckedIOException(failure);}}
                 },scene,slots,settings,passwords,compression));
                 case RECEIVE -> {var session=sessions.get(key);if(session!=null) session.receive(event.data(),nowMillis,loopCount);}
                 case DISCONNECT -> {var session=sessions.remove(key);if(session!=null) session.close();}
@@ -53,6 +59,7 @@ public final class ApplicationHost implements AutoCloseable {
         for(var session:sessions.values()) session.pulse(nowMillis,loopCount);
     }
     public int broadcast(GamePacket packet,Delivery delivery) {owned();if(closing)return 0;int accepted=0;for(var session:sessions.values()) if(session.gameplay(packet,delivery)) accepted++;return accepted;}
+    public List<WorldUpdateLink> snapshotLinks(){owned();return closing?List.of():sessions.values().stream().map(session->(WorldUpdateLink)session).toList();}
     public boolean sendPlayer(int id,GamePacket packet) {owned();if(closing)return false;for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return session.direct(packet);return false;}
     public void replaceScene(JoinScene replacement) {owned();if(replacement==scene) throw new IllegalArgumentException("Scene must change");for(var session:sessions.values()) session.replaceScene(replacement);scene=replacement;}
     @Override public void close() throws IOException {

@@ -1,0 +1,13 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 3714,
+  "groups": 5,
+  "method_substitutions": false,
+  "source_files": {
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/flight_profile.py": "1a812863bc6b23a8e416982025c718bb55197826e63252d7b2b3a00014c9e9f3",
+    "server/handlers/movement.py": "c79b87556293ce351576d659503cc5538082b23bf893179d5612879f6a98632e"
+  },
+  "fixture_sha256": "6fbf747841715398ad798f974a183fc9e4ccf2e386220401a261675cf3de6762",
+  "scope": "Original Player.record_owner_anchor, causal lookup and real input/mover/canopy integration. Row queue notifications are controlled inputs, not a real network delivery oracle."
+}

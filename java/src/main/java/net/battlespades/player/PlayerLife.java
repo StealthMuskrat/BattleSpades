@@ -16,6 +16,7 @@ public final class PlayerLife {
     private final LifeInventory inventory=new LifeInventory();
     private final DamageHistory damageHistory=new DamageHistory();
     private final InputTimeline inputTimeline=new InputTimeline();
+    private final OwnerAnchors ownerAnchors=new OwnerAnchors(inputTimeline);
     private final ActionClock actionClock=new ActionClock(inputTimeline);
     private final PlayerMotion motion=new PlayerMotion();
     private final PlayerFlight flight=new PlayerFlight();
@@ -24,6 +25,7 @@ public final class PlayerLife {
     private PlayerPhysics.Vector position=new PlayerPhysics.Vector(0,0,0),aim=new PlayerPhysics.Vector(1,0,0);
     private double sideX,sideY=1,spawnedAt,deathTime,walletScale;
     private long generation;
+    private int worldUpdateAck;
     private int health=LifeCatalog.HEALTH,maxHealth=LifeCatalog.HEALTH,jetpack,parachute,color=0x707070,lastDamageSource=-1,lastDamageType=-1;
     private double lastDamageWall,lastCombatHit;
     private PlayerPhysics.Vector lastDamagePosition;
@@ -39,6 +41,10 @@ public final class PlayerLife {
     }
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Life accessed outside owner");}
     public int id(){owned();return id;}public int team(){owned();return team;}public int health(){owned();return health;}
+    public String name(){owned();return name;}
+    public int worldUpdateAck(){owned();return worldUpdateAck;}
+    public void worldUpdateAck(int value){owned();worldUpdateAck=value;}
+    public boolean toolEnabled(int tool){owned();return rules.toolEnabled(tool);}
     public int maxHealth(){owned();return maxHealth;}public boolean god(){owned();return god;}
     public double lastDamageWall(){owned();return lastDamageWall;}public double lastCombatHit(){owned();return lastCombatHit;}
     public int lastDamageSource(){owned();return lastDamageSource;}public int lastDamageType(){owned();return lastDamageType;}
@@ -60,6 +66,11 @@ public final class PlayerLife {
     public ActionClock actionClock(){owned();return actionClock;}
     public PlayerMotion motion(){owned();return motion;}
     public PlayerFlight flight(){owned();return flight;}
+    public OwnerAnchors ownerAnchors(){owned();return ownerAnchors;}
+    /** Call only after a self WorldUpdate carrying these exact values was queued to this owner. */
+    public void recordOwnerAnchor(int stamp,PlayerPhysics.Vector position,PlayerPhysics.Vector velocity,Integer serverTick,Long suppliedSequence){
+        owned();ownerAnchors.record(stamp,position,velocity,serverTick,suppliedSequence);flight.ownerRowQueued(this);
+    }
     MovementProfile movementProfile(){return ClassCatalog.movement(selection.classId(),mode,rules);}
     double canopyWaterDamage(){return ClassCatalog.get(selection.classId()).movement().get(8);}
     double canopyClearance(){
@@ -98,7 +109,7 @@ public final class PlayerLife {
         owned();if(team==0)throw new IllegalStateException("Spectator cannot spawn");if(!Double.isFinite(monotonic))throw new IllegalArgumentException("Spawn clock");
         walletScale(walletScale);inventory.spawn(selection.classId(),walletScale);position=Objects.requireNonNull(at);generation++;health=maxHealth=LifeCatalog.HEALTH;damageHistory.clear();spawnedAt=monotonic;protectionCancelled=false;protectionCap=null;alive=true;spawned=true;lastDeath=null;color=teamColor&0xffffff;
         jetpack=selection.loadout().stream().filter(LifeCatalog.PACK_FUEL::containsKey).findFirst().orElse(0);parachute=selection.loadout().contains(72)?72:0;
-        inputTimeline.resetLife();actionClock.reset(null);motion.resetLife();flight.resetLife();body=new PlayerPhysics(world);body.position(at);body.profile(movementProfile());orientBody();body.flight(flight.mover(this));
+        inputTimeline.resetLife();actionClock.reset(null);motion.resetLife();flight.resetLife();ownerAnchors.resetLife(at);body=new PlayerPhysics(world);body.position(at);body.profile(movementProfile());orientBody();body.flight(flight.mover(this));
         // RoundLifecycle, rather than Player.spawn itself, clears death_time after a successful spawn.
     }
     public void clearDeathTime(){owned();deathTime=0;}

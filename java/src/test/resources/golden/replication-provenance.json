@@ -1,0 +1,13 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_files_sha256": {
+    "server/replication.py": "dfbfe5646ca6dea888278bbef0731d22f1e3f775ea755062c698c95141e68ee0",
+    "server/class_selection.py": "9be152403938ca104e45b7361cddc34b69c487d3d8cc140533510c8181617e61",
+    "server/lag_compensation.py": "200005b94fb13c11028ba80709cee5a58ff6d6d962faa999aa2f4b45446eef08",
+    "shared/packet.pyx": "26e0bd6cc3ad92f931b8396ab21f395b199f11965a80dd96464b5907fb5b6819"
+  },
+  "operations": 18448,
+  "groups": 16,
+  "fixture_sha256": "07394b327533ba4ad4a0bb3b61a7fd9c7e7828fdaa0bac64ba9a4e8b52b706de",
+  "scope": "Unmodified original ReplicationService and native packet serialization; controlled player/domain rows, clocks, queues, holds and prefix-release inputs. No real client proof."
+}

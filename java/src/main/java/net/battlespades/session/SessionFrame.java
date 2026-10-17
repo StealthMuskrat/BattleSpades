@@ -19,5 +19,6 @@ public final class SessionFrame {
     public Delivery delivery() {return delivery;}
     public byte[] body() {return body.clone();}
     public byte[] encode() {return wire.clone();}
+    public int wireBytes(){return wire.length;}
     int memoryBytes() {return Math.addExact(body.length,wire.length);}
 }

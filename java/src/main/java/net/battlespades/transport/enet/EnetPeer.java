@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeSet;
 import java.util.function.Predicate;
 import net.battlespades.protocol.ProtocolException;
@@ -24,14 +25,26 @@ public final class EnetPeer {
     public record Metrics(long sentDatagrams, long retransmissions, long receivedPackets,
             long unreliableDrops, long backpressure, int roundTripTime, int roundTripVariance,
             int throttle, long outgoingBytes, long waitingBytes, int queuedCommands, int inFlightBytes) {}
+    private static final class Receipt implements DeliveryReceipt {
+        private final Thread owner=Thread.currentThread();
+        private int remaining;
+        private boolean released;
+        private boolean registered;
+        private Runnable observer;
+        @Override public boolean released(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Receipt accessed outside transport owner");return released;}
+        @Override public boolean onRelease(Runnable value){released();if(registered)throw new IllegalStateException("Receipt observer already registered");registered=true;observer=java.util.Objects.requireNonNull(value);if(released)observer.run();return true;}
+        void acknowledge(){if(!released&&--remaining==0)discard();}
+        void discard(){if(released)return;released=true;if(observer!=null)observer.run();}
+    }
     private static final class Pending {
         final EnetDatagram.Command command;
+        final Receipt receipt;
         final int key, size;
         int attempts;
         long sentAt, timeout, timeoutLimit;
         boolean inFlight,throttleChecked;
-        Pending(EnetDatagram.Command command) {
-            this.command=command;key=command.channel()<<16|command.reliableSequence();size=command.payload().length;
+        Pending(EnetDatagram.Command command,Receipt receipt) {
+            this.command=command;this.receipt=receipt;key=command.channel()<<16|command.reliableSequence();size=command.payload().length;
         }
     }
     private static final class Incoming {
@@ -98,11 +111,20 @@ public final class EnetPeer {
     private static ByteBuffer params(int size) { return ByteBuffer.allocate(size); }
     private static boolean isReliable(EnetDatagram.Command c) { return (c.flags()&128)!=0; }
     private void queue(EnetDatagram.Command c) {
-        Pending p=new Pending(c);outgoing.addLast(p);outgoingBytes+=p.size;
+        queue(c,null);
+    }
+    private void queue(EnetDatagram.Command c,Receipt receipt) {
+        Pending p=new Pending(c,receipt);outgoing.addLast(p);outgoingBytes+=p.size;
         if(isReliable(c) && outstanding.putIfAbsent(p.key,p)!=null) throw new IllegalStateException("ENet sequence still outstanding");
     }
     /** Atomic enqueue: false leaves all sequence counters and queues unchanged. */
     public boolean send(byte[] payload, Delivery delivery) {
+        return send(payload,delivery,null);
+    }
+    public Optional<DeliveryReceipt> sendTrackedReliable(byte[] payload){
+        var receipt=new Receipt();return send(payload,Delivery.RELIABLE,receipt)?Optional.of(receipt):Optional.empty();
+    }
+    private boolean send(byte[] payload,Delivery delivery,Receipt receipt) {
         owned();
         if(state!=State.CONNECTED) return false;
         if(payload.length>limits.maxPacketBytes()) throw new IllegalArgumentException("Packet exceeds configured ENet maximum");
@@ -138,7 +160,8 @@ public final class EnetPeer {
         // Protect the shared 16-bit sequence namespace before committing any fragment.
         for(var c:commands) if(isReliable(c) && outstanding.containsKey(c.reliableSequence())) {backpressure++;return false;}
         outgoingReliable=nextReliable;outgoingUnreliable=nextUnreliable;outgoingUnsequenced=nextGroup;
-        for(var c:commands) queue(c);
+        if(receipt!=null)receipt.remaining=commands.size();
+        for(var c:commands) queue(c,receipt);
         return true;
     }
     public void disconnect(int reason) { owned();beginDisconnect(reason); }
@@ -156,6 +179,7 @@ public final class EnetPeer {
         queue(new EnetDatagram.Command(0x84,255,outgoingControl,params(4).putInt(reason).array(),new byte[0]));
     }
     private void clearQueues() {
+        for(var pending:outstanding.values())if(pending.receipt!=null)pending.receipt.discard();
         outgoing.clear();outstanding.clear();timers.clear();reliable.clear();unreliable.clear();acknowledgements.clear();
         java.util.Arrays.fill(reliableWindows,0);usedReliableWindows=0;outgoingBytes=waitingBytes=0;inFlightBytes=0;
     }
@@ -323,6 +347,7 @@ public final class EnetPeer {
         if(p==null || p.attempts==0) return;
         int sample=((int)now-stamp)&65535;if(sample>=32768) return;sample=Math.max(1,sample);
         timers.remove(p);outstanding.remove(key);outgoing.remove(p);
+        if(p.receipt!=null)p.receipt.acknowledge();
         if(p.inFlight) inFlightBytes-=p.size;
         outgoingBytes-=p.size;
         if(c.channel()==0 && --reliableWindows[sequence/4096]==0) usedReliableWindows&=~(1<<(sequence/4096));

@@ -22,7 +22,7 @@ class FlightGoldenTest {
         String schedule=s.schedule().stream().map(v->v.label()+","+(v.active()?1:0)).collect(Collectors.joining(";"));
         return Stream.of(bits(s.fuel()),s.active(),s.physicsActive(),s.defer(),s.tail(),s.requiresRelease(),bits(s.heldSeconds()),bits(s.idleSeconds()),s.canopy(),s.canopyPhysics(),s.canopyOwner(),s.unsentFrames(),s.hoverHeld(),s.jumpHeld(),s.deployPending(),s.usedThisFall(),s.openFrames(),s.fallTouched(),s.fallbackClock(),schedule.isEmpty()?"-":schedule,event==null?"-":(event.active()?"1":"0")+","+event.reason()+","+scalar(event.label()),HexFormat.of().formatHex(p.flight().profile().encode()),bits(p.lastDamageWall())).map(FlightGoldenTest::scalar).collect(Collectors.joining("~"));
     }
-    private static final class Replay extends InfantryGoldenTest.Replay {
+    static class Replay extends InfantryGoldenTest.Replay {
         Replay(int cid){super(cid);p().flight().negotiate(0);p().motion().flightCapability(false);}
         @Override String[] operation(String op,String argument){
             var a=argument.split(",");events.clear();h.wire.clear();lanes.clear();boolean special=true;

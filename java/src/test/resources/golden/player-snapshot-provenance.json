@@ -1,0 +1,8 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_file_sha256": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+  "operations": 1132,
+  "groups": 4,
+  "fixture_sha256": "d2fc7094962889269bbe4e2961d6cb25e4ccf383f38301149bb03453b47f6799",
+  "scope": "Unmodified original Player.world_update_snapshot, flag methods, native connected movement/flight; controlled trusted presentation fields, snapshot header/ping/pong set to zero for row comparison."
+}

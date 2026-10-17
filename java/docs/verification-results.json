@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "102f64b6c21657a9c6f8a5d803e1d27701a26a759277694baa84f1f216f04fd3",
-  "jar_bytes": 1340629,
+  "jar_sha256": "b66dc523fe89d1b8fe4a095d23e727d9147963fc15629b4db683c944552a53d5",
+  "jar_bytes": 1385834,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -20,47 +20,26 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 4552,
+      "tests": 4588,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
-      "tests": 13,
+      "tests": 14,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Connected-player jetpack resource/thrust and canopy deployment/handoff/landing integration",
-  "java_implementation_commit": "0f943c69d4d6634b2eaebacc5512adfaf0399aaa",
-  "tested_tree": "e1742fc548591395ce8e44735ad0f2e543c38bae",
+  "verification_stage": "Owned WorldUpdate cadence, recipient routing, causal owner history and real ENet packet-release barriers",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "run_id": 39068854866,
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39068854866",
-    "implementation_commit": "0f943c69d4d6634b2eaebacc5512adfaf0399aaa",
-    "jobs": {
-      "build": "success",
-      "native-enet": "success",
-      "platform (ubuntu-latest)": "success",
-      "platform (windows-latest)": "success",
-      "platform (macos-latest)": "success"
-    },
-    "job_ids": {
-      "build": 117502078339,
-      "native-enet": 117502078662,
-      "platform (ubuntu-latest)": 117502366093,
-      "platform (windows-latest)": 117502366120,
-      "platform (macos-latest)": 117502366129
-    },
-    "repeated_jar_comparison": "success",
-    "source_fixtures_and_catalogs_reproduced": true,
-    "flight_parts_and_impact_fixtures_reproduced": true,
-    "same_uploaded_jar_on_three_platforms": true,
-    "local_to_ci_artifact_hash_compared": false,
+    "status": "pending_publication",
+    "jobs": {},
     "full_reference_python_baseline_passing": false,
-    "packaged_native_probe_player_domain": "FixtureScene; flight uses the additional production-domain owned UDP test"
+    "packaged_native_probe_player_domain": "FixtureScene; replication uses an additional composed two-client UDP test with owned LifeRuntime/physics and actual delayed ACKs"
   },
   "movement": {
     "cases": 118,
@@ -93,7 +72,7 @@
     },
     "hosting": {
       "exit": 2,
-      "output": "Java migration incomplete: a configured gameplay scene, player simulation and game modes are not available.\nUse --help for diagnostics. Continue using the reference server for gameplay."
+      "output": "Picked up JAVA_TOOL_OPTIONS: \nJava migration incomplete: a configured gameplay scene, player simulation and game modes are not available.\nUse --help for diagnostics. Continue using the reference server for gameplay."
     }
   },
   "scene": {
@@ -413,15 +392,10 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": true,
-    "expected_parent": "473ea1fe2d1b6bac1f914dc163e10ebc86577259",
+    "branch_updated": false,
+    "expected_parent": "c5ae623e4b607b983a3bc5496fed81e88f10cf8e",
     "force": false,
-    "authorization": "User authorized this and future verified migration checkpoints, including code/workflow changes and all five CI jobs.",
-    "implementation_commit": "0f943c69d4d6634b2eaebacc5512adfaf0399aaa",
-    "tested_published_implementation_tree": "e1742fc548591395ce8e44735ad0f2e543c38bae",
-    "remote_commit_created": true,
-    "ci_started": true,
-    "all_five_ci_jobs_succeeded": true
+    "authorization": "User authorized this and future verified migration checkpoints, including code/workflow changes and all five CI jobs."
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -480,7 +454,7 @@
     "capacity_or_soak": false,
     "provenance": "src/test/resources/golden/infantry-provenance.json",
     "connected_flight_equipment": true,
-    "flight_scope": "Connected pack/canopy resource and physical movement; owner replication, bots and corpse/fuse simulation remain pending."
+    "flight_scope": "Connected resources/physics plus owned replication; complete bot/corpse-fuse/mode/client domains remain pending."
   },
   "reference_infantry_tests": {
     "passed": 57,
@@ -542,7 +516,7 @@
     "resource_state_bits": true,
     "mover_and_canopy_landing": true,
     "labelled_owner_canopy_handoff": true,
-    "owner_notification_input_is_explicit_port": true,
+    "owner_notification_input_is_explicit_port": false,
     "real_enet_rtt_forwarding": true,
     "real_udp_negotiation_thrust_fuel_release_and_canopy_landing": true,
     "source_compatibility_heuristics_preserved": true,
@@ -559,12 +533,74 @@
       "concatenated_data_sha256": "7775b8c7b2b62b5729bb19bfeeac5c83043f3aca342142d2e4cd9f11644ffd90",
       "comparison_rows_unchanged": true,
       "verified_utc": "2026-10-17"
-    }
+    },
+    "owner_notification_scope": "Actual accepted owner WorldUpdate rows now feed PlayerLife.recordOwnerAnchor and canopy handoff; the historical flight-only fixture still supplies explicit notifications."
   },
   "reference_flight_tests": {
     "passed": 117,
     "failures": 0,
     "skipped": 0,
     "command": "python -m pytest -q tests/test_jetpack.py tests/test_jetpack_handoff_latency.py tests/test_parachute.py tests/test_flight_balance.py tests/test_flight_authority_flow.py"
+  },
+  "previous_flight_checkpoint": {
+    "verification_stage": "Connected-player jetpack resource/thrust and canopy deployment/handoff/landing integration",
+    "java_implementation_commit": "0f943c69d4d6634b2eaebacc5512adfaf0399aaa",
+    "tested_tree": "e1742fc548591395ce8e44735ad0f2e543c38bae",
+    "ci": {
+      "status": "success",
+      "run_id": 39068854866,
+      "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39068854866",
+      "implementation_commit": "0f943c69d4d6634b2eaebacc5512adfaf0399aaa",
+      "jobs": {
+        "build": "success",
+        "native-enet": "success",
+        "platform (ubuntu-latest)": "success",
+        "platform (windows-latest)": "success",
+        "platform (macos-latest)": "success"
+      },
+      "job_ids": {
+        "build": 117502078339,
+        "native-enet": 117502078662,
+        "platform (ubuntu-latest)": 117502366093,
+        "platform (windows-latest)": 117502366120,
+        "platform (macos-latest)": 117502366129
+      },
+      "repeated_jar_comparison": "success",
+      "source_fixtures_and_catalogs_reproduced": true,
+      "flight_parts_and_impact_fixtures_reproduced": true,
+      "same_uploaded_jar_on_three_platforms": true,
+      "local_to_ci_artifact_hash_compared": false,
+      "full_reference_python_baseline_passing": false,
+      "packaged_native_probe_player_domain": "FixtureScene; flight uses the additional production-domain owned UDP test"
+    }
+  },
+  "replication": {
+    "service_operations": 18448,
+    "wire_operations": 2235,
+    "live_row_operations": 1132,
+    "owner_history_operations": 3714,
+    "connection_hold_operations": 8458,
+    "source_fixtures_reproduced": true,
+    "fresh_native_source_build": true,
+    "method_substitutions": false,
+    "hold_generator_unchanged_ast_methods": true,
+    "owner_queue_causal_history": true,
+    "real_enet_all_fragment_receipts": true,
+    "split_observer_and_ordered_owner_streams": true,
+    "reorder_guard_and_reliable_prefix_barriers": true,
+    "lifecycle_holds_start_at_application_queue": true,
+    "real_udp_two_client_respawn_ack_barrier": true,
+    "trusted_presentation_domain_required": true,
+    "complete_entity_corpse_bot_domains": false,
+    "opt_in_flight_transition_diagnostics": false,
+    "supported_game_client_reconciliation": false,
+    "complete_gameplay": false,
+    "capacity_or_soak": false
+  },
+  "reference_replication_tests": {
+    "passed": 154,
+    "failures": 0,
+    "skipped": 0,
+    "command": "python -m pytest -q tests/test_world_update.py tests/test_world_update_delivery.py tests/test_reversed_world_update.py"
   }
 }

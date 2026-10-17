@@ -28,6 +28,7 @@ import net.battlespades.world.*;
 import net.battlespades.scene.*;
 import net.battlespades.rules.GameRules;
 import net.battlespades.player.*;
+import net.battlespades.replication.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,6 +45,9 @@ class ApplicationIntegrationTest {
         byte[] key=new byte[0];
         int flightCapability;
         byte[] negotiatedFlight;
+        boolean withholdAcks;
+        final List<EnetDatagram.Command> delayedAcks=new ArrayList<>();
+        void releaseAcks()throws Exception {withholdAcks=false;if(!delayedAcks.isEmpty()){udp.send(server,new EnetDatagram(peerId,outSession,-1,List.copyOf(delayedAcks)).encode());delayedAcks.clear();}}
         Client(SocketAddress server) throws Exception {this.server=server;udp=new UdpEndpoint(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),4096);}
         void connect() throws Exception {
             byte[] p=ByteBuffer.allocate(44).putShort((short)0).put((byte)255).put((byte)255).putInt(1400).putInt(65536).putInt(1)
@@ -63,7 +67,7 @@ class ApplicationIntegrationTest {
                 var incoming=udp.receive();if(incoming.isEmpty()) return;var datagram=EnetDatagram.decode(incoming.orElseThrow().payload());
                 for(var c:datagram.commands()) {
                     if(c.id()==3) {var p=ByteBuffer.wrap(c.parameters());peerId=Short.toUnsignedInt(p.getShort());inSession=p.get()&255;outSession=p.get()&255;}
-                    if((c.flags()&128)!=0) udp.send(server,new EnetDatagram(peerId,outSession,-1,List.of(EnetDatagram.acknowledge(c.channel(),c.reliableSequence(),c.reliableSequence(),datagram.sentTime()))).encode());
+                    if((c.flags()&128)!=0){var ack=EnetDatagram.acknowledge(c.channel(),c.reliableSequence(),c.reliableSequence(),datagram.sentTime());if(withholdAcks)delayedAcks.add(ack);else udp.send(server,new EnetDatagram(peerId,outSession,-1,List.of(ack)).encode());}
                     if(c.id()==4) {reason=ByteBuffer.wrap(c.parameters()).getInt();continue;}
                     if(c.id()!=6 && c.id()!=7 && c.id()!=9) continue;
                     if(c.id()==6 && !received.add(c.reliableSequence())) continue;
@@ -77,9 +81,9 @@ class ApplicationIntegrationTest {
         @Override public void close() throws java.io.IOException {udp.close();}
     }
     private static final class Loop {
-        final ApplicationHost host;final List<Client> clients=new ArrayList<>();long now;
+        final ApplicationHost host;final List<Client> clients=new ArrayList<>();long now;int tickOffset;
         Loop(ApplicationHost host) {this.host=host;}
-        void step() throws Exception {host.service(++now,(int)(now*60/1000));for(var client:clients) client.drain();}
+        void step() throws Exception {host.service(++now,tickOffset+(int)(now*60/1000));for(var client:clients) client.drain();}
         void until(BooleanSupplier condition) throws Exception {long deadline=System.nanoTime()+4_000_000_000L;while(!condition.getAsBoolean()) {assertTrue(System.nanoTime()<deadline,"UDP application loop timed out");step();Thread.onSpinWait();}}
         void ticketAndLoad(Client client,FixtureScene scene) throws Exception {ticketAndLoad(client,scene.world());}
         void ticketAndLoad(Client client,MutableWorld world) throws Exception {
@@ -90,6 +94,42 @@ class ApplicationIntegrationTest {
             clients.add(client);client.connect();until(()->client.peerId>=0);client.send(new LoadingPackets.SteamSessionTicket(new byte[]{3,7,19},capability==0?new byte[0]:new byte[]{'B','S','C','F',(byte)capability}),false);client.key=new byte[]{3,7,19};
             until(()->client.has(114));client.send(new SimplePackets.MapDataValidation(world.sourceCrc()),false);until(()->client.has(45));
         }
+    }
+    @Test void ownedReplicationCrossesRealUdpAndHoldsRespawnRowsUntilReliableRelease(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("Replication UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var h=new LifeHarness()){
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),()->ScenePackets.State.initial(config),h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),2,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var b=new Client(host.address())){
+                    h.destination=new LifeRuntime.Messages(){public void broadcast(GamePacket p){host.broadcast(p,Delivery.RELIABLE);}public void owner(int id,GamePacket p){assertTrue(host.sendPlayer(id,p));}public boolean inGame(int id){return host.inGame(id);}};
+                    var replication=new ReplicationService(new ReplicationService.World(){
+                        public List<PlayerSnapshot> players(){return h.runtime.players().stream().map(p->new PlayerSnapshot(p,life->new PlayerSnapshot.Presentation(5,null,false,false,false,false,false,true,false))).toList();}
+                        public List<? extends WorldUpdateLink> connections(){return host.snapshotLinks();}
+                        public List<EntityRecord> entities(){return List.of();}public List<WorldUpdate.TurretRow> turrets(){return List.of();}
+                        public void delivered(int packets,long bytes){}
+                    },new ReplicationService.Settings(true,2,20,20,20,true,0,true,true));h.runtime.replication(replication);
+                    var loop=new Loop(host);loop.tickOffset=1000;loop.ticketAndLoad(a,h.world);a.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"owner"),false);loop.until(()->a.has(69));
+                    loop.ticketAndLoad(b,h.world);b.send(new SimplePackets.NewPlayerConnection(3,0,0,0,"observer"),false);loop.until(()->b.has(69));
+                    loop.until(()->{try{a.send(new ClientInput(100,0,false,6,1,0,0,0,1,24,0),true);b.send(new ClientInput(100,1,false,6,1,0,0,0,0,24,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0)&&host.inGame(1);});
+                    var ports=new InfantryPorts();var simulation=new InfantrySimulation(h.runtime,InfantrySimulation.Settings.defaults(),ports);int[] tick={1020};
+                    var fixed=new FixedStepRuntime(16,16,()->simulation.tick(++tick[0]),()->replication.broadcast(tick[0],h.monotonic),failure->{throw new AssertionError(failure);});
+                    fixed.advance(FixedStepRuntime.DELTA*2);loop.until(()->a.has(2)&&b.has(2));
+                    var p=h.runtime.player(0);var history=p.ownerAnchors().snapshot();assertFalse(history.isEmpty());assertEquals(p.position(),history.getLast().position());assertEquals(100,history.getLast().stamp());
+                    int owner=-1,observer=-1;
+                    for(int i=0;i<a.packets.size();i++)if(a.packets.get(i) instanceof WorldUpdate update&&update.players().stream().anyMatch(r->r.playerId()==0)){owner=i;assertEquals(255,update.players().stream().filter(r->r.playerId()==0).findFirst().orElseThrow().tool());}
+                    for(int i=0;i<b.packets.size();i++)if(b.packets.get(i) instanceof WorldUpdate update&&update.players().stream().anyMatch(r->r.playerId()==0)){observer=i;assertEquals(5,update.players().stream().filter(r->r.playerId()==0).findFirst().orElseThrow().tool());}
+                    assertTrue(owner>=0&&observer>=0);assertEquals(7,a.commands.get(owner));assertEquals(9,b.commands.get(observer));
+                    // Delay actual ENet releases across a new-life boundary. Observer packets still flow, but omit this life.
+                    b.withholdAcks=true;h.runtime.die(0,null,12);h.runtime.respawn(0);long oldCreates=b.packets.stream().filter(packet->packet.id()==28).count();loop.until(()->b.packets.stream().filter(packet->packet.id()==28).count()>oldCreates);
+                    var link=host.snapshotLinks().stream().filter(l->Objects.equals(l.localPlayerId(),1)).findFirst().orElseThrow();assertTrue(link.heldSnapshotRows(1024).contains(new SnapshotHolds.Row(false,0)));
+                    b.packets.clear();b.commands.clear();replication.broadcast(1024,h.monotonic);loop.until(()->b.has(2));
+                    assertTrue(b.packets.stream().filter(packet->packet instanceof WorldUpdate).map(packet->(WorldUpdate)packet).allMatch(update->update.players().stream().noneMatch(r->r.playerId()==0)));
+                    b.releaseAcks();loop.until(()->link.heldSnapshotRows(1026).isEmpty());b.packets.clear();replication.broadcast(1026,h.monotonic);loop.until(()->b.has(2));
+                    assertTrue(b.packets.stream().filter(packet->packet instanceof WorldUpdate).map(packet->(WorldUpdate)packet).anyMatch(update->update.players().stream().anyMatch(r->r.playerId()==0)));
+                    assertTrue(p.ownerAnchors().snapshot().isEmpty(),"respawn clears owner output history and has no applied label yet");
+                }
+            }
+        });
     }
     @Test void realUdpTicketMapStateSelectionAndCanonicalFirstInputCatchup() {
         assertTimeoutPreemptively(Duration.ofSeconds(10),()->{

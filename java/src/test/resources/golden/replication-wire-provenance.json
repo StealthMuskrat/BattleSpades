@@ -1,0 +1,7 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_file_sha256": "dfbfe5646ca6dea888278bbef0731d22f1e3f775ea755062c698c95141e68ee0",
+  "operations": 2235,
+  "fixture_sha256": "1a98f14a58793aaf66a0b62e4de79141fddd6d0ad86642c4b3a22245a0b7825b",
+  "scope": "Unchanged original ReplicationService wire transforms, native WorldUpdate/Entity serialization; controlled malformed and complete packets."
+}

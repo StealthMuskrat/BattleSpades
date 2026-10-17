@@ -79,6 +79,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     private final Effects effects;
     private final Messages messages;
     private final Inputs inputs;
+    private net.battlespades.replication.ReplicationService replication;
     private final PlayerRoster roster=new PlayerRoster();
     private final KillFeed feed=new KillFeed();
     private final Map<Integer,PlayerLife> players=new LinkedHashMap<>();
@@ -95,6 +96,8 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     public PlayerLife player(int id){owned();return Objects.requireNonNull(players.get(id),"Unknown player");}
     public List<PlayerLife> players(){owned();return List.copyOf(players.values());}
     public boolean inGame(int id){owned();return messages.inGame(id);}
+    /** Composition hook, installed before admission; no replacement/no-op replication domain is created. */
+    public void replication(net.battlespades.replication.ReplicationService value){owned();if(!players.isEmpty()||replication!=null)throw new IllegalStateException("Replication must bind once before admission");replication=Objects.requireNonNull(value);}
     double movementClock(){owned();return clock.monotonic();}
     double movementWallClock(){owned();return clock.wall();}
     @Override public void roundTripMillis(int id,Double measurement){owned();player(id).flight().roundTripMillis(measurement);}
@@ -132,7 +135,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     @Override public AdmissionPolicy.Context admissionContext(int id){owned();return policy.admissionContext(id);}
     private void spawn(PlayerLife player){
         player.walletScale(policy.walletScale());player.applyPending();policy.prepareSpawn(player);var at=policy.spawnPoint(player);policy.spawnOrientation(player).ifPresent(v->player.orientation(v.x(),v.y(),v.z()));effects.beforeSpawn(player);
-        player.spawn(at,clock.monotonic(),policy.walletScale(),policy.teamColor(player));inputs.reset(player);
+        if(replication!=null)replication.forgetPlayer(player.id());player.spawn(at,clock.monotonic(),policy.walletScale(),policy.teamColor(player));inputs.reset(player);
     }
     private void publish(PlayerLife p){roster.create(p.create(),p.color());messages.broadcast(p.create());messages.broadcast(new SimplePackets.SetScore(1,0,p.id(),policy.score(p)));messages.broadcast(new SimplePackets.SetColor(p.id(),p.color()));}
     @Override public JoinScene.Admission admit(int id,SimplePackets.NewPlayerConnection request,ClassCatalog.Selection selection,int capability){
@@ -147,7 +150,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
         players.put(id,p);scores.put(id,new Counters());
         try {
             if(spectator||joinsDead)p.camera(at,policy.teamColor(p));
-            else {effects.beforeSpawn(p);p.spawn(at,clock.monotonic(),policy.walletScale(),policy.teamColor(p));inputs.reset(p);}
+            else {effects.beforeSpawn(p);if(replication!=null)replication.forgetPlayer(id);p.spawn(at,clock.monotonic(),policy.walletScale(),policy.teamColor(p));inputs.reset(p);}
             roster.create(p.create(),p.color());
             if(joinsDead){int countdown=0;try{countdown=clamp((int)policy.respawnDelay(p));}catch(RuntimeException ignored){/* Original join-death fallback is zero. */}var death=new LifePackets.KillAction(id,id,0,countdown,0,false,false);p.joinedDead(clock.wall(),death);roster.death(death);deadJoin.put(id,p.generation());after.add(death);}
             else {messages.broadcast(p.create());messages.broadcast(new SimplePackets.SetColor(id,p.color()));if(!spectator)after.addAll(p.spawnOwnerPackets());}
@@ -181,5 +184,5 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
         if(arrival.fresh()){p.orientation(input.x(),input.y(),input.z());p.motion().controls(input.movementFlags(),(input.actionFlags()&255)|(input.paletteEnabled()?256:0));inputs.receive(p,input,loop);}
     }
     @Override public void packet(int id,GamePacket packet){owned();inputs.packet(player(id),packet);}
-    @Override public void disconnected(int id){owned();var p=players.get(id);if(p==null)return;inputs.forget(p);effects.forget(p);feed.forget(id);roster.remove(id);deadJoin.remove(id);scores.remove(id);players.remove(id);messages.broadcast(new SimplePackets.PlayerLeft(id));}
+    @Override public void disconnected(int id){owned();var p=players.get(id);if(p==null)return;inputs.forget(p);effects.forget(p);if(replication!=null)replication.forgetPlayer(id);feed.forget(id);roster.remove(id);deadJoin.remove(id);scores.remove(id);players.remove(id);messages.broadcast(new SimplePackets.PlayerLeft(id));}
 }

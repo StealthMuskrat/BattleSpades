@@ -7,18 +7,43 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalInt;
+import java.util.Set;
 import net.battlespades.protocol.*;
 import net.battlespades.player.FlightProfile;
+import net.battlespades.replication.*;
 import net.battlespades.transport.enet.Delivery;
+import net.battlespades.transport.enet.DeliveryReceipt;
 import net.battlespades.world.*;
 
 /** Network/application owner state machine for one real ENet peer. No worker touches this object. */
-public final class JoinSession implements AutoCloseable {
+public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     public enum State { TICKET, PASSWORD, INITIAL, MAP, STATE, SELECT, ADMITTING, INPUT, LIVE, RETIRING, CLOSED }
     public interface WireSink {
         boolean send(SessionFrame frame);
         void disconnect(int reason);
         default Double roundTripMillis(){return null;}
+        default boolean releaseTracking(){return false;}
+        default Sent sendTracked(SessionFrame frame){return new Sent(send(frame),null);}
+        default int unfragmentedWireLimit(){return 1372;}
+        default boolean snapshotUnsequenced(){return false;}
+        default void flushSnapshots(){}
+    }
+    public record Sent(boolean accepted,DeliveryReceipt receipt) {}
+    private static final class ReceiptBridge implements DeliveryReceipt {
+        private final Thread owner=Thread.currentThread();
+        private boolean released,bound,registered;
+        private Runnable observer;
+        private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Queued receipt accessed outside owner");}
+        @Override public boolean released(){owned();return released;}
+        @Override public boolean onRelease(Runnable value){owned();if(registered)throw new IllegalStateException("Queued receipt observer already registered");registered=true;observer=java.util.Objects.requireNonNull(value);if(released)observer.run();return true;}
+        void finish(){owned();if(released)return;released=true;if(observer!=null)observer.run();}
+        void bind(DeliveryReceipt receipt){owned();if(bound)throw new IllegalStateException("Queued receipt already bound");bound=true;if(receipt==null||!receipt.onRelease(this::finish))finish();}
+    }
+    private static final class Queued {
+        final SessionFrame frame;
+        final ReceiptBridge receipt;
+        boolean registered;
+        Queued(SessionFrame frame,boolean track){this.frame=frame;receipt=track&&frame.delivery()==Delivery.RELIABLE?new ReceiptBridge():null;}
     }
     public record Metrics(State state,long generation,int capability,int queuedControls,long controlBytes,
             long malformedPackets,long domainFailures,long droppedClocks) {}
@@ -30,12 +55,14 @@ public final class JoinSession implements AutoCloseable {
     private final JoinPasswordGate passwords;
     private final JoinPasswordGate.Session password;
     private final String address;
-    private final ArrayDeque<SessionFrame> controls=new ArrayDeque<>();
+    private final ArrayDeque<Queued> controls=new ArrayDeque<>();
+    private final SnapshotHolds snapshotHolds=new SnapshotHolds();
+    private final SnapshotObserver observerState=new SnapshotObserver();
     private java.util.Map<Integer,PlayerRoster.Known> knownRoster=java.util.Map.of(),pendingRoster;
     private JoinScene scene;
     private State state=State.TICKET;
     private byte[] key=new byte[0];
-    private int capability;
+    private int capability,currentLoop;
     private long generation,lastNow=-1,controlBytes,passwordAsked=-1,retireUntil=-1;
     private long malformed,domainFailures,droppedClocks;
     private PlayerSlots.Reservation slot;
@@ -56,9 +83,13 @@ public final class JoinSession implements AutoCloseable {
     public State state() {owned();return state;}
     public boolean inGame() {owned();return state==State.LIVE;}
     public OptionalInt playerId() {owned();return slot==null?OptionalInt.empty():OptionalInt.of(slot.id());}
+    @Override public Integer localPlayerId(){owned();return slot==null?null:slot.id();}
+    @Override public SnapshotObserver observerState(){owned();return observerState;}
+    @Override public boolean snapshotUnsequenced(){owned();return sink.snapshotUnsequenced();}
+    @Override public void flushSnapshots(){owned();sink.flushSnapshots();}
     public Metrics metrics() {owned();return new Metrics(state,generation,capability,controls.size(),controlBytes,malformed,domainFailures,droppedClocks);}
     public void receive(byte[] wire,long now,int serverLoop) {
-        time(now);if(state==State.CLOSED) return;
+        time(now);if(state==State.CLOSED) return;currentLoop=serverLoop;
         if(state==State.PASSWORD && passwordAsked>=0 && now-passwordAsked>=passwords.timeoutMillis()) {fail(11);return;}
         try {
             long maxWire=1L+settings.maxInboundBytes()+(settings.maxInboundBytes()+31L)/32;
@@ -67,7 +98,7 @@ public final class JoinSession implements AutoCloseable {
             if(id==0) {
                 var clock=(SimplePackets.ClockSync)PacketCodec.decode(body);
                 var response=new SimplePackets.ClockSync(clock.client_time(),serverLoop+settings.clockLoopBias());
-                if(!sink.send(new SessionFrame(0x30,response.encode(),Delivery.UNSEQUENCED))) droppedClocks++;
+                if(!sendFrame(new SessionFrame(0x30,response.encode(),Delivery.UNSEQUENCED))) droppedClocks++;
                 return;
             }
             if(state==State.RETIRING) return;
@@ -114,7 +145,7 @@ public final class JoinSession implements AutoCloseable {
                 if(state==State.INPUT) {
                     if(!controls.isEmpty()) return;
                     int[] remaining={settings.replayBudget()};
-                    java.util.function.Predicate<GamePacket> send=p->{if(remaining[0]==0 || !sink.send(new SessionFrame(p))) return false;remaining[0]--;return true;};
+                    java.util.function.Predicate<GamePacket> send=p->{if(remaining[0]==0 || !sendFrame(new SessionFrame(p))) return false;remaining[0]--;return true;};
                     if(!airDone) {
                         var air=capture.lease().pumpAir(slot.id(),serverLoop,remaining[0],send);
                         if(air==MutableWorld.Replay.OVERFLOW || air==MutableWorld.Replay.STALE) {fail(13);return;}
@@ -154,13 +185,20 @@ public final class JoinSession implements AutoCloseable {
     private boolean enqueue(List<SessionFrame> frames) {
         long bytes=frames.stream().mapToLong(SessionFrame::memoryBytes).sum();
         if(frames.size()>settings.controlCapacity()-controls.size() || bytes>settings.controlBytes()-controlBytes) {fail(13);return false;}
-        controls.addAll(frames);controlBytes+=bytes;return true;
+        for(var frame:frames){var queued=new Queued(frame,sink.releaseTracking());track(queued);controls.addLast(queued);}controlBytes+=bytes;return true;
     }
+    private void track(Queued queued){if(queued.registered)return;queued.registered=true;if(queued.receipt!=null)snapshotHolds.queued(queued.frame.body(),queued.receipt,currentLoop);}
+    private boolean sendQueued(Queued queued){
+        if(queued.receipt==null)return sink.send(queued.frame);
+        var sent=sink.sendTracked(queued.frame);if(!sent.accepted)return false;queued.receipt.bind(sent.receipt);track(queued);return true;
+    }
+    private boolean sendFrame(SessionFrame frame){return sendQueued(new Queued(frame,sink.releaseTracking()));}
+    private void discardControls(){for(var queued:controls)if(queued.receipt!=null)queued.receipt.finish();controls.clear();controlBytes=0;}
     private int drain(int budget,long now) {
         int count=0;
         while(count<budget && !controls.isEmpty()) {
-            var frame=controls.getFirst();if(!sink.send(frame)) break;
-            controls.removeFirst();controlBytes-=frame.memoryBytes();count++;
+            var queued=controls.getFirst();if(!sendQueued(queued)) break;
+            controls.removeFirst();var frame=queued.frame;controlBytes-=frame.memoryBytes();count++;
             if(frame.id()==112 && passwordAsked<0) passwordAsked=now;
             if(frame.id()==45) stateSent=true;
         }
@@ -174,7 +212,7 @@ public final class JoinSession implements AutoCloseable {
         return true;
     }
     public void pulse(long now,int loop) {
-        time(now);if(state==State.CLOSED) return;
+        time(now);if(state==State.CLOSED) return;currentLoop=loop;
         try {
             if(admitted&&slot!=null)scene.roundTripMillis(slot.id(),sink.roundTripMillis());
             if(state==State.PASSWORD && passwordAsked>=0 && now-passwordAsked>=passwords.timeoutMillis()) {fail(11);return;}
@@ -185,7 +223,7 @@ public final class JoinSession implements AutoCloseable {
             }
             if(state==State.INITIAL) {transfer=new MapSyncTransfer(generation,now,scene.world().sourceCrc(),settings.mapMode(),requireValidation,false);state=State.MAP;}
             if(state==State.MAP) {
-                budget-=transfer.pump(now,budget,f->sink.send(new SessionFrame(f.prefix(),f.packet().encode(),Delivery.RELIABLE)));
+                budget-=transfer.pump(now,budget,f->sendFrame(new SessionFrame(f.prefix(),f.packet().encode(),Delivery.RELIABLE)));
                 if(transfer.state()==MapSyncTransfer.State.TIMED_OUT) {fail(requireValidation?18:11);return;}
                 if(transfer.state()==MapSyncTransfer.State.PREPARING) {
                     if(capture==null) {
@@ -196,7 +234,7 @@ public final class JoinSession implements AutoCloseable {
                     if(task==null) return;
                     var chunks=task.poll();if(chunks.isEmpty()) return;
                     task=null;transfer.supplyChunks(generation,chunks.orElseThrow());
-                    budget-=transfer.pump(now,budget,f->sink.send(new SessionFrame(f.prefix(),f.packet().encode(),Delivery.RELIABLE)));
+                    budget-=transfer.pump(now,budget,f->sendFrame(new SessionFrame(f.prefix(),f.packet().encode(),Delivery.RELIABLE)));
                 }
                 if(transfer.state()==MapSyncTransfer.State.COMPLETE) {
                     long epoch=generation;var source=scene;var data=source.stateData(slot.id(),capability);
@@ -212,18 +250,33 @@ public final class JoinSession implements AutoCloseable {
     }
     /** Broadcasts are admitted only after the first-input replay boundary. */
     public boolean gameplay(GamePacket packet,Delivery delivery) {
-        owned();if(state!=State.LIVE) return false;var frame=new SessionFrame(0x30,packet.encode(),delivery);return delivery==Delivery.RELIABLE?reliable(frame):sink.send(frame);
+        owned();if(state!=State.LIVE) return false;var frame=new SessionFrame(0x30,packet.encode(),delivery);return delivery==Delivery.RELIABLE?ordered(frame):sendFrame(frame);
     }
     /** One reliable order for live owner controls and broadcasts, including transport backpressure. */
-    private boolean reliable(SessionFrame frame){if(controls.isEmpty()&&sink.send(frame))return true;return enqueue(List.of(frame));}
+    private boolean ordered(SessionFrame frame){if(controls.isEmpty()&&sendFrame(frame))return true;return enqueue(List.of(frame));}
+    public long reliableSendIndex(){owned();return snapshotHolds.reliableSendIndex();}
+    public boolean reliableUnackedThrough(long index,int loop){owned();currentLoop=loop;return snapshotHolds.reliableUnackedThrough(index,loop);}
+    public Set<SnapshotHolds.Row> heldSnapshotRows(int loop){owned();currentLoop=loop;return snapshotHolds.heldRows(loop);}
+    public int snapshotPayloadLimit(){
+        owned();int budget=Math.max(64,sink.unfragmentedWireLimit()),low=0,high=budget;
+        while(low<high){int middle=(int)(low+(high-low+1L)/2);long encoded=(long)middle+(middle+31L)/32+1;if(encoded<=budget)low=middle;else high=middle-1;}return low;
+    }
+    /** WorldUpdate-only path: sequenced snapshots retain the reliable controls' application order. */
+    public boolean snapshot(byte[] body,Delivery delivery,int loop){
+        owned();currentLoop=loop;if(state!=State.LIVE)return false;
+        if(body.length==0||(body[0]&255)!=2||!(PacketCodec.decode(body) instanceof WorldUpdate))throw new ProtocolException("Expected WorldUpdate");
+        var frame=new SessionFrame(0x30,body,delivery);
+        if(delivery!=Delivery.RELIABLE&&frame.wireBytes()>Math.max(64,sink.unfragmentedWireLimit()))frame=new SessionFrame(0x30,body,Delivery.UNRELIABLE_FRAGMENT);
+        return frame.delivery()==Delivery.UNSEQUENCED?sendFrame(frame):ordered(frame);
+    }
     /** Source Connection.send path: reliable owner control packets may arrive after admission while loading. */
     public boolean direct(GamePacket packet) {
-        owned();if(!admitted||state==State.CLOSED)return false;var frame=new SessionFrame(packet);return state==State.LIVE?reliable(frame):enqueue(List.of(frame));
+        owned();if(!admitted||state==State.CLOSED)return false;var frame=new SessionFrame(packet);return state==State.LIVE?ordered(frame):enqueue(List.of(frame));
     }
     public void replaceScene(JoinScene replacement) {
         owned();if(state==State.CLOSED) return;
         boolean carry=stateSent;
-        releaseScene();controls.clear();controlBytes=0;generation++;scene=replacement;selection=null;stateSent=false;airDone=false;knownRoster=java.util.Map.of();pendingRoster=null;requireValidation=true;retireUntil=-1;
+        releaseScene();discardControls();generation++;scene=replacement;selection=null;stateSent=false;airDone=false;knownRoster=java.util.Map.of();pendingRoster=null;requireValidation=true;retireUntil=-1;
         if(!carry) {fail(18);return;}
         state=State.RETIRING;enqueue(List.of(new SessionFrame(new SimplePackets.MapEnded())));
     }
@@ -239,5 +292,5 @@ public final class JoinSession implements AutoCloseable {
         }
     }
     public void fail(int reason) {owned();if(state==State.CLOSED) return;try {sink.disconnect(reason);} finally {close();}}
-    @Override public void close() {owned();if(state==State.CLOSED) return;state=State.CLOSED;releaseScene();controls.clear();controlBytes=0;key=new byte[0];generation++;}
+    @Override public void close() {owned();if(state==State.CLOSED) return;state=State.CLOSED;releaseScene();discardControls();snapshotHolds.clear();key=new byte[0];generation++;}
 }

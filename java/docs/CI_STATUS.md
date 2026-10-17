@@ -1,4 +1,21 @@
-# Current flight checkpoint verification
+# Current replication checkpoint verification
+
+Local clean check/build: **4,588 unit/component + 14 real UDP tests**, no failures,
+errors or skips. **154 focused original replication tests** pass. The 33,987 new
+source operations and prior infantry/flight fixture bytes reproduce exactly after
+a fresh original native build. All five current-head CI jobs await publication;
+the historical flight run below is separate evidence.
+
+Native transport/packaged-loader probes pass nominal and impaired profiles.
+Two CRC-valid local archives are byte-identical: 1385834 bytes, SHA-256
+`b66dc523fe89d1b8fe4a095d23e727d9147963fc15629b4db683c944552a53d5`. Java class major 69 and production packaging audits pass;
+version/config exits 0 and hosting exits 2. No native or Python runtime is packaged.
+
+The two-client replication UDP test uses actual owned lives and delayed ACKs.
+Presentation/entity/corpse/bot/combat/mode domains and supported-client/capacity/soak
+gates remain incomplete. See [WORLD_REPLICATION.md](WORLD_REPLICATION.md).
+
+# Preceding flight checkpoint verification
 
 Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/39068854866
 

@@ -12,12 +12,14 @@ public final class LifeCatalog {
     public record Oriented(int magazineMax,int magazineInitial,int reserveMax,int reserveInitial,int restock){}
     public record Deployable(int initial,int maximum,int restock,double interval){}
     public record Launcher(int clip,double reload,double interval,boolean cycles){}
+    public record Pack(double startDelay,double maximumFuel,double activationCost,double refill,double drain,double damageDelay){}
     public static final Map<Integer,Weapon> WEAPONS;
     public static final Map<Integer,Blocks> BLOCKS;
     public static final Map<Integer,Oriented> ORIENTED;
     public static final Map<Integer,Deployable> DEPLOYABLES;
     public static final Map<Integer,Double> CADENCE,PACK_FUEL;
     public static final Map<Integer,Launcher> LAUNCHERS;
+    public static final Map<Integer,Pack> PACKS;
     public static final Set<Integer> TRANSITIONS,DOMINATION_RESET,ONE_HIT,ZOMBIES,WEAPON_TOOLS;
     public static final double MULTIKILL_GAP,INTERACTION_WINDOW;
     public static final int HEALTH,DEFAULT_WEAPON,TURRET_INITIAL,TURRET_MAX,TURRET_RESTOCK,DISGUISE_INITIAL,DISGUISE_MAX,DISGUISE_RESTOCK,FALL_KILL,DOMINATION_KILLS,TRANSITION_CREDIT_KILL;
@@ -35,6 +37,7 @@ public final class LifeCatalog {
         var deployables=new TreeMap<Integer,Deployable>();for(var r:rows(data,"deployable"))deployables.put(i(r,"tool"),new Deployable(i(r,"initial"),i(r,"maximum"),i(r,"restock"),n(r,"interval")));DEPLOYABLES=Collections.unmodifiableMap(deployables);
         var cadence=new TreeMap<Integer,Double>();for(var r:rows(data,"cadence"))cadence.put(i(r,"tool"),n(r,"interval"));CADENCE=Map.copyOf(cadence);
         var fuel=new TreeMap<Integer,Double>();for(var r:rows(data,"pack"))fuel.put(i(r,"id"),n(r,"fuel"));PACK_FUEL=Map.copyOf(fuel);
+        var packs=new TreeMap<Integer,Pack>();for(var r:rows(data,"pack"))packs.put(i(r,"id"),new Pack(n(r,"start_delay"),n(r,"fuel"),n(r,"activation_cost"),n(r,"refill"),n(r,"drain"),n(r,"damage_delay")));PACKS=Map.copyOf(packs);
         var launchers=new TreeMap<Integer,Launcher>();for(var r:rows(data,"launcher"))launchers.put(i(r,"tool"),new Launcher(i(r,"clip"),n(r,"reload"),n(r,"interval"),r.getBoolean("cycles")));LAUNCHERS=Map.copyOf(launchers);
     }
     private LifeCatalog(){}

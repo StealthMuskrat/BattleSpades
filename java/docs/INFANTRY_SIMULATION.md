@@ -47,11 +47,12 @@ post-move effects, post-tick observers and failure reporting. These hooks are
 required; inert implementations appear only in test support and are not packaged.
 Their placement is verified, but their unported domain work is not claimed.
 
-Flight-equipped bodies and Crumbling Run momentum fail explicitly in this binding.
-Jetpack fuel/thrust handoff, parachute deployment/owner handoff, disguises, mounted
-entities and other mode/ability effects still need their own source-backed paths.
-This checkpoint covers ordinary infantry movement for all 18 numeric class
-profiles without flight equipment, not complete playable class abilities or modes.
+The following flight checkpoint extends this binding with jetpack resource/thrust
+handoff and parachute deployment/physics/landing rules; see
+[PLAYER_FLIGHT.md](PLAYER_FLIGHT.md). The 33-trace fixture described here retains
+its original no-flight scope. Crumbling Run momentum still fails explicitly;
+disguises, mounted entities, complete mode/ability effects and owner replication
+remain pending. Numeric class profiles do not establish complete playable abilities.
 
 Packet-rate/conduct admission and configurable ahead-label enforcement remain
 upstream work; LifeRuntime currently records already-admitted input with the
@@ -84,7 +85,7 @@ compact complete histories; no approximate numeric tolerance is used.
 
 Focused unchanged original input-loss and movement-anticheat regressions pass
 **57 tests**. Additional Java checks exercise scheduler/loading gates, unsupported
-flight failure isolation and immutable history. The real UDP test feeds production
+actor failure isolation and immutable history. The real UDP test feeds production
 sessions/lives/history, advances the owned scheduler, verifies real/refilled moves
 and starvation freeze, then observes a genuine lethal landing's zero HP before
 KillAction. It uses explicit test mode/reload/lag/effect ports. Packaged native

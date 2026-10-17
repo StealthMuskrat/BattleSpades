@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "2c8f3ae85b043cbfff56acf25e5d6cc6693b7ed6f22938354a1a14b221d135f6",
-  "jar_bytes": 1322465,
+  "jar_sha256": "102f64b6c21657a9c6f8a5d803e1d27701a26a759277694baa84f1f216f04fd3",
+  "jar_bytes": 1340629,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -20,47 +20,26 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 4487,
+      "tests": 4552,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
-      "tests": 12,
+      "tests": 13,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Authoritative no-flight infantry simulation, pacing, eye history, velocity impulses and fall-health integration",
-  "java_implementation_commit": "1e4c34fced6e6fc96185fd72b212d62b1e3eab70",
-  "tested_tree": "4a54308beb4e425dbfa9ea0ab2ba0176b619ccf6",
+  "verification_stage": "Connected-player jetpack resource/thrust and canopy deployment/handoff/landing integration",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "run_id": 38834640118,
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38834640118",
-    "implementation_commit": "1e4c34fced6e6fc96185fd72b212d62b1e3eab70",
-    "jobs": {
-      "native-enet": "success",
-      "build": "success",
-      "platform (windows-latest)": "success",
-      "platform (macos-latest)": "success",
-      "platform (ubuntu-latest)": "success"
-    },
-    "job_ids": {
-      "native-enet": 116760900523,
-      "build": 116760900839,
-      "platform (windows-latest)": 116761318248,
-      "platform (macos-latest)": 116761318289,
-      "platform (ubuntu-latest)": 116761318355
-    },
-    "repeated_jar_comparison": "success",
-    "source_fixtures_and_catalogs_reproduced": true,
-    "infantry_source_fixtures_reproduced": true,
-    "same_uploaded_jar_on_three_platforms": true,
-    "local_to_ci_artifact_hash_compared": false,
+    "status": "pending_publication",
+    "jobs": {},
     "full_reference_python_baseline_passing": false,
-    "packaged_native_probe_player_domain": "FixtureScene; authoritative infantry uses the additional production-domain owned UDP test"
+    "packaged_native_probe_player_domain": "FixtureScene; flight uses the additional production-domain owned UDP test"
   },
   "movement": {
     "cases": 118,
@@ -393,7 +372,7 @@
     "one_frame_phase_selection": true,
     "action_cadence": true,
     "outer_starvation_backlog_policy": true,
-    "equipment_fuel_impulses": false,
+    "equipment_fuel_impulses": true,
     "owner_worldupdate": false,
     "complete_hit_authorization": false,
     "complete_gameplay": false,
@@ -413,15 +392,10 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": true,
-    "expected_parent": "87e4892c9b5b5ebe4861a80655b5e21d0fe62492",
-    "implementation_commit": "1e4c34fced6e6fc96185fd72b212d62b1e3eab70",
-    "tested_published_implementation_tree": "4a54308beb4e425dbfa9ea0ab2ba0176b619ccf6",
-    "remote_commit_created": true,
+    "branch_updated": false,
+    "expected_parent": "473ea1fe2d1b6bac1f914dc163e10ebc86577259",
     "force": false,
-    "ci_started": true,
-    "all_five_ci_jobs_succeeded": true,
-    "authorization": "User explicitly authorized this and future verified migration checkpoints, including code/workflow changes and all five CI jobs."
+    "authorization": "User authorized this and future verified migration checkpoints, including code/workflow changes and all five CI jobs."
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -478,12 +452,93 @@
     "owner_worldupdate": false,
     "supported_client_validation": false,
     "capacity_or_soak": false,
-    "provenance": "src/test/resources/golden/infantry-provenance.json"
+    "provenance": "src/test/resources/golden/infantry-provenance.json",
+    "connected_flight_equipment": true,
+    "flight_scope": "Connected pack/canopy resource and physical movement; owner replication, bots and corpse/fuse simulation remain pending."
   },
   "reference_infantry_tests": {
     "passed": 57,
     "failures": 0,
     "skipped": 0,
     "command": "python -m pytest -q tests/test_anticheat_movement.py tests/test_input_loss_recovery.py"
+  },
+  "previous_infantry_checkpoint": {
+    "verification_stage": "Authoritative no-flight infantry simulation, pacing, eye history, velocity impulses and fall-health integration",
+    "java_implementation_commit": "1e4c34fced6e6fc96185fd72b212d62b1e3eab70",
+    "tested_tree": "4a54308beb4e425dbfa9ea0ab2ba0176b619ccf6",
+    "ci": {
+      "status": "success",
+      "run_id": 38834640118,
+      "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/38834640118",
+      "implementation_commit": "1e4c34fced6e6fc96185fd72b212d62b1e3eab70",
+      "jobs": {
+        "native-enet": "success",
+        "build": "success",
+        "platform (windows-latest)": "success",
+        "platform (macos-latest)": "success",
+        "platform (ubuntu-latest)": "success"
+      },
+      "job_ids": {
+        "native-enet": 116760900523,
+        "build": 116760900839,
+        "platform (windows-latest)": 116761318248,
+        "platform (macos-latest)": 116761318289,
+        "platform (ubuntu-latest)": 116761318355
+      },
+      "repeated_jar_comparison": "success",
+      "source_fixtures_and_catalogs_reproduced": true,
+      "infantry_source_fixtures_reproduced": true,
+      "same_uploaded_jar_on_three_platforms": true,
+      "local_to_ci_artifact_hash_compared": false,
+      "full_reference_python_baseline_passing": false,
+      "packaged_native_probe_player_domain": "FixtureScene; authoritative infantry uses the additional production-domain owned UDP test"
+    }
+  },
+  "flight": {
+    "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+    "operations": 65497,
+    "traces": 44,
+    "packs": [
+      66,
+      67,
+      68,
+      69
+    ],
+    "canopy_impact_vectors": 10368,
+    "profiles": [
+      "retail",
+      "balanced-v1",
+      "balanced-v2"
+    ],
+    "method_substitutions": false,
+    "source_fixtures_reproduced": true,
+    "fresh_native_source_build": true,
+    "resource_state_bits": true,
+    "mover_and_canopy_landing": true,
+    "labelled_owner_canopy_handoff": true,
+    "owner_notification_input_is_explicit_port": true,
+    "real_enet_rtt_forwarding": true,
+    "real_udp_negotiation_thrust_fuel_release_and_canopy_landing": true,
+    "source_compatibility_heuristics_preserved": true,
+    "complete_owner_worldupdate_reconciliation": false,
+    "bots_and_corpse_fuse": false,
+    "full_modes": false,
+    "complete_gameplay": false,
+    "supported_client_validation": false,
+    "capacity_or_soak": false,
+    "provenance": "src/test/resources/golden/flight-provenance.json",
+    "fixture_packaging": {
+      "gzip_parts": 7,
+      "reproduced_from_unchanged_source": true,
+      "concatenated_data_sha256": "7775b8c7b2b62b5729bb19bfeeac5c83043f3aca342142d2e4cd9f11644ffd90",
+      "comparison_rows_unchanged": true,
+      "verified_utc": "2026-10-17"
+    }
+  },
+  "reference_flight_tests": {
+    "passed": 117,
+    "failures": 0,
+    "skipped": 0,
+    "command": "python -m pytest -q tests/test_jetpack.py tests/test_jetpack_handoff_latency.py tests/test_parachute.py tests/test_flight_balance.py tests/test_flight_authority_flow.py"
   }
 }

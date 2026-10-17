@@ -18,7 +18,8 @@
     "health": "unmodified Player.damage/heal, conduct blast attribution, combat contribution/healing ledger, recent enemy/transition credit; original-call profile observations",
     "input": "unchanged ClientData handler, Player receive/one-frame phase/loss-salvage methods and real native Player.update; profile observations of phase boundaries",
     "action_clock": "unchanged action_clock peek/admit/reset, interval carry and ENet stall estimate; typed labels and clocks",
-    "infantry": "unchanged SimulationRuntime._simulate_players, Player.simulate_tick/update and compiled original World mover; full no-flight body/eye/HP/timing traces and observed call boundaries"
+    "infantry": "unchanged SimulationRuntime._simulate_players, Player.simulate_tick/update and compiled original World mover; full no-flight body/eye/HP/timing traces and observed call boundaries",
+    "flight": "unchanged Player jetpack/canopy/profile methods through SimulationRuntime and compiled World; explicit owner-row notification port, no replication substitution"
   },
   "generators": [
     "generate_golden.py",
@@ -40,7 +41,8 @@
     "generate_health_golden.py",
     "generate_input_golden.py",
     "generate_action_clock_golden.py",
-    "generate_simulation_golden.py"
+    "generate_simulation_golden.py",
+    "generate_flight_golden.py"
   ],
   "fixtures": {
     "action-clock-provenance.json": "2bc22dfec90541fa8e56b1ddd53138d152ca623f721ea5bac6f555421acc9427",
@@ -50,6 +52,16 @@
     "admission-teams.tsv.gz": "7685d19a3ffe8bc3275c7cb9888e287d78c3fc6f7759d9ce94bceb9f018c55d5",
     "client-input.tsv": "883efa80bec71476936cfd002c47fc03817ebe0051393b075fb6314e299b3c0a",
     "complex.tsv": "6c370c16e0e29440226988cd8ae1def2d5833e9e10d228acd758b1d61da3502e",
+    "flight-impact.tsv.gz": "712e376fc4fd748226a00a25e9594071ba4d214563d8723c3f776ff8d438db8f",
+    "flight-provenance.json": "b4e65063e6beefad285e23831c5bc17612dbb6c4e2dee20a3eedb6eecc3f4088",
+    "flight-simulation/index.txt": "17f07c92d1e8d66fbdca552e161836dff4a4a3e0340ac15280223760afe73eaa",
+    "flight-simulation/part-00.tsv.gz": "3aa2b86ac4d599959bbe8e1e8e75e356fd0b1b9f375f4213730cf8aee444cd16",
+    "flight-simulation/part-01.tsv.gz": "1efe9e9a75bae371b739b1bf722c3cb7dd464961f3e159c54d1b91158f278fd6",
+    "flight-simulation/part-02.tsv.gz": "2493c11d00e7252fbbe9129c66fe648190dfc3f38e2e9ab4ea932e3991fa6904",
+    "flight-simulation/part-03.tsv.gz": "ffcc9167b8a2f20e7f289da2ebc7471415109161c62bccf98ab8f89290cd6ae5",
+    "flight-simulation/part-04.tsv.gz": "665a4ab06c932824e0935c4192aa89e9d3cdfdb5934675082b60fd1e5fdb8430",
+    "flight-simulation/part-05.tsv.gz": "7da88e53d25cee6abe4afe63e6dc0d7fa324edec7947142f1de26f152cdeffa4",
+    "flight-simulation/part-06.tsv.gz": "b33f001788816a22faae173c77c93d68f30cb0ffdbd1629e9da66b7c4dfaa884",
     "health-attribution.tsv.gz": "4adfe7ea004327139900cfcb12ef48311dc9e60c212fa74524c2a627d6bc9acf",
     "health-damage.tsv.gz": "3e7b6c8a110d8c0eab9cdaf1a1f614c39f7e5ed9df7142a9c52ad71245b30be7",
     "health-healing.tsv.gz": "ab1d69b1beb6eafc33188e6250e75bf01ddd73800f60bda77719bbc4a6b99b20",
@@ -100,6 +112,7 @@
     "spawn-random.tsv.gz": "46ea550f7e702eb2fb77e6cf61d3dadfc247d835a3cba6da04d7b29ff33dfb98",
     "spawn-settle.tsv.gz": "4fb742168fb7dad2a7e791e0fb116b462f2e5e326670cffd1cc28fa49a5bbef2",
     "spawn-sums.tsv.gz": "6347daf819807f38e2cb8ab90a62b56bc85815c66b3855abeed4c722899a424e",
+    "world/.classic_water.vxl.dMv5so": "33fd784dbff6998bb16ce4b7b78645b53dae17e52d4ee5cffa1eac8f777e23aa",
     "world/cave.columns.tsv": "2c7740d05549db5aecbe27887e92dd1e60132000d6c7d093edfd0b9d017f2609",
     "world/cave.json": "a87887142440a5904c8fdbd5ac838c21da78c7a089252ab0d79052d326bf6bf7",
     "world/cave.vxl": "941a8625966864c633dcdf86a06749376b50d6820625fc3f1a0db0d0523b750c",
@@ -124,7 +137,7 @@
   },
   "catalogs": {
     "net/battlespades/catalog/classes.toml": "b68352cace8b09d31a4e765df3d13b7109b204438a7953494606eac207e13128",
-    "net/battlespades/catalog/life.toml": "fa7f851a39b7c92d4419700c9157c1eb697ecbb0dff65bfdc0dcdca52106da40",
+    "net/battlespades/catalog/life.toml": "a8be6f5dd871006f2efb5211a6fb88236db4d0b2206784002dd3b4a36be24221",
     "net/battlespades/catalog/map-metadata.toml": "833edd7e1f738bb860038245f2291b4dedaf77df75c23bc49d77999d2c5f9e5e",
     "net/battlespades/catalog/modes.toml": "77f252b5e3be07476d6fd8796604e1aaa0368f47b8e6322b5efdb23b6c5c4c18",
     "net/battlespades/catalog/rules.toml": "2a5e94bfdc2146942465dd171faefe0b8d954c73207f89b4ce8abd4d3ea0c05f"

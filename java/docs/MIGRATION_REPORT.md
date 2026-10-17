@@ -1,11 +1,12 @@
 # Java 25 migration report
 
-Date: 2026-10-16 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage binds real no-flight infantry movement to accepted input phases,
-source starvation/backlog pacing, labelled velocity impulses, eye history and fall
-health. Required reload/lag/mode/effect ports remain explicit. Flight, owner
-WorldUpdate, raw hit authorization, full modes and supported-client/capacity gates
-remain pending. Ordinary hosting deliberately exits 2.
+Date: 2026-10-17 UTC. **Incomplete migration; not playable or release-ready.**
+The current stage binds connected jetpack resources/thrust and canopy
+deployment, owner-handoff timing and landing protection to owned accepted-input
+movement. Retail, BSCF v1 and BSCF v2+ profiles share the InitialInfo encoder.
+Reload/lag/mode/effect ports remain explicit; owner WorldUpdate reconciliation,
+combat, concrete modes and supported-client/capacity gates remain pending.
+Ordinary hosting deliberately exits 2.
 
 ## Repository and provenance
 
@@ -30,9 +31,10 @@ remain pending. Ordinary hosting deliberately exits 2.
 - Previous input implementation: `7d0d68e8e3fda4974fe7ebc070e24f7833b74a25`.
 - Previous input tested tree: `e7c13efb769da9833c27e056f69df57832118a30`.
 - Previous input CI: [run 38830815361](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38830815361); all five jobs passed.
-- Published infantry implementation: `1e4c34fced6e6fc96185fd72b212d62b1e3eab70`.
-- Infantry tested/published implementation tree: `4a54308beb4e425dbfa9ea0ab2ba0176b619ccf6`.
-- Current infantry CI: [run 38834640118](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38834640118); all five jobs passed.
+- Previous infantry implementation: `1e4c34fced6e6fc96185fd72b212d62b1e3eab70`.
+- Previous infantry tested/published implementation tree: `4a54308beb4e425dbfa9ea0ab2ba0176b619ccf6`.
+- Previous infantry CI: [run 38834640118](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38834640118); all five jobs passed.
+- Current flight implementation: locally verified; publication and all five current-tree CI jobs pending.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -43,11 +45,23 @@ expected-head lease and exact tested-tree comparison. No release is created.
 
 ## Current implementation
 
+PlayerFlight now runs original fuel/start/defer/tail/release/recharge policy,
+canopy edges/clearance/owner-label schedule and impact-speed damage around the
+production mover. FlightProfile unifies negotiation bytes and the admitted life;
+real ENet RTT reaches the owned flight state. Flight transitions guard backlog
+catch-up; spawn/death and dedicated jetpack-crate refill preserve source order.
+Original full-path comparisons cover 65,497 operations in 44 traces, with 10,368
+additional canopy-impact vectors; 117 focused
+original flight tests pass. The additional UDP test proves negotiated thrust,
+fuel/release and a real safe canopy landing with explicit test ports.
+See [PLAYER_FLIGHT.md](PLAYER_FLIGHT.md) for exact scope and timing heuristics.
+
 InfantrySimulation now drives the actual world-bound mover from one accepted or
 refilled phase per fixed step. PlayerMotion retains current façade controls,
 source starvation/backlog policy, bounded eye/queue history, labelled impulses and
 fall timing. Required ports preserve original reload/lag/after-tick boundaries;
-unsupported flight and Crumbling Run bindings fail explicitly. The original full
+the flight binding extends this path; Crumbling Run still fails explicitly.
+The original full
 SimulationRuntime/Player/native-World path supplies 16,683 exact operations in 33
 traces; real UDP now drives owned movement and a genuine lethal landing's ordered
 health/death packets. See [INFANTRY_SIMULATION.md](INFANTRY_SIMULATION.md).
@@ -56,8 +70,8 @@ InputTimeline records bounded immutable frames and receive metadata, preserves t
 fresh immediate-state gate, selects source-latched movement phases, salvages late
 presses and retains connection action evidence across life resets. ActionClock
 preserves label/arrival cadence and server-time token budgets. The infantry binding
-above adds outer no-flight pacing, impulses and eye history;
-equipment, actual lag compensation, owner WorldUpdate and upstream rate/conduct
+above adds outer pacing, impulses and eye history, and PlayerFlight adds connected
+equipment resources and physical transitions. Actual lag compensation, owner WorldUpdate and upstream rate/conduct
 admission remain pending. Raw hit packets do not authorize damage. Original methods
 execute unchanged for 14,234 input
 and 26,234 cadence comparisons. See [PLAYER_INPUT.md](PLAYER_INPUT.md).
@@ -141,8 +155,9 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Check | Current local result |
 |---|---|
 | Java 25 clean check/build | PASS |
-| Unit/component tests | 4487 passed; 0 failures/errors/skips |
-| Real UDP integration tests | 12 passed; 0 failures/errors/skips |
+| Unit/component tests | 4552 passed; 0 failures/errors/skips |
+| Real UDP integration tests | 13 passed; 0 failures/errors/skips |
+| Flight full-path source comparisons | 65,497 exact operations / 44 traces; 10,368 canopy impact vectors; 117 focused original regressions pass |
 | Infantry full-path source comparisons | 16,683 exact operations / 33 traces; 57 focused original regressions pass |
 | ClientData / cadence source comparisons | 14,234 / 26,234 original operations; exact regeneration |
 | Focused original input/cadence regressions | 31 passed |
@@ -170,7 +185,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | PASS: all five jobs; repeat archive, source regeneration and same JAR on three OSes |
+| Current-tree independent platform CI | PENDING publication and all five jobs; preceding infantry result is recorded separately |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -219,7 +234,7 @@ smoke downloads one Ubuntu-built JAR; source tests additionally run on all three
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
 
-Current infantry CI: [run 38834640118](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38834640118), all five jobs passed
+Previous infantry CI: [run 38834640118](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38834640118), all five jobs passed
 on `1e4c34fced6e6fc96185fd72b212d62b1e3eab70`. It reproduces the full infantry fixture/provenance and
 all earlier source gates, verifies native probes, byte-compares its rebuilt JAR,
 and tests one uploaded artifact on three OSes. No local-to-CI artifact hash
@@ -273,11 +288,11 @@ packaging check. Exact final SHA/size are in verification-results.json.
 
 ## Remaining work and readiness
 
-Next: bind flight equipment/fuel and owner WorldUpdate reconciliation, complete
+Next: implement owner WorldUpdate eligibility/queueing/reconciliation and complete
 upstream rate/conduct admission and required reload/lag/mode/effect ports; implement
 firing/reload and hit/action authorization; connect detached projectile actors and full scoring/award observers; wire
 the common Character lifecycle to concrete modes/effects and authenticated identity,
-and extend the owned infantry path with equipment policy, complete lag-compensation
+and extend the owned movement/flight path with complete lag-compensation
 rewind/anticheat and WorldUpdate construction.
 Continue remaining packets and entity/projectile physics, terrain validation,
 damage/shades/collapse, combat, all modes, bots, creator/tutorial, plugins, admin,

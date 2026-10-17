@@ -1,0 +1,30 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 65497,
+  "groups": 44,
+  "method_substitutions": false,
+  "source_files": {
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/simulation_runtime.py": "385c8793f38e3c340784018e91350d36e3612d1a3252aa8f65295aaf719021bd",
+    "server/handlers/movement.py": "c79b87556293ce351576d659503cc5538082b23bf893179d5612879f6a98632e",
+    "server/flight_profile.py": "1a812863bc6b23a8e416982025c718bb55197826e63252d7b2b3a00014c9e9f3",
+    "server/lag_compensation.py": "200005b94fb13c11028ba80709cee5a58ff6d6d962faa999aa2f4b45446eef08",
+    "shared/constants.py": "125d8fdb66ed78db6927ee8fee0d4be700421d23ca79a6bbabc09351e628d59a",
+    "aoslib/world.pyx": "5290568a97c5b74503642b29d6da9eda56f2fdba0453f9e5c7c3f676d840b1bc",
+    "aoslib/vxl.pyx": "c24f5102983d08f72aa710bbe6315ac5714b2226dafc67b968dcbd789876460d"
+  },
+  "fixtures": {
+    "flight-simulation/part-00.tsv.gz": "3aa2b86ac4d599959bbe8e1e8e75e356fd0b1b9f375f4213730cf8aee444cd16",
+    "flight-simulation/part-01.tsv.gz": "1efe9e9a75bae371b739b1bf722c3cb7dd464961f3e159c54d1b91158f278fd6",
+    "flight-simulation/part-02.tsv.gz": "2493c11d00e7252fbbe9129c66fe648190dfc3f38e2e9ab4ea932e3991fa6904",
+    "flight-simulation/part-03.tsv.gz": "ffcc9167b8a2f20e7f289da2ebc7471415109161c62bccf98ab8f89290cd6ae5",
+    "flight-simulation/part-04.tsv.gz": "665a4ab06c932824e0935c4192aa89e9d3cdfdb5934675082b60fd1e5fdb8430",
+    "flight-simulation/part-05.tsv.gz": "7da88e53d25cee6abe4afe63e6dc0d7fa324edec7947142f1de26f152cdeffa4",
+    "flight-simulation/part-06.tsv.gz": "b33f001788816a22faae173c77c93d68f30cb0ffdbd1629e9da66b7c4dfaa884",
+    "flight-simulation/index.txt": "17f07c92d1e8d66fbdca552e161836dff4a4a3e0340ac15280223760afe73eaa"
+  },
+  "data_sha256": "7775b8c7b2b62b5729bb19bfeeac5c83043f3aca342142d2e4cd9f11644ffd90",
+  "scope": "Original connected Player flight methods through SimulationRuntime and native mover; controlled equipment/profile/RTT/config/owner-row notifications; exact resource, canopy, body, pacing, observer and HP/Restock bytes. Owner-row queue calls are explicit ports, not a replication or real-client oracle.",
+  "impact_vectors": 10368,
+  "impact_fixture_sha256": "712e376fc4fd748226a00a25e9594071ba4d214563d8723c3f776ff8d438db8f"
+}

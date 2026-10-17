@@ -1,10 +1,9 @@
 # Java test results
 
-Stage: authoritative no-flight infantry simulation, 2026-10-16 UTC.
-Published implementation: `1e4c34fced6e6fc96185fd72b212d62b1e3eab70`; tested tree: `4a54308beb4e425dbfa9ea0ab2ba0176b619ccf6`.
-All five migration CI jobs passed in [run 38834640118](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38834640118), including exact
-source-fixture regeneration, repeat archive comparison and one uploaded JAR on
-Linux, Windows and macOS. See [CI_STATUS.md](CI_STATUS.md).
+Stage: connected-player flight integration, 2026-10-17 UTC.
+Local clean check/build passes; this implementation awaits publication and all five
+current-tree CI jobs. The preceding infantry CI remains separately recorded in
+[CI_STATUS.md](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -31,6 +30,7 @@ Linux, Windows and macOS. See [CI_STATUS.md](CI_STATUS.md).
 | net.battlespades.WorldQueriesTest | 2 | 0 | 0 | 0 |
 | net.battlespades.player.ActionClockTest | 34 | 0 | 0 | 0 |
 | net.battlespades.player.AdmissionPolicyTest | 571 | 0 | 0 | 0 |
+| net.battlespades.player.FlightGoldenTest | 62 | 0 | 0 | 0 |
 | net.battlespades.player.HealthGoldenTest | 1368 | 0 | 0 | 0 |
 | net.battlespades.player.HealthRuntimeTest | 4 | 0 | 0 | 0 |
 | net.battlespades.player.InfantryGoldenTest | 33 | 0 | 0 | 0 |
@@ -39,28 +39,29 @@ Linux, Windows and macOS. See [CI_STATUS.md](CI_STATUS.md).
 | net.battlespades.player.InputTimelineTest | 3 | 0 | 0 | 0 |
 | net.battlespades.player.LifeGoldenTest | 1082 | 0 | 0 | 0 |
 | net.battlespades.player.LifeRuntimeTest | 5 | 0 | 0 | 0 |
+| net.battlespades.player.PlayerFlightTest | 3 | 0 | 0 | 0 |
 | net.battlespades.player.SpawnPolicyTest | 36 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 13 | 0 | 0 | 0 |
-| net.battlespades.ApplicationIntegrationTest | 9 | 0 | 0 | 0 |
+| net.battlespades.ApplicationIntegrationTest | 10 | 0 | 0 | 0 |
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **4,499 Java tests passed: 4,487 unit/component and 12 real UDP; zero failures, errors or skips.**
+Total: **4,565 Java tests passed: 4,552 unit/component and 13 real UDP; zero failures, errors or skips.**
 
-The new full-path oracle executes unchanged original SimulationRuntime/Player and
-the real native mover for 16,683 operations in 33 traces. Exact comparisons include
-raw body and clipped façade bits, input/pacing/eye history, observer boundaries and
-HP/death bytes. The fixture and provenance reproduce exactly. Focused unchanged
-original input-loss/movement-anticheat modules: **57 passed**.
+The new full-path flight fixture executes unchanged original Player/SimulationRuntime
+and the native World mover: **65,497 exact operations in 44 traces**. It compares
+resource, canopy, handoff, body/pacing/history and HP/Restock bytes. Another 10,368
+source impact vectors verify all-class/profile/gravity/speed and water-health-rule
+separation. A fresh original
+world rebuild reproduces the fixture and provenance exactly. The prior 16,683-operation
+infantry fixture remains byte-identical. **117 focused original flight tests pass**.
 
-The added UDP test uses production session/life/timeline/mover/health code, advances
-the owned fixed-step scheduler, verifies real/refilled movement and starvation
-freeze, then observes a genuine lethal landing's zero HP before KillAction.
-Required mode/reload/lag/effect hooks are explicit test ports; see
-[INFANTRY_SIMULATION.md](INFANTRY_SIMULATION.md) for exact scope.
+The additional real UDP test negotiates BSCF v2 and verifies production owned
+Engineer thrust/fuel/release and a real canopy landing. Required mode/reload/lag
+ports and trusted equipment changes are explicit test inputs. Owner-row
+notifications in the differential fixture are explicit ports, not a replication
+implementation. See [PLAYER_FLIGHT.md](PLAYER_FLIGHT.md).
 
-Earlier Java regression suites remain passing. The full Python baseline retains
-its documented failures/incomplete runs, including the prior VIP discrepancy.
-Flight-equipped bodies and Crumbling Run momentum require separate bindings;
-complete modes, owner WorldUpdate, hit authorization, supported-client rounds,
-capacity and soak remain pending. Ordinary hosting still exits 2.
+The full Python baseline retains its documented failures/incomplete runs, including
+the existing VIP discrepancy. Complete owner WorldUpdate, bots/corpse-fuse, combat,
+concrete modes, supported-client/capacity/soak gates remain pending. Hosting exits 2.

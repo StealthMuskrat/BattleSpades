@@ -18,6 +18,7 @@ public final class PlayerLife {
     private final InputTimeline inputTimeline=new InputTimeline();
     private final ActionClock actionClock=new ActionClock(inputTimeline);
     private final PlayerMotion motion=new PlayerMotion();
+    private final PlayerFlight flight=new PlayerFlight();
     private ClassCatalog.Selection selection,pending;
     private PlayerPhysics body;
     private PlayerPhysics.Vector position=new PlayerPhysics.Vector(0,0,0),aim=new PlayerPhysics.Vector(1,0,0);
@@ -58,6 +59,22 @@ public final class PlayerLife {
     public InputTimeline inputTimeline(){owned();return inputTimeline;}
     public ActionClock actionClock(){owned();return actionClock;}
     public PlayerMotion motion(){owned();return motion;}
+    public PlayerFlight flight(){owned();return flight;}
+    MovementProfile movementProfile(){return ClassCatalog.movement(selection.classId(),mode,rules);}
+    double canopyWaterDamage(){return ClassCatalog.get(selection.classId()).movement().get(8);}
+    double canopyClearance(){
+        var at=position();double feet=at.z()+((motion.movement&32)!=0&&!body.state().wade()?1.35:2.25);
+        int start=Math.max(0,(int)Math.floor(feet));double best=Double.POSITIVE_INFINITY;
+        for(var corner:new double[][]{{0,0},{-.45,-.45},{.45,-.45},{-.45,.45},{.45,.45}}){
+            int x=(int)Math.floor(at.x()+corner[0]),y=(int)Math.floor(at.y()+corner[1]),ground=239;
+            if(x>=0&&x<512&&y>=0&&y<512&&start<240){
+                int top=239;for(int z=0;z<240;z++)if(world.solid(x,y,z)){top=z;break;}
+                ground=top;for(int z=start;z<240;z++)if(world.solid(x,y,z)){ground=z;break;}
+            }
+            best=Math.min(best,ground-feet);
+        }
+        return best;
+    }
     String movementMode(){owned();return mode;}
     boolean waterFallDamage(){owned();return rules.enabled("RULE_ENABLE_FALL_ON_WATER_DAMAGE");}
     /** This API accepts a previously validated selection; packet-13 cooldown/interaction gates are not bypassed here. */
@@ -81,7 +98,7 @@ public final class PlayerLife {
         owned();if(team==0)throw new IllegalStateException("Spectator cannot spawn");if(!Double.isFinite(monotonic))throw new IllegalArgumentException("Spawn clock");
         walletScale(walletScale);inventory.spawn(selection.classId(),walletScale);position=Objects.requireNonNull(at);generation++;health=maxHealth=LifeCatalog.HEALTH;damageHistory.clear();spawnedAt=monotonic;protectionCancelled=false;protectionCap=null;alive=true;spawned=true;lastDeath=null;color=teamColor&0xffffff;
         jetpack=selection.loadout().stream().filter(LifeCatalog.PACK_FUEL::containsKey).findFirst().orElse(0);parachute=selection.loadout().contains(72)?72:0;
-        inputTimeline.resetLife();actionClock.reset(null);motion.resetLife();body=new PlayerPhysics(world);body.position(at);body.profile(ClassCatalog.movement(selection.classId(),mode,rules));orientBody();body.flight(new PlayerPhysics.Flight(jetpack==0?0:jetpack-65,false,false,false,parachute!=0,false,0.1f,0.05f,false));
+        inputTimeline.resetLife();actionClock.reset(null);motion.resetLife();flight.resetLife();body=new PlayerPhysics(world);body.position(at);body.profile(movementProfile());orientBody();body.flight(flight.mover(this));
         // RoundLifecycle, rather than Player.spawn itself, clears death_time after a successful spawn.
     }
     public void clearDeathTime(){owned();deathTime=0;}
@@ -93,8 +110,8 @@ public final class PlayerLife {
     }
     public void rememberDeath(LifePackets.KillAction packet){owned();if(alive)throw new IllegalStateException("Live death packet");lastDeath=packet.quiet();}
     public boolean beginDeath(double wall){
-        owned();if(!alive)return false;alive=false;spawned=false;deathTime=wall;inventory.reloadState(false,0);motion.died();
-        body.alive(false);body.input(new PlayerPhysics.Input(false,false,false,false,false,false,false));body.flight(new PlayerPhysics.Flight(jetpack==0?0:jetpack-65,false,false,false,parachute!=0,false,0.1f,0.05f,false));return true;
+        owned();if(!alive)return false;alive=false;spawned=false;deathTime=wall;inventory.reloadState(false,0);motion.died();flight.died();
+        body.alive(false);body.input(new PlayerPhysics.Input(false,false,false,false,false,false,false));body.flight(flight.mover(this));return true;
     }
     public void protectionCap(Double value){owned();protectionCap=value;}
     public double protectionRemaining(double now){owned();if(!alive||protectionCancelled)return 0;double duration=rules.number("RULE_SPAWN_PROTECTION_TIME");if(protectionCap!=null&&protectionCap<duration)duration=protectionCap;return duration<=0?0:Math.max(0,duration-(now-spawnedAt));}

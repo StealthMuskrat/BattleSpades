@@ -373,18 +373,38 @@ interval = 1.0
 [[pack]]
 id = 66
 fuel = 100.0
+start_delay = 0.25
+activation_cost = 10.0
+refill = 10.0
+drain = 75.0
+damage_delay = 2.0
 
 [[pack]]
 id = 67
 fuel = 100.0
+start_delay = 0.25
+activation_cost = 10.0
+refill = 9.0
+drain = 17.0
+damage_delay = 2.0
 
 [[pack]]
 id = 68
 fuel = 100.0
+start_delay = 0.25
+activation_cost = 10.0
+refill = 3.0
+drain = 18.0
+damage_delay = 0.5
 
 [[pack]]
 id = 69
 fuel = 100.0
+start_delay = 0.1
+activation_cost = 0.0
+refill = 100.0
+drain = 0.0
+damage_delay = 0.1
 
 [[launcher]]
 tool = 12

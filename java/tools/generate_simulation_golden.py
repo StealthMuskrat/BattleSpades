@@ -80,54 +80,57 @@ class Fixture:
    else:raise AssertionError(op)
   finally:sys.setprofile(None)
   return self.snapshot(),';'.join(self.events) or '-', ';'.join(self.wire) or '-'
-rows=[]
-try:
- for group in range(33):
-  cid=group%18;f=Fixture(cid);label=100;randomizer=random.Random(6220+group)
-  def emit(op,arg):rows.append((group,cid,op,arg,*f.op(op,arg)))
-  def receive(n,move=0,actions=24,aim=(1,0,0)):emit('receive',','.join(map(str,[n,move,actions,randomizer.randrange(256),*(bits(v) for v in aim)])))
-  def tick(seconds=1/60):emit('tick',bits(seconds))
-  if group<18:
-   if group%3==0:emit('peer',','.join(map(str,[1,3,*[bits(v) for v in (37.25,36,97.75)]])))
-   for i in range(180):
-    label+=1;move=[1,129,33,16,65,0][(i//30)%6];a=[(1,0,0),(0,1,0),(0,0,1),(.125,.25,-.5),(1e-7,0,0),(-1,0,0)][(i//30)%6]
-    if i%19!=0:receive(label,move,24,a)
-    if i%29==0:receive(label-1,17,128,(0,1,0))
-    if i%71==0:emit('impulse',','.join([str(label+2),bits(.00003),bits(.02),bits(-.03)]))
-    tick()
-  elif group<24:
-   enforce=group%2;emit('settings',','.join([bits(1),'0','1','8',str(enforce),bits(.4 if group<22 else 8),'4',str(enforce),'6']))
-   receive(100);tick();emit('spawn',','.join(bits(x) for x in (36,36,30)));receive(101,129,128);tick()
-   for _ in range(45):tick()
-   tick(2);receive(102);tick();emit('live','0');receive(103);tick();emit('live','1');tick();emit('god','0')
-   for i in range(104,240):receive(i);tick()
-   emit('spawn',','.join(bits(x) for x in (36,36,20)));emit('ownblast','4')
-   for i in range(240,560):receive(i);tick()
-  elif group<29:
-   enforce=1 if group==28 else group%2;emit('settings',','.join([bits(1),'0','1','8','0',bits(8),'24',str(enforce),'6']));emit('retail','0' if group==24 else '-')
-   receive(100);tick()
-   for n in range(101,191):receive(n)
-   if group==27:emit('pending','1')
-   if group==28:emit('cell','36,36,100,0')
-   for n in range(191,431):receive(n,0,128 if group==26 else 24);tick()
-  elif group==29:
-   emit('peer',','.join(map(str,[1,2,*[bits(v) for v in (37.25,36,97.75)]])))
-   for n in range(100,280):
-    if n==160:emit('settings',','.join([bits(.4),'1','1','0','0',bits(8),'24','0','6']));emit('burden','1')
-    receive(n,1 if n<220 else 161);tick()
-  elif group==30:
-   emit('spawn',','.join(bits(x) for x in (36,36,220)));emit('god','0')
-   for n in range(100,260):receive(n);tick()
-  elif group==31:
-   receive(100);tick()
-   for i in range(65):emit('impulse',','.join([str(500+i),bits(.003),bits(.00003),bits(0)]))
-   receive(600);tick();emit('spawn',','.join(bits(x) for x in (36,36,97)));receive(700);tick()
-  elif group==32:
-   receive(100);tick();emit('spawn',','.join(bits(x) for x in (36,36,20)));emit('god','0')
-   for n in range(101,461):receive(n);tick()
- buffer=io.BytesIO();raw=('\n'.join('\t'.join(map(str,row)) for row in rows)+'\n').encode()
- with gzip.GzipFile(filename='',mode='wb',fileobj=buffer,mtime=0) as z:z.write(raw)
- fixture=OUT/'infantry-simulation.tsv.gz';fixture.write_bytes(buffer.getvalue())
- sources=['server/player.py','server/simulation_runtime.py','server/handlers/movement.py','server/anticheat.py','aoslib/world.pyx','server/game_rules.py']
- (OUT/'infantry-provenance.json').write_text(json.dumps({'source_commit':'6216b771282d2d349ccd67ee58c378f035c83553','operations':len(rows),'groups':33,'method_substitutions':False,'source_files':{n:hashlib.sha256((ROOT/n).read_bytes()).hexdigest() for n in sources},'fixture_sha256':hashlib.sha256(fixture.read_bytes()).hexdigest(),'scope':'ordinary no-flight original SimulationRuntime._simulate_players, Player.simulate_tick/update and real native mover; profiles observe reload/lag/after-tick/report boundaries; excludes flight, concrete modes, award/reload results and replication'},indent=2)+'\n');print('infantry operations',len(rows))
-finally:time.monotonic,time.time=original
+def generate():
+ rows=[]
+ try:
+  for group in range(33):
+   cid=group%18;f=Fixture(cid);label=100;randomizer=random.Random(6220+group)
+   def emit(op,arg):rows.append((group,cid,op,arg,*f.op(op,arg)))
+   def receive(n,move=0,actions=24,aim=(1,0,0)):emit('receive',','.join(map(str,[n,move,actions,randomizer.randrange(256),*(bits(v) for v in aim)])))
+   def tick(seconds=1/60):emit('tick',bits(seconds))
+   if group<18:
+    if group%3==0:emit('peer',','.join(map(str,[1,3,*[bits(v) for v in (37.25,36,97.75)]])))
+    for i in range(180):
+     label+=1;move=[1,129,33,16,65,0][(i//30)%6];a=[(1,0,0),(0,1,0),(0,0,1),(.125,.25,-.5),(1e-7,0,0),(-1,0,0)][(i//30)%6]
+     if i%19!=0:receive(label,move,24,a)
+     if i%29==0:receive(label-1,17,128,(0,1,0))
+     if i%71==0:emit('impulse',','.join([str(label+2),bits(.00003),bits(.02),bits(-.03)]))
+     tick()
+   elif group<24:
+    enforce=group%2;emit('settings',','.join([bits(1),'0','1','8',str(enforce),bits(.4 if group<22 else 8),'4',str(enforce),'6']))
+    receive(100);tick();emit('spawn',','.join(bits(x) for x in (36,36,30)));receive(101,129,128);tick()
+    for _ in range(45):tick()
+    tick(2);receive(102);tick();emit('live','0');receive(103);tick();emit('live','1');tick();emit('god','0')
+    for i in range(104,240):receive(i);tick()
+    emit('spawn',','.join(bits(x) for x in (36,36,20)));emit('ownblast','4')
+    for i in range(240,560):receive(i);tick()
+   elif group<29:
+    enforce=1 if group==28 else group%2;emit('settings',','.join([bits(1),'0','1','8','0',bits(8),'24',str(enforce),'6']));emit('retail','0' if group==24 else '-')
+    receive(100);tick()
+    for n in range(101,191):receive(n)
+    if group==27:emit('pending','1')
+    if group==28:emit('cell','36,36,100,0')
+    for n in range(191,431):receive(n,0,128 if group==26 else 24);tick()
+   elif group==29:
+    emit('peer',','.join(map(str,[1,2,*[bits(v) for v in (37.25,36,97.75)]])))
+    for n in range(100,280):
+     if n==160:emit('settings',','.join([bits(.4),'1','1','0','0',bits(8),'24','0','6']));emit('burden','1')
+     receive(n,1 if n<220 else 161);tick()
+   elif group==30:
+    emit('spawn',','.join(bits(x) for x in (36,36,220)));emit('god','0')
+    for n in range(100,260):receive(n);tick()
+   elif group==31:
+    receive(100);tick()
+    for i in range(65):emit('impulse',','.join([str(500+i),bits(.003),bits(.00003),bits(0)]))
+    receive(600);tick();emit('spawn',','.join(bits(x) for x in (36,36,97)));receive(700);tick()
+   elif group==32:
+    receive(100);tick();emit('spawn',','.join(bits(x) for x in (36,36,20)));emit('god','0')
+    for n in range(101,461):receive(n);tick()
+  buffer=io.BytesIO();raw=('\n'.join('\t'.join(map(str,row)) for row in rows)+'\n').encode()
+  with gzip.GzipFile(filename='',mode='wb',fileobj=buffer,mtime=0) as z:z.write(raw)
+  fixture=OUT/'infantry-simulation.tsv.gz';fixture.write_bytes(buffer.getvalue())
+  sources=['server/player.py','server/simulation_runtime.py','server/handlers/movement.py','server/anticheat.py','aoslib/world.pyx','server/game_rules.py']
+  (OUT/'infantry-provenance.json').write_text(json.dumps({'source_commit':'6216b771282d2d349ccd67ee58c378f035c83553','operations':len(rows),'groups':33,'method_substitutions':False,'source_files':{n:hashlib.sha256((ROOT/n).read_bytes()).hexdigest() for n in sources},'fixture_sha256':hashlib.sha256(fixture.read_bytes()).hexdigest(),'scope':'ordinary no-flight original SimulationRuntime._simulate_players, Player.simulate_tick/update and real native mover; profiles observe reload/lag/after-tick/report boundaries; excludes flight, concrete modes, award/reload results and replication'},indent=2)+'\n');print('infantry operations',len(rows))
+ finally:time.monotonic,time.time=original
+
+if __name__ == "__main__":generate()

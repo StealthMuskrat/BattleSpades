@@ -18,7 +18,7 @@ for cid,(start,maximum) in sorted(C.CLASS_BLOCKS.items()):rows.append(('blocks',
 for tool,row in sorted(P.ORIENTED_STOCK_AMMO.items()):rows.append(('oriented',dict(tool=tool,stock=list(row))))
 for tool,r in sorted(D.STOCK_RULES.items()):rows.append(('deployable',dict(tool=tool,initial=r.initial,maximum=r.maximum,restock=r.restock,interval=r.interval)))
 for tool,interval in sorted(D._INTERVALS.items()):rows.append(('cadence',dict(tool=tool,interval=interval)))
-for pack,values in sorted(P._JETPACK_PROPERTIES.items()):rows.append(('pack',dict(id=int(pack),fuel=float(values.get(1,100)))))
+for pack,values in sorted(P._JETPACK_PROPERTIES.items()):rows.append(('pack',dict(id=int(pack),fuel=float(values.get(1,100)),start_delay=float(values.get(0,.25)),activation_cost=float(values.get(2,10)),refill=float(values.get(3,10)),drain=float(values.get(4,75)),damage_delay=float(values.get(6,2)))))
 for tool in sorted(P.Player._RELOADING_LAUNCHERS):
     profile=G.WEAPON_CATALOG.get(tool)
     if profile is not None:rows.append(('launcher',dict(tool=tool,clip=profile.clip_size,reload=profile.reload_time,interval=profile.fire_interval,cycles=tool in P.Player._CLIP_RELOAD_LAUNCHERS)))

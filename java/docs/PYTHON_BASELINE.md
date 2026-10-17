@@ -1,5 +1,13 @@
 # Reference baseline (2026-10-15 UTC)
 
+The 2026-10-16 flight checkpoint separately passes **117 original tests**:
+`tests/test_jetpack.py`, `tests/test_jetpack_handoff_latency.py`,
+`tests/test_parachute.py`, `tests/test_flight_balance.py` and
+`tests/test_flight_authority_flow.py`. Zero failures/errors/skips. Its full-path
+flight oracle executes unchanged Player/SimulationRuntime/native World methods;
+see [PLAYER_FLIGHT.md](PLAYER_FLIGHT.md). This focused result does not replace the
+full baseline or resolve its existing VIP discrepancy.
+
 Source: `6216b771282d2d349ccd67ee58c378f035c83553`, unchanged production
 Python/Cython implementation. Python 3.12. Original requirements installed in an
 isolated reference virtual environment. Cython 3.0.12, setuptools 80.9.0. Native

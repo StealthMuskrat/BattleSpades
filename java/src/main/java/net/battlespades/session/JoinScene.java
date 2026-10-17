@@ -20,6 +20,7 @@ public interface JoinScene {
     default Admission admit(int reservedId,SimplePackets.NewPlayerConnection request,PlayerPackets.SetClassLoadout selection) {return admit(reservedId,request,selection,0);}
     default List<GamePacket> reveal(int playerId) {return List.of();}
     default void input(int playerId,LiveClientInput input,int receivedServerLoop) {}
+    default void roundTripMillis(int playerId,Double measurement) {}
     default void packet(int playerId,GamePacket packet) {}
     default void disconnected(int playerId) {}
 }

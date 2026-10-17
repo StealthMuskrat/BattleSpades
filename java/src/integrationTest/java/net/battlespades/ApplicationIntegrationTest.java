@@ -42,6 +42,8 @@ class ApplicationIntegrationTest {
         final Set<Integer> received=new HashSet<>();
         int peerId=-1,outSession,inSession,reliable,group,reason=-1;
         byte[] key=new byte[0];
+        int flightCapability;
+        byte[] negotiatedFlight;
         Client(SocketAddress server) throws Exception {this.server=server;udp=new UdpEndpoint(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),4096);}
         void connect() throws Exception {
             byte[] p=ByteBuffer.allocate(44).putShort((short)0).put((byte)255).put((byte)255).putInt(1400).putInt(65536).putInt(1)
@@ -65,7 +67,9 @@ class ApplicationIntegrationTest {
                     if(c.id()==4) {reason=ByteBuffer.wrap(c.parameters()).getInt();continue;}
                     if(c.id()!=6 && c.id()!=7 && c.id()!=9) continue;
                     if(c.id()==6 && !received.add(c.reliableSequence())) continue;
-                    byte[] wire=c.payload();byte[] body=Lzf.decode(Arrays.copyOfRange(wire,1,wire.length),65536);packets.add(PacketCodec.decode(body));commands.add(c.id());
+                    byte[] wire=c.payload();byte[] body=Lzf.decode(Arrays.copyOfRange(wire,1,wire.length),65536);
+                    if(body[0]==114&&flightCapability>0){int length=flightCapability>=2?24:20;negotiatedFlight=Arrays.copyOfRange(body,body.length-length,body.length);body=Arrays.copyOf(body,body.length-length);}
+                    packets.add(PacketCodec.decode(body));commands.add(c.id());
                 }
             }
         }
@@ -79,7 +83,11 @@ class ApplicationIntegrationTest {
         void until(BooleanSupplier condition) throws Exception {long deadline=System.nanoTime()+4_000_000_000L;while(!condition.getAsBoolean()) {assertTrue(System.nanoTime()<deadline,"UDP application loop timed out");step();Thread.onSpinWait();}}
         void ticketAndLoad(Client client,FixtureScene scene) throws Exception {ticketAndLoad(client,scene.world());}
         void ticketAndLoad(Client client,MutableWorld world) throws Exception {
-            clients.add(client);client.connect();until(()->client.peerId>=0);client.send(new LoadingPackets.SteamSessionTicket(new byte[]{3,7,19}),false);client.key=new byte[]{3,7,19};
+            ticketAndLoad(client,world,0);
+        }
+        void ticketAndLoad(Client client,MutableWorld world,int capability) throws Exception {
+            client.flightCapability=capability;
+            clients.add(client);client.connect();until(()->client.peerId>=0);client.send(new LoadingPackets.SteamSessionTicket(new byte[]{3,7,19},capability==0?new byte[0]:new byte[]{'B','S','C','F',(byte)capability}),false);client.key=new byte[]{3,7,19};
             until(()->client.has(114));client.send(new SimplePackets.MapDataValidation(world.sourceCrc()),false);until(()->client.has(45));
         }
     }
@@ -226,6 +234,33 @@ class ApplicationIntegrationTest {
                     p.spawn(new net.battlespades.physics.PlayerPhysics.Vector(36,36,20),h.monotonic,1,p.color());
                     for(int label=200;label<560&&p.alive();label++){client.send(new ClientInput(label,0,false,6,1,0,0,0,0,24,0),true);loop.until(()->p.inputTimeline().size()>0);h.monotonic+=FixedStepRuntime.DELTA;h.wall+=FixedStepRuntime.DELTA;fixed.advance(FixedStepRuntime.DELTA);}
                     loop.until(()->client.has(46));assertFalse(p.alive());int hp=-1,death=-1;for(int i=0;i<client.packets.size();i++){var packet=client.packets.get(i);if(packet instanceof LifePackets.SetHP value&&value.hp()==0)hp=i;if(packet instanceof LifePackets.KillAction)death=i;}assertTrue(hp>=0&&hp<death);assertTrue(ports.moves>50);
+                }
+            }
+        });
+    }
+    @Test void negotiatedFlightConsumesRealUdpInputAndCanopyBrakesARealLanding(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("Flight UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var h=new LifeHarness()){
+                for(int x=25;x<=70;x++)for(int y=30;y<=40;y++)h.world.set(new MutableWorld.Cell(x,y,100),true,0x123456,null);
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),()->ScenePackets.State.initial(config),h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),1,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var client=new Client(host.address())){
+                    h.destination=new LifeRuntime.Messages(){public void broadcast(GamePacket p){host.broadcast(p,Delivery.RELIABLE);}public void owner(int id,GamePacket p){assertTrue(host.sendPlayer(id,p));}public boolean inGame(int id){return host.inGame(id);}};
+                    var loop=new Loop(host);loop.ticketAndLoad(client,h.world,2);assertArrayEquals(FlightProfile.BALANCED_V2.encode(),client.negotiatedFlight);client.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"pilot"),false);loop.until(()->client.has(69));var p=h.runtime.player(0);assertEquals(FlightProfile.BALANCED_V2,p.flight().profile());
+                    p.apply(new ClassCatalog.Selection(0,List.of(5,6,68),List.of(),List.of()));p.spawn(new net.battlespades.physics.PlayerPhysics.Vector(36,36,20),h.monotonic,1,p.color());
+                    var ports=new InfantryPorts();var simulation=new InfantrySimulation(h.runtime,InfantrySimulation.Settings.defaults(),ports);int[] tick={1000};var fixed=new FixedStepRuntime(16,16,()->simulation.tick(++tick[0]),()->{},failure->{throw new AssertionError(failure);});
+                    loop.until(()->{try{client.send(new ClientInput(100,0,false,6,1,0,0,0,17,24,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0);});
+                    var initial=p.body().state();assertEquals(100,p.flight().snapshot().fuel());assertEquals(0,ports.moves);assertTrue(p.flight().roundTripMillis().isPresent());
+                    for(int label=101;label<285;label++){client.send(new ClientInput(label,0,false,6,1,0,0,0,17,24,0),true);int accepted=label;loop.until(()->Objects.equals(p.inputTimeline().newestLabel(),accepted));h.monotonic+=FixedStepRuntime.DELTA;h.wall+=FixedStepRuntime.DELTA;fixed.advance(FixedStepRuntime.DELTA);}
+                    assertTrue(p.flight().snapshot().physicsActive(),"accepted steps ignite thrust");assertTrue(p.flight().snapshot().fuel()<90,"thrust consumes fuel");assertTrue(p.position().x()>initial.position().x(),"flight moves forward");assertTrue(p.body().state().velocity().z()<0,"sustained Engineer thrust overcomes the initial fall");
+                    for(int label=285;label<288;label++){client.send(new ClientInput(label,0,false,6,1,0,0,0,0,24,0),true);int accepted=label;loop.until(()->Objects.equals(p.inputTimeline().newestLabel(),accepted));fixed.advance(FixedStepRuntime.DELTA);}assertFalse(p.flight().snapshot().physicsActive());
+                    p.apply(new ClassCatalog.Selection(0,List.of(5,6,72),List.of(),List.of()));p.spawn(new net.battlespades.physics.PlayerPhysics.Vector(36,36,60),h.monotonic,1,p.color());
+                    boolean sawCanopy=false;
+                    for(int label=400;label<1050;label++){
+                        client.send(new ClientInput(label,0,false,6,1,0,0,0,0,label>=403?152:24,0),true);int accepted=label;loop.until(()->Objects.equals(p.inputTimeline().newestLabel(),accepted));h.monotonic+=FixedStepRuntime.DELTA;h.wall+=FixedStepRuntime.DELTA;fixed.advance(FixedStepRuntime.DELTA);sawCanopy|=p.flight().snapshot().canopyPhysics();
+                        if(sawCanopy&&!p.body().state().airborne())break;
+                    }
+                    assertTrue(sawCanopy);assertFalse(p.body().state().airborne());assertFalse(p.flight().snapshot().canopy());assertFalse(p.flight().snapshot().canopyPhysics());assertEquals(100,p.health());assertTrue(p.alive());assertFalse(client.has(46));
                 }
             }
         });

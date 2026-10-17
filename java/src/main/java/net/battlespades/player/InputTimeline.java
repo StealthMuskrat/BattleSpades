@@ -53,6 +53,7 @@ public final class InputTimeline {
     public Integer appliedLabel(){owned();return applied;}
     public int size(){owned();return frames.size();}
     public Frame firstFrame(){owned();return frames.isEmpty()?null:frames.firstEntry().getValue();}
+    public Frame lastFrame(){owned();return frames.isEmpty()?null:frames.lastEntry().getValue();}
     public Frame frame(int label){owned();return frames.get(label);}
     public int pendingMovement(){owned();return pendingMovement;}
     public Integer appliedActions(){owned();return appliedActions;}

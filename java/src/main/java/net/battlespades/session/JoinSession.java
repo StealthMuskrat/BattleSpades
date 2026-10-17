@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalInt;
 import net.battlespades.protocol.*;
+import net.battlespades.player.FlightProfile;
 import net.battlespades.transport.enet.Delivery;
 import net.battlespades.world.*;
 
@@ -17,6 +18,7 @@ public final class JoinSession implements AutoCloseable {
     public interface WireSink {
         boolean send(SessionFrame frame);
         void disconnect(int reason);
+        default Double roundTripMillis(){return null;}
     }
     public record Metrics(State state,long generation,int capability,int queuedControls,long controlBytes,
             long malformedPackets,long domainFailures,long droppedClocks) {}
@@ -147,9 +149,7 @@ public final class JoinSession implements AutoCloseable {
         if(enqueue(List.of(new SessionFrame(0x30,body,Delivery.RELIABLE)))) state=State.INITIAL;
     }
     private static byte[] flightProfile(int capability) {
-        int version=capability>=2?2:1;var w=new Wire.Writer().bytes(new byte[]{'B','S','F','P',(byte)version}).u8(version==2?7:3);
-        for(int value:new int[]{64,1920,576,480,1280,1280,1280}) w.i16(value);
-        if(version==2) w.i16(256).i16(160);return w.toByteArray();
+        return FlightProfile.forCapability(capability).encode();
     }
     private boolean enqueue(List<SessionFrame> frames) {
         long bytes=frames.stream().mapToLong(SessionFrame::memoryBytes).sum();
@@ -176,6 +176,7 @@ public final class JoinSession implements AutoCloseable {
     public void pulse(long now,int loop) {
         time(now);if(state==State.CLOSED) return;
         try {
+            if(admitted&&slot!=null)scene.roundTripMillis(slot.id(),sink.roundTripMillis());
             if(state==State.PASSWORD && passwordAsked>=0 && now-passwordAsked>=passwords.timeoutMillis()) {fail(11);return;}
             int budget=settings.packetBudget();budget-=drain(budget,now);if(!controls.isEmpty()) return;
             if(state==State.RETIRING) {

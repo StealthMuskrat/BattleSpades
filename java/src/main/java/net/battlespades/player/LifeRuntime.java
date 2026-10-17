@@ -96,6 +96,8 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     public List<PlayerLife> players(){owned();return List.copyOf(players.values());}
     public boolean inGame(int id){owned();return messages.inGame(id);}
     double movementClock(){owned();return clock.monotonic();}
+    double movementWallClock(){owned();return clock.wall();}
+    @Override public void roundTripMillis(int id,Double measurement){owned();player(id).flight().roundTripMillis(measurement);}
     public Score score(int id){owned();var s=Objects.requireNonNull(scores.get(id));return new Score(s.kills,s.deaths,s.streak,s.lastKilledBy,s.bonuses);}
     /** Synchronous chained blasts retain the outermost non-null instigator, as conduct.blast_instigator does. */
     public BlastScope blast(Integer instigatorId){owned();PlayerLife current=blasts.isEmpty()?null:blasts.getLast().instigator;var scope=new BlastScope(current!=null?current:instigatorId==null?null:player(instigatorId));blasts.addLast(scope);return scope;}
@@ -136,6 +138,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     @Override public JoinScene.Admission admit(int id,SimplePackets.NewPlayerConnection request,ClassCatalog.Selection selection,int capability){
         owned();if(players.containsKey(id))throw new IllegalStateException("Player id already occupied");
         var p=new PlayerLife(id,request.team(),request.local_language(),request.name(),mode,CollisionMap.of(world),rules,selection,policy.walletScale());
+        p.flight().negotiate(capability);p.motion().flightCapability(capability>0);
         var after=new ArrayList<GamePacket>();boolean spectator=p.team()==0;
         // The synchronous mode preparation occurs even when its respawn gate rejects the first life.
         if(!spectator)policy.prepareSpawn(p);
@@ -163,6 +166,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
         }
     }
     public void restock(int id,int type,boolean bot){owned();var p=player(id);if(!p.alive())return;p.inventory().restock(type,clock.monotonic(),bot);messages.owner(id,new SimplePackets.Restock(id,type));}
+    public void restockJetpack(int id){owned();var p=player(id);if(!p.alive()||!LifeCatalog.PACKS.containsKey(p.jetpack()))return;p.flight().restock(p.jetpack());messages.owner(id,new SimplePackets.Restock(id,6));}
     private static int clamp(int value){return Math.max(0,Math.min(255,value));}
     public boolean die(int id,Integer killerId,int weaponType){
         owned();var p=player(id);if(!p.alive())return false;var killer=killerId==null?null:player(killerId);int type=policy.deathType(p,killer,weaponType);p.beginDeath(clock.wall());boolean transition=LifeCatalog.TRANSITIONS.contains(type),enemy=killer!=null&&killer!=p&&policy.opponents(killer,p)&&!transition;

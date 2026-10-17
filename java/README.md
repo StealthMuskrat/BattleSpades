@@ -1,7 +1,9 @@
 # BattleSpades Java 25 migration
 
 **Development components, not a playable server.** This executable deliberately
-returns exit code 2 for normal game startup. Common scene/lifecycle components exist; live input/combat integration and concrete game modes remain unimplemented.
+returns exit code 2 for normal game startup. Common scene/lifecycle and owned
+movement/flight components exist; combat, owner replication and concrete modes
+remain incomplete.
 Owned application sessions and live catch-up are tested with a domain fixture.
 See [FEATURE_PARITY.md](docs/FEATURE_PARITY.md) and the
 [migration plan](../JAVA25_MIGRATION_PLAN.md). Do not deploy this JAR as a game server.
@@ -73,6 +75,9 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 - Authoritative no-flight infantry steps, source starvation/backlog policy,
   labelled impulses, eye history and fall-health integration. See
   [infantry evidence and remaining loop/equipment work](docs/INFANTRY_SIMULATION.md).
+- Connected jetpack fuel/thrust and parachute deployment/landing timelines,
+  negotiated flight profiles and real ENet RTT input. See
+  [flight evidence and owner replication limits](docs/PLAYER_FLIGHT.md).
 - Layered inert map metadata, mode/UGC layout assembly and stock catalogue filtering,
   connected to scene packets and spawn geometry. See [metadata evidence and limits](docs/MAP_METADATA.md).
 - Authored spawn geometry, threat-aware selection and bounded rescue, with source

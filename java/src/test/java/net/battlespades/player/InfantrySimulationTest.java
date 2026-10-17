@@ -34,11 +34,11 @@ class InfantrySimulationTest {
             loop.advance(FixedStepRuntime.DELTA);assertEquals(101,p.inputTimeline().appliedLabel());assertTrue(p.position().x()>before.position().x());assertEquals(2,ports.moves);
         }
     }
-    @Test void unsupportedFlightFailsVisiblyAndDoesNotFreezeTheFollowingActor(){
+    @Test void flightEquipmentAndTheFollowingActorBothConsumeTheirOwnedStep(){
         try(var h=new LifeHarness()){
             h.admit(0,2);h.admit(1,3);var first=h.runtime.player(0);first.apply(new ClassCatalog.Selection(0,List.of(5,6,66),List.of(),List.of()));first.spawn(first.position(),h.monotonic,1,first.color());
             h.runtime.input(0,input(100,1),1);h.runtime.input(1,input(100,1),1);var ports=new Ports();var simulation=new InfantrySimulation(h.runtime,InfantrySimulation.Settings.defaults(),ports);simulation.tick(1);
-            assertEquals(List.of(0),ports.failures);assertNull(first.inputTimeline().appliedLabel());assertEquals(100,h.runtime.player(1).inputTimeline().appliedLabel());assertEquals(1,ports.moves);
+            assertTrue(ports.failures.isEmpty());assertEquals(100,first.inputTimeline().appliedLabel());assertEquals(100,h.runtime.player(1).inputTimeline().appliedLabel());assertEquals(2,ports.moves);
         }
     }
     @Test void eyeSnapshotsAreFrozenAndFacadeClippingPreservesRawMoverVelocity(){

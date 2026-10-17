@@ -1,4 +1,24 @@
-# Current infantry checkpoint verification
+# Current flight checkpoint verification
+
+The local clean check/build passes **4,552 unit/component + 13 UDP tests**, zero
+failures/errors/skips. All **117 focused original flight tests** pass. A fresh
+original World/VXL/packet build reproduces flight and infantry fixtures/provenance
+exactly: 65,497 flight operations in 44 traces, 10,368 canopy impact vectors and
+16,683 prior infantry operations.
+Native transport and packaged-loader probes pass nominal/impaired profiles.
+
+Two CRC-valid local archives are byte-identical: 1,340,629 bytes,
+SHA-256 `102f64b6c21657a9c6f8a5d803e1d27701a26a759277694baa84f1f216f04fd3`. Production classes target major 69; no
+native/Python/test fixture classes are packaged. Version/config smoke exits 0;
+ordinary hosting still exits 2.
+
+Publication and all five current-tree CI jobs are pending. No result is inferred
+from the preceding checkpoint. The user has authorized this and future verified
+checkpoints on the same branch, including code/workflow updates and all five jobs.
+See [PLAYER_FLIGHT.md](PLAYER_FLIGHT.md) for the explicit owner-row port, source
+timing heuristics and remaining gameplay/reference-baseline limits.
+
+# Preceding infantry checkpoint verification
 
 Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/38834640118
 

@@ -6,7 +6,7 @@ import net.battlespades.physics.PlayerPhysics;
 import net.battlespades.physics.PlayerPhysics.Vector;
 import net.battlespades.simulation.FixedStepRuntime;
 
-/** Source simulate_tick and ordinary no-flight Player.update binding.
+/** Source simulate_tick and connected-player Player.update movement/flight binding.
  * Required hooks expose unported mode/reload/lag/observer work. This is not a mode or hosting loop.
  */
 public final class InfantrySimulation {
@@ -42,7 +42,6 @@ public final class InfantrySimulation {
     }
     private void simulate(PlayerLife p,int tick){
         hooks.lagHistory(p,tick);if(!p.alive()||!p.spawned())return;
-        if(p.jetpack()!=0||p.parachute()!=0)throw new IllegalStateException("Flight equipment requires its own simulation binding");
         if(p.movementMode().equals("crumbling_run"))throw new IllegalStateException("Race momentum requires its own simulation binding");
         var m=p.motion();var timeline=p.inputTimeline();double now=runtime.movementClock();
         Double last=m.lastSimulated;m.lastSimulated=now;if(last==null||now-last>1)m.starvationBaseline=now;
@@ -88,9 +87,12 @@ public final class InfantrySimulation {
         housekeeping(p);var m=p.motion();var body=p.body();var before=body.state();double dt=FixedStepRuntime.DELTA;
         m.movementTime+=dt;m.triggerJump=(m.movement&16)!=0&&!before.airborne();var peers=peers(p);
         int f=m.movement;body.input(new PlayerPhysics.Input((f&1)!=0,(f&2)!=0,(f&4)!=0,(f&8)!=0,(f&16)!=0,(f&64)!=0,(f&128)!=0));
-        body.flight(PlayerPhysics.Flight.infantry());body.burdened(hooks.burdened(p));body.crouch((f&32)!=0,peers);
+        p.flight().beforeMove(p,dt,runtime.movementWallClock());if(p.flight().ownsJump())m.retailJumpLabel=null;
+        body.flight(p.flight().mover(p));body.burdened(hooks.burdened(p));body.crouch((f&32)!=0,peers);
+        double canopyVelocity=body.state().velocity().z();boolean canopyPhysics=p.flight().canopyPhysics();
         m.fallResult=body.update(dt,settings.gravity,peers);var after=body.state();
-        if(after.jumped()&&Boolean.FALSE.equals(m.flightCapable))m.retailJumpLabel=p.inputTimeline().appliedLabel();
+        if(after.jumped()&&Boolean.FALSE.equals(m.flightCapable)&&!p.flight().ownsJump())m.retailJumpLabel=p.inputTimeline().appliedLabel();
+        m.fallResult=p.flight().afterMove(p,dt,before.airborne(),canopyVelocity,canopyPhysics,m.fallResult,settings.gravity);
         if(before.airborne())m.airTime+=dt;else if(after.airborne())m.airborneSince=runtime.movementClock();
         if(m.fallResult>0&&settings.fallDamage&&(after.position().z()<=237||p.waterFallDamage())){
             double fraction=Math.max(0,Math.min(1,(m.airTime-1.0/60)/(4.0/60-1.0/60)));double amount=m.fallResult*fraction;
@@ -111,12 +113,13 @@ public final class InfantrySimulation {
         var t=p.inputTimeline();Integer applied=t.appliedLabel();if(applied==null||applied>Integer.MAX_VALUE-2)return false;
         var first=t.frame(applied+1);var second=t.frame(applied+2);if(first==null||second==null)return false;
         long topology=runtime.world().topologyVersion();if(first.topology()!=topology||second.topology()!=topology||hooks.pendingTerrainMutations()>0||!p.motion().impulses.isEmpty())return false;
-        // Flight states cannot enter this binding; retain the source hover transition guard.
+        if(p.flight().transitionPending())return false;
+        if((p.jetpack()!=0||p.parachute()!=0)&&((first.movement()|second.movement()|t.pendingMovement())&16)!=0)return false;
         return (first.actions()==null||(first.actions()&128)==0)&&(second.actions()==null||(second.actions()&128)==0);
     }
     private boolean idlePairSafe(PlayerLife p){
         var t=p.inputTimeline();var m=p.motion();var s=p.body().state();var v=PlayerMotion.clipped(s.velocity());
-        if(!Boolean.FALSE.equals(m.flightCapable)||t.size()<=2||s.airborne()||s.wade()||Math.max(Math.max(Math.abs(v.x()),Math.abs(v.y())),Math.abs(v.z()))>1e-7||t.pendingMovement()!=0||t.hasPresses()||(m.movement&191)!=0||(m.actions&128)!=0||!pairSafe(p))return false;
+        if(!Boolean.FALSE.equals(m.flightCapable)||p.jetpack()!=0||t.size()<=2||s.airborne()||s.wade()||Math.max(Math.max(Math.abs(v.x()),Math.abs(v.y())),Math.abs(v.z()))>1e-7||t.pendingMovement()!=0||t.hasPresses()||(m.movement&191)!=0||(m.actions&128)!=0||!pairSafe(p))return false;
         var first=t.frame(t.appliedLabel()+1);var second=t.frame(t.appliedLabel()+2);Integer actions=first.actions();
         if(first.movement()!=0||second.movement()!=0||!Objects.equals(actions,second.actions())||!Objects.equals(actions,t.appliedActions())||actions!=null&&(actions&~280)!=0)return false;
         var at=p.position();return peers(p).stream().noneMatch(peer->{double x=peer.x()-at.x(),y=peer.y()-at.y(),z=peer.z()-at.z();return x*x+y*y+z*z<16;});

@@ -44,6 +44,7 @@ public final class ApplicationHost implements AutoCloseable {
                 case CONNECT -> sessions.put(key,new JoinSession(peer.address(),new JoinSession.WireSink() {
                     @Override public boolean send(SessionFrame frame) {return peer.send(frame.encode(),frame.delivery());}
                     @Override public void disconnect(int reason) {peer.disconnect(reason);}
+                    @Override public Double roundTripMillis(){return (double)peer.metrics().roundTripTime();}
                 },scene,slots,settings,passwords,compression));
                 case RECEIVE -> {var session=sessions.get(key);if(session!=null) session.receive(event.data(),nowMillis,loopCount);}
                 case DISCONNECT -> {var session=sessions.remove(key);if(session!=null) session.close();}

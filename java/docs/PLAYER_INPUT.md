@@ -42,13 +42,14 @@ used; the claimed ClientData player ID does not choose the actor.
 ## Required next integration
 
 The subsequent [infantry checkpoint](INFANTRY_SIMULATION.md) binds `consumeOne` to
-real no-flight movers with outer starvation/backlog, velocity impulses and eye
+real movers with outer starvation/backlog, velocity impulses and eye
 history. It retains explicit reload/lag/mode/effect ports and does not complete
 the gameplay loop. This original chronology checkpoint does not itself drive
 `consumeOne` from a complete gameplay loop.
-The owner loop must bind outer starvation/backlog/rate/conduct policies, equipment
-and fuel transitions, velocity/explosion impulse queues, the verified mover,
-eye/lag history and owner WorldUpdate reconciliation at their original boundaries.
+The [flight checkpoint](PLAYER_FLIGHT.md) adds connected jetpack/canopy resource,
+handoff and mover transitions. The owner loop must still complete upstream
+rate/conduct policy, deferred explosion timelines, actual lag compensation and
+owner WorldUpdate reconciliation at their original boundaries.
 The shared owner clock must also be claimed when actual owner rows are queued.
 The production LifeRuntime binding currently uses the source default one-frame
 latch and observation-only ahead-label policy; complete configuration remains

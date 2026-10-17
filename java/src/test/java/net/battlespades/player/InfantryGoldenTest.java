@@ -22,12 +22,12 @@ class InfantryGoldenTest {
     private static String vector(Vector v){return v==null?"-":bits(v.x())+","+bits(v.y())+","+bits(v.z());}
     private static Vector vector(String[] a,int offset){return new Vector(number(a[offset]),number(a[offset+1]),number(a[offset+2]));}
     private static String digest(String value){try{return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(value.getBytes(StandardCharsets.UTF_8)));}catch(NoSuchAlgorithmException failure){throw new AssertionError(failure);}}
-    private static String snapshot(PlayerLife p){
+    static String snapshot(PlayerLife p){
         var b=p.body().state();var m=p.motion().snapshot();String eyes=m.eyes().entrySet().stream().map(e->e.getKey()+":"+vector(e.getValue().position())+":"+vector(e.getValue().aim())).collect(Collectors.joining(";"));
         String delays=m.queueDelays().stream().map(Object::toString).collect(Collectors.joining(","));
         return Stream.of(vector(b.position()),vector(b.velocity()),b.airborne(),b.wade(),b.crouch(),b.jump(),b.jumped(),vector(PlayerMotion.clipped(b.velocity())),vector(p.aim()),p.health(),p.alive(),p.spawned(),m.movement(),m.actions(),m.starved(),m.synthesizedGravity(),m.catchup(),m.backlogDropped(),m.starvedStreak(),m.backlogOver(),m.backlogCatchup(),m.timeoutFlagged(),time(m.lastPacket()),time(m.lastSimulated()),bits(m.starvationBaseline()),bits(m.movementTime()),bits(m.airTime()),bits(m.airborneSince()),time(m.ownBlast()),m.fallResult(),m.landed(),m.triggerJump(),m.retailJumpLabel(),m.queuedImpulses(),m.housekeeping(),digest(eyes),delays.isEmpty()?"-":delays,digest(InputTimelineGoldenTest.snapshot(p.inputTimeline()))).map(InfantryGoldenTest::scalar).collect(Collectors.joining("~"));
     }
-    private static final class Replay implements AutoCloseable {
+    static class Replay implements AutoCloseable {
         final LifeHarness h=new LifeHarness();
         final InfantrySimulation simulation;
         final List<String> events=new ArrayList<>();
@@ -36,7 +36,7 @@ class InfantryGoldenTest {
         boolean burden;
         Replay(int cid){
             for(int x=20;x<=70;x++)for(int y=20;y<=70;y++)h.world.set(new MutableWorld.Cell(x,y,100),true,0x123456,null);
-            h.admit(0,2);p().apply(new ClassCatalog.Selection(cid,List.of(5,6,23),List.of(),List.of()));p().god(true);
+            h.admit(0,2);p().motion().flightCapability(null);p().apply(new ClassCatalog.Selection(cid,List.of(5,6,23),List.of(),List.of()));p().god(true);
             h.destination=new LifeRuntime.Messages(){public void broadcast(GamePacket p){lanes.put(p,"B");}public void owner(int id,GamePacket p){lanes.put(p,"O"+id);}public boolean inGame(int id){return true;}};
             simulation=new InfantrySimulation(h.runtime,InfantrySimulation.Settings.defaults(),new InfantrySimulation.Hooks(){
                 public void lagHistory(PlayerLife p,int loop){events.add("lag:"+p.id());}
@@ -69,7 +69,10 @@ class InfantryGoldenTest {
                 case "cell" -> h.world.set(new MutableWorld.Cell(Integer.parseInt(a[0]),Integer.parseInt(a[1]),Integer.parseInt(a[2])),a[3].equals("1"),0x123456,null);
                 default -> throw new AssertionError(op);
             }
-            String wire=h.wire.stream().filter(p->p.id()==5||p.id()==46).map(p->lanes.get(p)+":"+HexFormat.of().formatHex(p.encode())).collect(Collectors.joining(";"));
+            return result();
+        }
+        String[] result(){
+            String wire=h.wire.stream().filter(p->p.id()==5||p.id()==46||p.id()==69).map(p->lanes.get(p)+":"+HexFormat.of().formatHex(p.encode())).collect(Collectors.joining(";"));
             return new String[]{snapshot(p()),events.isEmpty()?"-":String.join(";",events),wire.isEmpty()?"-":wire};
         }
         @Override public void close(){h.close();}

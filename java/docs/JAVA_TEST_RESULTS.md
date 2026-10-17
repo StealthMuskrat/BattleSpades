@@ -1,9 +1,10 @@
 # Java test results
 
 Stage: connected-player flight integration, 2026-10-17 UTC.
-Local clean check/build passes; this implementation awaits publication and all five
-current-tree CI jobs. The preceding infantry CI remains separately recorded in
-[CI_STATUS.md](CI_STATUS.md).
+Published implementation: `0f943c69d4d6634b2eaebacc5512adfaf0399aaa`; tested tree: `e1742fc548591395ce8e44735ad0f2e543c38bae`.
+All five jobs passed in [run 39068854866](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39068854866), including exact source-fixture
+regeneration, repeat-archive comparison and one uploaded JAR on three platforms.
+See [CI_STATUS.md](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

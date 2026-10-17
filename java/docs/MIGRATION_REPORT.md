@@ -34,7 +34,9 @@ Ordinary hosting deliberately exits 2.
 - Previous infantry implementation: `1e4c34fced6e6fc96185fd72b212d62b1e3eab70`.
 - Previous infantry tested/published implementation tree: `4a54308beb4e425dbfa9ea0ab2ba0176b619ccf6`.
 - Previous infantry CI: [run 38834640118](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38834640118); all five jobs passed.
-- Current flight implementation: locally verified; publication and all five current-tree CI jobs pending.
+- Current flight implementation: `0f943c69d4d6634b2eaebacc5512adfaf0399aaa`.
+- Current flight tested/published tree: `e1742fc548591395ce8e44735ad0f2e543c38bae`.
+- Current flight CI: [run 39068854866](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39068854866); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -185,7 +187,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | PENDING publication and all five jobs; preceding infantry result is recorded separately |
+| Current-tree independent platform CI | PASS: all five jobs; source regeneration, repeat archive and same uploaded JAR on three OSes |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -233,6 +235,12 @@ Independent CI uses ordinary Java 25 runners and wrapper/Maven resolution. Platf
 smoke downloads one Ubuntu-built JAR; source tests additionally run on all three OSes.
 Native development-only probes are described in APPLICATION_LOADING.md and
 MOVEMENT_PHYSICS.md. No proprietary client assets are added.
+
+Current flight CI: [run 39068854866](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39068854866), all five jobs passed on
+`0f943c69d4d6634b2eaebacc5512adfaf0399aaa`. It regenerates all seven flight parts and the impact fixture,
+plus earlier source gates; verifies native probes and reproducible packaging; and
+tests one uploaded JAR on Linux, Windows and macOS. Complete gameplay remains
+unverified. No local-to-CI artifact hash comparison is claimed.
 
 Previous infantry CI: [run 38834640118](https://github.com/StealthMuskrat/BattleSpades/actions/runs/38834640118), all five jobs passed
 on `1e4c34fced6e6fc96185fd72b212d62b1e3eab70`. It reproduces the full infantry fixture/provenance and

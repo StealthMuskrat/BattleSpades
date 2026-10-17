@@ -1,22 +1,41 @@
 # Current flight checkpoint verification
 
-The local clean check/build passes **4,552 unit/component + 13 UDP tests**, zero
-failures/errors/skips. All **117 focused original flight tests** pass. A fresh
-original World/VXL/packet build reproduces flight and infantry fixtures/provenance
-exactly: 65,497 flight operations in 44 traces, 10,368 canopy impact vectors and
-16,683 prior infantry operations.
+Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/39068854866
+
+Implementation: `0f943c69d4d6634b2eaebacc5512adfaf0399aaa`.
+Tested/published implementation tree: `e1742fc548591395ce8e44735ad0f2e543c38bae`.
+Observed 2026-10-17 UTC: **all five migration CI jobs succeeded**.
+The branch advanced without force from `473ea1fe2d1b6bac1f914dc163e10ebc86577259`.
+
+| Job | Result | Scope |
+|---|---|---|
+| build (Ubuntu) | PASS | clean check/build, config smoke, repeated JAR byte comparison and artifact upload |
+| native-enet (Ubuntu) | PASS | native transport/packaged loader; original world rebuilt; flight/impact and earlier fixtures/catalogs reproduced exactly |
+| platform (ubuntu-latest) | PASS | same uploaded JAR smoke; component/UDP tests and portability checks |
+| platform (windows-latest) | PASS | same uploaded JAR smoke; component/UDP tests and portability checks |
+| platform (macos-latest) | PASS | same uploaded JAR smoke; component/UDP tests and portability checks |
+
+Local clean check/build passes **4,552 unit/component + 13 UDP tests**, zero
+failures/errors/skips. All **117 focused original flight tests** pass. Flight
+comparisons cover 65,497 original full-path operations in 44 traces plus 10,368
+canopy-impact vectors. Seven deterministic gzip parts retain the complete
+uncompressed comparison SHA; the unchanged original source regenerates every
+part and provenance exactly. The preceding infantry fixture remains byte-identical.
+
 Native transport and packaged-loader probes pass nominal/impaired profiles.
+Two CRC-valid local archives are byte-identical: 1,340,629 bytes, SHA-256
+`102f64b6c21657a9c6f8a5d803e1d27701a26a759277694baa84f1f216f04fd3`.
+The fixture packaging change produces the same production JAR. CI independently
+rebuilds/byte-compares its archive and tests one uploaded JAR on three OSes.
+No local-to-CI artifact hash comparison is claimed. No CI gate was waived.
 
-Two CRC-valid local archives are byte-identical: 1,340,629 bytes,
-SHA-256 `102f64b6c21657a9c6f8a5d803e1d27701a26a759277694baa84f1f216f04fd3`. Production classes target major 69; no
-native/Python/test fixture classes are packaged. Version/config smoke exits 0;
-ordinary hosting still exits 2.
-
-Publication and all five current-tree CI jobs are pending. No result is inferred
-from the preceding checkpoint. The user has authorized this and future verified
-checkpoints on the same branch, including code/workflow updates and all five jobs.
-See [PLAYER_FLIGHT.md](PLAYER_FLIGHT.md) for the explicit owner-row port, source
-timing heuristics and remaining gameplay/reference-baseline limits.
+Connected flight resources/canopy physics are verified; owner-row notification is
+an explicit port, and source timing constants retain their compatibility-heuristic
+status. Complete owner WorldUpdate reconciliation, bots/corpse-fuse, combat and
+concrete modes remain pending. Native probes retain FixtureScene; production
+flight uses the owned UDP test. No supported-client round or capacity/soak result
+is inferred. The full Python baseline retains its documented discrepancy and
+incomplete runs. Ordinary hosting still exits 2. See [PLAYER_FLIGHT.md](PLAYER_FLIGHT.md).
 
 # Preceding infantry checkpoint verification
 

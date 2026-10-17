@@ -96,3 +96,11 @@ reload/firing/hit authorization, full modes/awards and client/capacity/soak gate
 remain pending. Packaged native probes still use FixtureScene. The full Python
 baseline retains the documented failures/incomplete runs, including the existing
 VIP discrepancy. CI success cannot establish complete gameplay readiness.
+
+Independent CI for implementation `0f943c69d4d6634b2eaebacc5512adfaf0399aaa` and tested tree
+`e1742fc548591395ce8e44735ad0f2e543c38bae` passed all five jobs in
+[run 39068854866](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39068854866). It reproduces the full-path/impact fixtures and provenance
+from the unchanged original source, verifies native probes and archive
+reproducibility, and tests one uploaded JAR on three OSes. Local verification passes
+4,565 Java tests (4,552 unit/component + 13 UDP), zero failures/errors/skips.
+The gameplay and reference-baseline limits above remain in force.

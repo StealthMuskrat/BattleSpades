@@ -9,7 +9,7 @@ has passed. Nothing below is a production-readiness claim.
 |---|---|---|
 | shared/bytes.pyx | Implemented binary component | byte order, widths, UTF-8, BGR, truncation tests; legacy Python façade quirks not reproduced |
 | server/util.py | Implemented LZF | source golden literals; backreferences, overlap, bounded malformed/fuzz tests |
-| shared/packet.pyx | 74 distinct packet IDs encoded/decoded | 171 simple vectors, ClientData/complex and 11 loading +4 session packet vectors,4 profile and12 live-input vectors; remaining IDs pending |
+| shared/packet.pyx | 75 distinct packet IDs encoded/decoded | 171 simple vectors, ClientData/complex and 11 loading +4 session packet vectors,4 profile and12 live-input vectors; remaining IDs pending |
 | server/connection.py framing/decrypt | Implemented framing component | owned application sessions compose outbound framing, inbound LZF/XOR, password gate and clock routing; no full gameplay handler set |
 | vendor ENet compress.c | Pure Java range coder | 30 native-C encode/decode vectors, rescaling/reset; bounded malformed fuzz |
 | vendor ENet protocol.h | Implemented envelope component | all command layout sizes, MTU/bounds, network byte order, compressed region tests |
@@ -33,7 +33,7 @@ has passed. Nothing below is a production-readiness claim.
 | Player.simulate_tick / ordinary Player.update | Infantry/connected-flight integration implemented | 16,683 original no-flight operations; owned UDP movement/refill/fall-health test; starvation/backlog, velocity impulses and eye history; full loop policies, concrete modes and complete presentation/entity domains remain pending; see INFANTRY_SIMULATION.md |
 | Jetpack resources / canopy policy / flight profiles | Connected-player integration implemented | 65,497 original full-path operations in 44 traces; all four packs and stock/v1/v2 profiles; real UDP thrust/fuel/release and canopy landing; actual owner replication is now bound separately; bots/corpse-fuse/client validation pending; see PLAYER_FLIGHT.md |
 | WorldUpdate cadence / routing / owner history | Connected-player replication implemented | 18,448 service, 2,235 wire, 1,132 live-row, 3,714 owner-history and 8,458 release-hold operations; two-client UDP ACK/respawn barriers; required effect/tool/entity/corpse domains and real-client validation pending; see WORLD_REPLICATION.md |
-| Combat/ammo/reload/grenades/deployables | Accepted HP/inventory plus firing/reload/rewind/pellet components implemented | 67,151 original timing/rewind/pellet/packet operations, real UDP delayed-shot view and reliable reload; origin/aim/tool/hit authorization, special burst/spin-up, actual hit resolution, projectiles and full scoring/awards remain pending; see COMBAT_TIMING.md |
+| Combat/ammo/reload/grenades/deployables | Timing, geometry, firing patterns and read-only hit selection components implemented; full combat commit pending | 67,151 timing/rewind/pellet/packet operations plus 87,260 shot-geometry/cadence/selection operations; real UDP origin/terrain/body checks and reload. Full packet-6 commit, action/tool/objective/MG authorization, damage/effects, concrete registries, projectiles and scoring remain pending; see COMBAT_TIMING.md and SHOT_GEOMETRY.md |
 | TDM/CTF/ClassicCTF/Arena/VIP/Zombie | **Pending** | complete playable rounds, not identifiers/classes |
 | Multi Hill/TC/Diamond/Demolition/Occupation | **Pending** | rules/objectives/timers/round reset and joins |
 | Hardcore and all 20 community variants | **Pending** | all registered/revised/retired-but-loadable variants |

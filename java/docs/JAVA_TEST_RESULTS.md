@@ -1,13 +1,12 @@
 # Java test results
 
-Stage: firing/reload timing, seeded pellets and read-only target rewind, 2026-10-17 UTC.
-Published implementation: `0f6448231be6e93f3ce58d4682d9cd9963ac95ef`; tested tree: `9acb23de8fa14ae82f90188bf67f741bae3f563b`.
-All five jobs passed in [run 39073877248](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39073877248), including original-source fixture
-regeneration, archive reproducibility and the uploaded JAR on three platforms.
-See [CI_STATUS.md](CI_STATUS.md).
+Stage: shot validation, assault/minigun cadence and read-only nearest-hit selection,
+2026-10-17 UTC. Local check/build passes; publication and all five CI jobs are pending.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
+| net.battlespades.CombatGeometryGoldenTest | 49 | 0 | 0 | 0 |
+| net.battlespades.CombatRayGoldenTest | 1 | 0 | 0 | 0 |
 | net.battlespades.ComplexPacketTest | 3 | 0 | 0 | 0 |
 | net.battlespades.CompressionOwnershipTest | 2 | 0 | 0 | 0 |
 | net.battlespades.CompressionTest | 16 | 0 | 0 | 0 |
@@ -15,6 +14,7 @@ See [CI_STATUS.md](CI_STATUS.md).
 | net.battlespades.EnetTest | 7 | 0 | 0 | 0 |
 | net.battlespades.GoldenPacketTest | 178 | 0 | 0 | 0 |
 | net.battlespades.HandshakeTest | 2 | 0 | 0 | 0 |
+| net.battlespades.HitTraceGoldenTest | 20 | 0 | 0 | 0 |
 | net.battlespades.JoinPolicyTest | 4 | 0 | 0 | 0 |
 | net.battlespades.JoinSessionTest | 21 | 0 | 0 | 0 |
 | net.battlespades.LagGoldenTest | 26 | 0 | 0 | 0 |
@@ -30,12 +30,14 @@ See [CI_STATUS.md](CI_STATUS.md).
 | net.battlespades.ReplicationWireGoldenTest | 1 | 0 | 0 | 0 |
 | net.battlespades.ScenePolicyTest | 230 | 0 | 0 | 0 |
 | net.battlespades.SessionProtocolTest | 18 | 0 | 0 | 0 |
+| net.battlespades.ShotValidationGoldenTest | 16 | 0 | 0 | 0 |
 | net.battlespades.SimulationTest | 4 | 0 | 0 | 0 |
 | net.battlespades.SnapshotHoldsGoldenTest | 4 | 0 | 0 | 0 |
 | net.battlespades.WorldFormatTest | 4 | 0 | 0 | 0 |
 | net.battlespades.WorldQueriesTest | 2 | 0 | 0 | 0 |
 | net.battlespades.player.ActionClockTest | 34 | 0 | 0 | 0 |
 | net.battlespades.player.AdmissionPolicyTest | 571 | 0 | 0 | 0 |
+| net.battlespades.player.FiringPatternsGoldenTest | 20 | 0 | 0 | 0 |
 | net.battlespades.player.FlightGoldenTest | 62 | 0 | 0 | 0 |
 | net.battlespades.player.HealthGoldenTest | 1368 | 0 | 0 | 0 |
 | net.battlespades.player.HealthRuntimeTest | 4 | 0 | 0 | 0 |
@@ -53,28 +55,26 @@ See [CI_STATUS.md](CI_STATUS.md).
 | net.battlespades.player.PlayerSnapshotGoldenTest | 4 | 0 | 0 | 0 |
 | net.battlespades.player.SpawnPolicyTest | 36 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 16 | 0 | 0 | 0 |
-| net.battlespades.ApplicationIntegrationTest | 13 | 0 | 0 | 0 |
+| net.battlespades.ApplicationIntegrationTest | 14 | 0 | 0 | 0 |
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **4,687 Java tests passed: 4,671 unit/component and 16 real UDP; zero failures, errors or skips.**
+Total: **4,794 Java tests passed: 4,777 component and 17 real UDP; no failures,
+errors or skips.** The new fixtures contain 87,260 unchanged-source operations.
+All 135 new/prior fixture and catalog hashes reproduce after a fresh original
+native build. **223 focused original tests pass**; this does not establish
+that the full reference Python baseline passes.
 
-New source comparisons cover **67,151 operations**: 16,477 target-history,
-7,000 rewind-decision, 1,296 connected-history, 24,882 firing/reload, 16,728
-seeded-pellet and 768 ShootPacket vectors. Original policy methods remain
-unchanged. A fresh native original world/packet rebuild reproduces all new
-fixture/catalog bytes and prior infantry/flight/replication fixtures; all 112
-fixture/catalog hashes remain identical. **152 focused original tests pass**,
-including the reference impaired-link lab. See [COMBAT_TIMING.md](COMBAT_TIMING.md).
+Geometry has exact classification, body-part and voxel-probe checks, with a
+16-ULP coordinate-scaled numeric intersection bound for native libm differences.
+The local maximum measured absolute error is 7.105427357601002e-15; 101 numeric
+components differ in low bits. Boundary cases cover all source class/crouch
+profiles, slab faces and adjacent representable coordinates. Validation compares
+exact reasons, reports/counters and signed zero. Pattern tests compose actual
+owned wallets, ActionClock, reload floors, controls and peer measurements.
 
-Two additional real UDP tests prepare a read-only view for an arrival-dated
-reliable shot and exercise bound reload identity/tool, ignored completion claims,
-actual RTT/variance forwarding and reliable completion from owned housekeeping.
-The shot test uses an explicit test handler and does not resolve a hit. Native
-packaged probes retain FixtureScene. Source lab success describes the reference
-server, not complete Java combat or supported-client gameplay.
-
-Origin/aim/tool/hit authorization, special burst/spin-up and actual hit resolution
-remain pending, along with other required domains, concrete modes and client/
-capacity/soak gates. The full Python baseline retains its documented discrepancy
-and incomplete runs. Ordinary hosting still exits 2.
+The additional two-client UDP test rejects forged and wall-occluded origins,
+then selects an owned body and newly committed intervening wall without HP/ammo
+mutation. It uses an explicit test handler and explicit test registries. Full
+shot commit, damage/effects, concrete domains/modes and supported-client/capacity/
+soak gates remain pending. Hosting still exits 2. See [SHOT_GEOMETRY.md](SHOT_GEOMETRY.md).

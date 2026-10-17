@@ -1,0 +1,52 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 48440,
+  "parts": [
+    {
+      "path": "combat-geometry-00.tsv.gz",
+      "sha256": "fefbfecbaf6acbc5312dbfcca7bb9530c39530df5ca32647f1c12d9f325b1b62"
+    },
+    {
+      "path": "combat-geometry-01.tsv.gz",
+      "sha256": "b3dc3c6c885b43fdbd0ec77d2adf70338f57f7d95e9a2e61440460ad78cc5a98"
+    },
+    {
+      "path": "combat-geometry-02.tsv.gz",
+      "sha256": "895479dcacf054d1ab5c0bf349e0a67fbc14be6c69b3a55f2338999c04532cfe"
+    },
+    {
+      "path": "combat-geometry-03.tsv.gz",
+      "sha256": "ae163c1b0382b341dbc7940c39fa720f0210d18a7fe542078177da0e2c6bf40b"
+    },
+    {
+      "path": "combat-geometry-04.tsv.gz",
+      "sha256": "50e05d7f00fbd811f75e690739386fb111e875d05b81aa7b0c1b8838b40831a1"
+    },
+    {
+      "path": "combat-geometry-05.tsv.gz",
+      "sha256": "831a4f083426d4b8a3dd2bd3ec5381de89d19d5c23cb82797d8fcbc6cc3caa4e"
+    },
+    {
+      "path": "combat-geometry-06.tsv.gz",
+      "sha256": "dc7cc8edbc99a0de31eba118a377153795700e92e90cf6bf00b9aa86a6e4d296"
+    },
+    {
+      "path": "combat-geometry-07.tsv.gz",
+      "sha256": "8bfed916cb718eb90cf836c4df7f3f389be203d674614cefaa03c0065fb9e4fc"
+    },
+    {
+      "path": "combat-geometry-08.tsv.gz",
+      "sha256": "3ac774bf27d65e0307d95e4277ecfbea690dcbb1d2bcba706769fc4a30f3401e"
+    },
+    {
+      "path": "combat-geometry-09.tsv.gz",
+      "sha256": "dfd5b7e83582e547c7445352eef35c9e9dc6f963fb1eab187ed83d27e90cdb6e"
+    }
+  ],
+  "source_files_sha256": {
+    "server/combat_runtime.py": "1063d83823e07e103a7a65cc30aa3a94398d860abb8ba6ee345b7120f767d677",
+    "shared/constants.py": "125d8fdb66ed78db6927ee8fee0d4be700421d23ca79a6bbabc09351e628d59a"
+  },
+  "method_substitutions": false,
+  "scope": "Unchanged original segment_clear, cell_visible, body/corpse oriented-KV6 slabs and sphere entry. Controlled terrain records every get_solid probe. Controlled body class, crouch, positions and rays; no shot admission or damage/mode integration proof."
+}

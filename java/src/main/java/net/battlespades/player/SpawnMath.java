@@ -11,6 +11,12 @@ public final class SpawnMath {
         for(double value:values){double x=value*value,next=sum+x;correction+=Math.abs(sum)>=Math.abs(x)?(sum-next)+x:(x-next)+sum;sum=next;}
         return correction!=0&&Double.isFinite(correction)?sum+correction:sum;
     }
+    /** Python 3.12 compensated sum, also used for source three-component dot products. */
+    public static double sum(double... values){
+        double sum=0,correction=0;
+        for(double x:values){double next=sum+x;correction+=Math.abs(sum)>=Math.abs(x)?(sum-next)+x:(x-next)+sum;sum=next;}
+        return correction!=0&&Double.isFinite(correction)?sum+correction:sum;
+    }
     public static double hypot(double a,double b){
         a=Math.abs(a);b=Math.abs(b);
         if(Double.isInfinite(a)||Double.isInfinite(b))return Double.POSITIVE_INFINITY;

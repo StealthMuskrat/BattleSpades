@@ -1,0 +1,11 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 1600,
+  "fixture_sha256": "80c12ec5db525ec398baef2373e4bbfc81cf144277781b842ddd858436ddffd0",
+  "source_files_sha256": {
+    "server/world_manager.py": "b2ef9c97255c290ea946dc4a4a415b46ba26bd69db9997276bcce6a3ef45fc63",
+    "aoslib/world.pyx": "5290568a97c5b74503642b29d6da9eda56f2fdba0453f9e5c7c3f676d840b1bc"
+  },
+  "method_substitutions": false,
+  "scope": "Unchanged WorldManager.raycast/get_solid, actual rebuilt native world and original VXL controlled terrain; accurate-query plus source fallback manager domain configuration."
+}

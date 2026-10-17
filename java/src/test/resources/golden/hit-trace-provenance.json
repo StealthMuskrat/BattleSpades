@@ -1,0 +1,12 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 6000,
+  "fixture_sha256": "a6c4687aa10e0326d7c67d627ae0c2c4e3846f81b1644ca276c53a9b93cc94cf",
+  "source_files_sha256": {
+    "server/combat_runtime.py": "1063d83823e07e103a7a65cc30aa3a94398d860abb8ba6ee345b7120f767d677",
+    "server/lag_compensation.py": "200005b94fb13c11028ba80709cee5a58ff6d6d962faa999aa2f4b45446eef08",
+    "server/mode_controls.py": "0ca5ccb7274314a2a8e745f6f330a5febb2dd698adbb11fa75133dbb5235a7fa"
+  },
+  "method_substitutions": false,
+  "scope": "Unchanged authoritative hit selection and player/entity/corpse geometry. Controlled live/dead and enemy domain inputs; controlled terrain ray result isolates hit selection (separate geometry and native-query evidence covers traversal). No damage/effects or concrete registry integration proof."
+}

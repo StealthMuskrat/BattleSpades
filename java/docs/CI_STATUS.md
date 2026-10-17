@@ -1,4 +1,24 @@
-# Current combat-timing checkpoint verification
+# Current shot-geometry checkpoint verification
+
+Local check/build passes **4,777 component + 17 real UDP tests**, zero failures,
+errors or skips. **223 focused original tests** pass. The 87,260 new source
+operations and all 135 fixture/catalog hashes reproduce after a fresh original
+native build. Publication and all five current-head CI jobs are pending.
+
+Two CRC-valid local archives are byte-identical: 1470800 bytes,
+SHA-256 `046f4f82e4e6e02771b7b1b5b257ec1044fac14ee87495418faec2e67eacae0b`. Class major 69 and packaging audits pass;
+version/config exits 0 and hosting exits 2. Native transport and packaged-loader
+probes pass their unchanged nominal/impaired assertions. The earlier impaired
+probe observation below belongs to the preceding combat-timing checkpoint.
+
+Numeric intersection comparisons explicitly allow the documented 16-ULP
+coordinate-scaled math bound; classifications, body parts and voxel probes remain
+exact. The measured local maximum absolute error is 7.105427357601002e-15.
+The UDP origin/body/wall selection test is read-only. Complete packet-6 commit,
+damage/effects, concrete registries/modes and supported-client/capacity/soak gates
+remain pending. See [SHOT_GEOMETRY.md](SHOT_GEOMETRY.md).
+
+# Preceding combat-timing checkpoint verification
 
 Local clean check/build: **4,671 unit/component + 16 real UDP tests**, no failures,
 errors or skips. **152 focused original tests** pass, including the reference

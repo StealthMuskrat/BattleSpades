@@ -130,6 +130,13 @@ jobs:
           python -S java/tools/generate_shoot_golden.py
           python -S java/tools/generate_fire_golden.py
           python -S java/tools/generate_pellet_golden.py
+          python -S java/tools/export_hitboxes.py
+          python -S java/tools/generate_combat_geometry_golden.py
+          python -S java/tools/generate_shot_validation_golden.py
+          python -S java/tools/generate_firing_patterns_golden.py
+          python -S java/tools/generate_hit_trace_golden.py
+          python -S java/tools/generate_combat_ray_golden.py
+          git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/hitboxes.toml java/src/test/resources/golden/combat-geometry-* java/src/test/resources/golden/shot-validation-* java/src/test/resources/golden/firing-patterns* java/src/test/resources/golden/hit-trace* java/src/test/resources/golden/combat-ray*
           git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/combat.toml java/src/test/resources/golden/lag-history.tsv.gz java/src/test/resources/golden/lag-history-provenance.json java/src/test/resources/golden/lag-decisions.tsv.gz java/src/test/resources/golden/lag-decisions-provenance.json java/src/test/resources/golden/lag-connected.tsv.gz java/src/test/resources/golden/lag-connected-provenance.json java/src/test/resources/golden/shoot.tsv.gz java/src/test/resources/golden/shoot-provenance.json java/src/test/resources/golden/player-fire.tsv.gz java/src/test/resources/golden/player-fire-provenance.json java/src/test/resources/golden/pellets.tsv.gz java/src/test/resources/golden/pellets-provenance.json
           git diff --exit-code -- java/src/test/resources/golden/owner-history.tsv.gz java/src/test/resources/golden/owner-provenance.json java/src/test/resources/golden/snapshot-holds.tsv.gz java/src/test/resources/golden/snapshot-holds-provenance.json java/src/test/resources/golden/replication.tsv.gz java/src/test/resources/golden/replication-provenance.json java/src/test/resources/golden/replication-wire.tsv.gz java/src/test/resources/golden/replication-wire-provenance.json java/src/test/resources/golden/player-snapshot.tsv.gz java/src/test/resources/golden/player-snapshot-provenance.json
           git diff --exit-code -- java/src/test/resources/golden/flight-simulation java/src/test/resources/golden/flight-impact.tsv.gz java/src/test/resources/golden/flight-provenance.json

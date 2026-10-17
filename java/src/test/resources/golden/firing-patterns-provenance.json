@@ -1,0 +1,13 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 24820,
+  "groups": 20,
+  "fixture_sha256": "6565cbaa548c485112b5b6d095a2246024cdb3727762ae2783d1fbd91fe49732",
+  "source_files_sha256": {
+    "server/combat_runtime.py": "1063d83823e07e103a7a65cc30aa3a94398d860abb8ba6ee345b7120f767d677",
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/action_clock.py": "488ee5d11c80b8fb63a52086efcf44a2e6a153de16bf99d73c6cda8588e87af3"
+  },
+  "method_substitutions": false,
+  "scope": "Unchanged original assault/minigun gates, actual Player gun/reload/ammo and action_clock. Controlled wall/monotonic clock, trusted tool/wallet/control/label/peer inputs; no hit/mode authorization proof."
+}

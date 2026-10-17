@@ -29,7 +29,9 @@ import net.battlespades.scene.*;
 import net.battlespades.rules.GameRules;
 import net.battlespades.player.*;
 import net.battlespades.replication.*;
-import net.battlespades.combat.LagCompensation;
+import net.battlespades.combat.*;
+import net.battlespades.physics.CollisionMap;
+import net.battlespades.physics.PlayerPhysics.Vector;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import static org.junit.jupiter.api.Assertions.*;
@@ -95,6 +97,38 @@ class ApplicationIntegrationTest {
             clients.add(client);client.connect();until(()->client.peerId>=0);client.send(new LoadingPackets.SteamSessionTicket(new byte[]{3,7,19},capability==0?new byte[0]:new byte[]{'B','S','C','F',(byte)capability}),false);client.key=new byte[]{3,7,19};
             until(()->client.has(114));client.send(new SimplePackets.MapDataValidation(world.sourceCrc()),false);until(()->client.has(45));
         }
+    }
+    @Test void realUdpShotValidationRejectsForgedOriginsAndTracesOwnedBodiesAndTerrain(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("Shot geometry UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var h=new LifeHarness()){
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),()->ScenePackets.State.initial(config),h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),2,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var b=new Client(host.address())){
+                    var loop=new Loop(host);loop.explicitTick=1000;loop.ticketAndLoad(a,h.world);a.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"shooter"),false);loop.until(()->a.has(69));
+                    loop.ticketAndLoad(b,h.world);b.send(new SimplePackets.NewPlayerConnection(3,0,0,0,"target"),false);loop.until(()->b.has(69));
+                    loop.until(()->{try{a.send(new ClientInput(100,127,false,5,1,0,0,0,0,24,0),true);b.send(new ClientInput(200,127,false,5,1,0,0,0,0,24,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0)&&host.inGame(1);});
+                    var shooter=h.runtime.player(0);var target=h.runtime.player(1);shooter.body().position(new Vector(36,36,97));target.body().position(new Vector(42,36,97));shooter.orientation(1,0,0);target.orientation(1,0,0);
+                    var map=CollisionMap.of(h.world);var owner=new LagCompensation.ShotOwner();
+                    // Explicit test domains; production entity/corpse registries remain required.
+                    var trace=new HitTrace(new HitTrace.Scene(){
+                        public CombatGeometry.Cell raycast(Vector origin,Vector direction,double maximum){return HitTrace.terrainRay(map,origin,direction,maximum);}
+                        public Iterable<PlayerLife> players(){return h.runtime.players();}public boolean enemies(PlayerLife a,PlayerLife b){return a.team()!=b.team();}
+                        public Iterable<HitTrace.Entity> entities(){return List.of();}public Iterable<HitTrace.Corpse> corpses(){return List.of();}
+                    },owner);
+                    var results=new ArrayList<ShotValidation.Result>();var hits=new ArrayList<HitTrace.Hit>();var before=target.body().state();var ammo=shooter.inventory().ammo();
+                    h.packetHandler=(bound,packet)->{
+                        if(!(packet instanceof ShootPacket shot))return;assertSame(shooter,bound);assertEquals(254,shot.shooterId());
+                        var result=ShotValidation.validate(ShotValidation.Settings.defaults(),ShotValidation.view(bound),ShotValidation.Claims.from(shot),map::solid,bound.shotStatistics(),event->{});results.add(result);
+                        if(result.allowed())hits.add(trace.trace(bound,result.accepted().origin(),result.accepted().direction(),128));
+                    };
+                    a.send(new ShootPacket(100,254,0,new Vector3f(999,999,999),new Vector3f(1,0,0),32767,32767,true,true,255),false);loop.until(()->results.size()==1);assertFalse(results.getFirst().allowed());assertTrue(results.getFirst().reason().startsWith("shot_origin_far"));assertTrue(hits.isEmpty());
+                    var valid=new ShootPacket(100,254,0,new Vector3f(36,36,97),new Vector3f(1,0,0),32767,32767,true,true,255);a.send(valid,false);loop.until(()->results.size()==2);assertTrue(results.getLast().allowed());assertSame(target,((HitTrace.PlayerHit)hits.getLast()).player());
+                    h.world.set(new MutableWorld.Cell(39,36,97),true,0x777777,9.0);a.send(valid,false);loop.until(()->results.size()==3);assertTrue(results.getLast().allowed());assertEquals(new CombatGeometry.Cell(39,36,97),((HitTrace.BlockHit)hits.getLast()).cell());
+                    a.send(new ShootPacket(100,254,0,new Vector3f(40,36,97),new Vector3f(1,0,0),32767,32767,true,true,255),false);loop.until(()->results.size()==4);assertEquals("shot_origin_occluded",results.getLast().reason());assertEquals(2,hits.size());
+                    assertEquals(before,target.body().state());assertEquals(ammo,shooter.inventory().ammo());assertEquals(100,target.health());assertEquals(100,shooter.health());
+                }
+            }
+        });
     }
     @Test void delayedRealUdpShotUsesBoundLifeAndArrivalDatesWithoutMutatingTheTarget(){
         assertTimeoutPreemptively(Duration.ofSeconds(15),()->{

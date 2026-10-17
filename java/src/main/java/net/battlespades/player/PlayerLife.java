@@ -20,6 +20,7 @@ public final class PlayerLife {
     private final ActionClock actionClock=new ActionClock(inputTimeline);
     private final PlayerMotion motion=new PlayerMotion();
     private final PlayerFlight flight=new PlayerFlight();
+    private final net.battlespades.combat.ShotValidation.Statistics shotStatistics=new net.battlespades.combat.ShotValidation.Statistics();
     private final PlayerFire fire=new PlayerFire(this);
     private final net.battlespades.combat.LagCompensation.PlayerTarget lagTarget=new net.battlespades.combat.LagCompensation.PlayerTarget(this);
     private ClassCatalog.Selection selection,pending;
@@ -72,6 +73,7 @@ public final class PlayerLife {
     public ActionClock actionClock(){owned();return actionClock;}
     public PlayerMotion motion(){owned();return motion;}
     public PlayerFlight flight(){owned();return flight;}
+    public net.battlespades.combat.ShotValidation.Statistics shotStatistics(){owned();return shotStatistics;}
     public PlayerFire fire(){owned();return fire;}
     public net.battlespades.combat.LagCompensation.PlayerTarget lagTarget(){owned();return lagTarget;}
     public OwnerAnchors ownerAnchors(){owned();return ownerAnchors;}

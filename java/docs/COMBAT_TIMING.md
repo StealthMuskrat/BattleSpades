@@ -4,8 +4,9 @@ Source: `6216b771282d2d349ccd67ee58c378f035c83553`, principally
 `server/player.py`, `server/action_clock.py`, `server/lag_compensation.py`,
 `server/combat_runtime.py` and the original Cython packet codec.
 This checkpoint implements firing/reload timing, pellet expansion and target
-rewind components. Shot-origin/aim validation, hit resolution and complete combat
-remain pending. Ordinary hosting continues to exit 2.
+rewind components. Shot-origin/aim validation, special firing cadence and read-only hit selection
+now have the additional component evidence in [SHOT_GEOMETRY.md](SHOT_GEOMETRY.md).
+Complete shot commit, damage/effects and full combat remain pending. Ordinary hosting continues to exit 2.
 
 `PlayerFire` uses the existing owned life wallets and shared ActionClock. It
 preserves source peek/admit ordering, automatic-reload label floors, magazine and
@@ -20,7 +21,7 @@ completion. LifeRuntime handles packet 76 using the connection-bound player and
 current selected tool. Client player/tool bytes do not select another life or
 wallet, and client completion flags never complete a reload. Reload requests
 retain the original handler's eligibility rules; firing still needs the separate
-unported shot-validation/commit path. Actual ENet RTT and variance reach the
+shot-validation/commit path; the full commit path remains unported. Actual ENet RTT and variance reach the
 ActionClock before packet dispatch and at session pulses.
 
 CombatCatalog exports all 65 original weapon profiles, 12 retail bloom curves,

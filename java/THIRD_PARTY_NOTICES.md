@@ -20,7 +20,8 @@ implementation/runtime is included. Reference license:
 https://github.com/unicode-org/icu/blob/release-72-1/icu4c/LICENSE.
 
 SourceRandom ports MT19937 and CPython 3.12 integer seeding and sequence selection
-to Java. SpawnMath ports CPython's compensated two-coordinate norm. MT19937
+to Java. SpawnMath ports CPython's compensated two-coordinate norm and floating-point sum,
+used by spawn and combat geometry. MT19937
 copyright (C) 1997-2002 Makoto Matsumoto and Takuji Nishimura, BSD-3-Clause;
 CPython adaptations copyright Python Software Foundation, PSF-2.0. Notices are in
 licenses/mt19937.txt and licenses/python-psf.txt and packaged in the JAR. Changes:

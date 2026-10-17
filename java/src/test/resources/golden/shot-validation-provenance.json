@@ -1,0 +1,30 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 6400,
+  "groups": 16,
+  "parts": [
+    {
+      "path": "shot-validation-00.tsv.gz",
+      "sha256": "c691e54adfc729d0abb94293467a586786a3f6f66b4b1aa0af81094e3ac50c6b"
+    },
+    {
+      "path": "shot-validation-01.tsv.gz",
+      "sha256": "d1a625972a9c6f2c981b1c3cb9f7ec56a01dd983c75396ef6a6f3eb660c05296"
+    },
+    {
+      "path": "shot-validation-02.tsv.gz",
+      "sha256": "b0e697c39c16561efc9b0aef4cda992922134c9f814b41710382a1d342ffd157"
+    },
+    {
+      "path": "shot-validation-03.tsv.gz",
+      "sha256": "720df2377e702c908c0dffef9cbda5a7784e7d367b6000ba14f0958cdd2a0184"
+    }
+  ],
+  "source_files_sha256": {
+    "server/combat_runtime.py": "1063d83823e07e103a7a65cc30aa3a94398d860abb8ba6ee345b7120f767d677",
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/anticheat.py": "e2fa7046b232464c99d54536e8c4b4561a5f6b36ee427a1178cb45438429f7ae"
+  },
+  "method_substitutions": false,
+  "scope": "Unchanged _validate_shot_packet, reference_eyes, lag_slack, Player eye/aim getters and anticheat counters/reports. Controlled actual Player history/domain inputs, trusted configuration and terrain oracle; sys.setprofile observes reports without replacing methods. No shot consumption or damage/mode authorization proof."
+}

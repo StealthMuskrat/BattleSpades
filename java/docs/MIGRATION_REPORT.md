@@ -1,10 +1,10 @@
 # Java 25 migration report
 
 Date: 2026-10-17 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage binds source firing/reload timing and reliable reload messages,
-actual RTT/variance, seeded pellets and read-only target rewind/history to owned
-Character components. Source shot/hit validation and resolution, concrete modes,
-required domains and supported-client/capacity gates remain pending.
+The current stage adds source shot-origin/aim/LOS validation, assault/minigun
+cadence and read-only nearest-hit selection to the existing owned timing, pellet
+and rewind components. Full shot commit, damage/effects, concrete registries and
+modes, required domains and supported-client/capacity gates remain pending.
 Ordinary hosting deliberately exits 2.
 
 ## Repository and provenance
@@ -52,6 +52,13 @@ expected-head lease and exact tested-tree comparison. No release is created.
 
 ## Current implementation
 
+ShotValidation, CombatGeometry, FiringPatterns and HitTrace now compare 87,260
+new unchanged-source operations. A real UDP test binds decoded shots to actual
+lives and verifies origin rejection, target/body selection and an intervening
+committed wall without health/ammo mutation. Full shot commit and damage/effects
+remain pending. See [SHOT_GEOMETRY.md](SHOT_GEOMETRY.md), including the explicit
+numeric intersection roundoff bound and exact classification/probe checks.
+
 PlayerFire now executes original reload/fire cadence and wallet behavior with
 real link measurements. Owned housekeeping emits reload completion; packet 76
 uses bound identity/current tool and ignores completion claims. CombatCatalog and
@@ -60,7 +67,7 @@ LagCompensation records physical hitboxes before movement, keeps life/teleport
 barriers and computes read-only views with bounded arrival-dated late-shot
 allowance. Source comparisons total 67,151 operations; two additional UDP tests
 exercise delayed-shot views and reliable reload boundaries. The original
-reference's 152 focused tests pass. Full shot validation/hit resolution remains
+reference's 152 focused tests pass. Full packet-6 commit and damage/effects remain
 pending; see [COMBAT_TIMING.md](COMBAT_TIMING.md).
 
 

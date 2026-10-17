@@ -63,6 +63,8 @@ public final class PlayerFire {
         var inventory=player.inventory();if(floor==null||label==null||floor.tool!=inventory.tool()||(profile.clipReload()&&inventory.ammo().clip()>0)||inventory.ammo().reserve()<=0||!player.actionClock().labelPlausible(label))return false;
         return (long)label-floor.label>=frames(profile.reload())-1;
     }
+    /** Source assault continuation empties a clip outside consumeShot but still dates auto reload. */
+    public void noteAfterBurstRound(Integer label,double interval){owned();noteFloor(label,interval,player.bot());}
     private void noteFloor(Integer label,double interval,boolean bot){
         if(player.inventory().ammo().clip()>0||label==null||bot||!player.actionClock().labelPlausible(label)){floor=null;return;}
         floor=new Floor(player.inventory().tool(),label+frames(interval));

@@ -77,3 +77,10 @@ compensation/anticheat, supported-client rounds, capacity and soak validation
 remain pending. This is a verified replication component, not a finished server.
 The full Python baseline retains its documented incomplete runs and VIP discrepancy.
 See [CI_STATUS.md](CI_STATUS.md) for exact published-head results.
+
+Independent verification for implementation `00d96933315fc201e44234912e6e95c6ed17609d` and tested tree
+`276cf8712f4801de0171f8a8b37380a78c4f04e8` passed all five jobs in [run 39071633850](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39071633850).
+It reproduces original fixtures, byte-compares the repeated build archive, runs
+native probes and tests one uploaded JAR on three OSes. Local verification passes
+4,602 Java tests and 154 focused original tests. The gameplay/domain limits above
+remain in force.

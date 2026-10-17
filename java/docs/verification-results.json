@@ -33,13 +33,26 @@
     }
   },
   "verification_stage": "Owned WorldUpdate cadence, recipient routing, causal owner history and real ENet packet-release barriers",
-  "java_implementation_commit": null,
-  "tested_tree": null,
+  "java_implementation_commit": "00d96933315fc201e44234912e6e95c6ed17609d",
+  "tested_tree": "276cf8712f4801de0171f8a8b37380a78c4f04e8",
   "ci": {
-    "status": "pending_publication",
-    "jobs": {},
+    "status": "success",
+    "run_id": 39071633850,
+    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39071633850",
+    "head_sha": "00d96933315fc201e44234912e6e95c6ed17609d",
+    "jobs": {
+      "build": "success",
+      "native-enet": "success",
+      "platform (windows-latest)": "success",
+      "platform (ubuntu-latest)": "success",
+      "platform (macos-latest)": "success"
+    },
+    "all_five_jobs_passed": true,
+    "native_original_fixtures_reproduced": true,
+    "repeated_ci_archive_identical": true,
+    "same_uploaded_jar_three_platforms": true,
     "full_reference_python_baseline_passing": false,
-    "packaged_native_probe_player_domain": "FixtureScene; replication uses an additional composed two-client UDP test with owned LifeRuntime/physics and actual delayed ACKs"
+    "packaged_native_probe_player_domain": "FixtureScene; additional composed two-client UDP test covers owned replication and actual delayed ACKs"
   },
   "movement": {
     "cases": 118,
@@ -392,10 +405,12 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": false,
+    "branch_updated": true,
     "expected_parent": "c5ae623e4b607b983a3bc5496fed81e88f10cf8e",
     "force": false,
-    "authorization": "User authorized this and future verified migration checkpoints, including code/workflow changes and all five CI jobs."
+    "authorization": "User authorized this and future verified migration checkpoints, including code/workflow changes and all five CI jobs.",
+    "implementation_commit": "00d96933315fc201e44234912e6e95c6ed17609d",
+    "tested_tree": "276cf8712f4801de0171f8a8b37380a78c4f04e8"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",

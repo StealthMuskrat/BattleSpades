@@ -1,8 +1,10 @@
 # Java test results
 
 Stage: owned WorldUpdate replication, 2026-10-17 UTC.
-Local clean check/build passes; current implementation awaits publication and all
-five CI jobs. Prior flight evidence remains recorded in [CI_STATUS.md](CI_STATUS.md).
+Published implementation: `00d96933315fc201e44234912e6e95c6ed17609d`; tested tree: `276cf8712f4801de0171f8a8b37380a78c4f04e8`.
+All five jobs passed in [run 39071633850](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39071633850), including exact fixture regeneration,
+archive reproducibility and one uploaded JAR tested on three platforms.
+See [CI_STATUS.md](CI_STATUS.md).
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

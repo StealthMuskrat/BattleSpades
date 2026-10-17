@@ -1,10 +1,20 @@
 # Current replication checkpoint verification
 
+Run: https://github.com/StealthMuskrat/BattleSpades/actions/runs/39071633850
+
+Implementation: `00d96933315fc201e44234912e6e95c6ed17609d`.
+Tested/published implementation tree: `276cf8712f4801de0171f8a8b37380a78c4f04e8`.
+All five jobs passed for this exact head: build, native-enet, and platform jobs
+on Ubuntu, Windows and macOS. The build repeats and byte-compares its archive;
+native-enet rebuilds original source and regenerates all new/prior fixtures;
+platform jobs test the same uploaded JAR plus component/UDP and portability gates.
+No gate was waived; no local-to-CI artifact hash identity is claimed.
+
 Local clean check/build: **4,588 unit/component + 14 real UDP tests**, no failures,
 errors or skips. **154 focused original replication tests** pass. The 33,987 new
-source operations and prior infantry/flight fixture bytes reproduce exactly after
-a fresh original native build. All five current-head CI jobs await publication;
-the historical flight run below is separate evidence.
+source operations and all 99 fixture hashes reproduce after a fresh original
+native build. Publication advanced without force from
+`c5ae623e4b607b983a3bc5496fed81e88f10cf8e`.
 
 Native transport/packaged-loader probes pass nominal and impaired profiles.
 Two CRC-valid local archives are byte-identical: 1385834 bytes, SHA-256

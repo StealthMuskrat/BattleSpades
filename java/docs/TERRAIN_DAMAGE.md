@@ -1,5 +1,9 @@
 # Owned terrain damage, health and collapse
 
+Later bounded repair-scheduling evidence is documented in
+[TERRAIN_REPAIR.md](TERRAIN_REPAIR.md). Pending scheduler statements below describe
+this earlier checkpoint; full gameplay-loop and concrete domain work remain open.
+
 Behavioral source: `6216b771282d2d349ccd67ee58c378f035c83553`, principally
 `server/block_damage_model.py`, `server/dig_profiles.py`, `server/world_manager.py`,
 `server/combat_runtime.py`, `server/terrain_repair.py`, `server/prefab_actions.py`

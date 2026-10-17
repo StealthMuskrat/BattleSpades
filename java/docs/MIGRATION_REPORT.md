@@ -1,11 +1,10 @@
 # Java 25 migration report
 
 Date: 2026-10-17 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage adds owned terrain damage/digging, health and shades, seeded
-footprints, collapse and configured late-join health reveal. Concrete repair
-scheduling, entity/corpse/projectile effects, mode/score/award services and upstream
-input/equipment authorization remain required. Supported-client/capacity gates
-remain pending. Ordinary hosting deliberately exits 2.
+The current stage adds bounded regular/collapse terrain repair scheduling to the
+owned terrain/health/catch-up path. Full gameplay-loop, entity/corpse/projectile,
+mode/score/award and upstream input/equipment domains remain required. Supported-
+client/capacity gates remain pending. Ordinary hosting deliberately exits 2.
 
 ## Repository and provenance
 
@@ -48,9 +47,9 @@ remain pending. Ordinary hosting deliberately exits 2.
 - Previous owned-combat implementation: `76a80d9f4b7840ab6730157215e69995d66323fd`.
 - Previous owned-combat tested/published tree: `07ce07657fc3a84285fd212673dcef0e8d7ccab2`.
 - Previous owned-combat CI: [run 39078168462](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39078168462); all five jobs passed.
-- Current terrain implementation: `939ac63a822d0ceacfb873ee0acc881e717457f8`.
-- Current terrain tested/published tree: `b338c0bc04772517821ab0b32e5c93199877c27f`.
-- Current terrain CI: [run 39079408578](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39079408578); all five jobs passed.
+- Previous terrain implementation: `939ac63a822d0ceacfb873ee0acc881e717457f8`.
+- Previous terrain tested/published tree: `b338c0bc04772517821ab0b32e5c93199877c27f`.
+- Previous terrain CI: [run 39079408578](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39079408578); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -60,6 +59,12 @@ CLI push lacks credentials; publication uses the connected GitHub app with an
 expected-head lease and exact tested-tree comparison. No release is created.
 
 ## Current implementation
+
+TerrainRepair adds 3,072 unchanged-service operations and expands the existing
+three-client UDP terrain test with delayed collapse confirmations and rejected-
+prediction repair using the latest color/health. Full local checks total 5,081.
+Settings/recipients/network ports are concrete test bindings; full gameplay-loop
+integration remains pending. See [TERRAIN_REPAIR.md](TERRAIN_REPAIR.md).
 
 TerrainDamage, TerrainHealth, TerrainCollapse and BlockDamageModel add 10,483
 unchanged-source operations, plus 163,008 expanded-cell comparisons. A real
@@ -352,7 +357,7 @@ packaging check. Exact final SHA/size are in verification-results.json.
 
 ## Remaining work and readiness
 
-Next: implement concrete terrain repair scheduling and entity/corpse
+Next: complete repair-loop/domain integration and concrete entity/corpse
 effects; connect detached projectiles, full score/award/aim services and upstream
 input/equipment authorization; wire the owned Character/combat/movement/flight
 components to concrete modes and authenticated identity. Complete presentation,

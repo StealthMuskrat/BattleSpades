@@ -40,6 +40,10 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
+Bounded terrain repair scheduling now preserves regular/collapse lane order,
+quiet periods, current canonical health and per-recipient reliable sends. See
+[TERRAIN_REPAIR.md](docs/TERRAIN_REPAIR.md) for evidence and remaining integration.
+
 Terrain damage now composes owned health/shades, seeded footprints, melee digging,
 collapse and late-join health reveal, with 10,483 new source operations and a real
 three-client UDP test. Required concrete gameplay services remain pending; see
@@ -170,7 +174,7 @@ probe uses a source-fixture scene under `src/testSupport`, excluded from the JAR
 MutableWorld captures dirty columns and journals committed cells through the live
 admission boundary. [APPLICATION_LOADING.md](docs/APPLICATION_LOADING.md) describes
 the state machine, ownership, roster reconciliation and remaining domain work.
-Marker cleanup, concrete terrain-repair scheduling, entity/corpse effects and complete modes remain pending. ENet host
+Marker cleanup, full repair-loop/domain integration, entity/corpse effects and complete modes remain pending. ENet host
 bandwidth epoch redistribution remains pending; the current default host advertises
 unlimited bandwidth, matching the original server configuration.
 

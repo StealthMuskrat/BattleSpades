@@ -1,0 +1,11 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_files_sha256": {
+    "server/terrain_repair.py": "9c7c7db955af46f236ad076669c833eebc276b54f875b76373613b40597459a3",
+    "server/world_manager.py": "b2ef9c97255c290ea946dc4a4a415b46ba26bd69db9997276bcce6a3ef45fc63"
+  },
+  "operations": 3072,
+  "fixture_sha256": "bff532b67822976411c49af3da31a114a1b1a51bfd2784141e3de83f5a5edb36",
+  "method_substitutions": false,
+  "scope": "Unchanged repair service and native-world canonical health packets; controlled settings/clocks/recipient and send-fault IO. Bounded lanes, surface-first overflow, duplicates/rebuilds, enable/reset/no-recipient behavior, exact per-recipient bytes and metrics. No supported-client convergence or full simulation-loop binding established."
+}

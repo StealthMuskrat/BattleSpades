@@ -1,4 +1,24 @@
-# Current terrain checkpoint verification
+# Current terrain-repair checkpoint verification
+
+Local clean check/build passes **5,061 component + 20 real UDP tests**, zero
+failures, errors or skips. **53 focused original tests** pass. New comparisons
+cover 3,072 unchanged-service operations; all 193 fixture/catalog hashes reproduce
+after a fresh original native build. Publication and all five current-head CI jobs are pending.
+
+Two CRC-valid local archives are byte-identical: 1551331 bytes,
+SHA-256 `bf8723e9134371560f4c4a5dac272beeaf93e507be93d84d1548da691a4383d3`. Class major 69 and packaging audits pass;
+version/config exits 0 and hosting exits 2. Native transport and packaged-loader
+probes pass unchanged nominal/impaired assertions in an isolated run. Historical
+probe observations remain preceding-checkpoint evidence below.
+
+The expanded existing three-client UDP test verifies bounded repair delivery,
+delayed exact collapse confirmations, per-recipient identity and latest color/HP
+on quiet-period rejected-prediction repair. Explicit scheduler ticks and trusted
+mode/effect ports remain test inputs. Full gameplay-loop/concrete domain and
+supported-client/capacity/soak gates remain pending; native packaged-loader probes
+retain FixtureScene. See [TERRAIN_REPAIR.md](TERRAIN_REPAIR.md).
+
+# Preceding terrain checkpoint verification
 
 Local check/build passes **5,029 component + 20 real UDP tests**, zero
 failures, errors or skips. **53 focused original tests** pass. New source

@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "37c59135b7b08dfac906670ddbb3c66793ecc752c905cb7d7cec5681851c2a06",
-  "jar_bytes": 1542800,
+  "jar_sha256": "bf8723e9134371560f4c4a5dac272beeaf93e507be93d84d1548da691a4383d3",
+  "jar_bytes": 1551331,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -20,7 +20,7 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 5029,
+      "tests": 5061,
       "failures": 0,
       "errors": 0,
       "skipped": 0
@@ -32,35 +32,14 @@
       "skipped": 0
     }
   },
-  "verification_stage": "Owned terrain damage/dig, health/shades, seeded footprints, collapse and configured late-join health reveal",
-  "java_implementation_commit": "939ac63a822d0ceacfb873ee0acc881e717457f8",
-  "tested_tree": "b338c0bc04772517821ab0b32e5c93199877c27f",
+  "verification_stage": "Bounded regular/collapse terrain repair scheduling and reliable current-state delivery",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "run_id": 39079408578,
-    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39079408578",
-    "head_sha": "939ac63a822d0ceacfb873ee0acc881e717457f8",
-    "jobs": {
-      "build": "success",
-      "native-enet": "success",
-      "platform (macos-latest)": "success",
-      "platform (windows-latest)": "success",
-      "platform (ubuntu-latest)": "success"
-    },
-    "job_ids": {
-      "build": 117533106332,
-      "native-enet": 117533106555,
-      "platform (macos-latest)": 117533420957,
-      "platform (windows-latest)": 117533421022,
-      "platform (ubuntu-latest)": 117533421085
-    },
-    "all_five_jobs_passed": true,
-    "native_original_fixtures_reproduced": true,
-    "repeated_ci_archive_identical": true,
-    "same_uploaded_jar_three_platforms": true,
-    "local_to_ci_artifact_hash_compared": false,
+    "status": "pending_publication",
+    "jobs": {},
     "full_reference_python_baseline_passing": false,
-    "packaged_native_probe_player_domain": "FixtureScene; new three-client owned UDP test uses automatic CombatRuntime and TerrainDamage with explicit mode/effect ports, actual map health/collapse/wallets and fresh late-join health reveal"
+    "packaged_native_probe_player_domain": "FixtureScene; expanded existing three-client owned UDP test binds actual TerrainRepair with explicit scheduler ticks and trusted mode/effect ports"
   },
   "movement": {
     "cases": 118,
@@ -413,12 +392,10 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": true,
-    "expected_parent": "33e32777b01a131d724c6f90cff94d42d94f54e7",
+    "branch_updated": false,
+    "expected_parent": "b363b408f9bf4946a27715d50e2eb41e2b96475e",
     "force": false,
-    "authorization": "User authorized this and future verified migration checkpoints, including code/workflow changes and all five CI jobs.",
-    "implementation_commit": "939ac63a822d0ceacfb873ee0acc881e717457f8",
-    "tested_tree": "b338c0bc04772517821ab0b32e5c93199877c27f"
+    "authorization": "User authorized this and future verified migration checkpoints, including code/workflow changes and all five CI jobs."
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -880,40 +857,101 @@
       "capacity_or_soak": false
     }
   },
-  "terrain_damage": {
-    "footprint_quantization_shade_cases": 5363,
-    "expanded_footprint_cells": 163008,
-    "native_and_fallback_collapse_cases": 512,
-    "health_paint_reveal_repair_operations": 3840,
-    "admitted_terrain_commit_operations": 768,
-    "total_source_operations": 10483,
-    "expanded_cells_counted_as_additional_independent_operations": false,
-    "source_footprint_types": 44,
+  "reference_terrain_tests": {
+    "passed": 53,
+    "failures": 0,
+    "skipped": 0,
+    "command": "PYTHONPATH=java/build/reference-python python -m pytest -q tests/test_block_health_model.py tests/test_collapse_parity.py tests/test_prefab_block_health.py tests/test_terrain_repair.py tests/test_bot_dig_rates.py",
+    "full_reference_python_baseline_passing": false
+  },
+  "previous_terrain_checkpoint": {
+    "verification_stage": "Owned terrain damage/dig, health/shades, seeded footprints, collapse and configured late-join health reveal",
+    "java_implementation_commit": "939ac63a822d0ceacfb873ee0acc881e717457f8",
+    "tested_tree": "b338c0bc04772517821ab0b32e5c93199877c27f",
+    "ci": {
+      "status": "success",
+      "run_id": 39079408578,
+      "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39079408578",
+      "head_sha": "939ac63a822d0ceacfb873ee0acc881e717457f8",
+      "jobs": {
+        "build": "success",
+        "native-enet": "success",
+        "platform (macos-latest)": "success",
+        "platform (windows-latest)": "success",
+        "platform (ubuntu-latest)": "success"
+      },
+      "job_ids": {
+        "build": 117533106332,
+        "native-enet": 117533106555,
+        "platform (macos-latest)": 117533420957,
+        "platform (windows-latest)": 117533421022,
+        "platform (ubuntu-latest)": 117533421085
+      },
+      "all_five_jobs_passed": true,
+      "native_original_fixtures_reproduced": true,
+      "repeated_ci_archive_identical": true,
+      "same_uploaded_jar_three_platforms": true,
+      "local_to_ci_artifact_hash_compared": false,
+      "full_reference_python_baseline_passing": false,
+      "packaged_native_probe_player_domain": "FixtureScene; new three-client owned UDP test uses automatic CombatRuntime and TerrainDamage with explicit mode/effect ports, actual map health/collapse/wallets and fresh late-join health reveal"
+    },
+    "source_evidence": {
+      "footprint_quantization_shade_cases": 5363,
+      "expanded_footprint_cells": 163008,
+      "native_and_fallback_collapse_cases": 512,
+      "health_paint_reveal_repair_operations": 3840,
+      "admitted_terrain_commit_operations": 768,
+      "total_source_operations": 10483,
+      "expanded_cells_counted_as_additional_independent_operations": false,
+      "source_footprint_types": 44,
+      "source_fixtures_reproduced": true,
+      "fresh_native_source_build": true,
+      "checked_fixture_catalog_hashes": 191,
+      "method_substitutions": false,
+      "new_comparisons": "Exact topology/chunk/cell order, health/shade, random draw results, callbacks and wire; preceding geometry retains documented numeric-only bound",
+      "normal_classic_ugc_health_policies": "Explicit trusted settings, not complete modes",
+      "partial_health_updates_admission_journal": true,
+      "partial_enqueue_damage_and_rule_scale_regressions": true,
+      "source_reveal_batch_bounds": [
+        1,
+        4096
+      ],
+      "configured_reveal_batch": 128,
+      "real_udp_bound_shots_actual_wall_health_collapse_and_spade_credit": true,
+      "real_udp_fresh_join_initial_before_remaining_health": true,
+      "concrete_terrain_repair_scheduler": false,
+      "concrete_profile_score_achievement_sound_stimulus_services": false,
+      "construction_prefab_editor_and_legacy_actions": false,
+      "projectile_full_blast_and_entity_corpse_lifecycle": false,
+      "complete_combat": false,
+      "complete_gameplay": false,
+      "supported_client": false,
+      "capacity_or_soak": false
+    }
+  },
+  "terrain_repair": {
+    "source_operations": 3072,
     "source_fixtures_reproduced": true,
     "fresh_native_source_build": true,
-    "checked_fixture_catalog_hashes": 191,
+    "checked_fixture_catalog_hashes": 193,
     "method_substitutions": false,
-    "new_comparisons": "Exact topology/chunk/cell order, health/shade, random draw results, callbacks and wire; preceding geometry retains documented numeric-only bound",
-    "normal_classic_ugc_health_policies": "Explicit trusted settings, not complete modes",
-    "partial_health_updates_admission_journal": true,
-    "partial_enqueue_damage_and_rule_scale_regressions": true,
-    "source_reveal_batch_bounds": [
-      1,
-      4096
-    ],
-    "configured_reveal_batch": 128,
-    "real_udp_bound_shots_actual_wall_health_collapse_and_spade_credit": true,
-    "real_udp_fresh_join_initial_before_remaining_health": true,
-    "concrete_terrain_repair_scheduler": false,
-    "concrete_profile_score_achievement_sound_stimulus_services": false,
-    "construction_prefab_editor_and_legacy_actions": false,
-    "projectile_full_blast_and_entity_corpse_lifecycle": false,
-    "complete_combat": false,
+    "exact_queue_order_canonical_bytes_and_metrics": true,
+    "fixture_asserts_nonempty_wire_and_nonzero_send_faults": true,
+    "two_bounded_lanes_surface_first_overflow": true,
+    "recipient_own_id_and_in_game_gate": true,
+    "quiet_period_and_rebuilt_cell_rules": true,
+    "per_packet_send_fault_isolation": true,
+    "expanded_existing_udp_test": true,
+    "additional_independent_udp_test_count": 0,
+    "real_udp_delayed_exact_collapse_confirmations": true,
+    "real_udp_rejection_repair_latest_color_and_health": true,
+    "full_gameplay_loop_binding": false,
+    "complete_concrete_mode_profile_score_achievement_audio_services": false,
     "complete_gameplay": false,
     "supported_client": false,
     "capacity_or_soak": false
   },
-  "reference_terrain_tests": {
+  "reference_repair_tests": {
     "passed": 53,
     "failures": 0,
     "skipped": 0,

@@ -1,9 +1,7 @@
 # Java test results
 
-Stage: terrain damage/digging, health/shades, seeded footprints, collapse and
-configured late-join health reveal, 2026-10-17 UTC. Implementation: `939ac63a822d0ceacfb873ee0acc881e717457f8`; tested tree: `b338c0bc04772517821ab0b32e5c93199877c27f`.
-All five jobs passed in [run 39079408578](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39079408578), including fixture regeneration,
-archive reproducibility and one uploaded JAR on three platforms.
+Stage: bounded regular/collapse terrain repair scheduling, 2026-10-17 UTC.
+Local clean check/build passes; publication and all five current-head CI jobs are pending.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -42,6 +40,7 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.SnapshotHoldsGoldenTest | 4 | 0 | 0 | 0 |
 | net.battlespades.TerrainHealthDeliveryTest | 3 | 0 | 0 | 0 |
 | net.battlespades.TerrainHealthGoldenTest | 36 | 0 | 0 | 0 |
+| net.battlespades.TerrainRepairGoldenTest | 32 | 0 | 0 | 0 |
 | net.battlespades.WorldFormatTest | 4 | 0 | 0 | 0 |
 | net.battlespades.WorldQueriesTest | 2 | 0 | 0 | 0 |
 | net.battlespades.player.ActionClockTest | 34 | 0 | 0 | 0 |
@@ -74,18 +73,16 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **5,049 Java tests passed: 5,029 component and 20 real UDP; no failures,
-errors or skips.** New comparisons cover 10,483 source operations plus 163,008
-expanded footprint cells. All 191 new/prior fixture/catalog hashes reproduce
-after a fresh original native build. **53 focused original tests pass**;
-the full Python baseline retains its documented incomplete runs and VIP discrepancy.
+Total: **5,081 Java tests passed: 5,061 component and 20 real UDP; no failures,
+errors or skips.** The 3,072 new unchanged-service operations compare exact queue
+order, wire and counters, including nonempty delivery and actual injected faults.
+All 193 fixture/catalog hashes reproduce after a fresh original native build.
+**53 focused original tests pass**; the full baseline retains its documented
+incomplete runs and VIP discrepancy.
 
-New damage/topology/traversal/random/wire checks are exact. Original policy
-functions execute unchanged; test clocks, topology and mode/effect IO are explicit.
-The three-client UDP test uses automatic admitted shots, actual wall health,
-collapse and digging credit, then verifies a fresh join's reliable initial-health
-row before remaining health. Partial catch-up and rule-scale regressions retain
-current health while packets are queued. Concrete repair/audio/score/award/mode
-services, projectiles/entities/corpses and supported-client/capacity/soak gates
-remain pending. Preceding numeric geometry limits remain in force. Hosting still
-exits 2. See [TERRAIN_DAMAGE.md](TERRAIN_DAMAGE.md).
+The existing three-client terrain UDP test is expanded, not counted as another
+independent test. It binds actual repair scheduling with explicit ticks and trusted
+mode/effect ports, verifying delayed collapse confirmations and rejected-prediction
+repair using current painted color and damaged health. Full gameplay-loop/domain,
+entity/corpse/projectile, mode/service and supported-client/capacity/soak work remains.
+Hosting still exits 2. See [TERRAIN_REPAIR.md](TERRAIN_REPAIR.md).

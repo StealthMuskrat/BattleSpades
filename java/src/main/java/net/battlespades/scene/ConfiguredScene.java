@@ -19,6 +19,7 @@ public final class ConfiguredScene implements JoinScene {
     public interface Gameplay extends AsyncPackets,SceneLifecycle {
         MutableWorld world();
         PlayerRoster roster();
+        boolean spectator(int playerId);
         AdmissionPolicy.Context admissionContext(int id);
         default void admissionResolved(int id,AdmissionPolicy.Decision decision){}
         Admission admit(int id,SimplePackets.NewPlayerConnection request,ClassCatalog.Selection selection,int capability);
@@ -51,6 +52,7 @@ public final class ConfiguredScene implements JoinScene {
     public double gravity(){owned();return environment.gravity();}
     @Override public MutableWorld world(){owned();return gameplay.world();}
     @Override public PlayerRoster roster(){owned();return gameplay.roster();}
+    @Override public boolean spectator(int id){owned();return gameplay.spectator(id);}
     @Override public int requiredCapability(){owned();return gameplay.requiredCapability();}
     @Override public InitialInfo initialInfo(int capability){owned();return ScenePackets.finishInitial(config,gameplay.configureInitialInfo(ScenePackets.baseInitial(config,environment,new ScenePackets.ServerIdentity(0,0,false,config.port())),capability));}
     @Override public StateData stateData(int id,int capability){owned();return ScenePackets.finishState(config,gameplay.configureStateData(ScenePackets.baseState(config,environment,state.get(),id),capability));}

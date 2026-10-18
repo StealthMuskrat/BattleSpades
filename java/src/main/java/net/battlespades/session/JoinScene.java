@@ -16,6 +16,8 @@ public interface JoinScene extends AsyncPackets,SceneLifecycle {
     String skybox();
     default int requiredCapability() {return 0;}
     PlayerRoster roster();
+    /** Current canonical domain team, independently of the last published roster representation. */
+    boolean spectator(int playerId);
     Admission admit(int reservedId,SimplePackets.NewPlayerConnection request,PlayerPackets.SetClassLoadout selection,int capability);
     default Admission admit(int reservedId,SimplePackets.NewPlayerConnection request,PlayerPackets.SetClassLoadout selection) {return admit(reservedId,request,selection,0);}
     default List<GamePacket> reveal(int playerId) {return List.of();}

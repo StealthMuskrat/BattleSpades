@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "b5b427617552143c4a548720f69bfd26cf5b570544be2f9772d706f5424b9f74",
-  "jar_bytes": 1930115,
+  "jar_sha256": "37e41873cf88ada4444234fc5f51fc357b183696c248b130b5acd40a59538815",
+  "jar_bytes": 1930149,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -20,7 +20,7 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 6207,
+      "tests": 6208,
       "failures": 0,
       "errors": 0,
       "skipped": 0
@@ -400,7 +400,7 @@
   "publication": {
     "branch": "port/java25",
     "branch_updated": false,
-    "expected_parent": "251078acfac0497fa004fad328a0a54f0ca2ab2b",
+    "expected_parent": "2ff701353cc9303379556441137fddcd509fdacc",
     "force": false,
     "authorization": "User authorized this and future verified migration checkpoints, code/workflow changes and all five CI jobs; requested multiple implementations per batch.",
     "implementation_commit": null,
@@ -4128,7 +4128,7 @@
       "HostedPlayerControls actual life/teams/events/reliable delivery",
       "JoinSession spectator menu shared settlement/retry/scene guards"
     ],
-    "new_component_tests": 28,
+    "new_component_tests": 29,
     "new_integration_tests": 1,
     "source_scenarios": {
       "team": 9,
@@ -4145,7 +4145,8 @@
       "total_checked_paths": 258,
       "configured_generators": 74,
       "local_unchanged_73_generator_native_build_evidence_reused": true,
-      "ci_independently_rebuilds_all": 74
+      "ci_independently_rebuilds_all": 74,
+      "current_team_guard_correction_fixture_changes": 0
     },
     "native_profiles": {
       "native-transport-results.json": {
@@ -4163,7 +4164,7 @@
             },
             "server_disconnect_reason": 18,
             "java_retransmissions": 0,
-            "forwarded_datagrams": 1031,
+            "forwarded_datagrams": 1042,
             "dropped_datagrams": 0,
             "duplicate_datagrams": 0,
             "delayed_datagrams": 0,
@@ -4175,18 +4176,18 @@
             "profile": "loss-reorder-duplicate",
             "reliable_messages": 81,
             "reliable_payload_sha256": "8bf5b28d7bc1cdca600b721861267251ba12443d0b16aa754887216142f0041a",
-            "unreliable_echoes": 33,
+            "unreliable_echoes": 17,
             "reconnect": true,
             "protocol_rejections": {
               "167": 10,
               "169": 3
             },
             "server_disconnect_reason": 18,
-            "java_retransmissions": 82,
-            "forwarded_datagrams": 1311,
-            "dropped_datagrams": 134,
-            "duplicate_datagrams": 99,
-            "delayed_datagrams": 1197,
+            "java_retransmissions": 88,
+            "forwarded_datagrams": 1330,
+            "dropped_datagrams": 135,
+            "duplicate_datagrams": 101,
+            "delayed_datagrams": 1215,
             "java_malformed_datagrams": 0,
             "game_client_test": false,
             "result": "PASS"
@@ -4229,7 +4230,7 @@
             "full_chunks": 453,
             "full_records_sha256": "a04e25f22eff412ed7565b1cdd13ca0fa4033fdde416d2d0b4890ffcdbd4dc10",
             "delta_chunks": 0,
-            "dropped_datagrams": 114,
+            "dropped_datagrams": 112,
             "duplicate_datagrams": 76,
             "delayed_datagrams": 919,
             "concurrent_reserved_ids": [
@@ -4256,6 +4257,31 @@
     "complete_hosting_bootstrap": false,
     "full_migration_complete": false,
     "native_loader_uses_fixture_scene": true,
-    "supported_client_validated": false
+    "supported_client_validated": false,
+    "spectator_admission_uses_current_canonical_domain_team": true
+  },
+  "initial_player_control_checkpoint": {
+    "implementation_commit": "2ff701353cc9303379556441137fddcd509fdacc",
+    "tree": "5911126c4db8c8eb726c2a432be655fa3f844035",
+    "jar_sha256": "b5b427617552143c4a548720f69bfd26cf5b570544be2f9772d706f5424b9f74",
+    "jar_bytes": 1930115,
+    "junit": {
+      "test": {
+        "tests": 6207,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "tests": 38,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "ci_run_id": 39174058038,
+    "ci_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39174058038",
+    "ci_status": "in_progress_at_followup_preparation",
+    "known_gap": "Source spectator admission must inspect the current canonical actor team, independently of the last roster CreatePlayer. Corrected by required domain predicate and a regression that keeps the stale spectator row."
   }
 }

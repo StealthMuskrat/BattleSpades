@@ -147,7 +147,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
             }
             if(id==60) {if(state==State.MAP) transfer.validation(((SimplePackets.MapDataValidation)PacketCodec.decode(body)).crc(),now);return;}
             if(id==13) {selection=PlayerPackets.SetClassLoadout.receive(body);if(admitted){if(awaitPackets)deferred=java.util.Objects.requireNonNull(scene.packetAsync(slot.id(),selection));else scene.packet(slot.id(),selection);}return;}
-            if(id==110) {inMenu=((SimplePackets.ClientInMenu)PacketCodec.decode(body)).in_menu()!=0;if(!inMenu&&admitted&&slot!=null&&scene.roster().spectator(slot.id())&&state!=State.LIVE){spectatorPending=true;spectatorAttempts=0;spectatorRetry=now;}return;}
+            if(id==110) {inMenu=((SimplePackets.ClientInMenu)PacketCodec.decode(body)).in_menu()!=0;if(!inMenu&&admitted&&slot!=null&&scene.spectator(slot.id())&&state!=State.LIVE){spectatorPending=true;spectatorAttempts=0;spectatorRetry=now;}return;}
             if(id==15) {
                 if(!stateSent || slot==null)return;
                 if(admitted){if(awaitPackets)deferred=java.util.Objects.requireNonNull(scene.packetAsync(slot.id(),PacketCodec.decode(body)));else scene.packet(slot.id(),PacketCodec.decode(body));return;}
@@ -286,7 +286,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
             if(state==State.STATE && controls.isEmpty()) state=State.SELECT;
             if(state==State.ADMITTING) state=State.INPUT;
             if(spectatorPending&&state==State.INPUT&&now>=spectatorRetry){
-                if(slot==null||!scene.roster().spectator(slot.id()))spectatorPending=false;
+                if(slot==null||!scene.spectator(slot.id()))spectatorPending=false;
                 else{boolean complete;try{complete=settle(loop);}catch(RuntimeException failure){domainFailures++;spectatorPending=false;return;}if(complete||state==State.CLOSED||spectatorAttempts++>=2000)spectatorPending=false;else spectatorRetry=now+50;}
             }
         } catch(RuntimeException domain) {domainFailures++;fail(13);}

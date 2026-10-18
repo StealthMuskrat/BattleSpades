@@ -76,6 +76,13 @@ class JoinSessionTest {
             h.wire.blockedId=49;h.client(new SimplePackets.ClientInMenu(0));h.pulse(0);assertFalse(h.session.inGame());assertEquals(1,h.scene.reveals);h.client(new SimplePackets.ClientInMenu(1));h.pulse(49);assertFalse(h.session.inGame());h.wire.blockedId=-1;h.pulse(1);assertTrue(h.session.inGame());assertTrue(h.session.inMenu());assertEquals(1,h.scene.reveals);assertTrue(h.scene.inputs.isEmpty());assertEquals(0,h.scene.world().activeLeases());h.client(new SimplePackets.ClientInMenu(0));h.pulse(50);assertEquals(1,h.scene.reveals);
         }
     }
+    @Test void teamSelectionBeforeMenuAdmissionUsesCurrentActorRatherThanOldRosterPacket(){
+        try(var h=new Flow()){
+            h.load();h.client(new SimplePackets.NewPlayerConnection(0,5,0,1,"Spectator"));h.pulse(0);var old=h.scene.players.get(0);h.scene.players.put(0,new JoinScene.Admission(FixtureScene.copy(old.player(),Map.of("team",2)),old.color(),old.afterCreate()));
+            assertEquals(0,h.scene.roster().reconcile(Map.of(),-1).packets().stream().filter(PlayerPackets.CreatePlayer.class::isInstance).map(PlayerPackets.CreatePlayer.class::cast).findFirst().orElseThrow().team());
+            h.client(new SimplePackets.ClientInMenu(0));h.pulse(100);assertFalse(h.session.inGame());assertEquals(0,h.scene.reveals);assertTrue(h.scene.inputs.isEmpty());h.game();assertTrue(h.session.inGame());assertEquals(1,h.scene.reveals);assertFalse(h.scene.inputs.isEmpty());
+        }
+    }
     @Test void spectatorRevealFaultRemainsRetryableWithoutDisconnectingTheSession(){
         try(var h=new Flow()){
             h.load();h.client(new SimplePackets.NewPlayerConnection(0,5,0,1,"Spectator"));h.pulse(0);h.scene.revealFailure=new IllegalStateException("Controlled reveal failure");h.client(new SimplePackets.ClientInMenu(0));h.pulse(0);assertEquals(JoinSession.State.INPUT,h.session.state());assertEquals(-1,h.wire.reason);assertFalse(h.session.inGame());assertEquals(1,h.scene.world().activeLeases());h.scene.revealFailure=null;h.client(new SimplePackets.ClientInMenu(0));h.pulse(0);h.pulse(50);assertTrue(h.session.inGame());assertEquals(2,h.scene.reveals);assertEquals(0,h.scene.world().activeLeases());assertTrue(h.scene.inputs.isEmpty());

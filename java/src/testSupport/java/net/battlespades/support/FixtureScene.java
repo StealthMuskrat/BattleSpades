@@ -64,6 +64,7 @@ public final class FixtureScene implements JoinScene,net.battlespades.scene.Conf
     @Override public StateData stateData(int id,int capability) {return copy(state,Map.of("playerId",id));}
     @Override public String skybox() {return "skybox/default";}
     @Override public PlayerRoster roster() {return roster;}
+    @Override public boolean spectator(int id){var p=players.get(id);return p!=null&&p.player().team()==0;}
     @Override public net.battlespades.player.AdmissionPolicy.Context admissionContext(int id){
         return net.battlespades.player.AdmissionPolicy.Context.ordinary(players.values().stream().map(a->new net.battlespades.player.AdmissionPolicy.Occupant(a.player().playerId(),a.player().name(),false,a.player().team())).toList());
     }

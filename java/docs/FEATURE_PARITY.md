@@ -1,6 +1,6 @@
 # Feature parity and explicit backlog
 
-Current player-control verification: 6,245 Java tests and 317 focused original
+Current player-control verification: 6,246 Java tests and 317 focused original
 regressions pass locally. CI is pending publication. See [PLAYER_CONTROLS.md](PLAYER_CONTROLS.md);
 complete gameplay and normal hosting assembly remain pending.
 
@@ -41,7 +41,7 @@ has passed. Nothing below is a production-readiness claim.
 | Tick-start in-game packet queue | Serial async component bound to actual ENet sessions (opt-in) | 2,048 original queue operations, per-peer fairness, fixed detached budget, owner resumption, stale identity/scene guards and actual suspended objective request with two UDP peers; complete simulation/bootstrap pending |
 | SimulationRuntime mode-event drain | Implemented serial component | 2,048 original mode/plugin operations, isolated failures, live mode replacement, fixed timeout remainder and 8,192-event bounded-stack check; immediate departure settlement and ordered async frame/catch-up components now have ROUND_RUNTIME.md evidence; complete subsystem bindings remain pending |
 | Round music / map ambience / next-map ballot | Implemented services and ending/host bindings | Four seeded music traces, three ambience cases,16 ballot traces,564 distinct native wire vectors; independent cancellation/timeout/identity and real UDP cast-to-map-transition; selection/kick now have VOTING_POLICY.md evidence; full bootstrap pending; see ROUND_MEDIA.md |
-| Live team/class/palette / spectator admission | Implemented policy services and actual life/host bindings | 24 intact-source traces; four timer/identity/session boundaries; three-peer actual UDP menu admission, palette exclusion/trailing update, class respawn/throttle and spectator rejoin; full mode/domain/bootstrap pending; see PLAYER_CONTROLS.md |
+| Live team/class/palette / spectator admission | Implemented policy services and actual life/host bindings | 24 intact-source traces; five timer/identity/session boundaries; three-peer actual UDP menu admission, palette exclusion/trailing update, class respawn/throttle and spectator rejoin; full mode/domain/bootstrap pending; see PLAYER_CONTROLS.md |
 | Map catalog / fit / retail rotation / kick votes | Implemented selection/moderation services and actual host binding | 51 intact-source groups; immutable worker catalog and cache boundaries; one map/kick HUD; actual four-human UDP kick, reconnect exclusion/reset and ranked retained-peer rollover; full bootstrap/authentication pending; see VOTING_POLICY.md |
 | Worker spawn-cache / owner timers / owned host state | Implemented components and actual host transition binding | Four native worker map loads/eight team caches; exact terrain/layout guards; bounded owner scheduling; actual host commit/rollback/retirement and upgraded retained-peer UDP; remaining production domain factories/services pending; see PREPARED_HOST.md |
 | Map/mode transition / retained scene epochs | Implemented policy and actual ENet loader binding | 32 original rollover/map-screen scenarios, 13 names, worker preflight, guarded restoration and live+team-select different-CRC real UDP reload; owned state/host/timer and worker-cache transfer now have PREPARED_HOST.md evidence; remaining services/full bootstrap pending |

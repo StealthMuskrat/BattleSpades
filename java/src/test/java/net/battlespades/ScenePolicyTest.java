@@ -128,6 +128,7 @@ class ScenePolicyTest {
             var config=config("tdm",1);var gameplay=new ConfiguredScene.Gameplay(){
                 @Override public net.battlespades.world.MutableWorld world(){return domain.world();}
                 @Override public net.battlespades.session.PlayerRoster roster(){return domain.roster();}
+                @Override public boolean spectator(int id){return domain.spectator(id);}
                 @Override public net.battlespades.player.AdmissionPolicy.Context admissionContext(int id){return domain.admissionContext(id);}
                 @Override public net.battlespades.session.JoinScene.Admission admit(int id,SimplePackets.NewPlayerConnection request,ClassCatalog.Selection selection,int capability){return domain.admit(id,request,selection,capability);}
                 @Override public InitialInfo configureInitialInfo(InitialInfo p,int capability){return FixtureScene.copy(p,Map.of("customRules",List.of(new InitialInfo.Rule("mode-rule",String.valueOf(capability)),new InitialInfo.Rule("RULE_ENABLE_GRAVESTONES","1"))));}

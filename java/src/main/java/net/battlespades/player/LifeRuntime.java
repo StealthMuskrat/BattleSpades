@@ -98,6 +98,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Life runtime accessed outside owner");}
     @Override public MutableWorld world(){owned();return world;}
     @Override public PlayerRoster roster(){owned();return roster;}
+    @Override public boolean spectator(int id){owned();var p=players.get(id);return p!=null&&p.team()==0;}
     public PlayerLife player(int id){owned();return Objects.requireNonNull(players.get(id),"Unknown player");}
     public List<PlayerLife> players(){owned();return List.copyOf(players.values());}
     public boolean inGame(int id){owned();return messages.inGame(id);}

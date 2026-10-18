@@ -109,7 +109,14 @@ no local-to-CI artifact hash identity or complete platform gameplay is claimed.
 The prior medpack/Zombie/VIP original-baseline discrepancies remain unwaived.
 These focused passes do not establish a passing full original-source baseline.
 
-This checkpoint requires a new five-job CI run after publication.
+All five CI jobs passed for implementation `9269d005397c982f4e5f981c146881cca76fae81`,
+tested/published tree `fccc9e8406b303e10311ffc70512ab93c46989ab`, in
+[run 39166316694](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39166316694). The native job independently reproduced all 71
+configured original generators, including the actual worker-prewarmed map caches.
+The build byte-compared repeated archives. Ubuntu, Windows and macOS smoked the
+uploaded JAR and ran source-built component/integration tests. Every final job step
+completed with success or an intentional skip. No local-to-CI artifact hash identity
+or complete platform gameplay is claimed.
 
 Remaining work includes production domain factories/full asynchronous hosting assembly,
 concrete vote/audio/achievement/persistence/bot/reset services and their cancellation,

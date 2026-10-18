@@ -33,20 +33,37 @@
     }
   },
   "verification_stage": "Worker spawn-cache transfer, concrete owner timers and owned host scene transitions",
-  "java_implementation_commit": null,
-  "tested_tree": null,
+  "java_implementation_commit": "9269d005397c982f4e5f981c146881cca76fae81",
+  "tested_tree": "fccc9e8406b303e10311ffc70512ab93c46989ab",
   "ci": {
-    "status": "pending_publication",
-    "head_sha": null,
-    "run_id": null,
-    "url": null,
-    "jobs": {},
-    "all_five_jobs_passed": false,
-    "all_final_steps_verified": false,
+    "status": "success",
+    "head_sha": "9269d005397c982f4e5f981c146881cca76fae81",
+    "run_id": 39166316694,
+    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39166316694",
+    "jobs": {
+      "build": "success",
+      "native-enet": "success",
+      "platform (windows-latest)": "success",
+      "platform (macos-latest)": "success",
+      "platform (ubuntu-latest)": "success"
+    },
+    "all_five_jobs_passed": true,
+    "all_final_steps_verified": true,
     "local_to_ci_artifact_hash_compared": false,
     "full_reference_python_baseline_passing": false,
     "packaged_native_probe_player_domain": "FixtureScene; upgraded actual UDP transition uses configured LifeRuntime/TdmMode and owned host bindings",
-    "component_and_udp_tests_use_source_built_classes": true
+    "component_and_udp_tests_use_source_built_classes": true,
+    "job_ids": {
+      "build": 117789880661,
+      "native-enet": 117789881021,
+      "platform (windows-latest)": 117790312737,
+      "platform (macos-latest)": 117790312786,
+      "platform (ubuntu-latest)": 117790312805
+    },
+    "native_original_fixtures_reproduced": true,
+    "configured_generators": 71,
+    "repeated_ci_archive_identical": true,
+    "same_uploaded_jar_three_platforms": true
   },
   "movement": {
     "cases": 118,
@@ -399,12 +416,12 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": false,
+    "branch_updated": true,
     "expected_parent": "bf6198175f2bb1b89c745c594989af6e969145d5",
     "force": false,
     "authorization": "User authorized this and future verified migration checkpoints, code/workflow changes and all five CI jobs; requested multiple implementations per batch.",
-    "implementation_commit": null,
-    "tested_tree": null
+    "implementation_commit": "9269d005397c982f4e5f981c146881cca76fae81",
+    "tested_tree": "fccc9e8406b303e10311ffc70512ab93c46989ab"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -3411,7 +3428,8 @@
     "native_loader_uses_fixture_scene": true,
     "supported_client_validated": false,
     "ci_implementation_commit": "8a5885dea85a23c6ccd5cbea1b73787ee5f32d66",
-    "ci_run_id": 39164290723
+    "ci_run_id": 39164290723,
+    "scope": "Historical transition-policy checkpoint; current worker-cache and owned-host bindings are recorded in prepared_host"
   },
   "previous_transition_checkpoint": {
     "java_implementation_commit": "8a5885dea85a23c6ccd5cbea1b73787ee5f32d66",
@@ -3610,6 +3628,8 @@
       "runtime/repair/journal/HUD reset and restart",
       "remaining modes/gameplay",
       "supported-client multiplayer/capacity/soak"
-    ]
+    ],
+    "ci_implementation_commit": "9269d005397c982f4e5f981c146881cca76fae81",
+    "ci_run_id": 39166316694
   }
 }

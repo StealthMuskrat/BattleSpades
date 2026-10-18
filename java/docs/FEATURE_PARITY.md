@@ -1,7 +1,8 @@
 # Feature parity and explicit backlog
 
 Current prepared-map/owned-host verification: 6,133 Java tests and 200 focused original
-regressions pass locally. CI is pending publication. See [PREPARED_HOST.md](PREPARED_HOST.md);
+regressions pass locally. All five CI jobs pass in
+[run 39166316694](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39166316694). See [PREPARED_HOST.md](PREPARED_HOST.md);
 complete gameplay and normal hosting assembly remain pending.
 
 Reference: source `6216b771282d2d349ccd67ee58c378f035c83553`.

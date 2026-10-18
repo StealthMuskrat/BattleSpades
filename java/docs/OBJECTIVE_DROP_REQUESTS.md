@@ -59,4 +59,6 @@ Local clean check/build passes 5,662 Java tests and 6 focused original tests.
 All 62 configured generators reproduce outputs after a fresh native build;
 223 recorded fixture/catalog/codegen hashes remain unchanged. Repeated CRC-valid
 archives, packaging/smokes and four isolated native profiles pass.
-Publication and all five current-head CI jobs are pending.
+All five jobs pass in [run 39091489230](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39091489230); see [CI_STATUS.md](CI_STATUS.md).
+
+Implementation `f84595b3b762d54b73107a9c17b4c84d927c2a5f`, tested/published tree `3ff2290a794a17c0c32d00c7b72e91c47c4ac61c`. Full gameplay and supported-client/capacity gates remain pending.

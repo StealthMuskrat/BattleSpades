@@ -1,7 +1,11 @@
 # Java test results
 
 Stage: registered objective drop requests, 2026-10-18 UTC.
-Local clean check/build passes; publication and all five current-head CI jobs are pending.
+Implementation: `f84595b3b762d54b73107a9c17b4c84d927c2a5f`; tested tree: `3ff2290a794a17c0c32d00c7b72e91c47c4ac61c`.
+All five jobs passed in [run 39091489230](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39091489230), including source regeneration,
+archive reproducibility and one uploaded JAR on three platforms.
+The initial Windows attempt stopped before tests on a Maven Central HTTP 403;
+only that job was retried.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

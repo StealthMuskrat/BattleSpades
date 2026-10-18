@@ -74,6 +74,9 @@ soak gates remain pending. Hosting exits 2. See OBJECTIVE_DROP_REQUESTS.md.
 - Previous objective-carry helper implementation: `c9a79aa31e5355acab2ae3c35a49dfd12dd4f4a0`.
 - Previous objective-carry helper tested/published tree: `0a6179e3ac36a641d2a554e9af60ec96ab5239eb`.
 - Previous objective-carry helper CI: [run 39089220082](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39089220082); all five jobs passed.
+- Current objective-drop-request implementation: `f84595b3b762d54b73107a9c17b4c84d927c2a5f`.
+- Current objective-drop-request tested/published tree: `3ff2290a794a17c0c32d00c7b72e91c47c4ac61c`.
+- Current objective-drop-request CI: [run 39091489230](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39091489230); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -326,7 +329,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | Pending publication and all five jobs |
+| Current-tree independent platform CI | PASS: all five jobs; source regeneration, repeat archive and same uploaded JAR on three OSes |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 

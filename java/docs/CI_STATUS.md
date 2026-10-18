@@ -6,7 +6,14 @@ failures, errors or skips. **6 focused original tests** pass. New evidence:
 helpers and registry, including 448 suspended callbacks and 176 hook/send faults.
 All 62 configured generators reproduce outputs after a fresh original native
 build; all 223 recorded fixture/catalog/codegen hashes remain unchanged.
-Publication and all five current-head CI jobs are pending.
+All five CI jobs passed for implementation `f84595b3b762d54b73107a9c17b4c84d927c2a5f` and tested/published tree
+`3ff2290a794a17c0c32d00c7b72e91c47c4ac61c` in [run 39091489230](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39091489230).
+The native job regenerated original fixtures, the build byte-compared repeated
+archives and platform jobs tested one uploaded JAR on Ubuntu, Windows and macOS.
+No local-to-CI artifact hash identity is claimed.
+The initial Windows job failed before tests when Maven Central returned HTTP 403
+for a locked dependency. Only that job was retried on a fresh runner; the failure
+log and observation are retained.
 
 Two CRC-valid local archives are byte-identical: 1644120 bytes,
 SHA-256 `b50e53a3b93f99b8ef8422f0b4684176a68d23a561dd3d3e5c2fa0e1a9ccf069`. Class major 69 and packaging audits pass;

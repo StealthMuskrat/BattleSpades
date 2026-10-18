@@ -1,5 +1,8 @@
 # Feature parity and explicit backlog
 
+Current TDM/runtime verification: all 6,006 Java tests and all five jobs pass in
+[run 39149867337](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39149867337). See [TDM_RUNTIME.md](TDM_RUNTIME.md); complete gameplay remains pending.
+
 Reference: source `6216b771282d2d349ccd67ee58c378f035c83553`.
 `Implemented component` means only the exact behavior and evidence listed here.
 It does not imply that a playable server, end-to-end feature or migration milestone

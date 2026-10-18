@@ -22,7 +22,13 @@ settlement, asynchronous simulation/bootstrap, delayed end/restart and actual
 resource/audio/vote/achievement/result services, all other modes and supported-client/
 capacity/soak gates remain pending. See [TDM_RUNTIME.md](TDM_RUNTIME.md).
 
-This checkpoint requires a new five-job CI run after publication.
+All five CI jobs passed for implementation `e34737309f70ba099006e163f137f58b88af39e4`,
+tested/published tree `e0d4db0939fe99e3c4ba9f11003cb3124bea8f94`, in
+[run 39149867337](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39149867337). The native job reproduced the original fixtures and the
+build byte-compared repeated archives. Ubuntu, Windows and macOS smoked one
+uploaded JAR and ran source-built component/integration tests. Every final job
+step completed with success or an intentional skip. No local-to-CI artifact hash
+identity is claimed.
 
 # Preceding Java test optimization verification
 

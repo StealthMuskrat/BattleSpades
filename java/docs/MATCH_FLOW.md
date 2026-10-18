@@ -2,6 +2,14 @@
 
 ## Follow-up TDM/runtime binding
 
+All five CI jobs passed for implementation `e34737309f70ba099006e163f137f58b88af39e4`,
+tested/published tree `e0d4db0939fe99e3c4ba9f11003cb3124bea8f94`, in
+[run 39149867337](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39149867337). The native job reproduced the original fixtures and the
+build byte-compared repeated archives. Ubuntu, Windows and macOS smoked one
+uploaded JAR and ran source-built component/integration tests. Every final job
+step completed with success or an intentional skip. No local-to-CI artifact hash
+identity is claimed.
+
 The later [TDM/runtime batch](TDM_RUNTIME.md) provides the concrete TDM core,
 canonical accepted-life reload/bonus/score rows and actual serial mode/plugin and
 opt-in ENet packet drains. Its current 6,006 Java tests retain the distinct cases

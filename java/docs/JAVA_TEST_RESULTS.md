@@ -1,7 +1,9 @@
 # Java test results
 
 Stage: medpack healing and radar lifecycle, 2026-10-18 UTC.
-Local clean check/build passes; publication and all five current-head CI jobs are pending.
+Implementation: `18f5d79818cefad2f96f5ee1a2f222862cbf989e`; tested tree: `db584d7612c7986e694f16becd1b057cbfad58ef`.
+All five jobs passed in [run 39084849726](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39084849726), including source regeneration,
+archive reproducibility and one uploaded JAR on three platforms.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

@@ -61,6 +61,9 @@ See CARE_RADAR.md.
 - Previous shared-blast implementation: `a3cbfff3738acf5ece8012113106633e2ef68463`.
 - Previous shared-blast tested/published tree: `78f4a9f75500e105e316df6c04a547a8e0309a4f`.
 - Previous shared-blast CI: [run 39083832978](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39083832978); all five jobs passed.
+- Current medpack/radar implementation: `18f5d79818cefad2f96f5ee1a2f222862cbf989e`.
+- Current medpack/radar tested/published tree: `db584d7612c7986e694f16becd1b057cbfad58ef`.
+- Current medpack/radar CI: [run 39084849726](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39084849726); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -280,7 +283,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | Pending publication and all five jobs |
+| Current-tree independent platform CI | PASS: all five jobs; source regeneration, repeat archive and same uploaded JAR on three OSes |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 

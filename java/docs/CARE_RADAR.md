@@ -42,9 +42,11 @@ Local clean check/build passes 5,373 Java tests: 5,350 component and 23 real UDP
 with no failures, errors or skips. 109 focused original tests pass. All 56 configured generators reproduce
 outputs after a fresh original native build; 210 recorded fixture/catalog hashes
 remain unchanged. Repeated CRC-valid archives, packaging/smokes and isolated
-native probes pass. Publication and all five current-head CI jobs are pending.
+native probes pass. All five jobs pass in [run 39084849726](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39084849726); see [CI_STATUS.md](CI_STATUS.md).
 
 Remaining work includes physical pickups, placement/equipment authorization,
 projectile/corpse simulation, concrete modes/score/achievement/debug services,
 complete gameplay binding, supported-client validation, capacity and soak. The
 full original baseline retains its documented incomplete runs/VIP discrepancy.
+
+Implementation `18f5d79818cefad2f96f5ee1a2f222862cbf989e`, tested/published tree `db584d7612c7986e694f16becd1b057cbfad58ef`. The CI build compares repeated archives and tests one uploaded JAR on three platforms. Full gameplay and supported-client/capacity gates remain pending.

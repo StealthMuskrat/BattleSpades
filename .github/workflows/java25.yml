@@ -163,6 +163,10 @@ jobs:
           python -S java/tools/generate_crate_golden.py
           python -S java/tools/generate_map_markers_golden.py
           python -S java/tools/generate_map_resources_golden.py
+          python -S java/tools/generate_match_state_golden.py
+          python -S java/tools/generate_objective_guard_golden.py
+          python -S java/tools/generate_scoreboard_golden.py
+          git diff --exit-code -- java/src/test/resources/golden/match-state* java/src/test/resources/golden/objective-guard* java/src/test/resources/golden/scoreboard*
           python -S java/tools/generate_objective_drop_golden.py
           git diff --exit-code -- java/src/test/resources/golden/objective-drop*
           python -S java/tools/generate_objective_carry_golden.py

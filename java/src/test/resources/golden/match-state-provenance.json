@@ -1,0 +1,15 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "team_operations": 2048,
+  "escort_queries": 2048,
+  "round_stat_operations": 2048,
+  "rounding_cases": 8192,
+  "source_files_sha256": {
+    "server/team.py": "13a0d2a28b02678194652e7997d88f6bf3d50902739423ed72800ab8a6a26396",
+    "server/combat_scores.py": "efd40db2f8e456a285216487d5613048cbea8dfd7bee26d7eb4159e6eaee4f06",
+    "modes/objective_guard.py": "0555be7064d589dc3d981a6158035be09fe8afd45ad84030cc2a22cd66fef5cf"
+  },
+  "fixture_sha256": "b80d08be5a01d80d4a692b442a588266c2a79327c5136c5ef66248cea222ca7b",
+  "method_substitutions": false,
+  "scope": "Actual unchanged Team, EscortTracker, RoundCombatStats and CPython round; controlled plain identity actors, coordinates and lifecycle flags. Includes duplicate identities/numeric-id reuse, ordered hysteresis, score locks/reset/spawn rotation/intel state. Typed Java counters cover recorded signed-64-bit inputs, not arbitrary Python integer/object conversion."
+}

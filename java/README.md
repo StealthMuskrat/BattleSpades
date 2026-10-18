@@ -40,6 +40,13 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
+The current batch adds TeamState, EscortTracker, ObjectiveGuard/TrapTimer,
+RoundCombatStats and Scoreboard, plus native GameStats/ShowTextMessage codecs.
+These share actual player identity, live canonical terrain and reliable delivery;
+two new three-client UDP tests exercise objective recovery and end-round/late-replay
+flows. Concrete mode, profile/result and full gameplay composition remain required.
+See [MATCH_FOUNDATIONS.md](docs/MATCH_FOUNDATIONS.md).
+
 ObjectiveDropRequests now validates decoded requests against the bound carrier,
 awaits the explicit mode port and places generic fallback drops in the registry.
 It preserves mode consumption and post-await carry/life ordering; owner execution

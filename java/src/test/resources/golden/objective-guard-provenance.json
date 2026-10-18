@@ -1,0 +1,21 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "terrain_queries": 1536,
+  "presence_timer_operations": 2048,
+  "trapped_reasons": {
+    "buried": 543,
+    "clear": 324,
+    "floating": 646,
+    "sealed": 23
+  },
+  "source_files_sha256": {
+    "modes/objective_guard.py": "0555be7064d589dc3d981a6158035be09fe8afd45ad84030cc2a22cd66fef5cf",
+    "server/combat_runtime.py": "1063d83823e07e103a7a65cc30aa3a94398d860abb8ba6ee345b7120f767d677",
+    "server/world_manager.py": "b2ef9c97255c290ea946dc4a4a415b46ba26bd69db9997276bcce6a3ef45fc63",
+    "aoslib/vxl.pyx": "c24f5102983d08f72aa710bbe6315ac5714b2226dafc67b968dcbd789876460d",
+    "server/escape_watch.py": "5e49cf4d302fea89162b7c0ef3165cdc1b397e17a55cbd1d66bb3a9b3b88d508"
+  },
+  "fixture_sha256": "32765a3940c6c2be9a4ba50b7570962c7f8bf55ba6ae6ace364099e9bc9fae18",
+  "method_substitutions": false,
+  "scope": "Actual unchanged guard, LOS traversal, native WorldManager/VXL get_z and escape-watch lookup; controlled voxel edits, identity/coordinate/config/clock inputs. Buried/sealed/floating/open cases, native-start-column resettling, both coordinate spaces, rounded AFK state, identity reuse and TrapTimer. Full escape detection and concrete-mode scheduling remain separate."
+}

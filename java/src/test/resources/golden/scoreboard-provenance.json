@@ -1,0 +1,19 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "scoreboard_operations": 2048,
+  "native_game_stats_cases": 512,
+  "native_text_cases": 512,
+  "send_faults": 111,
+  "stats_send_faults": 15,
+  "source_files_sha256": {
+    "server/scoreboard.py": "b16a82f8b2d6b950c2e6606e5788848ae3b5a65e682d806f8a254a4411cb3e6a",
+    "server/team.py": "13a0d2a28b02678194652e7997d88f6bf3d50902739423ed72800ab8a6a26396",
+    "server/combat_scores.py": "efd40db2f8e456a285216487d5613048cbea8dfd7bee26d7eb4159e6eaee4f06",
+    "server/profile_stats.py": "e1d6b21ddeed91b04e1eaaf631f509f83f80791a9f1b37ab26fd0c5d6071561d",
+    "shared/packet.pyx": "26e0bd6cc3ad92f931b8396ab21f395b199f11965a80dd96464b5907fb5b6819",
+    "server/connection.py": "5dc2789152970de62c3e4953d1a9a0915a04d03221c96d050054b5265a8151e4"
+  },
+  "fixture_sha256": "db7fe4c94f5d8e4f81e0a61a3325cc128029798a5408fe567422477d6385d75e",
+  "method_substitutions": false,
+  "scope": "Actual unchanged scoreboard helpers, actual RoundCombatStats/Team/ProfileStats and seeded Python random stream/native codecs. Controlled roster identity, counters, mode phase, peers/known-id sets, terminal sends and result-bridge IO; includes pre-send profile-baseline ordering. Profile counter engine and external persistence/result bridge remain separate required Java ports; no full profile-engine equivalence claimed."
+}

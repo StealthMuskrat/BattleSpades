@@ -1,12 +1,12 @@
 # Java 25 migration report
 
 Date: 2026-10-18 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage adds the registered objective drop request's life/type guards,
-awaited mode-consumption boundary, owner continuation and actual generic registry
-placement. Concrete objective modes, complete outer async packet-drain scheduling,
-dropped-object physics, equipment policy, remaining projectile/corpse domains,
-concrete services and full gameplay binding remain. Supported-client/capacity/
-soak gates remain pending. Hosting exits 2. See OBJECTIVE_DROP_REQUESTS.md.
+The current batch implements team state, ordered escorts, objective LOS/recovery/
+AFK/presence/protection guards, round counters and scoreboard/HUD/awards, plus
+native GameStats and scoreboard-text codecs. Concrete modes, complete outer async
+packet draining, life-event/presentation and profile/result integration remain.
+Full gameplay, original baseline and supported-client/capacity/soak gates remain
+pending. Hosting exits 2. See MATCH_FOUNDATIONS.md.
 
 
 ## Repository and provenance
@@ -74,9 +74,9 @@ soak gates remain pending. Hosting exits 2. See OBJECTIVE_DROP_REQUESTS.md.
 - Previous objective-carry helper implementation: `c9a79aa31e5355acab2ae3c35a49dfd12dd4f4a0`.
 - Previous objective-carry helper tested/published tree: `0a6179e3ac36a641d2a554e9af60ec96ab5239eb`.
 - Previous objective-carry helper CI: [run 39089220082](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39089220082); all five jobs passed.
-- Current objective-drop-request implementation: `f84595b3b762d54b73107a9c17b4c84d927c2a5f`.
-- Current objective-drop-request tested/published tree: `3ff2290a794a17c0c32d00c7b72e91c47c4ac61c`.
-- Current objective-drop-request CI: [run 39091489230](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39091489230); all five jobs passed.
+- Previous objective-drop-request implementation: `f84595b3b762d54b73107a9c17b4c84d927c2a5f`.
+- Previous objective-drop-request tested/published tree: `3ff2290a794a17c0c32d00c7b72e91c47c4ac61c`.
+- Previous objective-drop-request CI: [run 39091489230](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39091489230); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -87,13 +87,21 @@ expected-head lease and exact tested-tree comparison. No release is created.
 
 ## Current implementation
 
+The match-foundations batch implements TeamState, EscortTracker, ObjectiveGuard/
+TrapTimer, RoundCombatStats/Scoreboard and two native result codecs. It adds
+20,992 source observations and two combined three-client UDP flows. Local clean
+verification passes 5,826 Java tests and 53 focused original tests. All 65 configured
+generators reran after a fresh native build; all 235 recorded hashes match.
+Explicit mode/life-event/presentation/known-roster/profile/result ports remain;
+these components do not establish complete playable rounds. See MATCH_FOUNDATIONS.md.
+
 ObjectiveDropRequests compares 2,048 actual unchanged registered-coroutine
 requests with the original Player/native body, helpers and registry. A new
 three-client UDP test checks bound authority, mode consumption, generic placement
 and suspended death with a newer server loop. LifeRuntime routes packet 71 through
 a once-before-admission binding with required completion handling. Concrete modes,
 outer async packet draining and dropped-object simulation remain pending.
-Local verification passes 5,662 Java tests; all 223 hashes reproduce through 62
+The preceding objective-drop checkpoint passed 5,662 Java tests; all 223 hashes reproduce through 62
 configured generators after a fresh native build. See OBJECTIVE_DROP_REQUESTS.md.
 
 ObjectiveCarry adds 4,096 unchanged helper/native-body operations, 8,192 arbitrary
@@ -299,8 +307,8 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Check | Current local result |
 |---|---|
 | Java 25 clean check/build | PASS |
-| Unit/component tests | 5635 passed; 0 failures/errors/skips |
-| Real UDP integration tests | 27 passed; 0 failures/errors/skips |
+| Unit/component tests | 5797 passed; 0 failures/errors/skips |
+| Real UDP integration tests | 29 passed; 0 failures/errors/skips |
 | Flight full-path source comparisons | 65,497 exact operations / 44 traces; 10,368 canopy impact vectors; 117 focused original regressions pass |
 | Infantry full-path source comparisons | 16,683 exact operations / 33 traces; 57 focused original regressions pass |
 | ClientData / cadence source comparisons | 14,234 / 26,234 original operations; exact regeneration |
@@ -329,7 +337,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | PASS: all five jobs; source regeneration, repeat archive and same uploaded JAR on three OSes |
+| Current-tree independent platform CI | Pending publication and all five jobs |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 

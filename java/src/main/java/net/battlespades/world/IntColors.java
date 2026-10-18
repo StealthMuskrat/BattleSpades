@@ -19,6 +19,14 @@ final class IntColors {
     }
     boolean contains(int key) { return keys[slot(key)]==key; }
     int get(int key,int fallback) { int i=slot(key);return keys[i]==key?values[i]:fallback; }
+    void remove(int key) {
+        int i=slot(key);if(keys[i]!=key)return;
+        keys[i]=-1;size--;
+        // Reinsert the following probe cluster so lookups cannot stop at the hole.
+        for(i=(i+1)&(keys.length-1);keys[i]!=-1;i=(i+1)&(keys.length-1)) {
+            int nextKey=keys[i],value=values[i];keys[i]=-1;size--;put(nextKey,value);
+        }
+    }
     void put(int key,int value) {
         if((size+1L)*5 > keys.length*3L) {
             int[] oldKeys=keys,oldValues=values;

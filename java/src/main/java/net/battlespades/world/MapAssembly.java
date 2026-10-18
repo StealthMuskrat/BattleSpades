@@ -15,7 +15,7 @@ public record MapAssembly(VxlMap terrain,MapMetadata metadata) {
         byte[] bytes;try(var input=Files.newInputStream(path)){bytes=input.readNBytes(64*1024*1024+1);}if(bytes.length>64*1024*1024)throw new IOException("VXL exceeds 64 MiB loading bound");
         var crc=new java.util.zip.CRC32();crc.update(bytes);
         var metadata=MapMetadata.load(path,mode,(int)crc.getValue());
-        return new MapAssembly(VxlMap.load(bytes,metadata.vxlFormat()),metadata);
+        return new MapAssembly(VxlMap.loadServer(bytes,metadata.vxlFormat()),metadata);
     }
     public MutableWorld world(long epoch,int journalLimit){return new MutableWorld(terrain,epoch,journalLimit);}
     public SpawnGeometry spawns(MutableWorld world){

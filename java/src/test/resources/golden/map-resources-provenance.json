@@ -1,0 +1,19 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "traces": 48,
+  "fixture_sha256": "ddb8438426dbcb150261cdd726031a856672f3d90b6ace42ae55ca818c664d4a",
+  "source_files_sha256": {
+    "server/map_resources.py": "39224bad89cee490764a77eb44f09ac354e41dbf315c0e10bbc89a7bf11cd99d",
+    "server/entities/behaviors.py": "de230daca0fe35db5abaee03f5df6885e027f897182371fac19087f73a154f5d",
+    "server/entities/registry.py": "844b5df830c2900419035491f35c9fed0542dc8f6fce7fb3b7ed280c8a3f8935",
+    "server/runtime_vxl.py": "45f514303a48534c280a16895fafab1a9da7138f2ad986188074c4c011ca4ad4",
+    "server/world_manager.py": "b2ef9c97255c290ea946dc4a4a415b46ba26bd69db9997276bcce6a3ef45fc63",
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/audio.py": "626bd59ff43702d26a82b8f504fdba0a5f76eb8e037d2ef13df8b5a7ac340fb7",
+    "server/achievements.py": "946e44bc5e21691e458e759204b89d059dc109744e716b5014d6625af38638d3",
+    "server/combat_scores.py": "efd40db2f8e456a285216487d5613048cbea8dfd7bee26d7eb4159e6eaee4f06",
+    "shared/packet.pyx": "26e0bd6cc3ad92f931b8396ab21f395b199f11965a80dd96464b5907fb5b6819"
+  },
+  "method_substitutions": false,
+  "scope": "Original MapResourceService, actual native world and Player resource refills, original registry, audio and compiled wire codecs. Resolved base anchors and terminal send IO controlled; profile observes unchanged award/achievement hook ordering, with actual round crate counters. No persistent achievement-engine unlock or full round/mode/server assembly claim."
+}

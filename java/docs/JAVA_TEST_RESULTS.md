@@ -1,9 +1,7 @@
 # Java test results
 
-Stage: physical supply crates and sound/entity-change codecs, 2026-10-18 UTC.
-Implementation: `991258442ac28a276edf8cf4ae95a5fb01b96a81`; tested tree: `790ff768096e07abc44ebd936894bce4bf661452`.
-All five jobs passed in [run 39086168143](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39086168143), including source regeneration,
-archive reproducibility and one uploaded JAR on three platforms.
+Stage: map-owned supplies, server VXL cleanup and static lights, 2026-10-18 UTC.
+Local clean check/build passes; publication and all five current-head CI jobs are pending.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -29,6 +27,7 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.LagGoldenTest | 26 | 0 | 0 | 0 |
 | net.battlespades.LagRuntimeTest | 3 | 0 | 0 | 0 |
 | net.battlespades.LoadingPacketTest | 12 | 0 | 0 | 0 |
+| net.battlespades.MapMarkersTest | 76 | 0 | 0 | 0 |
 | net.battlespades.MapMetadataTest | 631 | 0 | 0 | 0 |
 | net.battlespades.MapSyncTest | 15 | 0 | 0 | 0 |
 | net.battlespades.MutableWorldTest | 5 | 0 | 0 | 0 |
@@ -69,6 +68,7 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.player.LagConnectedGoldenTest | 4 | 0 | 0 | 0 |
 | net.battlespades.player.LifeGoldenTest | 1082 | 0 | 0 | 0 |
 | net.battlespades.player.LifeRuntimeTest | 5 | 0 | 0 | 0 |
+| net.battlespades.player.MapResourceGoldenTest | 48 | 0 | 0 | 0 |
 | net.battlespades.player.MeleeHitEffectsGoldenTest | 17 | 0 | 0 | 0 |
 | net.battlespades.player.OwnerGoldenTest | 5 | 0 | 0 | 0 |
 | net.battlespades.player.PelletGoldenTest | 17 | 0 | 0 | 0 |
@@ -80,23 +80,21 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.player.SpawnPolicyTest | 36 | 0 | 0 | 0 |
 | net.battlespades.player.TerrainCommitGoldenTest | 16 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 16 | 0 | 0 | 0 |
-| net.battlespades.ApplicationIntegrationTest | 21 | 0 | 0 | 0 |
+| net.battlespades.ApplicationIntegrationTest | 22 | 0 | 0 | 0 |
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **5,438 Java tests passed: 5,414 component and 24 real UDP; no failures,
-errors or skips.** New evidence covers 8,192 original crate/registry/native-world/
-Player refill operations and 1,024 native sound/entity-change codec cases.
-All 58 configured generators reproduce their outputs after a fresh original
-native build; all 215 recorded fixture/catalog/codegen hashes remain unchanged.
-**68 focused original tests pass.** This does not establish the full original
-baseline. The expanded original run reports 80 passed / 1 failed: Zombie countdown
-sound expectations disagree with the unchanged 4-second cue lead. No source or
-test is changed; the earlier incomplete runs/VIP discrepancy also remain.
+Total: **5,563 Java tests passed: 5,538 component and 25 real UDP; no failures,
+errors or skips.** New comparisons cover 76 original marker maps / 18,200 point
+observations and 48 original map-resource traces. All 60 configured generators
+reproduce outputs after a fresh original native build; all 219 recorded fixture/
+catalog/codegen hashes remain unchanged. **64 focused original tests pass.**
+The complete original baseline remains incomplete/failing; earlier Zombie cue
+lead and VIP discrepancies remain unchanged and are not waived.
 
-The new three-client UDP test checks health/ammo/block refills, personal sound,
-full-player consumption, parachute respawn, live late replay and reliable support
-movement. Authored placement/refill/sound/reveal composition remains explicit.
-Stock map resources, objective carry/drop, complete placement/mode/services/
-gameplay binding and supported-client/capacity/soak gates remain pending. Hosting
-exits 2; packaged native-loader probes use FixtureScene. See PHYSICAL_CRATES.md.
+The new three-client UDP test loads MapAssembly, restores lights, heals to the
+body maximum, sends personal audio, replays only live resources, respawns with
+an aircraft cue and replaces only map-owned entities. Award/achievement/audio/
+reveal ports remain explicit; persistent achievements, complete modes/services/
+gameplay and supported-client/capacity/soak gates remain pending. Hosting exits 2;
+packaged native-loader probes retain FixtureScene. See MAP_RESOURCES.md.

@@ -1,11 +1,11 @@
 # Java 25 migration report
 
 Date: 2026-10-18 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage adds physical supply-crate descent, live support settling,
-refill/respawn and native sound/entity-change codecs. Stock map resources,
-objective pickup carry/drop, equipment policy, projectile/corpse simulation,
-concrete modes/services and full gameplay binding remain. Supported-client/
-capacity/soak gates remain pending. Hosting exits 2. See PHYSICAL_CRATES.md.
+The current stage adds map-owned supply/light assembly, server VXL chroma cleanup
+and load-derived canonical static-light state. Objective pickup carry/drop,
+equipment policy, projectile/corpse simulation, concrete modes/services and full
+gameplay binding remain. Supported-client/capacity/soak gates remain pending.
+Hosting exits 2. See MAP_RESOURCES.md.
 
 
 ## Repository and provenance
@@ -64,9 +64,9 @@ capacity/soak gates remain pending. Hosting exits 2. See PHYSICAL_CRATES.md.
 - Previous medpack/radar implementation: `18f5d79818cefad2f96f5ee1a2f222862cbf989e`.
 - Previous medpack/radar tested/published tree: `db584d7612c7986e694f16becd1b057cbfad58ef`.
 - Previous medpack/radar CI: [run 39084849726](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39084849726); all five jobs passed.
-- Current physical-crate implementation: `991258442ac28a276edf8cf4ae95a5fb01b96a81`.
-- Current physical-crate tested/published tree: `790ff768096e07abc44ebd936894bce4bf661452`.
-- Current physical-crate CI: [run 39086168143](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39086168143); all five jobs passed.
+- Previous physical-crate implementation: `991258442ac28a276edf8cf4ae95a5fb01b96a81`.
+- Previous physical-crate tested/published tree: `790ff768096e07abc44ebd936894bce4bf661452`.
+- Previous physical-crate CI: [run 39086168143](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39086168143); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -77,13 +77,21 @@ expected-head lease and exact tested-tree comparison. No release is created.
 
 ## Current implementation
 
+MapResourceService and server VXL loading add 76 marker cases / 18,200 voxel
+observations and 48 unchanged-source resource traces. A new three-client UDP test
+uses actual MapAssembly, registry and life refills to verify canonical lights,
+owner-only health/audio, late replay, flyby and repeated resource replacement.
+Local verification passes 5,563 Java tests. Score/achievement/audio/reveal ports
+remain explicit; persistent achievement-engine and full round/gameplay binding
+are not established. See MAP_RESOURCES.md.
+
 PickupCrateBehavior and PickupWorld add 8,192 unchanged-source operations for
 native-world edits, live support/dry rescue, parachute timing, actual health/ammo/
 block refill and respawn. Another 1,024 native codec cases cover PlaySound and
 ChangeEntity, including source decoding/re-encoding quirks. A new three-client
 UDP test checks all refill types, sky/late replay and reliable support movement.
-Local verification passes 5,438 Java tests. Authored placement/refill/sound/reveal
-ports remain explicit; full resource/gameplay assembly is pending. See PHYSICAL_CRATES.md.
+The preceding physical-crate checkpoint passed 5,438 Java tests. Authored placement/refill/sound/reveal
+ports remain explicit; map-resource assembly is verified above and full gameplay binding remains pending. See PHYSICAL_CRATES.md.
 
 MedpackBehavior and RadarStationBehavior add 1,024 unchanged-source lifecycle/
 healing operations and 32 actual heal reliable-IO faults. A new three-client UDP
@@ -264,8 +272,8 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Check | Current local result |
 |---|---|
 | Java 25 clean check/build | PASS |
-| Unit/component tests | 5414 passed; 0 failures/errors/skips |
-| Real UDP integration tests | 24 passed; 0 failures/errors/skips |
+| Unit/component tests | 5538 passed; 0 failures/errors/skips |
+| Real UDP integration tests | 25 passed; 0 failures/errors/skips |
 | Flight full-path source comparisons | 65,497 exact operations / 44 traces; 10,368 canopy impact vectors; 117 focused original regressions pass |
 | Infantry full-path source comparisons | 16,683 exact operations / 33 traces; 57 focused original regressions pass |
 | ClientData / cadence source comparisons | 14,234 / 26,234 original operations; exact regeneration |
@@ -294,7 +302,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | PASS: all five jobs; source regeneration, repeat archive and same uploaded JAR on three OSes |
+| Current-tree independent platform CI | Pending publication and all five jobs |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -411,7 +419,7 @@ incomplete-baseline evidence; the complete original baseline is not passing.
 
 ## Remaining work and readiness
 
-Next: complete stock map-resource assembly, objective carry/drop and placement policy, corpse/projectile simulation
+Next: complete objective carry/drop and placement policy, corpse/projectile simulation
 and full repair/entity gameplay-loop integration; connect detached projectiles, full score/award/aim services and upstream
 input/equipment authorization; wire the owned Character/combat/movement/flight
 components to concrete modes and authenticated identity. Complete presentation,

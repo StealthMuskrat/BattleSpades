@@ -28,7 +28,10 @@ public final class LifeHarness implements AutoCloseable {
     public LifeHarness(){this(GameRules.serverDefaults());}
     public LifeHarness(GameRules rules){this(rules,"tdm");}
     public LifeHarness(GameRules rules,String mode){
-        world=new MutableWorld(VxlMap.load(new byte[]{0,(byte)240,(byte)239,0},"auto"),1,10000);
+        this(rules,mode,new MutableWorld(VxlMap.load(new byte[]{0,(byte)240,(byte)239,0},"auto"),1,10000));
+    }
+    public LifeHarness(GameRules rules,String mode,MutableWorld sourceWorld){
+        world=Objects.requireNonNull(sourceWorld);
         runtime=new LifeRuntime(world,rules,mode,new LifeRuntime.Clock(){public double wall(){return wall;}public double monotonic(){return monotonic;}},new LifeRuntime.Policy(){
             public AdmissionPolicy.Context admissionContext(int id){return AdmissionPolicy.Context.ordinary(runtime.players().stream().map(p->new AdmissionPolicy.Occupant(p.id(),p.create().name(),false,p.team())).toList());}
             public void prepareSpawn(PlayerLife p){events.add("prepare:"+p.id()+":"+p.selection().classId());if(failing.contains(p.id()))throw new IllegalStateException("Controlled prepare failure");}

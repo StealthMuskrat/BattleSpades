@@ -32,6 +32,27 @@ public final class MutableWorld implements AutoCloseable {
     private final int journalLimit;
     private final int sourceCrc;
     private final Map<Integer,ColumnState> columns=new HashMap<>();
+    private final LinkedHashSet<Integer> dirtyColumns=new LinkedHashSet<>();
+    private final Map<Cell,Integer> staticLights=new java.util.LinkedHashMap<>();
+    private record LightListener(java.util.function.BiConsumer<Cell,Integer> action,java.util.function.Consumer<RuntimeException> fault){}
+    private final List<LightListener> lightListeners=new ArrayList<>();
+    public RemovalLease observeStaticLights(java.util.function.BiConsumer<Cell,Integer> listener,java.util.function.Consumer<RuntimeException> fault){active();var item=new LightListener(java.util.Objects.requireNonNull(listener),java.util.Objects.requireNonNull(fault));lightListeners.add(item);return ()->{active();lightListeners.remove(item);};}
+    public Map<Cell,Integer> staticLightCells(){active();return java.util.Collections.unmodifiableMap(new java.util.LinkedHashMap<>(staticLights));}
+    public List<VxlMap.Marker> markers(){active();return base.markers();}
+    public int sourceZShift(){active();return base.zShift();}
+    /** Load-derived flare state; intentionally leaves mutation/air journals unchanged. */
+    public boolean restoreStaticLight(double x,double y,double z,int rgb) {
+        active();
+        if(!Double.isFinite(x)||!Double.isFinite(y)||!Double.isFinite(z))throw new IllegalArgumentException("Nonfinite light coordinate");
+        int ax=(int)x,ay=(int)y,az=(int)z;
+        if(ax<0||ax>=512||ay<0||ay>=512||az<0||az>=240)return false;
+        var cell=new Cell(ax,ay,az);var column=mutable(cell.column());
+        column.solid.set(az);column.explicit.set(az);column.colors[az]=0x80000000|(rgb&0xffffff);surfaces[cell.column()]=-1;
+        staticLights.put(cell,rgb&0xffffff);
+        for(var listener:List.copyOf(lightListeners))try{listener.action.accept(cell,rgb&0xffffff);}catch(RuntimeException failure){listener.fault.accept(failure);}
+        // Source observers see the restored voxel/ledger before damage is cleared.
+        terrainHealth.clearLoad(cell);health.remove(cell);return true;
+    }
     private final Map<Integer,BitSet> air=new HashMap<>();
     private final Map<Cell,Double> health=new java.util.LinkedHashMap<>();
     private final TerrainHealth terrainHealth=new TerrainHealth(this);
@@ -91,6 +112,7 @@ public final class MutableWorld implements AutoCloseable {
         terrainHealth.beforeSet(cell,recolor,rgb);
         if(initialHealth!=null)initialHealth=terrainHealth.userHealth(initialHealth);
         var column=mutable(cell.column());
+        dirtyColumns.add(cell.column());
         if(previous!=solid)surfaces[cell.column()]=-1;
         column.solid.set(cell.z,solid);column.explicit.set(cell.z,solid);column.colors[cell.z]=solid?0x80000000|(rgb&0xffffff):0;
         if(solid && initialHealth!=null) health.put(cell,initialHealth);else if(!recolor) health.remove(cell);
@@ -104,6 +126,7 @@ public final class MutableWorld implements AutoCloseable {
                 var neighbor=new Cell(x,y,z);
                 if(solid(neighbor) && !explicit(neighbor)) {
                     int color=color(neighbor);var c=mutable(neighbor.column());c.colors[z]=0x80000000|(color&0xffffff);c.explicit.set(z);
+                    dirtyColumns.add(neighbor.column());
                 }
             }
         }
@@ -130,7 +153,7 @@ public final class MutableWorld implements AutoCloseable {
         while(z<240) {
             while(z<240 && !c.solid.get(z)) z++;if(z==240) break;
             int start=z;while(z+1<240 && c.solid.get(z+1)) z++;int end=z,topEnd=start,bottomStart=end;
-            if(end==239) {
+            if(c.solid.nextSetBit(end+1)<0) {
                 for(int v=end;v>start;v--) if(c.explicit.get(v)) {topEnd=v;break;}
                 w.u8(0).u8(start).u8(topEnd).u8(previousAir);for(int v=start;v<=topEnd;v++) w.i32(c.colors[v]);
             } else {
@@ -142,12 +165,12 @@ public final class MutableWorld implements AutoCloseable {
             }
             previousAir=end+1;z++;
         }
-        return w.toByteArray();
+        byte[] bytes=w.toByteArray();return bytes.length==0?new byte[]{0,(byte)240,(byte)239,0}:bytes;
     }
     /** The lease/watermark and all dirty column bytes are frozen in this one owner turn. */
     public Capture capture(boolean full,boolean repairAir) {
         active();var overlays=new HashMap<MapSyncSnapshot.Column,byte[]>();
-        for(int key:columns.keySet()) overlays.put(new MapSyncSnapshot.Column(key%512,key/512),serializeColumn(key%512,key/512));
+        var selected=new LinkedHashSet<Integer>(dirtyColumns);for(var marker:base.markers())selected.add(marker.x()+marker.y()*512);for(int key:selected) overlays.put(new MapSyncSnapshot.Column(key%512,key/512),serializeColumn(key%512,key/512));
         var masks=new ArrayList<AirColumn>();
         if(repairAir) air.entrySet().stream().sorted(java.util.Comparator.comparingInt((Map.Entry<Integer,BitSet> e)->e.getKey()%512).thenComparingInt(e->e.getKey()/512))
                 .forEach(e->masks.add(new AirColumn(e.getKey(),(BitSet)e.getValue().clone())));
@@ -221,5 +244,5 @@ public final class MutableWorld implements AutoCloseable {
         @Override public void close() {owned();if(!released) {released=true;leases.remove(this);pendingPackets=List.of();cells=List.of();pendingCell=null;prune();}}
     }
     private CellState stateOf(Cell cell) {return new CellState(solid(cell),color(cell),explicit(cell),initialHealth(cell),terrainHealth.accumulated(cell),terrainHealth.scale());}
-    @Override public void close() {owned();if(closed) return;closed=true;for(var l:List.copyOf(leases)) l.close();journal.clear();columns.clear();air.clear();health.clear();terrainHealth.close();}
+    @Override public void close() {owned();if(closed) return;closed=true;for(var l:List.copyOf(leases)) l.close();journal.clear();columns.clear();dirtyColumns.clear();staticLights.clear();lightListeners.clear();air.clear();health.clear();terrainHealth.close();}
 }

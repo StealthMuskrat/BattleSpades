@@ -40,10 +40,17 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
+MapResourceService now builds map-owned supplies and static lights from metadata
+and the canonical owned world. Server VXL loading strips eligible chroma markers;
+map sync includes their finalized columns, and flare restoration preserves the
+original load-state/journal boundary. Required score, achievement, audio and
+broadcast domains remain explicit; full gameplay hosting stays gated. See
+[MAP_RESOURCES.md](docs/MAP_RESOURCES.md).
+
 Physical crates now preserve live support settling, dry rescue, parachute descent,
 refill and respawn. Source comparisons and a three-client UDP test check health,
-ammo/blocks, late replay and reliable position changes. Stock map-resource and
-full gameplay assembly remain pending; see [PHYSICAL_CRATES.md](docs/PHYSICAL_CRATES.md).
+ammo/blocks, late replay and reliable position changes. MapResourceService assembly
+is verified separately above; full gameplay binding remains pending; see [PHYSICAL_CRATES.md](docs/PHYSICAL_CRATES.md).
 
 Medpack and radar behaviors now preserve shared healing cooldowns, per-pack uses,
 live radar fuse and idempotent owner/team teardown. Unchanged-source comparisons

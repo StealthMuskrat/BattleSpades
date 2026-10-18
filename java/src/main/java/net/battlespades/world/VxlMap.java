@@ -16,6 +16,9 @@ public final class VxlMap {
     private final byte[] source;
     private final int sourceSize, zShift;
     private final boolean classic;
+    public record Marker(int x,int y,int z,int family){}
+    private final java.util.List<Marker> candidates=new java.util.ArrayList<>();
+    private java.util.List<Marker> markers=java.util.List.of();
     private record Scan(int columns,int maxZ,boolean classicHeight) {}
     private VxlMap(byte[] bytes,Scan scan,String format) {
         source=bytes.clone();sourceSize=(int)Math.sqrt(scan.columns);
@@ -30,6 +33,20 @@ public final class VxlMap {
         if(!format.equals("auto") && !format.equals("retail") && !format.equals("classic64")) throw new IllegalArgumentException("Unknown VXL source format");
         return new VxlMap(data,scan(data),format);
     }
+    /** ServerVXL wrapper semantics; raw load remains the native VXL codec. */
+    public static VxlMap loadServer(byte[] data,String format) {
+        var map=load(data,format);
+        if(!map.classic) {
+            var selected=new java.util.ArrayList<Marker>();
+            // Snapshot eligibility before deleting: a deletion must not expose another candidate.
+            for(var marker:map.candidates)
+                if(map.solid(marker.x,marker.y,marker.z)&&!map.solid(marker.x,marker.y,marker.z-1)&&!map.solid(marker.x,marker.y,marker.z-2))selected.add(marker);
+            for(var marker:selected){int key=index(marker.x,marker.y,marker.z);map.solid.clear(key);map.colors.remove(key);}
+            map.markers=java.util.List.copyOf(selected);
+        }
+        map.candidates.clear();return map;
+    }
+    public java.util.List<Marker> markers(){return markers;}
     private static int u8(byte[] data,int offset) {
         if(offset<0 || offset>=data.length) throw new ProtocolException("Truncated VXL");
         return data[offset]&255;
@@ -85,7 +102,7 @@ public final class VxlMap {
     private static int index(int x,int y,int z) { return x+(y<<9)+(z<<18); }
     private static boolean bounds(int x,int y,int z) { return x>=0 && x<SIZE && y>=0 && y<SIZE && z>=0 && z<HEIGHT; }
     private void explicit(int x,int y,int z,int color) {
-        if(bounds(x,y,z)) { int key=index(x,y,z);solid.set(key);colors.put(key,color); }
+        if(bounds(x,y,z)) { int key=index(x,y,z);solid.set(key);colors.put(key,color);int masked=color&0x00f0f0f0;if(masked==0xf000||masked==0xf0)candidates.add(new Marker(x,y,z,masked==0xf000?0:1)); }
     }
     public boolean solid(int x,int y,int z) { return bounds(x,y,z) && solid.get(index(x,y,z)); }
     /** Raw column scan used by spawn safety; independent of native get_z indexing. */
@@ -113,7 +130,7 @@ public final class VxlMap {
             if(z==HEIGHT) break;
             int start=z;while(z+1<HEIGHT && solid(x,y,z+1)) z++;
             int end=z;
-            boolean last=end==239; // source always force-fills the bed
+            boolean last=true;for(int next=end+1;next<HEIGHT;next++)if(solid(x,y,next)){last=false;break;}
             int topEnd=start,bottomStart=end;
             if(last) {
                 for(int v=end;v>start;v--) if(colors.contains(index(x,y,v))) {topEnd=v;break;}
@@ -129,6 +146,6 @@ public final class VxlMap {
             }
             previousAir=end+1;z++;
         }
-        return out.toByteArray();
+        byte[] bytes=out.toByteArray();return bytes.length==0?new byte[]{0,(byte)240,(byte)239,0}:bytes;
     }
 }

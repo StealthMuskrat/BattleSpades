@@ -27,6 +27,7 @@ public final class TerrainHealth {
         }else if(!recolor)clear(cell);
     }
     private void clear(Cell cell){damage.remove(cell);shade.remove(cell);hits.remove(cell);}
+    void clearLoad(Cell cell){owned();clear(cell);}
     public double accumulated(Cell cell){owned();return damage.getOrDefault(cell,0.);}
     public Damage apply(BlockDamageModel.Cell position,double amount,double defaultHealth){
         owned();if(amount<=0)return new Damage(0,false);int x=position.x(),y=position.y(),z=position.z();if(x<0||x>=512||y<0||y>=512||z<0||z>=240)return new Damage(0,false);var cell=new Cell(x,y,z);if(z>BlockDamageModel.MAX_DAMAGEABLE_Z)return new Damage(0,false);

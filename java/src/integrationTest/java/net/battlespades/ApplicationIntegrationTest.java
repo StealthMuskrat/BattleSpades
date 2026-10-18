@@ -120,6 +120,45 @@ class ApplicationIntegrationTest {
             }
         });
     }
+    @Test void realUdpMapResourcesRestoreLightsRefillAndReplaceOnlyOwnedEntities(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            Path path=temp.resolve("ResourceFixture.vxl");var raw=new Wire.Writer();for(int i=0;i<4;i++)raw.u8(2).u8(80).u8(80).u8(0).i32(0x8000ff00).u8(0).u8(239).u8(239).u8(81).i32(0x80334455);Files.write(path,raw.toByteArray());
+            Files.writeString(temp.resolve("ResourceFixture.json"),"""
+                {"vxl_format":"retail","skybox_name":"WW1.txt","health_crate_drop_points":[[37,36,97]],"static_light_color0":[224,172,29],"ugc_entities":[{"item":"static_flare","position":[50.25,50.75,97],"color":[1,2,3]}]}
+                """);
+            var assembly=MapAssembly.load(path,"tdm");assertEquals(4,assembly.terrain().markers().size());
+            var config=new SceneConfig("Map resource UDP",27015,0,ModeCatalog.get("tdm"),"ResourceFixture",false,false,true,200,0,"WW1.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var h=new LifeHarness(config.rules(),"tdm",assembly.world(1,10000))){
+                h.world.set(new MutableWorld.Cell(37,36,100),true,0x406080,null);var registry=new EntityRegistry();var scene=new ConfiguredScene(config,assembly.metadata().environment(),()->ScenePackets.State.initial(config),h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),3,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var b=new Client(host.address());var late=new Client(host.address())){
+                    h.destination=new LifeRuntime.Messages(){public void broadcast(GamePacket p){host.broadcast(p,Delivery.RELIABLE);}public void owner(int id,GamePacket p){assertTrue(host.sendPlayer(id,p));}public boolean inGame(int id){return host.inGame(id);}};
+                    var knowledge=new ArrayList<EntityVisibility>();for(int id=0;id<3;id++){int peer=id;knowledge.add(new EntityVisibility(p->{assertTrue(host.sendPlayer(peer,p));}));}
+                    var awards=new ArrayList<String>();var effects=new MapResourceService.Effects(){
+                        public boolean wireReady(){return true;}public boolean pickupsEnabled(){return true;}public double respawnDelay(){return 1;}
+                        public Object crateBaseline(PlayerLife p){awards.add("before:"+p.health());return p.health();}
+                        public void recordCrate(PlayerLife p,int award){awards.add("award:"+award+":"+p.health());}
+                        public void crateCollected(PlayerLife p,int award,Object before){awards.add("collected:"+award+":"+before);}
+                        public void create(MapEntity e){for(int peer=0;peer<3;peer++)if(host.inGame(peer))knowledge.get(peer).reveal(e);}
+                        public void destroy(int id){assertNotNull(registry.get(id));for(int peer=0;peer<3;peer++)if(host.inGame(peer))knowledge.get(peer).destroy(id);}
+                        public void personalSound(PlayerLife p,int sound){if(host.inGame(p.id()))assertTrue(host.sendPlayer(p.id(),AudioPackets.PlaySound.personal(sound)));}
+                        public void flyby(AudioPackets.PlaySound p){host.broadcast(p,Delivery.RELIABLE);}
+                        public void rebuilt(MapResourceService.Result result){assertEquals(1,result.pickups());assertEquals(5,result.flares());assertTrue(result.missingFamilies().isEmpty());}
+                    };
+                    var service=new MapResourceService(h.runtime,registry,assembly.metadata(),team->{throw new AssertionError("Authored pickups require no fallback");},effects);long version=h.world.revision();service.rebuild();assertEquals(version,h.world.revision());assertEquals(5,h.world.staticLightCells().size());for(var m:h.world.markers()){var cell=new MutableWorld.Cell(m.x(),m.y(),m.z());assertTrue(h.world.solid(cell));assertEquals(0xe0ac1d,h.world.color(cell)&0xffffff);}
+                    var unrelatedSettings=new EntityRegistry.Placement();unrelatedSettings.kind="projectile";var unrelated=registry.place(33,100,100,100,unrelatedSettings);
+                    var loop=new Loop(host);for(var client:List.of(a,b)){loop.ticketAndLoad(client,h.world);client.send(new SimplePackets.NewPlayerConnection(client==a?2:3,0,0,0,"resources"),false);loop.until(()->client.has(69));}
+                    loop.until(()->{try{a.send(new ClientInput(100,127,false,5,1,0,0,0,0,24,0),true);b.send(new ClientInput(200,127,false,5,1,0,0,0,0,24,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0)&&host.inGame(1);});
+                    for(var e:registry.staticEntities())effects.create(e);loop.until(()->a.packets.stream().filter(p->p.id()==21).count()==6&&b.packets.stream().filter(p->p.id()==21).count()==6);
+                    var owner=h.runtime.player(0);owner.maxHealth(200);owner.health(25);owner.body().position(new Vector(37,36,97));h.runtime.player(1).body().position(new Vector(100,100,97));for(var client:List.of(a,b)){client.packets.clear();client.commands.clear();}
+                    var context=new EntityContext(1./60,h.wall,List.of(owner),registry,effects::create,effects::destroy,null,new PickupWorld(h.world),null);registry.tick(context,null);loop.until(()->a.has(5)&&a.has(23)&&a.has(19)&&b.has(19));assertEquals(200,owner.health());assertEquals(List.of("before:25","award:2:200","collected:2:25"),awards);assertFalse(b.has(5));assertFalse(b.has(23));var crate=registry.all().stream().filter(e->e.type==4).findFirst().orElseThrow();assertFalse(crate.alive);
+                    loop.ticketAndLoad(late,h.world);late.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"late resources"),false);loop.until(()->late.has(69));loop.until(()->{try{late.send(new ClientInput(300,127,false,5,1,0,0,0,0,24,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(2);});for(var e:registry.staticEntities())effects.create(e);loop.until(()->late.packets.stream().filter(p->p.id()==21).count()==5);assertFalse(late.packets.stream().filter(CreateEntity.class::isInstance).map(CreateEntity.class::cast).anyMatch(p->p.entity().type()==4));
+                    owner.body().position(new Vector(100,100,97));for(var client:List.of(a,b,late)){client.packets.clear();client.commands.clear();}h.wall+=1;registry.tick(new EntityContext(1./60,h.wall,List.of(),registry,effects::create,effects::destroy,null,new PickupWorld(h.world),null),null);loop.until(()->List.of(a,b,late).stream().allMatch(c->c.has(21)&&c.has(23)));assertTrue(crate.alive&&crate.falling);assertEquals(1,crate.z);for(var client:List.of(a,b,late)){var cue=(AudioPackets.PlaySound)client.packets.stream().filter(p->p.id()==23).findFirst().orElseThrow();assertEquals(24,cue.soundId());assertEquals(.25,cue.attenuation());assertTrue(cue.positioned());client.packets.clear();client.commands.clear();}
+                    var oldIds=registry.staticEntities().stream().map(MapEntity::id).toList();service.rebuild();loop.until(()->List.of(a,b,late).stream().allMatch(c->c.packets.stream().filter(p->p.id()==19).count()==6&&c.packets.stream().filter(p->p.id()==21).count()==6));assertSame(unrelated,registry.get(unrelated.id()));for(int id:oldIds)assertNull(registry.get(id));assertEquals(version,h.world.revision());
+                    for(var client:List.of(a,b,late))for(int i=0;i<client.packets.size();i++)if(Set.of(19,21,23).contains(client.packets.get(i).id()))assertEquals(6,client.commands.get(i));
+                }
+            }
+        });
+    }
     @Test void realUdpMedpackCooldownAndRadarLateReplayThenOwnedShotCleanup(){
         assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
             var config=new SceneConfig("Care and radar UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());

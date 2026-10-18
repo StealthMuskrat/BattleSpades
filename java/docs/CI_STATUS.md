@@ -1,4 +1,21 @@
-# Current physical-crate checkpoint verification
+# Current map-resource checkpoint verification
+
+Local clean check/build passes **5,538 component + 25 real UDP tests**, zero
+failures, errors or skips. **64 focused original tests** pass. New evidence
+covers 76 marker maps / 18,200 point observations and 48 resource traces. All 60
+configured generators reproduce outputs after a fresh original native build;
+all 219 recorded fixture/catalog/codegen hashes remain unchanged.
+Publication and all five current-head CI jobs are pending.
+
+Two CRC-valid local archives are byte-identical: 1632295 bytes,
+SHA-256 `7ee1d7f4851ba51f6cd8924f1670df9926c56b06f0309f94adea2cfc1ffe7906`. Class major 69 and packaging audits pass;
+version/config exits 0 and hosting exits 2. Isolated native transport and loader
+probes pass nominal/impaired profiles. Complete original baseline, gameplay,
+concrete services and supported-client/capacity/soak gates remain pending.
+Earlier original Zombie/VIP discrepancies remain unchanged. Packaged native loader
+probes retain FixtureScene. See MAP_RESOURCES.md.
+
+# Preceding physical-crate checkpoint verification
 
 Local clean check/build passes **5,414 component + 24 real UDP tests**, zero
 failures, errors or skips. **68 focused original tests** pass. New comparisons

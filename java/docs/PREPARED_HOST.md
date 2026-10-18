@@ -1,5 +1,9 @@
 # Prepared maps and owned host transitions
 
+Follow-up: [ROUND_MEDIA.md](ROUND_MEDIA.md) adds music/ambience, next-map ballot
+lifecycle and actual ending/host presentation bindings. The text below records
+the preceding prepared-map checkpoint and its then-pending service scope.
+
 This checkpoint closes connected worker/owner/host binding gaps after
 [TRANSITIONS.md](TRANSITIONS.md). Complete gameplay and normal hosting remain pending.
 

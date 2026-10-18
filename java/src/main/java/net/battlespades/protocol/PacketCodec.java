@@ -74,6 +74,10 @@ public final class PacketCodec {
             case 9 -> CombatPackets.ShootResponse.read(r);
             case 20 -> CombatPackets.HitEntity.read(r);
             case 23 -> AudioPackets.PlaySound.read(r);
+            case 22 -> AudioPackets.CreateAmbient.read(r);
+            case 24 -> AudioPackets.PlayAmbient.read(r);
+            case 26 -> AudioPackets.Music.read(r);
+            case 47 -> VotePacket.read(r);
             case 16 -> ChangeEntity.read(r);
             case 67 -> ScorePackets.GameStats.read(r);
             case 73 -> ScorePackets.ShowTextMessage.read(r);
@@ -98,5 +102,5 @@ public final class PacketCodec {
         r.end();
         return packet;
     }
-    public static boolean supports(int id) { return switch(id) { case 0,2,4,5,6,7,8,9,11,12,13,14,15,16,17,19,20,21,23,25,27,28,29,32,33,34,35,36,37,38,40,42,44,45,46,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,64,67,69,70,71,72,73,76,77,78,79,80,81,82,83,84,85,86,93,94,95,96,97,99,100,101,105,108,110,111,112,113,114,115 -> true; default -> false; }; }
+    public static boolean supports(int id) { return switch(id) { case 0,2,4,5,6,7,8,9,11,12,13,14,15,16,17,19,20,21,22,23,24,25,26,27,28,29,32,33,34,35,36,37,38,40,42,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,64,67,69,70,71,72,73,76,77,78,79,80,81,82,83,84,85,86,93,94,95,96,97,99,100,101,105,108,110,111,112,113,114,115 -> true; default -> false; }; }
 }

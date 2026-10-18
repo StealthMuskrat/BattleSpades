@@ -1,0 +1,17 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "cases": 24,
+  "native_codec_vectors": 564,
+  "fixture_sha256": "85d1396777fb26e9129713034d498963cb32f9538493b09247a1c8a618e74d8a",
+  "catalog_sha256": "7e3b27fc82b5d7afd17dee544371e3bf4336dca3bba24aba24e0b53d65b97ef7",
+  "policy_method_substitutions": false,
+  "source_files_sha256": {
+    "server/audio.py": "626bd59ff43702d26a82b8f504fdba0a5f76eb8e037d2ef13df8b5a7ac340fb7",
+    "server/voting.py": "459bf2a7089789588e39952c2278236b5bb670f7e352875ce5d53cc2aadd82b6",
+    "server/map_metadata.py": "66a868d65f47cdb3d2eb3956f04652ae637f03a2f2cb4cebf26f956a329f8161",
+    "server/announcements.py": "72b5cfdddef9895a0233ab0c70a53b7a1846671cfa65ba9af9515312f491646c",
+    "server/handlers/social.py": "90cccd9e912c0c76c8b01ea37fbe4be107258199f28d45bb01d3621d3304f780",
+    "shared/packet.pyx": "26e0bd6cc3ad92f931b8396ab21f395b199f11965a80dd96464b5907fb5b6819"
+  },
+  "scope": "Intact source music/ambience and next-map ballot policies with native packet bytes.\n\nClocks, random seeds, catalog inputs and actor/connection presence are controlled.\nCandidate ranking/discovery, kick votes and full server bootstrap are outside scope.\nNo source policy method is replaced; asynchronous waiters use the real event method."
+}

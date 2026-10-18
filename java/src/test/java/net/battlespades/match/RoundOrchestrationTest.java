@@ -82,7 +82,7 @@ class RoundOrchestrationTest {
     @Test void serialFrameDrivesActualTdmWinThenRetainedVoteAndSameSceneLifeRestart(){
         try(var owner=new net.battlespades.runtime.OwnerLoop(0,64,64,error->fail(error));var h=new TdmHarness(new TdmMode.Settings(1,0,1,0),512)){
             var killer=h.admit(0,2);var victim=h.admit(1,3);h.stopping=false;
-            var vote=new CompletableFuture<Void>();var prepare=new CompletableFuture<Void>();var journal=new ArrayList<String>();
+            var prepare=new CompletableFuture<Void>();var journal=new ArrayList<String>();
             var restart=new RoundRestart<net.battlespades.player.PlayerLife>(new RoundRestart.Services<>(){
                 public boolean scoreboard(){return true;}public void forceScores(boolean forced){h.delivery.accept(null,new SimplePackets.ForceShowScores(forced?1:0));journal.add("release");}
                 public CompletionStage<Void> prepareBots(){journal.add("prepare");return prepare;}public void resetRuntime(){h.events.clear();journal.add("runtime");}public List<TeamState> teams(){return h.teams;}
@@ -90,18 +90,19 @@ class RoundOrchestrationTest {
                 public List<net.battlespades.player.PlayerLife> players(){return h.life.runtime.players();}public boolean playable(net.battlespades.player.PlayerLife player){return player.team()==2||player.team()==3;}public boolean connected(net.battlespades.player.PlayerLife player){return h.life.runtime.inGame(player.id());}
                 public void respawn(net.battlespades.player.PlayerLife player){h.life.runtime.respawn(player.id());journal.add("respawn:"+player.id());}public void respawnFailure(net.battlespades.player.PlayerLife player,Throwable error){fail(error);}public CompletionStage<Void> resetBots(){journal.add("reset-bots");return done();}
             },owner);
-            h.ending=new RoundEndSequence(new EndPorts(){
-                @Override public CompletionStage<Void> sleep(double seconds){journal.add("sleep:"+(int)seconds);return owner.sleep(seconds);}
-                @Override public void forceScores(boolean forced){h.delivery.accept(null,new SimplePackets.ForceShowScores(forced?1:0));journal.add("force");}
-                @Override public void statistics(Integer winner){assertEquals(2,winner);journal.add("stats");}
-                @Override public CompletionStage<Void> waitForVote(){journal.add("vote");return vote;}@Override public String consumeMap(){journal.add("consume");return null;}
-                @Override public CompletionStage<Void> restartInPlace(){return restart.run();}@Override public CompletionStage<Void> cancelPending(){return restart.cancel();}@Override public void failed(){h.mode.endSequenceFailed();}@Override public void failure(String name,Throwable error){fail(error);}
-            },owner);
+            var music=new MusicService(packet->h.delivery.accept(null,packet),new net.battlespades.player.SourceRandom(17));
+            var ballot=new MapBallot<>(List.of("London"),h.binding::players,p->p.id(),p->h.life.runtime.inGame(p.id()),()->owner.nowNanos()/1e9,owner::sleep,packet->h.delivery.accept(null,packet),owner);
+            h.gameplayMusicOperation=()->music.gameplay(true);h.timeoutMusicOperation=music::timeout;h.endVoteOperation=wall->ballot.start(List.of("London"),wall);
+            h.ending=new RoundEndSequence(new RoundPresentation(music,ballot,owner,()->"London",packet->{h.delivery.accept(null,packet);if(packet instanceof SimplePackets.ForceShowScores score&&score.forced()==1)journal.add("force");},new RoundPresentation.Bindings(){
+                public boolean scoreboard(){return true;}public void botsEnd(){}public void statistics(Integer winner){assertEquals(2,winner);journal.add("stats");}public double screenSeconds(){return 7;}public Integer headline(Integer winner){return null;}public RoundEndSequence.Transition transition(){return null;}
+                public CompletionStage<Void> restartInPlace(){return restart.run();}public CompletionStage<Void> cancelPending(){return restart.cancel();}public boolean recoverable(){return true;}public void failed(){h.mode.endSequenceFailed();}public void failure(String name,Throwable error){fail(error);}
+            }),owner);
             h.mode.start();var packets=new net.battlespades.runtime.IngamePackets<Integer>(new net.battlespades.runtime.IngamePackets.Settings(8,8,8),id->h.life.runtime.inGame(id),(id,data)->{h.life.runtime.damage(1,1000,id,0);return done();},error->fail(error),Runnable::run);packets.offer(0,new byte[]{1});
             var ports=new FramePorts(){@Override public CompletionStage<Void> asynchronous(SimulationFrame.Phase phase,int loop){return switch(phase){case PACKET_DRAIN->packets.drain();case MODE->h.events.tick(loop);default->done();};}};
             var frame=new SimulationFrame(ports,System::nanoTime,owner);var runtime=new AsyncFixedStepRuntime(()->true,tick->frame.step(Math.toIntExact(tick)),()->journal.add("replicate"),()->owner.sleep(0),(name,error)->fail(error),owner);
             var frameResult=runtime.advance(FixedStepRuntime.DELTA).toCompletableFuture();assertFalse(frameResult.isDone());owner.pump(0);assertEquals(1,frameResult.join());assertTrue(h.mode.clock().ended);assertEquals(1,h.teams.getFirst().score);assertEquals(100,killer.score);assertFalse(victim.life.alive());assertTrue(h.ending.running());assertTrue(journal.contains("replicate"));
-            owner.pump(4_999_999_999L);assertFalse(journal.contains("stats"));owner.pump(5_000_000_000L);assertEquals(List.of("force","sleep:5","replicate","stats","vote"),journal);vote.complete(null);assertEquals("sleep:7",journal.getLast());assertTrue(h.mode.clock().ended);owner.pump(11_999_999_999L);assertFalse(journal.contains("prepare"));owner.pump(12_000_000_000L);assertEquals("prepare",journal.getLast());assertTrue(h.mode.clock().ended);prepare.complete(null);h.endTask.join();
+            owner.pump(4_999_999_999L);assertFalse(journal.contains("stats"));owner.pump(5_000_000_000L);assertEquals(List.of("force","replicate","stats"),journal);assertTrue(ballot.active());ballot.cast(killer,0);assertTrue(ballot.active());ballot.cast(victim,0);assertFalse(ballot.active());assertNull(ballot.nextMap());assertEquals(1,owner.pending());assertTrue(h.mode.clock().ended);owner.pump(11_999_999_999L);assertFalse(journal.contains("prepare"));owner.pump(12_000_000_000L);assertEquals("prepare",journal.getLast());assertTrue(h.mode.clock().ended);prepare.complete(null);h.endTask.join();
+            assertTrue(h.packets.stream().anyMatch(packet->packet instanceof net.battlespades.protocol.AudioPackets.Music));assertTrue(h.packets.stream().anyMatch(packet->packet instanceof net.battlespades.protocol.VotePacket vote&&vote.messageType()==3));assertEquals("last_man_standing",music.family());
             assertFalse(h.ending.running());assertFalse(h.mode.clock().ended);assertFalse(h.mode.endSequenceRunning());assertEquals(0,h.teams.getFirst().score);assertEquals(0,killer.score);assertTrue(victim.life.alive());assertTrue(killer.life.alive());assertSame(killer,h.binding.row(killer.life));assertSame(victim,h.binding.row(victim.life));assertEquals(List.of("release","prepare","runtime","start","respawn:0","respawn:1","reset-bots"),journal.subList(journal.indexOf("release"),journal.size()));
         }
     }

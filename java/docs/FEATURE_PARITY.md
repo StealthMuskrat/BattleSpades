@@ -1,8 +1,7 @@
 # Feature parity and explicit backlog
 
-Current prepared-map/owned-host verification: 6,133 Java tests and 200 focused original
-regressions pass locally. All five CI jobs pass in
-[run 39166316694](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39166316694). See [PREPARED_HOST.md](PREPARED_HOST.md);
+Current round-media verification: 6,162 Java tests and 273 focused original
+regressions pass locally. CI is pending publication. See [ROUND_MEDIA.md](ROUND_MEDIA.md);
 complete gameplay and normal hosting assembly remain pending.
 
 Reference: source `6216b771282d2d349ccd67ee58c378f035c83553`.
@@ -14,7 +13,7 @@ has passed. Nothing below is a production-readiness claim.
 |---|---|---|
 | shared/bytes.pyx | Implemented binary component | byte order, widths, UTF-8, BGR, truncation tests; legacy Python façade quirks not reproduced |
 | server/util.py | Implemented LZF | source golden literals; backreferences, overlap, bounded malformed/fuzz tests |
-| shared/packet.pyx | 84 distinct packet IDs encoded/decoded | 171 simple vectors, ClientData/complex and 11 loading +4 session packet vectors,4 profile and12 live-input vectors; remaining IDs pending |
+| shared/packet.pyx | 88 distinct packet IDs encoded/decoded | 171 simple vectors, ClientData/complex and 11 loading +4 session packet vectors,4 profile and12 live-input vectors; remaining IDs pending |
 | server/connection.py framing/decrypt | Implemented framing component | owned application sessions compose outbound framing, inbound LZF/XOR, password gate and clock routing; no full gameplay handler set |
 | vendor ENet compress.c | Pure Java range coder | 30 native-C encode/decode vectors, rescaling/reset; bounded malformed fuzz |
 | vendor ENet protocol.h | Implemented envelope component | all command layout sizes, MTU/bounds, network byte order, compressed region tests |
@@ -41,9 +40,10 @@ has passed. Nothing below is a production-readiness claim.
 | modes/tdm.py | Concrete core and accepted-life binding implemented | 2,048 original TDM operations, 64 config cases, native stingers and actual HUD limit; owned-shot/reload/death/kill/personal/team/winner over real UDP; canonical roster order includes dead admissions. Queued departure settlement and delayed ending/restart policy now have ROUND_RUNTIME.md evidence; transition lifecycle/preflight/roster and retained peer reload now have TRANSITIONS.md evidence; remaining team policies/services and gameplay bootstrap remain pending |
 | Tick-start in-game packet queue | Serial async component bound to actual ENet sessions (opt-in) | 2,048 original queue operations, per-peer fairness, fixed detached budget, owner resumption, stale identity/scene guards and actual suspended objective request with two UDP peers; complete simulation/bootstrap pending |
 | SimulationRuntime mode-event drain | Implemented serial component | 2,048 original mode/plugin operations, isolated failures, live mode replacement, fixed timeout remainder and 8,192-event bounded-stack check; immediate departure settlement and ordered async frame/catch-up components now have ROUND_RUNTIME.md evidence; complete subsystem bindings remain pending |
+| Round music / map ambience / next-map ballot | Implemented services and ending/host bindings | Four seeded music traces, three ambience cases,16 ballot traces,564 distinct native wire vectors; independent cancellation/timeout/identity and real UDP cast-to-map-transition; ranking/discovery/kick/full bootstrap pending; see ROUND_MEDIA.md |
 | Worker spawn-cache / owner timers / owned host state | Implemented components and actual host transition binding | Four native worker map loads/eight team caches; exact terrain/layout guards; bounded owner scheduling; actual host commit/rollback/retirement and upgraded retained-peer UDP; remaining production domain factories/services pending; see PREPARED_HOST.md |
 | Map/mode transition / retained scene epochs | Implemented policy and actual ENet loader binding | 32 original rollover/map-screen scenarios, 13 names, worker preflight, guarded restoration and live+team-select different-CRC real UDP reload; owned state/host/timer and worker-cache transfer now have PREPARED_HOST.md evidence; remaining services/full bootstrap pending |
-| BaseMode delayed ending/restart | Implemented orchestration components | 40 original end/restart cases, retained cancellation, fallback/recovery, real life/score reset composition; map preflight/transition policy and retained peers are now implemented; concrete owner timers/state bindings now have PREPARED_HOST.md evidence; vote/audio/bot/reset services/full bootstrap remain pending |
+| BaseMode delayed ending/restart | Implemented orchestration and presentation bindings | 40 original end/restart cases, retained cancellation/fallback, actual life/score reset and ROUND_MEDIA.md music/map-ballot composition; map selection/kick/bot/reset services/full bootstrap pending |
 | BaseMode generic kill/penalty/teamplay economy | Implemented component | 2,048 original operations, ghost-return/bonus/score/profile/send-fault ordering; actual UDP reload/defend/distraction credit; accepted-life event/bonus/reload capture is bound in the TDM/runtime batch; exemption policies and complete gameplay binding remain pending; queued departure settlement is now implemented; see TDM_RUNTIME.md |
 | Teabag accepted crouch edges | Implemented policy component | 2,048 original attempts, corpse-distance/timing/death-key/profile/rule-fault behavior and actual-life UDP credit; corpse representation and gameplay input edge binding remain pending |
 | Escape watch and high-minimap markers | Implemented component | 2,048 tracking passes, 1,824 native voxel edits and 6,144 direct geometry evaluations; identity/mode ownership, late replay, recovery and objective-guard UDP composition; concrete mode/loop binding pending |

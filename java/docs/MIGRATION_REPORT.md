@@ -1,37 +1,33 @@
 # Java 25 migration report
 
 Date: 2026-10-18 UTC. **Incomplete migration; not playable or release-ready.**
-The current batch implements worker-prepared spawn-cache transfer, a bounded owner
-queue with cancellable timers, owned scene state/rollback/resource retirement and
-actual host transition bindings. Remaining production factories, gameplay and subsystem
-services are pending; normal hosting exits 2. See [PREPARED_HOST.md](PREPARED_HOST.md).
+The current batch implements native music/ambience/vote packets, source music family
+policy, metadata ambience replay, next-map ballot lifecycle and concrete ending/host
+presentation bindings. Full voting selection/kick policy, production factories, remaining
+gameplay and services remain pending; normal hosting exits 2. See [ROUND_MEDIA.md](ROUND_MEDIA.md).
 
-Local Java check/build passes **6,097 component + 36 integration = 6,133 tests**,
-with zero failures, errors or skips across 96 suites. This batch adds 15 targeted
-component cases and upgrades two existing compositions instead of duplicating them.
-**200 focused original-source regressions pass**. The new actual-source generator
-records four real worker loads and eight team caches, reproducing both outputs
-byte-for-byte on a second run. All 249 previous frozen paths remain unchanged
-(251 checked paths total). Prior unchanged 70-generator/native-build evidence is
-reused locally; CI is configured to independently reproduce all 71 generators.
+Local Java check/build passes **6,126 component + 36 integration = 6,162 tests**,
+with zero failures, errors or skips across 98 suites. This batch adds 24 original-source
+scenario/codec cases and five targeted boundary cases; two existing compositions are
+upgraded rather than duplicated. **273 focused original-source regressions pass**.
+The new generator records four seeded music traces, three ambience scenarios, 16
+map-ballot traces and 564 distinct native codec vectors in one aggregate codec case.
+The updated simple-packet generator and new media generator reproduce all six outputs
+byte-for-byte. Of 251 earlier frozen paths, 250 retain their exact hashes; PacketCodec
+is deliberately updated to register native-backed IDs 22/24/26/47. There are 254
+checked paths and 72 configured CI generators. Unchanged prior 70-generator/native
+build evidence is reused locally; CI independently rebuilds/reproduces all 72.
 
-Two CRC-valid local archives are byte-identical: 1845795 bytes,
-SHA-256 `ccbb032a76c5b70ced0064e8716daaf6d27645e39de8a61346bb93e3e1499955`. Class major 69, packaging/licenses and version/config smokes pass;
+Two CRC-valid local archives are byte-identical: 1879059 bytes,
+SHA-256 `2b1eec34f5af529436c37c2287e9b09ede815f483d02eb22896c8ef2ad49f2a6`. Class major 69, packaging/licenses and version/config smokes pass;
 normal hosting exits 2. All four current isolated native transport/packaged-loader
-nominal/impaired profiles pass. The loader probe still uses FixtureScene. Platform
-component/integration tests run source-built classes and smoke the uploaded JAR;
-no local-to-CI artifact hash identity or complete platform gameplay is claimed.
-The prior medpack/Zombie/VIP original-baseline discrepancies remain unwaived.
-These focused passes do not establish a passing full original-source baseline.
+nominal/impaired profiles pass. The loader still uses FixtureScene. Platform tests run
+source-built component/integration classes and smoke the uploaded JAR. No local-to-CI
+artifact hash identity or complete platform gameplay is claimed. Prior medpack/Zombie/
+VIP original-baseline discrepancies remain unwaived; these focused passes do not
+establish a passing full original-source baseline.
 
-All five CI jobs passed for implementation `9269d005397c982f4e5f981c146881cca76fae81`,
-tested/published tree `fccc9e8406b303e10311ffc70512ab93c46989ab`, in
-[run 39166316694](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39166316694). The native job independently reproduced all 71
-configured original generators, including the actual worker-prewarmed map caches.
-The build byte-compared repeated archives. Ubuntu, Windows and macOS smoked the
-uploaded JAR and ran source-built component/integration tests. Every final job step
-completed with success or an intentional skip. No local-to-CI artifact hash identity
-or complete platform gameplay is claimed.
+This checkpoint requires a new five-job CI run after publication.
 
 ## Repository and provenance
 

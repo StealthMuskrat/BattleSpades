@@ -1,5 +1,9 @@
 # Serial packet/event dispatch and concrete TDM
 
+Follow-up: [ROUND_RUNTIME.md](ROUND_RUNTIME.md) implements departure settlement,
+async frame/catch-up and delayed ending/restart policy. The evidence below describes
+the preceding TDM checkpoint; current verification is in ROUND_RUNTIME.md.
+
 This batch connects four areas: a bounded tick-start packet queue, serial mode
 and plugin dispatch, the original TDM rules/lifecycle, and canonical score rows
 for accepted life damage/death. Ordinary hosting remains gated; the migration is

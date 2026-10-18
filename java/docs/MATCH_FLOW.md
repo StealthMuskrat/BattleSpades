@@ -1,5 +1,8 @@
 # Combat economy, escape watch and round-clock batch
 
+Current follow-up: [ROUND_RUNTIME.md](ROUND_RUNTIME.md) adds disconnect settlement,
+async frame/catch-up and ending/restart policy with 56 original-source cases.
+
 ## Follow-up TDM/runtime binding
 
 All five CI jobs passed for implementation `e34737309f70ba099006e163f137f58b88af39e4`,

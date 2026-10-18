@@ -1,12 +1,28 @@
 # Java 25 migration report
 
 Date: 2026-10-18 UTC. **Incomplete migration; not playable or release-ready.**
-The current batch implements the concrete TDM core and HUD state, canonical
-accepted-life score/event binding, serial mode/plugin dispatch and opt-in serial
-ENet packet draining. Full departure settlement, asynchronous simulation/bootstrap,
-delayed ending/restart and complete services/gameplay remain pending. Hosting exits 2.
-See TDM_RUNTIME.md.
+The current batch implements disconnect-time queued-hook settlement, an awaited fixed
+scheduler and ordered frame, delayed ending/vote/transition policy, cancellation and
+in-place restart. Concrete service bindings and the actual map transition/preflight
+service remain pending; ordinary hosting exits 2. See [ROUND_RUNTIME.md](ROUND_RUNTIME.md).
 
+Local Java check/build passes **6,037 component + 35 integration = 6,072 tests**,
+with zero failures, errors or skips across 91 suites. This batch adds 66 meaningful
+component cases: 56 original-source comparisons and 10 orchestration boundaries,
+including one composition through the actual packet FIFO, TDM, life and score services.
+**152 focused original-source regressions pass**. The new source generator reproduces
+both outputs byte-for-byte on a second run; all 244 prior frozen paths remain
+unchanged (246 checked paths total). The unchanged prior 68-generator/native-build
+evidence is reused locally; CI is configured to reproduce all 69 generators.
+
+Two CRC-valid local archives are byte-identical: 1794398 bytes,
+SHA-256 `a880beada65ae085eff99a9ace1d8584900b9c0d80b7718087d2077c833a68b7`. Java class major 69, packaging/licenses and version/config smokes
+pass. All four isolated native transport/packaged-loader nominal/impaired profiles
+pass for the current JAR. Loader probes still use FixtureScene, not a supported game
+client. Normal hosting exits 2. Prior medpack/Zombie/VIP baseline discrepancies remain
+unwaived; these focused passes do not establish a passing full original baseline.
+
+This checkpoint requires a new five-job CI run after publication.
 
 ## Repository and provenance
 
@@ -93,7 +109,7 @@ The clean checkout was cloned from the fork and matched the authoritative
 CLI push lacks credentials; publication uses the connected GitHub app with an
 expected-head lease and exact tested-tree comparison. No release is created.
 
-## Current TDM and serial runtime
+## Historical TDM and serial runtime
 
 Local Java check/build passes **5,971 component + 35 integration = 6,006 tests**,
 zero failures, errors or skips. The batch adds 59 component tests and two actual UDP

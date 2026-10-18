@@ -25,6 +25,8 @@ public final class ModeEvents {
     private final int capacity,budget;
     private boolean draining;
     private long dropped;
+    private final Set<CompletionStage<Void>> departures=Collections.newSetFromMap(new IdentityHashMap<>());
+    private Throwable departureFailure;
     public ModeEvents(int capacity,int budget,Supplier<Mode> mode,Function<Event,CompletionStage<Void>> plugins,BiConsumer<String,Throwable> failure,Executor resume){
         if(capacity<1||budget<1)throw new IllegalArgumentException("Mode queue limits");this.capacity=capacity;this.budget=budget;this.mode=Objects.requireNonNull(mode);this.plugins=Objects.requireNonNull(plugins);this.failure=Objects.requireNonNull(failure);sequence=new OwnerSequence(resume);
     }
@@ -32,6 +34,30 @@ public final class ModeEvents {
     public boolean hasMode(){sequence.owned();return mode.get()!=null;}
     public int size(){sequence.owned();return events.size();}public long dropped(){sequence.owned();return dropped;}
     public List<Event> snapshot(){sequence.owned();return List.copyOf(events);}public void clear(){sequence.owned();events.clear();}
+    /** Disconnect hooks run their synchronous prefix now, while the player still owns its roster row.
+     * Suspended remainders are retained independently; they never hold up the network disconnect. */
+    public void leave(Object player){
+        sequence.owned();Objects.requireNonNull(player);var settle=new ArrayList<Event>();
+        for(var it=events.iterator();it.hasNext();){
+            var event=it.next();var args=event.arguments();boolean involves=false;
+            for(int i=0;i<Math.min(2,args.size());i++)if(args.get(i)==player)involves=true;
+            if(!involves)continue;
+            if((event.name().equals("on_player_spawn")||event.name().equals("on_player_team_change"))&&args.getFirst()==player){it.remove();continue;}
+            if(event.name().equals("on_player_death")||event.name().equals("on_player_kill")){it.remove();settle.add(event);}
+        }
+        var captured=mode.get();
+        for(var event:settle){if(captured!=null)drive("mode "+event.name()+" (leaver)",()->captured.handle(event));drive("plugin "+event.name()+" (leaver)",()->plugins.apply(event));}
+        var leave=Event.of("on_player_leave",player);var current=mode.get();
+        if(current!=null)drive("mode on_player_leave",()->current.handle(leave));
+        drive("plugin on_player_leave",()->plugins.apply(leave));
+    }
+    private void drive(String label,Supplier<CompletionStage<Void>> hook){
+        var pending=sequence.isolate(hook,e->failure.accept(label,e));departures.add(pending);
+        pending.whenComplete((unused,error)->sequence.resume(()->{departures.remove(pending);if(error!=null&&departureFailure==null)departureFailure=OwnerSequence.cause(error);},new CompletableFuture<>()));
+    }
+    public int pendingDepartures(){sequence.owned();return departures.size();}
+    /** Observe the currently retained remainders, including cancellation/fatal failures. */
+    public CompletionStage<Void> departures(){sequence.owned();if(departureFailure!=null)return CompletableFuture.failedFuture(departureFailure);return sequence.run(List.copyOf(departures).stream().<Supplier<CompletionStage<Void>>>map(stage->()->stage).iterator());}
     public CompletionStage<Void> tick(int loop){
         sequence.owned();if(draining)throw new IllegalStateException("Mode drain already suspended");if(mode.get()==null)return CompletableFuture.completedFuture(null);draining=true;
         var initial=mode.get().clock();Integer remaining=initial.timeoutRemaining();int count=initial.drainBudget(events.size(),budget);

@@ -83,6 +83,8 @@ public final class TdmMode implements ModeEvents.Mode {
     }
     private static void boardForce(Scoreboard.Peer target){target.send(new net.battlespades.protocol.SimplePackets.ForceShowScores(1));}
     public void beginRetirement(boolean endRound){sequence.owned();clock.retiring=true;if(endRound)clock.ended=true;}
+    /** The retained ending service clears this before attempting source-compatible failure recovery. */
+    public void endSequenceFailed(){sequence.owned();endSequenceRunning=false;}
     public CompletionStage<Void> cancelEndSequence(){
         sequence.owned();return sequence.run(List.<Supplier<CompletionStage<Void>>>of(effects::cancelEnd,()->{endSequenceRunning=false;return CompletableFuture.completedFuture(null);}).iterator());
     }

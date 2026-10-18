@@ -42,6 +42,6 @@ public final class MatchLifeBinding implements LifeRuntime.Effects {
         var v=row(victim);var k=row(killer);events.offer(ModeEvents.Event.of("on_player_death",v,k,presentation));if(enemy)events.offer(ModeEvents.Event.of("on_player_kill",k,v,presentation));
     }
     public void transitionCredited(PlayerLife victim,PlayerLife attacker,int type){owned();delegate.transitionCredited(victim,attacker,type);}
-    public void forget(PlayerLife p){owned();delegate.forget(p);var current=rows.get(p.id());if(current!=null&&current.life==p)rows.remove(p.id());}
+    public void forget(PlayerLife p){owned();if(runtime.get().players().stream().anyMatch(current->current==p))events.leave(row(p));delegate.forget(p);var current=rows.get(p.id());if(current!=null&&current.life==p)rows.remove(p.id());}
     public void respawnFailed(PlayerLife p,RuntimeException failure){owned();delegate.respawnFailed(p,failure);}
 }

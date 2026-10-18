@@ -1,5 +1,27 @@
 # Java test results
 
+Local Java check/build passes **6,037 component + 35 integration = 6,072 tests**,
+with zero failures, errors or skips across 91 suites. This batch adds 66 meaningful
+component cases: 56 original-source comparisons and 10 orchestration boundaries,
+including one composition through the actual packet FIFO, TDM, life and score services.
+**152 focused original-source regressions pass**. The new source generator reproduces
+both outputs byte-for-byte on a second run; all 244 prior frozen paths remain
+unchanged (246 checked paths total). The unchanged prior 68-generator/native-build
+evidence is reused locally; CI is configured to reproduce all 69 generators.
+
+Two CRC-valid local archives are byte-identical: 1794398 bytes,
+SHA-256 `a880beada65ae085eff99a9ace1d8584900b9c0d80b7718087d2077c833a68b7`. Java class major 69, packaging/licenses and version/config smokes
+pass. All four isolated native transport/packaged-loader nominal/impaired profiles
+pass for the current JAR. Loader probes still use FixtureScene, not a supported game
+client. Normal hosting exits 2. Prior medpack/Zombie/VIP baseline discrepancies remain
+unwaived; these focused passes do not establish a passing full original baseline.
+
+This checkpoint requires a new five-job CI run after publication.
+
+See [ROUND_RUNTIME.md](ROUND_RUNTIME.md) for scope and remaining service bindings.
+
+## Historical TDM checkpoint evidence
+
 Stage: concrete TDM and serial packet/mode runtime batch, 2026-10-18 UTC.
 
 Local Java check/build passes **5,971 component + 35 integration = 6,006 tests**,

@@ -27,6 +27,7 @@ public final class TdmHarness implements AutoCloseable {
     public boolean stopping=true;
     public Integer scheduledWinner;
     public CompletableFuture<Void> endTask;
+    public RoundEndSequence ending;
     private final Map<Integer,Scoreboard.Peer> peers=new HashMap<>();
     public TdmHarness(TdmMode.Settings settings,int eventBudget){
         TdmMode[] active={null};MatchLifeBinding[] bound={null};LifeHarness[] h={null};
@@ -42,7 +43,7 @@ public final class TdmHarness implements AutoCloseable {
         events=new ModeEvents(8192,eventBudget,()->active[0],e->{effects.add("plugin:"+e.name());return CompletableFuture.completedFuture(null);},(name,error)->effects.add("failure:"+name),Runnable::run);
         life=new LifeHarness(GameRules.serverDefaults(),"tdm",new MutableWorld(VxlMap.load(new byte[]{0,(byte)240,(byte)239,0},"auto"),1,10000),delegate->{bound[0]=new MatchLifeBinding(()->h[0].runtime,delegate,profile,combat,events,()->h[0].monotonic);return bound[0];});h[0]=life;binding=bound[0];
         mode=new TdmMode(settings,()->teams,binding::players,p->Optional.of(peer(p.id())),board,()->life.wall,()->life.monotonic,events::size,p->delivery.accept(null,p),new TdmMode.Effects(){
-            public void resetLifeCounters(){binding.resetCounters();}public void matchStarted(){effects.add("start");}public void gameplayMusic(){effects.add("music");}public void rebuildResources(){effects.add("resources");}public void matchEnded(Integer winner){effects.add("end:"+winner);}public void endVote(double wall){effects.add("end-vote");}public void scheduleEnd(Integer winner){scheduledWinner=winner;endTask=new CompletableFuture<>();effects.add("schedule:"+winner);}public CompletionStage<Void> cancelEnd(){if(endTask!=null)endTask.cancel(false);effects.add("cancel");return CompletableFuture.completedFuture(null);}
+            public void resetLifeCounters(){binding.resetCounters();}public void matchStarted(){effects.add("start");}public void gameplayMusic(){effects.add("music");}public void rebuildResources(){effects.add("resources");}public void matchEnded(Integer winner){effects.add("end:"+winner);}public void endVote(double wall){effects.add("end-vote");}public void scheduleEnd(Integer winner){scheduledWinner=winner;endTask=ending==null?new CompletableFuture<>():ending.run(winner).toCompletableFuture();effects.add("schedule:"+winner);}public CompletionStage<Void> cancelEnd(){effects.add("cancel");if(ending!=null)return ending.cancel();if(endTask!=null)endTask.cancel(false);return CompletableFuture.completedFuture(null);}
             public void recordDeath(Scoreboard.Player victim){effects.add("death-site:"+victim.id());}
             public void escapeWatch(){effects.add("escape");}public void escapeFailure(RuntimeException error){effects.add("escape-failure");}public void timeoutMusic(){effects.add("timeout-music");}public void vote(double wall){effects.add("vote");}public void cosmeticFailure(RuntimeException failure){effects.add("cue-failure");}public boolean stopping(){return stopping;}
         },Runnable::run);active[0]=mode;

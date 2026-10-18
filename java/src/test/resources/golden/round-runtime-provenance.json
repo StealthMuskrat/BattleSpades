@@ -1,0 +1,17 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "observations": {
+    "leave": 16,
+    "end": 40
+  },
+  "fixture_sha256": "45b0d232cd1fcc6872b55c4092ca902c35e52e2e47ad15141077d68a8fde71f1",
+  "source_files_sha256": {
+    "server/main.py": "7446dd984129fae5b90599d40380c476f12b68265acfb76b1af3e4ac3096a367",
+    "modes/base_mode.py": "ea3ae72b3ecd5ae70f7e71c30233cf3b4675d7f59ba0d95216e6c71c2fa34c2e",
+    "server/team.py": "13a0d2a28b02678194652e7997d88f6bf3d50902739423ed72800ab8a6a26396",
+    "server/simulation_runtime.py": "385c8793f38e3c340784018e91350d36e3612d1a3252aa8f65295aaf719021bd"
+  },
+  "policy_method_substitutions": false,
+  "scope": "Original disconnect reconciliation and delayed round ending/restart policy.\n\nPolicy methods are intact. Controlled actors, virtual mode-start hook, asynchronous\nmode/plugin hooks, vote/transition/timer services and terminal audio/score IO.",
+  "independent_remainders": "Prefix order is strict; post-suspension suffixes are sorted because disconnect hooks resume independently."
+}

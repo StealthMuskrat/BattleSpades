@@ -55,7 +55,8 @@ remain pending. This checkpoint does not establish supported-client playability,
 capacity or soak readiness. Hosting continues to exit 2. Local verification passes 5,168 Java and 57 focused original tests. All 49
 configured generators reproduce source outputs after a fresh original native
 build; all 197 recorded fixture/catalog hashes remain unchanged. Repeated
-archives, packaging/smokes and isolated native probes pass. Publication and all
-five current-head CI jobs are pending; see [CI_STATUS.md](CI_STATUS.md).
+archives, packaging/smokes and isolated native probes pass. All five jobs pass in [run 39081721193](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39081721193); see [CI_STATUS.md](CI_STATUS.md).
 
 The first local native build encountered a truncated compiler temporary assembly file. A piped compiler retry completed with unchanged source/strict float flags; accepted source outputs then reproduced exactly.
+
+Implementation `82f63e3f03900cbbd75e365680d91ee2b766a84e`, tested/published tree `a437b5b53ec912b75898600d69caba2114da647d`. The CI build compares repeated archives and tests one uploaded JAR on three platforms. Full gameplay and supported-client/capacity gates remain pending.

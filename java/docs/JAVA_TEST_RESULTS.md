@@ -1,7 +1,9 @@
 # Java test results
 
 Stage: concrete entity registry and base lifecycle, 2026-10-18 UTC.
-Local clean check/build passes; publication and all five current-head CI jobs are pending.
+Implementation: `82f63e3f03900cbbd75e365680d91ee2b766a84e`; tested tree: `a437b5b53ec912b75898600d69caba2114da647d`.
+All five jobs passed in [run 39081721193](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39081721193), including source regeneration,
+archive reproducibility and one uploaded JAR on three platforms.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

@@ -55,6 +55,9 @@ pending. Ordinary hosting deliberately exits 2. See [ENTITY_REGISTRY.md](ENTITY_
 - Previous terrain-repair implementation: `d6990d6e33181547bfa38068bb228372245e79bb`.
 - Previous terrain-repair tested/published tree: `64cf08a198b804bda991d1886d15cff051c3ff8a`.
 - Previous terrain-repair CI: [run 39080190230](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39080190230); all five jobs passed.
+- Current entity-registry implementation: `82f63e3f03900cbbd75e365680d91ee2b766a84e`.
+- Current entity-registry tested/published tree: `a437b5b53ec912b75898600d69caba2114da647d`.
+- Current entity-registry CI: [run 39081721193](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39081721193); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -260,7 +263,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | Pending publication and all five jobs |
+| Current-tree independent platform CI | PASS: all five jobs; source regeneration, repeat archive and same uploaded JAR on three OSes |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 

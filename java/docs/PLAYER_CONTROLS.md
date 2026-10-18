@@ -1,3 +1,5 @@
+This is the preceding player-controls checkpoint. [Gameplay services](GAMEPLAY_SERVICES.md) is the current follow-up.
+
 # Live team, class, palette and spectator controls
 
 This connected checkpoint extends [VOTING_POLICY.md](VOTING_POLICY.md) with live menu

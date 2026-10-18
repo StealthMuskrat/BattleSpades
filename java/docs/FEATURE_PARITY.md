@@ -1,3 +1,9 @@
+# Gameplay services follow-up
+
+TeamBalancer, GameplaySounds, PeriodicServices and their actual host binding are implemented. 6,275 Java tests and 340 focused original regressions pass locally. CI is pending publication. See [GAMEPLAY_SERVICES.md](GAMEPLAY_SERVICES.md). Full production hosting and the remaining domains are pending.
+
+## Previous player-control checkpoint
+
 # Feature parity and explicit backlog
 
 Current player-control verification: 6,246 Java tests and 317 focused original

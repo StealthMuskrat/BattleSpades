@@ -1,0 +1,15 @@
+{
+  "audio_steps": 12,
+  "balance_cases": 24,
+  "fixture_sha256": "6340872b3567213661ec97f61def1d50ba2f6ec50e0b14d40006d4410786d054",
+  "policy_method_substitutions": false,
+  "scope": "Intact TeamBalancer/forced TeamChanges/native Player and gameplay audio routing.\nOnly mode/domain state, IO, clocks and awaited bot director lifecycle are controlled.",
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_files_sha256": {
+    "server/audio.py": "626bd59ff43702d26a82b8f504fdba0a5f76eb8e037d2ef13df8b5a7ac340fb7",
+    "server/handlers/team.py": "083bf1feb9685b7a4703d10aa88c8b6bd76c7b47d9ef5e1b2a2b2f509ade2c15",
+    "server/main.py": "7446dd984129fae5b90599d40380c476f12b68265acfb76b1af3e4ac3096a367",
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/team_balance.py": "eb838ee12693a0bdd25603a2e010b0180e3b880f2455dbb73dfbc5906560ebe7"
+  }
+}

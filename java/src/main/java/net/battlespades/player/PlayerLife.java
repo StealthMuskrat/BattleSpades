@@ -42,6 +42,9 @@ public final class PlayerLife {
     private PlayerPhysics.Vector lastDamagePosition;
     private boolean alive,spawned,protectionCancelled,god,bot,diedReloading;
     private Double protectionCap;
+    private Double balanceMovedAt;
+    Double balanceMovedAt(){owned();return balanceMovedAt;}
+    void balanceMovedAt(double value){owned();balanceMovedAt=value;}
     private LifePackets.KillAction lastDeath;
     public PlayerLife(int id,int team,int language,String name,String mode,CollisionMap world,GameRules rules,ClassCatalog.Selection selection){
         this(id,team,language,name,mode,world,rules,selection,rules.number("RULE_CHARACTER_BLOCK_WALLETS"));

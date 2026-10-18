@@ -87,6 +87,8 @@ public final class ApplicationHost implements AutoCloseable {
     /** Source remote firearm feedback excludes the predicting owner while retaining sequenced-unreliable delivery. */
     public int broadcastExcept(GamePacket packet,Delivery delivery,int excludedPlayer){owned();if(closing)return 0;int accepted=0;for(var session:sessions.values())if(session.playerId().orElse(-1)!=excludedPlayer&&session.gameplay(packet,delivery))accepted++;return accepted;}
     public List<WorldUpdateLink> snapshotLinks(){owned();return closing?List.of():sessions.values().stream().map(session->(WorldUpdateLink)session).toList();}
+    /** Reliable controls retain their loading queue; cosmetic unreliable cues require a live scene. */
+    public boolean sendPlayer(int id,GamePacket packet,Delivery delivery){owned();if(delivery==Delivery.RELIABLE)return sendPlayer(id,packet);if(closing)return false;for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return session.gameplay(packet,delivery);return false;}
     public boolean sendPlayer(int id,GamePacket packet) {owned();if(closing)return false;for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return session.direct(packet);return false;}
     public List<JoinSession> transitionSessions(){owned();return List.copyOf(sessions.values());}
     public JoinScene transitionScene(){owned();return scene;}

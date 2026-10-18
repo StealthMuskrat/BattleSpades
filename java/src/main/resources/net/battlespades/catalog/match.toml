@@ -1,0 +1,263 @@
+# Exported source data; do not edit.
+[constants]
+AIRSTRIKE_KILL = 16
+ASSIST_SCORE = 50
+ASSIST_THRESHOLD = 50
+BIGGEST_COLLAPSING_OBJECT = 12
+BIGGEST_KILL_STREAK = 11
+BOMB_KILL = 17
+COMBAT_10INAROW_TOTAL = 140
+COMBAT_15INAROW_TOTAL = 141
+COMBAT_5INAROW_TOTAL = 139
+COMBAT_DISTANCE_RAN_TOTAL = 142
+DEATH_SCORE_REASON = 220
+FALL_KILL = 7
+HEADSHOT_KILL = 1
+HIGHEST_BLOCK = 21
+KILL_SCORE_ASSIST_REASON = 5
+KILL_SCORE_HEADSHOT_REASON = 3
+KILL_SCORE_MELEE_REASON = 4
+KILL_SCORE_REASON = 1
+KILL_SCORE_TEAMKILL_REASON = 6
+LONGEST_RANGED_KILL = 13
+MAP_Z = 240
+MELEE_KILL = 2
+MOST_AIRSTRIKES_SURVIVED = 19
+MOST_ASSISTS = 18
+MOST_BLOCKS_DESTROYED = 10
+MOST_BLOCKS_PLACED = 9
+MOST_BRAINS_EATEN = 15
+MOST_DAMAGE_TAKEN = 20
+MOST_DEFENDS = 17
+MOST_DISTANCE_RAN = 0
+MOST_DISTRACTIONS = 16
+MOST_DOMINATED = 28
+MOST_DOMINATIONS = 29
+MOST_HEADSHOTS = 8
+MOST_HEADSHOTS_RECEIVED = 22
+MOST_KILLS = 5
+MOST_KILLS_AT_LOW_HEALTH = 6
+MOST_KILL_STEALS = 26
+MOST_MELEE_KILLS = 14
+MOST_SNIPERS_KILLED = 23
+MOST_SUICIDES = 25
+MOST_TIME_IN_AIR = 1
+MOST_TIME_ON_FIRE = 27
+SNIPER2_TOOL = 19
+SNIPER_TOOL = 18
+STATS_MAX_WEAPONS = 66
+SUICIDE_SCORE_REASON = 2
+WEAPON_KILL = 0
+ZOMBIEHAND_TOOL = 24
+ZOMBIE_HANDS_KILLS_TOTAL = 89
+ZOMBIE_HUMANS_KILLED_TOTAL = 85
+[class_kill]
+"0_1" = 98
+"0_2" = 97
+"0_4" = 97
+"0_8" = 90
+"0_11" = 94
+"0_12" = 91
+"0_13" = 92
+"0_17" = 93
+"0_29" = 96
+"0_31" = 94
+"0_32" = 95
+"0_36" = 93
+"0_60" = 249
+"1_0" = 106
+"1_1" = 107
+"1_18" = 102
+"1_19" = 103
+"1_20" = 104
+"1_29" = 105
+"2_0" = 116
+"2_2" = 115
+"2_4" = 115
+"2_7" = 112
+"2_11" = 114
+"2_16" = 113
+"2_31" = 114
+"3_0" = 125
+"3_3" = 124
+"3_9" = 120
+"3_10" = 121
+"3_21" = 122
+"3_29" = 123
+"3_59" = 247
+"5_2" = 136
+"5_4" = 136
+"5_6" = 134
+"5_11" = 135
+"5_31" = 135
+"12_0" = 229
+"12_2" = 228
+"12_4" = 228
+"12_7" = 225
+"12_11" = 227
+"12_16" = 226
+"12_29" = 233
+"12_31" = 227
+"12_58" = 248
+"16_2" = 243
+"16_4" = 243
+"16_7" = 244
+"16_50" = 237
+"16_53" = 242
+"16_54" = 239
+"16_55" = 240
+"16_57" = 241
+"16_62" = 250
+"17_0" = 245
+"17_10" = 246
+"17_49" = 234
+"17_52" = 235
+"17_61" = 236
+"6_17" = 131
+"6_33" = 132
+"6_34" = 133
+"6_35" = 130
+"6_36" = 131
+"7_17" = 131
+"7_33" = 132
+"7_34" = 133
+"7_35" = 130
+"7_36" = 131
+"8_17" = 131
+"8_33" = 132
+"8_34" = 133
+"8_35" = 130
+"8_36" = 131
+"9_17" = 131
+"9_33" = 132
+"9_34" = 133
+"9_35" = 130
+"9_36" = 131
+"10_17" = 131
+"10_33" = 132
+"10_34" = 133
+"10_35" = 130
+"10_36" = 131
+"11_17" = 131
+"11_33" = 132
+"11_34" = 133
+"11_35" = 130
+"11_36" = 131
+[kill_tool]
+k3 = 11
+k4 = 12
+k5 = 13
+k6 = 14
+k14 = 20
+k15 = 21
+k18 = 16
+k21 = 29
+k22 = 31
+k23 = 32
+k24 = 33
+k31 = 54
+k32 = 55
+k34 = 57
+k35 = 58
+k36 = 59
+[map_stat]
+"ancientegypt" = 162
+"arcticbase" = 163
+"brancastle" = 164
+"dragonisland" = 165
+"london" = 166
+"lunarbase" = 167
+"mayanjungle" = 168
+"spookymansion" = 169
+"tokyoneon" = 170
+"hiesville" = 171
+"blockness" = 172
+"castlewars" = 173
+"doubledragon" = 174
+"ww1" = 175
+"tothebridge" = 176
+"crossroads" = 177
+"wintervalley" = 178
+"trenches" = 179
+"cityofchicago" = 180
+"alcatraz" = 181
+"ww2" = 171
+"chicago" = 180
+[[aggregate]]
+id = 202
+members = [5, 8, 10]
+[[aggregate]]
+id = 203
+members = [7, 9]
+[[aggregate]]
+id = 204
+members = [12, 16]
+[[aggregate]]
+id = 205
+members = [14, 17, 18]
+[[aggregate]]
+id = 206
+members = [19, 15]
+[[aggregate]]
+id = 208
+members = [24, 25]
+[[aggregate]]
+id = 209
+members = [27, 29]
+[[aggregate]]
+id = 210
+members = [31, 30, 32]
+[[aggregate]]
+id = 211
+members = [34, 36, 37]
+[[aggregate]]
+id = 212
+members = [35, 33]
+[[aggregate]]
+id = 213
+members = [41, 42, 43]
+[[aggregate]]
+id = 214
+members = [44, 45, 46]
+[[aggregate]]
+id = 215
+members = [47, 48]
+[[aggregate]]
+id = 216
+members = [51, 53]
+[[aggregate]]
+id = 217
+members = [54, 57]
+[[aggregate]]
+id = 218
+members = [55, 56, 58]
+[[aggregate]]
+id = 219
+members = [78, 79]
+[[aggregate]]
+id = 192
+members = [3, 4, 1, 202, 203, 11]
+[[aggregate]]
+id = 193
+members = [13, 204, 205, 206]
+[[aggregate]]
+id = 194
+members = [20, 21, 22, 23, 208]
+[[aggregate]]
+id = 195
+members = [26, 28, 209, 210, 211, 212]
+[[aggregate]]
+id = 196
+members = [38, 39, 40, 213, 214, 215]
+[[aggregate]]
+id = 197
+members = [49, 50, 52, 216, 217, 218]
+[[aggregate]]
+id = 198
+members = [59, 60, 61, 62]
+[[aggregate]]
+id = 199
+members = [69, 70, 71, 72]
+[[aggregate]]
+id = 200
+members = [76, 77, 219, 80, 81, 82]

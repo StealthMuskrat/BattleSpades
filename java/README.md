@@ -40,7 +40,14 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
-The current batch adds TeamState, EscortTracker, ObjectiveGuard/TrapTimer,
+The latest batch adds connection profile counters/events/activity sampling,
+accepted combat award/assist evidence, and identity-gated objective score events.
+Two real UDP compositions connect actual accepted damage/death and scoreboard
+delivery. Concrete mode/event/presentation/result integration remains required.
+See [SCORE_EVIDENCE.md](docs/SCORE_EVIDENCE.md).
+
+
+The preceding batch adds TeamState, EscortTracker, ObjectiveGuard/TrapTimer,
 RoundCombatStats and Scoreboard, plus native GameStats/ShowTextMessage codecs.
 These share actual player identity, live canonical terrain and reliable delivery;
 two new three-client UDP tests exercise objective recovery and end-round/late-replay

@@ -1,0 +1,19 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "profile_operations": 2048,
+  "activity_ticks": 2048,
+  "combat_operations": 2048,
+  "objective_operations": 2048,
+  "norm_cases": 2048,
+  "source_files_sha256": {
+    "server/profile_stats.py": "e1d6b21ddeed91b04e1eaaf631f509f83f80791a9f1b37ab26fd0c5d6071561d",
+    "server/combat_scores.py": "efd40db2f8e456a285216487d5613048cbea8dfd7bee26d7eb4159e6eaee4f06",
+    "server/scoreboard.py": "b16a82f8b2d6b950c2e6606e5788848ae3b5a65e682d806f8a254a4411cb3e6a",
+    "server/mode_controls.py": "0ca5ccb7274314a2a8e745f6f330a5febb2dd698adbb11fa75133dbb5235a7fa",
+    "shared/constants.py": "125d8fdb66ed78db6927ee8fee0d4be700421d23ca79a6bbabc09351e628d59a"
+  },
+  "fixture_sha256": "b16c266ae376ad4d48d5aec223c070ccc6e85aaa3f2fba4dad5c9953c4d82143",
+  "catalog_sha256": "da77dd6ca5d317983911e415cee62ed9f9266d187f877091012a31f214c6e058",
+  "method_substitutions": false,
+  "scope": "Actual unchanged policies/native score packets; controlled actor/config/clock/accepted contribution inputs and terminal broadcast collector. No mode-policy substitution. Signed-64-bit counters; typed vectors and explicit mode relation. External profile persistence/rewards, teabag corpse lookup and concrete modes remain outside this evidence."
+}

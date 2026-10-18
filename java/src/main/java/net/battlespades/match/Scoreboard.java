@@ -15,6 +15,8 @@ public final class Scoreboard {
         public final PlayerLife life;
         public long score,kills,deaths,captures,killStreak;
         public RoundCombatStats roundStats=new RoundCombatStats();
+        public ProfileStats profileStats;
+        Long scoredDeathGeneration;
         public Player(PlayerLife life){this.life=Objects.requireNonNull(life);}
         public int id(){return life.id();}public int team(){return life.team();}
     }

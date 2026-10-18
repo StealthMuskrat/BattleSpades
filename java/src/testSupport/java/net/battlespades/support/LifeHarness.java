@@ -17,6 +17,8 @@ public final class LifeHarness implements AutoCloseable {
     public final Set<Integer> loading=new HashSet<>();
     public Optional<LifeRuntime.DamageModifier> damageModifier=Optional.empty();
     public boolean scoringActive=true;
+    public java.util.function.Consumer<LifeRuntime.DamageEvidence> damageObserver=d->{};
+    public java.util.function.Consumer<LifeRuntime.DeathEvidence> deathObserver=d->{};
     public final List<LifeRuntime.DamageEvidence> damageEvidence=new ArrayList<>();
     public final List<LifeRuntime.HealingEvidence> healingEvidence=new ArrayList<>();
     public final List<LifeRuntime.DeathEvidence> deathEvidence=new ArrayList<>();
@@ -50,9 +52,9 @@ public final class LifeHarness implements AutoCloseable {
             public void beforeSpawn(PlayerLife p){events.add("before:"+p.id());}
             public void spawned(PlayerLife p){events.add("spawn:"+p.id());}
             public void died(PlayerLife v,PlayerLife k,int weapon,int presentation,boolean enemy){events.add("death:"+v.id());}
-            public void damaged(LifeRuntime.DamageEvidence d){damageEvidence.add(d);events.add("damage:"+d.victim().id());}
+            public void damaged(LifeRuntime.DamageEvidence d){damageEvidence.add(d);events.add("damage:"+d.victim().id());damageObserver.accept(d);}
             public void healed(LifeRuntime.HealingEvidence h){healingEvidence.add(h);events.add("heal:"+h.victim().id());}
-            public void beforeDeath(LifeRuntime.DeathEvidence d){deathEvidence.add(d);events.add("before-death:"+d.victim().id());}
+            public void beforeDeath(LifeRuntime.DeathEvidence d){deathEvidence.add(d);events.add("before-death:"+d.victim().id());deathObserver.accept(d);}
             public void transitionCredited(PlayerLife v,PlayerLife a,int type){events.add("transition-credit:"+v.id()+":"+a.id()+":"+type);}
             public void forget(PlayerLife p){events.add("forget:"+p.id());}
             public void respawnFailed(PlayerLife p,RuntimeException failure){events.add("failed:"+p.id());}

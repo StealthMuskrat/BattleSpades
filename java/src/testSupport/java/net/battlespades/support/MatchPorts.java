@@ -17,12 +17,14 @@ public final class MatchPorts {
     public final Scoreboard board;
     private final ApplicationHost host;
     private final List<Scoreboard.Peer> peers=new ArrayList<>();
-    public MatchPorts(ApplicationHost host,long seed){
+    public MatchPorts(ApplicationHost host,long seed){this(host,seed,Optional.empty());}
+    public MatchPorts(ApplicationHost host,long seed,ProfileTracker profile){this(host,seed,Optional.of(profile));}
+    private MatchPorts(ApplicationHost host,long seed,Optional<ProfileTracker> profile){
         this.host=Objects.requireNonNull(host);
         board=new Scoreboard(()->players,()->teams,()->Optional.of(peers),()->ended,()->stopping,new SourceRandom(seed),new Scoreboard.Effects(){
             public void broadcast(GamePacket packet,boolean reliable,Integer playerId){if(playerId==null){host.broadcast(packet,reliable?Delivery.RELIABLE:Delivery.UNRELIABLE);return;}if(!reliable)throw new AssertionError("No unreliable player-score helper");for(var entry:known.entrySet())if(host.inGame(entry.getKey())&&entry.getValue().contains(playerId))if(!host.sendPlayer(entry.getKey(),packet))throw new AssertionError("Known player score send rejected");}
-            public void scoreChanged(Scoreboard.Player p,int reason){events.add("credit:"+p.id()+":"+reason);}
-            public void resetProfileBaseline(Scoreboard.Player p){events.add("profile-reset:"+p.id());}
+            public void scoreChanged(Scoreboard.Player p,int reason){events.add("credit:"+p.id()+":"+reason);profile.ifPresent(t->t.scoreChanged(p,reason));}
+            public void resetProfileBaseline(Scoreboard.Player p){events.add("profile-reset:"+p.id());profile.ifPresent(t->t.resetBaseline(p));}
             public void resetResultBaselines(){events.add("baseline");}
             public void scheduleResults(Integer winner){events.add("result:"+winner);}
         });

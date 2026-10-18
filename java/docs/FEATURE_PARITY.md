@@ -1,9 +1,8 @@
 # Feature parity and explicit backlog
 
-Current departure/round-runtime verification: 6,072 Java tests and 152 focused
-original regressions pass locally. All five CI jobs pass in
-[run 39161548480](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39161548480). See
-[ROUND_RUNTIME.md](ROUND_RUNTIME.md); complete gameplay remains pending.
+Current map-transition verification: 6,118 Java tests and 175 focused original
+regressions pass locally. CI is pending publication. See [TRANSITIONS.md](TRANSITIONS.md);
+complete gameplay and owned hosting assembly remain pending.
 
 Reference: source `6216b771282d2d349ccd67ee58c378f035c83553`.
 `Implemented component` means only the exact behavior and evidence listed here.
@@ -38,10 +37,11 @@ has passed. Nothing below is a production-readiness claim.
 | Player.simulate_tick / ordinary Player.update | Infantry/connected-flight integration implemented | 16,683 original no-flight operations; owned UDP movement/refill/fall-health test; starvation/backlog, velocity impulses and eye history; full loop policies, concrete modes and complete presentation/entity domains remain pending; see INFANTRY_SIMULATION.md |
 | Jetpack resources / canopy policy / flight profiles | Connected-player integration implemented | 65,497 original full-path operations in 44 traces; all four packs and stock/v1/v2 profiles; real UDP thrust/fuel/release and canopy landing; actual owner replication is now bound separately; bots/corpse-fuse/client validation pending; see PLAYER_FLIGHT.md |
 | WorldUpdate cadence / routing / owner history | Connected-player replication implemented | 18,448 service, 2,235 wire, 1,132 live-row, 3,714 owner-history and 8,458 release-hold operations; two-client UDP ACK/respawn barriers; required effect/tool/entity/corpse domains and real-client validation pending; see WORLD_REPLICATION.md |
-| modes/tdm.py | Concrete core and accepted-life binding implemented | 2,048 original TDM operations, 64 config cases, native stingers and actual HUD limit; owned-shot/reload/death/kill/personal/team/winner over real UDP; canonical roster order includes dead admissions. Queued departure settlement and delayed ending/restart policy now have ROUND_RUNTIME.md evidence; team/roster policies, actual transition services and gameplay bootstrap remain pending |
+| modes/tdm.py | Concrete core and accepted-life binding implemented | 2,048 original TDM operations, 64 config cases, native stingers and actual HUD limit; owned-shot/reload/death/kill/personal/team/winner over real UDP; canonical roster order includes dead admissions. Queued departure settlement and delayed ending/restart policy now have ROUND_RUNTIME.md evidence; transition lifecycle/preflight/roster and retained peer reload now have TRANSITIONS.md evidence; remaining team policies/services and gameplay bootstrap remain pending |
 | Tick-start in-game packet queue | Serial async component bound to actual ENet sessions (opt-in) | 2,048 original queue operations, per-peer fairness, fixed detached budget, owner resumption, stale identity/scene guards and actual suspended objective request with two UDP peers; complete simulation/bootstrap pending |
 | SimulationRuntime mode-event drain | Implemented serial component | 2,048 original mode/plugin operations, isolated failures, live mode replacement, fixed timeout remainder and 8,192-event bounded-stack check; immediate departure settlement and ordered async frame/catch-up components now have ROUND_RUNTIME.md evidence; complete subsystem bindings remain pending |
-| BaseMode delayed ending/restart | Implemented orchestration components | 40 original end/restart cases, retained cancellation, fallback/recovery, real life/score reset composition; concrete preflight/transition/vote/audio/timer services remain pending; see ROUND_RUNTIME.md |
+| Map/mode transition / retained scene epochs | Implemented policy and actual ENet loader binding | 32 original rollover/map-screen scenarios, 13 names, worker preflight, guarded restoration and live+team-select different-CRC real UDP reload; full state/service/bootstrap bindings remain pending; see TRANSITIONS.md |
+| BaseMode delayed ending/restart | Implemented orchestration components | 40 original end/restart cases, retained cancellation, fallback/recovery, real life/score reset composition; map preflight/transition policy and retained peers are now implemented; concrete vote/audio/timer services and full state bindings remain pending; see TRANSITIONS.md |
 | BaseMode generic kill/penalty/teamplay economy | Implemented component | 2,048 original operations, ghost-return/bonus/score/profile/send-fault ordering; actual UDP reload/defend/distraction credit; accepted-life event/bonus/reload capture is bound in the TDM/runtime batch; exemption policies and complete gameplay binding remain pending; queued departure settlement is now implemented; see TDM_RUNTIME.md |
 | Teabag accepted crouch edges | Implemented policy component | 2,048 original attempts, corpse-distance/timing/death-key/profile/rule-fault behavior and actual-life UDP credit; corpse representation and gameplay input edge binding remain pending |
 | Escape watch and high-minimap markers | Implemented component | 2,048 tracking passes, 1,824 native voxel edits and 6,144 direct geometry evaluations; identity/mode ownership, late replay, recovery and objective-guard UDP composition; concrete mode/loop binding pending |
@@ -89,8 +89,8 @@ has passed. Nothing below is a production-readiness claim.
 4. Connect verified strict-float PlayerPhysics and queries to the actual player
    lifecycle, input/equipment policy, 60 Hz loop and reconciliation/WorldUpdate.
    Port remaining GLM/projectile/world behavior with differential traces.
-5. Bind the new departure/frame/catch-up/ending/restart components to full asynchronous
-   bootstrap, concrete vote/audio/timer services and map-transition/preflight policy; then
+5. Bind departure/frame/catch-up/ending/restart and map-transition components to the
+   full owned bootstrap, candidate spawn-cache preparation and concrete services; then
    finish player/combat/terrain/equipment lifecycle and supported-client validation.
 6. Complete all modes, bots, creator/tutorial, plugins/admin/persistence/discovery.
 7. Evaluate full regression, real-client multiplayer, identical-artifact platform

@@ -1,5 +1,27 @@
 # Java test results
 
+Local Java check/build passes **6,082 component + 36 integration = 6,118 tests**,
+with zero failures, errors or skips across 93 suites. This batch adds 45 component
+cases (33 source-comparison cases, nine boundaries and three loader cases) and one
+real UDP composition. **175 focused original-source regressions pass**. The new
+generator reproduces its three outputs byte-for-byte on a second run; all 246 prior
+frozen paths remain unchanged (249 checked paths total). Prior unchanged 69-generator
+and native-build evidence is reused locally; CI is configured to reproduce all 70.
+
+Two CRC-valid local archives are byte-identical: 1826295 bytes,
+SHA-256 `0912f829799888ddc65da57aa59e911bfed6f1536aacd19bbecd280cc4526160`. Java class major 69, packaging/licenses and version/config smokes
+pass; normal hosting exits 2. All four current isolated native transport/packaged-loader
+nominal/impaired profiles pass. Loader probes use FixtureScene. Platform tests use
+source-built classes; the platform JAR smokes do not establish complete gameplay.
+Prior medpack/Zombie/VIP baseline discrepancies remain unwaived; these focused source
+passes do not establish a passing full original baseline.
+
+This checkpoint requires a new five-job CI run after publication.
+
+See [TRANSITIONS.md](TRANSITIONS.md) for scope and remaining bindings.
+
+## Historical departure and round-runtime evidence
+
 Local Java check/build passes **6,037 component + 35 integration = 6,072 tests**,
 with zero failures, errors or skips across 91 suites. This batch adds 66 meaningful
 component cases: 56 original-source comparisons and 10 orchestration boundaries,

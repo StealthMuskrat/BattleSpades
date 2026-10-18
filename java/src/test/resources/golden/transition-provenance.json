@@ -1,0 +1,22 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "observations": {
+    "rollover": 24,
+    "map_screen": 8,
+    "normalize": 13
+  },
+  "fixture_sha256": "186b42d8e6e44971970ea87f47d903862ee3690703f4e1cdaadb700849b97f20",
+  "catalog_sha256": "f1865d294a4c662c883877634ea581a18f6d833f3c5e85f5d7dcb2d8581373ca",
+  "flush_bytes": "172e0000000000",
+  "source_files_sha256": {
+    "server/match/__init__.py": "582f2a69ff4fd498b746d93f2ecfeb5cc08e039d098e87cd8c060928f15308f1",
+    "server/audio.py": "626bd59ff43702d26a82b8f504fdba0a5f76eb8e037d2ef13df8b5a7ac340fb7",
+    "server/builders/initial_info.py": "4e26cbe827966d4af78b220f3a35906517752458a3dd2cffdb91b2105e918095",
+    "server/connection.py": "5dc2789152970de62c3e4953d1a9a0915a04d03221c96d050054b5265a8151e4",
+    "server/team.py": "13a0d2a28b02678194652e7997d88f6bf3d50902739423ed72800ab8a6a26396",
+    "server/world_manager.py": "b2ef9c97255c290ea946dc4a4a415b46ba26bd69db9997276bcce6a3ef45fc63",
+    "server/config.py": "59e337a2dbeaf0de905111fa9f8555d0c1797f877de0a8c7ac27b9fe27b959cb"
+  },
+  "policy_method_substitutions": false,
+  "scope": "Intact match transition/rollover/recovery helpers with controlled terminal services.\n\nEight map-screen cases execute real worker WorldManager loading; Java also tests\nconfined paths and actual VXL/metadata codecs.\nThis oracle calls _rollover directly with an isolated candidate as its normal input;\nit does not replace policy methods. Mode lifecycle, peers, clocks, external services\nand terminal overlay/audio/HUD IO are controlled."
+}

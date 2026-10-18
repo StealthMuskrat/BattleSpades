@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "a880beada65ae085eff99a9ace1d8584900b9c0d80b7718087d2077c833a68b7",
-  "jar_bytes": 1794398,
+  "jar_sha256": "0912f829799888ddc65da57aa59e911bfed6f1536aacd19bbecd280cc4526160",
+  "jar_bytes": 1826295,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -20,50 +20,33 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 6037,
+      "tests": 6082,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
-      "tests": 35,
+      "tests": 36,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Departure settlement, awaited fixed scheduler/frame and delayed ending/restart policy",
-  "java_implementation_commit": "4a4bf9e6742917d14ccbd841d9b35633dc69c2a3",
-  "tested_tree": "6b0a25cc445c03781cb4a837f3c567a1e37f5494",
+  "verification_stage": "Worker preflight, serialized map/mode transition, roster cleanup and actual retained scene peers",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "head_sha": "4a4bf9e6742917d14ccbd841d9b35633dc69c2a3",
-    "run_id": 39161548480,
-    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39161548480",
-    "jobs": {
-      "native-enet": "success",
-      "build": "success",
-      "platform (ubuntu-latest)": "success",
-      "platform (windows-latest)": "success",
-      "platform (macos-latest)": "success"
-    },
-    "all_five_jobs_passed": true,
-    "all_final_steps_verified": true,
+    "status": "pending_publication",
+    "head_sha": null,
+    "run_id": null,
+    "url": null,
+    "jobs": {},
+    "all_five_jobs_passed": false,
+    "all_final_steps_verified": false,
     "local_to_ci_artifact_hash_compared": false,
     "full_reference_python_baseline_passing": false,
-    "packaged_native_probe_player_domain": "FixtureScene; component/UDP checks run source-built classes",
-    "component_and_udp_tests_use_source_built_classes": true,
-    "job_ids": {
-      "native-enet": 117775720892,
-      "build": 117775721081,
-      "platform (ubuntu-latest)": 117776147055,
-      "platform (windows-latest)": 117776147109,
-      "platform (macos-latest)": 117776147114
-    },
-    "native_original_fixtures_reproduced": true,
-    "configured_generators": 69,
-    "repeated_ci_archive_identical": true,
-    "same_uploaded_jar_three_platforms": true
+    "packaged_native_probe_player_domain": "FixtureScene; actual UDP transition composition uses configured LifeRuntime/TdmMode",
+    "component_and_udp_tests_use_source_built_classes": true
   },
   "movement": {
     "cases": 118,
@@ -416,12 +399,12 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": true,
-    "expected_parent": "1fe5ac39c7105143e5098f9e46a2850e4b7552a8",
+    "branch_updated": false,
+    "expected_parent": "354bde9900081a829833f3bc4c580a8b234f4201",
     "force": false,
     "authorization": "User authorized this and future verified migration checkpoints, code/workflow changes and all five CI jobs; requested multiple implementations per batch.",
-    "implementation_commit": "4a4bf9e6742917d14ccbd841d9b35633dc69c2a3",
-    "tested_tree": "6b0a25cc445c03781cb4a837f3c567a1e37f5494"
+    "implementation_commit": null,
+    "tested_tree": null
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -3231,5 +3214,201 @@
     "supported_client_validated": false,
     "ci_implementation_commit": "4a4bf9e6742917d14ccbd841d9b35633dc69c2a3",
     "ci_run_id": 39161548480
+  },
+  "previous_round_runtime_checkpoint": {
+    "java_implementation_commit": "4a4bf9e6742917d14ccbd841d9b35633dc69c2a3",
+    "tested_tree": "6b0a25cc445c03781cb4a837f3c567a1e37f5494",
+    "jar_sha256": "a880beada65ae085eff99a9ace1d8584900b9c0d80b7718087d2077c833a68b7",
+    "jar_bytes": 1794398,
+    "junit": {
+      "test": {
+        "tests": 6037,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "tests": 35,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "ci": {
+      "status": "success",
+      "head_sha": "4a4bf9e6742917d14ccbd841d9b35633dc69c2a3",
+      "run_id": 39161548480,
+      "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39161548480",
+      "jobs": {
+        "native-enet": "success",
+        "build": "success",
+        "platform (ubuntu-latest)": "success",
+        "platform (windows-latest)": "success",
+        "platform (macos-latest)": "success"
+      },
+      "all_five_jobs_passed": true,
+      "all_final_steps_verified": true,
+      "local_to_ci_artifact_hash_compared": false,
+      "full_reference_python_baseline_passing": false,
+      "packaged_native_probe_player_domain": "FixtureScene; component/UDP checks run source-built classes",
+      "component_and_udp_tests_use_source_built_classes": true,
+      "job_ids": {
+        "native-enet": 117775720892,
+        "build": 117775721081,
+        "platform (ubuntu-latest)": 117776147055,
+        "platform (windows-latest)": 117776147109,
+        "platform (macos-latest)": 117776147114
+      },
+      "native_original_fixtures_reproduced": true,
+      "configured_generators": 69,
+      "repeated_ci_archive_identical": true,
+      "same_uploaded_jar_three_platforms": true
+    }
+  },
+  "reference_transition_tests": {
+    "tests": 175,
+    "passed": 175,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "command": "PYTHONPATH=java/build/reference-python .reference-venv/bin/python -m pytest -q tests/test_tdm.py tests/test_server_capacity.py tests/test_packet_delivery_fixes.py tests/test_simulation_order.py tests/test_scoreboard.py tests/test_mode_lifecycle_contracts.py tests/test_end_sequence.py tests/test_retail_end_screen.py tests/test_round_runtime_reset.py tests/test_ctf_end_and_departure.py tests/test_match_transitions.py tests/test_rollover_team_select.py"
+  },
+  "transitions": {
+    "implementations": [
+      "WorldPreflight immutable worker candidate and path confinement",
+      "MatchTransitions deferred admin requests, serialization, mode aliases, preflight/stats/restart",
+      "SceneRollover freeze/retirement/commit/gather and restoration",
+      "TransitionRoster and actual LifeRuntime transition-specific cleanup",
+      "TransitionPackets native flush/statistics/screenshot/headline policy",
+      "SessionTransitions and actual JoinSession/ApplicationHost staged retained-peer reload",
+      "Explicit ending-task ownership exclusion in TDM and RoundEndSequence"
+    ],
+    "new_component_tests": 45,
+    "new_integration_tests": 1,
+    "source_observations": {
+      "rollover": 24,
+      "real_worker_map_screen": 8,
+      "normalize": 13
+    },
+    "policy_method_substitutions": false,
+    "regeneration": {
+      "checked_files": 249,
+      "unchanged_prior_files": 246,
+      "new_generator_repeated": true,
+      "configured_generators": 70,
+      "local_regeneration": "New actual-source generator reproduced twice; unchanged prior69-generator/246-path evidence reused. CI independently runs all70 configured generators.",
+      "source_six_directories_unchanged": true
+    },
+    "native_profiles": {
+      "native-transport-results.json": {
+        "oracle": "compiled vendored pyenet / ENet",
+        "profiles": [
+          {
+            "profile": "nominal",
+            "reliable_messages": 81,
+            "reliable_payload_sha256": "8bf5b28d7bc1cdca600b721861267251ba12443d0b16aa754887216142f0041a",
+            "unreliable_echoes": 48,
+            "reconnect": true,
+            "protocol_rejections": {
+              "167": 10,
+              "169": 3
+            },
+            "server_disconnect_reason": 18,
+            "java_retransmissions": 0,
+            "forwarded_datagrams": 1042,
+            "dropped_datagrams": 0,
+            "duplicate_datagrams": 0,
+            "delayed_datagrams": 0,
+            "java_malformed_datagrams": 0,
+            "game_client_test": false,
+            "result": "PASS"
+          },
+          {
+            "profile": "loss-reorder-duplicate",
+            "reliable_messages": 81,
+            "reliable_payload_sha256": "8bf5b28d7bc1cdca600b721861267251ba12443d0b16aa754887216142f0041a",
+            "unreliable_echoes": 33,
+            "reconnect": true,
+            "protocol_rejections": {
+              "167": 10,
+              "169": 3
+            },
+            "server_disconnect_reason": 18,
+            "java_retransmissions": 65,
+            "forwarded_datagrams": 1347,
+            "dropped_datagrams": 136,
+            "duplicate_datagrams": 102,
+            "delayed_datagrams": 1231,
+            "java_malformed_datagrams": 0,
+            "game_client_test": false,
+            "result": "PASS"
+          }
+        ]
+      },
+      "native-loader-results.json": {
+        "oracle": "vendored native ENet with independently decoded application packets",
+        "profiles": [
+          {
+            "profile": "nominal",
+            "private_password": false,
+            "full_chunks": 453,
+            "full_records_sha256": "a04e25f22eff412ed7565b1cdd13ca0fa4033fdde416d2d0b4890ffcdbd4dc10",
+            "delta_chunks": 0,
+            "dropped_datagrams": 0,
+            "duplicate_datagrams": 0,
+            "delayed_datagrams": 0,
+            "concurrent_reserved_ids": [
+              0,
+              1
+            ],
+            "full_refusal_reason": 4,
+            "ticket_xor": true,
+            "capability_trailer": true,
+            "canonical_health": true,
+            "canonical_removal": true,
+            "roster_reconcile": true,
+            "scene_reload": true,
+            "configured_metadata": true,
+            "sidecar_layering": true,
+            "metadata_reload": true,
+            "packaged_application": true,
+            "game_client_test": false,
+            "result": "PASS"
+          },
+          {
+            "profile": "impaired",
+            "private_password": true,
+            "full_chunks": 453,
+            "full_records_sha256": "a04e25f22eff412ed7565b1cdd13ca0fa4033fdde416d2d0b4890ffcdbd4dc10",
+            "delta_chunks": 0,
+            "dropped_datagrams": 112,
+            "duplicate_datagrams": 75,
+            "delayed_datagrams": 913,
+            "concurrent_reserved_ids": [
+              0,
+              1
+            ],
+            "full_refusal_reason": 4,
+            "ticket_xor": true,
+            "capability_trailer": true,
+            "canonical_health": true,
+            "canonical_removal": true,
+            "roster_reconcile": true,
+            "scene_reload": true,
+            "configured_metadata": true,
+            "sidecar_layering": true,
+            "metadata_reload": true,
+            "packaged_application": true,
+            "game_client_test": false,
+            "result": "PASS"
+          }
+        ]
+      }
+    },
+    "complete_hosting_bootstrap": false,
+    "worker_spawn_cache_transfer_implemented": false,
+    "full_migration_complete": false,
+    "native_loader_uses_fixture_scene": true,
+    "supported_client_validated": false
   }
 }

@@ -70,6 +70,22 @@ class JoinSessionTest {
         @Override public void close() {session.close();scene.close();compression.close();}
     }
     private static final class WireWriter {byte[] frame(byte[] data) {return new net.battlespades.protocol.Wire.Writer().u8(0x30).bytes(data).toByteArray();}}
+    @Test void stagedRolloverKeepsTeamSelectionPeerAndRejectsLateOldAdmission(){
+        try(var h=new Flow();var replacement=new FixtureScene(2,64)){
+            h.load();assertTrue(h.session.carriesScene());long generation=h.session.metrics().generation();h.session.armSceneTransition();assertTrue(h.session.metrics().generation()>generation);
+            h.client(new SimplePackets.NewPlayerConnection(2,0,0,0,"late old scene"));assertTrue(h.scene.players.isEmpty());h.session.transitionPacket(net.battlespades.match.TransitionPackets.audioFlush());h.session.transitionPacket(new SimplePackets.MapEnded());h.session.gateSceneTransition();h.session.detachScenePlayer();var reloaded=h.session.reloadScene(replacement).toCompletableFuture();h.pulse(0);h.pulse(0);assertTrue(h.wire.ids().contains(52));assertFalse(reloaded.isDone());h.validate();assertEquals(JoinSession.State.SELECT,h.session.state());assertTrue(reloaded.join());assertEquals(-1,h.wire.reason);assertEquals(1,h.slots.occupied());
+        }
+    }
+    @Test void stagedRolloverPreservesBackpressuredFreezeBeforeReplacementInitialInfo(){
+        try(var h=new Flow();var replacement=new FixtureScene(2,64)){
+            h.load();h.select();h.game();h.wire.frames.clear();h.wire.blockedId=52;h.session.armSceneTransition();h.session.transitionPacket(new SimplePackets.MapEnded());h.session.gateSceneTransition();assertFalse(h.session.inGame());assertFalse(h.session.gameplay(new SimplePackets.ChatMessage(0,0,"gated"),net.battlespades.transport.enet.Delivery.RELIABLE));h.session.detachScenePlayer();assertTrue(h.scene.players.isEmpty());assertTrue(h.scene.departed.isEmpty());var reloaded=h.session.reloadScene(replacement).toCompletableFuture();h.pulse(0);assertFalse(h.wire.ids().contains(114));assertFalse(reloaded.isDone());h.wire.blockedId=-1;h.pulse(0);h.pulse(0);assertEquals(List.of(52,114),h.wire.ids());h.validate();assertTrue(reloaded.join());assertFalse(h.session.inGame());
+        }
+    }
+    @Test void stagedReloadDisconnectCompletesItsRetainedWaitWithoutReleasingTwice(){
+        try(var h=new Flow();var replacement=new FixtureScene(2,64)){
+            h.load();h.session.armSceneTransition();h.session.gateSceneTransition();h.session.detachScenePlayer();var reload=h.session.reloadScene(replacement).toCompletableFuture();h.pulse(0);assertFalse(reload.isDone());h.session.close();assertFalse(reload.join());assertEquals(0,h.slots.occupied());h.session.close();assertEquals(0,h.slots.occupied());
+        }
+    }
     @Test void cancelledAsyncPacketsAbortTheFrameWithoutBecomingDomainDisconnects(){
         try(var h=new Flow()){
             h.load();h.select();h.game();var gate=new java.util.concurrent.CompletableFuture<Void>();h.scene.asyncPacket=(id,packet)->gate;

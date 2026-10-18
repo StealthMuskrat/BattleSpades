@@ -109,6 +109,34 @@ class ApplicationIntegrationTest {
             until(()->client.has(114));client.send(new SimplePackets.MapDataValidation(world.sourceCrc()),false);until(()->client.has(45));
         }
     }
+    @Test void stagedRolloverRetainsLiveAndTeamSelectionPeersAcrossDifferentMapChecksums(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var settings=new TdmMode.Settings(10,0,1,0);
+            try(var previous=new TdmHarness(settings,512);var next=new TdmHarness(settings,512,new MutableWorld(VxlMap.load(new byte[]{0,(byte)239,(byte)239,0,5,6,7,8},"auto"),2,10000))){
+                assertNotEquals(previous.life.world.sourceCrc(),next.life.world.sourceCrc());
+                var oldConfig=new SceneConfig("Transition UDP",27015,0,ModeCatalog.get("tdm"),"London",false,false,true,10,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+                var newConfig=new SceneConfig("Transition UDP",27015,0,ModeCatalog.get("tdm"),"Other",false,false,true,10,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+                var oldScene=new ConfiguredScene(oldConfig,ScenePackets.Environment.defaults("London",previous.life.world.sourceCrc()),previous.mode::sceneState,previous.life.runtime);
+                var newScene=new ConfiguredScene(newConfig,ScenePackets.Environment.defaults("Other",next.life.world.sourceCrc()),next.mode::sceneState,next.life.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),2,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),oldScene,new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var b=new Client(host.address())){
+                    var messages=new LifeRuntime.Messages(){public void broadcast(GamePacket packet){host.broadcast(packet,Delivery.RELIABLE);}public void owner(int id,GamePacket packet){assertTrue(host.sendPlayer(id,packet));}public boolean inGame(int id){return host.inGame(id);}};
+                    previous.life.destination=messages;next.life.destination=messages;previous.delivery=(id,packet)->{if(id==null)host.broadcast(packet,Delivery.RELIABLE);else assertTrue(host.sendPlayer(id,packet));};next.delivery=previous.delivery;
+                    var loop=new Loop(host);loop.ticketAndLoad(a,previous.life.world);a.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"Live"),false);loop.until(()->a.has(69));
+                    loop.until(()->{try{a.send(new ClientInput(100,0,false,6,1,0,0,0,0,24,0),false);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0);});
+                    var oldLife=previous.life.runtime.player(0);previous.teams.getFirst().add(oldLife);loop.ticketAndLoad(b,previous.life.world);assertEquals(2,host.occupiedSlots());assertFalse(host.inGame(1));assertEquals(1,previous.life.runtime.players().size());
+                    var resumes=new java.util.concurrent.ConcurrentLinkedQueue<Runnable>();var roster=new TransitionRoster(previous.life.runtime,previous.binding,()->previous.teams,resumes::add);var sessions=new SessionTransitions(host,()->newScene,roster,resumes::add);
+                    var ports=new net.battlespades.support.TransitionHarness(0);ports.active=previous.mode;ports.world=previous.life.world;ports.peerOverride=sessions.peers();ports.broadcastSink=packet->host.broadcast(packet,Delivery.RELIABLE);ports.flushSink=host::flushTransition;ports.createModeOperation=()->next.mode;ports.installOperation=ignored->host.installTransitionScene(newScene);ports.leavesOperation=previous.events::settleLeaves;ports.discardOperation=previous.events::clear;
+                    var transitions=new MatchTransitions<>(ports,(map,code)->java.util.concurrent.CompletableFuture.completedFuture(newScene),resumes::add);int firstPeer=a.peerId,secondPeer=b.peerId;a.packets.clear();b.packets.clear();var changed=transitions.changeMap("Other").toCompletableFuture();
+                    assertFalse(changed.isDone());assertFalse(host.inGame(0));assertTrue(previous.life.runtime.players().isEmpty());assertTrue(previous.teams.getFirst().players().isEmpty());
+                    loop.until(()->a.has(114)&&b.has(114));
+                    for(var client:List.of(a,b)){var ids=client.packets.stream().map(GamePacket::id).toList();assertTrue(ids.indexOf(23)>=0&&ids.indexOf(23)<ids.indexOf(52));assertTrue(ids.indexOf(52)<ids.indexOf(114));assertFalse(client.packets.stream().anyMatch(SimplePackets.PlayerLeft.class::isInstance));assertEquals(next.life.world.sourceCrc(),client.packets.stream().filter(InitialInfo.class::isInstance).map(InitialInfo.class::cast).findFirst().orElseThrow().map().checksum());client.send(new SimplePackets.MapDataValidation(next.life.world.sourceCrc()),false);}
+                    loop.until(()->{for(Runnable work;(work=resumes.poll())!=null;)work.run();return changed.isDone()&&a.has(45)&&b.has(45);});assertTrue(changed.join().ok());assertFalse(changed.join().reconnectRequired());assertFalse(transitions.busy());assertEquals(firstPeer,a.peerId);assertEquals(secondPeer,b.peerId);assertEquals(-1,a.reason);assertEquals(-1,b.reason);assertEquals(2,host.occupiedSlots());
+                    for(var client:List.of(a,b))client.send(new SimplePackets.NewPlayerConnection(client==a?2:3,0,0,0,"Replacement"),false);
+                    loop.until(()->{try{a.send(new ClientInput(200,0,false,6,1,0,0,0,0,24,0),false);b.send(new ClientInput(300,1,false,6,1,0,0,0,0,24,0),false);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0)&&host.inGame(1);});assertEquals(2,next.life.runtime.players().size());assertNotSame(oldLife,next.life.runtime.player(0));assertTrue(previous.life.runtime.players().isEmpty());
+                }
+            }
+        });
+    }
     @Test void realUdpSerialOwnedShotFeedsCanonicalTdmDeathKillAndScoreLimit(){
         assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
             var config=new SceneConfig("TDM serial UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,999,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());

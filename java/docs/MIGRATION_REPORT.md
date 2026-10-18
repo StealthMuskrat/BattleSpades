@@ -1,34 +1,28 @@
 # Java 25 migration report
 
 Date: 2026-10-18 UTC. **Incomplete migration; not playable or release-ready.**
-The current batch implements disconnect-time queued-hook settlement, an awaited fixed
-scheduler and ordered frame, delayed ending/vote/transition policy, cancellation and
-in-place restart. Concrete service bindings and the actual map transition/preflight
-service remain pending; ordinary hosting exits 2. See [ROUND_RUNTIME.md](ROUND_RUNTIME.md).
+The current batch implements worker map preflight, retained/serialized map and mode
+requests, source-ordered rollover/recovery, transition roster cleanup and staged reload
+of actual authenticated ENet peers. Remaining services and owned hosting/bootstrap are
+still pending; normal hosting exits 2. See [TRANSITIONS.md](TRANSITIONS.md).
 
-Local Java check/build passes **6,037 component + 35 integration = 6,072 tests**,
-with zero failures, errors or skips across 91 suites. This batch adds 66 meaningful
-component cases: 56 original-source comparisons and 10 orchestration boundaries,
-including one composition through the actual packet FIFO, TDM, life and score services.
-**152 focused original-source regressions pass**. The new source generator reproduces
-both outputs byte-for-byte on a second run; all 244 prior frozen paths remain
-unchanged (246 checked paths total). The unchanged prior 68-generator/native-build
-evidence is reused locally; CI is configured to reproduce all 69 generators.
+Local Java check/build passes **6,082 component + 36 integration = 6,118 tests**,
+with zero failures, errors or skips across 93 suites. This batch adds 45 component
+cases (33 source-comparison cases, nine boundaries and three loader cases) and one
+real UDP composition. **175 focused original-source regressions pass**. The new
+generator reproduces its three outputs byte-for-byte on a second run; all 246 prior
+frozen paths remain unchanged (249 checked paths total). Prior unchanged 69-generator
+and native-build evidence is reused locally; CI is configured to reproduce all 70.
 
-Two CRC-valid local archives are byte-identical: 1794398 bytes,
-SHA-256 `a880beada65ae085eff99a9ace1d8584900b9c0d80b7718087d2077c833a68b7`. Java class major 69, packaging/licenses and version/config smokes
-pass. All four isolated native transport/packaged-loader nominal/impaired profiles
-pass for the current JAR. Loader probes still use FixtureScene, not a supported game
-client. Normal hosting exits 2. Prior medpack/Zombie/VIP baseline discrepancies remain
-unwaived; these focused passes do not establish a passing full original baseline.
+Two CRC-valid local archives are byte-identical: 1826295 bytes,
+SHA-256 `0912f829799888ddc65da57aa59e911bfed6f1536aacd19bbecd280cc4526160`. Java class major 69, packaging/licenses and version/config smokes
+pass; normal hosting exits 2. All four current isolated native transport/packaged-loader
+nominal/impaired profiles pass. Loader probes use FixtureScene. Platform tests use
+source-built classes; the platform JAR smokes do not establish complete gameplay.
+Prior medpack/Zombie/VIP baseline discrepancies remain unwaived; these focused source
+passes do not establish a passing full original baseline.
 
-All five CI jobs passed for implementation `4a4bf9e6742917d14ccbd841d9b35633dc69c2a3`,
-tested/published tree `6b0a25cc445c03781cb4a837f3c567a1e37f5494`, in
-[run 39161548480](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39161548480). The native job independently reproduced all 69
-configured original generators, including the new departure/ending fixture. The build
-byte-compared repeated archives. Ubuntu, Windows and macOS smoked the uploaded JAR
-and ran source-built component/integration tests. Every final job step completed
-with success or an intentional skip. No local-to-CI artifact hash identity is claimed.
+This checkpoint requires a new five-job CI run after publication.
 
 ## Repository and provenance
 

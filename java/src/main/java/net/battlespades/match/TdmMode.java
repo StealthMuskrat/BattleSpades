@@ -14,7 +14,7 @@ import net.battlespades.scene.ModeCatalog;
 import net.battlespades.runtime.OwnerSequence;
 
 /** Concrete original TDM mode. Audio, achievements, resources and the delayed transition sequence are required services. */
-public final class TdmMode implements ModeEvents.Mode {
+public final class TdmMode implements TransitionMode {
     private static final org.tomlj.TomlParseResult DATA=net.battlespades.catalog.SourceCatalog.load("tdm-runtime");
     public record Settings(long scoreLimit,double timeLimit,long killPoints,long headshotBonus,boolean endRoundScoreboard){
         public Settings(long scoreLimit,double timeLimit,long killPoints,long headshotBonus){this(scoreLimit,timeLimit,killPoints,headshotBonus,true);}
@@ -70,6 +70,7 @@ public final class TdmMode implements ModeEvents.Mode {
         return new net.battlespades.scene.ScenePackets.State(new net.battlespades.scene.ScenePackets.Team(blue.name,blue.color(),Math.toIntExact(blue.score)),new net.battlespades.scene.ScenePackets.Team(green.name,green.color(),Math.toIntExact(green.score)),Math.toIntExact(settings.scoreLimit()),null);
     }
     public Settings settings(){return settings;}
+    public CompletionStage<Void> startMode(){start();return CompletableFuture.completedFuture(null);}
     public void start(){
         sequence.owned();started=true;winner=null;endSequenceRunning=false;clock.reset(wall.getAsDouble());
         effects.resetLifeCounters();board.resetRound();effects.matchStarted();effects.gameplayMusic();effects.rebuildResources();
@@ -82,6 +83,8 @@ public final class TdmMode implements ModeEvents.Mode {
         try{escapeReplay.run();}catch(RuntimeException failure){effects.cosmeticFailure(failure);}startCue(target);
     }
     private static void boardForce(Scoreboard.Peer target){target.send(new net.battlespades.protocol.SimplePackets.ForceShowScores(1));}
+    public CompletionStage<Void> cancelForTransition(boolean ownEnding){sequence.owned();if(!ownEnding)return cancelEndSequence();endSequenceRunning=false;return CompletableFuture.completedFuture(null);}
+    public CompletionStage<Void> deactivateForTransition(boolean ownEnding){sequence.owned();if(!ownEnding)return deactivate();clock.retiring=true;clock.ended=true;started=false;endSequenceRunning=false;return CompletableFuture.completedFuture(null);}
     public void beginRetirement(boolean endRound){sequence.owned();clock.retiring=true;if(endRound)clock.ended=true;}
     /** The retained ending service clears this before attempting source-compatible failure recovery. */
     public void endSequenceFailed(){sequence.owned();endSequenceRunning=false;}

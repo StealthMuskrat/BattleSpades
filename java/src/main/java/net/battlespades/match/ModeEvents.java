@@ -58,6 +58,14 @@ public final class ModeEvents {
     public int pendingDepartures(){sequence.owned();return departures.size();}
     /** Observe the currently retained remainders, including cancellation/fatal failures. */
     public CompletionStage<Void> departures(){sequence.owned();if(departureFailure!=null)return CompletableFuture.failedFuture(departureFailure);return sequence.run(List.copyOf(departures).stream().<Supplier<CompletionStage<Void>>>map(stage->()->stage).iterator());}
+    /** Transition settlement snapshots only queued leaves; a failed mode hook skips its plugin, as in the source. */
+    public CompletionStage<Void> settleLeaves(Mode selected){
+        sequence.owned();Objects.requireNonNull(selected);var leaves=new ArrayList<Event>();
+        for(var it=events.iterator();it.hasNext();){var event=it.next();if(event.name().equals("on_player_leave")){leaves.add(event);it.remove();}}
+        return sequence.run(leaves.stream().<Supplier<CompletionStage<Void>>>map(event->()->sequence.isolate(
+            ()->sequence.run(List.<Supplier<CompletionStage<Void>>>of(()->selected.handle(event),()->plugins.apply(event)).iterator()),
+            error->failure.accept("queued on_player_leave during transition",error))).iterator());
+    }
     public CompletionStage<Void> tick(int loop){
         sequence.owned();if(draining)throw new IllegalStateException("Mode drain already suspended");if(mode.get()==null)return CompletableFuture.completedFuture(null);draining=true;
         var initial=mode.get().clock();Integer remaining=initial.timeoutRemaining();int count=initial.drainBudget(events.size(),budget);

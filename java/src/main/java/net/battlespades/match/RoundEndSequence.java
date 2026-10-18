@@ -15,6 +15,9 @@ public final class RoundEndSequence {
         CompletionStage<Result> changeMap(String map);
         CompletionStage<Result> restart();
         boolean busyAllowingCurrentRequest();
+        default CompletionStage<Result> restartFromEnding(){return restart();}
+        default CompletionStage<Result> changeAfterScoresFromEnding(String map,double seconds,Integer headline){return changeAfterScores(map,seconds,headline);}
+        default CompletionStage<Result> changeMapFromEnding(String map){return changeMap(map);}
     }
     public interface Services {
         void endingMusic();boolean scoreboard();void forceScores(boolean forced);void botsEnd();
@@ -52,12 +55,12 @@ public final class RoundEndSequence {
             ()->{String next=services.consumeMap();String current=services.currentMap();if(next!=null&&(next.isEmpty()||current!=null&&!current.isEmpty()&&net.battlespades.player.NameUnicode.casefold(next).equals(net.battlespades.player.NameUnicode.casefold(current))))next=null;
                 double requested=services.screenSeconds();double dwell=Double.isNaN(requested)?0:Math.min(120,Math.max(0,requested));var transition=services.transition();String target=next;
                 if(transition==null)return task.actions(List.of(()->task.await(()->services.sleep(dwell)),()->task.await(services::restartInPlace)));
-                if(target==null)return task.actions(List.of(()->task.await(()->services.sleep(dwell)),()->checked(task,()->transition.restart())));
-                CompletionStage<Result> change=transition.supportsEndScreen()?task.await(()->transition.changeAfterScores(target,dwell,services.headline(winner))):
-                    task.actions(List.of(()->task.await(()->services.sleep(dwell)))).thenCompose(unused->task.await(()->transition.changeMap(target)));
+                if(target==null)return task.actions(List.of(()->task.await(()->services.sleep(dwell)),()->checked(task,()->transition.restartFromEnding())));
+                CompletionStage<Result> change=transition.supportsEndScreen()?task.await(()->transition.changeAfterScoresFromEnding(target,dwell,services.headline(winner))):
+                    task.actions(List.of(()->task.await(()->services.sleep(dwell)))).thenCompose(unused->task.await(()->transition.changeMapFromEnding(target)));
                 var done=new CompletableFuture<Void>();change.whenComplete((result,error)->owner.resume(()->{
                     task.check();if(error!=null){done.completeExceptionally(OwnerSequence.cause(error));return;}
-                    CompletionStage<Void> finish=!result.ok()&&!result.reconnectRequired()?checked(task,transition::restart):requireOk(result);
+                    CompletionStage<Void> finish=!result.ok()&&!result.reconnectRequired()?checked(task,transition::restartFromEnding):requireOk(result);
                     finish.whenComplete((unused,fault)->owner.resume(()->{if(fault==null)done.complete(null);else done.completeExceptionally(OwnerSequence.cause(fault));},done));
                 },done));return done.minimalCompletionStage();}
         )).whenComplete((unused,error)->owner.resume(()->{

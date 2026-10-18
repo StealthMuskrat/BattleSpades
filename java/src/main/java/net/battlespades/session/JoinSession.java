@@ -72,6 +72,8 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     private SnapshotCompression.Task task;
     private PlayerPackets.SetClassLoadout selection;
     private boolean ticketReceived,stateSent,admitted,requireValidation,airDone;
+    private boolean sceneArmed,sceneGated;
+    private java.util.concurrent.CompletableFuture<Boolean> reloadResult;
     public JoinSession(SocketAddress address,WireSink sink,JoinScene scene,PlayerSlots slots,
             JoinSettings settings,JoinPasswordGate passwords,SnapshotCompression compression) {
         this.address=address instanceof InetSocketAddress inet?inet.getAddress().getHostAddress():address.toString();
@@ -83,7 +85,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     private void time(long now) {owned();if(now<0 || now<lastNow) throw new IllegalArgumentException("Session clock moved backwards");lastNow=now;}
     private void refreshLink(){if(admitted&&slot!=null){scene.roundTripMillis(slot.id(),sink.roundTripMillis());scene.actionLink(slot.id(),sink.actionLink());}}
     public State state() {owned();return state;}
-    public boolean inGame() {owned();return state==State.LIVE;}
+    public boolean inGame() {owned();return state==State.LIVE&&!sceneGated;}
     public OptionalInt playerId() {owned();return slot==null?OptionalInt.empty():OptionalInt.of(slot.id());}
     @Override public Integer localPlayerId(){owned();return slot==null?null:slot.id();}
     @Override public SnapshotObserver observerState(){owned();return observerState;}
@@ -101,7 +103,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
         receiveCore(wire,now,serverLoop,resume,true,done);return done.minimalCompletionStage();
     }
     private void receiveCore(byte[] wire,long now,int serverLoop,java.util.concurrent.Executor resume,boolean awaitPackets,java.util.concurrent.CompletableFuture<Void> done) {
-        time(now);if(state==State.CLOSED){done.complete(null);return;}currentLoop=serverLoop;
+        time(now);if(state==State.CLOSED||sceneArmed){done.complete(null);return;}currentLoop=serverLoop;
         if(state==State.PASSWORD && passwordAsked>=0 && now-passwordAsked>=passwords.timeoutMillis()){fail(11);done.complete(null);return;}
         java.util.concurrent.CompletionStage<Void> deferred=null;long receiveEpoch=generation;var receiveScene=scene;
         try {
@@ -228,7 +230,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
             var queued=controls.getFirst();if(!sendQueued(queued)) break;
             controls.removeFirst();var frame=queued.frame;controlBytes-=frame.memoryBytes();count++;
             if(frame.id()==112 && passwordAsked<0) passwordAsked=now;
-            if(frame.id()==45) stateSent=true;
+            if(frame.id()==45){stateSent=true;finishReload(true);}
         }
         if(controls.isEmpty() && pendingRoster!=null) {knownRoster=pendingRoster;pendingRoster=null;}
         return count;
@@ -242,6 +244,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     public void pulse(long now,int loop) {
         time(now);if(state==State.CLOSED) return;currentLoop=loop;
         try {
+            if(sceneArmed){drain(settings.packetBudget(),now);return;}
             refreshLink();
             if(state==State.PASSWORD && passwordAsked>=0 && now-passwordAsked>=passwords.timeoutMillis()) {fail(11);return;}
             int budget=settings.packetBudget();budget-=drain(budget,now);if(!controls.isEmpty()) return;
@@ -278,7 +281,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     }
     /** Broadcasts are admitted only after the first-input replay boundary. */
     public boolean gameplay(GamePacket packet,Delivery delivery) {
-        owned();if(state!=State.LIVE) return false;var frame=new SessionFrame(0x30,packet.encode(),delivery);return delivery==Delivery.RELIABLE?ordered(frame):sendFrame(frame);
+        owned();if(state!=State.LIVE||sceneGated) return false;var frame=new SessionFrame(0x30,packet.encode(),delivery);return delivery==Delivery.RELIABLE?ordered(frame):sendFrame(frame);
     }
     /** One reliable order for live owner controls and broadcasts, including transport backpressure. */
     private boolean ordered(SessionFrame frame){if(controls.isEmpty()&&sendFrame(frame))return true;return enqueue(List.of(frame));}
@@ -291,7 +294,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     }
     /** WorldUpdate-only path: sequenced snapshots retain the reliable controls' application order. */
     public boolean snapshot(byte[] body,Delivery delivery,int loop){
-        owned();currentLoop=loop;if(state!=State.LIVE)return false;
+        owned();currentLoop=loop;if(state!=State.LIVE||sceneGated)return false;
         if(body.length==0||(body[0]&255)!=2||!(PacketCodec.decode(body) instanceof WorldUpdate))throw new ProtocolException("Expected WorldUpdate");
         var frame=new SessionFrame(0x30,body,delivery);
         if(delivery!=Delivery.RELIABLE&&frame.wireBytes()>Math.max(64,sink.unfragmentedWireLimit()))frame=new SessionFrame(0x30,body,Delivery.UNRELIABLE_FRAGMENT);
@@ -301,8 +304,22 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     public boolean direct(GamePacket packet) {
         owned();if(!admitted||state==State.CLOSED)return false;var frame=new SessionFrame(packet);return state==State.LIVE?ordered(frame):enqueue(List.of(frame));
     }
+    private void finishReload(boolean loaded){if(reloadResult!=null){var result=reloadResult;reloadResult=null;result.complete(loaded);}}
+    public boolean carriesScene(){owned();return state!=State.CLOSED&&(inGame()||stateSent);}
+    /** Invalidate suspended old admissions before the freeze is sent; retain the old life for awaited leave. */
+    public void armSceneTransition(){owned();if(sceneArmed||!carriesScene())throw new IllegalStateException("Peer cannot carry this scene");generation++;sceneArmed=true;discardControls();}
+    public void gateSceneTransition(){owned();sceneGated=true;}
+    public boolean transitionPacket(GamePacket packet){owned();if(state==State.CLOSED)return false;return ordered(new SessionFrame(packet));}
+    /** Mode ownership must already be settled; release the domain without broadcasting PlayerLeft. */
+    public void detachScenePlayer(){owned();if(state==State.CLOSED||!admitted)return;if(!sceneArmed||!sceneGated)throw new IllegalStateException("Old scene is not gated");if(admitted&&slot!=null){scene.transitionDetach(slot.id());admitted=false;}}
+    public java.util.concurrent.CompletionStage<Boolean> reloadScene(JoinScene replacement){
+        owned();java.util.Objects.requireNonNull(replacement);if(!sceneArmed||!sceneGated||admitted)throw new IllegalStateException("Old scene must be armed, gated and detached");
+        releaseScene();generation++;scene=replacement;selection=null;stateSent=false;airDone=false;knownRoster=java.util.Map.of();pendingRoster=null;requireValidation=true;retireUntil=0;
+        sceneArmed=false;sceneGated=false;state=State.RETIRING;reloadResult=new java.util.concurrent.CompletableFuture<>();return reloadResult.minimalCompletionStage();
+    }
     public void replaceScene(JoinScene replacement) {
         owned();if(state==State.CLOSED) return;
+        if(sceneArmed)throw new IllegalStateException("Staged transition must use reloadScene");
         boolean carry=stateSent;
         releaseScene();discardControls();generation++;scene=replacement;selection=null;stateSent=false;airDone=false;knownRoster=java.util.Map.of();pendingRoster=null;requireValidation=true;retireUntil=-1;
         if(!carry) {fail(18);return;}
@@ -320,5 +337,5 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
         }
     }
     public void fail(int reason) {owned();if(state==State.CLOSED) return;try {sink.disconnect(reason);} finally {close();}}
-    @Override public void close() {owned();if(state==State.CLOSED) return;state=State.CLOSED;releaseScene();discardControls();snapshotHolds.clear();key=new byte[0];generation++;}
+    @Override public void close() {owned();if(state==State.CLOSED) return;state=State.CLOSED;finishReload(false);releaseScene();discardControls();snapshotHolds.clear();key=new byte[0];generation++;}
 }

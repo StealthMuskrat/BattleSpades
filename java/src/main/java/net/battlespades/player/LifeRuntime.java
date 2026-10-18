@@ -41,6 +41,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
         void beforeDeath(DeathEvidence death);
         void transitionCredited(PlayerLife victim,PlayerLife attacker,int requestedType);
         void forget(PlayerLife player);
+        default void transitionForget(PlayerLife player){forget(player);}
         void respawnFailed(PlayerLife player,RuntimeException failure);
     }
     public interface Messages {
@@ -214,5 +215,9 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
         if(packet instanceof DropPickup drop&&objectives!=null){if(awaitObjective==null)throw new IllegalStateException("Objective request requires awaited packetAsync");awaitObjective.accept(objectives.handle(p,drop));return;}
         inputs.packet(p,packet);
     }
-    @Override public void disconnected(int id){owned();var p=players.get(id);if(p==null)return;inputs.forget(p);effects.forget(p);if(replication!=null)replication.forgetPlayer(id);if(combat!=null)combat.forgetPlayer(id);feed.forget(id);roster.remove(id);deadJoin.remove(id);scores.remove(id);players.remove(id);messages.broadcast(new SimplePackets.PlayerLeft(id));}
+    /** The transition service has already awaited the old mode's leave hook. No old-scene PlayerLeft is emitted. */
+    @Override public void transitionDetach(int id){removePlayer(id,true,p->{});}
+    public void transitionDetach(int id,java.util.function.Consumer<PlayerLife> removeTeam){removePlayer(id,true,Objects.requireNonNull(removeTeam));}
+    @Override public void disconnected(int id){removePlayer(id,false,p->{});}
+    private void removePlayer(int id,boolean transition,java.util.function.Consumer<PlayerLife> removeTeam){owned();var p=players.get(id);if(p==null)return;inputs.forget(p);if(transition)effects.transitionForget(p);else effects.forget(p);if(replication!=null)replication.forgetPlayer(id);if(combat!=null)combat.forgetPlayer(id);feed.forget(id);removeTeam.accept(p);roster.remove(id);deadJoin.remove(id);scores.remove(id);players.remove(id);if(!transition)messages.broadcast(new SimplePackets.PlayerLeft(id));}
 }

@@ -6,7 +6,7 @@ import net.battlespades.protocol.*;
 import net.battlespades.world.MutableWorld;
 
 /** Domain boundary: the application owns loaders; modes/players provide their actual state and admission. */
-public interface JoinScene extends AsyncPackets {
+public interface JoinScene extends AsyncPackets,SceneLifecycle {
     record Admission(PlayerPackets.CreatePlayer player,int color,List<GamePacket> afterCreate) {
         public Admission {afterCreate=List.copyOf(afterCreate);}
     }

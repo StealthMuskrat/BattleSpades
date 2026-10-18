@@ -81,6 +81,8 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     private final Inputs inputs;
     private net.battlespades.replication.ReplicationService replication;
     private net.battlespades.combat.CombatRuntime combat;
+    private ObjectiveDropRequests objectives;
+    private java.util.function.Consumer<java.util.concurrent.CompletionStage<Void>> awaitObjective;
     private final PlayerRoster roster=new PlayerRoster();
     private final KillFeed feed=new KillFeed();
     private final Map<Integer,PlayerLife> players=new LinkedHashMap<>();
@@ -101,6 +103,10 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     public void replication(net.battlespades.replication.ReplicationService value){owned();if(!players.isEmpty()||replication!=null)throw new IllegalStateException("Replication must bind once before admission");replication=Objects.requireNonNull(value);}
     /** Bind complete required combat domain ports once before admission. */
     public void combat(net.battlespades.combat.CombatRuntime value){owned();if(!players.isEmpty()||combat!=null)throw new IllegalStateException("Combat must bind once before admission");combat=Objects.requireNonNull(value);}
+    /** The required completion port must preserve the source packet drain's await/error boundary.
+     * This component does not supply a concrete mode or an asynchronous outer gameplay scheduler.
+     */
+    public void objectives(ObjectiveDropRequests value,java.util.function.Consumer<java.util.concurrent.CompletionStage<Void>> completion){owned();if(!players.isEmpty()||objectives!=null)throw new IllegalStateException("Objectives must bind once before admission");Objects.requireNonNull(value);Objects.requireNonNull(completion);objectives=value;awaitObjective=completion;}
     double movementClock(){owned();return clock.monotonic();}
     double movementWallClock(){owned();return clock.wall();}
     @Override public void roundTripMillis(int id,Double measurement){owned();player(id).flight().roundTripMillis(measurement);}
@@ -198,6 +204,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
             return;
         }
         if(packet instanceof ShootPacket shot&&combat!=null){if(p.alive())combat.shot(p,shot);return;}
+        if(packet instanceof DropPickup drop&&objectives!=null){awaitObjective.accept(objectives.handle(p,drop));return;}
         inputs.packet(p,packet);
     }
     @Override public void disconnected(int id){owned();var p=players.get(id);if(p==null)return;inputs.forget(p);effects.forget(p);if(replication!=null)replication.forgetPlayer(id);if(combat!=null)combat.forgetPlayer(id);feed.forget(id);roster.remove(id);deadJoin.remove(id);scores.remove(id);players.remove(id);messages.broadcast(new SimplePackets.PlayerLeft(id));}

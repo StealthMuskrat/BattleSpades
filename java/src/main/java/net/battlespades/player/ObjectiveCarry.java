@@ -3,6 +3,7 @@ package net.battlespades.player;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.IntSupplier;
 import net.battlespades.protocol.*;
 import net.battlespades.protocol.DropPickup.Position;
 
@@ -32,10 +33,14 @@ public final class ObjectiveCarry {
     }
     private static boolean finite(Position value){return Double.isFinite(value.x())&&Double.isFinite(value.y())&&Double.isFinite(value.z());}
     public static Dropped drop(PlayerLife player,Position position,Position velocity,int serverLoop,Consumer<GamePacket> reliable) {
-        Objects.requireNonNull(player);Objects.requireNonNull(reliable);Integer type=player.pickupId();
+        return drop(player,position,velocity,()->serverLoop,reliable);
+    }
+    /** Sample the server stamp only after validation, including when an async mode has yielded. */
+    public static Dropped drop(PlayerLife player,Position position,Position velocity,IntSupplier serverLoop,Consumer<GamePacket> reliable) {
+        Objects.requireNonNull(player);Objects.requireNonNull(reliable);Objects.requireNonNull(serverLoop);Integer type=player.pickupId();
         if(type==null||!validType(type))return null;
         var vectors=sanitize(player,type,position,velocity);if(vectors==null)return null;
-        reliable.accept(new DropPickup(serverLoop,player.id(),type,vectors.position,vectors.velocity));
+        reliable.accept(new DropPickup(serverLoop.getAsInt(),player.id(),type,vectors.position,vectors.velocity));
         int state=player.pickupState()==null?0:player.pickupState();player.carry(null,false,null);
         return new Dropped(type,state,vectors.position,vectors.velocity);
     }

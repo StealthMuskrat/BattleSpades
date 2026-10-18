@@ -1,0 +1,23 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 2048,
+  "coverage": {
+    "fallback": 384,
+    "consumed": 192,
+    "suspended": 448,
+    "faults": 176,
+    "rejected": 1024
+  },
+  "fixture_sha256": "9460fb8a56c0e635e8c2eb0ba1e88c2424f964fcfc23642c6be4df11a5ba297b",
+  "source_files_sha256": {
+    "server/handlers/world.py": "8f7b60f40def2280bc3ae5c650578120584a12545bf9a68249186f9ff6070755",
+    "protocol/handler_registry.py": "c4ed82a6bc67e9210898283253e3331821b62cc3729769f1e5ba71bf4ee490a9",
+    "server/pickups.py": "4e3ff8a3ea7533177c37b8a629eccf97f8d9ac2849304c119d9ae4f3d117b634",
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/entities/registry.py": "844b5df830c2900419035491f35c9fed0542dc8f6fce7fb3b7ed280c8a3f8935",
+    "aoslib/world.pyx": "5290568a97c5b74503642b29d6da9eda56f2fdba0453f9e5c7c3f676d840b1bc",
+    "shared/packet.pyx": "26e0bd6cc3ad92f931b8396ab21f395b199f11965a80dd96464b5907fb5b6819"
+  },
+  "method_substitutions": false,
+  "scope": "Actual unchanged registered async handler, original carry helpers/Player/native body/registry. Explicit controlled absent and async mode callbacks are boundary inputs, not concrete objective-mode implementations. Suspended state changes, carried type/state/loop rereads, early guards, mode consumption, hook/send faults, exact state and reliable wire; no full outer packet-drain scheduler or dropped-object physics claim."
+}

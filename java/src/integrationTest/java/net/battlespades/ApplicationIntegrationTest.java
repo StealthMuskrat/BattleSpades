@@ -159,6 +159,33 @@ class ApplicationIntegrationTest {
             }
         });
     }
+    @Test void realUdpOwnedObjectiveDropRequestsAwaitModesAndPlaceOnlyFallback(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("Objective request UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var h=new LifeHarness()){
+                var registry=new EntityRegistry();var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),()->ScenePackets.State.initial(config),h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),3,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var b=new Client(host.address());var c=new Client(host.address())){
+                    int[] mode={0},calls={0},serverLoop={777};var gate=new java.util.concurrent.CompletableFuture<Boolean>();var completions=new ArrayList<java.util.concurrent.CompletableFuture<Void>>();var resumes=new java.util.concurrent.ConcurrentLinkedQueue<Runnable>();
+                    ObjectiveDropRequests.Mode hook=(p,at,velocity)->{calls[0]++;assertEquals(0,p.id());return mode[0]==3?gate:java.util.concurrent.CompletableFuture.completedFuture(mode[0]==1);};
+                    var requests=new ObjectiveDropRequests(()->mode[0]==0?java.util.Optional.empty():java.util.Optional.of(hook),registry,()->serverLoop[0],p->host.broadcast(p,Delivery.RELIABLE),resumes::add);
+                    h.runtime.objectives(requests,stage->{var future=stage.toCompletableFuture();completions.add(future);if(future.isDone())future.join();});h.packetHandler=(p,packet)->{if(packet instanceof DropPickup)throw new AssertionError("Bound objective request escaped to input port");};
+                    var loop=new Loop(host);for(var client:List.of(a,b,c)){loop.ticketAndLoad(client,h.world);client.send(new SimplePackets.NewPlayerConnection(client==b?3:2,0,0,0,"objective request"),false);loop.until(()->client.has(69));}
+                    loop.until(()->{try{for(var client:List.of(a,b,c))client.send(new ClientInput(100,127,false,6,1,0,0,0,0,24,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0)&&host.inGame(1)&&host.inGame(2);});
+                    var carrier=h.runtime.player(0);assertTrue(ObjectiveCarry.pickup(carrier,16,true,3,p->host.broadcast(p,Delivery.RELIABLE)));loop.until(()->List.of(a,b,c).stream().allMatch(client->client.has(70)));for(var client:List.of(a,b,c)){client.packets.clear();client.commands.clear();}
+                    var position=new DropPickup.Position(36.5,36.25,97);var velocity=new DropPickup.Position(99,0,0);
+                    b.send(new DropPickup(-999,0,16,position,velocity),false);loop.until(()->completions.size()==1);assertEquals(16,carrier.pickupId());assertTrue(registry.all().isEmpty());assertEquals(0,calls[0]);
+                    a.send(new DropPickup(-999,254,15,position,velocity),false);loop.until(()->completions.size()==2);assertEquals(16,carrier.pickupId());assertTrue(registry.all().isEmpty());
+                    a.send(new DropPickup(-999,254,16,new DropPickup.Position(50,36,97),velocity),false);loop.until(()->completions.size()==3);assertEquals(16,carrier.pickupId());assertTrue(registry.all().isEmpty());
+                    mode[0]=1;a.send(new DropPickup(-999,254,16,position,velocity),false);loop.until(()->completions.size()==4);assertEquals(1,calls[0]);assertEquals(16,carrier.pickupId());assertTrue(registry.all().isEmpty());assertTrue(List.of(a,b,c).stream().noneMatch(client->client.has(71)||client.has(21)));
+                    mode[0]=2;a.send(new DropPickup(-999,254,16,position,velocity),false);loop.until(()->List.of(a,b,c).stream().allMatch(client->client.has(71)));assertEquals(2,calls[0]);assertNull(carrier.pickupId());assertFalse(carrier.body().burdened());assertEquals(1,registry.all().size());var intel=registry.all().getFirst();assertEquals(16,intel.type);assertEquals(3,intel.state);assertEquals("pickup",intel.kind);assertEquals(new Vector(15,0,0),intel.velocity);assertEquals(.5,intel.radius);assertNull(intel.behavior);
+                    for(var client:List.of(a,b,c)){assertFalse(client.has(21));var drop=(DropPickup)client.packets.stream().filter(p->p.id()==71).findFirst().orElseThrow();assertEquals(0,drop.playerId());assertEquals(16,drop.pickupId());assertEquals(777,drop.loop());assertEquals(15,drop.velocity().x());assertEquals(6,client.commands.get(client.packets.indexOf(drop)));}
+                    assertTrue(ObjectiveCarry.pickup(carrier,14,true,2,p->host.broadcast(p,Delivery.RELIABLE)));mode[0]=3;a.send(new DropPickup(-777,254,14,position,velocity),false);loop.until(()->completions.size()==6);assertFalse(completions.getLast().isDone());assertEquals(14,carrier.pickupId());assertEquals(1,registry.all().size());serverLoop[0]=778;carrier.beginDeath(h.wall);
+                    Thread.ofPlatform().start(()->gate.complete(false)).join();assertFalse(completions.getLast().isDone());assertEquals(1,resumes.size());resumes.remove().run();completions.getLast().join();assertFalse(carrier.alive());assertNull(carrier.pickupId());assertFalse(carrier.body().burdened());assertEquals(2,registry.all().size());assertEquals(14,registry.all().getLast().type);assertEquals(new Vector(10,0,0),registry.all().getLast().velocity);loop.until(()->List.of(a,b,c).stream().allMatch(client->client.packets.stream().filter(p->p.id()==71).count()==2));
+                    for(var client:List.of(a,b,c)){assertFalse(client.has(21));var drops=client.packets.stream().filter(DropPickup.class::isInstance).map(DropPickup.class::cast).toList();assertEquals(778,drops.getLast().loop());assertEquals(14,drops.getLast().pickupId());assertEquals(0,drops.getLast().playerId());}
+                }
+            }
+        });
+    }
     @Test void realUdpObjectiveCarryBurdenLateRevealAndDropSendBoundary(){
         assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
             var config=new SceneConfig("Objective helper UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());

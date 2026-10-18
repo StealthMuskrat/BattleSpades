@@ -1,4 +1,23 @@
-# Current objective-carry checkpoint verification
+# Current objective-drop-request checkpoint verification
+
+Local clean check/build passes **5,635 component + 27 real UDP tests**, zero
+failures, errors or skips. **6 focused original tests** pass. New evidence:
+2,048 unchanged registered-handler requests with actual Player/native body,
+helpers and registry, including 448 suspended callbacks and 176 hook/send faults.
+All 62 configured generators reproduce outputs after a fresh original native
+build; all 223 recorded fixture/catalog/codegen hashes remain unchanged.
+Publication and all five current-head CI jobs are pending.
+
+Two CRC-valid local archives are byte-identical: 1644120 bytes,
+SHA-256 `b50e53a3b93f99b8ef8422f0b4684176a68d23a561dd3d3e5c2fa0e1a9ccf069`. Class major 69 and packaging audits pass;
+version/config exits 0 and hosting exits 2. Isolated native transport and loader
+probes pass nominal/impaired profiles. Concrete objective modes, complete outer
+async packet draining, dropped-object simulation and complete gameplay remain
+pending. Original baseline and supported-client/capacity/soak gates remain pending;
+earlier Zombie/VIP discrepancies remain unchanged. Packaged native-loader probes
+retain FixtureScene. See OBJECTIVE_DROP_REQUESTS.md.
+
+# Preceding objective-carry checkpoint verification
 
 Local clean check/build passes **5,618 component + 26 real UDP tests**, zero
 failures, errors or skips. **6 focused original tests** pass. New evidence:

@@ -40,11 +40,19 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
+ObjectiveDropRequests now validates decoded requests against the bound carrier,
+awaits the explicit mode port and places generic fallback drops in the registry.
+It preserves mode consumption and post-await carry/life ordering; owner execution
+and outer completion handling remain required ports. Concrete objective modes,
+dropped-object simulation and full gameplay integration remain pending. See
+[OBJECTIVE_DROP_REQUESTS.md](docs/OBJECTIVE_DROP_REQUESTS.md).
+
 ObjectiveCarry now preserves native carry/burden state, finite/radius-limited drop
 vectors, throw-speed caps, spawn reset and reliable send-failure boundaries.
 DropPickup(71) keeps binary64 tuples until fixed-point encoding. Dedicated carrier
-reveal is an explicit composition port; objective mode ownership, the async request
-handler and dropped-object simulation remain pending. See
+reveal is an explicit composition port; concrete objective mode ownership and
+dropped-object simulation remain pending. The request component is verified
+separately. See
 [OBJECTIVE_CARRY.md](docs/OBJECTIVE_CARRY.md).
 
 MapResourceService now builds map-owned supplies and static lights from metadata

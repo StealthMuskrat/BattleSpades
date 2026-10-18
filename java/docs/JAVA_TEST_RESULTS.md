@@ -1,9 +1,7 @@
 # Java test results
 
-Stage: objective carry/drop helpers and native tuple codec, 2026-10-18 UTC.
-Implementation: `c9a79aa31e5355acab2ae3c35a49dfd12dd4f4a0`; tested tree: `0a6179e3ac36a641d2a554e9af60ec96ab5239eb`.
-All five jobs passed in [run 39089220082](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39089220082), including source regeneration,
-archive reproducibility and one uploaded JAR on three platforms.
+Stage: registered objective drop requests, 2026-10-18 UTC.
+Local clean check/build passes; publication and all five current-head CI jobs are pending.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -73,6 +71,7 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.player.MapResourceGoldenTest | 48 | 0 | 0 | 0 |
 | net.battlespades.player.MeleeHitEffectsGoldenTest | 17 | 0 | 0 | 0 |
 | net.battlespades.player.ObjectiveCarryGoldenTest | 80 | 0 | 0 | 0 |
+| net.battlespades.player.ObjectiveDropGoldenTest | 17 | 0 | 0 | 0 |
 | net.battlespades.player.OwnerGoldenTest | 5 | 0 | 0 | 0 |
 | net.battlespades.player.PelletGoldenTest | 17 | 0 | 0 | 0 |
 | net.battlespades.player.PlayerFireGoldenTest | 33 | 0 | 0 | 0 |
@@ -83,22 +82,22 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.player.SpawnPolicyTest | 36 | 0 | 0 | 0 |
 | net.battlespades.player.TerrainCommitGoldenTest | 16 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 16 | 0 | 0 | 0 |
-| net.battlespades.ApplicationIntegrationTest | 23 | 0 | 0 | 0 |
+| net.battlespades.ApplicationIntegrationTest | 24 | 0 | 0 | 0 |
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **5,644 Java tests passed: 5,618 component and 26 real UDP; no failures,
-errors or skips.** New comparisons cover 4,096 original carry/drop/sanitize/native-
-body operations, 8,192 arbitrary sanitize vectors and 512 native packet codec cases. All 61 configured generators
-reproduce outputs after a fresh original native build; all 221 recorded fixture/
-catalog/codegen hashes remain unchanged. **6 focused original tests pass.**
-The complete original baseline remains incomplete/failing; earlier Zombie cue
-lead and VIP discrepancies remain unchanged and are not waived.
+Total: **5,662 Java tests passed: 5,635 component and 27 real UDP; no failures,
+errors or skips.** New comparisons cover 2,048 actual original registered-handler
+requests, including 448 suspended callbacks and 176 hook/send faults. All 62
+configured generators reproduce outputs after a fresh original native build;
+all 223 recorded fixture/catalog/codegen hashes remain unchanged.
+**6 focused original tests pass.** The complete original baseline remains
+incomplete/failing; earlier Zombie cue-lead and VIP discrepancies are not waived.
 
-The new three-client UDP test composes actual carry/burden, dedicated late carrier
-reveal, capped drop, a reliable enqueue completion fault, retry/clear and spawn
-reset. Explicit reveal/send composition does not establish async request-handler
-authorization, objective-mode ownership, dropped-object simulation or complete
-snapshot/mode/gameplay binding. Supported-client/capacity/soak gates remain pending.
-Hosting exits 2; packaged native-loader probes retain FixtureScene.
-See OBJECTIVE_CARRY.md.
+The new three-client UDP test routes decoded DropPickup through LifeRuntime and
+ObjectiveDropRequests, checking bound authority, mode consumption, registry-only
+fallback placement and suspended death with a newer server loop. Mode, owner
+executor and outer completion ports remain explicit. Concrete modes, complete
+outer async packet draining, dropped-object simulation, full snapshot/mode/gameplay
+binding and supported-client/capacity/soak gates remain pending. Hosting exits 2;
+packaged native-loader probes retain FixtureScene. See OBJECTIVE_DROP_REQUESTS.md.

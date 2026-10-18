@@ -32,17 +32,38 @@
       "skipped": 0
     }
   },
-  "verification_stage": "Arena and early-audio local verification complete; CI pending publication",
-  "java_implementation_commit": null,
-  "tested_tree": null,
+  "verification_stage": "Arena and early audio verified locally and by all five CI jobs",
+  "java_implementation_commit": "03a94ffc6c9988fa92c29ad4e0b2fbaa9bb8d3a9",
+  "tested_tree": "66ed8b6cc3e0f7e11a4b4d4b8cf821007f5ec5dc",
   "ci": {
-    "status": "pending_publication",
-    "all_five_jobs_passed": false,
-    "all_final_steps_verified": false,
+    "status": "success",
+    "all_five_jobs_passed": true,
+    "all_final_steps_verified": true,
     "configured_generators": 76,
     "full_reference_python_baseline_passing": false,
     "local_to_ci_artifact_hash_compared": false,
-    "packaged_native_probe_player_domain": "FixtureScene; actual UDP uses configured LifeRuntime/ArenaMode with HostedMedia early join audio"
+    "packaged_native_probe_player_domain": "FixtureScene; actual UDP uses configured LifeRuntime/ArenaMode with HostedMedia early join audio",
+    "run_id": 39177842753,
+    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39177842753",
+    "head_sha": "03a94ffc6c9988fa92c29ad4e0b2fbaa9bb8d3a9",
+    "jobs": {
+      "build": "success",
+      "native-enet": "success",
+      "platform (ubuntu-latest)": "success",
+      "platform (macos-latest)": "success",
+      "platform (windows-latest)": "success"
+    },
+    "job_ids": {
+      "build": 117824097208,
+      "native-enet": 117824097340,
+      "platform (ubuntu-latest)": 117824490517,
+      "platform (macos-latest)": 117824490568,
+      "platform (windows-latest)": 117824490605
+    },
+    "native_original_fixtures_reproduced": true,
+    "repeated_ci_archive_identical": true,
+    "same_uploaded_jar_three_platforms": true,
+    "component_and_udp_tests_use_source_built_classes": true
   },
   "movement": {
     "cases": 118,
@@ -395,12 +416,12 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": false,
+    "branch_updated": true,
     "expected_parent": "676c4ba529cc625a78f51210c4617a32ea51a30f",
     "force": false,
     "authorization": "User authorized this and future verified migration checkpoints, code/workflow changes and all five CI jobs; requested multiple implementations per batch.",
-    "implementation_commit": null,
-    "tested_tree": null
+    "implementation_commit": "03a94ffc6c9988fa92c29ad4e0b2fbaa9bb8d3a9",
+    "tested_tree": "66ed8b6cc3e0f7e11a4b4d4b8cf821007f5ec5dc"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -4662,6 +4683,8 @@
     "full_migration_complete": false,
     "source_policy_method_substitutions": false,
     "production_domain_factory_complete": false,
-    "production_bootstrap_enabled": false
+    "production_bootstrap_enabled": false,
+    "ci_implementation_commit": "03a94ffc6c9988fa92c29ad4e0b2fbaa9bb8d3a9",
+    "ci_run_id": 39177842753
   }
 }

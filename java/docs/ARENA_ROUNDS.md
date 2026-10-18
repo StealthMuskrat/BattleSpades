@@ -21,7 +21,14 @@ client, complete platform gameplay or local-to-CI artifact hash identity is clai
 The medpack/Zombie/VIP original-baseline discrepancies remain unwaived. These focused
 passes do not establish a passing full original-source baseline.
 
-This checkpoint requires a new five-job CI run after publication.
+All five CI jobs passed for implementation `03a94ffc6c9988fa92c29ad4e0b2fbaa9bb8d3a9`,
+tested/published tree `66ed8b6cc3e0f7e11a4b4d4b8cf821007f5ec5dc`, in
+[run 39177842753](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39177842753). The native job independently reproduced all 76
+configured original generators, including the Arena/early-audio traces and all earlier
+fixtures. The build byte-compared repeated archives. Ubuntu, Windows and macOS smoked
+the uploaded JAR and ran source-built component/integration tests. Every final job step
+completed with success or an intentional skip. No local-to-CI artifact hash identity
+or complete platform gameplay is claimed.
 
 ArenaMode implements the original elimination mode: typed mode overlay precedence,
 round/clock clamps, no-body-creation match start, held warm-up until both sides have a

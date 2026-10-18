@@ -1,6 +1,7 @@
 # Arena and shared-round follow-up
 
-ArenaMode, shared BaseRoundMode, JoinAudio and actual early admission audio binding are implemented. 6,295 Java tests and 350 focused original regressions pass locally. CI is pending publication. See [ARENA_ROUNDS.md](ARENA_ROUNDS.md). Full production hosting and remaining domains are pending.
+ArenaMode, shared BaseRoundMode, JoinAudio and actual early admission audio binding are implemented. 6,295 Java tests and 350 focused original regressions pass locally. All five CI jobs pass in
+[run 39177842753](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39177842753). See [ARENA_ROUNDS.md](ARENA_ROUNDS.md). Full production hosting and remaining domains are pending.
 
 ## Previous gameplay-services checkpoint
 

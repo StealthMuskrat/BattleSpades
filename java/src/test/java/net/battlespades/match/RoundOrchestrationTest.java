@@ -59,6 +59,12 @@ class RoundOrchestrationTest {
         var owner=new ConcurrentLinkedQueue<Runnable>();var ports=new EndPorts();var ending=new RoundEndSequence(ports,owner::add);var old=ending.run(2).toCompletableFuture();assertTrue(ending.running());assertThrows(IllegalStateException.class,()->ending.run(3));ending.cancel().toCompletableFuture().join();assertFalse(ending.running());assertInstanceOf(CancellationException.class,assertThrows(CompletionException.class,old::join).getCause());
         int count=ports.log.size();var worker=new Thread(()->ports.timer.complete(null));worker.start();worker.join();drain(owner);assertEquals(count,ports.log.size());assertFalse(ports.log.contains("restart"));ports.timer=new CompletableFuture<>();ending.run(3);assertTrue(ending.running());ending.cancel().toCompletableFuture().join();
     }
+    @Test void endingCancellationRemovesTheConcreteTimerBeforeAnotherEndingCanRun(){
+        try(var owner=new net.battlespades.runtime.OwnerLoop(0,8,8,error->fail(error))){
+            var ports=new EndPorts(){@Override public CompletionStage<Void> sleep(double seconds){return owner.sleep(seconds);}};var ending=new RoundEndSequence(ports,owner);var old=ending.run(2).toCompletableFuture();assertEquals(1,owner.pending());ending.cancel().toCompletableFuture().join();assertEquals(0,owner.pending());assertInstanceOf(CancellationException.class,assertThrows(CompletionException.class,old::join).getCause());
+            owner.pump(20_000_000_000L);assertFalse(ports.log.contains("statistics"));assertFalse(ports.log.contains("restart"));assertFalse(ending.running());ending.run(3);assertEquals(1,owner.pending());ending.cancel().toCompletableFuture().join();assertEquals(0,owner.pending());
+        }
+    }
     @Test void restartAwaitsBotsUsesRosterSnapshotSkipsSpectatorsAndContinuesAfterRespawnFault(){
         var log=new ArrayList<String>();var prepare=new CompletableFuture<Void>();var reset=new CompletableFuture<Void>();var roster=new ArrayList<>(List.of(0,1,2,3));var team=new TeamState(2,"Blue",0,0,255);team.score=12;
         var restart=new RoundRestart<Integer>(new RoundRestart.Services<>(){
@@ -74,28 +80,28 @@ class RoundOrchestrationTest {
         }
     }
     @Test void serialFrameDrivesActualTdmWinThenRetainedVoteAndSameSceneLifeRestart(){
-        try(var h=new TdmHarness(new TdmMode.Settings(1,0,1,0),512)){
+        try(var owner=new net.battlespades.runtime.OwnerLoop(0,64,64,error->fail(error));var h=new TdmHarness(new TdmMode.Settings(1,0,1,0),512)){
             var killer=h.admit(0,2);var victim=h.admit(1,3);h.stopping=false;
-            var timers=new ArrayDeque<CompletableFuture<Void>>();var vote=new CompletableFuture<Void>();var prepare=new CompletableFuture<Void>();var journal=new ArrayList<String>();
+            var vote=new CompletableFuture<Void>();var prepare=new CompletableFuture<Void>();var journal=new ArrayList<String>();
             var restart=new RoundRestart<net.battlespades.player.PlayerLife>(new RoundRestart.Services<>(){
                 public boolean scoreboard(){return true;}public void forceScores(boolean forced){h.delivery.accept(null,new SimplePackets.ForceShowScores(forced?1:0));journal.add("release");}
                 public CompletionStage<Void> prepareBots(){journal.add("prepare");return prepare;}public void resetRuntime(){h.events.clear();journal.add("runtime");}public List<TeamState> teams(){return h.teams;}
                 public CompletionStage<Void> startMode(){h.mode.start();journal.add("start");return done();}public void teamScore(TeamState team){h.board.teamScore(team,null);}
                 public List<net.battlespades.player.PlayerLife> players(){return h.life.runtime.players();}public boolean playable(net.battlespades.player.PlayerLife player){return player.team()==2||player.team()==3;}public boolean connected(net.battlespades.player.PlayerLife player){return h.life.runtime.inGame(player.id());}
                 public void respawn(net.battlespades.player.PlayerLife player){h.life.runtime.respawn(player.id());journal.add("respawn:"+player.id());}public void respawnFailure(net.battlespades.player.PlayerLife player,Throwable error){fail(error);}public CompletionStage<Void> resetBots(){journal.add("reset-bots");return done();}
-            },Runnable::run);
+            },owner);
             h.ending=new RoundEndSequence(new EndPorts(){
-                @Override public CompletionStage<Void> sleep(double seconds){journal.add("sleep:"+(int)seconds);var gate=new CompletableFuture<Void>();timers.add(gate);return gate;}
+                @Override public CompletionStage<Void> sleep(double seconds){journal.add("sleep:"+(int)seconds);return owner.sleep(seconds);}
                 @Override public void forceScores(boolean forced){h.delivery.accept(null,new SimplePackets.ForceShowScores(forced?1:0));journal.add("force");}
                 @Override public void statistics(Integer winner){assertEquals(2,winner);journal.add("stats");}
                 @Override public CompletionStage<Void> waitForVote(){journal.add("vote");return vote;}@Override public String consumeMap(){journal.add("consume");return null;}
                 @Override public CompletionStage<Void> restartInPlace(){return restart.run();}@Override public CompletionStage<Void> cancelPending(){return restart.cancel();}@Override public void failed(){h.mode.endSequenceFailed();}@Override public void failure(String name,Throwable error){fail(error);}
-            },Runnable::run);
+            },owner);
             h.mode.start();var packets=new net.battlespades.runtime.IngamePackets<Integer>(new net.battlespades.runtime.IngamePackets.Settings(8,8,8),id->h.life.runtime.inGame(id),(id,data)->{h.life.runtime.damage(1,1000,id,0);return done();},error->fail(error),Runnable::run);packets.offer(0,new byte[]{1});
             var ports=new FramePorts(){@Override public CompletionStage<Void> asynchronous(SimulationFrame.Phase phase,int loop){return switch(phase){case PACKET_DRAIN->packets.drain();case MODE->h.events.tick(loop);default->done();};}};
-            var frame=new SimulationFrame(ports,System::nanoTime,Runnable::run);var runtime=new AsyncFixedStepRuntime(()->true,tick->frame.step(Math.toIntExact(tick)),()->journal.add("replicate"),RoundOrchestrationTest::done,(name,error)->fail(error),Runnable::run);
-            assertEquals(1,runtime.advance(FixedStepRuntime.DELTA).toCompletableFuture().join());assertTrue(h.mode.clock().ended);assertEquals(1,h.teams.getFirst().score);assertEquals(100,killer.score);assertFalse(victim.life.alive());assertTrue(h.ending.running());assertTrue(journal.contains("replicate"));
-            timers.remove().complete(null);assertEquals(List.of("force","sleep:5","replicate","stats","vote"),journal);vote.complete(null);assertEquals("sleep:7",journal.getLast());assertTrue(h.mode.clock().ended);timers.remove().complete(null);assertEquals("prepare",journal.getLast());assertTrue(h.mode.clock().ended);prepare.complete(null);h.endTask.join();
+            var frame=new SimulationFrame(ports,System::nanoTime,owner);var runtime=new AsyncFixedStepRuntime(()->true,tick->frame.step(Math.toIntExact(tick)),()->journal.add("replicate"),()->owner.sleep(0),(name,error)->fail(error),owner);
+            var frameResult=runtime.advance(FixedStepRuntime.DELTA).toCompletableFuture();assertFalse(frameResult.isDone());owner.pump(0);assertEquals(1,frameResult.join());assertTrue(h.mode.clock().ended);assertEquals(1,h.teams.getFirst().score);assertEquals(100,killer.score);assertFalse(victim.life.alive());assertTrue(h.ending.running());assertTrue(journal.contains("replicate"));
+            owner.pump(4_999_999_999L);assertFalse(journal.contains("stats"));owner.pump(5_000_000_000L);assertEquals(List.of("force","sleep:5","replicate","stats","vote"),journal);vote.complete(null);assertEquals("sleep:7",journal.getLast());assertTrue(h.mode.clock().ended);owner.pump(11_999_999_999L);assertFalse(journal.contains("prepare"));owner.pump(12_000_000_000L);assertEquals("prepare",journal.getLast());assertTrue(h.mode.clock().ended);prepare.complete(null);h.endTask.join();
             assertFalse(h.ending.running());assertFalse(h.mode.clock().ended);assertFalse(h.mode.endSequenceRunning());assertEquals(0,h.teams.getFirst().score);assertEquals(0,killer.score);assertTrue(victim.life.alive());assertTrue(killer.life.alive());assertSame(killer,h.binding.row(killer.life));assertSame(victim,h.binding.row(victim.life));assertEquals(List.of("release","prepare","runtime","start","respawn:0","respawn:1","reset-bots"),journal.subList(journal.indexOf("release"),journal.size()));
         }
     }

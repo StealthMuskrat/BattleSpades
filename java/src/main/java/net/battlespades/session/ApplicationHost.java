@@ -85,8 +85,10 @@ public final class ApplicationHost implements AutoCloseable {
     public List<WorldUpdateLink> snapshotLinks(){owned();return closing?List.of():sessions.values().stream().map(session->(WorldUpdateLink)session).toList();}
     public boolean sendPlayer(int id,GamePacket packet) {owned();if(closing)return false;for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return session.direct(packet);return false;}
     public List<JoinSession> transitionSessions(){owned();return List.copyOf(sessions.values());}
+    public JoinScene transitionScene(){owned();return scene;}
+    public void discardTransitionPackets(){owned();if(packets!=null)packets.clear();queuedSessions.clear();}
     /** Commit the next scene after the transition service has gated/detached its snapshot of peers. */
-    public void installTransitionScene(JoinScene replacement){owned();scene=java.util.Objects.requireNonNull(replacement);if(packets!=null)packets.clear();queuedSessions.clear();}
+    public void installTransitionScene(JoinScene replacement){owned();scene=java.util.Objects.requireNonNull(replacement);discardTransitionPackets();}
     public void flushTransition(){owned();try{transport.flush(Math.max(0,lastNow));}catch(IOException failure){throw new java.io.UncheckedIOException(failure);}}
     public void replaceScene(JoinScene replacement) {owned();if(replacement==scene) throw new IllegalArgumentException("Scene must change");if(packets!=null)packets.clear();queuedSessions.clear();for(var session:sessions.values()) session.replaceScene(replacement);scene=replacement;}
     @Override public void close() throws IOException {

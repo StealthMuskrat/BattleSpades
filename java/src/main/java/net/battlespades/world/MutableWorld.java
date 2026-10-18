@@ -84,6 +84,8 @@ public final class MutableWorld implements AutoCloseable {
     public int journalSize() { active();return journal.size(); }
     public int activeLeases() { active();return leases.size(); }
     public int sourceCrc() { return sourceCrc; }
+    /** Identity, rather than a checksum, protects worker-prepared geometry from another terrain. */
+    public boolean pristineSource(VxlMap source) { active();return base==source&&revision==0&&columns.isEmpty(); }
     public boolean solid(Cell cell) { active();var c=columns.get(cell.column());return c==null?base.solid(cell.x,cell.y,cell.z):c.solid.get(cell.z); }
     public int color(Cell cell) { active();var c=columns.get(cell.column());return c==null?base.color(cell.x,cell.y,cell.z):c.colors[cell.z]; }
     public boolean explicit(Cell cell) { active();var c=columns.get(cell.column());return c==null?base.hasExplicitColor(cell.x,cell.y,cell.z):c.explicit.get(cell.z); }

@@ -19,12 +19,17 @@ public final class WorldPreflight {
         int dot=value.lastIndexOf('.');return dot>0&&value.substring(dot).equalsIgnoreCase(".vxl")?value.substring(0,dot):value;
     }
     public CompletionStage<MapAssembly> load(String name,String mode){
-        var result=new CompletableFuture<MapAssembly>();String normalized=normalize(name);if(normalized.isEmpty()){result.completeExceptionally(new IllegalArgumentException("Invalid or empty map name"));return result.minimalCompletionStage();}
+        return submit(name,mode,java.util.function.Function.identity());
+    }
+    /** Terrain parsing and both teams' candidate/anchor searches all run on the supplied worker. */
+    public CompletionStage<PreparedMap> prepare(String name,String mode){return submit(name,mode,PreparedMap::prepare);}
+    private <T> CompletionStage<T> submit(String name,String mode,java.util.function.Function<MapAssembly,T> finish){
+        var result=new CompletableFuture<T>();String normalized=normalize(name);if(normalized.isEmpty()){result.completeExceptionally(new IllegalArgumentException("Invalid or empty map name"));return result.minimalCompletionStage();}
         try{worker.execute(()->{try{
             Path root=maps.toRealPath();Path target=root.resolve(normalized.toLowerCase(Locale.ROOT).endsWith(".vxl")?normalized:normalized+".vxl").normalize();
             if(!Files.isRegularFile(target))throw new IllegalArgumentException("Map not found: "+normalized);
             target=target.toRealPath();if(!target.startsWith(root))throw new IllegalArgumentException("Map path must stay inside the configured maps directory");
-            result.complete(MapAssembly.load(target,mode));
+            result.complete(finish.apply(MapAssembly.load(target,mode)));
         }catch(IOException|RuntimeException error){result.completeExceptionally(error);}catch(Error fatal){result.completeExceptionally(fatal);}});}catch(RuntimeException rejected){result.completeExceptionally(rejected);}
         return result.minimalCompletionStage();
     }

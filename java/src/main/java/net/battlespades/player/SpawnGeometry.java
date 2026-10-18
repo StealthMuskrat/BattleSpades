@@ -45,6 +45,25 @@ public final class SpawnGeometry {
     private final Map<Integer,List<Candidate>> candidates=new HashMap<>();
     private final Map<Integer,Position> anchors=new HashMap<>();
     public SpawnGeometry(MutableWorld world,Layout layout){this.world=Objects.requireNonNull(world);this.map=CollisionMap.of(world);this.layout=Objects.requireNonNull(layout);}
+    /** Immutable worker output. No world, collision adapter or owning thread crosses the boundary. */
+    public static final class Prepared {
+        private final net.battlespades.world.VxlMap source;
+        private final Layout layout;
+        private final Map<Integer,List<Candidate>> candidates;
+        private final Map<Integer,Position> anchors;
+        private Prepared(net.battlespades.world.VxlMap source,Layout layout,Map<Integer,List<Candidate>> candidates,Map<Integer,Position> anchors){
+            this.source=source;this.layout=layout;
+            var copy=new HashMap<Integer,List<Candidate>>();candidates.forEach((team,rows)->copy.put(team,List.copyOf(rows)));this.candidates=Map.copyOf(copy);this.anchors=Map.copyOf(anchors);
+        }
+        public SpawnGeometry bind(MutableWorld world,Layout expected){
+            if(!layout.equals(expected)||!world.pristineSource(source))throw new IllegalArgumentException("Prepared spawns require their pristine terrain and layout");
+            var geometry=new SpawnGeometry(world,expected);geometry.candidates.putAll(candidates);geometry.anchors.putAll(anchors);return geometry;
+        }
+    }
+    public Prepared prepare(net.battlespades.world.VxlMap source){
+        owned();if(!world.pristineSource(source))throw new IllegalArgumentException("Cannot prepare spawns from modified or unrelated terrain");
+        prewarm();return new Prepared(source,layout,candidates,anchors);
+    }
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Spawn geometry accessed outside owner");}
     public MutableWorld world(){owned();return world;}
     public List<Zone> zones(int team){owned();return layout.spawns.getOrDefault(team,List.of());}

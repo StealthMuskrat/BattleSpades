@@ -1,5 +1,9 @@
 # Map preflight, serialized transitions and retained scene peers
 
+Follow-up: Worker spawn-cache transfer, concrete owned host state and owner-loop timers now
+have [PREPARED_HOST.md](PREPARED_HOST.md) evidence. The text below records the preceding
+transition-policy checkpoint and its then-pending bindings.
+
 This checkpoint ports connected match-transition components from behavioral source
 `6216b771282d2d349ccd67ee58c378f035c83553`. Complete hosting/bootstrap and the remaining
 gameplay/services are still pending; normal hosting remains gated.

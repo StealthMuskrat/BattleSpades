@@ -1,0 +1,15 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "observations": 4,
+  "team_caches": 8,
+  "fixture_sha256": "a23c21818ad039f93063e1114cba328cf013fbe357284faa7ecaae15fdc13871",
+  "policy_method_substitutions": false,
+  "source_files_sha256": {
+    "server/world_manager.py": "b2ef9c97255c290ea946dc4a4a415b46ba26bd69db9997276bcce6a3ef45fc63",
+    "server/map_metadata.py": "66a868d65f47cdb3d2eb3956f04652ae637f03a2f2cb4cebf26f956a329f8161",
+    "server/config.py": "59e337a2dbeaf0de905111fa9f8555d0c1797f877de0a8c7ac27b9fe27b959cb",
+    "aoslib/vxl.pyx": "c24f5102983d08f72aa710bbe6315ac5714b2226dafc67b968dcbd789876460d",
+    "aoslib/world.pyx": "5290568a97c5b74503642b29d6da9eda56f2fdba0453f9e5c7c3f676d840b1bc"
+  },
+  "scope": "Actual WorldManager.load_map worker prewarm with native VXL and parsed sidecars.\n\nOnly map bytes and metadata inputs are constructed. No loader, spawn search, anchor,\nor lifecycle policy is replaced. Worker thread identities are observed as booleans."
+}

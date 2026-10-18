@@ -12,7 +12,11 @@ import net.battlespades.world.WorldPreflight;
 
 /** Owner-serialized admin and round-ending transitions with isolated worker preflight and retained requests. */
 public final class MatchTransitions<C> implements RoundEndSequence.Transition {
-    public interface Services<C> extends SceneRollover.Services<C> {CompletionStage<Void> restartRound(TransitionMode mode);}
+    public interface Services<C> extends SceneRollover.Services<C> {
+        CompletionStage<Void> restartRound(TransitionMode mode);
+        /** Optional resource ownership: called only after a completed change or completed rollback recovery. */
+        default void transitionFinished(){}
+    }
     private static final String BUSY="Another match transition is already in progress";
     private final OwnerSequence owner;
     private final Services<C> services;
@@ -68,7 +72,7 @@ public final class MatchTransitions<C> implements RoundEndSequence.Transition {
         owner.owned();if(busy(permit))return CompletableFuture.completedFuture(result(false,BUSY));String name=WorldPreflight.normalize(map);
         if(!modeChange){if(name.isEmpty())return CompletableFuture.completedFuture(result(false,"Invalid or empty map name"));if(currentMap(name))return CompletableFuture.completedFuture(result(true,"Map "+name+" is already loaded"));}
         preparing=true;var done=new CompletableFuture<RoundEndSequence.Result>();
-        var returned=done.handle((value,error)->{preparing=false;inProgress=false;if(error!=null)throw new CompletionException(OwnerSequence.cause(error));return value;});
+        var returned=done.handle((value,error)->{try{if(error!=null)throw new CompletionException(OwnerSequence.cause(error));return value;}finally{preparing=false;inProgress=false;}});
         CompletionStage<C> candidate;try{candidate=Objects.requireNonNull(load.apply(name,code));}catch(Throwable error){preflightFailure(done,error,name,code,modeChange);return returned.minimalCompletionStage();}
         candidate.whenComplete((world,error)->owner.resume(()->{
             if(error!=null){preflightFailure(done,OwnerSequence.cause(error),name,code,modeChange);return;}
@@ -77,7 +81,7 @@ public final class MatchTransitions<C> implements RoundEndSequence.Transition {
                 if(TransitionPackets.supportsStatistics(ScenePackets.displayName(services.state().map()))){for(var packet:TransitionPackets.statistics(dwell,headline))services.broadcast(packet);services.flush();}
                 return dwell>0?services.sleep(dwell):CompletableFuture.completedFuture(null);
             });}
-            actions.add(()->{inProgress=true;return rollover.run(name,code,world,ownEnding).thenAccept(done::complete);});
+            actions.add(()->{inProgress=true;return rollover.run(name,code,world,ownEnding).thenAccept(value->{services.transitionFinished();done.complete(value);});});
             owner.run(actions.iterator()).whenComplete((unused,fault)->owner.resume(()->{if(fault!=null)done.completeExceptionally(OwnerSequence.cause(fault));},done));
         },done));return returned.minimalCompletionStage();
     }

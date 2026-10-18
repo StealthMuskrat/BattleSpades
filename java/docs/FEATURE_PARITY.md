@@ -1,9 +1,8 @@
 # Feature parity and explicit backlog
 
-Current map-transition verification: 6,118 Java tests and 175 focused original
-regressions pass locally. All five CI jobs pass in
-[run 39164290723](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39164290723). See [TRANSITIONS.md](TRANSITIONS.md);
-complete gameplay and owned hosting assembly remain pending.
+Current prepared-map/owned-host verification: 6,133 Java tests and 200 focused original
+regressions pass locally. CI is pending publication. See [PREPARED_HOST.md](PREPARED_HOST.md);
+complete gameplay and normal hosting assembly remain pending.
 
 Reference: source `6216b771282d2d349ccd67ee58c378f035c83553`.
 `Implemented component` means only the exact behavior and evidence listed here.
@@ -41,8 +40,9 @@ has passed. Nothing below is a production-readiness claim.
 | modes/tdm.py | Concrete core and accepted-life binding implemented | 2,048 original TDM operations, 64 config cases, native stingers and actual HUD limit; owned-shot/reload/death/kill/personal/team/winner over real UDP; canonical roster order includes dead admissions. Queued departure settlement and delayed ending/restart policy now have ROUND_RUNTIME.md evidence; transition lifecycle/preflight/roster and retained peer reload now have TRANSITIONS.md evidence; remaining team policies/services and gameplay bootstrap remain pending |
 | Tick-start in-game packet queue | Serial async component bound to actual ENet sessions (opt-in) | 2,048 original queue operations, per-peer fairness, fixed detached budget, owner resumption, stale identity/scene guards and actual suspended objective request with two UDP peers; complete simulation/bootstrap pending |
 | SimulationRuntime mode-event drain | Implemented serial component | 2,048 original mode/plugin operations, isolated failures, live mode replacement, fixed timeout remainder and 8,192-event bounded-stack check; immediate departure settlement and ordered async frame/catch-up components now have ROUND_RUNTIME.md evidence; complete subsystem bindings remain pending |
-| Map/mode transition / retained scene epochs | Implemented policy and actual ENet loader binding | 32 original rollover/map-screen scenarios, 13 names, worker preflight, guarded restoration and live+team-select different-CRC real UDP reload; full state/service/bootstrap bindings remain pending; see TRANSITIONS.md |
-| BaseMode delayed ending/restart | Implemented orchestration components | 40 original end/restart cases, retained cancellation, fallback/recovery, real life/score reset composition; map preflight/transition policy and retained peers are now implemented; concrete vote/audio/timer services and full state bindings remain pending; see TRANSITIONS.md |
+| Worker spawn-cache / owner timers / owned host state | Implemented components and actual host transition binding | Four native worker map loads/eight team caches; exact terrain/layout guards; bounded owner scheduling; actual host commit/rollback/retirement and upgraded retained-peer UDP; remaining production domain factories/services pending; see PREPARED_HOST.md |
+| Map/mode transition / retained scene epochs | Implemented policy and actual ENet loader binding | 32 original rollover/map-screen scenarios, 13 names, worker preflight, guarded restoration and live+team-select different-CRC real UDP reload; owned state/host/timer and worker-cache transfer now have PREPARED_HOST.md evidence; remaining services/full bootstrap pending |
+| BaseMode delayed ending/restart | Implemented orchestration components | 40 original end/restart cases, retained cancellation, fallback/recovery, real life/score reset composition; map preflight/transition policy and retained peers are now implemented; concrete owner timers/state bindings now have PREPARED_HOST.md evidence; vote/audio/bot/reset services/full bootstrap remain pending |
 | BaseMode generic kill/penalty/teamplay economy | Implemented component | 2,048 original operations, ghost-return/bonus/score/profile/send-fault ordering; actual UDP reload/defend/distraction credit; accepted-life event/bonus/reload capture is bound in the TDM/runtime batch; exemption policies and complete gameplay binding remain pending; queued departure settlement is now implemented; see TDM_RUNTIME.md |
 | Teabag accepted crouch edges | Implemented policy component | 2,048 original attempts, corpse-distance/timing/death-key/profile/rule-fault behavior and actual-life UDP credit; corpse representation and gameplay input edge binding remain pending |
 | Escape watch and high-minimap markers | Implemented component | 2,048 tracking passes, 1,824 native voxel edits and 6,144 direct geometry evaluations; identity/mode ownership, late replay, recovery and objective-guard UDP composition; concrete mode/loop binding pending |
@@ -91,7 +91,8 @@ has passed. Nothing below is a production-readiness claim.
    lifecycle, input/equipment policy, 60 Hz loop and reconciliation/WorldUpdate.
    Port remaining GLM/projectile/world behavior with differential traces.
 5. Bind departure/frame/catch-up/ending/restart and map-transition components to the
-   full owned bootstrap, candidate spawn-cache preparation and concrete services; then
+   full production domain/bootstrap and concrete remaining services; worker cache transfer,
+   owned host state and timers now have PREPARED_HOST.md evidence; then
    finish player/combat/terrain/equipment lifecycle and supported-client validation.
 6. Complete all modes, bots, creator/tutorial, plugins/admin/persistence/discovery.
 7. Evaluate full regression, real-client multiplayer, identical-artifact platform

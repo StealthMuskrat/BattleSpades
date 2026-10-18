@@ -1,35 +1,30 @@
 # Java 25 migration report
 
 Date: 2026-10-18 UTC. **Incomplete migration; not playable or release-ready.**
-The current batch implements worker map preflight, retained/serialized map and mode
-requests, source-ordered rollover/recovery, transition roster cleanup and staged reload
-of actual authenticated ENet peers. Remaining services and owned hosting/bootstrap are
-still pending; normal hosting exits 2. See [TRANSITIONS.md](TRANSITIONS.md).
+The current batch implements worker-prepared spawn-cache transfer, a bounded owner
+queue with cancellable timers, owned scene state/rollback/resource retirement and
+actual host transition bindings. Remaining production factories, gameplay and subsystem
+services are pending; normal hosting exits 2. See [PREPARED_HOST.md](PREPARED_HOST.md).
 
-Local Java check/build passes **6,082 component + 36 integration = 6,118 tests**,
-with zero failures, errors or skips across 93 suites. This batch adds 45 component
-cases (33 source-comparison cases, nine boundaries and three loader cases) and one
-real UDP composition. **175 focused original-source regressions pass**. The new
-generator reproduces its three outputs byte-for-byte on a second run; all 246 prior
-frozen paths remain unchanged (249 checked paths total). Prior unchanged 69-generator
-and native-build evidence is reused locally; CI is configured to reproduce all 70.
+Local Java check/build passes **6,097 component + 36 integration = 6,133 tests**,
+with zero failures, errors or skips across 96 suites. This batch adds 15 targeted
+component cases and upgrades two existing compositions instead of duplicating them.
+**200 focused original-source regressions pass**. The new actual-source generator
+records four real worker loads and eight team caches, reproducing both outputs
+byte-for-byte on a second run. All 249 previous frozen paths remain unchanged
+(251 checked paths total). Prior unchanged 70-generator/native-build evidence is
+reused locally; CI is configured to independently reproduce all 71 generators.
 
-Two CRC-valid local archives are byte-identical: 1826295 bytes,
-SHA-256 `0912f829799888ddc65da57aa59e911bfed6f1536aacd19bbecd280cc4526160`. Java class major 69, packaging/licenses and version/config smokes
-pass; normal hosting exits 2. All four current isolated native transport/packaged-loader
-nominal/impaired profiles pass. Loader probes use FixtureScene. Platform tests use
-source-built classes; the platform JAR smokes do not establish complete gameplay.
-Prior medpack/Zombie/VIP baseline discrepancies remain unwaived; these focused source
-passes do not establish a passing full original baseline.
+Two CRC-valid local archives are byte-identical: 1845795 bytes,
+SHA-256 `ccbb032a76c5b70ced0064e8716daaf6d27645e39de8a61346bb93e3e1499955`. Class major 69, packaging/licenses and version/config smokes pass;
+normal hosting exits 2. All four current isolated native transport/packaged-loader
+nominal/impaired profiles pass. The loader probe still uses FixtureScene. Platform
+component/integration tests run source-built classes and smoke the uploaded JAR;
+no local-to-CI artifact hash identity or complete platform gameplay is claimed.
+The prior medpack/Zombie/VIP original-baseline discrepancies remain unwaived.
+These focused passes do not establish a passing full original-source baseline.
 
-All five CI jobs passed for implementation `8a5885dea85a23c6ccd5cbea1b73787ee5f32d66`,
-tested/published tree `1b2b759ace264cc0921a1382a96d108629ec25b1`, in
-[run 39164290723](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39164290723). The native job independently reproduced all 70
-configured original generators, including transition traces and their real worker
-WorldManager loading. The build byte-compared repeated archives. Ubuntu, Windows
-and macOS smoked the uploaded JAR and ran source-built component/integration tests.
-Every final job step completed with success or an intentional skip. No local-to-CI
-artifact hash identity or complete platform gameplay is claimed.
+This checkpoint requires a new five-job CI run after publication.
 
 ## Repository and provenance
 

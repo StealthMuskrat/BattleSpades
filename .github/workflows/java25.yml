@@ -171,6 +171,8 @@ jobs:
           python java/tools/generate_tdm_runtime_golden.py
           python java/tools/generate_round_runtime_golden.py
           python java/tools/generate_transition_golden.py
+          python java/tools/generate_prepared_map_golden.py
+          git diff --exit-code -- java/src/test/resources/golden/prepared-map*
           git diff --exit-code -- java/src/test/resources/golden/transition* java/src/main/resources/net/battlespades/catalog/transitions.toml
           git diff --exit-code -- java/src/test/resources/golden/round-runtime*
           git diff --exit-code -- java/src/test/resources/golden/tdm-runtime* java/src/main/resources/net/battlespades/catalog/tdm-runtime.toml

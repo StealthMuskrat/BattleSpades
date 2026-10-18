@@ -1,5 +1,9 @@
 # Departure settlement and asynchronous round orchestration
 
+Follow-up: Concrete owner-loop timers now drive the ending/frame/restart composition; see
+[PREPARED_HOST.md](PREPARED_HOST.md). The evidence below records the preceding round
+checkpoint; remaining vote/audio/bot/reset services are still explicit bindings.
+
 Follow-up: [TRANSITIONS.md](TRANSITIONS.md) implements map preflight/rollover policy
 and actual staged ENet peer reload. Evidence below describes the preceding round
 checkpoint; current verification is in TRANSITIONS.md.

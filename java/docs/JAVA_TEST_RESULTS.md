@@ -21,7 +21,14 @@ artifact hash identity or complete platform gameplay is claimed. Prior medpack/Z
 VIP original-baseline discrepancies remain unwaived; these focused passes do not
 establish a passing full original-source baseline.
 
-This checkpoint requires a new five-job CI run after publication.
+All five CI jobs passed for implementation `280aa453e20ff89709db907b86437e3adff13852`,
+tested/published tree `d9661a57f823ab8bc63bf200f03a2b94d7674456`, in
+[run 39168496083](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39168496083). The native job independently reproduced all 72
+configured original generators, including round music/ambience/ballot traces, native
+codec vectors and the intentionally updated packet registration. The build byte-compared
+repeated archives. Ubuntu, Windows and macOS smoked the uploaded JAR and ran source-built
+component/integration tests. Every final job step completed with success or an intentional
+skip. No local-to-CI artifact hash identity or complete platform gameplay is claimed.
 
 See [ROUND_MEDIA.md](ROUND_MEDIA.md) for current scope and limits. Earlier evidence
 is in [PREPARED_HOST.md](PREPARED_HOST.md), [TRANSITIONS.md](TRANSITIONS.md),

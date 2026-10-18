@@ -1,7 +1,8 @@
 # Feature parity and explicit backlog
 
 Current round-media verification: 6,162 Java tests and 273 focused original
-regressions pass locally. CI is pending publication. See [ROUND_MEDIA.md](ROUND_MEDIA.md);
+regressions pass locally. All five CI jobs pass in
+[run 39168496083](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39168496083). See [ROUND_MEDIA.md](ROUND_MEDIA.md);
 complete gameplay and normal hosting assembly remain pending.
 
 Reference: source `6216b771282d2d349ccd67ee58c378f035c83553`.

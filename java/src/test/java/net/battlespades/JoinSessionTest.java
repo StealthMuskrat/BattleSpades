@@ -70,6 +70,21 @@ class JoinSessionTest {
         @Override public void close() {session.close();scene.close();compression.close();}
     }
     private static final class WireWriter {byte[] frame(byte[] data) {return new net.battlespades.protocol.Wire.Writer().u8(0x30).bytes(data).toByteArray();}}
+    @Test void cancelledAsyncPacketsAbortTheFrameWithoutBecomingDomainDisconnects(){
+        try(var h=new Flow()){
+            h.load();h.select();h.game();var gate=new java.util.concurrent.CompletableFuture<Void>();h.scene.asyncPacket=(id,packet)->gate;
+            var frame=h.session.receiveAsync(new WireWriter().frame(new SimplePackets.ChatMessage(0,0,"await").encode()),h.now,100,Runnable::run).toCompletableFuture();assertFalse(frame.isDone());gate.cancel(false);
+            var failure=assertThrows(java.util.concurrent.CompletionException.class,frame::join);assertInstanceOf(java.util.concurrent.CancellationException.class,failure.getCause());assertEquals(0,h.session.metrics().domainFailures());assertEquals(-1,h.wire.reason);assertTrue(h.session.inGame());
+        }
+    }
+    @Test void workerPacketFailureReturnsToOwnerAndCannotDisconnectAReplacementScene()throws Exception {
+        for(boolean replace:new boolean[]{false,true})try(var h=new Flow();var replacement=new FixtureScene(2,64)){
+            h.load();h.select();h.game();var gate=new java.util.concurrent.CompletableFuture<Void>();var owner=new java.util.concurrent.ConcurrentLinkedQueue<Runnable>();h.scene.asyncPacket=(id,packet)->gate;
+            var frame=h.session.receiveAsync(new WireWriter().frame(new SimplePackets.ChatMessage(0,0,"await").encode()),h.now,100,owner::add).toCompletableFuture();if(replace)h.session.replaceScene(replacement);
+            var worker=new Thread(()->gate.completeExceptionally(new IllegalStateException("controlled asynchronous domain fault")));worker.start();worker.join();assertFalse(frame.isDone());assertEquals(-1,h.wire.reason);
+            for(Runnable r;(r=owner.poll())!=null;)r.run();frame.join();assertEquals(replace?0:1,h.session.metrics().domainFailures());assertEquals(replace?-1:13,h.wire.reason);assertEquals(replace?JoinSession.State.RETIRING:JoinSession.State.CLOSED,h.session.state());
+        }
+    }
     @Test void lifecycleHoldsStartAtApplicationQueueAndOutliveRespawnUntilEveryRelease(){
         try(var h=new Flow()){
             h.load();h.select();h.game();h.wire.tracking=true;h.wire.blockedId=28;

@@ -76,6 +76,8 @@ public final class FixtureScene implements JoinScene,net.battlespades.scene.Conf
     }
     @Override public List<GamePacket> reveal(int id) {reveals++;return List.of(new SimplePackets.ChatMessage(id,0,"fixture-reveal"));}
     @Override public void input(int id,LiveClientInput input,int receivedServerLoop) {inputs.add(input);receivedLoops.add(receivedServerLoop);}
+    public java.util.function.BiFunction<Integer,GamePacket,java.util.concurrent.CompletionStage<Void>> asyncPacket;
+    @Override public java.util.concurrent.CompletionStage<Void> packetAsync(int id,GamePacket packet){if(asyncPacket!=null)return asyncPacket.apply(id,packet);packet(id,packet);return java.util.concurrent.CompletableFuture.completedFuture(null);}
     @Override public void packet(int id,GamePacket packet) {received.add(packet);}
     @Override public void disconnected(int id) {departed.add(id);players.remove(id);capabilities.remove(id);roster.remove(id);}
     @Override public void close() {world.close();}

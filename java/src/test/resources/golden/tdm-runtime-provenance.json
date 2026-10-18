@@ -1,0 +1,27 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "observations": {
+    "packets": 2048,
+    "events": 2048,
+    "tdm": 2048,
+    "settings": 64
+  },
+  "fixture_sha256": "997f0e38681f08661244eb3f3ac5b5374859639ce92c65a448afbcbc8c73e24a",
+  "catalog_sha256": "3cf6c8b8ba1cf35a73a34fe60151a2809ae6719fa00fb4ade0ee756c5a4b3d13",
+  "source_files_sha256": {
+    "modes/tdm.py": "7839129f43852d13d4805ed7a2edfe882ac1cf050f975550675f0772e425d7b2",
+    "modes/base_mode.py": "ea3ae72b3ecd5ae70f7e71c30233cf3b4675d7f59ba0d95216e6c71c2fa34c2e",
+    "server/main.py": "7446dd984129fae5b90599d40380c476f12b68265acfb76b1af3e4ac3096a367",
+    "server/simulation_runtime.py": "385c8793f38e3c340784018e91350d36e3612d1a3252aa8f65295aaf719021bd",
+    "server/config.py": "59e337a2dbeaf0de905111fa9f8555d0c1797f877de0a8c7ac27b9fe27b959cb",
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/team.py": "13a0d2a28b02678194652e7997d88f6bf3d50902739423ed72800ab8a6a26396",
+    "server/scoreboard.py": "b16a82f8b2d6b950c2e6606e5788848ae3b5a65e682d806f8a254a4411cb3e6a",
+    "server/combat_scores.py": "efd40db2f8e456a285216487d5613048cbea8dfd7bee26d7eb4159e6eaee4f06",
+    "server/profile_stats.py": "e1d6b21ddeed91b04e1eaaf631f509f83f80791a9f1b37ab26fd0c5d6071561d",
+    "server/audio.py": "626bd59ff43702d26a82b8f504fdba0a5f76eb8e037d2ef13df8b5a7ac340fb7",
+    "shared/packet.pyx": "26e0bd6cc3ad92f931b8396ab21f395b199f11965a80dd96464b5907fb5b6819"
+  },
+  "method_substitutions": false,
+  "scope": "Actual unchanged server packet queue/drain helpers, SimulationRuntime._tick_mode, TDM/BaseMode/Team/config and native score/HUD/personal sound bytes. Controlled async handlers/plugins, actor/config/clock inputs, native audio filtering, achievement/resource/vote/result terminal IO and send faults. Delayed end/restart task body is deliberately suppressed with stopping=True and remains a required service; no complete audio/achievement/transition implementation claimed."
+}

@@ -1,28 +1,34 @@
 # Java test results
 
-Stage: Java test optimization, 2026-10-18 UTC.
+Stage: concrete TDM and serial packet/mode runtime batch, 2026-10-18 UTC.
 
-Local clean check/build passes **5,912 component + 33 real UDP = 5,945 Java tests**,
-with zero failures, errors or skips. All five jobs passed for implementation
-`f14407e5596d3f2f8a3869e2ad1c8505970c3f58`, tested tree `93a158fd85cadd67710ad5bac64e4ad2bde174f8`, in [run 39145475640](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39145475640).
-CI regenerated the original fixtures, checked archive reproducibility, smoked the
-same uploaded JAR on three platforms and ran component/UDP tests from source-built
-classes on Ubuntu, Windows and macOS. No local-to-CI artifact hash identity is claimed.
+Local Java check/build passes **5,970 component + 35 integration = 6,005 tests**,
+zero failures, errors or skips. The batch adds 58 component tests and two actual UDP
+compositions. **131 focused original TDM/runtime/scoreboard/lifecycle/end-sequence
+regressions pass**. All 68 configured generators ran after fresh original five-module
+native and ENet builds; all 244 frozen fixture/catalog/codegen hashes match.
+The known flight provenance observation recurred: two impact metadata fields were
+restored by rerunning the actual original generator's `--impact-only` command,
+then all 244 hashes were compared again. No fixture or hash was waived.
 
-The optimization removes **3,595 duplicate independent fixture executions** and
-53 artificial JUnit partitions, preserving every distinct case, all 224 ordered
-stateful trace selections and all 33 integration tests. Match fixture gzip reads
-drop from 328 to 5 per test worker. Production code, golden bytes, generators and
-workflows are unchanged; the local JAR is byte-identical to the preceding checkpoint.
-See [TEST_OPTIMIZATION.md](TEST_OPTIMIZATION.md) for exact case counts and timing limits.
+Two CRC-valid local archives are byte-identical: 1768991 bytes,
+SHA-256 `9d2481d4c44ae1b2be7cf510341b303d59602f9a6483b76584fbe2ac964887ea`. Class major 69, packaging/licenses and version/config
+smokes pass; normal hosting exits 2. All four isolated native transport and
+packaged-loader nominal/impaired profiles pass. Loader probes still use FixtureScene.
+The full original baseline remains unverified: prior medpack/Zombie/VIP discrepancies
+are retained and unwaived. These focused passes do not supersede those observations.
 
-Prior original-source baseline failures remain recorded and unwaived. This test-only
-checkpoint reuses the unchanged local native/source evidence; fresh CI checks pass.
-The migration remains incomplete and hosting exits 2.
+The concrete TDM core, canonical accepted-life score binding, serial mode/plugin
+event drain and opt-in actual ENet packet queue are implemented. Complete departure
+settlement, asynchronous simulation/bootstrap, delayed end/restart and actual
+resource/audio/vote/achievement/result services, all other modes and supported-client/
+capacity/soak gates remain pending. See [TDM_RUNTIME.md](TDM_RUNTIME.md).
+
+This checkpoint requires a new five-job CI run after publication.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
-| net.battlespades.ApplicationIntegrationTest | 30 | 0 | 0 | 0 |
+| net.battlespades.ApplicationIntegrationTest | 32 | 0 | 0 | 0 |
 | net.battlespades.BlockDamageGoldenTest | 21 | 0 | 0 | 0 |
 | net.battlespades.CollapseGoldenTest | 16 | 0 | 0 | 0 |
 | net.battlespades.CombatGeometryGoldenTest | 49 | 0 | 0 | 0 |
@@ -42,7 +48,7 @@ The migration remains incomplete and hosting exits 2.
 | net.battlespades.HitTraceGoldenTest | 20 | 0 | 0 | 0 |
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.JoinPolicyTest | 4 | 0 | 0 | 0 |
-| net.battlespades.JoinSessionTest | 21 | 0 | 0 | 0 |
+| net.battlespades.JoinSessionTest | 23 | 0 | 0 | 0 |
 | net.battlespades.LagGoldenTest | 26 | 0 | 0 | 0 |
 | net.battlespades.LagRuntimeTest | 3 | 0 | 0 | 0 |
 | net.battlespades.LoadingPacketTest | 12 | 0 | 0 | 0 |
@@ -73,6 +79,9 @@ The migration remains incomplete and hosting exits 2.
 | net.battlespades.match.ObjectiveGuardGoldenTest | 32 | 0 | 0 | 0 |
 | net.battlespades.match.ScoreEvidenceGoldenTest | 72 | 0 | 0 | 0 |
 | net.battlespades.match.ScoreboardGoldenTest | 48 | 0 | 0 | 0 |
+| net.battlespades.match.SerialRuntimeTest | 4 | 0 | 0 | 0 |
+| net.battlespades.match.TdmBindingTest | 3 | 0 | 0 | 0 |
+| net.battlespades.match.TdmRuntimeGoldenTest | 49 | 0 | 0 | 0 |
 | net.battlespades.player.ActionClockTest | 34 | 0 | 0 | 0 |
 | net.battlespades.player.AdmissionPolicyTest | 571 | 0 | 0 | 0 |
 | net.battlespades.player.BlastCommitGoldenTest | 37 | 0 | 0 | 0 |
@@ -108,6 +117,10 @@ The migration remains incomplete and hosting exits 2.
 | net.battlespades.player.SpawnPolicyTest | 36 | 0 | 0 | 0 |
 | net.battlespades.player.TerrainCommitGoldenTest | 16 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 16 | 0 | 0 | 0 |
+
+The preceding test optimization checkpoint has 5,945 passing tests and all five
+jobs in run 39145475640. Its removal of duplicate stateless cases is retained;
+see TEST_OPTIMIZATION.md.
 
 ## Preceding combat economy checkpoint evidence
 

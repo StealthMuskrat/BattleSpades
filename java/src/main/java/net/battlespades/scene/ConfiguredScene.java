@@ -16,7 +16,7 @@ import net.battlespades.world.MutableWorld;
  * This binding does not stand in for those implementations.
  */
 public final class ConfiguredScene implements JoinScene {
-    public interface Gameplay {
+    public interface Gameplay extends AsyncPackets {
         MutableWorld world();
         PlayerRoster roster();
         AdmissionPolicy.Context admissionContext(int id);
@@ -72,5 +72,6 @@ public final class ConfiguredScene implements JoinScene {
     @Override public void roundTripMillis(int id,Double measurement){owned();gameplay.roundTripMillis(id,measurement);}
     @Override public void actionLink(int id,net.battlespades.player.ActionClock.Link link){owned();gameplay.actionLink(id,link);}
     @Override public void packet(int id,GamePacket packet){owned();gameplay.packet(id,packet);}
+    @Override public java.util.concurrent.CompletionStage<Void> packetAsync(int id,GamePacket packet){owned();return gameplay.packetAsync(id,packet);}
     @Override public void disconnected(int id){owned();gameplay.disconnected(id);}
 }

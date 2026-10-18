@@ -39,7 +39,7 @@ public final class PlayerLife {
     private int health=LifeCatalog.HEALTH,maxHealth=LifeCatalog.HEALTH,jetpack,parachute,color=0x707070,lastDamageSource=-1,lastDamageType=-1;
     private double lastDamageWall,lastCombatHit;
     private PlayerPhysics.Vector lastDamagePosition;
-    private boolean alive,spawned,protectionCancelled,god,bot;
+    private boolean alive,spawned,protectionCancelled,god,bot,diedReloading;
     private Double protectionCap;
     private LifePackets.KillAction lastDeath;
     public PlayerLife(int id,int team,int language,String name,String mode,CollisionMap world,GameRules rules,ClassCatalog.Selection selection){
@@ -51,6 +51,7 @@ public final class PlayerLife {
     }
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Life accessed outside owner");}
     public int id(){owned();return id;}public int team(){owned();return team;}public int health(){owned();return health;}
+    public boolean diedReloading(){owned();return diedReloading;}
     public String name(){owned();return name;}
     public Integer radarEntityId(){owned();return radarEntityId;}
     public Integer pickupId(){owned();return pickupId;}
@@ -149,7 +150,7 @@ public final class PlayerLife {
     }
     public void rememberDeath(LifePackets.KillAction packet){owned();if(alive)throw new IllegalStateException("Live death packet");lastDeath=packet.quiet();}
     public boolean beginDeath(double wall){
-        owned();if(!alive)return false;alive=false;spawned=false;deathTime=wall;inventory.reloadState(false,0);motion.died();flight.died();
+        owned();if(!alive)return false;alive=false;spawned=false;deathTime=wall;diedReloading=inventory.reloading();inventory.reloadState(false,0);motion.died();flight.died();
         body.alive(false);body.input(new PlayerPhysics.Input(false,false,false,false,false,false,false));body.flight(flight.mover(this));return true;
     }
     public void protectionCap(Double value){owned();protectionCap=value;}

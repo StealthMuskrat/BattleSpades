@@ -92,7 +92,7 @@ jobs:
         run: ./gradlew --no-daemon integrationTestClasses jar
       - name: Build development-only native ENet oracle
         run: |
-          python -m pip install Cython==3.0.12 setuptools==80.9.0
+          python -m pip install Cython==3.0.12 setuptools==80.9.0 toml==0.10.2
           python java/tools/build_reference_enet.py
       - name: Native interoperability with loss, reorder, duplicates and reconnect
         timeout-minutes: 5
@@ -168,6 +168,8 @@ jobs:
           python -S java/tools/generate_scoreboard_golden.py
           python -S java/tools/generate_score_evidence_golden.py
           python -S java/tools/generate_match_flow_golden.py
+          python java/tools/generate_tdm_runtime_golden.py
+          git diff --exit-code -- java/src/test/resources/golden/tdm-runtime* java/src/main/resources/net/battlespades/catalog/tdm-runtime.toml
           git diff --exit-code -- java/src/test/resources/golden/match-flow* java/src/main/resources/net/battlespades/catalog/match-flow.toml
           git diff --exit-code -- java/src/test/resources/golden/score-evidence* java/src/main/resources/net/battlespades/catalog/match.toml
           git diff --exit-code -- java/src/test/resources/golden/match-state* java/src/test/resources/golden/objective-guard* java/src/test/resources/golden/scoreboard*

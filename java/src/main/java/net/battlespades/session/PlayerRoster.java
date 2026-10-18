@@ -26,6 +26,7 @@ public final class PlayerRoster {
         var previous=lives.get(player.playerId());long identity=previous==null?++nextIdentity:previous.identity;
         long token=++nextLife;lives.put(player.playerId(),new Life(token,identity,player,color&0xffffff,null));return token;
     }
+    public long identity(int id){owned();var life=lives.get(id);return life==null?0:life.identity;}
     public void remove(int id) {owned();lives.remove(id);}
     public void color(int id,int color) {owned();var life=lives.get(id);if(life!=null) lives.put(id,new Life(life.token,life.identity,life.create,color&0xffffff,life.death));}
     public void death(LifePackets.KillAction packet){owned();var life=lives.get(packet.playerId());if(life==null)throw new IllegalStateException("Unknown dead player");lives.put(packet.playerId(),new Life(life.token,life.identity,life.create,life.color,packet.quiet()));}

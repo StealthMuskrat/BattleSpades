@@ -91,8 +91,19 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     @Override public void flushSnapshots(){owned();sink.flushSnapshots();}
     public Metrics metrics() {owned();return new Metrics(state,generation,capability,controls.size(),controlBytes,malformed,domainFailures,droppedClocks);}
     public void receive(byte[] wire,long now,int serverLoop) {
-        time(now);if(state==State.CLOSED) return;currentLoop=serverLoop;
-        if(state==State.PASSWORD && passwordAsked>=0 && now-passwordAsked>=passwords.timeoutMillis()) {fail(11);return;}
+        owned();var done=new java.util.concurrent.CompletableFuture<Void>();
+        receiveCore(wire,now,serverLoop,Runnable::run,false,done);done.join();
+    }
+    public long playerIdentity(){owned();return slot==null?0:scene.roster().identity(slot.id());}
+    /** The outer frame must await this result before consuming its next packet. */
+    public java.util.concurrent.CompletionStage<Void> receiveAsync(byte[] wire,long now,int serverLoop,java.util.concurrent.Executor resume) {
+        owned();var done=new java.util.concurrent.CompletableFuture<Void>();
+        receiveCore(wire,now,serverLoop,resume,true,done);return done.minimalCompletionStage();
+    }
+    private void receiveCore(byte[] wire,long now,int serverLoop,java.util.concurrent.Executor resume,boolean awaitPackets,java.util.concurrent.CompletableFuture<Void> done) {
+        time(now);if(state==State.CLOSED){done.complete(null);return;}currentLoop=serverLoop;
+        if(state==State.PASSWORD && passwordAsked>=0 && now-passwordAsked>=passwords.timeoutMillis()){fail(11);done.complete(null);return;}
+        java.util.concurrent.CompletionStage<Void> deferred=null;long receiveEpoch=generation;var receiveScene=scene;
         try {
             refreshLink();
             long maxWire=1L+settings.maxInboundBytes()+(settings.maxInboundBytes()+31L)/32;
@@ -129,7 +140,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
                 return;
             }
             if(id==60) {if(state==State.MAP) transfer.validation(((SimplePackets.MapDataValidation)PacketCodec.decode(body)).crc(),now);return;}
-            if(id==13) {selection=PlayerPackets.SetClassLoadout.receive(body);if(admitted) scene.packet(slot.id(),selection);return;}
+            if(id==13) {selection=PlayerPackets.SetClassLoadout.receive(body);if(admitted){if(awaitPackets)deferred=java.util.Objects.requireNonNull(scene.packetAsync(slot.id(),selection));else scene.packet(slot.id(),selection);}return;}
             if(id==110) {PacketCodec.decode(body);return;}
             if(id==15) {
                 if(!stateSent || admitted || slot==null) return;
@@ -168,9 +179,23 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
                 }
                 scene.input(slot.id(),input,serverLoop);return;
             }
-            if(admitted && PacketCodec.supports(id)) scene.packet(slot.id(),PacketCodec.decode(body));
+            if(admitted && PacketCodec.supports(id)){var packet=PacketCodec.decode(body);if(awaitPackets)deferred=java.util.Objects.requireNonNull(scene.packetAsync(slot.id(),packet));else scene.packet(slot.id(),packet);}
         } catch(ProtocolException invalid) {malformed++;fail(13);}
         catch(RuntimeException domain) {domainFailures++;fail(13);}
+        finally {
+            if(deferred==null)done.complete(null);
+            else {
+                var continuation=new net.battlespades.runtime.OwnerSequence(resume);
+                deferred.whenComplete((unused,error)->continuation.resume(()->{
+                    if(error!=null){
+                        var root=net.battlespades.runtime.OwnerSequence.cause(error);
+                        if(root instanceof Error||root instanceof java.util.concurrent.CancellationException){done.completeExceptionally(root);return;}
+                        if(current(receiveEpoch,receiveScene)){domainFailures++;fail(13);}
+                    }
+                    done.complete(null);
+                },done));
+            }
+        }
     }
     private void begin() {
         if(state==State.CLOSED) return;

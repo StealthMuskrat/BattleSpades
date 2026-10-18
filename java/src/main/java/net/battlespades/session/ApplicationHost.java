@@ -24,6 +24,22 @@ public final class ApplicationHost implements AutoCloseable {
     private final SnapshotCompression compression;
     private final int eventBudget;
     private JoinScene scene;
+    private record QueuedSession(JoinSession session,PeerKey key,long epoch,long identity) {}
+    private final Map<JoinSession,QueuedSession> queuedSessions=new java.util.IdentityHashMap<>();
+    private net.battlespades.runtime.IngamePackets<QueuedSession> packets;
+    private java.util.concurrent.Executor resumePackets;
+    private int packetLoop;
+    /** Opt into the source tick-start queue before joining players; network service continues while handlers await. */
+    public void serialPackets(net.battlespades.runtime.IngamePackets.Settings limits,java.util.concurrent.Executor resume,java.util.function.Consumer<Throwable> failure){
+        owned();if(packets!=null||!sessions.isEmpty())throw new IllegalStateException("Packet queue must bind before connections");
+        resumePackets=java.util.Objects.requireNonNull(resume);
+        packets=new net.battlespades.runtime.IngamePackets<>(limits,q->sessions.get(q.key())==q.session()&&q.session().inGame()&&q.session().metrics().generation()==q.epoch()&&q.session().playerIdentity()==q.identity(),
+            (q,data)->q.session().receiveAsync(data,lastNow,packetLoop,resumePackets),failure,resume);
+    }
+    public int queuedPackets(){owned();return packets==null?0:packets.size();}
+    public long droppedPackets(){owned();return packets==null?0:packets.dropped();}
+    public java.util.concurrent.CompletionStage<Void> drainPackets(int loop){owned();if(packets==null)throw new IllegalStateException("Serial packets not bound");if(packets.draining())throw new IllegalStateException("Packet drain already suspended");packetLoop=loop;return packets.drain();}
+
     private boolean closed,closing;
     private long lastNow=-1;
     public ApplicationHost(InetSocketAddress bind,EnetSettings transportSettings,int maxPlayers,
@@ -53,8 +69,12 @@ public final class ApplicationHost implements AutoCloseable {
                     @Override public boolean snapshotUnsequenced(){return true;}
                     @Override public void flushSnapshots(){try{transport.flush(Math.max(0,lastNow));}catch(IOException failure){throw new java.io.UncheckedIOException(failure);}}
                 },scene,slots,settings,passwords,compression));
-                case RECEIVE -> {var session=sessions.get(key);if(session!=null) session.receive(event.data(),nowMillis,loopCount);}
-                case DISCONNECT -> {var session=sessions.remove(key);if(session!=null) session.close();}
+                case RECEIVE -> {var session=sessions.get(key);if(session!=null){
+                    if(packets!=null&&session.inGame()){
+                        var queued=queuedSessions.computeIfAbsent(session,s->new QueuedSession(s,key,s.metrics().generation(),s.playerIdentity()));packets.offer(queued,event.data());
+                    }else session.receive(event.data(),nowMillis,loopCount);
+                }}
+                case DISCONNECT -> {var session=sessions.remove(key);if(session!=null){var queued=queuedSessions.remove(session);if(packets!=null&&queued!=null)packets.forget(queued);session.close();}}
             }
         }
         for(var session:sessions.values()) session.pulse(nowMillis,loopCount);
@@ -64,9 +84,9 @@ public final class ApplicationHost implements AutoCloseable {
     public int broadcastExcept(GamePacket packet,Delivery delivery,int excludedPlayer){owned();if(closing)return 0;int accepted=0;for(var session:sessions.values())if(session.playerId().orElse(-1)!=excludedPlayer&&session.gameplay(packet,delivery))accepted++;return accepted;}
     public List<WorldUpdateLink> snapshotLinks(){owned();return closing?List.of():sessions.values().stream().map(session->(WorldUpdateLink)session).toList();}
     public boolean sendPlayer(int id,GamePacket packet) {owned();if(closing)return false;for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return session.direct(packet);return false;}
-    public void replaceScene(JoinScene replacement) {owned();if(replacement==scene) throw new IllegalArgumentException("Scene must change");for(var session:sessions.values()) session.replaceScene(replacement);scene=replacement;}
+    public void replaceScene(JoinScene replacement) {owned();if(replacement==scene) throw new IllegalArgumentException("Scene must change");if(packets!=null)packets.clear();queuedSessions.clear();for(var session:sessions.values()) session.replaceScene(replacement);scene=replacement;}
     @Override public void close() throws IOException {
         if(Thread.currentThread()!=owner) throw new IllegalStateException("Application host closed outside owner");if(closed||closing) return;
-        closing=true;try {for(var session:sessions.values()) session.close();sessions.clear();compression.close();} finally {closed=true;transport.close();}
+        closing=true;if(packets!=null)packets.clear();queuedSessions.clear();try {for(var session:sessions.values()) session.close();sessions.clear();compression.close();} finally {closed=true;transport.close();}
     }
 }

@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "30495db15a5e695ccbff378c48e973f6e0306f0131d77e6b7b2c280d9b33e4d1",
-  "jar_bytes": 1731239,
+  "jar_sha256": "9d2481d4c44ae1b2be7cf510341b303d59602f9a6483b76584fbe2ac964887ea",
+  "jar_bytes": 1768991,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -20,48 +20,31 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 5912,
+      "tests": 5970,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
-      "tests": 33,
+      "tests": 35,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Java test optimization and duplicate independent golden-case removal",
-  "java_implementation_commit": "f14407e5596d3f2f8a3869e2ad1c8505970c3f58",
-  "tested_tree": "93a158fd85cadd67710ad5bac64e4ad2bde174f8",
+  "verification_stage": "Concrete TDM/HUD, canonical accepted-life scores and serial packet/mode runtime batch",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "run_id": 39145475640,
-    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39145475640",
-    "head_sha": "f14407e5596d3f2f8a3869e2ad1c8505970c3f58",
-    "jobs": {
-      "build": "success",
-      "native-enet": "success",
-      "platform (macos-latest)": "success",
-      "platform (windows-latest)": "success",
-      "platform (ubuntu-latest)": "success"
-    },
-    "job_ids": {
-      "build": 117728310560,
-      "native-enet": 117728310778,
-      "platform (macos-latest)": 117728697820,
-      "platform (windows-latest)": 117728697847,
-      "platform (ubuntu-latest)": 117728697852
-    },
-    "all_five_jobs_passed": true,
-    "native_original_fixtures_reproduced": true,
-    "repeated_ci_archive_identical": true,
-    "same_uploaded_jar_three_platforms": true,
+    "status": "pending publication",
+    "head_sha": null,
+    "run_id": null,
+    "url": null,
+    "jobs": {},
+    "all_five_jobs_passed": false,
     "local_to_ci_artifact_hash_compared": false,
     "full_reference_python_baseline_passing": false,
-    "packaged_native_probe_player_domain": "FixtureScene; new real UDP compositions bind accepted life damage/death, live terrain and frozen timeout remainder, economy/teabag/escape/clock/HUD/scoreboard domains through explicit test mode/known-roster/result ports; full gameplay remains pending",
-    "all_final_steps_verified": true
+    "packaged_native_probe_player_domain": "FixtureScene; new real UDP tests bind concrete TDM core, actual LifeRuntime/CombatRuntime and canonical score/event rows through explicit audio/resource/vote/achievement/end services; full gameplay remains pending"
   },
   "movement": {
     "cases": 118,
@@ -123,7 +106,7 @@
     "net/battlespades/catalog/modes.toml",
     "net/battlespades/catalog/rules.toml"
   ],
-  "local_packaging_note": "Two complete local archives pass ZIP CRC and match byte-for-byte.",
+  "local_packaging_note": "Two complete current local archives pass ZIP CRC and match byte-for-byte.",
   "admission": {
     "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
     "unicode": "15.0.0",
@@ -414,12 +397,10 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": true,
-    "expected_parent": "4dc002149ac877adc7baad6f827728870e8407b4",
+    "branch_updated": false,
+    "expected_parent": "b79266828e2315b087aca092f684e33165f9e572",
     "force": false,
-    "authorization": "User authorized future verified migration checkpoints and all five CI jobs; current request is to optimize and remove redundant Java tests.",
-    "implementation_commit": "f14407e5596d3f2f8a3869e2ad1c8505970c3f58",
-    "tested_tree": "93a158fd85cadd67710ad5bac64e4ad2bde174f8"
+    "authorization": "User authorized this and future verified migration checkpoints, code/workflow changes and all five CI jobs; requested multiple implementations per batch."
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -2333,7 +2314,8 @@
     "concrete_modes_complete": false,
     "full_gameplay_loop_binding": false,
     "supported_client": false,
-    "capacity_or_soak": false
+    "capacity_or_soak": false,
+    "async_drain_followup": "TDM/runtime batch now implements the serial mode and opt-in actual packet drains. Complete simulation/bootstrap and end services remain pending."
   },
   "reference_flow_tests": {
     "tests": 163,
@@ -2490,5 +2472,526 @@
       }
     },
     "whole_suite_speedup_claimed": false
+  },
+  "previous_test_optimization_checkpoint": {
+    "verification_stage": "Java test optimization and duplicate independent golden-case removal",
+    "java_implementation_commit": "f14407e5596d3f2f8a3869e2ad1c8505970c3f58",
+    "tested_tree": "93a158fd85cadd67710ad5bac64e4ad2bde174f8",
+    "ci": {
+      "status": "success",
+      "run_id": 39145475640,
+      "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39145475640",
+      "head_sha": "f14407e5596d3f2f8a3869e2ad1c8505970c3f58",
+      "jobs": {
+        "build": "success",
+        "native-enet": "success",
+        "platform (macos-latest)": "success",
+        "platform (windows-latest)": "success",
+        "platform (ubuntu-latest)": "success"
+      },
+      "job_ids": {
+        "build": 117728310560,
+        "native-enet": 117728310778,
+        "platform (macos-latest)": 117728697820,
+        "platform (windows-latest)": 117728697847,
+        "platform (ubuntu-latest)": 117728697852
+      },
+      "all_five_jobs_passed": true,
+      "native_original_fixtures_reproduced": true,
+      "repeated_ci_archive_identical": true,
+      "same_uploaded_jar_three_platforms": true,
+      "local_to_ci_artifact_hash_compared": false,
+      "full_reference_python_baseline_passing": false,
+      "packaged_native_probe_player_domain": "FixtureScene; new real UDP compositions bind accepted life damage/death, live terrain and frozen timeout remainder, economy/teabag/escape/clock/HUD/scoreboard domains through explicit test mode/known-roster/result ports; full gameplay remains pending",
+      "all_final_steps_verified": true
+    },
+    "junit": {
+      "test": {
+        "tests": 5912,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "tests": 33,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "test_optimization": {
+      "independent_cases": [
+        {
+          "fixture": "match-state",
+          "kind": "round",
+          "original": 8192,
+          "unique": 7688,
+          "removed": 504
+        },
+        {
+          "fixture": "match-flow",
+          "kind": "winner",
+          "original": 512,
+          "unique": 36,
+          "removed": 476
+        },
+        {
+          "fixture": "match-flow",
+          "kind": "announcement",
+          "original": 1024,
+          "unique": 72,
+          "removed": 952
+        },
+        {
+          "fixture": "combat-ray",
+          "original": 1600,
+          "unique": 876,
+          "removed": 724
+        },
+        {
+          "fixture": "replication-wire",
+          "original": 2235,
+          "unique": 1474,
+          "removed": 761
+        },
+        {
+          "fixture": "rules",
+          "original": 1958,
+          "unique": 1780,
+          "removed": 178
+        }
+      ],
+      "total_duplicate_executions_removed": 3595,
+      "ordered_trace_selections_verified": 224,
+      "original_match_decompressions": 328,
+      "new_match_decompressions": 5,
+      "junit_invocations_removed": 53,
+      "all_86_suites_retained": true,
+      "all_33_integration_tests_unchanged": true,
+      "production_and_golden_bytes_unchanged": true,
+      "distinct_expected_outputs_retained": true,
+      "hud_implicit_flags_in_duplicate_key": true,
+      "jar_unchanged_from_previous_checkpoint": true,
+      "local_source_native_evidence": "Unchanged preceding checkpoint evidence retained; not rerun locally for this test-only change. Fresh native CI job passes.",
+      "single_observation_seconds": {
+        "five_affected_match_suites": {
+          "before": 4.424,
+          "after": 1.238
+        },
+        "all_suites": {
+          "before": 41.215,
+          "after": 43.334
+        },
+        "admission": {
+          "before": 3.946,
+          "after": 3.884
+        }
+      },
+      "whole_suite_speedup_claimed": false
+    }
+  },
+  "reference_tdm_runtime_tests": {
+    "tests": 131,
+    "passed": 131,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "command": "PYTHONPATH=java/build/reference-python .reference-venv/bin/python -m pytest -q tests/test_tdm.py tests/test_server_capacity.py tests/test_packet_delivery_fixes.py tests/test_simulation_order.py tests/test_scoreboard.py tests/test_mode_lifecycle_contracts.py tests/test_end_sequence.py"
+  },
+  "tdm_runtime": {
+    "implementations": [
+      "OwnerSequence serial owner continuations",
+      "IngamePackets fixed packet FIFO/share caps/identity rechecks",
+      "ModeEvents bounded serial handler/plugin settlement",
+      "TdmMode concrete core/config/HUD/native stingers",
+      "MatchLifeBinding canonical accepted-life score/profile/combat/death events",
+      "Actual ApplicationHost/JoinSession/ConfiguredScene/LifeRuntime opt-in awaited packet path"
+    ],
+    "new_component_tests": 58,
+    "new_real_udp_tests": 2,
+    "source_observations": {
+      "packets": 2048,
+      "events": 2048,
+      "tdm": 2048,
+      "settings": 64
+    },
+    "source_method_substitutions": false,
+    "source_delayed_end_task_body_suppressed_by_stopping": true,
+    "supported_packet_ids": 84,
+    "native_voxel_and_enet_rebuilt": true,
+    "regeneration": {
+      "fresh_native_source_build": true,
+      "all_fixture_hashes_identical": true,
+      "checked_files": 244,
+      "generator_commands": [
+        [
+          "python",
+          "java/tools/generate_movement_golden.py"
+        ],
+        [
+          "python",
+          "java/tools/generate_query_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/export_domain_catalogs.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_scene_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/export_name_unicode.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_admission_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_spawn_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/export_map_catalog.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_metadata_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/export_life_catalog.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_life_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_health_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_input_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_action_clock_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_simulation_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_flight_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_owner_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_snapshot_holds_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_replication_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_replication_wire_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_player_snapshot_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/export_combat_catalog.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_lag_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_lag_connected_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_shoot_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_fire_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_pellet_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/export_hitboxes.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_combat_geometry_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_shot_validation_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_firing_patterns_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_hit_trace_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_combat_ray_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/export_direct_damage_catalog.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_direct_damage_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_shield_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_hit_effect_packets_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_player_hit_effects_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_melee_hit_effects_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_shot_tally_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_combat_commit_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/export_block_damage_catalog.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_block_damage_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_collapse_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_terrain_health_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_terrain_commit_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_terrain_repair_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_entity_id_set_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_entity_registry_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/export_explosion_catalog.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_explosion_geometry_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_blast_commit_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_blast_terrain_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_explosion_timeline_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_deployable_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_care_radar_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_simple_packets.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_crate_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_map_markers_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_map_resources_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_match_state_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_objective_guard_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_scoreboard_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_score_evidence_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_match_flow_golden.py"
+        ],
+        [
+          "python",
+          "java/tools/generate_tdm_runtime_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_objective_drop_golden.py"
+        ],
+        [
+          "python",
+          "-S",
+          "java/tools/generate_objective_carry_golden.py"
+        ]
+      ],
+      "observation": {
+        "initial_mismatch": [
+          "java/src/test/resources/golden/flight-provenance.json"
+        ],
+        "missing_fields": [
+          "impact_fixture_sha256",
+          "impact_vectors"
+        ],
+        "correction": "Actual original flight generator --impact-only, no waiver"
+      }
+    },
+    "original_six_directories_unchanged": true,
+    "canonical_reload_bonus_counter_and_death_pair_binding": true,
+    "tdm_mode_state_drives_hud": true,
+    "native_personal_stinger_bytes_in_production_mode": true,
+    "legacy_synchronous_objective_callbacks_retained": true,
+    "new_async_objective_path_awaits_actual_stage": true,
+    "cancellation_propagates_without_domain_disconnect": true,
+    "async_failure_does_not_disconnect_replacement_scene": true,
+    "full_departure_hook_settlement": false,
+    "full_async_simulation_and_bootstrap": false,
+    "complete_delayed_end_transition_or_service_bodies": false,
+    "all_concrete_modes_complete": false,
+    "supported_client": false,
+    "capacity_or_soak": false,
+    "typed_scope": "Protocol-safe scalar fields and existing signed-64/native-int bounds. No arbitrary Python object/unbounded-int conversion claim. Network/mode configuration capacities are explicit constructor inputs.",
+    "initial_local_checks": {
+      "udp_setup": "Two new checks initially observed handshake leftovers; reliable inputs plus a reliable ClockSync barrier now delimit the scenario. No assertion/deadline relaxation.",
+      "legacy_objective": "First full suite found one old objective callback test failure after routing synchronous scenes through packetAsync. Restored the original synchronous callback route; only the opt-in serial path awaits packetAsync.",
+      "corrected_full_java_result": "5970 component +35 integration pass; zero failures/errors/skips"
+    }
   }
 }

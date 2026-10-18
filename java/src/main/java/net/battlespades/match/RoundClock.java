@@ -23,6 +23,8 @@ public final class RoundClock {
     public Set<Double> fired(){return Collections.unmodifiableSet(new LinkedHashSet<>(fired));}
     public double lastRemaining(){return lastRemaining;}public Integer timeoutRemaining(){return timeoutRemaining;}
     public int drainBudget(int queued,int configured){if(queued<0||configured<0)throw new IllegalArgumentException("Negative event budget");int budget=Math.min(queued,configured);return timeoutRemaining!=null&&!ended?Math.min(budget,timeoutRemaining):budget;}
+    /** Runtime owns the source's pre-drain snapshot, even if an awaited handler replaces the active mode. */
+    public void timeoutRemainder(int remaining){if(remaining<0)throw new IllegalArgumentException("Negative timeout remainder");timeoutRemaining=remaining;}
     public void drained(int budget){if(budget<0)throw new IllegalArgumentException("Negative event budget");if(timeoutRemaining!=null&&!ended)timeoutRemaining=Math.max(0,timeoutRemaining-budget);}
     public void countdown(double remaining){
         if(remaining>lastRemaining+1)fired.clear();lastRemaining=remaining;

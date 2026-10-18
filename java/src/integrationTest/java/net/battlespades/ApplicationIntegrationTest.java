@@ -25,6 +25,7 @@ import net.battlespades.match.*;
 import net.battlespades.support.InfantryPorts;
 import net.battlespades.support.CombatPorts;
 import net.battlespades.support.TerrainPorts;
+import net.battlespades.support.TdmHarness;
 import net.battlespades.support.BlastPorts;
 import net.battlespades.simulation.FixedStepRuntime;
 import net.battlespades.transport.UdpEndpoint;
@@ -94,6 +95,10 @@ class ApplicationIntegrationTest {
         Loop(ApplicationHost host) {this.host=host;}
         void step() throws Exception {host.service(++now,explicitTick>=0?explicitTick:tickOffset+(int)(now*60/1000));for(var client:clients) client.drain();}
         void until(BooleanSupplier condition) throws Exception {long deadline=System.nanoTime()+4_000_000_000L;while(!condition.getAsBoolean()) {assertTrue(System.nanoTime()<deadline,"UDP application loop timed out");step();Thread.onSpinWait();}}
+        void settleSerial(Client client,int serverLoop)throws Exception {
+            int marker=10000+client.peerId;client.send(new SimplePackets.ClockSync(marker,0),false);
+            until(()->{while(host.queuedPackets()>0)host.drainPackets(serverLoop).toCompletableFuture().join();return client.packets.stream().anyMatch(p->p instanceof SimplePackets.ClockSync clock&&clock.client_time()==marker);});
+        }
         void ticketAndLoad(Client client,FixtureScene scene) throws Exception {ticketAndLoad(client,scene.world());}
         void ticketAndLoad(Client client,MutableWorld world) throws Exception {
             ticketAndLoad(client,world,0);
@@ -103,6 +108,54 @@ class ApplicationIntegrationTest {
             clients.add(client);client.connect();until(()->client.peerId>=0);client.send(new LoadingPackets.SteamSessionTicket(new byte[]{3,7,19},capability==0?new byte[0]:new byte[]{'B','S','C','F',(byte)capability}),false);client.key=new byte[]{3,7,19};
             until(()->client.has(114));client.send(new SimplePackets.MapDataValidation(world.sourceCrc()),false);until(()->client.has(45));
         }
+    }
+    @Test void realUdpSerialOwnedShotFeedsCanonicalTdmDeathKillAndScoreLimit(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("TDM serial UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,999,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var match=new TdmHarness(new TdmMode.Settings(1,0,1,0),1)){
+                var h=match.life;var ports=new CombatPorts(h);ports.bind();var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),match.mode::sceneState,h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),2,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var b=new Client(host.address())){
+                    var resumes=new java.util.concurrent.ConcurrentLinkedQueue<Runnable>();var failures=new ArrayList<Throwable>();host.serialPackets(new net.battlespades.runtime.IngamePackets.Settings(32,16,1),resumes::add,failures::add);
+                    h.destination=new LifeRuntime.Messages(){public void broadcast(GamePacket p){host.broadcast(p,Delivery.RELIABLE);}public void owner(int id,GamePacket p){assertTrue(host.sendPlayer(id,p));}public boolean inGame(int id){return host.inGame(id);}};
+                    match.delivery=(id,p)->{if(id==null)host.broadcast(p,Delivery.RELIABLE);else assertTrue(host.sendPlayer(id,p));};ports.reliableSink=p->host.broadcast(p,Delivery.RELIABLE);ports.unreliableSink=p->host.broadcast(p,Delivery.UNRELIABLE);ports.feedbackSink=(p,owner)->host.broadcastExcept(p,Delivery.UNRELIABLE,owner);
+                    var loop=new Loop(host);loop.explicitTick=1000;ports.loop=1000;
+                    for(var client:List.of(a,b)){loop.ticketAndLoad(client,h.world);client.send(new SimplePackets.NewPlayerConnection(client==a?2:3,0,0,0,"TDM"),false);loop.until(()->client.has(69));assertEquals(1,client.packets.stream().filter(StateData.class::isInstance).map(StateData.class::cast).findFirst().orElseThrow().scoreLimit());}
+                    loop.until(()->{try{a.send(new ClientInput(100,0,false,6,1,0,0,0,0,24,0),false);b.send(new ClientInput(200,0,false,6,1,0,0,0,0,24,0),false);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0)&&host.inGame(1);});
+                    loop.settleSerial(a,1000);loop.settleSerial(b,1000);
+                    loop.until(()->List.of(a,b).stream().allMatch(client->client.packets.stream().filter(PlayerPackets.CreatePlayer.class::isInstance).map(PlayerPackets.CreatePlayer.class::cast).map(PlayerPackets.CreatePlayer::playerId).collect(java.util.stream.Collectors.toSet()).containsAll(Set.of(0,1))));
+                    for(int i=0;i<2;i++){var client=i==0?a:b;var ids=client.packets.stream().filter(PlayerPackets.CreatePlayer.class::isInstance).map(PlayerPackets.CreatePlayer.class::cast).map(PlayerPackets.CreatePlayer::playerId).collect(java.util.stream.Collectors.toSet());match.known.put(i,ids);}
+                    match.mode.start();loop.until(()->List.of(a,b).stream().allMatch(client->client.packets.stream().anyMatch(p->p instanceof MatchPackets.LocalisedMessage m&&m.stringId().equals("TEAM_DEATHMATCH_START"))));for(var client:List.of(a,b))client.packets.clear();
+                    var killer=h.runtime.player(0);var victim=h.runtime.player(1);killer.body().position(new Vector(36,36.5,97.5));victim.body().position(new Vector(42,36.5,97));killer.orientation(1,0,0);killer.fire().tool(6,true);killer.inventory().ammo(8,100);victim.fire().tool(6,true);victim.inventory().ammo(2,100);victim.health(1);
+                    b.send(new LifePackets.WeaponReload(254,255,false),false);loop.until(()->host.queuedPackets()>0);while(host.queuedPackets()>0)host.drainPackets(1000).toCompletableFuture().join();assertTrue(victim.inventory().reloading());
+                    a.send(new ShootPacket(100,254,0,new Vector3f(36,36.5f,97.5f),new Vector3f(1,0,0),32767,32767,true,true,0),false);loop.until(()->host.queuedPackets()>0);while(host.queuedPackets()>0)host.drainPackets(1000).toCompletableFuture().join();
+                    assertFalse(victim.alive());assertEquals(7,killer.inventory().ammo().clip());assertTrue(match.binding.row(victim).diedReloading);assertEquals(0,match.binding.row(killer).score);assertEquals(0,match.teams.getFirst().score);assertEquals(List.of("on_player_death","on_player_kill"),match.events.snapshot().stream().map(ModeEvents.Event::name).toList());loop.until(()->a.has(46)&&b.has(46));
+                    match.tick(1000);assertFalse(match.mode.clock().ended);match.tick(1001);assertTrue(match.mode.clock().ended);assertEquals(2,match.mode.winner());assertEquals(1,match.teams.getFirst().score);assertEquals(150,match.binding.row(killer).score);
+                    loop.until(()->List.of(a,b).stream().allMatch(client->client.packets.stream().anyMatch(p->p instanceof MatchPackets.LocalisedMessage m&&m.stringId().equals("TEAM_DEFEAT"))));
+                    for(var client:List.of(a,b)){int death=-1,personal=-1,team=-1,result=-1;for(int i=0;i<client.packets.size();i++){var packet=client.packets.get(i);if(packet.id()==46)death=i;if(packet instanceof SimplePackets.SetScore score&&score.typeValue()==1&&score.specifier()==0&&score.value()==100)personal=i;if(packet instanceof SimplePackets.SetScore score&&score.typeValue()==0&&score.specifier()==2&&score.value()==1)team=i;if(packet instanceof MatchPackets.LocalisedMessage m&&m.stringId().equals("TEAM_DEFEAT"))result=i;}assertTrue(death>=0&&personal>death&&team>personal&&result>team,"KillAction, personal score, team score, winner must remain causal over reliable UDP");}
+                    assertTrue(failures.isEmpty());assertEquals(0,host.droppedPackets());assertTrue(resumes.isEmpty());assertSame(match.binding.row(killer),match.binding.players().get(0));
+                }
+            }
+        });
+    }
+    @Test void realUdpSuspendedObjectivePacketHoldsGlobalTailAndSkipsReplacedPlayerIdentity(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("Awaited packet UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",1),new SceneConfig.Team("Green",2),GameRules.serverDefaults());
+            try(var h=new LifeHarness()){
+                var registry=new EntityRegistry();var gate=new java.util.concurrent.CompletableFuture<Boolean>();var resumes=new java.util.concurrent.ConcurrentLinkedQueue<Runnable>();int[] calls={0};
+                var requests=new ObjectiveDropRequests(()->java.util.Optional.of((player,at,velocity)->{calls[0]++;return gate;}),registry,()->777,p->{throw new AssertionError("Consumed mode request must not use generic fallback");},resumes::add);h.runtime.objectives(requests);
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),()->ScenePackets.State.initial(config),h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),2,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var b=new Client(host.address())){
+                    var failures=new ArrayList<Throwable>();host.serialPackets(new net.battlespades.runtime.IngamePackets.Settings(32,16,4),resumes::add,failures::add);var loop=new Loop(host);loop.explicitTick=777;
+                    for(var client:List.of(a,b)){loop.ticketAndLoad(client,h.world);client.send(new SimplePackets.NewPlayerConnection(client==a?2:3,0,0,0,"await"),false);loop.until(()->client.has(69));}
+                    loop.until(()->{try{a.send(new ClientInput(100,0,false,6,1,0,0,0,0,24,0),false);b.send(new ClientInput(200,0,false,6,1,0,0,0,0,24,0),false);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0)&&host.inGame(1);});loop.settleSerial(a,777);loop.settleSerial(b,777);
+                    var carrier=h.runtime.player(0);assertTrue(ObjectiveCarry.pickup(carrier,16,true,3,p->{}));int before=h.inputCount;
+                    a.send(new DropPickup(0,254,16,new DropPickup.Position(36,36,97),new DropPickup.Position(0,0,0)),false);loop.until(()->host.queuedPackets()>=1);a.send(new ClientInput(101,0,false,6,0,1,0,0,0,24,0),false);loop.until(()->host.queuedPackets()>=2);b.send(new ClientInput(201,0,false,6,0,1,0,0,0,24,0),false);loop.until(()->host.queuedPackets()>=3);
+                    var frame=host.drainPackets(777).toCompletableFuture();assertFalse(frame.isDone());assertEquals(1,calls[0]);assertEquals(before,h.inputCount);assertThrows(IllegalStateException.class,()->host.drainPackets(778));
+                    h.runtime.disconnected(0);h.admit(0,2);var replacement=h.runtime.player(0);assertNotSame(carrier,replacement);Thread.ofPlatform().start(()->gate.complete(true)).join();assertFalse(frame.isDone());for(Runnable r;(r=resumes.poll())!=null;)r.run();frame.join();
+                    assertNull(replacement.inputTimeline().newestLabel());assertEquals(201,h.runtime.player(1).inputTimeline().newestLabel());assertEquals(777,h.runtime.player(1).inputTimeline().labelArrivalTick(201));assertEquals(before+1,h.inputCount);assertTrue(registry.all().isEmpty());assertTrue(failures.isEmpty());assertEquals(0,host.queuedPackets());
+                }
+            }
+        });
     }
     @Test void realUdpPhysicalCrateRefillParachuteLateReplayAndSupportMove(){
         assertTimeoutPreemptively(Duration.ofSeconds(15),()->{

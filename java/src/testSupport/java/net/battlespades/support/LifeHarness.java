@@ -32,7 +32,8 @@ public final class LifeHarness implements AutoCloseable {
     public LifeHarness(GameRules rules,String mode){
         this(rules,mode,new MutableWorld(VxlMap.load(new byte[]{0,(byte)240,(byte)239,0},"auto"),1,10000));
     }
-    public LifeHarness(GameRules rules,String mode,MutableWorld sourceWorld){
+    public LifeHarness(GameRules rules,String mode,MutableWorld sourceWorld){this(rules,mode,sourceWorld,java.util.function.UnaryOperator.identity());}
+    public LifeHarness(GameRules rules,String mode,MutableWorld sourceWorld,java.util.function.UnaryOperator<LifeRuntime.Effects> decorate){
         world=Objects.requireNonNull(sourceWorld);
         runtime=new LifeRuntime(world,rules,mode,new LifeRuntime.Clock(){public double wall(){return wall;}public double monotonic(){return monotonic;}},new LifeRuntime.Policy(){
             public AdmissionPolicy.Context admissionContext(int id){return AdmissionPolicy.Context.ordinary(runtime.players().stream().map(p->new AdmissionPolicy.Occupant(p.id(),p.create().name(),false,p.team())).toList());}
@@ -48,7 +49,7 @@ public final class LifeHarness implements AutoCloseable {
             public int deathType(PlayerLife v,PlayerLife k,int type){return type;}
             public Optional<LifeRuntime.DamageModifier> damageModifier(){return damageModifier;}
             public boolean combatScoringActive(){return scoringActive;}
-        },new LifeRuntime.Effects(){
+        },decorate.apply(new LifeRuntime.Effects(){
             public void beforeSpawn(PlayerLife p){events.add("before:"+p.id());}
             public void spawned(PlayerLife p){events.add("spawn:"+p.id());}
             public void died(PlayerLife v,PlayerLife k,int weapon,int presentation,boolean enemy){events.add("death:"+v.id());}
@@ -58,7 +59,7 @@ public final class LifeHarness implements AutoCloseable {
             public void transitionCredited(PlayerLife v,PlayerLife a,int type){events.add("transition-credit:"+v.id()+":"+a.id()+":"+type);}
             public void forget(PlayerLife p){events.add("forget:"+p.id());}
             public void respawnFailed(PlayerLife p,RuntimeException failure){events.add("failed:"+p.id());}
-        },new LifeRuntime.Messages(){
+        }),new LifeRuntime.Messages(){
             public void broadcast(GamePacket p){wire.add(p);if(destination!=null)destination.broadcast(p);}
             public void owner(int id,GamePacket p){wire.add(p);if(destination!=null)destination.owner(id,p);}
             public boolean inGame(int id){return !loading.contains(id)&&(destination==null||destination.inGame(id));}

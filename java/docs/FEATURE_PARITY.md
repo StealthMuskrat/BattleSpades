@@ -1,7 +1,8 @@
 # Feature parity and explicit backlog
 
 Current player-control verification: 6,246 Java tests and 317 focused original
-regressions pass locally. CI is pending publication. See [PLAYER_CONTROLS.md](PLAYER_CONTROLS.md);
+regressions pass locally. All five CI jobs pass in
+[run 39174391954](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39174391954). See [PLAYER_CONTROLS.md](PLAYER_CONTROLS.md);
 complete gameplay and normal hosting assembly remain pending.
 
 Reference: source `6216b771282d2d349ccd67ee58c378f035c83553`.

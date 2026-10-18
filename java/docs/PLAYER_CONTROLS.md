@@ -122,9 +122,16 @@ now require the current canonical domain spectator predicate, implemented by Lif
 instead of inferring it from that old packet. A dedicated session regression retains the
 old spectator roster row while changing the current actor's team and verifies that packet
 110 cannot bypass normal first-input admission. The unused roster predicate is removed.
-The correction has a fresh full suite/artifact/native check and requires a new CI run.
+The correction has a fresh full suite/artifact/native check and a successful five-job CI run.
 
-This checkpoint requires a new five-job CI run after publication.
+All five CI jobs passed for implementation `f9964fe5185dcf36a353411aac9e85971fdf06e5`,
+tested/published tree `c7ebef88711a7fd12902a3c607c7c350bf7d56af`, in
+[run 39174391954](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39174391954). The native job independently reproduced all 74
+configured original generators, including live team/class/palette traces and all earlier
+fixtures. The build byte-compared
+repeated archives. Ubuntu, Windows and macOS smoked the uploaded JAR and ran source-built
+component/integration tests. Every final job step completed with success or an intentional
+skip. No local-to-CI artifact hash identity or complete platform gameplay is claimed.
 
 Remaining work includes concrete production domain factories/full asynchronous hosting,
 TeamBalancer/bots, remaining gameplay/modes and construction/projectiles, general sound/

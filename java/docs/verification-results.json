@@ -33,20 +33,37 @@
     }
   },
   "verification_stage": "Live team/class/palette policies, spectator admission and actual life/team/event/host bindings",
-  "java_implementation_commit": null,
-  "tested_tree": null,
+  "java_implementation_commit": "f9964fe5185dcf36a353411aac9e85971fdf06e5",
+  "tested_tree": "c7ebef88711a7fd12902a3c607c7c350bf7d56af",
   "ci": {
-    "status": "pending_publication",
-    "head_sha": null,
-    "run_id": null,
-    "url": null,
-    "jobs": {},
-    "all_five_jobs_passed": false,
-    "all_final_steps_verified": false,
+    "status": "success",
+    "head_sha": "f9964fe5185dcf36a353411aac9e85971fdf06e5",
+    "run_id": 39174391954,
+    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39174391954",
+    "jobs": {
+      "native-enet": "success",
+      "build": "success",
+      "platform (windows-latest)": "success",
+      "platform (macos-latest)": "success",
+      "platform (ubuntu-latest)": "success"
+    },
+    "all_five_jobs_passed": true,
+    "all_final_steps_verified": true,
     "local_to_ci_artifact_hash_compared": false,
     "full_reference_python_baseline_passing": false,
     "packaged_native_probe_player_domain": "FixtureScene; actual UDP uses configured LifeRuntime/TdmMode with HostedPlayerControls and spectator/menu loading",
-    "component_and_udp_tests_use_source_built_classes": true
+    "component_and_udp_tests_use_source_built_classes": true,
+    "job_ids": {
+      "native-enet": 117813950757,
+      "build": 117813950954,
+      "platform (windows-latest)": 117814324638,
+      "platform (macos-latest)": 117814324709,
+      "platform (ubuntu-latest)": 117814324714
+    },
+    "native_original_fixtures_reproduced": true,
+    "configured_generators": 74,
+    "repeated_ci_archive_identical": true,
+    "same_uploaded_jar_three_platforms": true
   },
   "movement": {
     "cases": 118,
@@ -399,12 +416,12 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": false,
+    "branch_updated": true,
     "expected_parent": "2ff701353cc9303379556441137fddcd509fdacc",
     "force": false,
     "authorization": "User authorized this and future verified migration checkpoints, code/workflow changes and all five CI jobs; requested multiple implementations per batch.",
-    "implementation_commit": null,
-    "tested_tree": null
+    "implementation_commit": "f9964fe5185dcf36a353411aac9e85971fdf06e5",
+    "tested_tree": "c7ebef88711a7fd12902a3c607c7c350bf7d56af"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -4258,7 +4275,9 @@
     "full_migration_complete": false,
     "native_loader_uses_fixture_scene": true,
     "supported_client_validated": false,
-    "spectator_admission_uses_current_canonical_domain_team": true
+    "spectator_admission_uses_current_canonical_domain_team": true,
+    "ci_implementation_commit": "f9964fe5185dcf36a353411aac9e85971fdf06e5",
+    "ci_run_id": 39174391954
   },
   "initial_player_control_checkpoint": {
     "implementation_commit": "2ff701353cc9303379556441137fddcd509fdacc",
@@ -4281,7 +4300,14 @@
     },
     "ci_run_id": 39174058038,
     "ci_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39174058038",
-    "ci_status": "in_progress_at_followup_preparation",
-    "known_gap": "Source spectator admission must inspect the current canonical actor team, independently of the last roster CreatePlayer. Corrected by required domain predicate and a regression that keeps the stale spectator row."
+    "ci_status": "success",
+    "known_gap": "Source spectator admission must inspect the current canonical actor team, independently of the last roster CreatePlayer. Corrected by required domain predicate and a regression that keeps the stale spectator row.",
+    "jobs": {
+      "build": "success",
+      "native-enet": "success",
+      "platform (ubuntu-latest)": "success",
+      "platform (macos-latest)": "success",
+      "platform (windows-latest)": "success"
+    }
   }
 }

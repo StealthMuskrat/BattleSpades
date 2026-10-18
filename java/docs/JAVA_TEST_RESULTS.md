@@ -1,7 +1,9 @@
 # Java test results
 
 Stage: team, escort, objective-guard and scoreboard implementation batch, 2026-10-18 UTC.
-Local clean check/build passes; publication and all five current-head CI jobs are pending.
+Implementation: `f85249decdfda99581ab49bf12f7a54cfa04bbf8`; tested tree: `5026f58785d08d3e9e93538d833ba80542dda1d7`.
+All five jobs passed in [run 39136499560](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39136499560), including source regeneration,
+archive reproducibility and one uploaded JAR on three platforms.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

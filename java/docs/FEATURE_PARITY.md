@@ -1,7 +1,8 @@
 # Feature parity and explicit backlog
 
 Current map-transition verification: 6,118 Java tests and 175 focused original
-regressions pass locally. CI is pending publication. See [TRANSITIONS.md](TRANSITIONS.md);
+regressions pass locally. All five CI jobs pass in
+[run 39164290723](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39164290723). See [TRANSITIONS.md](TRANSITIONS.md);
 complete gameplay and owned hosting assembly remain pending.
 
 Reference: source `6216b771282d2d349ccd67ee58c378f035c83553`.

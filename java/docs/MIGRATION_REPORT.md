@@ -22,7 +22,14 @@ source-built classes; the platform JAR smokes do not establish complete gameplay
 Prior medpack/Zombie/VIP baseline discrepancies remain unwaived; these focused source
 passes do not establish a passing full original baseline.
 
-This checkpoint requires a new five-job CI run after publication.
+All five CI jobs passed for implementation `8a5885dea85a23c6ccd5cbea1b73787ee5f32d66`,
+tested/published tree `1b2b759ace264cc0921a1382a96d108629ec25b1`, in
+[run 39164290723](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39164290723). The native job independently reproduced all 70
+configured original generators, including transition traces and their real worker
+WorldManager loading. The build byte-compared repeated archives. Ubuntu, Windows
+and macOS smoked the uploaded JAR and ran source-built component/integration tests.
+Every final job step completed with success or an intentional skip. No local-to-CI
+artifact hash identity or complete platform gameplay is claimed.
 
 ## Repository and provenance
 

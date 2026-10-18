@@ -13,7 +13,7 @@
     "shared/constants.py": "125d8fdb66ed78db6927ee8fee0d4be700421d23ca79a6bbabc09351e628d59a"
   },
   "fixture_sha256": "b16c266ae376ad4d48d5aec223c070ccc6e85aaa3f2fba4dad5c9953c4d82143",
-  "catalog_sha256": "da77dd6ca5d317983911e415cee62ed9f9266d187f877091012a31f214c6e058",
+  "catalog_sha256": "9ee5ea025068d4a7287293905bc1a20e205713120cb69b38461d0860bd2cf379",
   "method_substitutions": false,
   "scope": "Actual unchanged policies/native score packets; controlled actor/config/clock/accepted contribution inputs and terminal broadcast collector. No mode-policy substitution. Signed-64-bit counters; typed vectors and explicit mode relation. External profile persistence/rewards, teabag corpse lookup and concrete modes remain outside this evidence."
 }

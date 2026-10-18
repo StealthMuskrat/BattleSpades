@@ -1,0 +1,26 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "observations": {
+    "economy": 2048,
+    "teabag": 2048,
+    "edit": 1824,
+    "escape": 2048,
+    "clock": 2048,
+    "winner": 512,
+    "marker": 512,
+    "local": 512,
+    "announcement": 1024
+  },
+  "fixture_sha256": "d2e69ceaa798a9b5ed40865bb7b4c507153a08dce3447dacc082c999d772b940",
+  "catalog_sha256": "c0620e67562b9cb7a81a815d860229fe09934f007c9a56dbbfd4427d99ece744",
+  "source_files_sha256": {
+    "modes/base_mode.py": "ea3ae72b3ecd5ae70f7e71c30233cf3b4675d7f59ba0d95216e6c71c2fa34c2e",
+    "server/combat_scores.py": "efd40db2f8e456a285216487d5613048cbea8dfd7bee26d7eb4159e6eaee4f06",
+    "server/escape_watch.py": "5e49cf4d302fea89162b7c0ef3165cdc1b397e17a55cbd1d66bb3a9b3b88d508",
+    "server/announcements.py": "72b5cfdddef9895a0233ab0c70a53b7a1846671cfa65ba9af9515312f491646c",
+    "server/simulation_runtime.py": "385c8793f38e3c340784018e91350d36e3612d1a3252aa8f65295aaf719021bd",
+    "shared/packet.pyx": "26e0bd6cc3ad92f931b8396ab21f395b199f11965a80dd96464b5907fb5b6819"
+  },
+  "method_substitutions": false,
+  "scope": "Actual unchanged policies, native WorldManager/VXL and packets; controlled clocks, actors/config, accepted damage inputs, mode marker/objective callbacks, vote/plugin terminal IO and send faults. Clock uses real BaseMode and SimulationRuntime; stopping is configured to suppress asynchronous end/restart IO, which is not claimed. Typed protocol-safe scalar strings and signed-64 counters; no arbitrary Python object conversion."
+}

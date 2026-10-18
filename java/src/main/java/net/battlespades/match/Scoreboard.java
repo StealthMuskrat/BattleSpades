@@ -17,6 +17,8 @@ public final class Scoreboard {
         public RoundCombatStats roundStats=new RoundCombatStats();
         public ProfileStats profileStats;
         Long scoredDeathGeneration;
+        public boolean diedReloading,deathPenaltyExempt;
+        public final Map<Integer,net.battlespades.player.LifeRuntime.Bonus> killBonuses=new LinkedHashMap<>();
         public Player(PlayerLife life){this.life=Objects.requireNonNull(life);}
         public int id(){return life.id();}public int team(){return life.team();}
     }

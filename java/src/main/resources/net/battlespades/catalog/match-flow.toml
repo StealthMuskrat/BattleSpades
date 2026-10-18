@@ -1,0 +1,63 @@
+# Original policy data; generated, not runtime Python.
+killScore = 100
+headshotScore = 150
+meleeScore = 150
+revengeScore = 50
+paybackScore = 50
+reloadScore = 50
+defendScore = 50
+distractScore = 50
+suicideScore = -100
+teamkillScore = -100
+teabagScore = 2
+teabagClassicScore = 2
+voteLeadSeconds = 10.0
+killReason = 1
+headshotReason = 3
+meleeReason = 4
+revengeReason = 7
+paybackReason = 9
+reloadReason = 10
+defendReason = 11
+distractReason = 8
+suicideReason = 2
+teamkillReason = 6
+headshotType = 1
+meleeType = 2
+airstrikeType = 16
+bombType = 17
+defendAward = 17
+distractAward = 16
+teabagAward = 7
+teabagTotal = 152
+teabagClassicTotal = 153
+teabagReason = 221
+teabagPresses = 3
+scoreHeadline = 1
+drawHeadline = 8
+firstHeadline = 6
+secondHeadline = 7
+teabagGap = 0.5
+teabagDistance = 1.75
+timeoutMusicSeconds = 61.0
+finalCountdown = 9
+[[cue]]
+threshold = 300.0
+string = "COUNTDOWN_MINUTES"
+parameters = ["5"]
+[[cue]]
+threshold = 120.0
+string = "COUNTDOWN_MINUTES"
+parameters = ["2"]
+[[cue]]
+threshold = 60.0
+string = "ONE_MINUTE_LEFT"
+parameters = []
+[[cue]]
+threshold = 30.0
+string = "COUNTDOWN_SECONDS"
+parameters = ["30"]
+[[cue]]
+threshold = 10.0
+string = "COUNTDOWN_SECONDS"
+parameters = ["10"]

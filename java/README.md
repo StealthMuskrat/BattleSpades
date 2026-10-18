@@ -40,7 +40,14 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
-The latest batch adds connection profile counters/events/activity sampling,
+The latest batch adds generic kill/teamplay economy, teabag credit, complete
+escape-watch detection/marker policy, and round countdown/timeout arbitration,
+plus HUD builders and native marker/localized-message codecs. Two UDP compositions
+bind these to actual lives, damage ledgers, terrain, objectives and late joins.
+Full concrete mode/event/end/result integration remains required. See
+[MATCH_FLOW.md](docs/MATCH_FLOW.md).
+
+The preceding batch adds connection profile counters/events/activity sampling,
 accepted combat award/assist evidence, and identity-gated objective score events.
 Two real UDP compositions connect actual accepted damage/death and scoreboard
 delivery. Concrete mode/event/presentation/result integration remains required.

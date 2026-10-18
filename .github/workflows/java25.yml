@@ -167,6 +167,8 @@ jobs:
           python -S java/tools/generate_objective_guard_golden.py
           python -S java/tools/generate_scoreboard_golden.py
           python -S java/tools/generate_score_evidence_golden.py
+          python -S java/tools/generate_match_flow_golden.py
+          git diff --exit-code -- java/src/test/resources/golden/match-flow* java/src/main/resources/net/battlespades/catalog/match-flow.toml
           git diff --exit-code -- java/src/test/resources/golden/score-evidence* java/src/main/resources/net/battlespades/catalog/match.toml
           git diff --exit-code -- java/src/test/resources/golden/match-state* java/src/test/resources/golden/objective-guard* java/src/test/resources/golden/scoreboard*
           python -S java/tools/generate_objective_drop_golden.py

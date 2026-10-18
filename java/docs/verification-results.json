@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "9d2481d4c44ae1b2be7cf510341b303d59602f9a6483b76584fbe2ac964887ea",
-  "jar_bytes": 1768991,
+  "jar_sha256": "6823264954c6828247cdcb029aea3225a4c480984a7a5b6298398f368cbd2f7d",
+  "jar_bytes": 1769051,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -20,7 +20,7 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 5970,
+      "tests": 5971,
       "failures": 0,
       "errors": 0,
       "skipped": 0
@@ -398,7 +398,7 @@
   "publication": {
     "branch": "port/java25",
     "branch_updated": false,
-    "expected_parent": "b79266828e2315b087aca092f684e33165f9e572",
+    "expected_parent": "ab34147b60b63fd17f9ac6f1b2dd7357a293ea15",
     "force": false,
     "authorization": "User authorized this and future verified migration checkpoints, code/workflow changes and all five CI jobs; requested multiple implementations per batch."
   },
@@ -2294,7 +2294,7 @@
       "java/tools/generate_objective_carry_golden.py"
     ],
     "source_clock_stopping_configured_to_suppress_delayed_end_io": true,
-    "complete_async_mode_event_packet_drain": false,
+    "complete_async_mode_event_packet_drain": true,
     "complete_mode_end_restart_audio_vote_achievement_result_services": false,
     "canonical_rows_reload_bonus_exemption_and_lifecycle_ports_required": true,
     "regeneration_observation": {
@@ -2607,7 +2607,7 @@
       "MatchLifeBinding canonical accepted-life score/profile/combat/death events",
       "Actual ApplicationHost/JoinSession/ConfiguredScene/LifeRuntime opt-in awaited packet path"
     ],
-    "new_component_tests": 58,
+    "new_component_tests": 59,
     "new_real_udp_tests": 2,
     "source_observations": {
       "packets": 2048,
@@ -2991,7 +2991,29 @@
     "initial_local_checks": {
       "udp_setup": "Two new checks initially observed handshake leftovers; reliable inputs plus a reliable ClockSync barrier now delimit the scenario. No assertion/deadline relaxation.",
       "legacy_objective": "First full suite found one old objective callback test failure after routing synchronous scenes through packetAsync. Restored the original synchronous callback route; only the opt-in serial path awaits packetAsync.",
-      "corrected_full_java_result": "5970 component +35 integration pass; zero failures/errors/skips"
+      "corrected_full_java_result": "5971 component +35 integration pass; zero failures/errors/skips",
+      "roster_order": {
+        "regression": "A player admitted dead was lazily inserted after a later live player: expected [0,1], observed [1,0].",
+        "correction": "Enumerate the actual runtime roster in an immutable ordered map, retaining canonical row objects.",
+        "verification": "Full 5971 component +35 integration pass, repeated archives match, all four current-artifact native profiles pass.",
+        "source_native_oracles_unchanged_and_reused": true
+      }
+    },
+    "canonical_roster_order_preserved_for_dead_admissions": true
+  },
+  "initial_tdm_checkpoint": {
+    "implementation_commit": "ab34147b60b63fd17f9ac6f1b2dd7357a293ea15",
+    "tree": "e28a42e55cbcf08cc2f807c12aab34138d28095e",
+    "run_id": 39148904133,
+    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39148904133",
+    "status": "Original checkpoint; a subsequent review regression exposed canonical roster ordering and a follow-up implementation corrects it.",
+    "ci_conclusion": "success",
+    "jobs": {
+      "native-enet": "success",
+      "build": "success",
+      "platform (macos-latest)": "success",
+      "platform (ubuntu-latest)": "success",
+      "platform (windows-latest)": "success"
     }
   }
 }

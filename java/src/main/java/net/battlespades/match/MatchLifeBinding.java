@@ -20,7 +20,13 @@ public final class MatchLifeBinding implements LifeRuntime.Effects {
     public MatchLifeBinding(Supplier<LifeRuntime> runtime,LifeRuntime.Effects delegate,ProfileTracker profile,CombatEvidence combat,ModeEvents events,DoubleSupplier monotonic){this.runtime=Objects.requireNonNull(runtime);this.delegate=Objects.requireNonNull(delegate);this.profile=Objects.requireNonNull(profile);this.combat=Objects.requireNonNull(combat);this.events=Objects.requireNonNull(events);this.monotonic=Objects.requireNonNull(monotonic);}
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Match binding outside owner");}
     public Scoreboard.Player row(PlayerLife life){owned();if(life==null)return null;var p=rows.get(life.id());if(p!=null&&p.life==life)return p;var fresh=new Scoreboard.Player(life);if(runtime.get().players().stream().anyMatch(current->current==life))rows.put(life.id(),fresh);return fresh;}
-    public Map<Integer,Scoreboard.Player> players(){owned();var lives=runtime.get().players();rows.entrySet().removeIf(e->lives.stream().noneMatch(p->p==e.getValue().life));for(var life:lives)row(life);return Collections.unmodifiableMap(rows);}
+    public Map<Integer,Scoreboard.Player> players(){
+        owned();var lives=runtime.get().players();rows.entrySet().removeIf(e->lives.stream().noneMatch(p->p==e.getValue().life));
+        // Rows may first be observed at spawn/death, after an earlier spectator or dead admission.
+        // Preserve the actual runtime roster order, independently of that lazy cache order.
+        var ordered=new LinkedHashMap<Integer,Scoreboard.Player>();for(var life:lives)ordered.put(life.id(),row(life));
+        return Collections.unmodifiableMap(ordered);
+    }
     public void resetCounters(){owned();runtime.get().resetRoundCounters();}
     private void counters(Scoreboard.Player p){if(p==null)return;var s=runtime.get().score(p.id());p.kills=s.kills();p.deaths=s.deaths();p.killStreak=s.streak();}
     public void beforeSpawn(PlayerLife p){owned();row(p);delegate.beforeSpawn(p);}public void spawned(PlayerLife p){owned();row(p);delegate.spawned(p);}

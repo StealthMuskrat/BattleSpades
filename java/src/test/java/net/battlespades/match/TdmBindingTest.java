@@ -9,6 +9,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TdmBindingTest {
+    @Test void deadAdmissionPreservesSourceRosterOrderAndCanonicalRowsInScoreReset(){
+        try(var h=new TdmHarness(new TdmMode.Settings(10,0,1,0),512)){
+            h.life.denied.add(0);h.life.admit(0,2);h.life.admit(1,3);
+            var live=h.binding.row(h.life.runtime.player(1));var players=h.binding.players();var dead=players.get(0);
+            assertEquals(List.of(0,1),new ArrayList<>(players.keySet()));assertSame(live,players.get(1));h.delivery=(recipient,packet)->{if(Objects.equals(recipient,0))h.packets.add(packet);};h.packets.clear();h.mode.start();
+            assertEquals(List.of(0,1),h.packets.stream().filter(net.battlespades.protocol.SimplePackets.SetScore.class::isInstance).map(net.battlespades.protocol.SimplePackets.SetScore.class::cast).filter(p->p.typeValue()==1).map(net.battlespades.protocol.SimplePackets.SetScore::specifier).toList());
+            assertSame(dead,h.binding.row(dead.life));assertSame(live,h.binding.row(live.life));
+        }
+    }
     @Test void acceptedDeathCapturesReloadCountersAssistsAndQueuesPersonalBeforeTeamScoring(){
         try(var h=new TdmHarness(new TdmMode.Settings(10,0,1,0),512)){
             var assistant=h.admit(0,2);var killer=h.admit(1,2);var victim=h.admit(2,3);h.mode.start();h.life.runtime.damage(2,50,0,0);victim.life.inventory().reloadState(true,999);h.life.runtime.damage(2,500,1,0);

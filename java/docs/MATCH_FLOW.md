@@ -4,7 +4,7 @@
 
 The later [TDM/runtime batch](TDM_RUNTIME.md) provides the concrete TDM core,
 canonical accepted-life reload/bonus/score rows and actual serial mode/plugin and
-opt-in ENet packet drains. Its current 6,005 Java tests retain the distinct cases
+opt-in ENet packet drains. Its current 6,006 Java tests retain the distinct cases
 and all ordered source traces established here. Full departure settlement,
 asynchronous simulation/bootstrap and delayed end/restart/services remain pending.
 The test counts and implementation hashes below describe the preceding checkpoints.

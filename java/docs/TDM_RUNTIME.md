@@ -52,7 +52,13 @@ it, forwards actual life counters and the newly earned revenge/payback pair, and
 runs profile/combat contribution observers before KillAction. Death is queued before
 an eligible enemy kill after the accepted death broadcast. Round counters reset
 without replacing the connection's profile state. Respawn retains its canonical
-row; slot reuse receives a new one. Existing damage validation remains authoritative.
+row; slot reuse receives a new one. Existing damage validation remains authoritative. An earlier dead admission can be observed lazily after a later live spawn;
+canonical enumeration now follows the actual runtime roster order rather than
+cache insertion order. The added regression reproduced `[1, 0]` instead of the
+source `[0, 1]` before the correction, and checks score-reset packet order and
+retained row identities. This Java-only correction reuses unchanged source/native
+oracle evidence; current full Java checks, reproducible archives and all four
+native profiles are rerun.
 
 ## Evidence
 
@@ -81,8 +87,8 @@ new async method. The original synchronous route was restored; the opt-in serial
 path continues to await the actual future. Both observations are retained in local
 logs. Current verification is recorded below and in CI_STATUS.md and verification-results.json.
 
-Local Java check/build passes **5,970 component + 35 integration = 6,005 tests**,
-zero failures, errors or skips. The batch adds 58 component tests and two actual UDP
+Local Java check/build passes **5,971 component + 35 integration = 6,006 tests**,
+zero failures, errors or skips. The batch adds 59 component tests and two actual UDP
 compositions. **131 focused original TDM/runtime/scoreboard/lifecycle/end-sequence
 regressions pass**. All 68 configured generators ran after fresh original five-module
 native and ENet builds; all 244 frozen fixture/catalog/codegen hashes match.
@@ -90,8 +96,8 @@ The known flight provenance observation recurred: two impact metadata fields wer
 restored by rerunning the actual original generator's `--impact-only` command,
 then all 244 hashes were compared again. No fixture or hash was waived.
 
-Two CRC-valid local archives are byte-identical: 1768991 bytes,
-SHA-256 `9d2481d4c44ae1b2be7cf510341b303d59602f9a6483b76584fbe2ac964887ea`. Class major 69, packaging/licenses and version/config
+Two CRC-valid local archives are byte-identical: 1769051 bytes,
+SHA-256 `6823264954c6828247cdcb029aea3225a4c480984a7a5b6298398f368cbd2f7d`. Class major 69, packaging/licenses and version/config
 smokes pass; normal hosting exits 2. All four isolated native transport and
 packaged-loader nominal/impaired profiles pass. Loader probes still use FixtureScene.
 The full original baseline remains unverified: prior medpack/Zombie/VIP discrepancies

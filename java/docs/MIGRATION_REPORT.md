@@ -95,8 +95,8 @@ expected-head lease and exact tested-tree comparison. No release is created.
 
 ## Current TDM and serial runtime
 
-Local Java check/build passes **5,970 component + 35 integration = 6,005 tests**,
-zero failures, errors or skips. The batch adds 58 component tests and two actual UDP
+Local Java check/build passes **5,971 component + 35 integration = 6,006 tests**,
+zero failures, errors or skips. The batch adds 59 component tests and two actual UDP
 compositions. **131 focused original TDM/runtime/scoreboard/lifecycle/end-sequence
 regressions pass**. All 68 configured generators ran after fresh original five-module
 native and ENet builds; all 244 frozen fixture/catalog/codegen hashes match.
@@ -104,8 +104,8 @@ The known flight provenance observation recurred: two impact metadata fields wer
 restored by rerunning the actual original generator's `--impact-only` command,
 then all 244 hashes were compared again. No fixture or hash was waived.
 
-Two CRC-valid local archives are byte-identical: 1768991 bytes,
-SHA-256 `9d2481d4c44ae1b2be7cf510341b303d59602f9a6483b76584fbe2ac964887ea`. Class major 69, packaging/licenses and version/config
+Two CRC-valid local archives are byte-identical: 1769051 bytes,
+SHA-256 `6823264954c6828247cdcb029aea3225a4c480984a7a5b6298398f368cbd2f7d`. Class major 69, packaging/licenses and version/config
 smokes pass; normal hosting exits 2. All four isolated native transport and
 packaged-loader nominal/impaired profiles pass. Loader probes still use FixtureScene.
 The full original baseline remains unverified: prior medpack/Zombie/VIP discrepancies
@@ -393,7 +393,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Check | Current local result |
 |---|---|
 | Java 25 clean check/build | PASS |
-| Unit/component tests | 5970 passed; 0 failures/errors/skips |
+| Unit/component tests | 5971 passed; 0 failures/errors/skips |
 | Real UDP integration tests | 35 passed; 0 failures/errors/skips |
 | Flight full-path source comparisons | 65,497 exact operations / 44 traces; 10,368 canopy impact vectors; 117 focused original regressions pass |
 | Infantry full-path source comparisons | 16,683 exact operations / 33 traces; 57 focused original regressions pass |

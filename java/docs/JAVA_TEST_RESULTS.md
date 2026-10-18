@@ -2,8 +2,8 @@
 
 Stage: concrete TDM and serial packet/mode runtime batch, 2026-10-18 UTC.
 
-Local Java check/build passes **5,970 component + 35 integration = 6,005 tests**,
-zero failures, errors or skips. The batch adds 58 component tests and two actual UDP
+Local Java check/build passes **5,971 component + 35 integration = 6,006 tests**,
+zero failures, errors or skips. The batch adds 59 component tests and two actual UDP
 compositions. **131 focused original TDM/runtime/scoreboard/lifecycle/end-sequence
 regressions pass**. All 68 configured generators ran after fresh original five-module
 native and ENet builds; all 244 frozen fixture/catalog/codegen hashes match.
@@ -11,8 +11,8 @@ The known flight provenance observation recurred: two impact metadata fields wer
 restored by rerunning the actual original generator's `--impact-only` command,
 then all 244 hashes were compared again. No fixture or hash was waived.
 
-Two CRC-valid local archives are byte-identical: 1768991 bytes,
-SHA-256 `9d2481d4c44ae1b2be7cf510341b303d59602f9a6483b76584fbe2ac964887ea`. Class major 69, packaging/licenses and version/config
+Two CRC-valid local archives are byte-identical: 1769051 bytes,
+SHA-256 `6823264954c6828247cdcb029aea3225a4c480984a7a5b6298398f368cbd2f7d`. Class major 69, packaging/licenses and version/config
 smokes pass; normal hosting exits 2. All four isolated native transport and
 packaged-loader nominal/impaired profiles pass. Loader probes still use FixtureScene.
 The full original baseline remains unverified: prior medpack/Zombie/VIP discrepancies
@@ -80,7 +80,7 @@ This checkpoint requires a new five-job CI run after publication.
 | net.battlespades.match.ScoreEvidenceGoldenTest | 72 | 0 | 0 | 0 |
 | net.battlespades.match.ScoreboardGoldenTest | 48 | 0 | 0 | 0 |
 | net.battlespades.match.SerialRuntimeTest | 4 | 0 | 0 | 0 |
-| net.battlespades.match.TdmBindingTest | 3 | 0 | 0 | 0 |
+| net.battlespades.match.TdmBindingTest | 4 | 0 | 0 | 0 |
 | net.battlespades.match.TdmRuntimeGoldenTest | 49 | 0 | 0 | 0 |
 | net.battlespades.player.ActionClockTest | 34 | 0 | 0 | 0 |
 | net.battlespades.player.AdmissionPolicyTest | 571 | 0 | 0 | 0 |

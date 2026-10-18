@@ -19,7 +19,9 @@ public final class MusicService {
     public static void playTo(Consumer<GamePacket> send,String track){send.accept(TransitionPackets.audioFlush());send.accept(new SimplePackets.StopMusic());send.accept(new AudioPackets.Music(track,0));}
     public void play(String track){owned();playTo(broadcast,track);family=family(track);}
     public void stop(){owned();broadcast.accept(new SimplePackets.StopMusic());family=null;}
-    public void gameplay(boolean enabled){owned();if(enabled)play(random.choice(GAMEPLAY));else stop();}
+    public String gameplayTrack(boolean enabled){owned();return enabled?random.choice(GAMEPLAY):null;}
+    public String joinTrack(boolean started,boolean ended,boolean ending,boolean retiring,boolean timeout){owned();return ended&&ending&&!retiring||started&&!ended&&timeout?random.choice(ENDING):null;}
+    public void gameplay(boolean enabled){owned();var track=gameplayTrack(enabled);if(track!=null)play(track);else stop();}
     public boolean lastMan(){owned();if(Objects.equals(family,family(GAMEPLAY.getFirst())))return false;play(random.choice(GAMEPLAY));return true;}
     public boolean ending(){owned();if(Objects.equals(family,family(ENDING.getFirst())))return false;play(random.choice(ENDING));return true;}
     public void timeout(){owned();play(random.choice(ENDING));}

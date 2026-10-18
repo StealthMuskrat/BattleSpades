@@ -26,6 +26,7 @@ public final class ConfiguredScene implements JoinScene {
         default InitialInfo configureInitialInfo(InitialInfo packet,int capability){return packet;}
         default StateData configureStateData(StateData packet,int capability){return packet;}
         default int requiredCapability(){return 0;}
+        default void beforeReplay(int id){}
         default List<GamePacket> reveal(int id){return List.of();}
         default void input(int id,LiveClientInput input,int receivedLoop){}
         default void roundTripMillis(int id,Double measurement){}
@@ -66,6 +67,7 @@ public final class ConfiguredScene implements JoinScene {
         var admitted=new SimplePackets.NewPlayerConnection(decision.team().wire(),decision.selection().classId(),request.forced_team(),request.local_language(),decision.name());
         return gameplay.admit(id,admitted,decision.selection(),capability);
     }
+    @Override public void beforeReplay(int id){owned();gameplay.beforeReplay(id);}
     @Override public List<GamePacket> reveal(int id){owned();return gameplay.reveal(id);}
     @Override public List<GamePacket> reveal(int id,int serverLoop){
         owned();var packets=new java.util.ArrayList<GamePacket>(gameplay.reveal(id));packets.addAll(world().terrainHealth().reveal(id,serverLoop,128));return List.copyOf(packets);

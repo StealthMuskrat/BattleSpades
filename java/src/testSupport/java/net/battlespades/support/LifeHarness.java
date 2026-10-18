@@ -13,6 +13,9 @@ public final class LifeHarness implements AutoCloseable {
     public final MutableWorld world;
     public final LifeRuntime runtime;
     public double wall=1000,monotonic=100,delay=1.5;
+    public java.util.function.ToIntFunction<PlayerLife> scoreValue=p->0;
+    public java.util.function.Predicate<PlayerLife> respawnGate=p->true;
+    public java.util.function.ToDoubleFunction<PlayerLife> respawnDelay=p->delay;
     public final Set<Integer> denied=new HashSet<>(),failing=new HashSet<>();
     public final Set<Integer> loading=new HashSet<>();
     public Optional<LifeRuntime.DamageModifier> damageModifier=Optional.empty();
@@ -41,11 +44,11 @@ public final class LifeHarness implements AutoCloseable {
             public void prepareSpawn(PlayerLife p){events.add("prepare:"+p.id()+":"+p.selection().classId());if(failing.contains(p.id()))throw new IllegalStateException("Controlled prepare failure");}
             public PlayerPhysics.Vector spawnPoint(PlayerLife p){return new PlayerPhysics.Vector(36,36,97);}
             public Optional<PlayerPhysics.Vector> spawnOrientation(PlayerLife p){return Optional.empty();}
-            public boolean canRespawn(PlayerLife p){return !denied.contains(p.id());}
-            public double respawnDelay(PlayerLife p){events.add("delay:"+p.alive());return delay;}
+            public boolean canRespawn(PlayerLife p){return !denied.contains(p.id())&&respawnGate.test(p);}
+            public double respawnDelay(PlayerLife p){events.add("delay:"+p.alive());return respawnDelay.applyAsDouble(p);}
             public double walletScale(){return 1;}
             public int teamColor(PlayerLife p){return p.team()==2?0x123456:p.team()==3?0x323c46:0x707070;}
-            public int score(PlayerLife p){return 0;}
+            public int score(PlayerLife p){return scoreValue.applyAsInt(p);}
             public boolean opponents(PlayerLife a,PlayerLife b){return a.team()!=b.team();}
             public int deathType(PlayerLife v,PlayerLife k,int type){return type;}
             public Optional<LifeRuntime.DamageModifier> damageModifier(){return damageModifier;}

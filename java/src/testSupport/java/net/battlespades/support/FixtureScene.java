@@ -33,6 +33,8 @@ public final class FixtureScene implements JoinScene,net.battlespades.scene.Conf
     public RuntimeException revealFailure;
     public boolean failAdmission;
     public Runnable onAdmission=()->{};
+    public java.util.function.IntConsumer beforeReplayOperation=id->{};
+    @Override public void beforeReplay(int id){beforeReplayOperation.accept(id);}
     public java.util.function.BiFunction<Integer,SimplePackets.NewPlayerConnection,Vector3f> placement=(id,request)->new Vector3f(256,256,237);
     public FixtureScene(long epoch,int journalLimit) {
         this(VxlMap.load(new byte[]{0,(byte)240,(byte)239,0},"auto"),epoch,journalLimit);

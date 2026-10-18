@@ -20,6 +20,8 @@ public interface JoinScene extends AsyncPackets,SceneLifecycle {
     boolean spectator(int playerId);
     Admission admit(int reservedId,SimplePackets.NewPlayerConnection request,PlayerPackets.SetClassLoadout selection,int capability);
     default Admission admit(int reservedId,SimplePackets.NewPlayerConnection request,PlayerPackets.SetClassLoadout selection) {return admit(reservedId,request,selection,0);}
+    /** First-input/menu admission only, before any terrain or roster catch-up effects. */
+    default void beforeReplay(int playerId) {}
     default List<GamePacket> reveal(int playerId) {return List.of();}
     default List<GamePacket> reveal(int playerId,int serverLoop) {return reveal(playerId);}
     default void input(int playerId,LiveClientInput input,int receivedServerLoop) {}

@@ -1,3 +1,9 @@
+# Arena and shared-round follow-up
+
+ArenaMode, shared BaseRoundMode, JoinAudio and actual early admission audio binding are implemented. 6,295 Java tests and 350 focused original regressions pass locally. CI is pending publication. See [ARENA_ROUNDS.md](ARENA_ROUNDS.md). Full production hosting and remaining domains are pending.
+
+## Previous gameplay-services checkpoint
+
 # Gameplay services follow-up
 
 TeamBalancer, GameplaySounds, PeriodicServices and their actual host binding are implemented. 6,275 Java tests and 340 focused original regressions pass locally. All five CI jobs pass in

@@ -71,7 +71,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     private MutableWorld.Capture capture;
     private SnapshotCompression.Task task;
     private PlayerPackets.SetClassLoadout selection;
-    private boolean ticketReceived,stateSent,admitted,requireValidation,airDone;
+    private boolean ticketReceived,stateSent,admitted,requireValidation,airDone,preRevealDone;
     private boolean inMenu=true,spectatorPending;private long spectatorRetry;private int spectatorAttempts;
     private boolean sceneArmed,sceneGated;
     private java.util.concurrent.CompletableFuture<Boolean> reloadResult;
@@ -187,6 +187,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     /** Shared terrain/roster/reveal barrier for first-input humans and settled spectators. */
     private boolean settle(int serverLoop){
         if(!controls.isEmpty()) return false;
+        if(!preRevealDone){long epoch=generation;var source=scene;source.beforeReplay(slot.id());if(!current(epoch,source))return false;preRevealDone=true;if(!controls.isEmpty())return false;}
         int[] remaining={settings.replayBudget()};
         java.util.function.Predicate<GamePacket> send=p->{if(remaining[0]==0 || !sendFrame(new SessionFrame(p))) return false;remaining[0]--;return true;};
         if(!airDone) {
@@ -326,14 +327,14 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     public void detachScenePlayer(){owned();if(state==State.CLOSED||!admitted)return;if(!sceneArmed||!sceneGated)throw new IllegalStateException("Old scene is not gated");if(admitted&&slot!=null){scene.transitionDetach(slot.id());admitted=false;}}
     public java.util.concurrent.CompletionStage<Boolean> reloadScene(JoinScene replacement){
         owned();java.util.Objects.requireNonNull(replacement);if(!sceneArmed||!sceneGated||admitted)throw new IllegalStateException("Old scene must be armed, gated and detached");
-        releaseScene();generation++;scene=replacement;selection=null;stateSent=false;airDone=false;spectatorPending=false;inMenu=true;spectatorAttempts=0;knownRoster=java.util.Map.of();pendingRoster=null;requireValidation=true;retireUntil=0;
+        releaseScene();generation++;scene=replacement;selection=null;stateSent=false;airDone=false;preRevealDone=false;spectatorPending=false;inMenu=true;spectatorAttempts=0;knownRoster=java.util.Map.of();pendingRoster=null;requireValidation=true;retireUntil=0;
         sceneArmed=false;sceneGated=false;state=State.RETIRING;reloadResult=new java.util.concurrent.CompletableFuture<>();return reloadResult.minimalCompletionStage();
     }
     public void replaceScene(JoinScene replacement) {
         owned();if(state==State.CLOSED) return;
         if(sceneArmed)throw new IllegalStateException("Staged transition must use reloadScene");
         boolean carry=stateSent;
-        releaseScene();discardControls();generation++;scene=replacement;selection=null;stateSent=false;airDone=false;spectatorPending=false;inMenu=true;spectatorAttempts=0;knownRoster=java.util.Map.of();pendingRoster=null;requireValidation=true;retireUntil=-1;
+        releaseScene();discardControls();generation++;scene=replacement;selection=null;stateSent=false;airDone=false;preRevealDone=false;spectatorPending=false;inMenu=true;spectatorAttempts=0;knownRoster=java.util.Map.of();pendingRoster=null;requireValidation=true;retireUntil=-1;
         if(!carry) {fail(18);return;}
         state=State.RETIRING;enqueue(List.of(new SessionFrame(new SimplePackets.MapEnded())));
     }

@@ -1,0 +1,16 @@
+{
+  "arena_cases": 14,
+  "audio_traces": 2,
+  "fixture_sha256": "41eb5ddf57051fca524edcdfee7a6ffa812d43e6b1ce7a3385575074d89570d5",
+  "policy_method_substitutions": false,
+  "scope": "Intact Arena/BaseMode lifecycle with native Player, forced deaths and RoundLifecycle respawns.\nOnly clocks, external world spawn proposals, IO/terminal services and failure boundaries are controlled.\nThe late-join oracle calls intact server._send_join_audio and BaseMode.join_music_track with seeded randomness.",
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_files_sha256": {
+    "modes/arena.py": "2d3ddc069a0aae9ab1063fce9d5ee1f893a0d502769fbf0618668fe8e2d61a37",
+    "modes/base_mode.py": "ea3ae72b3ecd5ae70f7e71c30233cf3b4675d7f59ba0d95216e6c71c2fa34c2e",
+    "server/audio.py": "626bd59ff43702d26a82b8f504fdba0a5f76eb8e037d2ef13df8b5a7ac340fb7",
+    "server/main.py": "7446dd984129fae5b90599d40380c476f12b68265acfb76b1af3e4ac3096a367",
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/round_lifecycle.py": "305323162e64b63b6fe2dd56fae89f1926b950605d03b697068325053321c683"
+  }
+}

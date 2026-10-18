@@ -70,6 +70,11 @@ class JoinSessionTest {
         @Override public void close() {session.close();scene.close();compression.close();}
     }
     private static final class WireWriter {byte[] frame(byte[] data) {return new net.battlespades.protocol.Wire.Writer().u8(0x30).bytes(data).toByteArray();}}
+    @Test void admissionAudioQueuesBeforeTerrainReplayAndRunsOnceAcrossBackpressure(){
+        try(var h=new Flow()){
+            h.load();h.client(new SimplePackets.NewPlayerConnection(0,5,0,1,"Spectator"));h.pulse(0);h.scene.world().set(new MutableWorld.Cell(12,13,100),true,0x123456,null);int[] calls={0};h.scene.beforeReplayOperation=id->{calls[0]++;assertTrue(h.session.direct(new AudioPackets.Music("mainmenu",0)));};h.wire.frames.clear();h.wire.blockedId=26;h.client(new SimplePackets.ClientInMenu(0));h.pulse(0);assertEquals(1,calls[0]);assertFalse(h.session.inGame());assertFalse(h.wire.ids().contains(33));h.pulse(50);assertEquals(1,calls[0]);h.wire.blockedId=-1;h.pulse(50);h.pulse(50);assertTrue(h.session.inGame());assertEquals(1,calls[0]);assertTrue(h.wire.ids().indexOf(26)>=0);assertTrue(h.wire.ids().indexOf(33)>h.wire.ids().indexOf(26));assertEquals(0,h.scene.world().activeLeases());assertTrue(h.scene.inputs.isEmpty());
+        }
+    }
     @Test void spectatorMenuSettlesAcrossBackpressureWithoutInventingInput(){
         try(var h=new Flow()){
             h.load();h.client(new SimplePackets.NewPlayerConnection(0,5,0,1,"Spectator"));h.pulse(0);assertEquals(JoinSession.State.INPUT,h.session.state());assertFalse(h.session.inGame());h.client(new SimplePackets.ClientInMenu(1));h.pulse(100);assertFalse(h.session.inGame());

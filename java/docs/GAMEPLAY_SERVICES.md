@@ -1,3 +1,5 @@
+This is the preceding gameplay-services checkpoint. [Arena and early audio](ARENA_ROUNDS.md) is the current follow-up.
+
 # Team balancing, gameplay sounds and periodic services
 
 Local Java check/build passes **6,237 component + 38 integration = 6,275 tests**,

@@ -75,6 +75,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     private final MutableWorld world;
     private final GameRules rules;
     private final String mode;
+    private java.util.function.Consumer<PlayerLife> joinAudio;
     private final Clock clock;
     private final Policy policy;
     private final Effects effects;
@@ -110,6 +111,8 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
      * This component does not supply a concrete mode or an asynchronous outer gameplay scheduler.
      */
     public void objectives(ObjectiveDropRequests value,java.util.function.Consumer<java.util.concurrent.CompletionStage<Void>> completion){owned();if(!players.isEmpty()||objectives!=null)throw new IllegalStateException("Objectives must bind once before admission");Objects.requireNonNull(value);Objects.requireNonNull(completion);objectives=value;awaitObjective=completion;}
+    public void joinAudio(java.util.function.Consumer<PlayerLife> operation){owned();if(!players.isEmpty()||joinAudio!=null)throw new IllegalStateException("Join audio must bind once before admission");joinAudio=Objects.requireNonNull(operation);}
+    @Override public void beforeReplay(int id){owned();if(joinAudio!=null)joinAudio.accept(player(id));}
     public void controls(PlayerControls value){owned();if(!players.isEmpty()||controls!=null)throw new IllegalStateException("Controls must bind once before admission");controls=Objects.requireNonNull(value);}
     boolean current(PlayerLife p){owned();return players.get(p.id())==p;}
     void spectator(PlayerLife p){owned();p.clearDeathTime();roster.create(p.create(),p.color());messages.broadcast(p.create());}

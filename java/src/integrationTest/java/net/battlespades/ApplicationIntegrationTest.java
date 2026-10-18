@@ -125,12 +125,14 @@ class ApplicationIntegrationTest {
                     var loop=new Loop(host);loop.ticketAndLoad(a,oldWorld);a.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"Live"),false);loop.until(()->a.has(69));
                     loop.until(()->{try{a.send(new ClientInput(100,0,false,6,1,0,0,0,0,24,0),false);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0);});
                     var oldLife=previous.life.runtime.player(0);previous.teams.getFirst().add(oldLife);loop.ticketAndLoad(b,oldWorld);assertEquals(2,host.occupiedSlots());assertFalse(host.inGame(1));assertEquals(1,previous.life.runtime.players().size());
-                    var media=new HostedMedia(host,()->((net.battlespades.support.HostedTdmDomain)state.domain()).match.life.runtime,List.of("First","Other"),new net.battlespades.player.SourceRandom(0),resumes);
-                    previous.life.packetHandler=media::packet;assertTrue(media.ballot().start(List.of("Other","First"),previous.life.wall));media.music().gameplay(true);media.music().timeout();assertFalse(media.music().ending());media.reveal(oldLife,initial.assembly().metadata());
+                    var catalog=worker.submit(()->MapCatalog.load(temp,List.of(),false,Map.of(),new SourceRandom(0))).get(4,java.util.concurrent.TimeUnit.SECONDS);
+                    var voting=new HostedVoting(host,()->((net.battlespades.support.HostedTdmDomain)state.domain()).match.life.runtime,catalog,MapRotation.Settings.defaults(),KickBallot.Settings.defaults(),()->state.snapshot().map(),()->"tdm",List::of,p->false,()->previous.life.wall,resumes,(label,error)->fail(label,error));
+                    var media=new HostedMedia(host,()->((net.battlespades.support.HostedTdmDomain)state.domain()).match.life.runtime,new SourceRandom(0),resumes,voting);
+                    previous.life.packetHandler=media::packet;previous.life.forgettingOperation=p->media.forget(p.id());assertTrue(voting.service().ensureMapVote(previous.life.wall));media.music().gameplay(true);media.music().timeout();assertFalse(media.music().ending());media.reveal(oldLife,initial.assembly().metadata());
                     loop.until(()->a.has(47)&&a.has(26)&&a.has(22)&&a.has(24));assertFalse(b.has(47));assertFalse(b.has(26));assertEquals(1,a.packets.stream().filter(packet->packet instanceof AudioPackets.CreateAmbient).count());media.reveal(oldLife,initial.assembly().metadata());
                     var advertised=a.packets.stream().filter(VotePacket.class::isInstance).map(VotePacket.class::cast).findFirst().orElseThrow();assertEquals("game_ending",MusicService.family(a.packets.stream().filter(AudioPackets.Music.class::isInstance).map(AudioPackets.Music.class::cast).reduce((first,last)->last).orElseThrow().name()));
                     a.send(new VotePacket(255,1,List.of(advertised.candidates().getFirst()),"","",0,0),false);loop.until(()->"Other".equals(media.ballot().nextMap()));assertFalse(media.ballot().active());
-                    var ports=new net.battlespades.support.HostedTdmDomain.Bindings();ports.grace=0.05;
+                    var ports=new net.battlespades.support.HostedTdmDomain.Bindings();ports.grace=0.05;ports.resetVoteOperation=media::resetVote;ports.noteMapOperation=voting.service().rotation()::notePlayed;
                     var services=new HostedTransitionServices(state,host,resumes,ports);var transitions=new MatchTransitions<>(services,preflight::prepare,resumes);int firstPeer=a.peerId,secondPeer=b.peerId;a.packets.clear();b.packets.clear();var changed=transitions.changeMap(media.ballot().consume()).toCompletableFuture();assertFalse(changed.isDone());
                     loop.until(()->{resumes.pump(loop.now*1_000_000);return !host.inGame(0);});assertTrue(previous.life.runtime.players().isEmpty());assertTrue(previous.teams.getFirst().players().isEmpty());assertEquals(0,domains.getFirst().closes);
                     loop.until(()->{resumes.pump(loop.now*1_000_000);return a.has(114)&&b.has(114);});var next=domains.get(1).match;assertNotEquals(oldWorld.sourceCrc(),next.life.world.sourceCrc());assertSame(state.scene(),host.transitionScene());assertEquals(0,domains.getFirst().closes);
@@ -141,6 +143,32 @@ class ApplicationIntegrationTest {
                 }
             }
             assertEquals(1,domains.getFirst().closes);assertEquals(1,domains.get(1).closes);
+        });
+    }
+    @Test void realUdpKickRetiresBallotBeforeDepartureAndRejectsReconnectUntilMatchReset(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            Files.write(temp.resolve("First.vxl"),new byte[0]);Files.write(temp.resolve("Other.vxl"),new byte[0]);
+            try(var worker=java.util.concurrent.Executors.newSingleThreadExecutor();var resumes=new net.battlespades.runtime.OwnerLoop(0,1024,256,error->fail(error));var match=new TdmHarness(new TdmMode.Settings(10,0,1,0),1)){
+                var catalog=worker.submit(()->MapCatalog.load(temp,List.of(),false,Map.of(),new SourceRandom(0))).get(4,java.util.concurrent.TimeUnit.SECONDS);
+                var h=match.life;var config=new SceneConfig("Kick UDP",27015,0,ModeCatalog.get("tdm"),"First",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("First",h.world.sourceCrc()),match.mode::sceneState,h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),4,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var target=new Client(host.address());var yes=new Client(host.address());var other=new Client(host.address());var blocked=new Client(host.address());var replacement=new Client(host.address())){
+                    h.destination=new LifeRuntime.Messages(){public void broadcast(GamePacket p){host.broadcast(p,Delivery.RELIABLE);}public void owner(int id,GamePacket p){assertTrue(host.sendPlayer(id,p));}public boolean inGame(int id){return host.inGame(id);}};
+                    var voting=new HostedVoting(host,()->h.runtime,catalog,MapRotation.Settings.defaults(),KickBallot.Settings.defaults(),()->"First",()->"tdm",List::of,p->false,()->h.wall,resumes,(label,error)->fail(label,error));h.packetHandler=voting::packet;h.forgettingOperation=p->voting.forget(p.id());
+                    var loop=new Loop(host);var live=List.of(a,target,yes,other);
+                    for(var client:live){loop.ticketAndLoad(client,h.world);client.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"Kick player"),false);loop.until(()->client.has(69));}
+                    loop.until(()->{try{for(var client:live)client.send(new ClientInput(100,127,false,6,1,0,0,0,0,24,0),false);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0)&&host.inGame(1)&&host.inGame(2)&&host.inGame(3);});
+                    var old=h.runtime.player(1);for(var client:live)client.packets.clear();a.send(new SimplePackets.InitiateKickMessage(254,1,1),false);loop.until(()->live.stream().allMatch(c->c.has(47)));assertTrue(voting.service().kick().active());assertEquals(2,voting.service().kick().needed());
+                    var start=a.packets.stream().filter(VotePacket.class::isInstance).map(VotePacket.class::cast).findFirst().orElseThrow();assertEquals(0,start.playerId());assertEquals(0,start.messageType());
+                    yes.send(new VotePacket(254,1,List.of(start.candidates().getFirst()),"","",0,0),false);
+                    loop.until(()->target.reason==24&&List.of(a,yes,other).stream().allMatch(c->c.packets.stream().anyMatch(p->p instanceof VotePacket v&&v.messageType()==3)));
+                    assertFalse(voting.service().kick().active());assertTrue(h.runtime.players().stream().noneMatch(p->p.id()==1));assertEquals(3,host.occupiedSlots());assertEquals(24,voting.service().kick().matchKickReason(voting.host(h.runtime.player(0))));
+                    for(var client:List.of(a,yes,other)){assertTrue(host.inGame(client==a?0:client==yes?2:3));var closed=client.packets.stream().filter(VotePacket.class::isInstance).map(VotePacket.class::cast).filter(v->v.messageType()==3).toList();assertEquals(1,closed.size());assertEquals(VoteText.vote("VOTE_KICK_SUCCESSFUL",List.of(old.name(),h.runtime.player(0).name(),"KICK_REASON_HACKING"),List.of(2)),closed.getFirst().title());}
+                    loop.clients.add(blocked);blocked.connect();loop.until(()->blocked.reason>=0);assertEquals(24,blocked.reason);assertFalse(blocked.has(114));assertEquals(3,host.occupiedSlots());assertEquals(3,h.runtime.players().size());
+                    var cooldowns=voting.service().kick().cooldowns();voting.reset();assertEquals(cooldowns,voting.service().kick().cooldowns());assertTrue(voting.service().kick().matchKicks().isEmpty());
+                    loop.ticketAndLoad(replacement,h.world);replacement.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"Replacement"),false);loop.until(()->replacement.has(69));loop.until(()->{try{replacement.send(new ClientInput(200,127,false,6,1,0,0,0,0,24,0),false);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(1);});assertNotSame(old,h.runtime.player(1));assertEquals(4,host.occupiedSlots());assertEquals(4,h.runtime.players().size());assertEquals(-1,replacement.reason);
+                }
+            }
         });
     }
     @Test void realUdpSerialOwnedShotFeedsCanonicalTdmDeathKillAndScoreLimit(){

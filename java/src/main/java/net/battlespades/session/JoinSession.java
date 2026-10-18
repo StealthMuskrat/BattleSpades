@@ -76,10 +76,12 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     private java.util.concurrent.CompletableFuture<Boolean> reloadResult;
     public JoinSession(SocketAddress address,WireSink sink,JoinScene scene,PlayerSlots slots,
             JoinSettings settings,JoinPasswordGate passwords,SnapshotCompression compression) {
-        this.address=address instanceof InetSocketAddress inet?inet.getAddress().getHostAddress():address.toString();
+        this.address=addressHost(address);
         this.sink=sink;this.scene=scene;this.slots=slots;this.settings=settings;this.passwords=passwords;
         this.password=passwords.session();this.compression=compression;
     }
+    public static String addressHost(SocketAddress address){return address instanceof InetSocketAddress inet?inet.getAddress().getHostAddress():address.toString();}
+    public String addressHost(){owned();return address;}
     private boolean current(long epoch,JoinScene expected) {return state!=State.CLOSED && generation==epoch && scene==expected;}
     private void owned() {if(Thread.currentThread()!=owner) throw new IllegalStateException("Session accessed outside owner");}
     private void time(long now) {owned();if(now<0 || now<lastNow) throw new IllegalArgumentException("Session clock moved backwards");lastNow=now;}

@@ -24,6 +24,10 @@ public final class ApplicationHost implements AutoCloseable {
     private final SnapshotCompression compression;
     private final int eventBudget;
     private JoinScene scene;
+    private java.util.function.Function<String,Integer> admissionGate;
+    public void admissionGate(java.util.function.Function<String,Integer> gate){owned();if(admissionGate!=null)throw new IllegalStateException("Admission gate already bound");admissionGate=java.util.Objects.requireNonNull(gate);}
+    public java.util.Optional<String> addressHost(int id){owned();for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return java.util.Optional.of(session.addressHost());return java.util.Optional.empty();}
+    public void disconnectPlayer(int id,int reason){owned();for(var session:sessions.values())if(session.playerId().orElse(-1)==id){session.fail(reason);return;}}
     private record QueuedSession(JoinSession session,PeerKey key,long epoch,long identity) {}
     private final Map<JoinSession,QueuedSession> queuedSessions=new java.util.IdentityHashMap<>();
     private net.battlespades.runtime.IngamePackets<QueuedSession> packets;
@@ -58,7 +62,7 @@ public final class ApplicationHost implements AutoCloseable {
         for(int i=0;i<eventBudget;i++) {
             var event=transport.poll().orElse(null);if(event==null) break;var peer=event.peer();var key=new PeerKey(peer.id(),peer.generation());
             switch(event.type()) {
-                case CONNECT -> sessions.put(key,new JoinSession(peer.address(),new JoinSession.WireSink() {
+                case CONNECT -> {Integer denied=admissionGate==null?null:admissionGate.apply(JoinSession.addressHost(peer.address()));if(denied!=null){peer.disconnect(denied);break;}sessions.put(key,new JoinSession(peer.address(),new JoinSession.WireSink() {
                     @Override public boolean send(SessionFrame frame) {return peer.send(frame.encode(),frame.delivery());}
                     @Override public void disconnect(int reason) {peer.disconnect(reason);}
                     @Override public Double roundTripMillis(){return (double)peer.metrics().roundTripTime();}
@@ -68,7 +72,7 @@ public final class ApplicationHost implements AutoCloseable {
                     @Override public int unfragmentedWireLimit(){return Math.max(64,peer.mtu()-28);}
                     @Override public boolean snapshotUnsequenced(){return true;}
                     @Override public void flushSnapshots(){try{transport.flush(Math.max(0,lastNow));}catch(IOException failure){throw new java.io.UncheckedIOException(failure);}}
-                },scene,slots,settings,passwords,compression));
+                },scene,slots,settings,passwords,compression));}
                 case RECEIVE -> {var session=sessions.get(key);if(session!=null){
                     if(packets!=null&&session.inGame()){
                         var queued=queuedSessions.computeIfAbsent(session,s->new QueuedSession(s,key,s.metrics().generation(),s.playerIdentity()));packets.offer(queued,event.data());

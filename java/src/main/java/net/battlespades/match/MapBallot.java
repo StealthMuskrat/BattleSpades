@@ -20,6 +20,7 @@ public final class MapBallot<P> {
     private final Function<Double,CompletionStage<Void>> sleep;
     private final Consumer<GamePacket> broadcast;
     private final Map<String,String> available;
+    private final BooleanSupplier blocked;
     private Ballot ballot;
     private String next;
     private final class Ballot {
@@ -37,7 +38,11 @@ public final class MapBallot<P> {
         }
     }
     public MapBallot(List<String> available,Supplier<Map<Integer,P>> players,ToIntFunction<P> id,Predicate<P> eligible,DoubleSupplier monotonic,Function<Double,CompletionStage<Void>> sleep,Consumer<GamePacket> broadcast,Executor resume){
+        this(available,players,id,eligible,monotonic,sleep,broadcast,resume,()->false);
+    }
+    public MapBallot(List<String> available,Supplier<Map<Integer,P>> players,ToIntFunction<P> id,Predicate<P> eligible,DoubleSupplier monotonic,Function<Double,CompletionStage<Void>> sleep,Consumer<GamePacket> broadcast,Executor resume,BooleanSupplier blocked){
         owner=new OwnerSequence(resume);this.players=Objects.requireNonNull(players);this.id=Objects.requireNonNull(id);this.eligible=Objects.requireNonNull(eligible);this.monotonic=Objects.requireNonNull(monotonic);this.sleep=Objects.requireNonNull(sleep);this.broadcast=Objects.requireNonNull(broadcast);
+        this.blocked=Objects.requireNonNull(blocked);
         var names=new LinkedHashMap<String,String>();for(var name:available)names.put(NameUnicode.casefold(name),name);this.available=Map.copyOf(names);
     }
     public boolean active(){owner.owned();return ballot!=null&&ballot.active;}
@@ -45,7 +50,7 @@ public final class MapBallot<P> {
     public Map<Integer,Integer> votes(){owner.owned();return active()?Map.copyOf(ballot.votes):Map.of();}
     public String nextMap(){owner.owned();return next;}
     public boolean start(List<String> raw,double wallNow){
-        owner.owned();if(active())return false;var normalized=new ArrayList<String>();var seen=new HashSet<String>();
+        owner.owned();if(active()||blocked.getAsBoolean())return false;var normalized=new ArrayList<String>();var seen=new HashSet<String>();
         for(var rawName:raw){String value=NameUnicode.strip(rawName);if(value.isEmpty()||value.equals(".")||value.indexOf('/')>=0)continue;int dot=value.lastIndexOf('.');if(dot>0&&value.substring(dot).equalsIgnoreCase(".vxl"))value=value.substring(0,dot);
             try{VoteText.dynamic(value);}catch(IllegalArgumentException invalid){continue;}String key=NameUnicode.casefold(value);if(!available.isEmpty()){value=available.get(key);if(value==null)continue;key=NameUnicode.casefold(value);}if(!seen.add(key))continue;normalized.add(value);if(normalized.size()==3)break;
         }

@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "2b1eec34f5af529436c37c2287e9b09ede815f483d02eb22896c8ef2ad49f2a6",
-  "jar_bytes": 1879059,
+  "jar_sha256": "abb8d1fbb46296797f3de2ec72a9ba36f0cd4cb65cf2e12b9e5723172ec1753a",
+  "jar_bytes": 1911352,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -20,50 +20,33 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 6126,
+      "tests": 6177,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
-      "tests": 36,
+      "tests": 37,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Native round media, next-map ballot and concrete ending/host presentation bindings",
-  "java_implementation_commit": "280aa453e20ff89709db907b86437e3adff13852",
-  "tested_tree": "d9661a57f823ab8bc63bf200f03a2b94d7674456",
+  "verification_stage": "Map catalog/fit/retail selection, kick policy and unified actual host voting/admission",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "head_sha": "280aa453e20ff89709db907b86437e3adff13852",
-    "run_id": 39168496083,
-    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39168496083",
-    "jobs": {
-      "build": "success",
-      "native-enet": "success",
-      "platform (ubuntu-latest)": "success",
-      "platform (windows-latest)": "success",
-      "platform (macos-latest)": "success"
-    },
-    "all_five_jobs_passed": true,
-    "all_final_steps_verified": true,
+    "status": "pending_publication",
+    "head_sha": null,
+    "run_id": null,
+    "url": null,
+    "jobs": {},
+    "all_five_jobs_passed": false,
+    "all_final_steps_verified": false,
     "local_to_ci_artifact_hash_compared": false,
     "full_reference_python_baseline_passing": false,
-    "packaged_native_probe_player_domain": "FixtureScene; upgraded actual UDP uses configured LifeRuntime/TdmMode with HostedMedia and owned transitions",
-    "component_and_udp_tests_use_source_built_classes": true,
-    "job_ids": {
-      "build": 117796411755,
-      "native-enet": 117796411975,
-      "platform (ubuntu-latest)": 117796683331,
-      "platform (windows-latest)": 117796683335,
-      "platform (macos-latest)": 117796683339
-    },
-    "native_original_fixtures_reproduced": true,
-    "configured_generators": 72,
-    "repeated_ci_archive_identical": true,
-    "same_uploaded_jar_three_platforms": true
+    "packaged_native_probe_player_domain": "FixtureScene; actual UDP uses configured LifeRuntime/TdmMode with HostedVoting/HostedMedia and owned transitions",
+    "component_and_udp_tests_use_source_built_classes": true
   },
   "movement": {
     "cases": 118,
@@ -416,12 +399,12 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": true,
-    "expected_parent": "32559e81e0f1b44acc4b4918623ddc21833d978d",
+    "branch_updated": false,
+    "expected_parent": "8a326e909dab1e57c9d56d3accfced5e6bc9aea5",
     "force": false,
     "authorization": "User authorized this and future verified migration checkpoints, code/workflow changes and all five CI jobs; requested multiple implementations per batch.",
-    "implementation_commit": "280aa453e20ff89709db907b86437e3adff13852",
-    "tested_tree": "d9661a57f823ab8bc63bf200f03a2b94d7674456"
+    "implementation_commit": null,
+    "tested_tree": null
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -3836,6 +3819,209 @@
     "native_loader_uses_fixture_scene": true,
     "supported_client_validated": false,
     "ci_implementation_commit": "280aa453e20ff89709db907b86437e3adff13852",
-    "ci_run_id": 39168496083
+    "ci_run_id": 39168496083,
+    "scope": "Historical round-media checkpoint; selection/kick/host admission are in voting_policy"
+  },
+  "previous_round_media_checkpoint": {
+    "java_implementation_commit": "280aa453e20ff89709db907b86437e3adff13852",
+    "tested_tree": "d9661a57f823ab8bc63bf200f03a2b94d7674456",
+    "jar_sha256": "2b1eec34f5af529436c37c2287e9b09ede815f483d02eb22896c8ef2ad49f2a6",
+    "jar_bytes": 1879059,
+    "junit": {
+      "test": {
+        "tests": 6126,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "tests": 36,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "ci": {
+      "status": "success",
+      "head_sha": "280aa453e20ff89709db907b86437e3adff13852",
+      "run_id": 39168496083,
+      "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39168496083",
+      "jobs": {
+        "build": "success",
+        "native-enet": "success",
+        "platform (ubuntu-latest)": "success",
+        "platform (windows-latest)": "success",
+        "platform (macos-latest)": "success"
+      },
+      "all_five_jobs_passed": true,
+      "all_final_steps_verified": true,
+      "local_to_ci_artifact_hash_compared": false,
+      "full_reference_python_baseline_passing": false,
+      "packaged_native_probe_player_domain": "FixtureScene; upgraded actual UDP uses configured LifeRuntime/TdmMode with HostedMedia and owned transitions",
+      "component_and_udp_tests_use_source_built_classes": true,
+      "job_ids": {
+        "build": 117796411755,
+        "native-enet": 117796411975,
+        "platform (ubuntu-latest)": 117796683331,
+        "platform (windows-latest)": 117796683335,
+        "platform (macos-latest)": 117796683339
+      },
+      "native_original_fixtures_reproduced": true,
+      "configured_generators": 72,
+      "repeated_ci_archive_identical": true,
+      "same_uploaded_jar_three_platforms": true
+    }
+  },
+  "reference_vote_policy_tests": {
+    "tests": 273,
+    "passed": 273,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "command": "PYTHONPATH=java/build/reference-python .reference-venv/bin/python -m pytest -q tests/test_tdm.py tests/test_server_capacity.py tests/test_packet_delivery_fixes.py tests/test_simulation_order.py tests/test_scoreboard.py tests/test_mode_lifecycle_contracts.py tests/test_end_sequence.py tests/test_retail_end_screen.py tests/test_round_runtime_reset.py tests/test_ctf_end_and_departure.py tests/test_match_transitions.py tests/test_rollover_team_select.py tests/test_smart_spawns.py tests/test_retail_spawn_boxes.py tests/test_audio_voting.py tests/test_votekick_retail_format.py tests/test_map_vote_fit.py"
+  },
+  "voting_policy": {
+    "implementations": [
+      "NavigationAreas bounded prefix/cache",
+      "MapCatalog immutable worker catalog/retail pools",
+      "MapRotation source history/fit/cap/order",
+      "KickBallot denial/cooldown/majority/localization/match exclusions",
+      "VotingService single HUD/ranked map/packet/reset policy",
+      "HostedVoting actual host identity/delivery/disconnect/admission",
+      "HostedMedia shared voting composition"
+    ],
+    "new_component_tests": 51,
+    "new_integration_tests": 1,
+    "upgraded_existing_compositions": 1,
+    "source_scenarios": {
+      "navigation": 10,
+      "catalog_ranking": 12,
+      "kick_arbitration": 26,
+      "aggregate_fit_case": 1
+    },
+    "fit_vectors": 10,
+    "policy_method_substitutions": false,
+    "regeneration": {
+      "new_generator": "generate_vote_policy_golden.py",
+      "new_outputs": 2,
+      "new_generator_repeated_byte_identical": true,
+      "prior_frozen_paths": 254,
+      "prior_paths_unchanged": 254,
+      "total_checked_paths": 256,
+      "configured_generators": 73,
+      "local_unchanged_72_generator_native_build_evidence_reused": true,
+      "ci_independently_rebuilds_all": 73
+    },
+    "native_profiles": {
+      "native-transport-results.json": {
+        "oracle": "compiled vendored pyenet / ENet",
+        "profiles": [
+          {
+            "profile": "nominal",
+            "reliable_messages": 81,
+            "reliable_payload_sha256": "8bf5b28d7bc1cdca600b721861267251ba12443d0b16aa754887216142f0041a",
+            "unreliable_echoes": 48,
+            "reconnect": true,
+            "protocol_rejections": {
+              "167": 10,
+              "169": 3
+            },
+            "server_disconnect_reason": 18,
+            "java_retransmissions": 0,
+            "forwarded_datagrams": 1030,
+            "dropped_datagrams": 0,
+            "duplicate_datagrams": 0,
+            "delayed_datagrams": 0,
+            "java_malformed_datagrams": 0,
+            "game_client_test": false,
+            "result": "PASS"
+          },
+          {
+            "profile": "loss-reorder-duplicate",
+            "reliable_messages": 81,
+            "reliable_payload_sha256": "8bf5b28d7bc1cdca600b721861267251ba12443d0b16aa754887216142f0041a",
+            "unreliable_echoes": 32,
+            "reconnect": true,
+            "protocol_rejections": {
+              "167": 10,
+              "169": 3
+            },
+            "server_disconnect_reason": 18,
+            "java_retransmissions": 70,
+            "forwarded_datagrams": 1290,
+            "dropped_datagrams": 133,
+            "duplicate_datagrams": 98,
+            "delayed_datagrams": 1178,
+            "java_malformed_datagrams": 0,
+            "game_client_test": false,
+            "result": "PASS"
+          }
+        ]
+      },
+      "native-loader-results.json": {
+        "oracle": "vendored native ENet with independently decoded application packets",
+        "profiles": [
+          {
+            "profile": "nominal",
+            "private_password": false,
+            "full_chunks": 453,
+            "full_records_sha256": "a04e25f22eff412ed7565b1cdd13ca0fa4033fdde416d2d0b4890ffcdbd4dc10",
+            "delta_chunks": 0,
+            "dropped_datagrams": 0,
+            "duplicate_datagrams": 0,
+            "delayed_datagrams": 0,
+            "concurrent_reserved_ids": [
+              0,
+              1
+            ],
+            "full_refusal_reason": 4,
+            "ticket_xor": true,
+            "capability_trailer": true,
+            "canonical_health": true,
+            "canonical_removal": true,
+            "roster_reconcile": true,
+            "scene_reload": true,
+            "configured_metadata": true,
+            "sidecar_layering": true,
+            "metadata_reload": true,
+            "packaged_application": true,
+            "game_client_test": false,
+            "result": "PASS"
+          },
+          {
+            "profile": "impaired",
+            "private_password": true,
+            "full_chunks": 453,
+            "full_records_sha256": "a04e25f22eff412ed7565b1cdd13ca0fa4033fdde416d2d0b4890ffcdbd4dc10",
+            "delta_chunks": 0,
+            "dropped_datagrams": 114,
+            "duplicate_datagrams": 77,
+            "delayed_datagrams": 933,
+            "concurrent_reserved_ids": [
+              0,
+              1
+            ],
+            "full_refusal_reason": 4,
+            "ticket_xor": true,
+            "capability_trailer": true,
+            "canonical_health": true,
+            "canonical_removal": true,
+            "roster_reconcile": true,
+            "scene_reload": true,
+            "configured_metadata": true,
+            "sidecar_layering": true,
+            "metadata_reload": true,
+            "packaged_application": true,
+            "game_client_test": false,
+            "result": "PASS"
+          }
+        ]
+      }
+    },
+    "map_selection_ranking_and_kick_policy_implemented": true,
+    "complete_hosting_bootstrap": false,
+    "full_migration_complete": false,
+    "native_loader_uses_fixture_scene": true,
+    "supported_client_validated": false
   }
 }

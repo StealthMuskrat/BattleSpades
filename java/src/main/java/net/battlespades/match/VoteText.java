@@ -18,4 +18,11 @@ public final class VoteText {
         Objects.requireNonNull(value);if(value.isEmpty()||value.codePointCount(0,value.length())>128||value.indexOf(0)>=0||value.indexOf('\r')>=0||value.indexOf('\n')>=0)throw new IllegalArgumentException("Invalid retail dynamic text");
         return "("+literal(value.replace("{","{{").replace("}","}}"))+", ())";
     }
+    public static String vote(String identifier,List<String> arguments,List<Integer> localised){
+        localised(identifier,List.of());for(int index:localised)if(index<0||index>=arguments.size())throw new IllegalArgumentException("Localized argument index");
+        for(var argument:arguments)if(argument.indexOf(0)>=0||argument.codePointCount(0,argument.length())>128)throw new IllegalArgumentException("Vote argument bound");
+        String args="("+String.join(", ",arguments.stream().map(VoteText::literal).toList())+(arguments.size()==1?",":"")+")";
+        String indices="("+String.join(", ",localised.stream().map(Object::toString).toList())+(localised.size()==1?",":"")+")";
+        return "("+(localised.isEmpty()?literal(identifier):"("+literal(identifier)+", "+indices+")")+", "+args+")";
+    }
 }

@@ -27,9 +27,10 @@ public final class HostedTdmDomain implements HostedSceneState.Domain {
     /** Terminal bots/vote/repair/journal/HUD IO is deliberately controlled; state/sessions/timers use production bindings. */
     public static final class Bindings implements HostedTransitionServices.Bindings {
         public final List<String> log=new ArrayList<>();public int rebindFailures;public double grace;
+        public Runnable resetVoteOperation;public java.util.function.Consumer<String> noteMapOperation;
         private static CompletionStage<Void> done(){return CompletableFuture.completedFuture(null);}
-        public void notice(String message){log.add(message);}public void resetVote(){log.add("vote");}public CompletionStage<Void> prepareBots(){log.add("bots-prepare");return done();}public double graceSeconds(){return grace;}
-        public void resetRuntime(){log.add("runtime");}public void resetRepair(){log.add("repair");}public void resetJournal(){log.add("journal");}public void resetHud(){log.add("hud");}public void notePlayed(String map){log.add("played:"+map);}
+        public void notice(String message){log.add(message);}public void resetVote(){log.add("vote");if(resetVoteOperation!=null)resetVoteOperation.run();}public CompletionStage<Void> prepareBots(){log.add("bots-prepare");return done();}public double graceSeconds(){return grace;}
+        public void resetRuntime(){log.add("runtime");}public void resetRepair(){log.add("repair");}public void resetJournal(){log.add("journal");}public void resetHud(){log.add("hud");}public void notePlayed(String map){log.add("played:"+map);if(noteMapOperation!=null)noteMapOperation.accept(map);}
         public CompletionStage<Void> rebindBots(){if(rebindFailures-->0)throw new IllegalStateException("Controlled bot rebind failure");log.add("bots-rebind");return done();}
         public CompletionStage<Void> restartRound(TransitionMode mode){throw new UnsupportedOperationException("No in-place restart bound by this fixture");}public void failure(String label,Throwable error){log.add("failure:"+label);}
     }

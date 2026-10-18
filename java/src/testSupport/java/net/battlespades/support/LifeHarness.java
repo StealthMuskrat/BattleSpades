@@ -26,6 +26,7 @@ public final class LifeHarness implements AutoCloseable {
     public final List<String> events=new ArrayList<>();
     public int inputCount;
     public LifeRuntime.Messages destination;
+    public java.util.function.Consumer<PlayerLife> forgettingOperation;
     public java.util.function.BiConsumer<PlayerLife,GamePacket> packetHandler=(player,packet)->{};
     public LifeHarness(){this(GameRules.serverDefaults());}
     public LifeHarness(GameRules rules){this(rules,"tdm");}
@@ -57,7 +58,7 @@ public final class LifeHarness implements AutoCloseable {
             public void healed(LifeRuntime.HealingEvidence h){healingEvidence.add(h);events.add("heal:"+h.victim().id());}
             public void beforeDeath(LifeRuntime.DeathEvidence d){deathEvidence.add(d);events.add("before-death:"+d.victim().id());deathObserver.accept(d);}
             public void transitionCredited(PlayerLife v,PlayerLife a,int type){events.add("transition-credit:"+v.id()+":"+a.id()+":"+type);}
-            public void forget(PlayerLife p){events.add("forget:"+p.id());}
+            public void forget(PlayerLife p){events.add("forget:"+p.id());if(forgettingOperation!=null)forgettingOperation.accept(p);}
             public void respawnFailed(PlayerLife p,RuntimeException failure){events.add("failed:"+p.id());}
         }),new LifeRuntime.Messages(){
             public void broadcast(GamePacket p){wire.add(p);if(destination!=null)destination.broadcast(p);}

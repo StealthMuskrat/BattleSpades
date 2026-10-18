@@ -1,0 +1,21 @@
+{
+  "cases": 49,
+  "domains": {
+    "catalog": 12,
+    "fit": 1,
+    "kick": 26,
+    "navigation": 10
+  },
+  "fixture_sha256": "d20e039a22a4dd6afab1b3864455a5989c7c066e6752bf2891772f74913f4a2a",
+  "policy_method_substitutions": false,
+  "scope": "Intact VoteManager discovery/fit/rotation/kick/arbitration policies and real native packets.\n\nFilesystem catalogs/nav bytes, clocks, random seeds and actor/terminal disconnect\nservices are controlled. No policy method is replaced. No supported-client claim.",
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_files_sha256": {
+    "server/announcements.py": "72b5cfdddef9895a0233ab0c70a53b7a1846671cfa65ba9af9515312f491646c",
+    "server/bans.py": "d4a51b6244017174813fa30de20043b2c5b61a1f2bd289cecd9bcd5552729c31",
+    "server/handlers/social.py": "90cccd9e912c0c76c8b01ea37fbe4be107258199f28d45bb01d3621d3304f780",
+    "server/map_metadata.py": "66a868d65f47cdb3d2eb3956f04652ae637f03a2f2cb4cebf26f956a329f8161",
+    "server/voting.py": "459bf2a7089789588e39952c2278236b5bb670f7e352875ce5d53cc2aadd82b6",
+    "shared/packet.pyx": "26e0bd6cc3ad92f931b8396ab21f395b199f11965a80dd96464b5907fb5b6819"
+  }
+}

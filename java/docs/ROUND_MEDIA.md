@@ -1,5 +1,9 @@
 # Round music, ambience and next-map ballots
 
+Follow-up: [VOTING_POLICY.md](VOTING_POLICY.md) adds discovery/ranking, kick policy
+and unified host ballot/admission bindings. The text below records the preceding
+round-media checkpoint and its then-pending service scope.
+
 This connected checkpoint binds source-backed presentation services after
 [PREPARED_HOST.md](PREPARED_HOST.md). Complete gameplay and normal hosting remain pending.
 

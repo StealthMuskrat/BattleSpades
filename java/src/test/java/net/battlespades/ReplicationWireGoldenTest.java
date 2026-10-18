@@ -15,7 +15,8 @@ class ReplicationWireGoldenTest {
     private static String hex(byte[] value){return HexFormat.of().formatHex(value);}
     @Test void originalImmutableRecipientTransforms()throws IOException {
         List<String> rows;
-        try(var in=new GZIPInputStream(Objects.requireNonNull(getClass().getResourceAsStream("/golden/replication-wire.tsv.gz")))){rows=new String(in.readAllBytes(),StandardCharsets.UTF_8).lines().toList();}
+        try(var in=new GZIPInputStream(Objects.requireNonNull(getClass().getResourceAsStream("/golden/replication-wire.tsv.gz")))){rows=new String(in.readAllBytes(),StandardCharsets.UTF_8).lines().distinct().toList();}
+        assertEquals(1474,rows.size(),"unique operation/input/expected-output vectors");
         int index=0;
         for(String line:rows){var row=line.split("\t",-1);var a=row[1].split(",",-1);String result;
             switch(row[0]){

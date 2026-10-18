@@ -25,8 +25,8 @@ final class ScoreboardGoldenTest {
                 public void resetResultBaselines(){events.add("baseline");}
                 public void scheduleResults(Integer winner){events.add("result:"+winner);}
             });
-            for(var r:Fixtures.rows("scoreboard")){
-                if(!r[0].equals("op")||Integer.parseInt(r[1])!=trace)continue;int step=Integer.parseInt(r[2]),op=Integer.parseInt(r[3]);var actor=actors.get(Integer.parseInt(r[4]));long value=Long.parseLong(r[5]);Integer reason=r[6].equals("-")?null:Integer.valueOf(r[6]);double seconds=Fixtures.number(r[7]);failure[0]=r[8].equals("1");ended[0]=r[9].equals("1");stopping[0]=r[10].equals("1");known.set(0,r[11].equals("-")?Optional.empty():Optional.of(new HashSet<>(Fixtures.ids(r[11]))));absent[0]=r[12].equals("1");peer2[0]=step%4!=0;wire.clear();events.clear();String result="-",outcome="ok";
+            for(var r:Fixtures.trace("scoreboard",trace,"op")){
+                int step=Integer.parseInt(r[2]),op=Integer.parseInt(r[3]);var actor=actors.get(Integer.parseInt(r[4]));long value=Long.parseLong(r[5]);Integer reason=r[6].equals("-")?null:Integer.valueOf(r[6]);double seconds=Fixtures.number(r[7]);failure[0]=r[8].equals("1");ended[0]=r[9].equals("1");stopping[0]=r[10].equals("1");known.set(0,r[11].equals("-")?Optional.empty():Optional.of(new HashSet<>(Fixtures.ids(r[11]))));absent[0]=r[12].equals("1");peer2[0]=step%4!=0;wire.clear();events.clear();String result="-",outcome="ok";
                 try{
                     switch(op){
                         case 0->{actor.score=value;board.playerScore(actor,reason);}
@@ -51,9 +51,9 @@ final class ScoreboardGoldenTest {
         }
     }
     @ParameterizedTest @MethodSource("traces") void originalNativeGameStatsCodec(int group)throws Exception{
-        assertTrue(PacketCodec.supports(67));for(var r:Fixtures.rows("scoreboard")){if(!r[0].equals("codec")||Integer.parseInt(r[1])/32!=group)continue;var ids=Fixtures.ids(r[4]);var types=Fixtures.ids(r[5]);var rows=new ArrayList<ScorePackets.Row>();for(int i=0;i<ids.size();i++)rows.add(new ScorePackets.Row(ids.get(i),types.get(i)));var packet=new ScorePackets.GameStats(Integer.parseInt(r[2]),Integer.parseInt(r[3]),rows);assertEquals(r[6],hex(packet),"native stats "+r[1]);assertEquals(r[7],hex(PacketCodec.decode(HexFormat.of().parseHex(r[6]))),"native decoded stats "+r[1]);}
+        assertTrue(PacketCodec.supports(67));for(var r:Fixtures.rows("scoreboard","codec")){if(Integer.parseInt(r[1])/32!=group)continue;var ids=Fixtures.ids(r[4]);var types=Fixtures.ids(r[5]);var rows=new ArrayList<ScorePackets.Row>();for(int i=0;i<ids.size();i++)rows.add(new ScorePackets.Row(ids.get(i),types.get(i)));var packet=new ScorePackets.GameStats(Integer.parseInt(r[2]),Integer.parseInt(r[3]),rows);assertEquals(r[6],hex(packet),"native stats "+r[1]);assertEquals(r[7],hex(PacketCodec.decode(HexFormat.of().parseHex(r[6]))),"native decoded stats "+r[1]);}
     }
     @ParameterizedTest @MethodSource("traces") void originalNativeScoreboardTextCodec(int group)throws Exception{
-        assertTrue(PacketCodec.supports(73));for(var r:Fixtures.rows("scoreboard")){if(!r[0].equals("text")||Integer.parseInt(r[1])/32!=group)continue;var packet=new ScorePackets.ShowTextMessage(Integer.parseInt(r[2]),(float)Fixtures.number(r[3]));assertEquals(r[4],hex(packet));var decoded=(ScorePackets.ShowTextMessage)PacketCodec.decode(HexFormat.of().parseHex(r[4]));assertEquals(r[5],hex(decoded));assertEquals(r[6],Fixtures.bits(decoded.duration()));}
+        assertTrue(PacketCodec.supports(73));for(var r:Fixtures.rows("scoreboard","text")){if(Integer.parseInt(r[1])/32!=group)continue;var packet=new ScorePackets.ShowTextMessage(Integer.parseInt(r[2]),(float)Fixtures.number(r[3]));assertEquals(r[4],hex(packet));var decoded=(ScorePackets.ShowTextMessage)PacketCodec.decode(HexFormat.of().parseHex(r[4]));assertEquals(r[5],hex(decoded));assertEquals(r[6],Fixtures.bits(decoded.duration()));}
     }
 }

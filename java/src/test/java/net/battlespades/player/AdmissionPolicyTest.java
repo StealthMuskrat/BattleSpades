@@ -77,11 +77,16 @@ class AdmissionPolicyTest {
         if(variant>0)for(var d:GameRules.definitions().values())if(d.classId()>=0&&(variant==3||d.classId()%2==variant%2))rules=rules.apply(Map.of(d.key(),false));return rules;
     }
     @TestFactory Stream<DynamicTest> originalModeAndRuleClassFallbacks()throws Exception{
+        var variants=java.util.stream.IntStream.range(0,4).mapToObj(AdmissionPolicyTest::rules).toList();
+        var disabled=variants.stream().map(GameRules::disabledTools).toList();
+        var tools=java.util.stream.IntStream.range(0,75).boxed().toList();
+        var ugcTools=java.util.stream.IntStream.range(0,30).boxed().toList();
         var groups=new LinkedHashMap<String,List<String[]>>();for(var row:rows("admission-classes"))groups.computeIfAbsent(row[0],k->new ArrayList<>()).add(row);
         return groups.entrySet().stream().map(e->DynamicTest.dynamicTest("classes "+e.getKey(),()->{
+            var selections=new HashMap<List<Integer>,ClassCatalog.Selection>();
             for(var r:e.getValue()){
-                var rules=rules(Integer.parseInt(r[1]));var mode=ModeCatalog.get(r[0]);boolean custom=yes(r[2]),ugc=yes(r[3]);int id=Integer.parseInt(r[4]);
-                var selection=ClassCatalog.normalize(id,java.util.stream.IntStream.range(0,75).boxed().toList(),List.of("pillbox"),java.util.stream.IntStream.range(0,30).boxed().toList(),null,rules.disabledTools());
+                int variant=Integer.parseInt(r[1]);var rules=variants.get(variant);var mode=ModeCatalog.get(r[0]);boolean custom=yes(r[2]),ugc=yes(r[3]);int id=Integer.parseInt(r[4]);
+                var selection=selections.computeIfAbsent(List.of(variant,id),key->ClassCatalog.normalize(id,tools,List.of("pillbox"),ugcTools,null,disabled.get(variant)));
                 assertEquals(yes(r[6]),AdmissionPolicy.classSelectable(id,rules,mode,custom,ugc),Arrays.toString(r));
                 assertEquals(r[7].equals("-1")?null:Integer.valueOf(r[7]),AdmissionPolicy.fallbackClass(rules,mode,custom,ugc),Arrays.toString(r));
                 var actual=AdmissionPolicy.enforceClass(selection,Integer.parseInt(r[5]),rules,mode,custom,ugc);

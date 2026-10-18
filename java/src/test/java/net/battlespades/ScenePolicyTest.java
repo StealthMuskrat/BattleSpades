@@ -30,7 +30,7 @@ class ScenePolicyTest {
     private static List<String> strings(String text){var t=Toml.parse("value="+text);return t.getArray("value").toList().stream().map(String.class::cast).toList();}
     private static String typed(Object v){return v instanceof Boolean b?"bool:"+(b?1:0):v instanceof Long?"int:"+v:"float:"+Double.toHexString(((Number)v).doubleValue());}
     @TestFactory Stream<DynamicTest> everyRuleCoercionMatchesSource() throws Exception {
-        var groups=new LinkedHashMap<String,List<String[]>>();for(var r:rows("rules"))groups.computeIfAbsent(r[0],k->new ArrayList<>()).add(r);
+        var groups=new LinkedHashMap<String,List<String[]>>();for(var r:GoldenRows.distinct(rows("rules")))groups.computeIfAbsent(r[0],k->new ArrayList<>()).add(r);
         return groups.entrySet().stream().map(e->DynamicTest.dynamicTest(e.getKey(),()->{
             for(var r:e.getValue()){
                 if(r[2].equals("error"))assertThrows(IllegalArgumentException.class,()->GameRules.serverDefaults().apply(Map.of(r[0],value(r[1]))),Arrays.toString(r));

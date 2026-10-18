@@ -35,3 +35,9 @@ https://github.com/python/cpython/blob/v3.12.0/Modules/mathmodule.c.
 ENet wire constants and command layout derive from the vendored ENet MIT source
 Copyright (c) 2002-2020 Lee Salzman; complete MIT notice is preserved in the root
 THIRD_PARTY_NOTICES.md and packaged in the JAR. No ENet native binary is included.
+
+SourceEntityIds adapts CPython 3.12 Objects/setobject.c (Python Software Foundation,
+PSF-2.0) to owner-confined primitive uint16 entity IDs. It preserves support-bucket
+callback ordering without Python object comparison or interpreter/runtime code.
+The full PSF license is in licenses/python-psf.txt and packaged in the JAR.
+Reference: https://github.com/python/cpython/blob/v3.12.0/Objects/setobject.c.

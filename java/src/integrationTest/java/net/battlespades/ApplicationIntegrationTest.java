@@ -32,6 +32,7 @@ import net.battlespades.rules.GameRules;
 import net.battlespades.player.*;
 import net.battlespades.replication.*;
 import net.battlespades.combat.*;
+import net.battlespades.entities.*;
 import net.battlespades.physics.CollisionMap;
 import net.battlespades.physics.PlayerPhysics.Vector;
 import org.junit.jupiter.api.Test;
@@ -99,6 +100,34 @@ class ApplicationIntegrationTest {
             clients.add(client);client.connect();until(()->client.peerId>=0);client.send(new LoadingPackets.SteamSessionTicket(new byte[]{3,7,19},capability==0?new byte[0]:new byte[]{'B','S','C','F',(byte)capability}),false);client.key=new byte[]{3,7,19};
             until(()->client.has(114));client.send(new SimplePackets.MapDataValidation(world.sourceCrc()),false);until(()->client.has(45));
         }
+    }
+    @Test void realUdpOwnedShotDestroysConcreteEntityAndPreservesPerSceneKnowledge(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("Entity lifecycle UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var h=new LifeHarness()){
+                var registry=new EntityRegistry();var ports=new CombatPorts(h);ports.entityRegistry=registry;ports.bind();
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),()->ScenePackets.State.initial(config),h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),3,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var b=new Client(host.address());var late=new Client(host.address())){
+                    ports.reliableSink=p->host.broadcast(p,Delivery.RELIABLE);ports.unreliableSink=p->host.broadcast(p,Delivery.UNRELIABLE);ports.feedbackSink=(p,owner)->host.broadcastExcept(p,Delivery.UNRELIABLE,owner);
+                    var loop=new Loop(host);loop.explicitTick=1000;loop.ticketAndLoad(a,h.world);a.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"shooter"),false);loop.until(()->a.has(69));loop.ticketAndLoad(b,h.world);b.send(new SimplePackets.NewPlayerConnection(3,0,0,0,"observer"),false);loop.until(()->b.has(69));
+                    loop.until(()->{try{a.send(new ClientInput(100,127,false,6,1,0,0,0,0,24,0),true);b.send(new ClientInput(200,127,false,5,1,0,0,0,0,24,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0)&&host.inGame(1);});
+                    var knowledge=new ArrayList<EntityVisibility>();for(int id=0;id<3;id++){int recipient=id;knowledge.add(new EntityVisibility(p->{assertTrue(host.sendPlayer(recipient,p));}));}
+                    ports.entityContext=()->new EntityContext(1./60,h.monotonic,h.runtime.players().stream().toList(),registry,e->{for(int id=0;id<3;id++)if(host.inGame(id))knowledge.get(id).reveal(e);},id->{for(int peer=0;peer<3;peer++)if(host.inGame(peer))knowledge.get(peer).destroy(id);});
+                    var placement=new EntityRegistry.Placement();var health=new DamageableEntityBehavior(50);placement.behavior=health;var device=registry.place(36,39,36,96.5,placement);var hidden=registry.place(0,40,36,96.5);hidden.wireVisible=false;var moving=new EntityRegistry.Placement();moving.kind="projectile";var projectile=registry.place(33,45,36,97,moving);
+                    var shooter=h.runtime.player(0);shooter.body().position(new Vector(36,36,97));h.runtime.player(1).body().position(new Vector(42,40,97));shooter.orientation(1,0,0);shooter.fire().tool(6,true);shooter.inventory().ammo(8,100);
+                    a.packets.clear();a.commands.clear();b.packets.clear();b.commands.clear();ports.entityContext.get().create().accept(device);ports.entityContext.get().create().accept(hidden);assertFalse(knowledge.get(0).reveal(device));assertFalse(knowledge.get(1).reveal(device));loop.until(()->a.has(21)&&b.has(21));for(var client:List.of(a,b)){assertEquals(1,client.packets.stream().filter(p->p.id()==21).count());assertEquals(device.toWireEntity(),((CreateEntity)client.packets.stream().filter(p->p.id()==21).findFirst().orElseThrow()).entity());}
+                    for(int shot=0;shot<2;shot++){
+                        if(shot>0){h.monotonic+=3;h.wall+=3;ports.loop=loop.explicitTick=1180;a.send(new ClientInput(280,127,false,6,1,0,0,0,0,24,0),true);loop.until(()->Objects.equals(shooter.inputTimeline().newestLabel(),280));}
+                        a.packets.clear();a.commands.clear();b.packets.clear();b.commands.clear();a.send(new ShootPacket(shot==0?100:280,254,0,new Vector3f(36,36,97),new Vector3f(1,0,0),32767,32767,true,true,0),false);loop.until(()->a.has(20)&&b.has(20));
+                        if(shot==0){assertEquals(25,health.health());assertTrue(device.alive);assertSame(device,registry.get(device.id()));}else{loop.until(()->a.has(19)&&b.has(19));assertEquals(0,health.health());assertFalse(device.alive);assertNull(registry.get(device.id()));for(var client:List.of(a,b)){int hit=-1,destroy=-1;for(int i=0;i<client.packets.size();i++){if(client.packets.get(i).id()==20){hit=i;assertEquals(6,client.commands.get(i));assertEquals(device.id(),((CombatPackets.HitEntity)client.packets.get(i)).entityId());}if(client.packets.get(i).id()==19){destroy=i;assertEquals(6,client.commands.get(i));}}assertTrue(hit>=0&&destroy>hit);}assertFalse(knowledge.get(0).knows(device.id()));assertFalse(knowledge.get(1).knows(device.id()));}
+                    }
+                    assertEquals(6,shooter.inventory().ammo().clip());assertFalse(knowledge.get(2).destroy(device.id()));
+                    loop.ticketAndLoad(late,h.world);late.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"late"),false);loop.until(()->late.has(69));loop.until(()->{try{late.send(new ClientInput(300,127,false,5,1,0,0,0,0,24,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(2);});
+                    assertTrue(registry.staticEntities().isEmpty());assertFalse(knowledge.get(2).knows(projectile.id()));assertFalse(late.has(19));assertFalse(late.has(21));
+                    var fresh=registry.place(4,50,36,97);ports.entityContext.get().create().accept(fresh);ports.entityContext.get().create().accept(fresh);loop.until(()->late.has(21));assertEquals(1,late.packets.stream().filter(p->p.id()==21).count());assertEquals(fresh.id(),((CreateEntity)late.packets.stream().filter(p->p.id()==21).findFirst().orElseThrow()).entity().entityId());assertTrue(knowledge.get(2).knows(fresh.id()));
+                }
+            }
+        });
     }
     @Test void realUdpOwnedBulletAndSpadeCommitTerrainHealthCollapseCreditAndRepair(){
         assertTimeoutPreemptively(Duration.ofSeconds(15),()->{

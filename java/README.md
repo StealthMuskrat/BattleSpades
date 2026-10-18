@@ -40,6 +40,12 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
+The concrete entity registry now preserves uint16 allocation, source support/tick/
+touch/respawn callback order, base damage/destruction and per-scene visibility.
+New source traces and a three-client owned-shot UDP test cover the component;
+concrete pickups/devices/projectile/corpse and full gameplay integration remain
+pending. See [ENTITY_REGISTRY.md](docs/ENTITY_REGISTRY.md).
+
 Bounded terrain repair scheduling now preserves regular/collapse lane order,
 quiet periods, current canonical health and per-recipient reliable sends. See
 [TERRAIN_REPAIR.md](docs/TERRAIN_REPAIR.md) for evidence and remaining integration.

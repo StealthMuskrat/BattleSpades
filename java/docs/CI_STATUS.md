@@ -1,4 +1,24 @@
-# Current terrain-repair checkpoint verification
+# Current entity-registry checkpoint verification
+
+Local clean check/build passes **5,147 component + 21 real UDP tests**, zero
+failures, errors or skips. **57 focused original tests** pass. New comparisons
+cover 7,680 registry operations, 512 native wire cases and 16,388 set snapshots.
+All 49 configured generators reproduce source outputs after a fresh original
+native build; all 197 recorded fixture/catalog hashes remain unchanged. Publication and all five current-head CI jobs are pending.
+
+Two CRC-valid local archives are byte-identical: 1570024 bytes,
+SHA-256 `517119e5942cf8b1398c7d62d0167f12c1a5c3076fecfb83473072e8abf592f3`. Class major 69 and packaging audits pass;
+version/config exits 0 and hosting exits 2. Native transport and packaged-loader
+probes pass nominal/impaired assertions in an isolated run. Historical probe
+observations remain preceding-checkpoint evidence below.
+
+The new three-client owned UDP test binds actual registry/damageable entities and
+per-scene visibility through explicit test domain ports. Concrete device/corpse/
+projectile and remaining mode/service/gameplay integration, supported-client and
+capacity/soak gates remain pending. Native packaged-loader probes retain
+FixtureScene. See [ENTITY_REGISTRY.md](ENTITY_REGISTRY.md).
+
+# Preceding terrain-repair checkpoint verification
 
 Local clean check/build passes **5,061 component + 20 real UDP tests**, zero
 failures, errors or skips. **53 focused original tests** pass. New comparisons

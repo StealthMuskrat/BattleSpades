@@ -33,6 +33,7 @@ has passed. Nothing below is a production-readiness claim.
 | Player.simulate_tick / ordinary Player.update | Infantry/connected-flight integration implemented | 16,683 original no-flight operations; owned UDP movement/refill/fall-health test; starvation/backlog, velocity impulses and eye history; full loop policies, concrete modes and complete presentation/entity domains remain pending; see INFANTRY_SIMULATION.md |
 | Jetpack resources / canopy policy / flight profiles | Connected-player integration implemented | 65,497 original full-path operations in 44 traces; all four packs and stock/v1/v2 profiles; real UDP thrust/fuel/release and canopy landing; actual owner replication is now bound separately; bots/corpse-fuse/client validation pending; see PLAYER_FLIGHT.md |
 | WorldUpdate cadence / routing / owner history | Connected-player replication implemented | 18,448 service, 2,235 wire, 1,132 live-row, 3,714 owner-history and 8,458 release-hold operations; two-client UDP ACK/respawn barriers; required effect/tool/entity/corpse domains and real-client validation pending; see WORLD_REPLICATION.md |
+| Entity registry / base behavior / per-scene visibility | Implemented component | 7,680 source registry operations, 512 native wire cases, 16,388 integer-set snapshots; new three-client owned-shot UDP damage/destruction and known-ID delivery; concrete pickups/devices/projectile/corpse and complete loop/mode binding remain pending; see ENTITY_REGISTRY.md |
 | Combat/ammo/reload/grenades/deployables | Owned shot commit, player hitscan/melee damage and feedback implemented as components; concrete combat domains pending | 540,416 new source operations plus prior timing/geometry evidence; automatic bound packet-6 real UDP health/death, ammo, feedback and delayed rewind. Terrain health/dig/collapse now have TERRAIN_DAMAGE.md evidence; repair scheduling now implemented as a component; required full loop/entity/corpse/mode/scoring/achievement/input domains and projectiles remain pending; see COMBAT_RUNTIME.md |
 | TDM/CTF/ClassicCTF/Arena/VIP/Zombie | **Pending** | complete playable rounds, not identifiers/classes |
 | Multi Hill/TC/Diamond/Demolition/Occupation | **Pending** | rules/objectives/timers/round reset and joins |
@@ -74,4 +75,4 @@ has verified components but is not complete. Milestones C–F are not complete.
 
 Terrain damage, health/shades, seeded footprints, collapse and configured late-join
 health reveal are source-backed components; see [TERRAIN_DAMAGE.md](TERRAIN_DAMAGE.md).
-Construction, concrete repair scheduling and projectile/entity/mode integration remain pending.
+Construction, full repair-loop binding and concrete device/projectile/corpse/mode integration remain pending.

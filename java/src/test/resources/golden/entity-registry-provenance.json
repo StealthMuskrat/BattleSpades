@@ -1,0 +1,13 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_files_sha256": {
+    "server/entities/registry.py": "844b5df830c2900419035491f35c9fed0542dc8f6fce7fb3b7ed280c8a3f8935",
+    "server/entities/behaviors.py": "de230daca0fe35db5abaee03f5df6885e027f897182371fac19087f73a154f5d",
+    "shared/packet.pyx": "26e0bd6cc3ad92f931b8396ab21f395b199f11965a80dd96464b5907fb5b6819"
+  },
+  "registry_operations": 7680,
+  "wire_cases": 512,
+  "fixture_sha256": "37850432935f4f1ed78dee07749f8aa56bd78fbf0d12c827cac77aa2fe13d29f",
+  "method_substitutions": false,
+  "scope": "Unchanged original registry, inert/damageable base behaviors and compiled Entity/CreateEntity codec. Controlled subclass callbacks, clocks, players and send IO; mutation snapshots, capped inherited ticks, spatial touch ordering, reentrant support loss, stale support index, respawn and known-ID/send-failure ordering. Does not establish concrete pickup/device/projectile/mode behavior or full server-loop integration."
+}

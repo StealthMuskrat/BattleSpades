@@ -1,9 +1,7 @@
 # Java test results
 
-Stage: bounded regular/collapse terrain repair scheduling, 2026-10-17 UTC.
-Implementation: `d6990d6e33181547bfa38068bb228372245e79bb`; tested tree: `64cf08a198b804bda991d1886d15cff051c3ff8a`.
-All five jobs passed in [run 39080190230](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39080190230), including fixture regeneration,
-archive reproducibility and one uploaded JAR on three platforms.
+Stage: concrete entity registry and base lifecycle, 2026-10-18 UTC.
+Local clean check/build passes; publication and all five current-head CI jobs are pending.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -17,6 +15,8 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.ConfigTest | 4 | 0 | 0 | 0 |
 | net.battlespades.DirectDamageGoldenTest | 65 | 0 | 0 | 0 |
 | net.battlespades.EnetTest | 7 | 0 | 0 | 0 |
+| net.battlespades.EntityIdSetGoldenTest | 33 | 0 | 0 | 0 |
+| net.battlespades.EntityRegistryGoldenTest | 53 | 0 | 0 | 0 |
 | net.battlespades.GoldenPacketTest | 178 | 0 | 0 | 0 |
 | net.battlespades.HandshakeTest | 2 | 0 | 0 | 0 |
 | net.battlespades.HitEffectPacketsGoldenTest | 12 | 0 | 0 | 0 |
@@ -71,20 +71,22 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.player.SpawnPolicyTest | 36 | 0 | 0 | 0 |
 | net.battlespades.player.TerrainCommitGoldenTest | 16 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 16 | 0 | 0 | 0 |
-| net.battlespades.ApplicationIntegrationTest | 17 | 0 | 0 | 0 |
+| net.battlespades.ApplicationIntegrationTest | 18 | 0 | 0 | 0 |
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **5,081 Java tests passed: 5,061 component and 20 real UDP; no failures,
-errors or skips.** The 3,072 new unchanged-service operations compare exact queue
-order, wire and counters, including nonempty delivery and actual injected faults.
-All 193 fixture/catalog hashes reproduce after a fresh original native build.
-**53 focused original tests pass**; the full baseline retains its documented
-incomplete runs and VIP discrepancy.
+Total: **5,168 Java tests passed: 5,147 component and 21 real UDP; no failures,
+errors or skips.** New source comparisons cover 7,680 registry operations, 512
+native wire cases and 16,388 integer-set snapshots. Bulk set primitives are not
+counted as independent snapshots. All 49 configured generators reproduce their source outputs after a fresh
+original native build; all 197 recorded fixture/catalog hashes remain unchanged.
+**57 focused original entity/behavior/attachment tests pass**; these original
+tests cover more concrete behavior than this Java checkpoint ports. The full
+baseline retains its documented incomplete runs and VIP discrepancy.
 
-The existing three-client terrain UDP test is expanded, not counted as another
-independent test. It binds actual repair scheduling with explicit ticks and trusted
-mode/effect ports, verifying delayed collapse confirmations and rejected-prediction
-repair using current painted color and damaged health. Full gameplay-loop/domain,
-entity/corpse/projectile, mode/service and supported-client/capacity/soak work remains.
-Hosting still exits 2. See [TERRAIN_REPAIR.md](TERRAIN_REPAIR.md).
+One new three-client UDP test verifies actual registry health/destruction through
+owned shots, reliable hit-before-destroy ordering and per-scene knowledge. Trusted
+mode/effect ports and explicit lifecycle scheduling remain test inputs. Concrete
+pickups/devices/projectile/corpse, remaining services and complete gameplay-loop,
+supported-client/capacity/soak work remains. Hosting exits 2. See
+[ENTITY_REGISTRY.md](ENTITY_REGISTRY.md).

@@ -1,0 +1,9 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "runtime_family": "CPython 3.12",
+  "runtime_source": "https://github.com/python/cpython/blob/v3.12.0/Objects/setobject.c",
+  "operations": 16388,
+  "fixture_sha256": "065cabdfb114b3b672a6e9fe65a957035c86e902e76eeaba5d0d8a8bea2479f1",
+  "method_substitutions": false,
+  "scope": "Actual CPython sets of uint16 entity IDs: insertion/deletion/dummies/resizes/clear/membership and full table-order digest. Includes full uint16 occupancy and bulk deletion/reinsertion. Foundation for support-callback order only; no concrete entity registry or behavior lifecycle proof yet."
+}

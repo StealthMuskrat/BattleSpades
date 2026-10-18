@@ -163,6 +163,8 @@ jobs:
           python -S java/tools/generate_crate_golden.py
           python -S java/tools/generate_map_markers_golden.py
           python -S java/tools/generate_map_resources_golden.py
+          python -S java/tools/generate_objective_carry_golden.py
+          git diff --exit-code -- java/src/test/resources/golden/objective-carry*
           git diff --exit-code -- java/src/test/resources/golden/map-markers* java/src/test/resources/golden/map-resources*
           git diff --exit-code -- java/src/main/java/net/battlespades/protocol/SimplePackets.java java/src/main/java/net/battlespades/protocol/PacketCodec.java java/docs/simple-packets.json java/src/test/resources/golden/crate*
           git diff --exit-code -- java/src/test/resources/golden/care-radar*

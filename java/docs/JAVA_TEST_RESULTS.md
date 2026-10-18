@@ -1,9 +1,7 @@
 # Java test results
 
-Stage: map-owned supplies, server VXL cleanup and static lights, 2026-10-18 UTC.
-Implementation: `56bb37003980c55de8e37afdba4ed1ac98b2af71`; tested tree: `4346f7694523cdac88ee6408168218536667f317`.
-All five jobs passed in [run 39088025414](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39088025414), including source regeneration,
-archive reproducibility and one uploaded JAR on three platforms.
+Stage: objective carry/drop helpers and native tuple codec, 2026-10-18 UTC.
+Local clean check/build passes; publication and all five current-head CI jobs are pending.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -72,6 +70,7 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.player.LifeRuntimeTest | 5 | 0 | 0 | 0 |
 | net.battlespades.player.MapResourceGoldenTest | 48 | 0 | 0 | 0 |
 | net.battlespades.player.MeleeHitEffectsGoldenTest | 17 | 0 | 0 | 0 |
+| net.battlespades.player.ObjectiveCarryGoldenTest | 80 | 0 | 0 | 0 |
 | net.battlespades.player.OwnerGoldenTest | 5 | 0 | 0 | 0 |
 | net.battlespades.player.PelletGoldenTest | 17 | 0 | 0 | 0 |
 | net.battlespades.player.PlayerFireGoldenTest | 33 | 0 | 0 | 0 |
@@ -82,21 +81,22 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.player.SpawnPolicyTest | 36 | 0 | 0 | 0 |
 | net.battlespades.player.TerrainCommitGoldenTest | 16 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 16 | 0 | 0 | 0 |
-| net.battlespades.ApplicationIntegrationTest | 22 | 0 | 0 | 0 |
+| net.battlespades.ApplicationIntegrationTest | 23 | 0 | 0 | 0 |
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **5,563 Java tests passed: 5,538 component and 25 real UDP; no failures,
-errors or skips.** New comparisons cover 76 original marker maps / 18,200 point
-observations and 48 original map-resource traces. All 60 configured generators
-reproduce outputs after a fresh original native build; all 219 recorded fixture/
-catalog/codegen hashes remain unchanged. **64 focused original tests pass.**
+Total: **5,644 Java tests passed: 5,618 component and 26 real UDP; no failures,
+errors or skips.** New comparisons cover 4,096 original carry/drop/sanitize/native-
+body operations, 8,192 arbitrary sanitize vectors and 512 native packet codec cases. All 61 configured generators
+reproduce outputs after a fresh original native build; all 221 recorded fixture/
+catalog/codegen hashes remain unchanged. **6 focused original tests pass.**
 The complete original baseline remains incomplete/failing; earlier Zombie cue
 lead and VIP discrepancies remain unchanged and are not waived.
 
-The new three-client UDP test loads MapAssembly, restores lights, heals to the
-body maximum, sends personal audio, replays only live resources, respawns with
-an aircraft cue and replaces only map-owned entities. Award/achievement/audio/
-reveal ports remain explicit; persistent achievements, complete modes/services/
-gameplay and supported-client/capacity/soak gates remain pending. Hosting exits 2;
-packaged native-loader probes retain FixtureScene. See MAP_RESOURCES.md.
+The new three-client UDP test composes actual carry/burden, dedicated late carrier
+reveal, capped drop, a reliable enqueue completion fault, retry/clear and spawn
+reset. Explicit reveal/send composition does not establish async request-handler
+authorization, objective-mode ownership, dropped-object simulation or complete
+snapshot/mode/gameplay binding. Supported-client/capacity/soak gates remain pending.
+Hosting exits 2; packaged native-loader probes retain FixtureScene.
+See OBJECTIVE_CARRY.md.

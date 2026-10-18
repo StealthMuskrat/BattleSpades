@@ -159,6 +159,28 @@ class ApplicationIntegrationTest {
             }
         });
     }
+    @Test void realUdpObjectiveCarryBurdenLateRevealAndDropSendBoundary(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var config=new SceneConfig("Objective helper UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var h=new LifeHarness()){
+                var scene=new ConfiguredScene(config,ScenePackets.Environment.defaults("fixture",h.world.sourceCrc()),()->ScenePackets.State.initial(config),h.runtime);
+                try(var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),3,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),scene,new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var b=new Client(host.address());var late=new Client(host.address())){
+                    var loop=new Loop(host);for(var client:List.of(a,b)){loop.ticketAndLoad(client,h.world);client.send(new SimplePackets.NewPlayerConnection(client==a?2:3,0,0,0,"objective helper"),false);loop.until(()->client.has(69));}
+                    loop.until(()->{try{a.send(new ClientInput(100,127,false,6,1,0,0,0,0,24,0),true);b.send(new ClientInput(200,127,false,6,1,0,0,0,0,24,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0)&&host.inGame(1);});
+                    var carrier=h.runtime.player(0);java.util.function.Consumer<GamePacket> reliable=p->host.broadcast(p,Delivery.RELIABLE);
+                    assertTrue(ObjectiveCarry.pickup(carrier,16,true,3,reliable));assertTrue(carrier.body().burdened());assertFalse(ObjectiveCarry.pickup(carrier,14,false,2,reliable));loop.until(()->a.has(70)&&b.has(70));for(var client:List.of(a,b)){var p=(SimplePackets.PickPickup)client.packets.stream().filter(packet->packet.id()==70).findFirst().orElseThrow();assertEquals(0,p.player_id());assertEquals(16,p.pickup_id());assertEquals(1,p.burdensome());}
+                    loop.ticketAndLoad(late,h.world);late.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"late carrier"),false);loop.until(()->late.has(69));loop.until(()->{try{late.send(new ClientInput(300,127,false,6,1,0,0,0,0,24,0),true);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(2);});
+                    // The explicit objective reveal port is independent of generic entity replication.
+                    for(var p:ObjectiveCarry.reveal(h.runtime.players()))assertTrue(host.sendPlayer(2,p));loop.until(()->late.has(70));assertEquals(1,late.packets.stream().filter(p->p.id()==70).count());
+                    for(var client:List.of(a,b,late)){client.packets.clear();client.commands.clear();}var at=carrier.position();var position=new DropPickup.Position(at.x()+.5,at.y()+.25,at.z());var velocity=new DropPickup.Position(999,-300,40);
+                    assertThrows(IllegalStateException.class,()->ObjectiveCarry.drop(carrier,position,velocity,77,p->{reliable.accept(p);throw new IllegalStateException("controlled reliable enqueue completion fault");}));assertEquals(16,carrier.pickupId());assertTrue(carrier.body().burdened());loop.until(()->List.of(a,b,late).stream().allMatch(c->c.has(71)));
+                    var result=ObjectiveCarry.drop(carrier,position,velocity,78,reliable);assertNotNull(result);assertEquals(16,result.type());assertEquals(3,result.state());assertEquals(15,Math.sqrt(result.velocity().x()*result.velocity().x()+result.velocity().y()*result.velocity().y()+result.velocity().z()*result.velocity().z()),1e-14);assertNull(carrier.pickupId());assertNull(carrier.pickupState());assertFalse(carrier.body().burdened());assertTrue(ObjectiveCarry.reveal(h.runtime.players()).isEmpty());loop.until(()->List.of(a,b,late).stream().allMatch(c->c.packets.stream().filter(p->p.id()==71).count()==2));
+                    for(var client:List.of(a,b,late)){var drops=client.packets.stream().filter(DropPickup.class::isInstance).map(DropPickup.class::cast).toList();assertEquals(77,drops.get(0).loop());assertEquals(78,drops.get(1).loop());for(var drop:drops){assertEquals(0,drop.playerId());assertEquals(16,drop.pickupId());assertEquals(position.x(),drop.position().x());assertEquals(position.y(),drop.position().y());assertEquals(position.z(),drop.position().z());}for(int i=0;i<client.packets.size();i++)if(client.packets.get(i).id()==71)assertEquals(6,client.commands.get(i));}
+                    assertTrue(ObjectiveCarry.pickup(carrier,14,true,2,reliable));h.runtime.respawn(0);assertNull(carrier.pickupId());assertFalse(carrier.body().burdened());
+                }
+            }
+        });
+    }
     @Test void realUdpMedpackCooldownAndRadarLateReplayThenOwnedShotCleanup(){
         assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
             var config=new SceneConfig("Care and radar UDP",27015,0,ModeCatalog.get("tdm"),"fixture",false,false,true,200,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());

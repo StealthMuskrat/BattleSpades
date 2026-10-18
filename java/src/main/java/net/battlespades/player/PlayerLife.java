@@ -32,6 +32,8 @@ public final class PlayerLife {
     private int worldUpdateAck;
     private List<Integer> chargeIds=List.of();
     private Integer radarEntityId;
+    private Integer pickupId,pickupState;
+    private boolean pickupBurdensome;
     private double hardcoreNextHeal;
     private Double lastLagRewindMillis;
     private int health=LifeCatalog.HEALTH,maxHealth=LifeCatalog.HEALTH,jetpack,parachute,color=0x707070,lastDamageSource=-1,lastDamageType=-1;
@@ -51,6 +53,10 @@ public final class PlayerLife {
     public int id(){owned();return id;}public int team(){owned();return team;}public int health(){owned();return health;}
     public String name(){owned();return name;}
     public Integer radarEntityId(){owned();return radarEntityId;}
+    public Integer pickupId(){owned();return pickupId;}
+    public Integer pickupState(){owned();return pickupState;}
+    public boolean pickupBurdensome(){owned();return pickupBurdensome;}
+    void carry(Integer id,boolean burdensome,Integer state){owned();pickupId=id;pickupBurdensome=burdensome;pickupState=state;if(body!=null)body.burdened(burdensome);}
     public void radarEntityId(Integer id){owned();radarEntityId=id;}
     public double hardcoreNextHeal(){owned();return hardcoreNextHeal;}
     public void hardcoreNextHeal(double wall){owned();hardcoreNextHeal=wall;}
@@ -131,7 +137,7 @@ public final class PlayerLife {
         owned();if(team==0)throw new IllegalStateException("Spectator cannot spawn");if(!Double.isFinite(monotonic))throw new IllegalArgumentException("Spawn clock");
         walletScale(walletScale);inventory.spawn(selection.classId(),walletScale);position=Objects.requireNonNull(at);generation++;health=maxHealth=LifeCatalog.HEALTH;damageHistory.clear();spawnedAt=monotonic;protectionCancelled=false;protectionCap=null;alive=true;spawned=true;lastDeath=null;color=teamColor&0xffffff;
         jetpack=selection.loadout().stream().filter(LifeCatalog.PACK_FUEL::containsKey).findFirst().orElse(0);parachute=selection.loadout().contains(72)?72:0;
-        hardcoreNextHeal=0;inputTimeline.resetLife();actionClock.reset(null);motion.resetLife();flight.resetLife();fire.resetLife();ownerAnchors.resetLife(at);body=new PlayerPhysics(world);body.position(at);body.profile(movementProfile());orientBody();body.flight(flight.mover(this));
+        carry(null,false,null);hardcoreNextHeal=0;inputTimeline.resetLife();actionClock.reset(null);motion.resetLife();flight.resetLife();fire.resetLife();ownerAnchors.resetLife(at);body=new PlayerPhysics(world);body.position(at);body.profile(movementProfile());orientBody();body.flight(flight.mover(this));
         // RoundLifecycle, rather than Player.spawn itself, clears death_time after a successful spawn.
     }
     public void clearDeathTime(){owned();deathTime=0;}

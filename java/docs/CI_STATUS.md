@@ -1,4 +1,22 @@
-# Current map-resource checkpoint verification
+# Current objective-carry checkpoint verification
+
+Local clean check/build passes **5,618 component + 26 real UDP tests**, zero
+failures, errors or skips. **6 focused original tests** pass. New evidence:
+4,096 original helper/native-body operations, 8,192 arbitrary sanitize vectors
+and 512 native codec cases. All 61 configured generators reproduce outputs after a fresh original native build;
+all 221 recorded fixture/catalog/codegen hashes remain unchanged.
+Publication and all five current-head CI jobs are pending.
+
+Two CRC-valid local archives are byte-identical: 1639856 bytes,
+SHA-256 `85c0fae39c41e192baf381e31dd8610160a089f07a6977eedf5dd147701f8b19`. Class major 69 and packaging audits pass;
+version/config exits 0 and hosting exits 2. Isolated native transport and loader
+probes pass nominal/impaired profiles. Explicit helper/reveal/send composition
+does not establish objective modes, async request handlers, dropped-object
+simulation or complete gameplay. Original baseline and supported-client/capacity/
+soak gates remain pending; earlier Zombie/VIP discrepancies remain unchanged.
+Packaged native-loader probes retain FixtureScene. See OBJECTIVE_CARRY.md.
+
+# Preceding map-resource checkpoint verification
 
 Local clean check/build passes **5,538 component + 25 real UDP tests**, zero
 failures, errors or skips. **64 focused original tests** pass. New evidence

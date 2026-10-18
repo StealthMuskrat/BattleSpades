@@ -56,6 +56,7 @@ public final class PlayerPhysics {
     public void alive(boolean value) {owned();alive=value;}
     public void exploded(boolean value) {owned();exploded=value;}
     public void burdened(boolean value) {owned();burdened=value;}
+    public boolean burdened(){owned();return burdened;}
     public void climbSlowdown(float value) {owned();if(!Float.isFinite(value))throw new IllegalArgumentException("Climb slowdown");climbSlowdown=value;}
     public void lock(Vector min,Vector max) {
         owned();if(min.x>max.x||min.y>max.y||min.z>max.z)throw new IllegalArgumentException("Lock bounds");lockMin=min;lockMax=max;

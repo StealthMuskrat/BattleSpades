@@ -113,3 +113,11 @@ serial asynchronous dispatch and delayed mode end/restart services remain pendin
 Original baseline and supported-client/capacity/soak gates remain pending; earlier
 unchanged Zombie/VIP and medpack-context discrepancies are unwaived. Hosting exits 2. Native packaged-loader
 probes retain FixtureScene. See MATCH_FLOW.md.
+
+The initial implementation `a831f1fe8226cde5dae8c429727eb4f3202409a3` passed the
+build, native, Ubuntu and Windows jobs in run 39143288035. macOS component tests
+and artifact smokes passed, but the existing UDP replication/respawn test timed
+out after ACK release. Its test synchronization now waits for reliable receipts
+without expiry, then broadcasts at cadence until the released row is received.
+The row-hold assertions and 4s/15s timeouts remain unchanged. This failure and its
+logs are retained; the corrected checkpoint requires a fresh five-job CI run.

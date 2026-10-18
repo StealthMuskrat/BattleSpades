@@ -549,3 +549,11 @@ and [verification-results.json](verification-results.json).
 Previous lifecycle CI (all five passed):
 https://github.com/StealthMuskrat/BattleSpades/actions/runs/38795898680.
 No current migration CI gate was waived.
+
+The initial implementation `a831f1fe8226cde5dae8c429727eb4f3202409a3` passed the
+build, native, Ubuntu and Windows jobs in run 39143288035. macOS component tests
+and artifact smokes passed, but the existing UDP replication/respawn test timed
+out after ACK release. Its test synchronization now waits for reliable receipts
+without expiry, then broadcasts at cadence until the released row is received.
+The row-hold assertions and 4s/15s timeouts remain unchanged. This failure and its
+logs are retained; the corrected checkpoint requires a fresh five-job CI run.

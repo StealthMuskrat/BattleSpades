@@ -568,7 +568,10 @@ class ApplicationIntegrationTest {
                     var link=host.snapshotLinks().stream().filter(l->Objects.equals(l.localPlayerId(),1)).findFirst().orElseThrow();assertTrue(link.heldSnapshotRows(1024).contains(new SnapshotHolds.Row(false,0)));
                     b.packets.clear();b.commands.clear();replication.broadcast(1024,h.monotonic);loop.until(()->b.has(2));
                     assertTrue(b.packets.stream().filter(packet->packet instanceof WorldUpdate).map(packet->(WorldUpdate)packet).allMatch(update->update.players().stream().noneMatch(r->r.playerId()==0)));
-                    b.releaseAcks();loop.until(()->link.heldSnapshotRows(1026).isEmpty());b.packets.clear();replication.broadcast(1026,h.monotonic);loop.until(()->b.has(2));
+                    b.releaseAcks();loop.until(()->link.heldSnapshotRows(1026).isEmpty());
+                    // Release the complete reliable burst before checking periodic unreliable output.
+                    long through=link.reliableSendIndex();loop.until(()->!link.reliableUnackedThrough(through,1026));b.packets.clear();int[] observerTick={1026};
+                    loop.until(()->{if(b.packets.stream().filter(WorldUpdate.class::isInstance).map(WorldUpdate.class::cast).anyMatch(update->update.players().stream().anyMatch(r->r.playerId()==0)))return true;replication.broadcast(observerTick[0],h.monotonic);observerTick[0]+=2;return false;});
                     assertTrue(b.packets.stream().filter(packet->packet instanceof WorldUpdate).map(packet->(WorldUpdate)packet).anyMatch(update->update.players().stream().anyMatch(r->r.playerId()==0)));
                     assertTrue(p.ownerAnchors().snapshot().isEmpty(),"respawn clears owner output history and has no applied label yet");
                 }

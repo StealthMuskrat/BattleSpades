@@ -393,7 +393,7 @@
   "publication": {
     "branch": "port/java25",
     "branch_updated": false,
-    "expected_parent": "720e7d5596f433165cbef204dff0ed1e00e3e019",
+    "expected_parent": "a831f1fe8226cde5dae8c429727eb4f3202409a3",
     "force": false,
     "authorization": "User authorized future verified migration checkpoints, code/workflow changes and all five CI jobs; current request requires multiple implementations per batch."
   },
@@ -2327,5 +2327,28 @@
     "waived": false,
     "full_reference_python_baseline_passing": false,
     "command": "PYTHONPATH=java/build/reference-python python -m pytest -q tests/test_scoreboard.py tests/test_round_awards.py tests/test_objective_abuse.py tests/test_combat_scores.py tests/test_profile_stats.py tests/test_score_events.py tests/test_tdm.py tests/test_mode_fixes_round2_scoring.py tests/test_escape_watch.py tests/test_retail_announcements.py tests/test_simulation_order.py"
+  },
+  "initial_flow_ci_attempt": {
+    "implementation_commit": "a831f1fe8226cde5dae8c429727eb4f3202409a3",
+    "tree": "210e3533c2886a8beb8bf92c81a9c50dc006142d",
+    "run_id": 39143288035,
+    "status": "failure",
+    "passed_jobs": [
+      "build",
+      "native-enet",
+      "platform (ubuntu-latest)",
+      "platform (windows-latest)"
+    ],
+    "failed_job": "platform (macos-latest)",
+    "failed_job_id": 117722327285,
+    "failed_test": "ApplicationIntegrationTest.ownedReplicationCrossesRealUdpAndHoldsRespawnRowsUntilReliableRelease",
+    "failure": "UDP application loop timed out after ACK release / final snapshot synchronization",
+    "component_tests_passed_on_macos": true,
+    "integration_tests": 33,
+    "integration_failures": 1,
+    "artifact_smokes_passed": true,
+    "waived": false,
+    "correction": "Wait for all reliable receipts without advancing their expiry loop, then broadcast periodic unreliable snapshots until the released player row is actually received. Existing row-hold assertions and 4s/15s timeouts are unchanged.",
+    "local_corrected_check_build": "5965 component + 33 UDP, zero failures/errors/skips; production JAR hash unchanged"
   }
 }

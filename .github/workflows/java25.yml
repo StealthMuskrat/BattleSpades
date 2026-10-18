@@ -173,6 +173,8 @@ jobs:
           python java/tools/generate_transition_golden.py
           python java/tools/generate_prepared_map_golden.py
           python java/tools/generate_round_media_golden.py
+          python java/tools/generate_player_controls_golden.py
+          git diff --exit-code -- java/src/test/resources/golden/player-controls*
           python java/tools/generate_vote_policy_golden.py
           git diff --exit-code -- java/src/test/resources/golden/vote-policy*
           git diff --exit-code -- java/src/test/resources/golden/round-media* java/src/main/resources/net/battlespades/catalog/round-media.toml

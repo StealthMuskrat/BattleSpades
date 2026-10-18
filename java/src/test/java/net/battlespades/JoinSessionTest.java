@@ -70,6 +70,22 @@ class JoinSessionTest {
         @Override public void close() {session.close();scene.close();compression.close();}
     }
     private static final class WireWriter {byte[] frame(byte[] data) {return new net.battlespades.protocol.Wire.Writer().u8(0x30).bytes(data).toByteArray();}}
+    @Test void spectatorMenuSettlesAcrossBackpressureWithoutInventingInput(){
+        try(var h=new Flow()){
+            h.load();h.client(new SimplePackets.NewPlayerConnection(0,5,0,1,"Spectator"));h.pulse(0);assertEquals(JoinSession.State.INPUT,h.session.state());assertFalse(h.session.inGame());h.client(new SimplePackets.ClientInMenu(1));h.pulse(100);assertFalse(h.session.inGame());
+            h.wire.blockedId=49;h.client(new SimplePackets.ClientInMenu(0));h.pulse(0);assertFalse(h.session.inGame());assertEquals(1,h.scene.reveals);h.client(new SimplePackets.ClientInMenu(1));h.pulse(49);assertFalse(h.session.inGame());h.wire.blockedId=-1;h.pulse(1);assertTrue(h.session.inGame());assertTrue(h.session.inMenu());assertEquals(1,h.scene.reveals);assertTrue(h.scene.inputs.isEmpty());assertEquals(0,h.scene.world().activeLeases());h.client(new SimplePackets.ClientInMenu(0));h.pulse(50);assertEquals(1,h.scene.reveals);
+        }
+    }
+    @Test void spectatorRevealFaultRemainsRetryableWithoutDisconnectingTheSession(){
+        try(var h=new Flow()){
+            h.load();h.client(new SimplePackets.NewPlayerConnection(0,5,0,1,"Spectator"));h.pulse(0);h.scene.revealFailure=new IllegalStateException("Controlled reveal failure");h.client(new SimplePackets.ClientInMenu(0));h.pulse(0);assertEquals(JoinSession.State.INPUT,h.session.state());assertEquals(-1,h.wire.reason);assertFalse(h.session.inGame());assertEquals(1,h.scene.world().activeLeases());h.scene.revealFailure=null;h.client(new SimplePackets.ClientInMenu(0));h.pulse(0);h.pulse(50);assertTrue(h.session.inGame());assertEquals(2,h.scene.reveals);assertEquals(0,h.scene.world().activeLeases());assertTrue(h.scene.inputs.isEmpty());
+        }
+    }
+    @Test void pendingSpectatorRevealCannotCrossAnArmedReplacementScene(){
+        try(var h=new Flow();var replacement=new FixtureScene(2,64)){
+            h.load();h.client(new SimplePackets.NewPlayerConnection(0,5,0,1,"Spectator"));h.pulse(0);h.wire.blockedId=49;h.client(new SimplePackets.ClientInMenu(0));h.pulse(0);assertFalse(h.session.inGame());h.session.armSceneTransition();h.session.gateSceneTransition();h.session.detachScenePlayer();h.session.reloadScene(replacement);h.wire.blockedId=-1;h.pulse(50);h.pulse(50);assertFalse(h.session.inGame());assertTrue(replacement.inputs.isEmpty());assertEquals(0,replacement.reveals);assertEquals(0,h.scene.world().activeLeases());
+        }
+    }
     @Test void stagedRolloverKeepsTeamSelectionPeerAndRejectsLateOldAdmission(){
         try(var h=new Flow();var replacement=new FixtureScene(2,64)){
             h.load();assertTrue(h.session.carriesScene());long generation=h.session.metrics().generation();h.session.armSceneTransition();assertTrue(h.session.metrics().generation()>generation);

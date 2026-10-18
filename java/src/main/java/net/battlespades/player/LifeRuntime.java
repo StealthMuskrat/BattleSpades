@@ -83,6 +83,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     private net.battlespades.replication.ReplicationService replication;
     private net.battlespades.combat.CombatRuntime combat;
     private ObjectiveDropRequests objectives;
+    private PlayerControls controls;
     private java.util.function.Consumer<java.util.concurrent.CompletionStage<Void>> awaitObjective;
     private final PlayerRoster roster=new PlayerRoster();
     private final KillFeed feed=new KillFeed();
@@ -108,6 +109,10 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
      * This component does not supply a concrete mode or an asynchronous outer gameplay scheduler.
      */
     public void objectives(ObjectiveDropRequests value,java.util.function.Consumer<java.util.concurrent.CompletionStage<Void>> completion){owned();if(!players.isEmpty()||objectives!=null)throw new IllegalStateException("Objectives must bind once before admission");Objects.requireNonNull(value);Objects.requireNonNull(completion);objectives=value;awaitObjective=completion;}
+    public void controls(PlayerControls value){owned();if(!players.isEmpty()||controls!=null)throw new IllegalStateException("Controls must bind once before admission");controls=Objects.requireNonNull(value);}
+    boolean current(PlayerLife p){owned();return players.get(p.id())==p;}
+    void spectator(PlayerLife p){owned();p.clearDeathTime();roster.create(p.create(),p.color());messages.broadcast(p.create());}
+    void palette(PlayerLife p,int color){owned();p.color(color);roster.color(p.id(),p.color());}
     double movementClock(){owned();return clock.monotonic();}
     double movementWallClock(){owned();return clock.wall();}
     @Override public void roundTripMillis(int id,Double measurement){owned();player(id).flight().roundTripMillis(measurement);}
@@ -206,6 +211,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     }
     @Override public void packet(int id,GamePacket packet){
         owned();var p=player(id);
+        if(controls!=null&&controls.packet(p,packet))return;
         if(packet instanceof LifePackets.WeaponReload reload){
             // Source handler ignores client completion/tool/player claims; its owned timer and active tool decide.
             if(!reload.done()&&p.alive()&&p.fire().startReload(clock.monotonic()))messages.broadcast(new LifePackets.WeaponReload(id,p.inventory().tool(),false));
@@ -219,5 +225,5 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     @Override public void transitionDetach(int id){removePlayer(id,true,p->{});}
     public void transitionDetach(int id,java.util.function.Consumer<PlayerLife> removeTeam){removePlayer(id,true,Objects.requireNonNull(removeTeam));}
     @Override public void disconnected(int id){removePlayer(id,false,p->{});}
-    private void removePlayer(int id,boolean transition,java.util.function.Consumer<PlayerLife> removeTeam){owned();var p=players.get(id);if(p==null)return;inputs.forget(p);if(transition)effects.transitionForget(p);else effects.forget(p);if(replication!=null)replication.forgetPlayer(id);if(combat!=null)combat.forgetPlayer(id);feed.forget(id);removeTeam.accept(p);roster.remove(id);deadJoin.remove(id);scores.remove(id);players.remove(id);if(!transition)messages.broadcast(new SimplePackets.PlayerLeft(id));}
+    private void removePlayer(int id,boolean transition,java.util.function.Consumer<PlayerLife> removeTeam){owned();var p=players.get(id);if(p==null)return;if(controls!=null)controls.forget(p);inputs.forget(p);if(transition)effects.transitionForget(p);else effects.forget(p);if(replication!=null)replication.forgetPlayer(id);if(combat!=null)combat.forgetPlayer(id);feed.forget(id);removeTeam.accept(p);roster.remove(id);deadJoin.remove(id);scores.remove(id);players.remove(id);if(!transition)messages.broadcast(new SimplePackets.PlayerLeft(id));}
 }

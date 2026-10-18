@@ -1,48 +1,30 @@
 # Java 25 migration report
 
 Date: 2026-10-18 UTC. **Incomplete migration; not playable or release-ready.**
-The current batch implements worker map discovery/navigation areas, source fit/history/
-retail selection, kick-vote policy, one map/kick HUD and actual host disconnect/reconnect
-admission bindings. Production factories, remaining gameplay and services remain pending;
-normal hosting exits 2. See [VOTING_POLICY.md](VOTING_POLICY.md).
+The current batch implements live team switches, atomic class/loadout changes, bounded
+palette relays, spectator admission and actual life/team/event/host bindings. Production
+factories, remaining gameplay and services remain pending; normal hosting exits 2.
+See [PLAYER_CONTROLS.md](PLAYER_CONTROLS.md).
 
-Local Java check/build passes **6,179 component + 37 integration = 6,216 tests**,
-with zero failures, errors or skips across 100 suites. This batch adds 51 intact-source
-scenario groups, two focused boundary tests and one real UDP integration scenario;
-the existing retained-peer rollover composition is upgraded. **273 focused original-source
-regressions pass**. The new generator reproduces both outputs byte-for-byte; all 254
-prior frozen paths retain their exact hashes, for 256 checked paths. There are 73
-configured CI generators. Unchanged prior 72-generator/native-build evidence is reused
-locally; CI independently rebuilds/reproduces all 73.
+Local Java check/build passes **6,207 component + 38 integration = 6,245 tests**,
+with zero failures, errors or skips across 102 suites. This batch adds 24 intact-source
+team/class/palette traces, one focused timer/identity boundary, three spectator session
+boundaries and one real UDP composition. **317 focused original-source regressions pass**.
+The new generator reproduces both outputs byte-for-byte; all 256 earlier frozen paths
+retain their exact hashes, for 258 checked paths and 74 configured CI generators.
+Unchanged prior 73-generator/native-build evidence is reused locally; CI independently
+rebuilds/reproduces all 74.
 
-Two CRC-valid local archives are byte-identical: 1911484 bytes,
-SHA-256 `527dbe0f7151212c238739b89f8188978a64324946ad27f073c477e1faa0a3d1`. Class major 69, packaging/licenses and version/config smokes pass;
-normal hosting exits 2. All four current isolated native transport/packaged-loader
-nominal/impaired profiles pass. The loader still uses FixtureScene. Platform tests run
-source-built component/integration classes and smoke the uploaded JAR. No local-to-CI
-artifact hash identity or complete platform gameplay is claimed. Prior medpack/Zombie/
-VIP original-baseline discrepancies remain unwaived; these focused passes do not
-establish a passing full original-source baseline.
+Two CRC-valid local archives are byte-identical: 1930115 bytes,
+SHA-256 `b5b427617552143c4a548720f69bfd26cf5b570544be2f9772d706f5424b9f74`. Class major 69, packaging/licenses and version/config
+smokes pass; normal hosting exits 2. All four current isolated native transport/packaged-
+loader nominal/impaired profiles pass. The loader still uses FixtureScene. Platform
+tests run source-built component/integration classes and smoke the uploaded JAR. No
+local-to-CI artifact hash identity or complete platform gameplay is claimed. Prior
+medpack/Zombie/VIP original-baseline discrepancies remain unwaived; these focused passes
+do not establish a passing full original-source baseline.
 
-The initial [CI run 39170464457](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39170464457)
-passed build, native, Ubuntu and Windows but failed macOS because the Unicode ordering
-fixture tried to create a U+FFFF filename (Illegal byte sequence). It is retained as a
-failed attempt, not waived. Valid private-use BMP filenames preserve the same astral/BMP
-code-point-order assertion on all platforms; no scenario is skipped. Review also found
-a source floating-point edge: equal human/bot counts in different roster orders can
-cross a fit threshold. Two intact-source traces now distinguish those orders, and
-MapRotation adds each roster weight in order rather than multiplying aggregate counts.
-The corrected implementation is verified by a fresh full suite, repeated artifact,
-native profiles and a new five-job CI run.
-
-All five CI jobs passed for implementation `79b2401b1563a75012cf862686d07074a338c402`,
-tested/published tree `df586ce986e3d6be07059a8b52f77b5e4b9da1f3`, in
-[run 39171052890](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39171052890). The native job independently reproduced all 73
-configured original generators, including map navigation/catalog/ranking, kick/arbitration traces and all earlier
-fixtures. The build byte-compared
-repeated archives. Ubuntu, Windows and macOS smoked the uploaded JAR and ran source-built
-component/integration tests. Every final job step completed with success or an intentional
-skip. No local-to-CI artifact hash identity or complete platform gameplay is claimed.
+This checkpoint requires a new five-job CI run after publication.
 
 ## Repository and provenance
 

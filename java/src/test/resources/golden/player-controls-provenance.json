@@ -1,0 +1,15 @@
+{
+  "cases": 24,
+  "fixture_sha256": "69ce15b0038e496cebea68e36d31363b3b68cbc6dbd011ed4d769986d4c8f448",
+  "policy_method_substitutions": false,
+  "scope": "Intact team/equipment/palette handlers with original Player/native life and Team methods.\nOnly mode authorization, clocks, IO and deployable cleanup boundaries are controlled.\nNo team/class/color handler, life method or normalization policy is substituted.",
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_files_sha256": {
+    "server/class_selection.py": "9be152403938ca104e45b7361cddc34b69c487d3d8cc140533510c8181617e61",
+    "server/connection.py": "5dc2789152970de62c3e4953d1a9a0915a04d03221c96d050054b5265a8151e4",
+    "server/handlers/equipment.py": "b591f276d8d2fde912643f54fb6e86050ea934cb7cf008631828f05cf30dfd35",
+    "server/handlers/team.py": "083bf1feb9685b7a4703d10aa88c8b6bd76c7b47d9ef5e1b2a2b2f509ade2c15",
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/team.py": "13a0d2a28b02678194652e7997d88f6bf3d50902739423ed72800ab8a6a26396"
+  }
+}

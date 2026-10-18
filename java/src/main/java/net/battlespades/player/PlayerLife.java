@@ -9,7 +9,8 @@ import net.battlespades.rules.GameRules;
 /** Owner-confined Character lifetime. Input chronology, hit validation and corpse simulation are separate policies. */
 public final class PlayerLife {
     private final Thread owner=Thread.currentThread();
-    private final int id,team,language;
+    private final int id,language;
+    private int team;
     private final String name,mode;
     private final CollisionMap world;
     private final GameRules rules;
@@ -50,6 +51,9 @@ public final class PlayerLife {
         this.id=id;this.team=team;this.language=language;this.name=Objects.requireNonNull(name);this.mode=Objects.requireNonNull(mode);this.world=Objects.requireNonNull(world);this.rules=Objects.requireNonNull(rules);walletScale(walletScale);inventory.classWallet(0,1,true);apply(selection);
     }
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Life accessed outside owner");}
+    void team(int value){owned();if(value!=0&&value!=2&&value!=3)throw new IllegalArgumentException("Team");team=value;}
+    void color(int value){owned();color=value&0xffffff;}
+    void clearPending(){owned();pending=null;}
     public int id(){owned();return id;}public int team(){owned();return team;}public int health(){owned();return health;}
     public boolean diedReloading(){owned();return diedReloading;}
     public String name(){owned();return name;}

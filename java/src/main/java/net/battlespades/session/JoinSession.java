@@ -72,6 +72,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     private SnapshotCompression.Task task;
     private PlayerPackets.SetClassLoadout selection;
     private boolean ticketReceived,stateSent,admitted,requireValidation,airDone;
+    private boolean inMenu=true,spectatorPending;private long spectatorRetry;private int spectatorAttempts;
     private boolean sceneArmed,sceneGated;
     private java.util.concurrent.CompletableFuture<Boolean> reloadResult;
     public JoinSession(SocketAddress address,WireSink sink,JoinScene scene,PlayerSlots slots,
@@ -87,6 +88,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     private void time(long now) {owned();if(now<0 || now<lastNow) throw new IllegalArgumentException("Session clock moved backwards");lastNow=now;}
     private void refreshLink(){if(admitted&&slot!=null){scene.roundTripMillis(slot.id(),sink.roundTripMillis());scene.actionLink(slot.id(),sink.actionLink());}}
     public State state() {owned();return state;}
+    public boolean inMenu(){owned();return inMenu;}
     public boolean inGame() {owned();return state==State.LIVE&&!sceneGated;}
     public OptionalInt playerId() {owned();return slot==null?OptionalInt.empty():OptionalInt.of(slot.id());}
     @Override public Integer localPlayerId(){owned();return slot==null?null:slot.id();}
@@ -145,9 +147,10 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
             }
             if(id==60) {if(state==State.MAP) transfer.validation(((SimplePackets.MapDataValidation)PacketCodec.decode(body)).crc(),now);return;}
             if(id==13) {selection=PlayerPackets.SetClassLoadout.receive(body);if(admitted){if(awaitPackets)deferred=java.util.Objects.requireNonNull(scene.packetAsync(slot.id(),selection));else scene.packet(slot.id(),selection);}return;}
-            if(id==110) {PacketCodec.decode(body);return;}
+            if(id==110) {inMenu=((SimplePackets.ClientInMenu)PacketCodec.decode(body)).in_menu()!=0;if(!inMenu&&admitted&&slot!=null&&scene.roster().spectator(slot.id())&&state!=State.LIVE){spectatorPending=true;spectatorAttempts=0;spectatorRetry=now;}return;}
             if(id==15) {
-                if(!stateSent || admitted || slot==null) return;
+                if(!stateSent || slot==null)return;
+                if(admitted){if(awaitPackets)deferred=java.util.Objects.requireNonNull(scene.packetAsync(slot.id(),PacketCodec.decode(body)));else scene.packet(slot.id(),PacketCodec.decode(body));return;}
                 var request=(SimplePackets.NewPlayerConnection)PacketCodec.decode(body);
                 long epoch=generation;var source=scene;admitted=true;var result=source.admit(slot.id(),request,selection,capability);
                 if(!current(epoch,source)) return;
@@ -160,27 +163,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
             if(id==4) {
                 if(!admitted || state!=State.INPUT && state!=State.LIVE) return;
                 var input=LiveClientInput.decode(body);
-                if(state==State.INPUT) {
-                    if(!controls.isEmpty()) return;
-                    int[] remaining={settings.replayBudget()};
-                    java.util.function.Predicate<GamePacket> send=p->{if(remaining[0]==0 || !sendFrame(new SessionFrame(p))) return false;remaining[0]--;return true;};
-                    if(!airDone) {
-                        var air=capture.lease().pumpAir(slot.id(),serverLoop,remaining[0],send);
-                        if(air==MutableWorld.Replay.OVERFLOW || air==MutableWorld.Replay.STALE) {fail(13);return;}
-                        if(air!=MutableWorld.Replay.COMPLETE) return;
-                    }
-                    if(!syncRoster()) return;
-                    if(!controls.isEmpty()) return;
-                    var replay=capture.lease().pump(slot.id(),serverLoop,remaining[0],send);
-                    if(replay==MutableWorld.Replay.OVERFLOW || replay==MutableWorld.Replay.STALE) {fail(13);return;}
-                    if(replay!=MutableWorld.Replay.COMPLETE) return;
-                    if(!airDone) {
-                        long epoch=generation;var source=scene;var packets=source.reveal(slot.id(),serverLoop).stream().map(SessionFrame::new).toList();
-                        if(!current(epoch,source)) return;airDone=true;if(!enqueue(packets)) return;
-                        if(!controls.isEmpty()) return;
-                    }
-                    capture.lease().close();state=State.LIVE;
-                }
+                if(state==State.INPUT&&!settle(serverLoop))return;
                 scene.input(slot.id(),input,serverLoop);return;
             }
             if(admitted && PacketCodec.supports(id)){var packet=PacketCodec.decode(body);if(awaitPackets)deferred=java.util.Objects.requireNonNull(scene.packetAsync(slot.id(),packet));else scene.packet(slot.id(),packet);}
@@ -200,6 +183,29 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
                 },done));
             }
         }
+    }
+    /** Shared terrain/roster/reveal barrier for first-input humans and settled spectators. */
+    private boolean settle(int serverLoop){
+        if(!controls.isEmpty()) return false;
+        int[] remaining={settings.replayBudget()};
+        java.util.function.Predicate<GamePacket> send=p->{if(remaining[0]==0 || !sendFrame(new SessionFrame(p))) return false;remaining[0]--;return true;};
+        if(!airDone) {
+            var air=capture.lease().pumpAir(slot.id(),serverLoop,remaining[0],send);
+            if(air==MutableWorld.Replay.OVERFLOW || air==MutableWorld.Replay.STALE) {fail(13);return false;}
+            if(air!=MutableWorld.Replay.COMPLETE) return false;
+        }
+        if(!syncRoster()) return false;
+        if(!controls.isEmpty()) return false;
+        var replay=capture.lease().pump(slot.id(),serverLoop,remaining[0],send);
+        if(replay==MutableWorld.Replay.OVERFLOW || replay==MutableWorld.Replay.STALE) {fail(13);return false;}
+        if(replay!=MutableWorld.Replay.COMPLETE) return false;
+        if(!airDone) {
+            long epoch=generation;var source=scene;var packets=source.reveal(slot.id(),serverLoop).stream().map(SessionFrame::new).toList();
+            if(!current(epoch,source)) return false;airDone=true;if(!enqueue(packets)) return false;
+            if(!controls.isEmpty()) return false;
+        }
+        capture.lease().close();state=State.LIVE;spectatorPending=false;
+        return state==State.LIVE;
     }
     private void begin() {
         if(state==State.CLOSED) return;
@@ -279,6 +285,10 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
             }
             if(state==State.STATE && controls.isEmpty()) state=State.SELECT;
             if(state==State.ADMITTING) state=State.INPUT;
+            if(spectatorPending&&state==State.INPUT&&now>=spectatorRetry){
+                if(slot==null||!scene.roster().spectator(slot.id()))spectatorPending=false;
+                else{boolean complete;try{complete=settle(loop);}catch(RuntimeException failure){domainFailures++;spectatorPending=false;return;}if(complete||state==State.CLOSED||spectatorAttempts++>=2000)spectatorPending=false;else spectatorRetry=now+50;}
+            }
         } catch(RuntimeException domain) {domainFailures++;fail(13);}
     }
     /** Broadcasts are admitted only after the first-input replay boundary. */
@@ -316,14 +326,14 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     public void detachScenePlayer(){owned();if(state==State.CLOSED||!admitted)return;if(!sceneArmed||!sceneGated)throw new IllegalStateException("Old scene is not gated");if(admitted&&slot!=null){scene.transitionDetach(slot.id());admitted=false;}}
     public java.util.concurrent.CompletionStage<Boolean> reloadScene(JoinScene replacement){
         owned();java.util.Objects.requireNonNull(replacement);if(!sceneArmed||!sceneGated||admitted)throw new IllegalStateException("Old scene must be armed, gated and detached");
-        releaseScene();generation++;scene=replacement;selection=null;stateSent=false;airDone=false;knownRoster=java.util.Map.of();pendingRoster=null;requireValidation=true;retireUntil=0;
+        releaseScene();generation++;scene=replacement;selection=null;stateSent=false;airDone=false;spectatorPending=false;inMenu=true;spectatorAttempts=0;knownRoster=java.util.Map.of();pendingRoster=null;requireValidation=true;retireUntil=0;
         sceneArmed=false;sceneGated=false;state=State.RETIRING;reloadResult=new java.util.concurrent.CompletableFuture<>();return reloadResult.minimalCompletionStage();
     }
     public void replaceScene(JoinScene replacement) {
         owned();if(state==State.CLOSED) return;
         if(sceneArmed)throw new IllegalStateException("Staged transition must use reloadScene");
         boolean carry=stateSent;
-        releaseScene();discardControls();generation++;scene=replacement;selection=null;stateSent=false;airDone=false;knownRoster=java.util.Map.of();pendingRoster=null;requireValidation=true;retireUntil=-1;
+        releaseScene();discardControls();generation++;scene=replacement;selection=null;stateSent=false;airDone=false;spectatorPending=false;inMenu=true;spectatorAttempts=0;knownRoster=java.util.Map.of();pendingRoster=null;requireValidation=true;retireUntil=-1;
         if(!carry) {fail(18);return;}
         state=State.RETIRING;enqueue(List.of(new SessionFrame(new SimplePackets.MapEnded())));
     }

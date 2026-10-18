@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "527dbe0f7151212c238739b89f8188978a64324946ad27f073c477e1faa0a3d1",
-  "jar_bytes": 1911484,
+  "jar_sha256": "b5b427617552143c4a548720f69bfd26cf5b570544be2f9772d706f5424b9f74",
+  "jar_bytes": 1930115,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -20,50 +20,33 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 6179,
+      "tests": 6207,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
-      "tests": 37,
+      "tests": 38,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Map catalog/fit/retail selection, kick policy and unified actual host voting/admission",
-  "java_implementation_commit": "79b2401b1563a75012cf862686d07074a338c402",
-  "tested_tree": "df586ce986e3d6be07059a8b52f77b5e4b9da1f3",
+  "verification_stage": "Live team/class/palette policies, spectator admission and actual life/team/event/host bindings",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "head_sha": "79b2401b1563a75012cf862686d07074a338c402",
-    "run_id": 39171052890,
-    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39171052890",
-    "jobs": {
-      "build": "success",
-      "native-enet": "success",
-      "platform (ubuntu-latest)": "success",
-      "platform (windows-latest)": "success",
-      "platform (macos-latest)": "success"
-    },
-    "all_five_jobs_passed": true,
-    "all_final_steps_verified": true,
+    "status": "pending_publication",
+    "head_sha": null,
+    "run_id": null,
+    "url": null,
+    "jobs": {},
+    "all_five_jobs_passed": false,
+    "all_final_steps_verified": false,
     "local_to_ci_artifact_hash_compared": false,
     "full_reference_python_baseline_passing": false,
-    "packaged_native_probe_player_domain": "FixtureScene; actual UDP uses configured LifeRuntime/TdmMode with HostedVoting/HostedMedia and owned transitions",
-    "component_and_udp_tests_use_source_built_classes": true,
-    "job_ids": {
-      "build": 117803997421,
-      "native-enet": 117803997545,
-      "platform (ubuntu-latest)": 117804297529,
-      "platform (windows-latest)": 117804297560,
-      "platform (macos-latest)": 117804297574
-    },
-    "native_original_fixtures_reproduced": true,
-    "configured_generators": 73,
-    "repeated_ci_archive_identical": true,
-    "same_uploaded_jar_three_platforms": true
+    "packaged_native_probe_player_domain": "FixtureScene; actual UDP uses configured LifeRuntime/TdmMode with HostedPlayerControls and spectator/menu loading",
+    "component_and_udp_tests_use_source_built_classes": true
   },
   "movement": {
     "cases": 118,
@@ -416,12 +399,12 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": true,
-    "expected_parent": "e97ac03593729c4f8f213621a64250a4ca86395c",
+    "branch_updated": false,
+    "expected_parent": "251078acfac0497fa004fad328a0a54f0ca2ab2b",
     "force": false,
     "authorization": "User authorized this and future verified migration checkpoints, code/workflow changes and all five CI jobs; requested multiple implementations per batch.",
-    "implementation_commit": "79b2401b1563a75012cf862686d07074a338c402",
-    "tested_tree": "df586ce986e3d6be07059a8b52f77b5e4b9da1f3"
+    "implementation_commit": null,
+    "tested_tree": null
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -4043,7 +4026,8 @@
     "supported_client_validated": false,
     "source_roster_float_addition_order_preserved": true,
     "ci_implementation_commit": "79b2401b1563a75012cf862686d07074a338c402",
-    "ci_run_id": 39171052890
+    "ci_run_id": 39171052890,
+    "scope": "Historical voting checkpoint; current live player control bindings are in player_controls"
   },
   "initial_voting_checkpoint": {
     "implementation_commit": "e97ac03593729c4f8f213621a64250a4ca86395c",
@@ -4076,5 +4060,202 @@
     },
     "failure": "macOS filesystem rejected U+FFFF test filename: Illegal byte sequence",
     "resolution": "Valid private-use BMP filenames retain astral/code-point ordering test; no skip or waiver. Roster-order fit boundary also corrected and covered by two additional intact-source scenarios."
+  },
+  "previous_voting_policy_checkpoint": {
+    "java_implementation_commit": "79b2401b1563a75012cf862686d07074a338c402",
+    "tested_tree": "df586ce986e3d6be07059a8b52f77b5e4b9da1f3",
+    "jar_sha256": "527dbe0f7151212c238739b89f8188978a64324946ad27f073c477e1faa0a3d1",
+    "jar_bytes": 1911484,
+    "junit": {
+      "test": {
+        "tests": 6179,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "tests": 37,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "ci": {
+      "status": "success",
+      "head_sha": "79b2401b1563a75012cf862686d07074a338c402",
+      "run_id": 39171052890,
+      "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39171052890",
+      "jobs": {
+        "build": "success",
+        "native-enet": "success",
+        "platform (ubuntu-latest)": "success",
+        "platform (windows-latest)": "success",
+        "platform (macos-latest)": "success"
+      },
+      "all_five_jobs_passed": true,
+      "all_final_steps_verified": true,
+      "local_to_ci_artifact_hash_compared": false,
+      "full_reference_python_baseline_passing": false,
+      "packaged_native_probe_player_domain": "FixtureScene; actual UDP uses configured LifeRuntime/TdmMode with HostedVoting/HostedMedia and owned transitions",
+      "component_and_udp_tests_use_source_built_classes": true,
+      "job_ids": {
+        "build": 117803997421,
+        "native-enet": 117803997545,
+        "platform (ubuntu-latest)": 117804297529,
+        "platform (windows-latest)": 117804297560,
+        "platform (macos-latest)": 117804297574
+      },
+      "native_original_fixtures_reproduced": true,
+      "configured_generators": 73,
+      "repeated_ci_archive_identical": true,
+      "same_uploaded_jar_three_platforms": true
+    }
+  },
+  "reference_player_control_tests": {
+    "tests": 317,
+    "passed": 317,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "command": "PYTHONPATH=java/build/reference-python .reference-venv/bin/python -m pytest -q tests/test_tdm.py tests/test_server_capacity.py tests/test_packet_delivery_fixes.py tests/test_simulation_order.py tests/test_scoreboard.py tests/test_mode_lifecycle_contracts.py tests/test_end_sequence.py tests/test_retail_end_screen.py tests/test_round_runtime_reset.py tests/test_ctf_end_and_departure.py tests/test_match_transitions.py tests/test_rollover_team_select.py tests/test_smart_spawns.py tests/test_retail_spawn_boxes.py tests/test_audio_voting.py tests/test_votekick_retail_format.py tests/test_map_vote_fit.py tests/test_class_selection.py tests/test_set_color.py tests/test_spectator_retail.py"
+  },
+  "player_controls": {
+    "implementations": [
+      "TeamChanges source team/cooldown/balance/transition policy",
+      "SelectionChanges atomic13/78 and live-death throttle",
+      "PaletteRelay canonical color/excluded trailing timer",
+      "PlayerControls authenticated actor/native menu routing",
+      "HostedPlayerControls actual life/teams/events/reliable delivery",
+      "JoinSession spectator menu shared settlement/retry/scene guards"
+    ],
+    "new_component_tests": 28,
+    "new_integration_tests": 1,
+    "source_scenarios": {
+      "team": 9,
+      "selection": 11,
+      "palette": 4
+    },
+    "policy_method_substitutions": false,
+    "regeneration": {
+      "new_generator": "generate_player_controls_golden.py",
+      "new_outputs": 2,
+      "new_generator_repeated_byte_identical": true,
+      "prior_frozen_paths": 256,
+      "prior_paths_unchanged": 256,
+      "total_checked_paths": 258,
+      "configured_generators": 74,
+      "local_unchanged_73_generator_native_build_evidence_reused": true,
+      "ci_independently_rebuilds_all": 74
+    },
+    "native_profiles": {
+      "native-transport-results.json": {
+        "oracle": "compiled vendored pyenet / ENet",
+        "profiles": [
+          {
+            "profile": "nominal",
+            "reliable_messages": 81,
+            "reliable_payload_sha256": "8bf5b28d7bc1cdca600b721861267251ba12443d0b16aa754887216142f0041a",
+            "unreliable_echoes": 48,
+            "reconnect": true,
+            "protocol_rejections": {
+              "167": 10,
+              "169": 3
+            },
+            "server_disconnect_reason": 18,
+            "java_retransmissions": 0,
+            "forwarded_datagrams": 1031,
+            "dropped_datagrams": 0,
+            "duplicate_datagrams": 0,
+            "delayed_datagrams": 0,
+            "java_malformed_datagrams": 0,
+            "game_client_test": false,
+            "result": "PASS"
+          },
+          {
+            "profile": "loss-reorder-duplicate",
+            "reliable_messages": 81,
+            "reliable_payload_sha256": "8bf5b28d7bc1cdca600b721861267251ba12443d0b16aa754887216142f0041a",
+            "unreliable_echoes": 33,
+            "reconnect": true,
+            "protocol_rejections": {
+              "167": 10,
+              "169": 3
+            },
+            "server_disconnect_reason": 18,
+            "java_retransmissions": 82,
+            "forwarded_datagrams": 1311,
+            "dropped_datagrams": 134,
+            "duplicate_datagrams": 99,
+            "delayed_datagrams": 1197,
+            "java_malformed_datagrams": 0,
+            "game_client_test": false,
+            "result": "PASS"
+          }
+        ]
+      },
+      "native-loader-results.json": {
+        "oracle": "vendored native ENet with independently decoded application packets",
+        "profiles": [
+          {
+            "profile": "nominal",
+            "private_password": false,
+            "full_chunks": 453,
+            "full_records_sha256": "a04e25f22eff412ed7565b1cdd13ca0fa4033fdde416d2d0b4890ffcdbd4dc10",
+            "delta_chunks": 0,
+            "dropped_datagrams": 0,
+            "duplicate_datagrams": 0,
+            "delayed_datagrams": 0,
+            "concurrent_reserved_ids": [
+              0,
+              1
+            ],
+            "full_refusal_reason": 4,
+            "ticket_xor": true,
+            "capability_trailer": true,
+            "canonical_health": true,
+            "canonical_removal": true,
+            "roster_reconcile": true,
+            "scene_reload": true,
+            "configured_metadata": true,
+            "sidecar_layering": true,
+            "metadata_reload": true,
+            "packaged_application": true,
+            "game_client_test": false,
+            "result": "PASS"
+          },
+          {
+            "profile": "impaired",
+            "private_password": true,
+            "full_chunks": 453,
+            "full_records_sha256": "a04e25f22eff412ed7565b1cdd13ca0fa4033fdde416d2d0b4890ffcdbd4dc10",
+            "delta_chunks": 0,
+            "dropped_datagrams": 114,
+            "duplicate_datagrams": 76,
+            "delayed_datagrams": 919,
+            "concurrent_reserved_ids": [
+              0,
+              1
+            ],
+            "full_refusal_reason": 4,
+            "ticket_xor": true,
+            "capability_trailer": true,
+            "canonical_health": true,
+            "canonical_removal": true,
+            "roster_reconcile": true,
+            "scene_reload": true,
+            "configured_metadata": true,
+            "sidecar_layering": true,
+            "metadata_reload": true,
+            "packaged_application": true,
+            "game_client_test": false,
+            "result": "PASS"
+          }
+        ]
+      }
+    },
+    "complete_hosting_bootstrap": false,
+    "full_migration_complete": false,
+    "native_loader_uses_fixture_scene": true,
+    "supported_client_validated": false
   }
 }

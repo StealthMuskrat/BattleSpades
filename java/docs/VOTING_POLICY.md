@@ -1,5 +1,9 @@
 # Map discovery, rotation and kick-vote policy
 
+Follow-up: [PLAYER_CONTROLS.md](PLAYER_CONTROLS.md) adds live team/class/palette
+and spectator admission bindings. The text below records the preceding voting
+checkpoint and its then-pending service scope.
+
 This connected checkpoint extends [ROUND_MEDIA.md](ROUND_MEDIA.md) with source-backed
 selection and moderation policy, a single vote HUD and actual host actions. Complete
 production gameplay/bootstrap and normal hosting remain pending.

@@ -30,6 +30,7 @@ public final class FixtureScene implements JoinScene,net.battlespades.scene.Conf
     public final List<Integer> departed=new ArrayList<>();
     private final PlayerRoster roster=new PlayerRoster();
     public int reveals,requiredCapability;
+    public RuntimeException revealFailure;
     public boolean failAdmission;
     public Runnable onAdmission=()->{};
     public java.util.function.BiFunction<Integer,SimplePackets.NewPlayerConnection,Vector3f> placement=(id,request)->new Vector3f(256,256,237);
@@ -74,7 +75,7 @@ public final class FixtureScene implements JoinScene,net.battlespades.scene.Conf
         var normalized=new SimplePackets.NewPlayerConnection(request.team(),selection.classId(),request.forced_team(),request.local_language(),request.name());
         return admit(id,normalized,new PlayerPackets.SetClassLoadout(id,selection.classId(),0,selection.loadout(),selection.prefabs(),selection.ugcTools()),capability);
     }
-    @Override public List<GamePacket> reveal(int id) {reveals++;return List.of(new SimplePackets.ChatMessage(id,0,"fixture-reveal"));}
+    @Override public List<GamePacket> reveal(int id) {reveals++;if(revealFailure!=null)throw revealFailure;return List.of(new SimplePackets.ChatMessage(id,0,"fixture-reveal"));}
     @Override public void input(int id,LiveClientInput input,int receivedServerLoop) {inputs.add(input);receivedLoops.add(receivedServerLoop);}
     public java.util.function.BiFunction<Integer,GamePacket,java.util.concurrent.CompletionStage<Void>> asyncPacket;
     @Override public java.util.concurrent.CompletionStage<Void> packetAsync(int id,GamePacket packet){if(asyncPacket!=null)return asyncPacket.apply(id,packet);packet(id,packet);return java.util.concurrent.CompletableFuture.completedFuture(null);}

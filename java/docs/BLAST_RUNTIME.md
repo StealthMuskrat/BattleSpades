@@ -81,5 +81,6 @@ validation, capacity and soak remain pending. The original full baseline still
 has its documented incomplete runs/VIP discrepancy. Local verification passes 5,340 Java and 91 focused original tests.
 All 55 configured generators reproduce source outputs after a fresh native build;
 208 recorded hashes remain unchanged. Repeated CRC-valid archives, packaging,
-smokes and isolated native probes pass. Publication and all five current-head CI
-jobs are pending; see [CI_STATUS.md](CI_STATUS.md). Native packaged-loader probes continue to use FixtureScene.
+smokes and isolated native probes pass. All five jobs pass in [run 39083832978](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39083832978); see [CI_STATUS.md](CI_STATUS.md). Native packaged-loader probes continue to use FixtureScene.
+
+Implementation `a3cbfff3738acf5ece8012113106633e2ef68463`, tested/published tree `78f4a9f75500e105e316df6c04a547a8e0309a4f`. The CI build compares repeated archives and tests one uploaded JAR on three platforms. Full gameplay and supported-client/capacity gates remain pending.

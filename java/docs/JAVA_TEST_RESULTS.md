@@ -1,7 +1,9 @@
 # Java test results
 
 Stage: shared blasts, dense-input predicted pushes and explosive devices, 2026-10-18 UTC.
-Local clean check/build passes; publication and all five current-head CI jobs are pending.
+Implementation: `a3cbfff3738acf5ece8012113106633e2ef68463`; tested tree: `78f4a9f75500e105e316df6c04a547a8e0309a4f`.
+All five jobs passed in [run 39083832978](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39083832978), including source regeneration,
+archive reproducibility and one uploaded JAR on three platforms.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

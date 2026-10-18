@@ -4,7 +4,11 @@ Local clean check/build passes **5,318 component + 22 real UDP tests**, zero
 failures, errors or skips. **91 focused original tests** pass. New comparisons
 cover 10,132 source cases/operations. All 55 configured generators reproduce source
 outputs after a fresh original native build; all 208 recorded fixture/catalog
-hashes remain unchanged. Publication and all five current-head CI jobs are pending.
+hashes remain unchanged. All five CI jobs passed for implementation `a3cbfff3738acf5ece8012113106633e2ef68463` and tested/published tree
+`78f4a9f75500e105e316df6c04a547a8e0309a4f` in [run 39083832978](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39083832978).
+The native job regenerated original fixtures, the build byte-compared repeated
+archives and platform jobs tested one uploaded JAR on Ubuntu, Windows and macOS.
+No local-to-CI artifact hash identity is claimed.
 
 Two CRC-valid local archives are byte-identical: 1605010 bytes,
 SHA-256 `7a84c985d490872ee7cbce79d81172cdae15df09192fd4723365fa915189a707`. Class major 69 and packaging audits pass;

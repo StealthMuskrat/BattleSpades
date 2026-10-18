@@ -58,6 +58,9 @@ capacity gates remain pending. Ordinary hosting exits 2. See BLAST_RUNTIME.md.
 - Previous entity-registry implementation: `82f63e3f03900cbbd75e365680d91ee2b766a84e`.
 - Previous entity-registry tested/published tree: `a437b5b53ec912b75898600d69caba2114da647d`.
 - Previous entity-registry CI: [run 39081721193](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39081721193); all five jobs passed.
+- Current shared-blast implementation: `a3cbfff3738acf5ece8012113106633e2ef68463`.
+- Current shared-blast tested/published tree: `78f4a9f75500e105e316df6c04a547a8e0309a4f`.
+- Current shared-blast CI: [run 39083832978](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39083832978); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -270,7 +273,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | Pending publication and all five jobs |
+| Current-tree independent platform CI | PASS: all five jobs; source regeneration, repeat archive and same uploaded JAR on three OSes |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 

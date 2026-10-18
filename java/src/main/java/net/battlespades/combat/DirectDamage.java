@@ -40,6 +40,8 @@ public final class DirectDamage {
         }
         return damage<=0?0:damage;
     }
+    /** Original generic explosion victim multiplier: Hardcore class scaling still composes the flying pack. */
+    public static double victimMultiplier(Victim victim){var row=ClassCatalog.definitions().get(victim.classId);double scale=victim.hardcore&&HARDCORE.contains(victim.classId)?1:row==null?1:row.damage();return scale*(victim.flying?PACK_DAMAGE.getOrDefault(victim.pack,1.):1.);}
     public static double entityAmount(CombatCatalog.Profile profile){return profile.entityDamage()>0?profile.entityDamage():profile.damage();}
     /** The impact callback occurs before health admission, including protected victims, exactly as the source shield helper. */
     public static double mitigate(Shield shield,Vector attacker,double damage,Vector impact,boolean melee,Consumer<ShieldImpact> effects){

@@ -40,6 +40,12 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
+Shared blasts now compose native/exact terrain delivery, accepted player/entity
+damage, dense-input predicted pushes and timed/mine/C4/grave behavior. A real
+three-client owned-shot chain test covers instigator credit and known-causer
+fallback. Placement policy, remaining devices and complete gameplay integration
+remain pending. See [BLAST_RUNTIME.md](docs/BLAST_RUNTIME.md).
+
 The concrete entity registry now preserves uint16 allocation, source support/tick/
 touch/respawn callback order, base damage/destruction and per-scene visibility.
 New source traces and a three-client owned-shot UDP test cover the component;

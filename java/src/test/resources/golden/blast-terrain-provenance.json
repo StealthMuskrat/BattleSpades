@@ -1,0 +1,13 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 576,
+  "fixture_sha256": "ddb5dbbc1b01a3fba3d7a3231ed5f50a2ef805e1e1d3bc544b2ec9d09bc88bb7",
+  "source_files_sha256": {
+    "server/main.py": "7446dd984129fae5b90599d40380c476f12b68265acfb76b1af3e4ac3096a367",
+    "server/combat_runtime.py": "1063d83823e07e103a7a65cc30aa3a94398d860abb8ba6ee345b7120f767d677",
+    "server/world_manager.py": "b2ef9c97255c290ea946dc4a4a415b46ba26bd69db9997276bcce6a3ef45fc63",
+    "server/block_damage_model.py": "43b2f189bf2c827067d50d35c8cd1c4ae470c23e42be1b45a372fc4b77686cf5"
+  },
+  "method_substitutions": false,
+  "scope": "Unchanged _apply_blast_terrain method AST and original CombatSystem/native world health/collapse/packet methods. Seeded source random and sys.setprofile observe effect requests. Known entity causer receives native expanding packet; unknown gets exact destroyed/surviving cells; loading peer gated. Exact topology/health/color/wire and effect order. Network/journal/settings/mode IO controlled; raw legacy journal callback is IO-only here; Java uses previously verified canonical state journal. No concrete services, full server loop or client convergence proof."
+}

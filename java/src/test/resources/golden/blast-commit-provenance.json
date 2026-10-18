@@ -1,0 +1,15 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "cases": 576,
+  "scope_cases": 8,
+  "source_files_sha256": {
+    "server/main.py": "7446dd984129fae5b90599d40380c476f12b68265acfb76b1af3e4ac3096a367",
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/weapons_retail.py": "49e0d10f9ab5eca67cacf1cb0855a11eb826343ae38b77a3f0f820409f86d000",
+    "server/explosions.py": "b0a3203e032cba808c0ba0e46a335ab1bbb3cac8de4813fd426ae7fa6271186b",
+    "server/entities/registry.py": "844b5df830c2900419035491f35c9fed0542dc8f6fce7fb3b7ed280c8a3f8935"
+  },
+  "fixture_sha256": "e352ef9a9b3f13acbe83848b501ed2951d9c57b824ea6eaa8db9adc374050803",
+  "method_substitutions": false,
+  "scope": "Unchanged decorated method ASTs from server/main.py, actual native world, original Player HP/death/prediction and damageable registry. Controlled ordinary TDM/rules/clocks and lifecycle/network IO. Build damage disabled in these traces; separate terrain traces cover its commit. No complete mode/achievement/stimulus service, full gameplay loop or supported-client evidence."
+}

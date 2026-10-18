@@ -51,6 +51,7 @@ public final class InputTimeline {
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Input timeline accessed outside owner");}
     public Integer newestLabel(){owned();return newest;}
     public Integer appliedLabel(){owned();return applied;}
+    public long receivedInputSequence(){owned();return inputSequence;}
     public int size(){owned();return frames.size();}
     public Frame firstFrame(){owned();return frames.isEmpty()?null:frames.firstEntry().getValue();}
     public Frame lastFrame(){owned();return frames.isEmpty()?null:frames.lastEntry().getValue();}

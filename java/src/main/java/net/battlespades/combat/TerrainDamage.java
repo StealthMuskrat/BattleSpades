@@ -35,11 +35,11 @@ public final class TerrainDamage {
     private final Thread owner=Thread.currentThread();private final MutableWorld world;private final CollisionMap map;private final Domain domain;private final IntSupplier randomSeed;
     public TerrainDamage(MutableWorld world,Domain domain,IntSupplier randomSeed){this.world=Objects.requireNonNull(world);map=CollisionMap.of(world);this.domain=Objects.requireNonNull(domain);this.randomSeed=Objects.requireNonNull(randomSeed);}
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Terrain combat outside owner");}
-    public static DamagePacket packet(PlayerLife player,Cell cell,double amount,Integer type,int seed,Integer causer){int actor=player==null?-1:player.id();return new DamagePacket(actor,type==null?6:type,(float)Math.min(amount,KILL_DAMAGE),0,1,seed&255,causer==null?(player==null?0:player.id()):causer,new Vector3f(cell.x(),cell.y(),cell.z()));}
+    public static DamagePacket packet(PlayerLife player,Cell cell,double amount,Integer type,int seed,Integer causer){int actor=player==null?255:player.id();return new DamagePacket(actor,type==null?6:type,(float)Math.min(amount,KILL_DAMAGE),0,1,seed&255,causer==null?(player==null?0:player.id()):causer,new Vector3f(cell.x(),cell.y(),cell.z()));}
     private void broadcast(PlayerLife player,Cell cell,double amount,Integer type,int seed,Integer causer){var packet=packet(player,cell,amount,type,seed,causer);domain.reliable(packet);Integer sound=SOUNDS.get(packet.type());if(sound!=null)domain.sound(sound,cell,player);}
     private void collapse(PlayerLife player,List<Cell> removed){
         domain.profileBlocks(player,removed.size());var chunks=TerrainCollapse.find(world,removed);var collapsed=new ArrayList<Cell>();
-        for(var chunk:chunks)for(var cell:chunk){var p=new MutableWorld.Cell(cell.x(),cell.y(),cell.z());if(world.solid(p)){world.set(p,false,0,null);collapsed.add(cell);}}
+        for(var chunk:chunks)for(var cell:world.destroyBlocks(chunk.stream().map(c->new MutableWorld.Cell(c.x(),c.y(),c.z())).toList()))collapsed.add(new Cell(cell.x(),cell.y(),cell.z()));
         domain.profileBlocks(player,collapsed.size());domain.scoreBlocks(player,removed.size()+collapsed.size(),chunks);try{domain.achievedBlocks(player,List.copyOf(removed),List.copyOf(collapsed),chunks,domain.activeShotTool(player));}catch(RuntimeException failure){/* Original achievement hooks isolate engine faults. */}if(!collapsed.isEmpty())domain.collapsedRepair(List.copyOf(collapsed));
     }
     public boolean gun(PlayerLife player,Cell cell,double amount){return gun(player,cell,amount,null,null);}
@@ -53,6 +53,8 @@ public final class TerrainDamage {
         if(wire>0)for(var hit:BlockDamageModel.footprint(type,position,wire,selected)){if(!BlockDamageModel.damageable(hit)||!map.solid(hit.cell().x(),hit.cell().y(),hit.cell().z()))continue;var result=world.terrainHealth().apply(hit.cell(),hit.damage(),5);if(result.destroyed())destroyed.add(hit.cell());else if(result.total()>0)damaged.add(hit);}
         return new NativeResult(selected,wire,destroyed,damaged);
     }
+    /** Complete an already-applied native footprint; radius-causer calls retain even the empty source callback sequence. */
+    public void completeNative(PlayerLife player,List<Cell> removed,boolean radiusCauser){owned();if(radiusCauser||!removed.isEmpty()){collapse(player,removed);if(player!=null&&!removed.isEmpty())domain.modeDestroyed(player,removed,false);}}
     private static List<Cell> positions(Cell c,String pattern){var out=new ArrayList<Cell>();switch(pattern){case "cube"->{for(int x=-1;x<=1;x++)for(int y=-1;y<=1;y++)for(int z=-1;z<=1;z++)out.add(new Cell(c.x()+x,c.y()+y,c.z()+z));}case "column"->{for(int z=-1;z<=1;z++)out.add(new Cell(c.x(),c.y(),c.z()+z));}case "machete_vertical_pair"->{out.add(c);out.add(new Cell(c.x(),c.y(),c.z()+1));}default->out.add(c);}return List.copyOf(out);}
     public boolean dig(PlayerLife player,Vector origin,Vector direction,ShootPacket packet,List<Vector> eyes,double slack){
         owned();if(direction==null)return false;var hit=HitTrace.terrainRay(map,origin,direction,RANGE);if(hit==null)return false;var cell=new Cell(hit.x(),hit.y(),hit.z());var center=new Vector(cell.x()+.5,cell.y()+.5,cell.z()+.5);

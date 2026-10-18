@@ -1,0 +1,16 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 768,
+  "source_listener_errors": 0,
+  "source_files_sha256": {
+    "server/main.py": "7446dd984129fae5b90599d40380c476f12b68265acfb76b1af3e4ac3096a367",
+    "server/entities/behaviors.py": "de230daca0fe35db5abaee03f5df6885e027f897182371fac19087f73a154f5d",
+    "server/entities/registry.py": "844b5df830c2900419035491f35c9fed0542dc8f6fce7fb3b7ed280c8a3f8935",
+    "server/conduct.py": "4e3d267a96381720536d0693dfd0af2db98436c4a528e97f242eed96f1eccb47",
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/world_manager.py": "b2ef9c97255c290ea946dc4a4a415b46ba26bd69db9997276bcce6a3ef45fc63"
+  },
+  "fixture_sha256": "a56d8d305ab34cb0f2cdf6cb5cc6f9de5b3c17882c05978177fdb97f05ca1f11",
+  "method_substitutions": false,
+  "scope": "Unchanged concrete grave/timed/mine/C4 behavior, registry, decorated shared blast method AST, actual original Player HP/native map and canonical-support method AST. Controlled clocks, settings and lifecycle/network IO. Chained instigator damage/HP bytes, support removal, fuse/caps, direct C4 damage vs detonation, stale owner lists/registry reset. No placement authorization, concrete achievement/mode/stimulus service, terrain blast commit or full gameplay-loop readiness."
+}

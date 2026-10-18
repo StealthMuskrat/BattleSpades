@@ -1,0 +1,14 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 3659,
+  "groups": 12,
+  "source_files_sha256": {
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/simulation_runtime.py": "385c8793f38e3c340784018e91350d36e3612d1a3252aa8f65295aaf719021bd",
+    "server/handlers/movement.py": "c79b87556293ce351576d659503cc5538082b23bf893179d5612879f6a98632e",
+    "aoslib/world.pyx": "5290568a97c5b74503642b29d6da9eda56f2fdba0453f9e5c7c3f676d840b1bc"
+  },
+  "fixture_sha256": "dda115ccda6310fe6af31be7c34bcb17a584774f18a0a04dd517b2226c26ce21",
+  "method_substitutions": false,
+  "scope": "Unchanged SimulationRuntime, Player queue/apply explosion impulse methods and native World mover. Full body/fa\u00e7ade/chronology snapshots, pending parameters, observer/wire boundaries. Sparse/reordered/synthesized labels, dense sequences, overflow/bot fallback, backlog discards and life reset. Controlled input/clocks/config, not full gameplay or real-client timing proof."
+}

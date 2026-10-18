@@ -30,6 +30,7 @@ public final class PlayerLife {
     private double sideX,sideY=1,spawnedAt,deathTime,walletScale;
     private long generation;
     private int worldUpdateAck;
+    private List<Integer> chargeIds=List.of();
     private Double lastLagRewindMillis;
     private int health=LifeCatalog.HEALTH,maxHealth=LifeCatalog.HEALTH,jetpack,parachute,color=0x707070,lastDamageSource=-1,lastDamageType=-1;
     private double lastDamageWall,lastCombatHit;
@@ -47,6 +48,9 @@ public final class PlayerLife {
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Life accessed outside owner");}
     public int id(){owned();return id;}public int team(){owned();return team;}public int health(){owned();return health;}
     public String name(){owned();return name;}
+    public List<Integer> chargeIds(){owned();return chargeIds;}
+    public void chargeIds(List<Integer> value){owned();chargeIds=List.copyOf(value);}
+    public void forgetCharge(int id){owned();chargeIds=chargeIds.stream().filter(value->value!=id).toList();}
     public int worldUpdateAck(){owned();return worldUpdateAck;}
     public void worldUpdateAck(int value){owned();worldUpdateAck=value;}
     public OptionalDouble lastLagRewindMillis(){owned();return lastLagRewindMillis==null?OptionalDouble.empty():OptionalDouble.of(lastLagRewindMillis);}

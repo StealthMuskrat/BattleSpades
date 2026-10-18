@@ -1,4 +1,24 @@
-# Current entity-registry checkpoint verification
+# Current shared-blast checkpoint verification
+
+Local clean check/build passes **5,318 component + 22 real UDP tests**, zero
+failures, errors or skips. **91 focused original tests** pass. New comparisons
+cover 10,132 source cases/operations. All 55 configured generators reproduce source
+outputs after a fresh original native build; all 208 recorded fixture/catalog
+hashes remain unchanged. Publication and all five current-head CI jobs are pending.
+
+Two CRC-valid local archives are byte-identical: 1605010 bytes,
+SHA-256 `7a84c985d490872ee7cbce79d81172cdae15df09192fd4723365fa915189a707`. Class major 69 and packaging audits pass;
+version/config exits 0 and hosting exits 2. Native transport and packaged-loader
+probes pass nominal/impaired assertions in an isolated run. Historical compiler/
+probe observations remain preceding-checkpoint evidence below.
+
+The new three-client UDP test composes actual registry, mine chain, shared blast,
+terrain health and dense input push through explicit test mode/effect ports.
+Placement authorization, remaining devices/projectile/corpse, full services/
+gameplay loop, supported-client and capacity/soak gates remain pending. Native
+packaged-loader probes retain FixtureScene. See [BLAST_RUNTIME.md](BLAST_RUNTIME.md).
+
+# Preceding entity-registry checkpoint verification
 
 Local clean check/build passes **5,147 component + 21 real UDP tests**, zero
 failures, errors or skips. **57 focused original tests** pass. New comparisons

@@ -9,6 +9,7 @@ import net.battlespades.player.PlayerLife;
 
 /** One owner-loop frame. Null lifecycle callbacks and registry have the source's optional semantics. */
 public record EntityContext(double dt,double now,List<PlayerLife> players,EntityRegistry registry,
-        Consumer<MapEntity> create,IntConsumer destroy) {
+        Consumer<MapEntity> create,IntConsumer destroy,DeployableRuntime devices) {
+    public EntityContext(double dt,double now,List<PlayerLife> players,EntityRegistry registry,Consumer<MapEntity> create,IntConsumer destroy){this(dt,now,players,registry,create,destroy,null);}
     public EntityContext { Objects.requireNonNull(players); }
 }

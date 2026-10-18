@@ -108,7 +108,8 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     void reloadAnnouncement(GamePacket packet){owned();messages.broadcast(packet);}
     public Score score(int id){owned();var s=Objects.requireNonNull(scores.get(id));return new Score(s.kills,s.deaths,s.streak,s.lastKilledBy,s.bonuses);}
     /** Synchronous chained blasts retain the outermost non-null instigator, as conduct.blast_instigator does. */
-    public BlastScope blast(Integer instigatorId){owned();PlayerLife current=blasts.isEmpty()?null:blasts.getLast().instigator;var scope=new BlastScope(current!=null?current:instigatorId==null?null:player(instigatorId));blasts.addLast(scope);return scope;}
+    public BlastScope blast(Integer instigatorId){owned();return blastSource(instigatorId==null?null:player(instigatorId));}
+    public BlastScope blastSource(PlayerLife instigator){owned();PlayerLife current=blasts.isEmpty()?null:blasts.getLast().instigator;var scope=new BlastScope(current!=null?current:instigator);blasts.addLast(scope);return scope;}
     private PlayerLife attributed(PlayerLife victim,PlayerLife source){var instigator=blasts.isEmpty()?null:blasts.getLast().instigator;return instigator!=null&&instigator!=source&&instigator!=victim&&source!=null&&instigator.team()==victim.team()?instigator:source;}
     /** Accepted connected-player/world damage only. Hit authorization and detached projectile actors remain caller work. */
     public boolean damage(int victimId,double amount,Integer sourceId,int killType,Integer hpType){

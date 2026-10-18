@@ -152,6 +152,13 @@ jobs:
           python -S java/tools/generate_terrain_repair_golden.py
           python -S java/tools/generate_entity_id_set_golden.py
           python -S java/tools/generate_entity_registry_golden.py
+          python -S java/tools/export_explosion_catalog.py
+          python -S java/tools/generate_explosion_geometry_golden.py
+          python -S java/tools/generate_blast_commit_golden.py
+          python -S java/tools/generate_blast_terrain_golden.py
+          python -S java/tools/generate_explosion_timeline_golden.py
+          python -S java/tools/generate_deployable_golden.py
+          git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/explosions.toml java/src/test/resources/golden/explosion-* java/src/test/resources/golden/blast-* java/src/test/resources/golden/deployable*
           git diff --exit-code -- java/src/test/resources/golden/entity-id-set* java/src/test/resources/golden/entity-registry*
           git diff --exit-code -- java/src/test/resources/golden/terrain-repair*
           git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/block-damage.toml java/src/test/resources/golden/block-damage-* java/src/test/resources/golden/collapse* java/src/test/resources/golden/terrain-health* java/src/test/resources/golden/terrain-commit*

@@ -69,7 +69,7 @@ public final class InfantrySimulation {
         var step=t.consumeOne(settings.gapLimit,p.aim()).orElseThrow();
         if(!step.synthesized())m.delay(tick-first.receivedTick());
         p.orientation(step.aim().x(),step.aim().y(),step.aim().z());m.controls(step.movement(),step.actions());
-        applyImpulses(p,step.label());
+        applyImpulses(p,step.label());if(!step.synthesized())m.applyExplosionsThrough(p,step.inputSequence());
         try{move(p);}finally{if(!step.synthesized()){var aim=t.appliedAim();p.orientation(aim.x(),aim.y(),aim.z());}}
         m.eye(step.label(),p.position(),step.synthesized()?step.aim():t.appliedAim());
     }
@@ -112,7 +112,7 @@ public final class InfantrySimulation {
     private boolean pairSafe(PlayerLife p){
         var t=p.inputTimeline();Integer applied=t.appliedLabel();if(applied==null||applied>Integer.MAX_VALUE-2)return false;
         var first=t.frame(applied+1);var second=t.frame(applied+2);if(first==null||second==null)return false;
-        long topology=runtime.world().topologyVersion();if(first.topology()!=topology||second.topology()!=topology||hooks.pendingTerrainMutations()>0||!p.motion().impulses.isEmpty())return false;
+        long topology=runtime.world().topologyVersion();if(first.topology()!=topology||second.topology()!=topology||hooks.pendingTerrainMutations()>0||!p.motion().impulses.isEmpty()||!p.motion().pendingExplosions().isEmpty())return false;
         if(p.flight().transitionPending())return false;
         if((p.jetpack()!=0||p.parachute()!=0)&&((first.movement()|second.movement()|t.pendingMovement())&16)!=0)return false;
         return (first.actions()==null||(first.actions()&128)==0)&&(second.actions()==null||(second.actions()&128)==0);
@@ -130,7 +130,7 @@ public final class InfantrySimulation {
         if(m.backlogCatchup){if(delay<=Math.max(1,cap/2)){m.backlogCatchup=false;m.backlogOver=0;return false;}}
         else{if(delay<=cap){m.backlogOver=0;return false;}m.backlogOver++;if(m.backlogOver<=60)return false;hooks.report(p,"input_backlog",settings.enforceBacklog);if(!settings.enforceBacklog){m.backlogOver=0;return false;}m.backlogCatchup=true;}
         if(pairSafe(p))return true;
-        int excess=t.size()-cap;for(int i=0;i<excess;i++){var frame=t.dropOldest().orElseThrow();if(frame.actions()!=null)m.actions=frame.actions();applyImpulses(p,frame.label());m.backlogDropped++;}
+        int excess=t.size()-cap;for(int i=0;i<excess;i++){var frame=t.dropOldest().orElseThrow();if(frame.actions()!=null)m.actions=frame.actions();applyImpulses(p,frame.label());m.applyExplosionsThrough(p,frame.inputSequence());m.backlogDropped++;}
         return false;
     }
 }

@@ -1,0 +1,13 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_files_sha256": {
+    "server/weapons_retail.py": "49e0d10f9ab5eca67cacf1cb0855a11eb826343ae38b77a3f0f820409f86d000",
+    "server/explosions.py": "b0a3203e032cba808c0ba0e46a335ab1bbb3cac8de4813fd426ae7fa6271186b"
+  },
+  "geometry_cases": 4096,
+  "handler_selection_cases": 161,
+  "victim_multiplier_cases": 288,
+  "fixture_sha256": "70ad94e29362124b7e767092cbc56ab189e227ec92f16af4f638da997c14abb3",
+  "method_substitutions": false,
+  "scope": "Unchanged blast falloff/player/entity damage, impulse, sight segments/weights, normalized raycast callback order, knockback scaling and stock handler matching. Controlled geometry/raycast IO. Does not establish blast commit, prediction-frame impulse binding, concrete devices, projectiles or gameplay integration."
+}

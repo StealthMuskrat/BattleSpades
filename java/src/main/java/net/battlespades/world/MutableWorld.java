@@ -39,6 +39,11 @@ public final class MutableWorld implements AutoCloseable {
     private final ArrayDeque<Mutation> journal=new ArrayDeque<>();
     private final LinkedHashSet<Lease> leases=new LinkedHashSet<>();
     private long revision;
+    private java.util.function.Consumer<Cell> removalObserver;
+    public interface RemovalLease extends AutoCloseable {@Override void close();}
+    /** The canonical server removal hook runs before the per-cell catch-up cursor is recorded. */
+    public RemovalLease observeRemovals(java.util.function.Consumer<Cell> observer){active();if(removalObserver!=null)throw new IllegalStateException("Canonical removal observer already installed");removalObserver=java.util.Objects.requireNonNull(observer);return ()->{active();if(removalObserver==observer)removalObserver=null;};}
+
     private boolean closed;
     public MutableWorld(VxlMap base,long epoch,int journalLimit) {
         this.base=java.util.Objects.requireNonNull(base);this.epoch=epoch;this.journalLimit=journalLimit;sourceCrc=(int)base.sourceCrc();
@@ -77,7 +82,8 @@ public final class MutableWorld implements AutoCloseable {
         });
     }
     /** Commits exact topology/RGB, preserving health on paint; dynamic alpha uses the source's0x80 byte. */
-    public void set(Cell cell,boolean solid,int rgb,Double initialHealth) {
+    public void set(Cell cell,boolean solid,int rgb,Double initialHealth) {set(cell,solid,rgb,initialHealth,true);}
+    private void set(Cell cell,boolean solid,int rgb,Double initialHealth,boolean publish) {
         active();
         if(!solid && cell.z==239) throw new IllegalArgumentException("Canonical seabed cannot be removed");
         if(initialHealth!=null && (!Double.isFinite(initialHealth) || initialHealth<=0)) throw new IllegalArgumentException("Block health");
@@ -101,7 +107,12 @@ public final class MutableWorld implements AutoCloseable {
                 }
             }
         }
-        recordCell(cell);
+        if(publish){if(!solid&&removalObserver!=null)removalObserver.accept(cell);recordCell(cell);}
+    }
+    /** Source destroy_blocks commits the whole component before support-loss callbacks can start another blast. */
+    public List<Cell> destroyBlocks(List<Cell> positions){
+        active();var removed=new java.util.ArrayList<Cell>();var seen=new java.util.HashSet<Cell>();for(var cell:positions)if(seen.add(cell)&&cell.z<239&&solid(cell)){set(cell,false,0,null,false);removed.add(cell);}
+        var observer=removalObserver;for(var cell:removed){if(observer!=null)observer.accept(cell);recordCell(cell);}return List.copyOf(removed);
     }
     void recordCell(Cell cell) {
         active();revision++;

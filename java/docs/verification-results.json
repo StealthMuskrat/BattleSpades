@@ -33,13 +33,34 @@
     }
   },
   "verification_stage": "Generic combat economy, teabag credit, escape watch, round-clock arbitration and native HUD batch",
-  "java_implementation_commit": null,
-  "tested_tree": null,
+  "java_implementation_commit": "6f904c4f28917a03e3d0a94de259e84213bd9025",
+  "tested_tree": "7803354387083bbf86a98bfaea387ad65d8098ed",
   "ci": {
-    "status": "pending_publication",
-    "jobs": {},
+    "status": "success",
+    "run_id": 39144143660,
+    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39144143660",
+    "head_sha": "6f904c4f28917a03e3d0a94de259e84213bd9025",
+    "jobs": {
+      "native-enet": "success",
+      "build": "success",
+      "platform (ubuntu-latest)": "success",
+      "platform (windows-latest)": "success",
+      "platform (macos-latest)": "success"
+    },
+    "job_ids": {
+      "native-enet": 117724434823,
+      "build": 117724435099,
+      "platform (ubuntu-latest)": 117724787686,
+      "platform (windows-latest)": 117724787743,
+      "platform (macos-latest)": 117724787793
+    },
+    "all_five_jobs_passed": true,
+    "native_original_fixtures_reproduced": true,
+    "repeated_ci_archive_identical": true,
+    "same_uploaded_jar_three_platforms": true,
+    "local_to_ci_artifact_hash_compared": false,
     "full_reference_python_baseline_passing": false,
-    "packaged_native_probe_player_domain": "FixtureScene; two new real UDP compositions bind actual damage/life ledgers, economy/teabag, terrain/escape/objective guards, marker late replay and frozen timeout winner/HUD through explicit mode/end/result ports; full gameplay remains pending"
+    "packaged_native_probe_player_domain": "FixtureScene; new real UDP compositions bind accepted life damage/death, live terrain and frozen timeout remainder, economy/teabag/escape/clock/HUD/scoreboard domains through explicit test mode/known-roster/result ports; full gameplay remains pending"
   },
   "movement": {
     "cases": 118,
@@ -392,10 +413,12 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": false,
+    "branch_updated": true,
     "expected_parent": "a831f1fe8226cde5dae8c429727eb4f3202409a3",
     "force": false,
-    "authorization": "User authorized future verified migration checkpoints, code/workflow changes and all five CI jobs; current request requires multiple implementations per batch."
+    "authorization": "User authorized future verified migration checkpoints, code/workflow changes and all five CI jobs; current request requires multiple implementations per batch.",
+    "implementation_commit": "6f904c4f28917a03e3d0a94de259e84213bd9025",
+    "tested_tree": "7803354387083bbf86a98bfaea387ad65d8098ed"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",

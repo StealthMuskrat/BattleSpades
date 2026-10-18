@@ -82,6 +82,9 @@ pending. Hosting exits 2. See MATCH_FLOW.md.
 - Previous profile/combat/objective score implementation: `dd76bffca873499b9b598436b741c11fb14ff102`.
 - Previous profile/combat/objective score tested/published tree: `93af458453543adc629241612467e984ff1c3105`.
 - Previous profile/combat/objective score CI: [run 39139463520](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39139463520); all five jobs passed.
+- Current combat-economy/escape/clock implementation: `6f904c4f28917a03e3d0a94de259e84213bd9025`.
+- Current combat-economy/escape/clock tested/published tree: `7803354387083bbf86a98bfaea387ad65d8098ed`.
+- Current combat-economy/escape/clock CI: [run 39144143660](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39144143660); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -374,7 +377,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | Pending publication and all five jobs |
+| Current-tree independent platform CI | PASS: all five jobs; source regeneration, repeat archive and same uploaded JAR on three OSes |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -515,4 +518,4 @@ and artifact smokes passed, but the existing UDP replication/respawn test timed
 out after ACK release. Its test synchronization now waits for reliable receipts
 without expiry, then broadcasts at cadence until the released row is received.
 The row-hold assertions and 4s/15s timeouts remain unchanged. This failure and its
-logs are retained; the corrected checkpoint requires a fresh five-job CI run.
+logs are retained; the corrected checkpoint passes all five jobs in run 39144143660.

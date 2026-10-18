@@ -1,7 +1,9 @@
 # Java test results
 
 Stage: combat economy, teabag, escape watch and round-clock batch, 2026-10-18 UTC.
-Local clean check/build passes; publication and all five current-head CI jobs are pending.
+Implementation: `6f904c4f28917a03e3d0a94de259e84213bd9025`; tested tree: `7803354387083bbf86a98bfaea387ad65d8098ed`.
+All five jobs passed in [run 39144143660](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39144143660), including source regeneration,
+archive reproducibility and one uploaded JAR on three platforms.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -120,4 +122,4 @@ and artifact smokes passed, but the existing UDP replication/respawn test timed
 out after ACK release. Its test synchronization now waits for reliable receipts
 without expiry, then broadcasts at cadence until the released row is received.
 The row-hold assertions and 4s/15s timeouts remain unchanged. This failure and its
-logs are retained; the corrected checkpoint requires a fresh five-job CI run.
+logs are retained; the corrected checkpoint passes all five jobs in run 39144143660.

@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "abb8d1fbb46296797f3de2ec72a9ba36f0cd4cb65cf2e12b9e5723172ec1753a",
-  "jar_bytes": 1911352,
+  "jar_sha256": "527dbe0f7151212c238739b89f8188978a64324946ad27f073c477e1faa0a3d1",
+  "jar_bytes": 1911484,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -20,7 +20,7 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 6177,
+      "tests": 6179,
       "failures": 0,
       "errors": 0,
       "skipped": 0
@@ -400,7 +400,7 @@
   "publication": {
     "branch": "port/java25",
     "branch_updated": false,
-    "expected_parent": "8a326e909dab1e57c9d56d3accfced5e6bc9aea5",
+    "expected_parent": "e97ac03593729c4f8f213621a64250a4ca86395c",
     "force": false,
     "authorization": "User authorized this and future verified migration checkpoints, code/workflow changes and all five CI jobs; requested multiple implementations per batch.",
     "implementation_commit": null,
@@ -3890,12 +3890,12 @@
       "HostedVoting actual host identity/delivery/disconnect/admission",
       "HostedMedia shared voting composition"
     ],
-    "new_component_tests": 51,
+    "new_component_tests": 53,
     "new_integration_tests": 1,
     "upgraded_existing_compositions": 1,
     "source_scenarios": {
       "navigation": 10,
-      "catalog_ranking": 12,
+      "catalog_ranking": 14,
       "kick_arbitration": 26,
       "aggregate_fit_case": 1
     },
@@ -3910,7 +3910,8 @@
       "total_checked_paths": 256,
       "configured_generators": 73,
       "local_unchanged_72_generator_native_build_evidence_reused": true,
-      "ci_independently_rebuilds_all": 73
+      "ci_independently_rebuilds_all": 73,
+      "initial_checkpoint_fixture_correction": "Replace macOS-rejected U+FFFF with valid private-use BMP characters; add two roster-order fit boundaries without skipping any scenario"
     },
     "native_profiles": {
       "native-transport-results.json": {
@@ -3928,7 +3929,7 @@
             },
             "server_disconnect_reason": 18,
             "java_retransmissions": 0,
-            "forwarded_datagrams": 1030,
+            "forwarded_datagrams": 1036,
             "dropped_datagrams": 0,
             "duplicate_datagrams": 0,
             "delayed_datagrams": 0,
@@ -3940,18 +3941,18 @@
             "profile": "loss-reorder-duplicate",
             "reliable_messages": 81,
             "reliable_payload_sha256": "8bf5b28d7bc1cdca600b721861267251ba12443d0b16aa754887216142f0041a",
-            "unreliable_echoes": 32,
+            "unreliable_echoes": 33,
             "reconnect": true,
             "protocol_rejections": {
               "167": 10,
               "169": 3
             },
             "server_disconnect_reason": 18,
-            "java_retransmissions": 70,
-            "forwarded_datagrams": 1290,
-            "dropped_datagrams": 133,
-            "duplicate_datagrams": 98,
-            "delayed_datagrams": 1178,
+            "java_retransmissions": 53,
+            "forwarded_datagrams": 1274,
+            "dropped_datagrams": 127,
+            "duplicate_datagrams": 96,
+            "delayed_datagrams": 1164,
             "java_malformed_datagrams": 0,
             "game_client_test": false,
             "result": "PASS"
@@ -3994,9 +3995,9 @@
             "full_chunks": 453,
             "full_records_sha256": "a04e25f22eff412ed7565b1cdd13ca0fa4033fdde416d2d0b4890ffcdbd4dc10",
             "delta_chunks": 0,
-            "dropped_datagrams": 114,
+            "dropped_datagrams": 115,
             "duplicate_datagrams": 77,
-            "delayed_datagrams": 933,
+            "delayed_datagrams": 937,
             "concurrent_reserved_ids": [
               0,
               1
@@ -4022,6 +4023,39 @@
     "complete_hosting_bootstrap": false,
     "full_migration_complete": false,
     "native_loader_uses_fixture_scene": true,
-    "supported_client_validated": false
+    "supported_client_validated": false,
+    "source_roster_float_addition_order_preserved": true
+  },
+  "initial_voting_checkpoint": {
+    "implementation_commit": "e97ac03593729c4f8f213621a64250a4ca86395c",
+    "tree": "5656bfcc409b08104f643a75e943ab5dfba67221",
+    "jar_sha256": "abb8d1fbb46296797f3de2ec72a9ba36f0cd4cb65cf2e12b9e5723172ec1753a",
+    "jar_bytes": 1911352,
+    "junit": {
+      "test": {
+        "tests": 6177,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "tests": 37,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "ci_run_id": 39170464457,
+    "ci_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39170464457",
+    "ci_conclusion": "failure",
+    "jobs": {
+      "native-enet": "success",
+      "build": "success",
+      "platform (windows-latest)": "success",
+      "platform (ubuntu-latest)": "success",
+      "platform (macos-latest)": "failure"
+    },
+    "failure": "macOS filesystem rejected U+FFFF test filename: Illegal byte sequence",
+    "resolution": "Valid private-use BMP filenames retain astral/code-point ordering test; no skip or waiver. Roster-order fit boundary also corrected and covered by two additional intact-source scenarios."
   }
 }

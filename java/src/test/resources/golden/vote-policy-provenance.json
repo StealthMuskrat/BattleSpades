@@ -1,12 +1,12 @@
 {
-  "cases": 49,
+  "cases": 51,
   "domains": {
-    "catalog": 12,
+    "catalog": 14,
     "fit": 1,
     "kick": 26,
     "navigation": 10
   },
-  "fixture_sha256": "d20e039a22a4dd6afab1b3864455a5989c7c066e6752bf2891772f74913f4a2a",
+  "fixture_sha256": "3aa910baa240a98917ae37d157a8dfad458b1cf4088c7b973637ebb522d3e256",
   "policy_method_substitutions": false,
   "scope": "Intact VoteManager discovery/fit/rotation/kick/arbitration policies and real native packets.\n\nFilesystem catalogs/nav bytes, clocks, random seeds and actor/terminal disconnect\nservices are controlled. No policy method is replaced. No supported-client claim.",
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",

@@ -20,25 +20,27 @@ with tempfile.TemporaryDirectory() as directory:
   if data is not None:(pathlib.Path(directory)/(name+'.botnav')).write_bytes(data)
   rows.append(dict(domain='navigation',case=case,data=None if data is None else data.hex(),area=voting.map_playable_area(directory,name)))
 retail={'maps':{'Tiny':dict(max_players=2,release=True,invalid_modes=[]),'Small':dict(max_players=6,release=True,invalid_modes=['ctf']),'Medium':dict(max_players=12,release=True,invalid_modes=[]),'Large':dict(max_players=32,release=False,invalid_modes=[]),'Huge':dict(max_players=32,release=True,mafia=True,invalid_modes=[])},'playlists':{'tdm':dict(maps=['Small','Tiny','Large','Huge','Medium'],modes=['tdm'],classic=False,mafia=False),'ctf':dict(maps=['Small','Medium','Tiny'],modes=['ctf'],classic=False,mafia=False)}}
-for case in range(12):
+for case in range(14):
  with tempfile.TemporaryDirectory() as directory:
   names=['Tiny','Small','Medium','Large','Huge','Custom'];sizes=[250,450,1000,2400,3900,None]
-  if case==11:names+=['é','𐀀','\uffff'];sizes +=[None]*3
+  if case==11:names+=['\ue000','𐀀','\uf000'];sizes +=[None]*3
   for name,size in zip(names,sizes):
    (pathlib.Path(directory)/(name+'.vxl')).write_bytes(b'')
    if size is not None:(pathlib.Path(directory)/(name+'.botnav')).write_bytes(nav(64,64,size))
   (pathlib.Path(directory)/'retail_map_info.json').write_text(json.dumps(retail))
   requested=['Custom','small','missing','Tiny','Medium','Huge'] if case in (1,2,7,8) else []
-  overrides={'Tiny':'large','SMALL':1200,'Custom':'unknown'} if case==5 else {}
-  humans=[0,2,4,8,12,4,8,4,8,2,1,2][case];bots=case%3;current='Small' if case not in (3,10) else 'missing';mode='classic_ctf' if case==8 else 'ctf' if case in (6,7) else 'tdm';stock=['Custom','Huge'] if case==4 else ['absent'] if case==9 else []
-  config=N(maps_path=directory,map_rotation=requested,map_rotation_shuffle=case in (2,3),map_size_overrides=overrides,map_vote_size_fit=case!=10,map_vote_area_per_player=100.0,map_vote_min_area=200.0,map_vote_recent_exclude=0 if case==6 else 2,map_vote_bot_weight=.5,map_vote_retail_max_players=case!=3,default_map=current,game_mode=mode)
-  players={i:N(id=i,is_bot=i>=humans) for i in range(humans+bots)};s=N(config=config,players=players,connections={},mode=N(stock_maps=stock),broadcast=lambda data:None)
+  overrides={'Tiny':'large','SMALL':1200,'Custom':'unknown'} if case==5 else {'Tiny':8000,'Small':8001,'Medium':8000,'Large':50000,'Huge':24000} if case>=12 else {}
+  humans=[0,2,4,8,12,4,8,4,8,2,1,2,2,2][case];bots=5 if case>=12 else case%3;current='Small' if case not in (3,10,12,13) else 'missing';mode='classic_ctf' if case==8 else 'ctf' if case in (6,7) else 'tdm';stock=['Custom','Huge'] if case==4 else ['absent'] if case==9 else []
+  config=N(maps_path=directory,map_rotation=requested,map_rotation_shuffle=case in (2,3),map_size_overrides=overrides,map_vote_size_fit=case!=10,map_vote_area_per_player=8000.0 if case>=12 else 100.0,map_vote_min_area=24000.0 if case>=12 else 200.0,map_vote_recent_exclude=0 if case in (6,12,13) else 2,map_vote_bot_weight=.2 if case>=12 else .5,map_vote_retail_max_players=case not in (3,12,13),default_map=current,game_mode=mode)
+  roster=[False]*humans+[True]*bots
+  if case==13:roster.reverse()
+  players={i:N(id=i,is_bot=bot) for i,bot in enumerate(roster)};s=N(config=config,players=players,connections={},mode=N(stock_maps=stock),broadcast=lambda data:None)
   with patch.object(voting,'random',random.Random(100+case)):
    manager=voting.VoteManager(s)
-  history=[' Tiny ','TINY','Large','Medium','Tiny','Huge','Small','Custom'] if case not in (0,11) else []
+  history=[' Tiny ','TINY','Large','Medium','Tiny','Huge','Small','Custom'] if case not in (0,11,12,13) else []
   for name in history:manager.note_map_played(name)
   available=manager._mode_available_maps();ranked=manager.rank_map_candidates(available,current)
-  rows.append(dict(domain='catalog',case=case,names=names,sizes=sizes,retail=json.dumps(retail),requested=requested,shuffle=config.map_rotation_shuffle,overrides=overrides,humans=humans,bots=bots,current=current,mode=mode,stock=stock,settings=dict(sizeFit=config.map_vote_size_fit,perPlayer=100.0,minimum=200.0,recent=config.map_vote_recent_exclude,botWeight=.5,caps=config.map_vote_retail_max_players),history_inputs=history,available=manager._available_maps,mode_available=available,areas={name:manager.map_area(name) for name in names},history=list(manager.map_history),ranked=ranked))
+  rows.append(dict(domain='catalog',case=case,names=names,sizes=sizes,retail=json.dumps(retail),requested=requested,shuffle=config.map_rotation_shuffle,overrides=overrides,humans=humans,bots=bots,roster_bots=roster,current=current,mode=mode,stock=stock,settings=dict(sizeFit=config.map_vote_size_fit,perPlayer=config.map_vote_area_per_player,minimum=config.map_vote_min_area,recent=config.map_vote_recent_exclude,botWeight=config.map_vote_bot_weight,caps=config.map_vote_retail_max_players),history_inputs=history,available=manager._available_maps,mode_available=available,areas={name:manager.map_area(name) for name in names},history=list(manager.map_history),ranked=ranked))
 for case in range(26):
  with tempfile.TemporaryDirectory() as directory:
   for name in ['First','Other','Third']:(pathlib.Path(directory)/(name+'.vxl')).write_bytes(b'')

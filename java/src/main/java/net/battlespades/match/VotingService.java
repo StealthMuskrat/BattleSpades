@@ -18,8 +18,8 @@ public final class VotingService<P> {
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Voting outside owner");}
     public MapBallot<P> map(){owned();return map;}public KickBallot<P> kick(){owned();return kick;}public MapRotation rotation(){owned();return rotation;}
     public boolean ensureMapVote(double wall){
-        owned();if(map.active()||kick.active()||map.nextMap()!=null)return false;String active=current.get();rotation.notePlayed(active);int humans=0,bots=0;for(var player:context.players().values())if(context.bot(player))bots++;else humans++;
-        var choices=rotation.rank(rotation.catalog().forMode(mode.get(),stock.get()),active,humans,bots);return !choices.isEmpty()&&map.start(choices.subList(0,Math.min(3,choices.size())),wall);
+        owned();if(map.active()||kick.active()||map.nextMap()!=null)return false;String active=current.get();rotation.notePlayed(active);
+        var choices=rotation.rank(rotation.catalog().forMode(mode.get(),stock.get()),active,context.players().values(),context::bot);return !choices.isEmpty()&&map.start(choices.subList(0,Math.min(3,choices.size())),wall);
     }
     public boolean ensureRoundEndVote(double wall){owned();if(map.active())return false;if(kick.active())kick.cancel(false,null);return ensureMapVote(wall);}
     public void tick(Double wall){owned();kick.tick(wall);map.tick(wall);}

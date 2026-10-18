@@ -30,7 +30,8 @@ suppression and exact source rotation after the current map. Ranking compares hu
 retail-cap violations, recent-map status/reverse rank, bot-weighted size-fit tier and
 original cycle index. Unknown areas are neutral; fit thresholds are 1.75 and 3.0.
 Human/bot population includes roster entries outside current vote eligibility, as in
-the source. A zero ideal area retains the source arithmetic failure rather than silently
+the source. Weights are added one roster entry at a time, preserving source floating-
+point addition order at exact fit thresholds. A zero ideal area retains the source arithmetic failure rather than silently
 inventing a fit score. Ranking and mode selection use the immutable catalog only.
 
 `KickBallot` implements authenticated canonical live-human voting, spectator/self/host/
@@ -68,7 +69,7 @@ HUD owner while preserving its prior map-only composition API.
 The new oracle calls intact server.voting, retail metadata, bans, announcements and
 native packet methods. Controlled filesystem/nav bytes, source random stream, clocks,
 actors/connections and terminal disconnect isolate external services; no policy method
-is replaced. Its 49 groups comprise 10 navigation cases, 12 catalog/ranking scenarios,
+is replaced. Its 51 groups comprise 10 navigation cases, 14 catalog/ranking scenarios,
 26 kick/arbitration traces and one aggregate of 10 fit boundary vectors. Traces compare
 every action's state, direct/broadcast bytes, cooldowns, exclusions and disconnects.
 They cover all reasons, denial order/advisory fault, bots/loading/spectators, stale actor,
@@ -98,8 +99,8 @@ All existing team-selection/live-peer, different-CRC, ordered reload, peer/slot 
 no PlayerLeft/disconnect, new life and old-resource retirement assertions remain. The
 remaining gameplay domain is explicitly test support, not full production bootstrap.
 
-Local Java check/build passes **6,177 component + 37 integration = 6,214 tests**,
-with zero failures, errors or skips across 100 suites. This batch adds 49 intact-source
+Local Java check/build passes **6,179 component + 37 integration = 6,216 tests**,
+with zero failures, errors or skips across 100 suites. This batch adds 51 intact-source
 scenario groups, two focused boundary tests and one real UDP integration scenario;
 the existing retained-peer rollover composition is upgraded. **273 focused original-source
 regressions pass**. The new generator reproduces both outputs byte-for-byte; all 254
@@ -107,14 +108,25 @@ prior frozen paths retain their exact hashes, for 256 checked paths. There are 7
 configured CI generators. Unchanged prior 72-generator/native-build evidence is reused
 locally; CI independently rebuilds/reproduces all 73.
 
-Two CRC-valid local archives are byte-identical: 1911352 bytes,
-SHA-256 `abb8d1fbb46296797f3de2ec72a9ba36f0cd4cb65cf2e12b9e5723172ec1753a`. Class major 69, packaging/licenses and version/config smokes pass;
+Two CRC-valid local archives are byte-identical: 1911484 bytes,
+SHA-256 `527dbe0f7151212c238739b89f8188978a64324946ad27f073c477e1faa0a3d1`. Class major 69, packaging/licenses and version/config smokes pass;
 normal hosting exits 2. All four current isolated native transport/packaged-loader
 nominal/impaired profiles pass. The loader still uses FixtureScene. Platform tests run
 source-built component/integration classes and smoke the uploaded JAR. No local-to-CI
 artifact hash identity or complete platform gameplay is claimed. Prior medpack/Zombie/
 VIP original-baseline discrepancies remain unwaived; these focused passes do not
 establish a passing full original-source baseline.
+
+The initial [CI run 39170464457](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39170464457)
+passed build, native, Ubuntu and Windows but failed macOS because the Unicode ordering
+fixture tried to create a U+FFFF filename (Illegal byte sequence). It is retained as a
+failed attempt, not waived. Valid private-use BMP filenames preserve the same astral/BMP
+code-point-order assertion on all platforms; no scenario is skipped. Review also found
+a source floating-point edge: equal human/bot counts in different roster orders can
+cross a fit threshold. Two intact-source traces now distinguish those orders, and
+MapRotation adds each roster weight in order rather than multiplying aggregate counts.
+The corrected implementation is verified by a fresh full suite, repeated artifact,
+native profiles and a new five-job CI run.
 
 This checkpoint requires a new five-job CI run after publication.
 

@@ -1,9 +1,7 @@
 # Java test results
 
-Stage: shared blasts, dense-input predicted pushes and explosive devices, 2026-10-18 UTC.
-Implementation: `a3cbfff3738acf5ece8012113106633e2ef68463`; tested tree: `78f4a9f75500e105e316df6c04a547a8e0309a4f`.
-All five jobs passed in [run 39083832978](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39083832978), including source regeneration,
-archive reproducibility and one uploaded JAR on three platforms.
+Stage: medpack healing and radar lifecycle, 2026-10-18 UTC.
+Local clean check/build passes; publication and all five current-head CI jobs are pending.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
@@ -52,6 +50,7 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.player.AdmissionPolicyTest | 571 | 0 | 0 | 0 |
 | net.battlespades.player.BlastCommitGoldenTest | 37 | 0 | 0 | 0 |
 | net.battlespades.player.BlastTerrainGoldenTest | 24 | 0 | 0 | 0 |
+| net.battlespades.player.CareRadarGoldenTest | 32 | 0 | 0 | 0 |
 | net.battlespades.player.CombatCommitGoldenTest | 16 | 0 | 0 | 0 |
 | net.battlespades.player.CombatRuntimeTest | 3 | 0 | 0 | 0 |
 | net.battlespades.player.DeployableGoldenTest | 32 | 0 | 0 | 0 |
@@ -78,24 +77,21 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.player.SpawnPolicyTest | 36 | 0 | 0 | 0 |
 | net.battlespades.player.TerrainCommitGoldenTest | 16 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 16 | 0 | 0 | 0 |
-| net.battlespades.ApplicationIntegrationTest | 19 | 0 | 0 | 0 |
+| net.battlespades.ApplicationIntegrationTest | 20 | 0 | 0 | 0 |
 | net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 
-Total: **5,340 Java tests passed: 5,318 component and 22 real UDP; no failures,
-errors or skips.** New source comparisons cover 10,132 cases/operations across
-geometry, handler/victim scaling, shared HP/entity commit, scope faults, complete
-native-mover prediction timelines, terrain routing and device lifecycle. Counts
-are detailed in [BLAST_RUNTIME.md](BLAST_RUNTIME.md); expanded cells/packets are
-not counted again as independent cases. All 55 configured generators reproduce
-source outputs after a fresh original native build; all 208 recorded fixture/
-catalog hashes remain unchanged. **91 focused original tests pass.**
-The full baseline retains its documented incomplete runs and VIP discrepancy.
+Total: **5,373 Java tests passed: 5,350 component and 23 real UDP; no failures,
+errors or skips.** New evidence covers 1,024 unchanged-source lifecycle/healing
+operations and 32 actual heal reliable-IO faults. All 56 configured generators
+reproduce their outputs after a fresh original native build; all 210 recorded
+fixture/catalog hashes remain unchanged. **109 focused original tests pass.**
+These focused tests do not establish the full Python baseline, which retains its
+documented incomplete runs and VIP discrepancy.
 
-The new three-client UDP test drives automatic owned shots into a support-loss
-mine chain, checks instigator death credit and known/native vs unknown/exact
-terrain outcomes, then verifies two pushes wait for the dense input witness
-through sparse/synthesized labels. Explicit authored placement and test service
-ports remain visible. Remaining devices, projectile/corpse, placement/input
-policy, full services/gameplay loop and supported-client/capacity/soak gates
-remain pending. Hosting exits 2; packaged native-loader probes use FixtureScene.
+The new three-client UDP test checks shared medpack cooldowns, owner-only healing,
+remaining radar fuse replay and owned-shot owner/team teardown. Authored placement,
+Hardcore healing policy and scene reveals are explicit test composition. Physical
+pickups, complete placement/mode/services/gameplay binding and supported-client/
+capacity/soak gates remain pending. Hosting exits 2; packaged native-loader probes
+continue to use FixtureScene. See [CARE_RADAR.md](CARE_RADAR.md).

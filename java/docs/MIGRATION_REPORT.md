@@ -1,11 +1,11 @@
 # Java 25 migration report
 
 Date: 2026-10-18 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage adds shared blast commit, dense-input predicted pushes, native/
-exact terrain routing and timed/mine/C4/grave behaviors. Full authored placement
-and equipment authorization, remaining pickups/medpacks/radar, projectile/corpse,
-concrete mode/score/award/debug and gameplay-loop work remains. Supported-client/
-capacity gates remain pending. Ordinary hosting exits 2. See BLAST_RUNTIME.md.
+The current stage adds medpack healing/cooldown/uses and radar lifetime/owner/team
+teardown components. Physical pickups, placement/equipment authorization,
+projectile/corpse simulation, concrete modes/services and full gameplay binding
+remain. Supported-client/capacity/soak gates remain pending. Hosting exits 2.
+See CARE_RADAR.md.
 
 
 ## Repository and provenance
@@ -58,9 +58,9 @@ capacity gates remain pending. Ordinary hosting exits 2. See BLAST_RUNTIME.md.
 - Previous entity-registry implementation: `82f63e3f03900cbbd75e365680d91ee2b766a84e`.
 - Previous entity-registry tested/published tree: `a437b5b53ec912b75898600d69caba2114da647d`.
 - Previous entity-registry CI: [run 39081721193](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39081721193); all five jobs passed.
-- Current shared-blast implementation: `a3cbfff3738acf5ece8012113106633e2ef68463`.
-- Current shared-blast tested/published tree: `78f4a9f75500e105e316df6c04a547a8e0309a4f`.
-- Current shared-blast CI: [run 39083832978](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39083832978); all five jobs passed.
+- Previous shared-blast implementation: `a3cbfff3738acf5ece8012113106633e2ef68463`.
+- Previous shared-blast tested/published tree: `78f4a9f75500e105e316df6c04a547a8e0309a4f`.
+- Previous shared-blast CI: [run 39083832978](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39083832978); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -71,11 +71,18 @@ expected-head lease and exact tested-tree comparison. No release is created.
 
 ## Current implementation
 
+MedpackBehavior and RadarStationBehavior add 1,024 unchanged-source lifecycle/
+healing operations and 32 actual heal reliable-IO faults. A new three-client UDP
+test checks shared cooldowns, owner-only HP, live radar fuse replay and owned-shot
+cleanup. Local verification passes 5,373 Java tests. Authored placement/healing/
+reveal composition remains explicit; full gameplay gates remain pending.
+See CARE_RADAR.md.
+
 BlastRuntime, BlastTerrain, ExplosionGeometry and the explosive device behaviors
 add 10,132 unchanged-source comparisons. Dense accepted receive sequences control
 recomputed pushes through the real mover. A new real three-client UDP owned-shot
-mine chain checks HP/credit/ammo, native/exact outcomes and delayed pushes. Local
-verification passes 5,340 Java tests. Authored placement/test domain ports remain
+mine chain checks HP/credit/ammo, native/exact outcomes and delayed pushes. The preceding blast checkpoint
+passed 5,340 Java tests. Authored placement/test domain ports remain
 explicit; complete services/gameplay/client gates are pending. See BLAST_RUNTIME.md.
 
 EntityRegistry and its base behavior/visibility model add 7,680 source registry
@@ -243,8 +250,8 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Check | Current local result |
 |---|---|
 | Java 25 clean check/build | PASS |
-| Unit/component tests | 5318 passed; 0 failures/errors/skips |
-| Real UDP integration tests | 22 passed; 0 failures/errors/skips |
+| Unit/component tests | 5350 passed; 0 failures/errors/skips |
+| Real UDP integration tests | 23 passed; 0 failures/errors/skips |
 | Flight full-path source comparisons | 65,497 exact operations / 44 traces; 10,368 canopy impact vectors; 117 focused original regressions pass |
 | Infantry full-path source comparisons | 16,683 exact operations / 33 traces; 57 focused original regressions pass |
 | ClientData / cadence source comparisons | 14,234 / 26,234 original operations; exact regeneration |
@@ -273,7 +280,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | PASS: all five jobs; source regeneration, repeat archive and same uploaded JAR on three OSes |
+| Current-tree independent platform CI | Pending publication and all five jobs |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -382,7 +389,7 @@ packaging check. Exact final SHA/size are in verification-results.json.
 
 ## Remaining work and readiness
 
-Next: complete pickup/medpack/radar and placement policy, corpse/projectile simulation
+Next: complete physical pickups and placement policy, corpse/projectile simulation
 and full repair/entity gameplay-loop integration; connect detached projectiles, full score/award/aim services and upstream
 input/equipment authorization; wire the owned Character/combat/movement/flight
 components to concrete modes and authenticated identity. Complete presentation,

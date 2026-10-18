@@ -158,6 +158,8 @@ jobs:
           python -S java/tools/generate_blast_terrain_golden.py
           python -S java/tools/generate_explosion_timeline_golden.py
           python -S java/tools/generate_deployable_golden.py
+          python -S java/tools/generate_care_radar_golden.py
+          git diff --exit-code -- java/src/test/resources/golden/care-radar*
           git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/explosions.toml java/src/test/resources/golden/explosion-* java/src/test/resources/golden/blast-* java/src/test/resources/golden/deployable*
           git diff --exit-code -- java/src/test/resources/golden/entity-id-set* java/src/test/resources/golden/entity-registry*
           git diff --exit-code -- java/src/test/resources/golden/terrain-repair*

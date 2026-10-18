@@ -1,0 +1,16 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "operations": 1056,
+  "source_files_sha256": {
+    "server/entities/behaviors.py": "de230daca0fe35db5abaee03f5df6885e027f897182371fac19087f73a154f5d",
+    "server/entities/registry.py": "844b5df830c2900419035491f35c9fed0542dc8f6fce7fb3b7ed280c8a3f8935",
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/hardcore.py": "51bac4d2924e55054e709b4453a732bfca3f1c58e394b996d158238fa2827355",
+    "server/main.py": "7446dd984129fae5b90599d40380c476f12b68265acfb76b1af3e4ac3096a367"
+  },
+  "fixture_sha256": "4c274ca42fb90f29bdcece2f02e97db1a3b16c867c1e5ed9beebc2c86e21f49b",
+  "method_substitutions": false,
+  "listener_errors": 0,
+  "heal_io_fault_cases": 32,
+  "scope": "Unchanged medpack/radar behaviors, actual Player heal/damage, shared cooldown, registry, native canonical support callback and original radar-count method AST. Controlled clocks/rules/mode flag and IO. Does not establish full Hardcore lifecycle, pickup physics, placement, full server loop or client detection."
+}

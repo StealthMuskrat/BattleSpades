@@ -1,4 +1,20 @@
-# Current shared-blast checkpoint verification
+# Current medpack/radar checkpoint verification
+
+Local clean check/build passes **5,350 component + 23 real UDP tests**, zero
+failures, errors or skips. **109 focused original tests** pass. New comparisons
+cover 1,024 lifecycle/healing operations and 32 actual heal reliable-IO faults.
+All 56 configured generators reproduce outputs after a fresh original native
+build; all 210 recorded fixture/catalog hashes remain unchanged. Publication and
+all five current-head CI jobs are pending.
+
+Two CRC-valid local archives are byte-identical: 1608419 bytes,
+SHA-256 `936d6e7be00e121d3ffc80e77885a87cd224e7786585f2ec6f975c3073cc8b0f`. Class major 69 and packaging audits pass;
+version/config exits 0 and hosting exits 2. Isolated native transport and loader
+probes pass nominal/impaired profiles. Full original baseline, gameplay, placement,
+services, supported-client/capacity/soak gates remain pending. Packaged native
+loader probes retain FixtureScene. See [CARE_RADAR.md](CARE_RADAR.md).
+
+# Preceding shared-blast checkpoint verification
 
 Local clean check/build passes **5,318 component + 22 real UDP tests**, zero
 failures, errors or skips. **91 focused original tests** pass. New comparisons

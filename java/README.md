@@ -40,6 +40,12 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
+Medpack and radar behaviors now preserve shared healing cooldowns, per-pack uses,
+live radar fuse and idempotent owner/team teardown. Unchanged-source comparisons
+and a three-client UDP test cover healing, late replay and owned-shot cleanup.
+Full placement/mode/gameplay assembly remains pending; see
+[CARE_RADAR.md](docs/CARE_RADAR.md).
+
 Shared blasts now compose native/exact terrain delivery, accepted player/entity
 damage, dense-input predicted pushes and timed/mine/C4/grave behavior. A real
 three-client owned-shot chain test covers instigator credit and known-causer

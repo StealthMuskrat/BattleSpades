@@ -14,6 +14,7 @@ public final class DeployableRuntime implements AutoCloseable {
     public interface Explosive {
         DeviceBlast blast();Vector explosionCenter(MapEntity entity);PlayerLife triggeredBy();
     }
+    private final java.util.Map<Integer,Integer> radarCounts=new java.util.HashMap<>();
     private final Thread owner=Thread.currentThread();private final LifeRuntime lives;private final BlastRuntime blasts;private final MutableWorld.RemovalLease removalLease;
     public DeployableRuntime(LifeRuntime lives,EntityRegistry registry,BlastRuntime blasts,Supplier<EntityContext> context,Consumer<RuntimeException> listenerFault){
         this.lives=Objects.requireNonNull(lives);this.blasts=Objects.requireNonNull(blasts);Objects.requireNonNull(registry);Objects.requireNonNull(context);Objects.requireNonNull(listenerFault);
@@ -21,6 +22,9 @@ public final class DeployableRuntime implements AutoCloseable {
     }
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Deployables outside owner");}
     public PlayerLife player(int id){owned();return lives.players().stream().filter(p->p.id()==id).findFirst().orElse(null);}
+    public void radarAdded(int team){owned();radarCounts.put(team,radarCount(team)+1);}
+    public void radarRemoved(int team){owned();radarCounts.put(team,Math.max(0,radarCount(team)-1));}
+    public int radarCount(int team){owned();return radarCounts.getOrDefault(team,0);}
     public static Vector attachmentCenter(MapEntity e){return switch(e.face){case 0->new Vector(e.x,e.y+.5,e.z+.5);case 1->new Vector(e.x+1,e.y+.5,e.z+.5);case 2->new Vector(e.x+.5,e.y,e.z+.5);case 3->new Vector(e.x+.5,e.y+1,e.z+.5);case 4->new Vector(e.x+.5,e.y+.5,e.z);case 5->new Vector(e.x+.5,e.y+.5,e.z+1);default->new Vector(e.x+.5,e.y+.5,e.z+.5);};}
     public static void detonate(Explosive behavior,MapEntity entity,EntityContext context){
         var service=context.devices();var spec=behavior.blast();var thrower=service==null?null:service.player(spec.throwerId());entity.alive=false;

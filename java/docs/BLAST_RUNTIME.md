@@ -75,7 +75,8 @@ with friendly fire off, but its two pushes apply on dense sequence four through
 sparse/synthesized labels. Actual reliable delivery, ammo, HP/death and registry
 removal are checked. Test mode/effect ports and authored placement remain explicit.
 
-Pickups/medpacks/radar, placement/equipment authorization, projectile/corpse
+Medpack/radar behaviors have subsequent [component evidence](CARE_RADAR.md).
+Physical pickups, placement/equipment authorization, projectile/corpse
 simulation, full debug telemetry, concrete modes/services, supported-game-client
 validation, capacity and soak remain pending. The original full baseline still
 has its documented incomplete runs/VIP discrepancy. Local verification passes 5,340 Java and 91 focused original tests.

@@ -53,7 +53,8 @@ incomplete objective mode for that required domain.
 Local clean check/build passes 5,644 Java tests and 6 focused original tests.
 All 61 configured generators reproduce outputs after a fresh native build;
 221 recorded fixture/catalog/codegen hashes remain unchanged. Repeated CRC-valid
-archives, packaging/smokes and isolated native probes pass. Publication and all
-five current-head CI jobs are pending.
+archives, packaging/smokes and isolated native probes pass. All five jobs pass in [run 39089220082](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39089220082); see [CI_STATUS.md](CI_STATUS.md).
 The complete original baseline remains incomplete/failing; earlier unchanged
 Zombie cue-lead and VIP discrepancies remain retained without waiver.
+
+Implementation `c9a79aa31e5355acab2ae3c35a49dfd12dd4f4a0`, tested/published tree `0a6179e3ac36a641d2a554e9af60ec96ab5239eb`. The CI build compares repeated archives and tests one uploaded JAR on three platforms. Full gameplay and supported-client/capacity gates remain pending.

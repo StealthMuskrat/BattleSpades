@@ -1,7 +1,9 @@
 # Java test results
 
 Stage: objective carry/drop helpers and native tuple codec, 2026-10-18 UTC.
-Local clean check/build passes; publication and all five current-head CI jobs are pending.
+Implementation: `c9a79aa31e5355acab2ae3c35a49dfd12dd4f4a0`; tested tree: `0a6179e3ac36a641d2a554e9af60ec96ab5239eb`.
+All five jobs passed in [run 39089220082](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39089220082), including source regeneration,
+archive reproducibility and one uploaded JAR on three platforms.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

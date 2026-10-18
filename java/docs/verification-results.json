@@ -33,13 +33,34 @@
     }
   },
   "verification_stage": "Objective carry/drop helper state, native burden and DropPickup tuple codec",
-  "java_implementation_commit": null,
-  "tested_tree": null,
+  "java_implementation_commit": "c9a79aa31e5355acab2ae3c35a49dfd12dd4f4a0",
+  "tested_tree": "0a6179e3ac36a641d2a554e9af60ec96ab5239eb",
   "ci": {
-    "status": "pending_publication",
-    "jobs": {},
+    "status": "success",
+    "run_id": 39089220082,
+    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39089220082",
+    "head_sha": "c9a79aa31e5355acab2ae3c35a49dfd12dd4f4a0",
+    "jobs": {
+      "native-enet": "success",
+      "build": "success",
+      "platform (ubuntu-latest)": "success",
+      "platform (macos-latest)": "success",
+      "platform (windows-latest)": "success"
+    },
+    "job_ids": {
+      "native-enet": 117562142356,
+      "build": 117562142610,
+      "platform (ubuntu-latest)": 117562468248,
+      "platform (macos-latest)": 117562468257,
+      "platform (windows-latest)": 117562468296
+    },
+    "all_five_jobs_passed": true,
+    "native_original_fixtures_reproduced": true,
+    "repeated_ci_archive_identical": true,
+    "same_uploaded_jar_three_platforms": true,
+    "local_to_ci_artifact_hash_compared": false,
     "full_reference_python_baseline_passing": false,
-    "packaged_native_probe_player_domain": "FixtureScene; new three-client UDP objective-helper test explicitly composes actual carry/burden, dedicated reveal and reliable sends; async request/mode/drop-object binding remains pending"
+    "packaged_native_probe_player_domain": "FixtureScene; new three-client UDP test binds actual carry/burden, dedicated reveal and reliable sends; async request/mode/drop-object binding remains pending"
   },
   "movement": {
     "cases": 118,
@@ -392,10 +413,12 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": false,
+    "branch_updated": true,
     "expected_parent": "679124b5ccfd63d588fbf9ac1423273c45eb8d94",
     "force": false,
-    "authorization": "User authorized future verified migration checkpoints, code/workflow changes and all five CI jobs."
+    "authorization": "User authorized future verified migration checkpoints, code/workflow changes and all five CI jobs.",
+    "implementation_commit": "c9a79aa31e5355acab2ae3c35a49dfd12dd4f4a0",
+    "tested_tree": "0a6179e3ac36a641d2a554e9af60ec96ab5239eb"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",

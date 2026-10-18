@@ -70,6 +70,9 @@ capacity/soak gates remain pending. Hosting exits 2. See OBJECTIVE_CARRY.md.
 - Previous map-resource implementation: `56bb37003980c55de8e37afdba4ed1ac98b2af71`.
 - Previous map-resource tested/published tree: `4346f7694523cdac88ee6408168218536667f317`.
 - Previous map-resource CI: [run 39088025414](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39088025414); all five jobs passed.
+- Current objective-carry helper implementation: `c9a79aa31e5355acab2ae3c35a49dfd12dd4f4a0`.
+- Current objective-carry helper tested/published tree: `0a6179e3ac36a641d2a554e9af60ec96ab5239eb`.
+- Current objective-carry helper CI: [run 39089220082](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39089220082); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -313,7 +316,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | Pending publication and all five jobs |
+| Current-tree independent platform CI | PASS: all five jobs; source regeneration, repeat archive and same uploaded JAR on three OSes |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 

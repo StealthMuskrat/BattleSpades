@@ -64,6 +64,9 @@ capacity/soak gates remain pending. Hosting exits 2. See PHYSICAL_CRATES.md.
 - Previous medpack/radar implementation: `18f5d79818cefad2f96f5ee1a2f222862cbf989e`.
 - Previous medpack/radar tested/published tree: `db584d7612c7986e694f16becd1b057cbfad58ef`.
 - Previous medpack/radar CI: [run 39084849726](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39084849726); all five jobs passed.
+- Current physical-crate implementation: `991258442ac28a276edf8cf4ae95a5fb01b96a81`.
+- Current physical-crate tested/published tree: `790ff768096e07abc44ebd936894bce4bf661452`.
+- Current physical-crate CI: [run 39086168143](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39086168143); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -291,7 +294,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | Pending publication and all five jobs |
+| Current-tree independent platform CI | PASS: all five jobs; source regeneration, repeat archive and same uploaded JAR on three OSes |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 

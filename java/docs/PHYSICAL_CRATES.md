@@ -39,8 +39,7 @@ not establish the complete MapResourceService or gameplay tick assembly.
 Local clean check/build passes 5,438 Java tests and 68 focused original
 tests. All 58 configured generators reproduce outputs after a fresh native build;
 215 recorded fixture/catalog/codegen hashes remain unchanged. Repeated CRC-valid
-archives, packaging/smokes and isolated native probes pass. Publication and all
-five current-head CI jobs are pending.
+archives, packaging/smokes and isolated native probes pass. All five jobs pass in [run 39086168143](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39086168143); see [CI_STATUS.md](CI_STATUS.md).
 Stock resource placement/default assembly, objective pickup carry/drop, equipment
 policy, projectile/corpse simulation, concrete mode/score/achievement/audio/debug
 services, supported-game-client validation, capacity and soak remain pending.
@@ -49,3 +48,5 @@ expectation: the test expects 7.5 seconds remaining, while the unchanged source
 uses a 4-second lead. Source/tests remain unchanged and this failure is retained.
 The complete original baseline remains incomplete/failing, including earlier VIP
 evidence.
+
+Implementation `991258442ac28a276edf8cf4ae95a5fb01b96a81`, tested/published tree `790ff768096e07abc44ebd936894bce4bf661452`. The CI build compares repeated archives and tests one uploaded JAR on three platforms. Full gameplay and supported-client/capacity gates remain pending.

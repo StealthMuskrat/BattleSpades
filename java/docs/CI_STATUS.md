@@ -5,7 +5,11 @@ failures, errors or skips. **68 focused original tests** pass. New comparisons
 cover 8,192 source crate/registry/refill operations and 1,024 native codec cases.
 All 58 configured generators reproduce outputs after a fresh original native
 build; all 215 recorded fixture/catalog/codegen hashes remain unchanged.
-Publication and all five current-head CI jobs are pending.
+All five CI jobs passed for implementation `991258442ac28a276edf8cf4ae95a5fb01b96a81` and tested/published tree
+`790ff768096e07abc44ebd936894bce4bf661452` in [run 39086168143](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39086168143).
+The native job regenerated original fixtures, the build byte-compared repeated
+archives and platform jobs tested one uploaded JAR on Ubuntu, Windows and macOS.
+No local-to-CI artifact hash identity is claimed.
 
 Two CRC-valid local archives are byte-identical: 1617778 bytes,
 SHA-256 `a1f9a8ab2e6071eab7569012d6f65cf7750c828b1a3bd55b190074261c623e66`. Class major 69 and packaging audits pass;

@@ -1,7 +1,9 @@
 # Java test results
 
 Stage: physical supply crates and sound/entity-change codecs, 2026-10-18 UTC.
-Local clean check/build passes; publication and all five current-head CI jobs are pending.
+Implementation: `991258442ac28a276edf8cf4ae95a5fb01b96a81`; tested tree: `790ff768096e07abc44ebd936894bce4bf661452`.
+All five jobs passed in [run 39086168143](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39086168143), including source regeneration,
+archive reproducibility and one uploaded JAR on three platforms.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

@@ -74,4 +74,6 @@ SHA-256 `58985baba5b9f727ca5a3ba2cb5b1791e06bfbaf87e0fa132704c4056f68b08b`. Clas
 version/config exits 0, hosting exits 2. All four isolated native nominal/impaired
 transport and packaged-loader profiles pass. No local-to-CI hash identity is claimed.
 
-Publication and all five current-head CI jobs are pending.
+All five jobs pass in [run 39139463520](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39139463520); see [CI_STATUS.md](CI_STATUS.md).
+
+Implementation `dd76bffca873499b9b598436b741c11fb14ff102`, tested/published tree `93af458453543adc629241612467e984ff1c3105`. Complete gameplay and supported-client/capacity gates remain pending.

@@ -79,6 +79,9 @@ supported-client/capacity/soak gates remain pending. Hosting exits 2. See SCORE_
 - Previous match-foundations implementation: `f85249decdfda99581ab49bf12f7a54cfa04bbf8`.
 - Previous match-foundations tested/published tree: `5026f58785d08d3e9e93538d833ba80542dda1d7`.
 - Previous match-foundations CI: [run 39136499560](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39136499560); all five jobs passed.
+- Current profile/combat/objective score implementation: `dd76bffca873499b9b598436b741c11fb14ff102`.
+- Current profile/combat/objective score tested/published tree: `93af458453543adc629241612467e984ff1c3105`.
+- Current profile/combat/objective score CI: [run 39139463520](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39139463520); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -353,7 +356,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | Pending publication and all five jobs |
+| Current-tree independent platform CI | PASS: all five jobs; source regeneration, repeat archive and same uploaded JAR on three OSes |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 

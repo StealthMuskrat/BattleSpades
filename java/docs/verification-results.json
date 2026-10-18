@@ -33,11 +33,32 @@
     }
   },
   "verification_stage": "Profile counters/events/activity, accepted combat evidence/assists, objective score/geometry batch",
-  "java_implementation_commit": null,
-  "tested_tree": null,
+  "java_implementation_commit": "dd76bffca873499b9b598436b741c11fb14ff102",
+  "tested_tree": "93af458453543adc629241612467e984ff1c3105",
   "ci": {
-    "status": "pending_publication",
-    "jobs": {},
+    "status": "success",
+    "run_id": 39139463520,
+    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39139463520",
+    "head_sha": "dd76bffca873499b9b598436b741c11fb14ff102",
+    "jobs": {
+      "native-enet": "success",
+      "build": "success",
+      "platform (windows-latest)": "success",
+      "platform (ubuntu-latest)": "success",
+      "platform (macos-latest)": "success"
+    },
+    "job_ids": {
+      "native-enet": 117710700423,
+      "build": 117710700695,
+      "platform (windows-latest)": 117711034594,
+      "platform (ubuntu-latest)": 117711034634,
+      "platform (macos-latest)": 117711034723
+    },
+    "all_five_jobs_passed": true,
+    "native_original_fixtures_reproduced": true,
+    "repeated_ci_archive_identical": true,
+    "same_uploaded_jar_three_platforms": true,
+    "local_to_ci_artifact_hash_compared": false,
     "full_reference_python_baseline_passing": false,
     "packaged_native_probe_player_domain": "FixtureScene; new real UDP compositions bind accepted life damage/death, profile/combat/objective/scoreboard domains through explicit test mode/known-roster/result ports; full gameplay remains pending"
   },
@@ -392,10 +413,12 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": false,
+    "branch_updated": true,
     "expected_parent": "54e0acfa2f31a008529e6f7c1409dcad8d261f7b",
     "force": false,
-    "authorization": "User authorized future verified migration checkpoints, code/workflow changes and all five CI jobs; current request requires multiple implementations per batch."
+    "authorization": "User authorized future verified migration checkpoints, code/workflow changes and all five CI jobs; current request requires multiple implementations per batch.",
+    "implementation_commit": "dd76bffca873499b9b598436b741c11fb14ff102",
+    "tested_tree": "93af458453543adc629241612467e984ff1c3105"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",

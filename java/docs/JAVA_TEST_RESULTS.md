@@ -1,7 +1,9 @@
 # Java test results
 
 Stage: profile/combat/objective score batch, 2026-10-18 UTC.
-Local clean check/build passes; publication and all five current-head CI jobs are pending.
+Implementation: `dd76bffca873499b9b598436b741c11fb14ff102`; tested tree: `93af458453543adc629241612467e984ff1c3105`.
+All five jobs passed in [run 39139463520](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39139463520), including source regeneration,
+archive reproducibility and one uploaded JAR on three platforms.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

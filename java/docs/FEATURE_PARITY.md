@@ -1,7 +1,8 @@
 # Feature parity and explicit backlog
 
 Current voting-policy verification: 6,216 Java tests and 273 focused original
-regressions pass locally. CI is pending publication. See [VOTING_POLICY.md](VOTING_POLICY.md);
+regressions pass locally. All five CI jobs pass in
+[run 39171052890](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39171052890). See [VOTING_POLICY.md](VOTING_POLICY.md);
 complete gameplay and normal hosting assembly remain pending.
 
 Reference: source `6216b771282d2d349ccd67ee58c378f035c83553`.

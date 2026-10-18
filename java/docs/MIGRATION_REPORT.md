@@ -35,7 +35,14 @@ MapRotation adds each roster weight in order rather than multiplying aggregate c
 The corrected implementation is verified by a fresh full suite, repeated artifact,
 native profiles and a new five-job CI run.
 
-This checkpoint requires a new five-job CI run after publication.
+All five CI jobs passed for implementation `79b2401b1563a75012cf862686d07074a338c402`,
+tested/published tree `df586ce986e3d6be07059a8b52f77b5e4b9da1f3`, in
+[run 39171052890](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39171052890). The native job independently reproduced all 73
+configured original generators, including map navigation/catalog/ranking, kick/arbitration traces and all earlier
+fixtures. The build byte-compared
+repeated archives. Ubuntu, Windows and macOS smoked the uploaded JAR and ran source-built
+component/integration tests. Every final job step completed with success or an intentional
+skip. No local-to-CI artifact hash identity or complete platform gameplay is claimed.
 
 ## Repository and provenance
 

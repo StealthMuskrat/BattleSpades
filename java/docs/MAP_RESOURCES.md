@@ -61,9 +61,10 @@ achievement unlocks or complete mode/round/gameplay integration.
 Local clean check/build passes 5,563 Java tests and 64 focused original tests.
 All 60 configured generators reproduce outputs after a fresh native build;
 219 recorded fixture/catalog/codegen hashes remain unchanged. Repeated CRC-valid
-archives, packaging/smokes and isolated native probes pass. Publication and all
-five current-head CI jobs are pending.
+archives, packaging/smokes and isolated native probes pass. All five jobs pass in [run 39088025414](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39088025414); see [CI_STATUS.md](CI_STATUS.md).
 Objective carry/drop, equipment authorization, projectiles/corpses, concrete
 modes/services, complete original baseline, supported-client validation, capacity
 and soak remain pending. Earlier original Zombie/VIP baseline discrepancies are
 retained unchanged and are not waived.
+
+Implementation `56bb37003980c55de8e37afdba4ed1ac98b2af71`, tested/published tree `4346f7694523cdac88ee6408168218536667f317`. The CI build compares repeated archives and tests one uploaded JAR on three platforms. Full gameplay and supported-client/capacity gates remain pending.

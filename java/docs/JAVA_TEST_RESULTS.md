@@ -1,7 +1,9 @@
 # Java test results
 
 Stage: map-owned supplies, server VXL cleanup and static lights, 2026-10-18 UTC.
-Local clean check/build passes; publication and all five current-head CI jobs are pending.
+Implementation: `56bb37003980c55de8e37afdba4ed1ac98b2af71`; tested tree: `4346f7694523cdac88ee6408168218536667f317`.
+All five jobs passed in [run 39088025414](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39088025414), including source regeneration,
+archive reproducibility and one uploaded JAR on three platforms.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|

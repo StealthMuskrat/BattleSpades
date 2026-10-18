@@ -33,13 +33,34 @@
     }
   },
   "verification_stage": "Map-owned supplies, ServerVXL chroma cleanup and canonical static lights",
-  "java_implementation_commit": null,
-  "tested_tree": null,
+  "java_implementation_commit": "56bb37003980c55de8e37afdba4ed1ac98b2af71",
+  "tested_tree": "4346f7694523cdac88ee6408168218536667f317",
   "ci": {
-    "status": "pending_publication",
-    "jobs": {},
+    "status": "success",
+    "run_id": 39088025414,
+    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39088025414",
+    "head_sha": "56bb37003980c55de8e37afdba4ed1ac98b2af71",
+    "jobs": {
+      "native-enet": "success",
+      "build": "success",
+      "platform (macos-latest)": "success",
+      "platform (windows-latest)": "success",
+      "platform (ubuntu-latest)": "success"
+    },
+    "job_ids": {
+      "native-enet": 117558597561,
+      "build": 117558597789,
+      "platform (macos-latest)": 117558928675,
+      "platform (windows-latest)": 117558928723,
+      "platform (ubuntu-latest)": 117558928759
+    },
+    "all_five_jobs_passed": true,
+    "native_original_fixtures_reproduced": true,
+    "repeated_ci_archive_identical": true,
+    "same_uploaded_jar_three_platforms": true,
+    "local_to_ci_artifact_hash_compared": false,
     "full_reference_python_baseline_passing": false,
-    "packaged_native_probe_player_domain": "FixtureScene; new three-client UDP map-resource test composes actual MapAssembly/world/registry/service/life through explicit required award/audio/reveal ports"
+    "packaged_native_probe_player_domain": "FixtureScene; new three-client UDP test binds actual world/registry/map-resource/life refill components through authored placement, sound and scene reveals"
   },
   "movement": {
     "cases": 118,
@@ -392,10 +413,12 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": false,
+    "branch_updated": true,
     "expected_parent": "de17aec403aac02430e3e69d4ccc1057f0167ee2",
     "force": false,
-    "authorization": "User authorized future verified migration checkpoints, code/workflow changes and all five CI jobs."
+    "authorization": "User authorized future verified migration checkpoints, code/workflow changes and all five CI jobs.",
+    "implementation_commit": "56bb37003980c55de8e37afdba4ed1ac98b2af71",
+    "tested_tree": "4346f7694523cdac88ee6408168218536667f317"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",

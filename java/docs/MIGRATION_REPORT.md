@@ -67,6 +67,9 @@ Hosting exits 2. See MAP_RESOURCES.md.
 - Previous physical-crate implementation: `991258442ac28a276edf8cf4ae95a5fb01b96a81`.
 - Previous physical-crate tested/published tree: `790ff768096e07abc44ebd936894bce4bf661452`.
 - Previous physical-crate CI: [run 39086168143](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39086168143); all five jobs passed.
+- Current map-resource implementation: `56bb37003980c55de8e37afdba4ed1ac98b2af71`.
+- Current map-resource tested/published tree: `4346f7694523cdac88ee6408168218536667f317`.
+- Current map-resource CI: [run 39088025414](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39088025414); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -302,7 +305,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | Pending publication and all five jobs |
+| Current-tree independent platform CI | PASS: all five jobs; source regeneration, repeat archive and same uploaded JAR on three OSes |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 

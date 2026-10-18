@@ -93,7 +93,27 @@ The clean checkout was cloned from the fork and matched the authoritative
 CLI push lacks credentials; publication uses the connected GitHub app with an
 expected-head lease and exact tested-tree comparison. No release is created.
 
-## Current implementation
+## Current test optimization
+
+Local clean check/build passes **5,912 component + 33 real UDP = 5,945 Java tests**,
+with zero failures, errors or skips. All five jobs passed for implementation
+`f14407e5596d3f2f8a3869e2ad1c8505970c3f58`, tested tree `93a158fd85cadd67710ad5bac64e4ad2bde174f8`, in [run 39145475640](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39145475640).
+CI regenerated the original fixtures, checked archive reproducibility, smoked the
+same uploaded JAR on three platforms and ran component/UDP tests from source-built
+classes on Ubuntu, Windows and macOS. No local-to-CI artifact hash identity is claimed.
+
+The optimization removes **3,595 duplicate independent fixture executions** and
+53 artificial JUnit partitions, preserving every distinct case, all 224 ordered
+stateful trace selections and all 33 integration tests. Match fixture gzip reads
+drop from 328 to 5 per test worker. Production code, golden bytes, generators and
+workflows are unchanged; the local JAR is byte-identical to the preceding checkpoint.
+See [TEST_OPTIMIZATION.md](TEST_OPTIMIZATION.md) for exact case counts and timing limits.
+
+Prior original-source baseline failures remain recorded and unwaived. This test-only
+checkpoint reuses the unchanged local native/source evidence; fresh CI checks pass.
+The migration remains incomplete and hosting exits 2.
+
+## Preceding gameplay implementation
 
 Local clean check/build passes **5,965 component + 33 real UDP = 5,998 Java tests**,
 zero failures, errors or skips. The expanded original suite has **162 passes
@@ -347,7 +367,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Check | Current local result |
 |---|---|
 | Java 25 clean check/build | PASS |
-| Unit/component tests | 5965 passed; 0 failures/errors/skips |
+| Unit/component tests | 5912 passed; 0 failures/errors/skips |
 | Real UDP integration tests | 33 passed; 0 failures/errors/skips |
 | Flight full-path source comparisons | 65,497 exact operations / 44 traces; 10,368 canopy impact vectors; 117 focused original regressions pass |
 | Infantry full-path source comparisons | 16,683 exact operations / 33 traces; 57 focused original regressions pass |

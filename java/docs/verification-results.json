@@ -20,7 +20,7 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 5965,
+      "tests": 5912,
       "failures": 0,
       "errors": 0,
       "skipped": 0
@@ -32,27 +32,27 @@
       "skipped": 0
     }
   },
-  "verification_stage": "Generic combat economy, teabag credit, escape watch, round-clock arbitration and native HUD batch",
-  "java_implementation_commit": "6f904c4f28917a03e3d0a94de259e84213bd9025",
-  "tested_tree": "7803354387083bbf86a98bfaea387ad65d8098ed",
+  "verification_stage": "Java test optimization and duplicate independent golden-case removal",
+  "java_implementation_commit": "f14407e5596d3f2f8a3869e2ad1c8505970c3f58",
+  "tested_tree": "93a158fd85cadd67710ad5bac64e4ad2bde174f8",
   "ci": {
     "status": "success",
-    "run_id": 39144143660,
-    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39144143660",
-    "head_sha": "6f904c4f28917a03e3d0a94de259e84213bd9025",
+    "run_id": 39145475640,
+    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39145475640",
+    "head_sha": "f14407e5596d3f2f8a3869e2ad1c8505970c3f58",
     "jobs": {
-      "native-enet": "success",
       "build": "success",
-      "platform (ubuntu-latest)": "success",
+      "native-enet": "success",
+      "platform (macos-latest)": "success",
       "platform (windows-latest)": "success",
-      "platform (macos-latest)": "success"
+      "platform (ubuntu-latest)": "success"
     },
     "job_ids": {
-      "native-enet": 117724434823,
-      "build": 117724435099,
-      "platform (ubuntu-latest)": 117724787686,
-      "platform (windows-latest)": 117724787743,
-      "platform (macos-latest)": 117724787793
+      "build": 117728310560,
+      "native-enet": 117728310778,
+      "platform (macos-latest)": 117728697820,
+      "platform (windows-latest)": 117728697847,
+      "platform (ubuntu-latest)": 117728697852
     },
     "all_five_jobs_passed": true,
     "native_original_fixtures_reproduced": true,
@@ -60,7 +60,8 @@
     "same_uploaded_jar_three_platforms": true,
     "local_to_ci_artifact_hash_compared": false,
     "full_reference_python_baseline_passing": false,
-    "packaged_native_probe_player_domain": "FixtureScene; new real UDP compositions bind accepted life damage/death, live terrain and frozen timeout remainder, economy/teabag/escape/clock/HUD/scoreboard domains through explicit test mode/known-roster/result ports; full gameplay remains pending"
+    "packaged_native_probe_player_domain": "FixtureScene; new real UDP compositions bind accepted life damage/death, live terrain and frozen timeout remainder, economy/teabag/escape/clock/HUD/scoreboard domains through explicit test mode/known-roster/result ports; full gameplay remains pending",
+    "all_final_steps_verified": true
   },
   "movement": {
     "cases": 118,
@@ -414,11 +415,11 @@
   "publication": {
     "branch": "port/java25",
     "branch_updated": true,
-    "expected_parent": "a831f1fe8226cde5dae8c429727eb4f3202409a3",
+    "expected_parent": "4dc002149ac877adc7baad6f827728870e8407b4",
     "force": false,
-    "authorization": "User authorized future verified migration checkpoints, code/workflow changes and all five CI jobs; current request requires multiple implementations per batch.",
-    "implementation_commit": "6f904c4f28917a03e3d0a94de259e84213bd9025",
-    "tested_tree": "7803354387083bbf86a98bfaea387ad65d8098ed"
+    "authorization": "User authorized future verified migration checkpoints and all five CI jobs; current request is to optimize and remove redundant Java tests.",
+    "implementation_commit": "f14407e5596d3f2f8a3869e2ad1c8505970c3f58",
+    "tested_tree": "93a158fd85cadd67710ad5bac64e4ad2bde174f8"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -2373,5 +2374,121 @@
     "waived": false,
     "correction": "Wait for all reliable receipts without advancing their expiry loop, then broadcast periodic unreliable snapshots until the released player row is actually received. Existing row-hold assertions and 4s/15s timeouts are unchanged.",
     "local_corrected_check_build": "5965 component + 33 UDP, zero failures/errors/skips; production JAR hash unchanged"
+  },
+  "previous_match_flow_checkpoint": {
+    "verification_stage": "Generic combat economy, teabag credit, escape watch, round-clock arbitration and native HUD batch",
+    "java_implementation_commit": "6f904c4f28917a03e3d0a94de259e84213bd9025",
+    "tested_tree": "7803354387083bbf86a98bfaea387ad65d8098ed",
+    "ci": {
+      "status": "success",
+      "run_id": 39144143660,
+      "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39144143660",
+      "head_sha": "6f904c4f28917a03e3d0a94de259e84213bd9025",
+      "jobs": {
+        "native-enet": "success",
+        "build": "success",
+        "platform (ubuntu-latest)": "success",
+        "platform (windows-latest)": "success",
+        "platform (macos-latest)": "success"
+      },
+      "job_ids": {
+        "native-enet": 117724434823,
+        "build": 117724435099,
+        "platform (ubuntu-latest)": 117724787686,
+        "platform (windows-latest)": 117724787743,
+        "platform (macos-latest)": 117724787793
+      },
+      "all_five_jobs_passed": true,
+      "native_original_fixtures_reproduced": true,
+      "repeated_ci_archive_identical": true,
+      "same_uploaded_jar_three_platforms": true,
+      "local_to_ci_artifact_hash_compared": false,
+      "full_reference_python_baseline_passing": false,
+      "packaged_native_probe_player_domain": "FixtureScene; new real UDP compositions bind accepted life damage/death, live terrain and frozen timeout remainder, economy/teabag/escape/clock/HUD/scoreboard domains through explicit test mode/known-roster/result ports; full gameplay remains pending"
+    },
+    "junit": {
+      "test": {
+        "tests": 5965,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "tests": 33,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    }
+  },
+  "test_optimization": {
+    "independent_cases": [
+      {
+        "fixture": "match-state",
+        "kind": "round",
+        "original": 8192,
+        "unique": 7688,
+        "removed": 504
+      },
+      {
+        "fixture": "match-flow",
+        "kind": "winner",
+        "original": 512,
+        "unique": 36,
+        "removed": 476
+      },
+      {
+        "fixture": "match-flow",
+        "kind": "announcement",
+        "original": 1024,
+        "unique": 72,
+        "removed": 952
+      },
+      {
+        "fixture": "combat-ray",
+        "original": 1600,
+        "unique": 876,
+        "removed": 724
+      },
+      {
+        "fixture": "replication-wire",
+        "original": 2235,
+        "unique": 1474,
+        "removed": 761
+      },
+      {
+        "fixture": "rules",
+        "original": 1958,
+        "unique": 1780,
+        "removed": 178
+      }
+    ],
+    "total_duplicate_executions_removed": 3595,
+    "ordered_trace_selections_verified": 224,
+    "original_match_decompressions": 328,
+    "new_match_decompressions": 5,
+    "junit_invocations_removed": 53,
+    "all_86_suites_retained": true,
+    "all_33_integration_tests_unchanged": true,
+    "production_and_golden_bytes_unchanged": true,
+    "distinct_expected_outputs_retained": true,
+    "hud_implicit_flags_in_duplicate_key": true,
+    "jar_unchanged_from_previous_checkpoint": true,
+    "local_source_native_evidence": "Unchanged preceding checkpoint evidence retained; not rerun locally for this test-only change. Fresh native CI job passes.",
+    "single_observation_seconds": {
+      "five_affected_match_suites": {
+        "before": 4.424,
+        "after": 1.238
+      },
+      "all_suites": {
+        "before": 41.215,
+        "after": 43.334
+      },
+      "admission": {
+        "before": 3.946,
+        "after": 3.884
+      }
+    },
+    "whole_suite_speedup_claimed": false
   }
 }

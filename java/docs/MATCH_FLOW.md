@@ -1,5 +1,14 @@
 # Combat economy, escape watch and round-clock batch
 
+## Current test execution
+
+The later Java test optimization retains all distinct match-flow cases and ordered
+traces while removing repeated stateless executions. Current totals are 5,912
+component + 33 integration = 5,945 tests; all five jobs pass in [run 39145475640](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39145475640).
+The original 96-test batch counts below describe the preceding implementation.
+See [TEST_OPTIMIZATION.md](TEST_OPTIMIZATION.md).
+
+
 This checkpoint implements four connected policy areas plus bounded HUD builders
 and two native codecs. The migration remains incomplete; normal hosting exits 2.
 Behavioral source remains `6216b771282d2d349ccd67ee58c378f035c83553`.

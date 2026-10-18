@@ -52,5 +52,10 @@ all-suite reported time was 41.215s before and 43.334s after, so no whole-suite
 speedup is claimed. Admission time was 3.946s before and 3.884s after; its complete
 Unicode sweep remains intact.
 
-CI verification for this checkpoint is pending publication. The migration remains
-incomplete; prior original-source baseline failures remain recorded and unwaived.
+All five jobs passed in [run 39145475640](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39145475640) for implementation `f14407e5596d3f2f8a3869e2ad1c8505970c3f58`,
+tested tree `93a158fd85cadd67710ad5bac64e4ad2bde174f8`. Every final job step completed with success or an
+intentional skip. CI regenerated the original fixtures and checked reproducible
+archives; Ubuntu, Windows and macOS smoked one uploaded JAR and ran component/UDP
+tests from source-built classes. No local-to-CI artifact hash identity is claimed.
+The migration remains incomplete; prior original-source baseline failures remain
+recorded and unwaived.

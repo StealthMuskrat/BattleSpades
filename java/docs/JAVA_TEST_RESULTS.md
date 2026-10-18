@@ -1,12 +1,28 @@
 # Java test results
 
-Stage: combat economy, teabag, escape watch and round-clock batch, 2026-10-18 UTC.
-Implementation: `6f904c4f28917a03e3d0a94de259e84213bd9025`; tested tree: `7803354387083bbf86a98bfaea387ad65d8098ed`.
-All five jobs passed in [run 39144143660](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39144143660), including source regeneration,
-archive reproducibility and one uploaded JAR on three platforms.
+Stage: Java test optimization, 2026-10-18 UTC.
+
+Local clean check/build passes **5,912 component + 33 real UDP = 5,945 Java tests**,
+with zero failures, errors or skips. All five jobs passed for implementation
+`f14407e5596d3f2f8a3869e2ad1c8505970c3f58`, tested tree `93a158fd85cadd67710ad5bac64e4ad2bde174f8`, in [run 39145475640](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39145475640).
+CI regenerated the original fixtures, checked archive reproducibility, smoked the
+same uploaded JAR on three platforms and ran component/UDP tests from source-built
+classes on Ubuntu, Windows and macOS. No local-to-CI artifact hash identity is claimed.
+
+The optimization removes **3,595 duplicate independent fixture executions** and
+53 artificial JUnit partitions, preserving every distinct case, all 224 ordered
+stateful trace selections and all 33 integration tests. Match fixture gzip reads
+drop from 328 to 5 per test worker. Production code, golden bytes, generators and
+workflows are unchanged; the local JAR is byte-identical to the preceding checkpoint.
+See [TEST_OPTIMIZATION.md](TEST_OPTIMIZATION.md) for exact case counts and timing limits.
+
+Prior original-source baseline failures remain recorded and unwaived. This test-only
+checkpoint reuses the unchanged local native/source evidence; fresh CI checks pass.
+The migration remains incomplete and hosting exits 2.
 
 | Suite | Tests | Failures | Errors | Skipped |
 |---|---:|---:|---:|---:|
+| net.battlespades.ApplicationIntegrationTest | 30 | 0 | 0 | 0 |
 | net.battlespades.BlockDamageGoldenTest | 21 | 0 | 0 | 0 |
 | net.battlespades.CollapseGoldenTest | 16 | 0 | 0 | 0 |
 | net.battlespades.CombatGeometryGoldenTest | 49 | 0 | 0 | 0 |
@@ -24,6 +40,7 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.HandshakeTest | 2 | 0 | 0 | 0 |
 | net.battlespades.HitEffectPacketsGoldenTest | 12 | 0 | 0 | 0 |
 | net.battlespades.HitTraceGoldenTest | 20 | 0 | 0 | 0 |
+| net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
 | net.battlespades.JoinPolicyTest | 4 | 0 | 0 | 0 |
 | net.battlespades.JoinSessionTest | 21 | 0 | 0 | 0 |
 | net.battlespades.LagGoldenTest | 26 | 0 | 0 | 0 |
@@ -47,11 +64,12 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.TerrainHealthDeliveryTest | 3 | 0 | 0 | 0 |
 | net.battlespades.TerrainHealthGoldenTest | 36 | 0 | 0 | 0 |
 | net.battlespades.TerrainRepairGoldenTest | 32 | 0 | 0 | 0 |
+| net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
 | net.battlespades.WorldFormatTest | 4 | 0 | 0 | 0 |
 | net.battlespades.WorldQueriesTest | 2 | 0 | 0 | 0 |
 | net.battlespades.match.MatchBoundaryTest | 2 | 0 | 0 | 0 |
-| net.battlespades.match.MatchFlowGoldenTest | 96 | 0 | 0 | 0 |
-| net.battlespades.match.MatchStateGoldenTest | 80 | 0 | 0 | 0 |
+| net.battlespades.match.MatchFlowGoldenTest | 74 | 0 | 0 | 0 |
+| net.battlespades.match.MatchStateGoldenTest | 49 | 0 | 0 | 0 |
 | net.battlespades.match.ObjectiveGuardGoldenTest | 32 | 0 | 0 | 0 |
 | net.battlespades.match.ScoreEvidenceGoldenTest | 72 | 0 | 0 | 0 |
 | net.battlespades.match.ScoreboardGoldenTest | 48 | 0 | 0 | 0 |
@@ -90,9 +108,8 @@ archive reproducibility and one uploaded JAR on three platforms.
 | net.battlespades.player.SpawnPolicyTest | 36 | 0 | 0 | 0 |
 | net.battlespades.player.TerrainCommitGoldenTest | 16 | 0 | 0 | 0 |
 | net.battlespades.transport.enet.PeerDeliveryTest | 16 | 0 | 0 | 0 |
-| net.battlespades.ApplicationIntegrationTest | 30 | 0 | 0 | 0 |
-| net.battlespades.HostIntegrationTest | 2 | 0 | 0 | 0 |
-| net.battlespades.UdpIntegrationTest | 1 | 0 | 0 | 0 |
+
+## Preceding combat economy checkpoint evidence
 
 Local clean check/build passes **5,965 component + 33 real UDP = 5,998 Java tests**,
 zero failures, errors or skips. The expanded original suite has **162 passes

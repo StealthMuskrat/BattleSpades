@@ -44,7 +44,8 @@ outputs after a fresh original native build; 210 recorded fixture/catalog hashes
 remain unchanged. Repeated CRC-valid archives, packaging/smokes and isolated
 native probes pass. All five jobs pass in [run 39084849726](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39084849726); see [CI_STATUS.md](CI_STATUS.md).
 
-Remaining work includes physical pickups, placement/equipment authorization,
+Physical supply crates have subsequent [component evidence](PHYSICAL_CRATES.md).
+Remaining work includes objective pickup carry/drop, placement/equipment authorization,
 projectile/corpse simulation, concrete modes/score/achievement/debug services,
 complete gameplay binding, supported-client validation, capacity and soak. The
 full original baseline retains its documented incomplete runs/VIP discrepancy.

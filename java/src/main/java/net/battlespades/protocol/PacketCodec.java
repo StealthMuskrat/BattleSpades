@@ -71,6 +71,8 @@ public final class PacketCodec {
             case 6 -> ShootPacket.read(r);
             case 9 -> CombatPackets.ShootResponse.read(r);
             case 20 -> CombatPackets.HitEntity.read(r);
+            case 23 -> AudioPackets.PlaySound.read(r);
+            case 16 -> ChangeEntity.read(r);
             case 46 -> LifePackets.KillAction.read(r);
             case 76 -> LifePackets.WeaponReload.read(r);
             case 2 -> WorldUpdate.read(r);
@@ -91,5 +93,5 @@ public final class PacketCodec {
         r.end();
         return packet;
     }
-    public static boolean supports(int id) { return switch(id) { case 0,2,4,5,6,7,8,9,11,12,13,14,15,19,20,21,25,27,28,29,32,33,34,35,36,37,38,40,42,44,45,46,48,49,51,52,53,54,55,56,57,58,59,60,61,62,64,69,70,72,76,77,78,79,80,81,82,83,84,85,86,93,94,95,96,97,99,100,101,105,108,110,111,112,113,114,115 -> true; default -> false; }; }
+    public static boolean supports(int id) { return switch(id) { case 0,2,4,5,6,7,8,9,11,12,13,14,15,16,19,20,21,23,25,27,28,29,32,33,34,35,36,37,38,40,42,44,45,46,48,49,51,52,53,54,55,56,57,58,59,60,61,62,64,69,70,72,76,77,78,79,80,81,82,83,84,85,86,93,94,95,96,97,99,100,101,105,108,110,111,112,113,114,115 -> true; default -> false; }; }
 }

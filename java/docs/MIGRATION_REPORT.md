@@ -1,11 +1,11 @@
 # Java 25 migration report
 
 Date: 2026-10-18 UTC. **Incomplete migration; not playable or release-ready.**
-The current stage adds medpack healing/cooldown/uses and radar lifetime/owner/team
-teardown components. Physical pickups, placement/equipment authorization,
-projectile/corpse simulation, concrete modes/services and full gameplay binding
-remain. Supported-client/capacity/soak gates remain pending. Hosting exits 2.
-See CARE_RADAR.md.
+The current stage adds physical supply-crate descent, live support settling,
+refill/respawn and native sound/entity-change codecs. Stock map resources,
+objective pickup carry/drop, equipment policy, projectile/corpse simulation,
+concrete modes/services and full gameplay binding remain. Supported-client/
+capacity/soak gates remain pending. Hosting exits 2. See PHYSICAL_CRATES.md.
 
 
 ## Repository and provenance
@@ -61,9 +61,9 @@ See CARE_RADAR.md.
 - Previous shared-blast implementation: `a3cbfff3738acf5ece8012113106633e2ef68463`.
 - Previous shared-blast tested/published tree: `78f4a9f75500e105e316df6c04a547a8e0309a4f`.
 - Previous shared-blast CI: [run 39083832978](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39083832978); all five jobs passed.
-- Current medpack/radar implementation: `18f5d79818cefad2f96f5ee1a2f222862cbf989e`.
-- Current medpack/radar tested/published tree: `db584d7612c7986e694f16becd1b057cbfad58ef`.
-- Current medpack/radar CI: [run 39084849726](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39084849726); all five jobs passed.
+- Previous medpack/radar implementation: `18f5d79818cefad2f96f5ee1a2f222862cbf989e`.
+- Previous medpack/radar tested/published tree: `db584d7612c7986e694f16becd1b057cbfad58ef`.
+- Previous medpack/radar CI: [run 39084849726](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39084849726); all five jobs passed.
 - Exact evidence and limitations: [CI_STATUS.md](CI_STATUS.md).
 - Original Python/Cython production source is retained unchanged.
 
@@ -74,10 +74,18 @@ expected-head lease and exact tested-tree comparison. No release is created.
 
 ## Current implementation
 
+PickupCrateBehavior and PickupWorld add 8,192 unchanged-source operations for
+native-world edits, live support/dry rescue, parachute timing, actual health/ammo/
+block refill and respawn. Another 1,024 native codec cases cover PlaySound and
+ChangeEntity, including source decoding/re-encoding quirks. A new three-client
+UDP test checks all refill types, sky/late replay and reliable support movement.
+Local verification passes 5,438 Java tests. Authored placement/refill/sound/reveal
+ports remain explicit; full resource/gameplay assembly is pending. See PHYSICAL_CRATES.md.
+
 MedpackBehavior and RadarStationBehavior add 1,024 unchanged-source lifecycle/
 healing operations and 32 actual heal reliable-IO faults. A new three-client UDP
 test checks shared cooldowns, owner-only HP, live radar fuse replay and owned-shot
-cleanup. Local verification passes 5,373 Java tests. Authored placement/healing/
+cleanup. The preceding care/radar checkpoint passed 5,373 Java tests. Authored placement/healing/
 reveal composition remains explicit; full gameplay gates remain pending.
 See CARE_RADAR.md.
 
@@ -253,8 +261,8 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Check | Current local result |
 |---|---|
 | Java 25 clean check/build | PASS |
-| Unit/component tests | 5350 passed; 0 failures/errors/skips |
-| Real UDP integration tests | 23 passed; 0 failures/errors/skips |
+| Unit/component tests | 5414 passed; 0 failures/errors/skips |
+| Real UDP integration tests | 24 passed; 0 failures/errors/skips |
 | Flight full-path source comparisons | 65,497 exact operations / 44 traces; 10,368 canopy impact vectors; 117 focused original regressions pass |
 | Infantry full-path source comparisons | 16,683 exact operations / 33 traces; 57 focused original regressions pass |
 | ClientData / cadence source comparisons | 14,234 / 26,234 original operations; exact regeneration |
@@ -283,7 +291,7 @@ See [APPLICATION_LOADING.md](APPLICATION_LOADING.md) and [FEATURE_PARITY.md](FEA
 | Ordinary gameplay launch | Still deliberately disabled, exit 2 |
 | Portable JAR inspection | No native/Python/test fixture classes; Java 25 major 69 |
 | Repeated build and artifact hash | Exact details in verification-results.json |
-| Current-tree independent platform CI | PASS: all five jobs; source regeneration, repeat archive and same uploaded JAR on three OSes |
+| Current-tree independent platform CI | Pending publication and all five jobs |
 | Supported original game client / UI | NOT RUN |
 | Complete mode, 50-player capacity, 15-minute soak | NOT IMPLEMENTED/EVALUATED |
 
@@ -390,9 +398,17 @@ CI independently passed an explicit rebuild and byte comparison before upload.
 The earlier local archive failures remain an environment limitation, not a waived
 packaging check. Exact final SHA/size are in verification-results.json.
 
+## Additional original baseline observation
+
+The expanded physical-crate reference run passed 80 original tests and failed
+`test_zombie_pick_countdown_sound_ends_on_the_pick`. That test expects the sound
+at 7.5 seconds remaining; the unchanged implementation uses a 4-second lead.
+Source and tests remain unchanged. This is retained alongside the earlier VIP/
+incomplete-baseline evidence; the complete original baseline is not passing.
+
 ## Remaining work and readiness
 
-Next: complete physical pickups and placement policy, corpse/projectile simulation
+Next: complete stock map-resource assembly, objective carry/drop and placement policy, corpse/projectile simulation
 and full repair/entity gameplay-loop integration; connect detached projectiles, full score/award/aim services and upstream
 input/equipment authorization; wire the owned Character/combat/movement/flight
 components to concrete modes and authenticated identity. Complete presentation,

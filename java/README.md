@@ -40,6 +40,11 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
+Physical crates now preserve live support settling, dry rescue, parachute descent,
+refill and respawn. Source comparisons and a three-client UDP test check health,
+ammo/blocks, late replay and reliable position changes. Stock map-resource and
+full gameplay assembly remain pending; see [PHYSICAL_CRATES.md](docs/PHYSICAL_CRATES.md).
+
 Medpack and radar behaviors now preserve shared healing cooldowns, per-pack uses,
 live radar fuse and idempotent owner/team teardown. Unchanged-source comparisons
 and a three-client UDP test cover healing, late replay and owned-shot cleanup.

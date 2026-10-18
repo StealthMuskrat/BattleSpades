@@ -1,0 +1,18 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "crate_operations": 8192,
+  "roof_drop_observed": true,
+  "sound_codec_cases": 512,
+  "change_entity_codec_cases": 512,
+  "source_files_sha256": {
+    "server/entities/behaviors.py": "de230daca0fe35db5abaee03f5df6885e027f897182371fac19087f73a154f5d",
+    "server/entities/registry.py": "844b5df830c2900419035491f35c9fed0542dc8f6fce7fb3b7ed280c8a3f8935",
+    "server/world_manager.py": "b2ef9c97255c290ea946dc4a4a415b46ba26bd69db9997276bcce6a3ef45fc63",
+    "server/player.py": "c1b8b16fb1c4007fd139312848529ba25918c1443cf44c47f8a66e3de2f07d92",
+    "server/audio.py": "626bd59ff43702d26a82b8f504fdba0a5f76eb8e037d2ef13df8b5a7ac340fb7",
+    "shared/packet.pyx": "26e0bd6cc3ad92f931b8396ab21f395b199f11965a80dd96464b5907fb5b6819"
+  },
+  "fixture_sha256": "bfe5c7b931f20aef718cc02f0a0690b04b14a73e53473c92e0678f7a515a7057",
+  "method_substitutions": false,
+  "scope": "Actual original crate, registry, native WorldManager, Player.heal/audio and compiled entity/sound codecs. Controlled clocks, finite authored placements/refill/cue and lifecycle/send IO. Includes capped/stalled/backward-time ticks, roof/drop/support/water rescue and live map mutation. No stock crate assembly/equipment/full service/server/client claim."
+}

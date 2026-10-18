@@ -1,4 +1,21 @@
-# Current medpack/radar checkpoint verification
+# Current physical-crate checkpoint verification
+
+Local clean check/build passes **5,414 component + 24 real UDP tests**, zero
+failures, errors or skips. **68 focused original tests** pass. New comparisons
+cover 8,192 source crate/registry/refill operations and 1,024 native codec cases.
+All 58 configured generators reproduce outputs after a fresh original native
+build; all 215 recorded fixture/catalog/codegen hashes remain unchanged.
+Publication and all five current-head CI jobs are pending.
+
+Two CRC-valid local archives are byte-identical: 1617778 bytes,
+SHA-256 `a1f9a8ab2e6071eab7569012d6f65cf7750c828b1a3bd55b190074261c623e66`. Class major 69 and packaging audits pass;
+version/config exits 0 and hosting exits 2. Isolated native transport and loader
+probes pass nominal/impaired profiles. Expanded original run: 80 passed / 1 failed (Zombie cue lead). Source/tests
+remain unchanged; the complete baseline is incomplete/failing. Complete gameplay,
+stock resources/placement/services and supported-client/capacity/soak gates remain
+pending. Packaged native loader probes retain FixtureScene. See PHYSICAL_CRATES.md.
+
+# Preceding medpack/radar checkpoint verification
 
 Local clean check/build passes **5,350 component + 23 real UDP tests**, zero
 failures, errors or skips. **109 focused original tests** pass. New comparisons

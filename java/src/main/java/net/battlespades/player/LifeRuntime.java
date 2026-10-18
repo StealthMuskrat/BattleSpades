@@ -175,6 +175,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
         }
     }
     public void restock(int id,int type,boolean bot){owned();var p=player(id);if(!p.alive())return;p.inventory().restock(type,clock.monotonic(),bot);messages.owner(id,new SimplePackets.Restock(id,type));}
+    public void restockBlocks(int id){owned();var p=player(id);if(!p.alive())return;p.inventory().addBlocks(p.inventory().maxBlocks());messages.owner(id,new SimplePackets.Restock(id,5));}
     public void restockJetpack(int id){owned();var p=player(id);if(!p.alive()||!LifeCatalog.PACKS.containsKey(p.jetpack()))return;p.flight().restock(p.jetpack());messages.owner(id,new SimplePackets.Restock(id,6));}
     private static int clamp(int value){return Math.max(0,Math.min(255,value));}
     public boolean die(int id,Integer killerId,int weaponType){

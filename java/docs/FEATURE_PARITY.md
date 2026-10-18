@@ -1,7 +1,8 @@
 # Feature parity and explicit backlog
 
 Current departure/round-runtime verification: 6,072 Java tests and 152 focused
-original regressions pass locally. CI is pending publication. See
+original regressions pass locally. All five CI jobs pass in
+[run 39161548480](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39161548480). See
 [ROUND_RUNTIME.md](ROUND_RUNTIME.md); complete gameplay remains pending.
 
 Reference: source `6216b771282d2d349ccd67ee58c378f035c83553`.

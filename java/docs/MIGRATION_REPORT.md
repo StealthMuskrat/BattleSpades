@@ -22,7 +22,13 @@ pass for the current JAR. Loader probes still use FixtureScene, not a supported 
 client. Normal hosting exits 2. Prior medpack/Zombie/VIP baseline discrepancies remain
 unwaived; these focused passes do not establish a passing full original baseline.
 
-This checkpoint requires a new five-job CI run after publication.
+All five CI jobs passed for implementation `4a4bf9e6742917d14ccbd841d9b35633dc69c2a3`,
+tested/published tree `6b0a25cc445c03781cb4a837f3c567a1e37f5494`, in
+[run 39161548480](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39161548480). The native job independently reproduced all 69
+configured original generators, including the new departure/ending fixture. The build
+byte-compared repeated archives. Ubuntu, Windows and macOS smoked the uploaded JAR
+and ran source-built component/integration tests. Every final job step completed
+with success or an intentional skip. No local-to-CI artifact hash identity is claimed.
 
 ## Repository and provenance
 

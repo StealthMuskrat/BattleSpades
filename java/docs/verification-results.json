@@ -33,20 +33,37 @@
     }
   },
   "verification_stage": "Departure settlement, awaited fixed scheduler/frame and delayed ending/restart policy",
-  "java_implementation_commit": null,
-  "tested_tree": null,
+  "java_implementation_commit": "4a4bf9e6742917d14ccbd841d9b35633dc69c2a3",
+  "tested_tree": "6b0a25cc445c03781cb4a837f3c567a1e37f5494",
   "ci": {
-    "status": "pending_publication",
-    "head_sha": null,
-    "run_id": null,
-    "url": null,
-    "jobs": {},
-    "all_five_jobs_passed": false,
-    "all_final_steps_verified": false,
+    "status": "success",
+    "head_sha": "4a4bf9e6742917d14ccbd841d9b35633dc69c2a3",
+    "run_id": 39161548480,
+    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39161548480",
+    "jobs": {
+      "native-enet": "success",
+      "build": "success",
+      "platform (ubuntu-latest)": "success",
+      "platform (windows-latest)": "success",
+      "platform (macos-latest)": "success"
+    },
+    "all_five_jobs_passed": true,
+    "all_final_steps_verified": true,
     "local_to_ci_artifact_hash_compared": false,
     "full_reference_python_baseline_passing": false,
     "packaged_native_probe_player_domain": "FixtureScene; component/UDP checks run source-built classes",
-    "component_and_udp_tests_use_source_built_classes": true
+    "component_and_udp_tests_use_source_built_classes": true,
+    "job_ids": {
+      "native-enet": 117775720892,
+      "build": 117775721081,
+      "platform (ubuntu-latest)": 117776147055,
+      "platform (windows-latest)": 117776147109,
+      "platform (macos-latest)": 117776147114
+    },
+    "native_original_fixtures_reproduced": true,
+    "configured_generators": 69,
+    "repeated_ci_archive_identical": true,
+    "same_uploaded_jar_three_platforms": true
   },
   "movement": {
     "cases": 118,
@@ -399,12 +416,12 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": false,
+    "branch_updated": true,
     "expected_parent": "1fe5ac39c7105143e5098f9e46a2850e4b7552a8",
     "force": false,
     "authorization": "User authorized this and future verified migration checkpoints, code/workflow changes and all five CI jobs; requested multiple implementations per batch.",
-    "implementation_commit": null,
-    "tested_tree": null
+    "implementation_commit": "4a4bf9e6742917d14ccbd841d9b35633dc69c2a3",
+    "tested_tree": "6b0a25cc445c03781cb4a837f3c567a1e37f5494"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -3211,6 +3228,8 @@
     "complete_hosting_bootstrap": false,
     "full_migration_complete": false,
     "native_loader_uses_fixture_scene": true,
-    "supported_client_validated": false
+    "supported_client_validated": false,
+    "ci_implementation_commit": "4a4bf9e6742917d14ccbd841d9b35633dc69c2a3",
+    "ci_run_id": 39161548480
   }
 }

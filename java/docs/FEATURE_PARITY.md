@@ -1,6 +1,7 @@
 # Gameplay services follow-up
 
-TeamBalancer, GameplaySounds, PeriodicServices and their actual host binding are implemented. 6,275 Java tests and 340 focused original regressions pass locally. CI is pending publication. See [GAMEPLAY_SERVICES.md](GAMEPLAY_SERVICES.md). Full production hosting and the remaining domains are pending.
+TeamBalancer, GameplaySounds, PeriodicServices and their actual host binding are implemented. 6,275 Java tests and 340 focused original regressions pass locally. All five CI jobs pass in
+[run 39175987373](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39175987373). See [GAMEPLAY_SERVICES.md](GAMEPLAY_SERVICES.md). Full production hosting and the remaining domains are pending.
 
 ## Previous player-control checkpoint
 

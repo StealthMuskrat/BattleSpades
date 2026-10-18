@@ -22,7 +22,14 @@ client, complete platform gameplay or local-to-CI artifact hash identity is clai
 The medpack/Zombie/VIP original-baseline discrepancies remain unwaived. These focused
 passes do not establish a passing full original-source baseline.
 
-This checkpoint requires a new five-job CI run after publication.
+All five CI jobs passed for implementation `9dd88dd9c7dc6bef6e66911d24665077c4980617`,
+tested/published tree `bd29520ff81cb0da9116820738dd84bc29645cf6`, in
+[run 39175987373](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39175987373). The native job independently reproduced all 75
+configured original generators, including the balancing/audio traces and all earlier
+fixtures. The build byte-compared repeated archives. Ubuntu, Windows and macOS smoked
+the uploaded JAR and ran source-built component/integration tests. Every final job step
+completed with success or an intentional skip. No local-to-CI artifact hash identity
+or complete platform gameplay is claimed.
 
 TeamBalancer preserves the source grace/check slack, all-roster counts (including
 loading clients), bot-first moves, ascending dead-bot ID, awaited safe retirement and

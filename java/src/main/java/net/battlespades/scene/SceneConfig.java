@@ -26,6 +26,11 @@ public record SceneConfig(String name,int port,long steamId,ModeCatalog.Definiti
         return new SceneConfig(name,core.port(),core.steamId(),mode,text(raw,"game.default_map","MayanJungle"),bool(raw,"game.same_team_collision",false),bool(raw,"game.friendly_fire",false),fall,(int)Math.max(0,number(raw,"game.score_limit",10)),color(raw,"world.fog_color_rgb",0x0c0d0b),normalizeSkybox(text(raw,"world.default_skybox",DEFAULT_SKYBOX)),new Team(text(raw,"teams.team1_name","TEAM1_COLOR"),color(raw,"teams.team1_color",0x2c75b3)),new Team(text(raw,"teams.team2_name","TEAM2_COLOR"),color(raw,"teams.team2_color",0x89b32c)),rules,modeCode,AdmissionPolicy.Settings.from(raw));
     }
     public static final String DEFAULT_SKYBOX="User_Grassland.txt";
+    /** Rollover changes only the selected map/mode; its immutable preflight supplies the environment. */
+    public SceneConfig forMap(String map,String code){
+        Objects.requireNonNull(map);if(!ModeCatalog.resolve(code).equals(code))throw new IllegalArgumentException("Canonical mode required");
+        return new SceneConfig(name,port,steamId,ModeCatalog.get(code),map,sameTeamCollision,friendlyFire,fallDamage,scoreLimit,fogColor,skybox,team1,team2,rules,code,admission);
+    }
     static String text(TomlTable t,String key,String fallback){Object v=t.get(key);if(v==null)return fallback;if(v instanceof String s)return s;throw new IllegalArgumentException(key+" must be text");}
     static boolean bool(TomlTable t,String key,boolean fallback){Object v=t.get(key);if(v==null)return fallback;if(v instanceof Boolean b)return b;throw new IllegalArgumentException(key+" must be boolean");}
     static double number(TomlTable t,String key,double fallback){Object v=t.get(key);if(v==null)return fallback;if(v instanceof Number n&&Double.isFinite(n.doubleValue()))return n.doubleValue();throw new IllegalArgumentException(key+" must be finite numeric");}

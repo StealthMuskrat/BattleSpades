@@ -16,18 +16,23 @@ import net.battlespades.simulation.*;
 import net.battlespades.world.*;
 
 /** Controlled external service boundaries for the production assembly, never packaged. */
-public final class StandardPorts implements StandardMatchDomain.Services,LifeRuntime.Effects,LifeRuntime.Inputs,LifeRuntime.Clock,SimulationFrame.Services {
+public final class StandardPorts implements StandardMatchDomain.Services,LifeRuntime.Effects,LifeRuntime.Inputs,LifeRuntime.Clock,SimulationFrame.Services,HostedPlayerRuntime.Ports {
     public final List<String> log=new ArrayList<>();public final List<Throwable> errors=new ArrayList<>();public final List<GamePacket> packets=new ArrayList<>();
     public double wall=1000,monotonic=100;public int closes;public boolean failSpawn,stopping=true;
     public CompletionStage<Void> playerPhase=CompletableFuture.completedFuture(null);
+    public int moves,deliveredPackets;public long deliveredBytes;public boolean transition;public double lastSkill=Double.NaN;
+    public final List<EntityRecord> entities=new ArrayList<>();public final List<WorldUpdate.TurretRow> turrets=new ArrayList<>();
     public Function<ModeEvents.Event,CompletionStage<Void>> plugin=e->{log.add(e.name());return CompletableFuture.completedFuture(null);};
     public StandardMatchDomain create(String map,String code,PreparedMap.Bound bound,MapMetadata metadata,OwnerLoop loop){
         var config=new SceneConfig("Production assembly",27015,0,ModeCatalog.get(code),map,false,false,true,999,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults(),code);
         return new StandardMatchDomain(config,metadata,bound,org.tomlj.Toml.parse("[modes.tdm]\nscore_limit=10\ntime_limit=0\n[modes.arena]\nrounds_to_win=2\nround_time_limit=10\n[game]\nrespawn_time=1.5\n"),this,new SourceRandom(0),loop,List.of(map),this,this,this);
     }
     public static PreparedMap prepared(Path path,String code)throws Exception{
+        writeMap(path);return PreparedMap.prepare(MapAssembly.load(path,code));
+    }
+    public static void writeMap(Path path)throws Exception{
         // Dry, thick central island. Two source spans retain retail z=100 without classic-height shifting.
-        byte[] column={2,100,100,0,1,2,3,4,0,(byte)239,(byte)239,(byte)239,1,2,3,4};byte[] data=new byte[32*32*column.length];for(int i=0;i<32*32;i++)System.arraycopy(column,0,data,i*column.length,column.length);Files.write(path,data);return PreparedMap.prepare(MapAssembly.load(path,code));
+        byte[] column={2,100,100,0,1,2,3,4,0,(byte)239,(byte)239,(byte)239,1,2,3,4};byte[] data=new byte[32*32*column.length];for(int i=0;i<32*32;i++)System.arraycopy(column,0,data,i*column.length,column.length);Files.write(path,data);
     }
     public double wall(){return wall;}public double monotonic(){return monotonic;}public boolean admin(int id){return false;}public boolean stopping(){return stopping;}
     public CompletionStage<Void> plugin(ModeEvents.Event event){return plugin.apply(event);}public void matchStarted(){log.add("start");}public void rebuildResources(){log.add("resources");}public void matchEnded(Integer winner){log.add("end:"+winner);}public void endVote(double wall){log.add("vote-end");}public void vote(double wall){log.add("vote");}public void scheduleEnd(Integer winner){log.add("schedule-end");}public CompletionStage<Void> cancelEnd(){log.add("cancel-end");return CompletableFuture.completedFuture(null);}
@@ -39,4 +44,8 @@ public final class StandardPorts implements StandardMatchDomain.Services,LifeRun
     public void synchronous(SimulationFrame.Phase phase,int tick){log.add(phase.name());}public void subsystem(SimulationFrame.Phase phase,double ms){}public void tickMetrics(double ms){log.add("metrics");}public void health(double ms){log.add("health");}
     public PeriodicServices periodic(OwnerLoop loop){return new PeriodicServices(now->{log.add("balance");return CompletableFuture.completedFuture(false);},now->log.add("skill"),now->log.add("report"),this::failure,loop);}
     public TerrainRepair repair(ApplicationHost host,StandardMatchDomain match){return new TerrainRepair(match.world(),()->new TerrainRepair.Settings(true,64,1,1,1,8,8),()->match.lives().players().stream().map(p->new TerrainRepair.Recipient(p.id(),host.inGame(p.id()),true)).toList(),(recipient,packet)->host.sendPlayer(recipient.playerId(),packet));}
+    public PlayerSnapshot.Presentation presentation(PlayerLife p){return new PlayerSnapshot.Presentation(p.inventory().tool(),p.pickupId(),false,false,false,false,true,false);}
+    public List<EntityRecord> entities(){return List.copyOf(entities);}public List<WorldUpdate.TurretRow> turrets(){return List.copyOf(turrets);}public void delivered(int packets,long bytes){deliveredPackets+=packets;deliveredBytes+=bytes;}
+    public void lagHistory(PlayerLife p,int tick){log.add("lag:"+p.id());}public void housekeeping(PlayerLife p){log.add("housekeeping:"+p.id());}public int pendingTerrainMutations(){return 0;}public void report(PlayerLife p,String kind,boolean enforced){log.add("report:"+kind);}
+    public void afterMove(PlayerLife p,double dt){moves++;}public void observePhysics(PlayerLife p,double now){log.add("observe:"+p.id());}public boolean transitionBusy(){return transition;}public TeamBalancer.Bots bots(){return null;}public boolean hearingEnabled(){return false;}public void blockDestroyed(GameplaySounds.Position center,int source,int team,double lifetime){log.add("heard");}public void updateBotSkill(double now){lastSkill=now;log.add("skill");}public void anticheatReport(double now){log.add("report");}
 }

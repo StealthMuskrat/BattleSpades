@@ -24,7 +24,7 @@ class StandardMatchDomainTest {
     private static void admit(StandardMatchDomain match,int id,int team){match.scene().admit(id,new SimplePackets.NewPlayerConnection(team,0,0,0,"Player"+id),null,0);}
     @Test void productionTdmBindsPreparedSpawnsScoresRespawnsAndCanonicalTeamCleanup()throws Exception{
         var prepared=StandardPorts.prepared(temp.resolve("tdm.vxl"),"tdm");var ports=new StandardPorts();var ballotWait=new java.util.concurrent.atomic.AtomicReference<CompletableFuture<String>>();
-        try(var loop=new OwnerLoop(0,1024,256,error->fail(error));var state=new HostedSceneState("tdm","tdm",prepared,1,10000,Map.of("tdm",(map,code,bound)->ports.create(map,code,bound,prepared.assembly().metadata(),loop)));var host=host(state)){
+        try(var loop=new OwnerLoop(0,1024,256,error->fail(error));var state=new HostedSceneState("tdm","tdm",prepared,1,10000,Map.of("tdm",(map,code,bound,metadata)->ports.create(map,code,bound,prepared.assembly().metadata(),loop)));var host=host(state)){
             state.attach(host);var match=(StandardMatchDomain)state.domain();match.mode().start();
             ports.failSpawn=true;assertThrows(IllegalStateException.class,()->admit(match,0,2));assertTrue(match.lives().players().isEmpty());assertEquals(0,match.teams().getFirst().playerCount());ports.failSpawn=false;
             admit(match,0,2);admit(match,1,3);var killer=match.lives().player(0);var victim=match.lives().player(1);assertSame(killer,match.teams().getFirst().players().getFirst());assertTrue(state.prepared().spawns().safePosition(new SpawnGeometry.Position(killer.position().x(),killer.position().y(),killer.position().z())));
@@ -37,7 +37,7 @@ class StandardMatchDomainTest {
     }
     @Test void arenaFactoryAttachesToCommittedHostAndRetiresOnlyInactiveWorlds()throws Exception{
         var tdm=StandardPorts.prepared(temp.resolve("tdm.vxl"),"tdm");var arena=StandardPorts.prepared(temp.resolve("arena.vxl"),"arena");var ports=new StandardPorts();
-        try(var loop=new OwnerLoop(0,1024,256,error->fail(error));var state=new HostedSceneState("tdm","tdm",tdm,1,10000,Map.of("tdm",(map,code,bound)->ports.create(map,code,bound,tdm.assembly().metadata(),loop),"arena",(map,code,bound)->ports.create(map,code,bound,arena.assembly().metadata(),loop)));var host=host(state)){
+        try(var loop=new OwnerLoop(0,1024,256,error->fail(error));var state=new HostedSceneState("tdm","tdm",tdm,1,10000,Map.of("tdm",(map,code,bound,metadata)->ports.create(map,code,bound,tdm.assembly().metadata(),loop),"arena",(map,code,bound,metadata)->ports.create(map,code,bound,arena.assembly().metadata(),loop)));var host=host(state)){
             state.attach(host);var old=state.snapshot();state.install("arena","arena",arena);var match=(StandardMatchDomain)state.domain();assertNotNull(match.controls());assertNotNull(match.media());assertSame(match.scene(),host.transitionScene());match.mode().start();admit(match,0,2);admit(match,1,3);var mode=(ArenaMode)match.mode();
             ports.wall+=5;ports.monotonic+=5;match.events().tick(60).toCompletableFuture().join();assertTrue(mode.state().started());assertEquals(2,mode.state().fighters().size());
             admit(match,2,3);assertFalse(match.lives().player(2).alive());assertEquals(2,match.teams().get(1).playerCount());match.lives().die(1,0,0);match.events().tick(61).toCompletableFuture().join();assertTrue(mode.state().ended());assertEquals(1,match.teams().getFirst().score);
@@ -47,7 +47,7 @@ class StandardMatchDomainTest {
     }
     @Test void hostedFramesKeepOwnerProgressDuringAwaitAndStopAfterCurrentFrame()throws Exception{
         var prepared=StandardPorts.prepared(temp.resolve("tdm.vxl"),"tdm");var ports=new StandardPorts();
-        try(var loop=new OwnerLoop(0,1024,256,error->fail(error));var state=new HostedSceneState("tdm","tdm",prepared,1,10000,Map.of("tdm",(map,code,bound)->ports.create(map,code,bound,prepared.assembly().metadata(),loop)));var host=host(state)){
+        try(var loop=new OwnerLoop(0,1024,256,error->fail(error));var state=new HostedSceneState("tdm","tdm",prepared,1,10000,Map.of("tdm",(map,code,bound,metadata)->ports.create(map,code,bound,prepared.assembly().metadata(),loop)));var host=host(state)){
             state.attach(host);var match=(StandardMatchDomain)state.domain();var wait=new CompletableFuture<Void>();ports.playerPhase=wait;int[] snapshots={0};var periodic=ports.periodic(loop);var repair=ports.repair(host,match);
             var simulation=new HostedSimulation(host,loop,()->(StandardMatchDomain)state.domain(),()->periodic,()->repair,ports,()->snapshots[0]++,System::nanoTime,IngamePackets.Settings.defaults(64,16));simulation.start();simulation.pump(20_000_000);assertEquals(1,simulation.ticks());assertTrue(simulation.advancing());assertFalse(ports.log.contains("MODE"));assertEquals(0,snapshots[0]);
             loop.execute(()->ports.log.add("owner-progress"));simulation.pump(1_000_000_000);assertTrue(ports.log.contains("owner-progress"));assertEquals(1,simulation.ticks());assertThrows(IllegalArgumentException.class,()->simulation.pump(999_999_999));

@@ -33,10 +33,11 @@ public final class InfantrySimulation {
     public InfantrySimulation(LifeRuntime runtime,Settings settings,Hooks hooks){this.runtime=Objects.requireNonNull(runtime);this.settings=Objects.requireNonNull(settings);this.hooks=Objects.requireNonNull(hooks);}
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Infantry simulation accessed outside owner");}
     public void settings(Settings value){owned();settings=Objects.requireNonNull(value);}
+    public Settings settings(){owned();return settings;}
     /** Bind this to the owned 60 Hz scheduler after input drain and before terrain commits/replication. */
     public void tick(int tick){
         owned();for(var p:runtime.players()){
-            if(!runtime.inGame(p.id()))continue;
+            if(!p.bot()&&!runtime.inGame(p.id()))continue;
             try{simulate(p,tick);hooks.afterTick(p,FixedStepRuntime.DELTA);}catch(RuntimeException failure){hooks.failed(p,failure);}
         }
     }

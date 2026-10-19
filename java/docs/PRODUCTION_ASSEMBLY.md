@@ -1,3 +1,5 @@
+This is the preceding assembly checkpoint. [Factories and player runtime](PLAYER_RUNTIME.md) is the current follow-up.
+
 # TDM/Arena production assembly and asynchronous host frames
 
 Local Java check/build passes **6,263 component + 40 integration = 6,303 tests**, with

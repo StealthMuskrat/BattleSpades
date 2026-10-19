@@ -21,9 +21,20 @@ public final class HostedSimulation {
     private CompletionStage<Void> stopping;private Throwable failed;
     private long previous;private double pending;
     private boolean started,running,advancing,pumping;
+    /** Full player-service binding supplied by StandardMatchFactory, selected again after every scene rollover. */
+    public HostedSimulation(ApplicationHost host,OwnerLoop loop,Supplier<StandardMatchDomain> match,SimulationFrame.Services other,
+            LongSupplier measuredNanos,IngamePackets.Settings packets){
+        this(host,loop,match,()->match.get().runtime().gameplay().periodic(),()->match.get().runtime().repair(),new PlayerFrames(match,other),tick->match.get().runtime().replicate(tick),measuredNanos,packets);
+    }
     public HostedSimulation(ApplicationHost host,OwnerLoop loop,Supplier<StandardMatchDomain> match,
             Supplier<PeriodicServices> periodic,Supplier<TerrainRepair> repair,SimulationFrame.Services other,
             Runnable replicate,LongSupplier measuredNanos,IngamePackets.Settings packets){
+        this(host,loop,match,periodic,repair,other,replication(replicate),measuredNanos,packets);
+    }
+    private static IntConsumer replication(Runnable operation){Objects.requireNonNull(operation);return tick->operation.run();}
+    private HostedSimulation(ApplicationHost host,OwnerLoop loop,Supplier<StandardMatchDomain> match,
+            Supplier<PeriodicServices> periodic,Supplier<TerrainRepair> repair,SimulationFrame.Services other,
+            IntConsumer replicate,LongSupplier measuredNanos,IngamePackets.Settings packets){
         this.host=Objects.requireNonNull(host);this.loop=Objects.requireNonNull(loop);this.match=Objects.requireNonNull(match);Objects.requireNonNull(periodic);Objects.requireNonNull(repair);Objects.requireNonNull(other);sequence=new OwnerSequence(loop);previous=loop.nowNanos();
         host.serialPackets(packets,loop,error->other.failure("packet",error));
         var frame=new SimulationFrame(new SimulationFrame.Services(){
@@ -31,13 +42,19 @@ public final class HostedSimulation {
             public CompletionStage<Void> asynchronous(SimulationFrame.Phase phase,int tick){return switch(phase){
                 case PACKET_DRAIN->host.drainPackets(tick);
                 case MODE->match.get().events().tick(tick);
-                case RESPAWNS->periodic.get().respawns(tick,60,loop.nowNanos()/1e9,()->{match.get().lives().processRespawns();return CompletableFuture.completedFuture(null);});
+                case RESPAWNS->periodic.get().respawns(tick,60,match.get().monotonic(),()->{match.get().lives().processRespawns();return CompletableFuture.completedFuture(null);});
                 default->other.asynchronous(phase,tick);
             };}
             public void synchronous(SimulationFrame.Phase phase,int tick){if(phase==SimulationFrame.Phase.TERRAIN_REPAIR)repair.get().tick(tick);else other.synchronous(phase,tick);}
             public void subsystem(SimulationFrame.Phase phase,double ms){other.subsystem(phase,ms);}public void failure(String name,Throwable error){other.failure(name,error);}public void tickMetrics(double ms){other.tickMetrics(ms);}public void health(double ms){other.health(ms);}
         },measuredNanos,loop);
-        runtime=new AsyncFixedStepRuntime(()->running,tick->frame.step((int)tick),replicate,()->loop.sleep(0),other::failure,loop);
+        int[] currentTick={0};runtime=new AsyncFixedStepRuntime(()->running,tick->{currentTick[0]=(int)tick;return frame.step(currentTick[0]);},()->replicate.accept(currentTick[0]),()->loop.sleep(0),other::failure,loop);
+    }
+    private record PlayerFrames(Supplier<StandardMatchDomain> match,SimulationFrame.Services other) implements SimulationFrame.Services {
+        private PlayerFrames{Objects.requireNonNull(match);Objects.requireNonNull(other);}
+        public boolean enabled(SimulationFrame.Phase phase){return other.enabled(phase);}
+        public CompletionStage<Void> asynchronous(SimulationFrame.Phase phase,int tick){if(phase==SimulationFrame.Phase.PLAYERS){match.get().runtime().players(tick);return CompletableFuture.completedFuture(null);}return other.asynchronous(phase,tick);}
+        public void synchronous(SimulationFrame.Phase phase,int tick){other.synchronous(phase,tick);}public void subsystem(SimulationFrame.Phase phase,double ms){other.subsystem(phase,ms);}public void failure(String label,Throwable error){other.failure(label,error);}public void tickMetrics(double ms){other.tickMetrics(ms);}public void health(double ms){other.health(ms);}
     }
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Hosted simulation outside owner");}
     public void start(){owned();if(started||stopping!=null)throw new IllegalStateException("Simulation can start once");started=true;match.get().mode().start();running=true;previous=loop.nowNanos();}

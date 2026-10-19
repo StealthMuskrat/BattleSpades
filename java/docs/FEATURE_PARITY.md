@@ -1,3 +1,9 @@
+# Factory and player-runtime checkpoint
+
+Prepared-metadata TDM/Arena factories and connected-player physics, statistics, replication, repair and periodic service bindings are implemented. 6,307 Java tests and 353 focused original regressions pass locally. All five CI jobs are pending publication. Full hosting and migration remain incomplete. See [PLAYER_RUNTIME.md](PLAYER_RUNTIME.md).
+
+## Previous production-assembly checkpoint
+
 # Production-assembly checkpoint
 
 TDM/Arena concrete domains, prepared-map spawn binding, reliable known-player delivery and asynchronous host/frame assembly are implemented. 6,303 Java tests and 350 focused original regressions pass locally. All five CI jobs pass in [run 39180327801](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39180327801). Full hosting and migration remain incomplete. See [PRODUCTION_ASSEMBLY.md](PRODUCTION_ASSEMBLY.md).

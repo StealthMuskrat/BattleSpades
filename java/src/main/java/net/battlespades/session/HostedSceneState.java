@@ -14,7 +14,7 @@ public final class HostedSceneState implements AutoCloseable {
     }
     public interface HostBoundDomain extends Domain {void attach(ApplicationHost host);}
     /** Only explicitly registered concrete modes can be installed. A failing factory owns its partial domain cleanup. */
-    @FunctionalInterface public interface Factory {Domain create(String map,String code,PreparedMap.Bound prepared);}
+    @FunctionalInterface public interface Factory {Domain create(String map,String code,PreparedMap.Bound prepared,MapMetadata metadata);}
     private static final class Entry {
         final String map,code;final PreparedMap.Bound prepared;final Domain domain;final JoinScene scene;final TransitionMode mode;
         boolean retired;
@@ -45,7 +45,7 @@ public final class HostedSceneState implements AutoCloseable {
         Objects.requireNonNull(map);Objects.requireNonNull(candidate);var factory=factories.get(code);if(factory==null)throw new IllegalArgumentException("Unknown mode: "+code);
         if(!candidate.assembly().metadata().activeMode().equals(code))throw new IllegalArgumentException("Prepared map belongs to another mode");
         var bound=candidate.bind(epoch,journalLimit);Domain domain=null;
-        try{domain=Objects.requireNonNull(factory.create(map,code,bound));var entry=new Entry(map,code,bound,domain);if(entry.scene.world()!=bound.world())throw new IllegalArgumentException("Domain must use its prepared world");return entry;}
+        try{domain=Objects.requireNonNull(factory.create(map,code,bound,candidate.assembly().metadata()));var entry=new Entry(map,code,bound,domain);if(entry.scene.world()!=bound.world())throw new IllegalArgumentException("Domain must use its prepared world");return entry;}
         catch(RuntimeException|Error error){if(domain!=null)try{domain.close();}catch(RuntimeException|Error cleanup){error.addSuppressed(cleanup);}bound.close();throw error;}
     }
     public void install(String map,String code,PreparedMap candidate){

@@ -37,6 +37,10 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     private final LifeRuntime lives;private final StandardSpawns spawns;private final BaseRoundMode mode;
     private final TransitionRoster transition;private final ConfiguredScene scene;
     private ApplicationHost host;private HostedMedia media;private HostedPlayerControls controls;private boolean closed,closing;
+    private Function<ApplicationHost,HostedPlayerRuntime> runtimeFactory;private HostedPlayerRuntime runtime;
+    /** Concrete factory binding, registered before the host or any actor exists. */
+    public void runtime(Function<ApplicationHost,HostedPlayerRuntime> factory){owned();if(host!=null||runtimeFactory!=null)throw new IllegalStateException("Runtime must bind once before host attachment");runtimeFactory=Objects.requireNonNull(factory);}
+    public HostedPlayerRuntime runtime(){owned();return Objects.requireNonNull(runtime,"Player runtime not bound");}
     public StandardMatchDomain(SceneConfig config,MapMetadata metadata,PreparedMap.Bound prepared,TomlTable raw,
             LifeRuntime.Clock clock,SourceRandom random,OwnerLoop loop,List<String> maps,LifeRuntime.Effects lifeEffects,LifeRuntime.Inputs inputs,Services services){
         this.config=Objects.requireNonNull(config);this.metadata=Objects.requireNonNull(metadata);this.clock=Objects.requireNonNull(clock);this.random=Objects.requireNonNull(random);this.loop=Objects.requireNonNull(loop);this.maps=List.copyOf(maps);this.services=Objects.requireNonNull(services);Objects.requireNonNull(lifeEffects);Objects.requireNonNull(inputs);
@@ -82,6 +86,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     private void owned(){if(Thread.currentThread()!=owner||closed)throw new IllegalStateException("Standard match outside active owner");}
     private ApplicationHost host(){owned();return Objects.requireNonNull(host,"Match host not attached");}
     public LifeRuntime lives(){owned();return lives;}public BaseRoundMode mode(){owned();return mode;}public StandardSpawns spawns(){owned();return spawns;}
+    public double monotonic(){owned();return clock.monotonic();}
     public Scoreboard scoreboard(){owned();return board;}public MatchLifeBinding binding(){owned();return binding;}public CombatEvidence combat(){owned();return combat;}public ProfileTracker profiles(){owned();return profiles;}
     public HostedMedia media(){owned();return Objects.requireNonNull(media,"Media not attached");}public HostedPlayerControls controls(){owned();return Objects.requireNonNull(controls,"Controls not attached");}
     private Map<Integer,Scoreboard.Player> rows(){return binding.players();}
@@ -97,6 +102,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
             public boolean selectable(int id){return AdmissionPolicy.classSelectable(id,config.rules(),config.mode(),false,false);}public boolean allowsSelection(PlayerLife p,ClassCatalog.Selection s){return true;}public boolean liveUgc(PlayerLife p,ClassCatalog.Selection s){return false;}
         },config.rules(),config.admission(),cooldown,clock::monotonic,clock::wall,loop,services::failure);
         media=new HostedMedia(host,this::lives,maps,random,loop);media.joinAudio(()->metadata,this::mode,()->musicEnabled,services::failure);
+        if(runtimeFactory!=null)runtime=Objects.requireNonNull(runtimeFactory.apply(host));
     }
     private final class Effects implements TdmMode.Effects,ArenaMode.Effects {
         public void resetLifeCounters(){binding.resetCounters();}public void matchStarted(){services.matchStarted();}public void gameplayMusic(){media().music().gameplay(musicEnabled);}public void rebuildResources(){services.rebuildResources();}
@@ -131,7 +137,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     }
     @Override public void close(){
         if(Thread.currentThread()!=owner)throw new IllegalStateException("Match outside owner");if(closed||closing)return;closing=true;Throwable error=null;
-        var cleanup=new ArrayList<Runnable>();if(media!=null)cleanup.add(()->media.ballot().close());cleanup.add(events::clear);cleanup.add(services::close);
+        var cleanup=new ArrayList<Runnable>();if(runtime!=null)cleanup.add(runtime::close);if(media!=null)cleanup.add(()->media.ballot().close());cleanup.add(events::clear);cleanup.add(services::close);
         try{for(var operation:cleanup)try{operation.run();}catch(RuntimeException|Error failure){if(error==null)error=failure;else if(error!=failure)error.addSuppressed(failure);}}finally{closed=true;}
         if(error instanceof Error fatal)throw fatal;if(error instanceof RuntimeException ordinary)throw ordinary;
     }

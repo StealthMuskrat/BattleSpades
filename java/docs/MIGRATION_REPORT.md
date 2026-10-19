@@ -17,7 +17,13 @@ version/config smokes and all four fresh native transport/packaged-loader profil
 The native loader uses FixtureScene; ordinary hosting exits 2. No supported retail-client
 test, complete platform gameplay or local-to-CI artifact hash identity is claimed.
 
-All five CI jobs are required for this checkpoint after publication. Full migration and
+All five CI jobs passed for implementation `3a61a755aaf90b86a14d8f7bfecd32b4ed25a52e`, tested/published tree
+`8b360bd0bfe3fb6c757f55df05e9c8e4c08bd123`, in [run 39187427065](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39187427065). The native job independently rebuilt
+the original oracles and reproduced all 77 configured generators. The build byte-compared
+repeated application archives. Ubuntu, Windows and macOS smoked the uploaded JAR and
+passed source-built component/integration tests. Every final step completed successfully
+or was intentionally skipped. No local-to-CI artifact hash identity or complete platform
+gameplay is claimed. Full migration and
 ordinary hosting remain incomplete. The original medpack/Zombie/VIP baseline discrepancies
 remain unwaived; these focused passes do not establish a passing full original baseline.
 

@@ -1,6 +1,6 @@
 # Hosted input checkpoint
 
-Hosted held-tool authorization, source-ordered recovery/unmount and fresh crouch/profile/score actions are bound to TDM/Arena. 6,314 Java tests and 795 focused original regressions pass locally. All five CI jobs are pending publication. Full hosting and migration remain incomplete. See [HOSTED_INPUTS.md](HOSTED_INPUTS.md).
+Hosted held-tool authorization, source-ordered recovery/unmount and fresh crouch/profile/score actions are bound to TDM/Arena. 6,314 Java tests and 795 focused original regressions pass locally. All five CI jobs pass in [run 39189298397](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39189298397). Full hosting and migration remain incomplete. See [HOSTED_INPUTS.md](HOSTED_INPUTS.md).
 
 ## Previous hosted-combat checkpoint
 

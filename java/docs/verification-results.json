@@ -32,17 +32,38 @@
       "skipped": 0
     }
   },
-  "verification_stage": "Production factory and connected-player runtime local verification complete; CI pending publication",
-  "java_implementation_commit": null,
-  "tested_tree": null,
+  "verification_stage": "Production factories and connected-player runtime verified locally and by all five CI jobs",
+  "java_implementation_commit": "f96bbca34a9880450ecc27e81a444a8ba9d35977",
+  "tested_tree": "a781f34b3178525f352f01399a1ff8897fb71788",
   "ci": {
-    "status": "pending_publication",
-    "all_five_jobs_passed": false,
-    "all_final_steps_verified": false,
+    "status": "success",
+    "all_five_jobs_passed": true,
+    "all_final_steps_verified": true,
     "configured_generators": 77,
     "full_reference_python_baseline_passing": false,
     "local_to_ci_artifact_hash_compared": false,
-    "packaged_native_probe_player_domain": "FixtureScene; actual UDP additionally exercises StandardMatchFactory and factory-backed HostedSimulation"
+    "packaged_native_probe_player_domain": "FixtureScene; actual UDP additionally exercises StandardMatchFactory and factory-backed HostedSimulation",
+    "run_id": 39183158502,
+    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39183158502",
+    "head_sha": "f96bbca34a9880450ecc27e81a444a8ba9d35977",
+    "jobs": {
+      "build": "success",
+      "native-enet": "success",
+      "platform (macos-latest)": "success",
+      "platform (windows-latest)": "success",
+      "platform (ubuntu-latest)": "success"
+    },
+    "job_ids": {
+      "build": 117840023790,
+      "native-enet": 117840024003,
+      "platform (macos-latest)": 117840352676,
+      "platform (windows-latest)": 117840352735,
+      "platform (ubuntu-latest)": 117840352805
+    },
+    "native_original_fixtures_reproduced": true,
+    "repeated_ci_archive_identical": true,
+    "same_uploaded_jar_three_platforms": true,
+    "component_and_udp_tests_use_source_built_classes": true
   },
   "movement": {
     "cases": 118,
@@ -395,12 +416,12 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": false,
+    "branch_updated": true,
     "expected_parent": "63f4fcec9d124906a545f871ec0f6ccda1bda7da",
     "force": false,
     "authorization": "User authorized this and future verified migration checkpoints, code/workflow changes and all five CI jobs; requested multiple implementations per batch.",
-    "implementation_commit": null,
-    "tested_tree": null
+    "implementation_commit": "f96bbca34a9880450ecc27e81a444a8ba9d35977",
+    "tested_tree": "a781f34b3178525f352f01399a1ff8897fb71788"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -5058,6 +5079,8 @@
     "connected_player_runtime_bound": true,
     "source_bot_eligibility_gate": true,
     "all_production_domains_complete": false,
-    "production_bootstrap_enabled": false
+    "production_bootstrap_enabled": false,
+    "ci_implementation_commit": "f96bbca34a9880450ecc27e81a444a8ba9d35977",
+    "ci_run_id": 39183158502
   }
 }

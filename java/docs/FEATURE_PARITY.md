@@ -1,3 +1,9 @@
+# Production-assembly checkpoint
+
+TDM/Arena concrete domains, prepared-map spawn binding, reliable known-player delivery and asynchronous host/frame assembly are implemented. 6,303 Java tests and 350 focused original regressions pass locally. All five CI jobs are pending publication. Full hosting and migration remain incomplete. See [PRODUCTION_ASSEMBLY.md](PRODUCTION_ASSEMBLY.md).
+
+## Previous Arena checkpoint
+
 # Arena and shared-round follow-up
 
 ArenaMode, shared BaseRoundMode, JoinAudio and actual early admission audio binding are implemented. 6,295 Java tests and 350 focused original regressions pass locally. All five CI jobs pass in

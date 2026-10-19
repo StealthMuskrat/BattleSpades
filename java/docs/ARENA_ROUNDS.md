@@ -1,3 +1,5 @@
+This is the preceding Arena policy checkpoint. [Production assembly](PRODUCTION_ASSEMBLY.md) is the current follow-up.
+
 # Arena rounds, shared lifecycle and early join audio
 
 Local Java check/build passes **6,256 component + 39 integration = 6,295 tests**,

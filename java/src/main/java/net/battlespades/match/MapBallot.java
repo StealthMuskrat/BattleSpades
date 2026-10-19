@@ -10,7 +10,7 @@ import net.battlespades.protocol.*;
 import net.battlespades.runtime.OwnerSequence;
 
 /** Source next-map ballot lifecycle. Ranked/discovered candidate selection and kick votes are separate services. */
-public final class MapBallot<P> {
+public final class MapBallot<P> implements AutoCloseable {
     public static final double DURATION=((Number)SourceCatalog.load("round-media").get("mapVoteSeconds")).doubleValue();
     private final OwnerSequence owner;
     private final Supplier<Map<Integer,P>> players;
@@ -23,6 +23,7 @@ public final class MapBallot<P> {
     private final BooleanSupplier blocked;
     private Ballot ballot;
     private String next;
+    private boolean closed;
     private final class Ballot {
         final List<String> candidates;final Map<Integer,Integer> votes=new LinkedHashMap<>();final Set<Waiter> waiters=new LinkedHashSet<>();final double opened,deadline;boolean active=true;
         Ballot(List<String> candidates,double opened){this.candidates=List.copyOf(candidates);this.opened=opened;deadline=monotonic.getAsDouble()+DURATION;}
@@ -50,7 +51,7 @@ public final class MapBallot<P> {
     public Map<Integer,Integer> votes(){owner.owned();return active()?Map.copyOf(ballot.votes):Map.of();}
     public String nextMap(){owner.owned();return next;}
     public boolean start(List<String> raw,double wallNow){
-        owner.owned();if(active()||blocked.getAsBoolean())return false;var normalized=new ArrayList<String>();var seen=new HashSet<String>();
+        owner.owned();if(closed||active()||blocked.getAsBoolean())return false;var normalized=new ArrayList<String>();var seen=new HashSet<String>();
         for(var rawName:raw){String value=NameUnicode.strip(rawName);if(value.isEmpty()||value.equals(".")||value.indexOf('/')>=0)continue;int dot=value.lastIndexOf('.');if(dot>0&&value.substring(dot).equalsIgnoreCase(".vxl"))value=value.substring(0,dot);
             try{VoteText.dynamic(value);}catch(IllegalArgumentException invalid){continue;}String key=NameUnicode.casefold(value);if(!available.isEmpty()){value=available.get(key);if(value==null)continue;key=NameUnicode.casefold(value);}if(!seen.add(key))continue;normalized.add(value);if(normalized.size()==3)break;
         }
@@ -71,6 +72,8 @@ public final class MapBallot<P> {
         owner.owned();if(!active())return;if(ballot.votes.remove(playerId)!=null)broadcast.accept(packet(2));var remaining=eligibleIds(playerId);if(!remaining.isEmpty()&&ballot.votes.keySet().containsAll(remaining))resolve();
     }
     public void cancel(){owner.owned();if(!active())return;broadcast.accept(packet(3));clear();}
+    /** Disposal after transport shutdown releases waits/timers without attempting another HUD send. */
+    @Override public void close(){owner.owned();closed=true;next=null;if(active())clear();}
     public String consume(){owner.owned();var value=next;next=null;return value;}
     private List<Integer> counts(){var counts=new ArrayList<>(Collections.nCopies(ballot.candidates.size(),0));for(int index:ballot.votes.values())if(index>=0&&index<counts.size())counts.set(index,counts.get(index)+1);return counts;}
     private VotePacket packet(int type){

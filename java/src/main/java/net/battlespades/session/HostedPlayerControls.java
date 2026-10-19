@@ -30,7 +30,7 @@ public final class HostedPlayerControls {
             public ClassCatalog.Selection normalize(int id,List<Integer> tools,List<String> prefabs,List<Integer> ugc,int fallback){return mode.normalize(id,tools,prefabs,ugc,fallback);}public boolean selectable(int id){return mode.selectable(id);}public boolean allows(PlayerLife p,ClassCatalog.Selection s){return mode.allowsSelection(p,s);}public boolean liveUgc(PlayerLife p,ClassCatalog.Selection s){return mode.liveUgc(p,s);}
             public void send(PlayerLife p,GamePacket packet){host.sendPlayer(p.id(),packet);}public void broadcast(GamePacket packet){host.broadcast(packet,Delivery.RELIABLE);}public void failure(String label,RuntimeException error){failure.accept(label,error);}
         },monotonic);
-        controls=new PlayerControls(changes,selections,new PaletteRelay(lives,()->rules.enabled("RULE_ENABLE_COLOUR_PICKER"),monotonic,loop,(p,packet)->host.broadcastExcept(packet,Delivery.RELIABLE,p.id())));lives.controls(controls);
+        controls=new PlayerControls(changes,selections,new PaletteRelay(lives,()->rules.enabled("RULE_ENABLE_COLOUR_PICKER"),monotonic,loop,(p,packet)->host.broadcastKnownExcept(packet,Delivery.RELIABLE,p.id(),p.id())));lives.controls(controls);
     }
     public TeamChanges teams(){return changes;}public void resetPalette(){controls.resetPalette();}
 }

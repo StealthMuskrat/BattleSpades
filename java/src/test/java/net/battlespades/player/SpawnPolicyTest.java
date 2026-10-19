@@ -14,6 +14,19 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SpawnPolicyTest {
+    @TestFactory Stream<DynamicTest> actualBaseModeToNativeWorldManagerAndFinalRescue()throws Exception{
+        List<String[]> source;try(var in=Objects.requireNonNull(getClass().getResourceAsStream("/golden/standard-spawns.tsv"))){source=new String(in.readAllBytes(),StandardCharsets.UTF_8).lines().map(line->line.split("\t")).toList();}
+        return Stream.of("flat","sea","empty").map(name->DynamicTest.dynamicTest(name,()->{
+            try(var f=fixture(name)){
+                var rules=net.battlespades.rules.GameRules.serverDefaults();var random=new SourceRandom(168);PlayerLife[] actor={null};double[] now={100};
+                var spawns=new StandardSpawns(f.geometry,new Object(),random,()->List.of(actor[0]),()->now[0]);int step=0;
+                for(var row:source)if(row[0].equals(name)){
+                    actor[0]=new PlayerLife(0,Integer.parseInt(row[1]),0,"Spawn","tdm",net.battlespades.physics.CollisionMap.of(f.world),rules,ClassCatalog.normalize(0,List.of(),rules));now[0]=100+step++;
+                    var at=spawns.spawn(actor[0]);exact(row[2],new Position(at.x(),at.y(),at.z()),name+"/"+step);actor[0].camera(at,0x123456);spawns.death(actor[0]);assertEquals(Double.doubleToLongBits(Double.parseDouble(row[3])),Double.doubleToLongBits(random.random()),name+" shared random stream "+step);
+                }assertEquals(6,step);
+            }
+        }));
+    }
     private static List<String[]> rows(String name)throws IOException{
         try(var in=new GZIPInputStream(Objects.requireNonNull(SpawnPolicyTest.class.getResourceAsStream("/golden/spawn-"+name+".tsv.gz")))){
             return new String(in.readAllBytes(),StandardCharsets.UTF_8).lines().map(s->s.split("\t",-1)).toList();

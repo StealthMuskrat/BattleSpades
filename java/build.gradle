@@ -30,6 +30,7 @@ sourceSets {
     }
 }
 configurations {
+    testSupportImplementation.extendsFrom implementation
     integrationTestImplementation.extendsFrom testImplementation
     integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
 }

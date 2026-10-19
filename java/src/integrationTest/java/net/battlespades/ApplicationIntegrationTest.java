@@ -92,8 +92,10 @@ class ApplicationIntegrationTest {
     }
     private static final class Loop {
         final ApplicationHost host;final List<Client> clients=new ArrayList<>();long now;int tickOffset,explicitTick=-1;
+        @FunctionalInterface interface Pump {void service(long now)throws Exception;}
+        Pump pump;
         Loop(ApplicationHost host) {this.host=host;}
-        void step() throws Exception {host.service(++now,explicitTick>=0?explicitTick:tickOffset+(int)(now*60/1000));for(var client:clients) client.drain();}
+        void step() throws Exception {now++;if(pump==null)host.service(now,explicitTick>=0?explicitTick:tickOffset+(int)(now*60/1000));else pump.service(now);for(var client:clients) client.drain();}
         void until(BooleanSupplier condition) throws Exception {long deadline=System.nanoTime()+4_000_000_000L;while(!condition.getAsBoolean()) {assertTrue(System.nanoTime()<deadline,"UDP application loop timed out");step();Thread.onSpinWait();}}
         void settleSerial(Client client,int serverLoop)throws Exception {
             int marker=10000+client.peerId;client.send(new SimplePackets.ClockSync(marker,0),false);
@@ -108,6 +110,27 @@ class ApplicationIntegrationTest {
             clients.add(client);client.connect();until(()->client.peerId>=0);client.send(new LoadingPackets.SteamSessionTicket(new byte[]{3,7,19},capability==0?new byte[0]:new byte[]{'B','S','C','F',(byte)capability}),false);client.key=new byte[]{3,7,19};
             until(()->client.has(114));client.send(new SimplePackets.MapDataValidation(world.sourceCrc()),false);until(()->client.has(45));
         }
+    }
+    @Test void productionArenaAssemblyKeepsUdpLoadingRunnableAndFiltersUnknownLivesAcrossRespawnAndSlotReuse(){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            var prepared=net.battlespades.support.StandardPorts.prepared(temp.resolve("Production.vxl"),"arena");var ports=new net.battlespades.support.StandardPorts();
+            try(var owner=new net.battlespades.runtime.OwnerLoop(0,1024,256,error->fail(error));var state=new HostedSceneState("Production","arena",prepared,1,10000,Map.of("arena",(map,code,bound)->ports.create(map,code,bound,prepared.assembly().metadata(),owner)));var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),4,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),state.scene(),new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var b=new Client(host.address());var late=new Client(host.address());var replacement=new Client(host.address())){
+                state.attach(host);var match=(StandardMatchDomain)state.domain();var mode=(ArenaMode)match.mode();var periodic=ports.periodic(owner);var repair=ports.repair(host,match);int[] snapshots={0};
+                var simulation=new HostedSimulation(host,owner,()->(StandardMatchDomain)state.domain(),()->periodic,()->repair,ports,()->snapshots[0]++,System::nanoTime,net.battlespades.runtime.IngamePackets.Settings.defaults(1024,256));simulation.start();var loop=new Loop(host);loop.pump=now->{ports.wall=1000+now/1000.0;ports.monotonic=100+now/1000.0;simulation.pump(now*1_000_000);};
+                for(var client:List.of(a,b)){loop.ticketAndLoad(client,match.world());client.send(new SimplePackets.NewPlayerConnection(client==a?2:3,0,0,0,"Production"),false);loop.until(()->client.has(69));}
+                loop.until(()->{try{a.send(new ClientInput(100,127,false,6,1,0,0,0,0,24,0),false);b.send(new ClientInput(200,127,false,6,1,0,0,0,0,24,0),false);}catch(Exception error){throw new IllegalStateException(error);}return host.inGame(0)&&host.inGame(1);});assertEquals(1,match.teams().getFirst().playerCount());assertEquals(1,match.teams().get(1).playerCount());
+                loop.now=Math.max(loop.now,5001);loop.until(()->mode.state().started());assertEquals(2,mode.state().fighters().size());
+                var gate=new java.util.concurrent.CompletableFuture<Void>();ports.playerPhase=gate;ports.log.clear();loop.until(()->simulation.advancing()&&ports.log.contains("PLAYERS"));long pausedTick=simulation.ticks();int pausedSnapshots=snapshots[0];
+                loop.ticketAndLoad(late,match.world());assertEquals(pausedTick,simulation.ticks());assertEquals(pausedSnapshots,snapshots[0]);assertTrue(late.has(45));assertFalse(gate.isDone());late.send(new SimplePackets.NewPlayerConnection(3,0,0,0,"Dead arrival"),false);loop.until(()->match.lives().players().size()==3);var newcomer=match.lives().player(2);assertFalse(newcomer.alive());
+                assertEquals(0,host.broadcastKnown(new SimplePackets.SetScore(1,0,2,500),Delivery.RELIABLE,2));assertEquals(Set.of(0,1),host.scorePeer(0).orElseThrow().knownPlayers().orElseThrow());assertTrue(a.packets.stream().noneMatch(p->p instanceof PlayerPackets.CreatePlayer c&&c.playerId()==2));
+                var worker=new Thread(()->gate.complete(null));worker.start();worker.join();ports.playerPhase=java.util.concurrent.CompletableFuture.completedFuture(null);loop.until(()->{try{late.send(new ClientInput(300,127,false,6,1,0,0,0,0,24,0),false);}catch(Exception error){throw new IllegalStateException(error);}return host.inGame(2);});
+                loop.until(()->late.has(26));assertTrue(late.packets.stream().anyMatch(p->p instanceof PlayerPackets.CreatePlayer c&&c.playerId()==0));assertEquals(Set.of(0,1,2),host.scorePeer(2).orElseThrow().knownPlayers().orElseThrow());assertEquals(Set.of(0,1),host.scorePeer(0).orElseThrow().knownPlayers().orElseThrow());
+                match.lives().die(1,0,0);loop.until(()->mode.state().ended());assertEquals(1,match.teams().getFirst().score);loop.now+=5001;loop.until(()->mode.state().round()==2&&newcomer.alive());loop.until(()->a.packets.stream().anyMatch(p->p instanceof PlayerPackets.CreatePlayer c&&c.playerId()==2));assertTrue(host.scorePeer(0).orElseThrow().knownPlayers().orElseThrow().contains(2));assertEquals(3,match.lives().players().size());
+                var stalePeer=host.scorePeer(2).orElseThrow();host.disconnectPlayer(2,24);loop.until(()->!stalePeer.inGame()&&match.lives().players().size()==2);assertFalse(host.scorePeer(0).orElseThrow().knownPlayers().orElseThrow().contains(2));assertEquals(1,match.teams().get(1).playerCount());
+                loop.ticketAndLoad(replacement,match.world());replacement.send(new SimplePackets.NewPlayerConnection(3,0,0,0,"Reused slot"),false);loop.until(()->match.lives().players().size()==3);assertNotSame(newcomer,match.lives().player(2));stalePeer.send(new SimplePackets.SetScore(1,0,2,999));assertTrue(stalePeer.knownPlayers().orElseThrow().isEmpty());
+                var stop=simulation.stop().toCompletableFuture();loop.until(stop::isDone);stop.join();assertTrue(mode.clock().retiring);assertTrue(ports.errors.isEmpty());assertTrue(snapshots[0]>0);
+            }assertEquals(1,ports.closes);
+        });
     }
     @Test void stagedRolloverRetainsLiveAndTeamSelectionPeersAcrossDifferentMapChecksums(){
         assertTimeoutPreemptively(Duration.ofSeconds(15),()->{

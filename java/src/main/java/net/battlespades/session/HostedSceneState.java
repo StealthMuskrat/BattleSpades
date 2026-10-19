@@ -12,6 +12,7 @@ public final class HostedSceneState implements AutoCloseable {
         JoinScene scene();TransitionMode mode();TransitionRoster transitionRoster();List<TeamState> teams();ModeEvents events();
         @Override void close();
     }
+    public interface HostBoundDomain extends Domain {void attach(ApplicationHost host);}
     /** Only explicitly registered concrete modes can be installed. A failing factory owns its partial domain cleanup. */
     @FunctionalInterface public interface Factory {Domain create(String map,String code,PreparedMap.Bound prepared);}
     private static final class Entry {
@@ -33,7 +34,7 @@ public final class HostedSceneState implements AutoCloseable {
         active=create(map,code,initial,epoch);retained.add(active);
     }
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Scene state outside owner");if(closed)throw new IllegalStateException("Scene state closed");}
-    public void attach(ApplicationHost application){owned();if(host!=null)throw new IllegalStateException("Host already attached");if(application.transitionScene()!=active.scene)throw new IllegalArgumentException("Host starts with another scene");host=application;}
+    public void attach(ApplicationHost application){owned();if(host!=null)throw new IllegalStateException("Host already attached");if(application.transitionScene()!=active.scene)throw new IllegalArgumentException("Host starts with another scene");if(active.domain instanceof HostBoundDomain bound)bound.attach(application);host=application;}
     private ApplicationHost host(){if(host==null)throw new IllegalStateException("Host not attached");return host;}
     public JoinScene scene(){owned();return active.scene;}public Domain domain(){owned();return active.domain;}public PreparedMap.Bound prepared(){owned();return active.prepared;}
     public boolean hasMode(String code){owned();return factories.containsKey(code);}
@@ -49,7 +50,7 @@ public final class HostedSceneState implements AutoCloseable {
     }
     public void install(String map,String code,PreparedMap candidate){
         owned();host();epoch=Math.incrementExact(epoch);var next=create(map,code,candidate,epoch);
-        try{host.installTransitionScene(next.scene);}catch(RuntimeException|Error failure){dispose(next,failure);throw failure;}
+        try{if(next.domain instanceof HostBoundDomain bound)bound.attach(host);host.installTransitionScene(next.scene);}catch(RuntimeException|Error failure){dispose(next,failure);throw failure;}
         retained.add(next);active=next;fogOverride=null;
     }
     public void setMode(TransitionMode mode){owned();if(mode!=active.mode)throw new IllegalArgumentException("Mode does not belong to installed domain");}

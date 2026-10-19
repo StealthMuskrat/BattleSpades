@@ -70,6 +70,18 @@ class JoinSessionTest {
         @Override public void close() {session.close();scene.close();compression.close();}
     }
     private static final class WireWriter {byte[] frame(byte[] data) {return new net.battlespades.protocol.Wire.Writer().u8(0x30).bytes(data).toByteArray();}}
+    @Test void reliableRosterVisibilitySurvivesBackpressureAndForgetsDeparturesAndSceneReload(){
+        try(var h=new Flow()){
+            h.load();h.select();h.game();assertEquals(java.util.Set.of(0),h.session.knownPlayers());
+            var p=new PlayerPackets.CreatePlayer(1,0,5,2,0,0,new Vector3f(1,2,3),new Vector3f(1,0,0),"Remote",List.of(),List.of());
+            var score=new SimplePackets.SetScore(1,0,1,100);assertFalse(h.session.gameplayKnown(score,Delivery.RELIABLE,1));
+            h.wire.accepted=false;assertTrue(h.session.gameplay(p,Delivery.RELIABLE));assertTrue(h.session.gameplayKnown(score,Delivery.RELIABLE,1));assertEquals(java.util.Set.of(0,1),h.session.knownPlayers());
+            assertTrue(h.session.gameplayKnown(new SimplePackets.PlayerLeft(1),Delivery.RELIABLE,1));assertFalse(h.session.gameplayKnown(score,Delivery.RELIABLE,1));
+            h.wire.accepted=true;h.pulse(0);assertFalse(h.session.knownPlayers().contains(1));
+            var tail=h.wire.ids().subList(h.wire.ids().size()-3,h.wire.ids().size());assertEquals(List.of(28,85,64),tail);
+            h.session.replaceScene(h.scene);assertTrue(h.session.knownPlayers().isEmpty());h.session.close();assertTrue(h.session.knownPlayers().isEmpty());
+        }
+    }
     @Test void admissionAudioQueuesBeforeTerrainReplayAndRunsOnceAcrossBackpressure(){
         try(var h=new Flow()){
             h.load();h.client(new SimplePackets.NewPlayerConnection(0,5,0,1,"Spectator"));h.pulse(0);h.scene.world().set(new MutableWorld.Cell(12,13,100),true,0x123456,null);int[] calls={0};h.scene.beforeReplayOperation=id->{calls[0]++;assertTrue(h.session.direct(new AudioPackets.Music("mainmenu",0)));};h.wire.frames.clear();h.wire.blockedId=26;h.client(new SimplePackets.ClientInMenu(0));h.pulse(0);assertEquals(1,calls[0]);assertFalse(h.session.inGame());assertFalse(h.wire.ids().contains(33));h.pulse(50);assertEquals(1,calls[0]);h.wire.blockedId=-1;h.pulse(50);h.pulse(50);assertTrue(h.session.inGame());assertEquals(1,calls[0]);assertTrue(h.wire.ids().indexOf(26)>=0);assertTrue(h.wire.ids().indexOf(33)>h.wire.ids().indexOf(26));assertEquals(0,h.scene.world().activeLeases());assertTrue(h.scene.inputs.isEmpty());

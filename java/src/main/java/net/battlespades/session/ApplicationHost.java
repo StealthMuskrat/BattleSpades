@@ -84,6 +84,22 @@ public final class ApplicationHost implements AutoCloseable {
         for(var session:sessions.values()) session.pulse(nowMillis,loopCount);
     }
     public int broadcast(GamePacket packet,Delivery delivery) {owned();if(closing)return 0;int accepted=0;for(var session:sessions.values()) if(session.gameplay(packet,delivery)) accepted++;return accepted;}
+    /** Source known_player_lives gate; reliable queue acceptance establishes or forgets visibility. */
+    public int broadcastKnown(GamePacket packet,Delivery delivery,int playerId){owned();if(closing)return 0;int accepted=0;for(var session:sessions.values())if(session.gameplayKnown(packet,delivery,playerId))accepted++;return accepted;}
+    public int broadcastKnownExcept(GamePacket packet,Delivery delivery,int playerId,int excludedPlayer){owned();if(closing)return 0;int accepted=0;for(var session:sessions.values())if(session.playerId().orElse(-1)!=excludedPlayer&&session.gameplayKnown(packet,delivery,playerId))accepted++;return accepted;}
+    public java.util.Optional<net.battlespades.match.Scoreboard.Peer> scorePeer(int playerId){
+        owned();if(closing)return java.util.Optional.empty();
+        for(var session:sessions.values())if(session.playerId().orElse(-1)==playerId){
+            long epoch=session.metrics().generation(),identity=session.playerIdentity();
+            return java.util.Optional.of(new net.battlespades.match.Scoreboard.Peer(){
+                private boolean current(){owned();return !closing&&sessions.containsValue(session)&&session.metrics().generation()==epoch&&session.playerIdentity()==identity;}
+                public boolean inGame(){return current()&&session.inGame();}
+                public java.util.Optional<java.util.Set<Integer>> knownPlayers(){return java.util.Optional.of(current()?session.knownPlayers():java.util.Set.of());}
+                public void send(GamePacket packet){if(current())session.direct(packet);}
+            });
+        }return java.util.Optional.empty();
+    }
+    public List<net.battlespades.match.Scoreboard.Peer> scorePeers(){owned();return sessions.values().stream().filter(s->s.playerId().isPresent()).flatMap(s->scorePeer(s.playerId().orElseThrow()).stream()).toList();}
     /** Source remote firearm feedback excludes the predicting owner while retaining sequenced-unreliable delivery. */
     public int broadcastExcept(GamePacket packet,Delivery delivery,int excludedPlayer){owned();if(closing)return 0;int accepted=0;for(var session:sessions.values())if(session.playerId().orElse(-1)!=excludedPlayer&&session.gameplay(packet,delivery))accepted++;return accepted;}
     public List<WorldUpdateLink> snapshotLinks(){owned();return closing?List.of():sessions.values().stream().map(session->(WorldUpdateLink)session).toList();}

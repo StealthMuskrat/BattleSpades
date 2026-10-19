@@ -1,0 +1,19 @@
+{
+  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "traces": 3,
+  "spawns": 18,
+  "policy_substitutions": false,
+  "inputs": "Frozen spawn-layouts.tsv.gz; explicit dead actors, monotonic clock and shared seed 168. Intact BaseMode initialization and get_spawn_point, WorldManager including native VXL random positions, final RoundLifecycle resolve and spawn intel death updates.",
+  "source_files": {
+    "modes/base_mode.py": "ea3ae72b3ecd5ae70f7e71c30233cf3b4675d7f59ba0d95216e6c71c2fa34c2e",
+    "modes/tdm.py": "7839129f43852d13d4805ed7a2edfe882ac1cf050f975550675f0772e425d7b2",
+    "server/world_manager.py": "b2ef9c97255c290ea946dc4a4a415b46ba26bd69db9997276bcce6a3ef45fc63",
+    "server/spawn_selection.py": "50c82cee5f3d2f681614aab191732c91c4b8eb8214f3690ffd8cd6783f9df9fd",
+    "server/round_lifecycle.py": "305323162e64b63b6fe2dd56fae89f1926b950605d03b697068325053321c683",
+    "aoslib/vxl.pyx": "c24f5102983d08f72aa710bbe6315ac5714b2226dafc67b968dcbd789876460d"
+  },
+  "fixtures": {
+    "spawn-layouts.tsv.gz": "a47306181482f11cda52cbd69060fa8500ef893a5a480db2fbc6f585e4ca93b3",
+    "standard-spawns.tsv": "5e182a9bff9b2baec7e41c169817520e9ff6670b62f49cab5120059929a71d75"
+  }
+}

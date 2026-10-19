@@ -14,7 +14,7 @@ import org.tomlj.TomlTable;
 public final class StandardMatchFactory implements HostedSceneState.Factory {
     public record Creation(String map,String code,PreparedMap.Bound prepared,MapMetadata metadata){}
     /** These services belong to one candidate; Services.close owns their external resource cleanup. */
-    public record Ports(LifeRuntime.Effects life,LifeRuntime.Inputs inputs,StandardMatchDomain.Services services,HostedPlayerRuntime.Ports players,HostedEntityRuntime.Ports entities,HostedCombatRuntime.Ports combat){
+    public record Ports(LifeRuntime.Effects life,HostedInputRuntime.Ports inputs,StandardMatchDomain.Services services,HostedPlayerRuntime.Ports players,HostedEntityRuntime.Ports entities,HostedCombatRuntime.Ports combat){
         public Ports{Objects.requireNonNull(life);Objects.requireNonNull(inputs);Objects.requireNonNull(services);Objects.requireNonNull(players);Objects.requireNonNull(entities);Objects.requireNonNull(combat);}
     }
     private final Thread owner=Thread.currentThread();private final SceneConfig config;private final TomlTable raw;

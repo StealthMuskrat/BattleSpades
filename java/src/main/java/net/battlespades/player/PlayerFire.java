@@ -24,6 +24,7 @@ public final class PlayerFire {
     public void link(ActionClock.Link value){owned();link=value;}
     public ActionClock.Link link(){owned();return link;}
     public State state(){owned();return new State(raw,beforeMachineGun,lastShot,nextShot,floor,donePending);}
+    void forgetMachineGun(){owned();beforeMachineGun=null;}
     public boolean spade(){owned();return raw&&CombatCatalog.SPADES.contains(player.inventory().tool());}
     public boolean weapon(){owned();return raw?LifeCatalog.WEAPON_TOOLS.contains(player.inventory().tool()):LifeCatalog.WEAPONS.containsKey(player.inventory().weapon());}
     public Profile profile(){

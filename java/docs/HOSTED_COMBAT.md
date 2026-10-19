@@ -1,3 +1,5 @@
+This is the preceding hosted-combat checkpoint. [Hosted input actions](HOSTED_INPUTS.md) is the current follow-up.
+
 # Hosted shooting and terrain combat
 
 Local Java check/build passes **6,271 component + 41 integration = 6,312 tests**,

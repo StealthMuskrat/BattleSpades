@@ -53,7 +53,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     public interface Inputs {
         void reset(PlayerLife player);
         /** Fresh immediate state only. All received rows are recorded by the production timeline first.
-         * This port still owns tool/action authorization and conduct; it must never step per arrival.
+         * HostedInputRuntime implements ordinary tool/crouch conduct; this port must never step per arrival.
          */
         void receive(PlayerLife player,LiveClientInput input,int receivedLoop);
         void packet(PlayerLife player,GamePacket packet);

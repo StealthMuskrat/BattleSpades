@@ -1,3 +1,9 @@
+# Hosted input checkpoint
+
+Hosted held-tool authorization, source-ordered recovery/unmount and fresh crouch/profile/score actions are bound to TDM/Arena. 6,314 Java tests and 795 focused original regressions pass locally. All five CI jobs are pending publication. Full hosting and migration remain incomplete. See [HOSTED_INPUTS.md](HOSTED_INPUTS.md).
+
+## Previous hosted-combat checkpoint
+
 # Hosted shot and terrain checkpoint
 
 Owned packet-6 combat, terrain/collapse/repair/profile/scoring/events and exact frame timing are bound to TDM/Arena factories. 6,312 Java tests and 673 focused original regressions pass locally. All five CI jobs pass in [run 39187427065](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39187427065). Full hosting and migration remain incomplete. See [HOSTED_COMBAT.md](HOSTED_COMBAT.md).

@@ -13,6 +13,9 @@ public final class TeabagTracker {
     private final BooleanSupplier classic,points;
     public TeabagTracker(Supplier<Map<Integer,Scoreboard.Player>> players,ObjectiveScores objectives,ProfileTracker profiles,BooleanSupplier classic,BooleanSupplier points){this.players=Objects.requireNonNull(players);this.objectives=Objects.requireNonNull(objectives);this.profiles=Objects.requireNonNull(profiles);this.classic=Objects.requireNonNull(classic);this.points=Objects.requireNonNull(points);}
     public void forget(Scoreboard.Player p){states.remove(p.life);}
+    /** Source spawn clears completed deaths but retains the rolling press timestamps. */
+    public void spawned(Scoreboard.Player p){var s=states.get(p.life);if(s!=null)s.done.clear();}
+    public void clear(){states.clear();}
     public List<Double> presses(Scoreboard.Player p){var s=states.get(p.life);return s==null?List.of():List.copyOf(s.presses);}
     public int completed(Scoreboard.Player p){var s=states.get(p.life);return s==null?0:s.done.size();}
     public boolean crouch(Scoreboard.Player p,double now){

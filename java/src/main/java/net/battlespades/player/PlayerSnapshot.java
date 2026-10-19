@@ -25,8 +25,7 @@ public final class PlayerSnapshot implements ReplicationService.Player {
         if((input&64)!=0)action|=128;
         int state=(flight.canopy()?1:0)|(presentation.disguised?2:0)|((life.jetpack()==69&&(input&128)!=0)?4:0)|(presentation.touchingGoo?8:0);
         boolean live=life.alive()&&life.spawned();int tool=presentation.tool;
-        boolean authorized=live&&tool>=0&&tool<66&&life.toolEnabled(tool)&&presentation.modeAllowsTool&&
-            (life.selection().loadout().contains(tool)||(tool==15&&presentation.mountedMachineGunAuthorized));
+        boolean authorized=ToolSelection.authorized(life,tool,presentation.modeAllowsTool,presentation.mountedMachineGunAuthorized);
         var velocity=life.spawned()||life.generation()>0?PlayerMotion.clipped(life.body().state().velocity()):new Vector(0,0,0);
         var row=new WorldUpdate.PlayerRow(life.id(),wire(life.position()),wire(life.aim()),wire(velocity),0,life.worldUpdateAck(),life.health(),motion.movement(),action,state,
             tool,presentation.pickup==null?255:presentation.pickup,flight.fuel(),life.protectionRemaining(now),0);

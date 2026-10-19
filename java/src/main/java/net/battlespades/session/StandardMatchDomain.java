@@ -38,6 +38,8 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     private final TransitionRoster transition;private final ConfiguredScene scene;
     private ApplicationHost host;private HostedMedia media;private HostedPlayerControls controls;private boolean closed,closing;
     private Function<ApplicationHost,HostedPlayerRuntime> runtimeFactory;private HostedPlayerRuntime runtime;
+    private final HostedInputRuntime inputRuntime;
+    public HostedInputRuntime inputs(){owned();return inputRuntime;}
     private int frameLoop;
     public int frameLoop(){owned();return frameLoop;}public void frameLoop(int tick){owned();frameLoop=tick;}
     private Function<ApplicationHost,HostedCombatRuntime> combatFactory;private HostedCombatRuntime combatRuntime;
@@ -50,7 +52,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     public void runtime(Function<ApplicationHost,HostedPlayerRuntime> factory){owned();if(host!=null||runtimeFactory!=null)throw new IllegalStateException("Runtime must bind once before host attachment");runtimeFactory=Objects.requireNonNull(factory);}
     public HostedPlayerRuntime runtime(){owned();return Objects.requireNonNull(runtime,"Player runtime not bound");}
     public StandardMatchDomain(SceneConfig config,MapMetadata metadata,PreparedMap.Bound prepared,TomlTable raw,
-            LifeRuntime.Clock clock,SourceRandom random,OwnerLoop loop,List<String> maps,LifeRuntime.Effects lifeEffects,LifeRuntime.Inputs inputs,Services services){
+            LifeRuntime.Clock clock,SourceRandom random,OwnerLoop loop,List<String> maps,LifeRuntime.Effects lifeEffects,HostedInputRuntime.Ports inputs,Services services){
         this.config=Objects.requireNonNull(config);this.metadata=Objects.requireNonNull(metadata);this.clock=Objects.requireNonNull(clock);this.random=Objects.requireNonNull(random);this.loop=Objects.requireNonNull(loop);this.maps=List.copyOf(maps);this.services=Objects.requireNonNull(services);Objects.requireNonNull(lifeEffects);Objects.requireNonNull(inputs);
         if(!Set.of("tdm","arena").contains(config.modeCode())||!metadata.activeMode().equals(config.modeCode())||metadata.environment().sourceCrc()!=prepared.world().sourceCrc())throw new IllegalArgumentException("Standard match requires matching TDM/Arena map and config");
         cooldown=5;respawn=number(raw,"game.respawn_time",5);musicEnabled=raw.getBoolean("audio.mode_start_music",()->true);
@@ -77,8 +79,8 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
         },binding,new LifeRuntime.Messages(){
             public void broadcast(GamePacket p){send(p,true,knownId(p));}public void owner(int id,GamePacket p){host().sendPlayer(id,p);}public boolean inGame(int id){return host().inGame(id);}
         },new LifeRuntime.Inputs(){
-            public void reset(PlayerLife p){inputs.reset(p);}public void receive(PlayerLife p,LiveClientInput input,int receivedLoop){inputs.receive(p,input,receivedLoop);}
-            public void packet(PlayerLife p,GamePacket packet){if(packet instanceof VotePacket)media().packet(p,packet);else inputs.packet(p,packet);}public void forget(PlayerLife p){inputs.forget(p);}
+            public void reset(PlayerLife p){inputRuntime.reset(p);}public void receive(PlayerLife p,LiveClientInput input,int receivedLoop){inputRuntime.receive(p,input,receivedLoop);}
+            public void packet(PlayerLife p,GamePacket packet){if(packet instanceof VotePacket)media().packet(p,packet);else inputRuntime.packet(p,packet);}public void forget(PlayerLife p){inputRuntime.forget(p);}
         });
         var effects=new Effects();
         mode=switch(config.modeCode()){
@@ -88,6 +90,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
         };
         spawns=new StandardSpawns(prepared.spawns(),mode,random,lives::players,clock::monotonic);
         transition=new TransitionRoster(lives,binding,()->teams,loop);scene=new ConfiguredScene(config,metadata,mode::sceneState,this);
+        inputRuntime=new HostedInputRuntime(this,config,inputs);
     }
     private static double number(TomlTable raw,String key,double fallback){Object value=raw.get(key);if(value==null)return fallback;if(value instanceof Number n&&Double.isFinite(n.doubleValue())&&n.doubleValue()>=0)return n.doubleValue();throw new IllegalArgumentException(key+" must be finite and nonnegative");}
     private static TeamState team(int id,SceneConfig.Team t){return new TeamState(id,t.name(),t.color()>>>16&255,t.color()>>>8&255,t.color()&255);}
@@ -147,7 +150,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     }
     @Override public void close(){
         if(Thread.currentThread()!=owner)throw new IllegalStateException("Match outside owner");if(closed||closing)return;closing=true;Throwable error=null;
-        var cleanup=new ArrayList<Runnable>();if(runtime!=null)cleanup.add(runtime::close);if(entities!=null)cleanup.add(entities::close);if(combatRuntime!=null)cleanup.add(combatRuntime::close);if(media!=null)cleanup.add(()->media.ballot().close());cleanup.add(events::clear);cleanup.add(services::close);
+        var cleanup=new ArrayList<Runnable>();cleanup.add(inputRuntime::close);if(runtime!=null)cleanup.add(runtime::close);if(entities!=null)cleanup.add(entities::close);if(combatRuntime!=null)cleanup.add(combatRuntime::close);if(media!=null)cleanup.add(()->media.ballot().close());cleanup.add(events::clear);cleanup.add(services::close);
         try{for(var operation:cleanup)try{operation.run();}catch(RuntimeException|Error failure){if(error==null)error=failure;else if(error!=failure)error.addSuppressed(failure);}}finally{closed=true;}
         if(error instanceof Error fatal)throw fatal;if(error instanceof RuntimeException ordinary)throw ordinary;
     }

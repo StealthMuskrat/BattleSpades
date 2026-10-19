@@ -1,3 +1,5 @@
+This is the preceding hosted-entity checkpoint. [Hosted shooting and terrain](HOSTED_COMBAT.md) is the current follow-up.
+
 # Hosted entities, map resources and blast support
 
 Local Java check/build passes **6,269 component + 41 integration = 6,310 tests**,

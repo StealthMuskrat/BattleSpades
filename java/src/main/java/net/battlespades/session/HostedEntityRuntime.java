@@ -13,12 +13,11 @@ import net.battlespades.world.*;
 import org.tomlj.TomlTable;
 
 /** Match-owned static entities, map resources, blast delivery and synchronous support-loss callbacks.
- * Terrain authorization/scoring and achievement scopes remain required owning domains.
+ * Terrain authorization/scoring bind through HostedCombatRuntime; achievement scopes remain required.
  * Static registry entries are not the separate moving-entity WorldUpdate stream.
  */
 public final class HostedEntityRuntime implements AutoCloseable {
     public interface Ports {
-        TerrainDamage.Domain terrain(StandardMatchDomain match);
         Object crateBaseline(PlayerLife player);void crateCollected(PlayerLife player,int award,Object baseline);
         void resourcesRebuilt(MapResourceService.Result result);void skippedEntityTicks(long count);
         void blastStimulus(Vector position,int source,int team,double radius,double lifetime);
@@ -39,7 +38,7 @@ public final class HostedEntityRuntime implements AutoCloseable {
     public HostedEntityRuntime(ApplicationHost host,StandardMatchDomain match,PreparedMap.Bound prepared,MapMetadata metadata,SceneConfig scene,Settings settings,LifeRuntime.Clock clock,SourceRandom random,Ports ports){
         this.host=Objects.requireNonNull(host);this.match=Objects.requireNonNull(match);this.settings=Objects.requireNonNull(settings);this.clock=Objects.requireNonNull(clock);this.ports=Objects.requireNonNull(ports);Objects.requireNonNull(random);
         if(!match.lives().players().isEmpty()||match.world()!=prepared.world()||metadata.environment().sourceCrc()!=prepared.world().sourceCrc())throw new IllegalArgumentException("Entity runtime requires its empty prepared match");
-        world=new PickupWorld(match.world());terrain=new TerrainDamage(match.world(),Objects.requireNonNull(ports.terrain(match)),()->random.below(256));
+        world=new PickupWorld(match.world());terrain=new TerrainDamage(match.world(),match.combatRuntime().terrain(),()->random.below(256));
         blastTerrain=new BlastTerrain(match.world(),terrain,new BlastTerrain.Delivery(){
             public List<BlastTerrain.Recipient> recipients(){return host.transitionSessions().stream().filter(s->s.playerId().isPresent()).map(s->new BlastTerrain.Recipient(s.playerId().orElseThrow(),s.inGame(),s.knownEntities())).toList();}
             public void reliable(BlastTerrain.Recipient recipient,GamePacket packet){if(!host.sendPlayer(recipient.id(),packet))throw new IllegalStateException("Blast terrain control rejected");}

@@ -3,6 +3,7 @@ package net.battlespades.session;
 
 import java.util.*;
 import java.util.function.Function;
+import net.battlespades.combat.*;
 import net.battlespades.player.*;
 import net.battlespades.runtime.OwnerLoop;
 import net.battlespades.scene.SceneConfig;
@@ -13,8 +14,8 @@ import org.tomlj.TomlTable;
 public final class StandardMatchFactory implements HostedSceneState.Factory {
     public record Creation(String map,String code,PreparedMap.Bound prepared,MapMetadata metadata){}
     /** These services belong to one candidate; Services.close owns their external resource cleanup. */
-    public record Ports(LifeRuntime.Effects life,LifeRuntime.Inputs inputs,StandardMatchDomain.Services services,HostedPlayerRuntime.Ports players,HostedEntityRuntime.Ports entities){
-        public Ports{Objects.requireNonNull(life);Objects.requireNonNull(inputs);Objects.requireNonNull(services);Objects.requireNonNull(players);Objects.requireNonNull(entities);}
+    public record Ports(LifeRuntime.Effects life,LifeRuntime.Inputs inputs,StandardMatchDomain.Services services,HostedPlayerRuntime.Ports players,HostedEntityRuntime.Ports entities,HostedCombatRuntime.Ports combat){
+        public Ports{Objects.requireNonNull(life);Objects.requireNonNull(inputs);Objects.requireNonNull(services);Objects.requireNonNull(players);Objects.requireNonNull(entities);Objects.requireNonNull(combat);}
     }
     private final Thread owner=Thread.currentThread();private final SceneConfig config;private final TomlTable raw;
     private final LifeRuntime.Clock clock;private final SourceRandom random;private final OwnerLoop loop;private final List<String> maps;private final Function<Creation,Ports> ports;
@@ -25,8 +26,8 @@ public final class StandardMatchFactory implements HostedSceneState.Factory {
     @Override public StandardMatchDomain create(String map,String code,PreparedMap.Bound prepared,MapMetadata metadata){
         if(Thread.currentThread()!=owner)throw new IllegalStateException("Match factory outside owner");
         if(!Set.of("tdm","arena").contains(code)||!metadata.activeMode().equals(code)||metadata.environment().sourceCrc()!=prepared.world().sourceCrc())throw new IllegalArgumentException("Factory requires matching prepared TDM/Arena metadata");
-        var selected=config.forMap(map,code);var settings=HostedPlayerRuntime.Settings.from(raw,selected,metadata);var entitySettings=HostedEntityRuntime.Settings.from(raw);var external=Objects.requireNonNull(ports.apply(new Creation(map,code,prepared,metadata)));StandardMatchDomain domain=null;
-        try{domain=new StandardMatchDomain(selected,metadata,prepared,raw,clock,random,loop,maps,external.life(),external.inputs(),external.services());var match=domain;match.entities(host->new HostedEntityRuntime(host,match,prepared,metadata,selected,entitySettings,clock,random,external.entities()));match.runtime(host->new HostedPlayerRuntime(host,match,selected,settings,clock,loop,external.players()));return match;}
+        var selected=config.forMap(map,code);var settings=HostedPlayerRuntime.Settings.from(raw,selected,metadata);var entitySettings=HostedEntityRuntime.Settings.from(raw);var combatSettings=new CombatRuntime.Settings(ShotValidation.Settings.from(raw),LagCompensation.Settings.from(raw));var external=Objects.requireNonNull(ports.apply(new Creation(map,code,prepared,metadata)));StandardMatchDomain domain=null;
+        try{domain=new StandardMatchDomain(selected,metadata,prepared,raw,clock,random,loop,maps,external.life(),external.inputs(),external.services());var match=domain;match.combatRuntime(host->new HostedCombatRuntime(host,match,selected,entitySettings.buildDamage(),combatSettings,external.combat()));match.entities(host->new HostedEntityRuntime(host,match,prepared,metadata,selected,entitySettings,clock,random,external.entities()));match.runtime(host->new HostedPlayerRuntime(host,match,selected,settings,clock,loop,external.players()));return match;}
         catch(RuntimeException|Error failure){try{if(domain!=null)domain.close();else external.services().close();}catch(RuntimeException|Error cleanup){if(cleanup!=failure)failure.addSuppressed(cleanup);}throw failure;}
     }
 }

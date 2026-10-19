@@ -34,9 +34,9 @@
       "full_chunks": 453,
       "full_records_sha256": "a04e25f22eff412ed7565b1cdd13ca0fa4033fdde416d2d0b4890ffcdbd4dc10",
       "delta_chunks": 0,
-      "dropped_datagrams": 109,
-      "duplicate_datagrams": 74,
-      "delayed_datagrams": 895,
+      "dropped_datagrams": 114,
+      "duplicate_datagrams": 77,
+      "delayed_datagrams": 931,
       "concurrent_reserved_ids": [
         0,
         1

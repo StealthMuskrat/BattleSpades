@@ -26,7 +26,7 @@ class HostedEntityRuntimeTest {
         final HostedSceneState state;final ApplicationHost host;final StandardMatchDomain match;
         Harness(Path path,String settings)throws Exception{
             var prepared=StandardPorts.prepared(path,"tdm");var config=new SceneConfig("Entities",27015,0,ModeCatalog.get("tdm"),"Entities",false,false,true,999,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
-            var raw=org.tomlj.Toml.parse("[modes.tdm]\ntime_limit=0\n"+settings);var factory=new StandardMatchFactory(config,raw,ports,new SourceRandom(0),loop,List.of("Entities"),candidate->new StandardMatchFactory.Ports(ports,ports,ports,ports,ports));
+            var raw=org.tomlj.Toml.parse("[modes.tdm]\ntime_limit=0\n"+settings);var factory=new StandardMatchFactory(config,raw,ports,new SourceRandom(0),loop,List.of("Entities"),candidate->new StandardMatchFactory.Ports(ports,ports,ports,ports,ports,ports));
             state=new HostedSceneState("Entities","tdm",prepared,1,10000,factory.modes());host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),4,JoinSettings.defaults(),state.scene(),new BoundedSnapshotCompression(1,2));state.attach(host);match=(StandardMatchDomain)state.domain();
         }
         PlayerLife admit(int id,int team){match.scene().admit(id,new SimplePackets.NewPlayerConnection(team,0,0,0,"P"+id),null,0);return match.lives().player(id);}

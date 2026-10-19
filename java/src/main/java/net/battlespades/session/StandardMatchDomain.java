@@ -38,6 +38,11 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     private final TransitionRoster transition;private final ConfiguredScene scene;
     private ApplicationHost host;private HostedMedia media;private HostedPlayerControls controls;private boolean closed,closing;
     private Function<ApplicationHost,HostedPlayerRuntime> runtimeFactory;private HostedPlayerRuntime runtime;
+    private int frameLoop;
+    public int frameLoop(){owned();return frameLoop;}public void frameLoop(int tick){owned();frameLoop=tick;}
+    private Function<ApplicationHost,HostedCombatRuntime> combatFactory;private HostedCombatRuntime combatRuntime;
+    public void combatRuntime(Function<ApplicationHost,HostedCombatRuntime> factory){owned();if(host!=null||combatFactory!=null)throw new IllegalStateException("Combat must bind once before host attachment");combatFactory=Objects.requireNonNull(factory);}
+    public HostedCombatRuntime combatRuntime(){owned();return Objects.requireNonNull(combatRuntime,"Combat runtime not bound");}
     private Function<ApplicationHost,HostedEntityRuntime> entityFactory;private HostedEntityRuntime entities;
     public void entities(Function<ApplicationHost,HostedEntityRuntime> factory){owned();if(host!=null||entityFactory!=null)throw new IllegalStateException("Entities must bind once before host attachment");entityFactory=Objects.requireNonNull(factory);}
     public HostedEntityRuntime entities(){owned();return Objects.requireNonNull(entities,"Entity runtime not bound");}
@@ -106,6 +111,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
         },config.rules(),config.admission(),cooldown,clock::monotonic,clock::wall,loop,services::failure);
         media=new HostedMedia(host,this::lives,maps,random,loop);media.joinAudio(()->metadata,this::mode,()->musicEnabled,services::failure);
         if(runtimeFactory!=null)runtime=Objects.requireNonNull(runtimeFactory.apply(host));
+        if(combatFactory!=null)combatRuntime=Objects.requireNonNull(combatFactory.apply(host));
         if(entityFactory!=null)entities=Objects.requireNonNull(entityFactory.apply(host));
     }
     private final class Effects implements TdmMode.Effects,ArenaMode.Effects {
@@ -141,7 +147,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     }
     @Override public void close(){
         if(Thread.currentThread()!=owner)throw new IllegalStateException("Match outside owner");if(closed||closing)return;closing=true;Throwable error=null;
-        var cleanup=new ArrayList<Runnable>();if(runtime!=null)cleanup.add(runtime::close);if(entities!=null)cleanup.add(entities::close);if(media!=null)cleanup.add(()->media.ballot().close());cleanup.add(events::clear);cleanup.add(services::close);
+        var cleanup=new ArrayList<Runnable>();if(runtime!=null)cleanup.add(runtime::close);if(entities!=null)cleanup.add(entities::close);if(combatRuntime!=null)cleanup.add(combatRuntime::close);if(media!=null)cleanup.add(()->media.ballot().close());cleanup.add(events::clear);cleanup.add(services::close);
         try{for(var operation:cleanup)try{operation.run();}catch(RuntimeException|Error failure){if(error==null)error=failure;else if(error!=failure)error.addSuppressed(failure);}}finally{closed=true;}
         if(error instanceof Error fatal)throw fatal;if(error instanceof RuntimeException ordinary)throw ordinary;
     }

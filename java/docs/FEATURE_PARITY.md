@@ -1,3 +1,9 @@
+# Hosted shot and terrain checkpoint
+
+Owned packet-6 combat, terrain/collapse/repair/profile/scoring/events and exact frame timing are bound to TDM/Arena factories. 6,312 Java tests and 673 focused original regressions pass locally. All five CI jobs are pending publication. Full hosting and migration remain incomplete. See [HOSTED_COMBAT.md](HOSTED_COMBAT.md).
+
+## Previous hosted-entity checkpoint
+
 # Hosted entity and map-resource checkpoint
 
 Hosted entity simulation, map resources, reliable per-scene entity visibility and actual support/blast delivery are bound to TDM/Arena factories. 6,310 Java tests and 417 focused original regressions pass locally. All five CI jobs pass in [run 39185377778](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39185377778). Full hosting and migration remain incomplete. See [ENTITY_RUNTIME.md](ENTITY_RUNTIME.md).

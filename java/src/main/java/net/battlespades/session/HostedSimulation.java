@@ -48,7 +48,7 @@ public final class HostedSimulation {
             public void synchronous(SimulationFrame.Phase phase,int tick){if(phase==SimulationFrame.Phase.TERRAIN_REPAIR)repair.get().tick(tick);else other.synchronous(phase,tick);}
             public void subsystem(SimulationFrame.Phase phase,double ms){other.subsystem(phase,ms);}public void failure(String name,Throwable error){other.failure(name,error);}public void tickMetrics(double ms){other.tickMetrics(ms);}public void health(double ms){other.health(ms);}
         },measuredNanos,loop);
-        int[] currentTick={0};runtime=new AsyncFixedStepRuntime(()->running,tick->{currentTick[0]=(int)tick;return frame.step(currentTick[0]);},()->replicate.accept(currentTick[0]),()->loop.sleep(0),other::failure,loop);
+        int[] currentTick={0};runtime=new AsyncFixedStepRuntime(()->running,tick->{currentTick[0]=(int)tick;match.get().frameLoop(currentTick[0]);return frame.step(currentTick[0]);},()->replicate.accept(currentTick[0]),()->loop.sleep(0),other::failure,loop);
     }
     private record MatchFrames(Supplier<StandardMatchDomain> match,SimulationFrame.Services other) implements SimulationFrame.Services {
         private MatchFrames{Objects.requireNonNull(match);Objects.requireNonNull(other);}

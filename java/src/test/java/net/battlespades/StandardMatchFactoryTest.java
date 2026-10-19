@@ -23,7 +23,7 @@ class StandardMatchFactoryTest {
     @TempDir Path temp;
     private static SceneConfig config(){return new SceneConfig("Factory",27015,0,ModeCatalog.get("tdm"),"First",false,false,true,999,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());}
     private static ApplicationHost host(HostedSceneState state)throws Exception{return new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),4,JoinSettings.defaults(),state.scene(),new BoundedSnapshotCompression(1,2));}
-    private StandardMatchFactory factory(OwnerLoop loop,StandardPorts ports,org.tomlj.TomlTable raw,List<StandardMatchFactory.Creation> created){return new StandardMatchFactory(config(),raw,ports,new SourceRandom(0),loop,List.of("First","Second"),candidate->{created.add(candidate);return new StandardMatchFactory.Ports(ports,ports,ports,ports,ports);});}
+    private StandardMatchFactory factory(OwnerLoop loop,StandardPorts ports,org.tomlj.TomlTable raw,List<StandardMatchFactory.Creation> created){return new StandardMatchFactory(config(),raw,ports,new SourceRandom(0),loop,List.of("First","Second"),candidate->{created.add(candidate);return new StandardMatchFactory.Ports(ports,ports,ports,ports,ports,ports);});}
     @Test void immutableCandidateMetadataSurvivesDeletedSourcesSameChecksumAndRollback()throws Exception{
         StandardPorts.writeMap(temp.resolve("First.vxl"));Files.copy(temp.resolve("First.vxl"),temp.resolve("Second.vxl"));Files.writeString(temp.resolve("First.json"),"{\"gravity\":0.5}");Files.writeString(temp.resolve("Second.json"),"{\"gravity\":1.5}");
         var created=new ArrayList<StandardMatchFactory.Creation>();var ports=new StandardPorts();

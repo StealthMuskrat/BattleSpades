@@ -24,4 +24,5 @@ for m in mode_data.MODES.values():
 for alias,target in sorted(ALIASES.items()):rows.append(('alias',dict(name=alias,target=target)))
 for name in registered_mode_codes():rows.append(('registration',dict(name=name,canonical=canonical_mode_code(name))))
 write('modes.toml',rows)
+write('hosted-combat.toml',[('constants',dict(blocks_destroyed=int(C.MAP_BLOCKS_DESTROYED_TOTAL)))])
 print(len(RULE_DEFINITIONS),'rules;',len(class_data.CLASS_IDS),'classes;',len(mode_data.MODES),'mode metadata entries;',len(ALIASES),'community aliases')

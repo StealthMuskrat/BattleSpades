@@ -13,6 +13,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SessionProtocolTest {
+    @Test void helpDelayUsesBigEndianAndRetainsTheStringListBoundary(){
+        var packet=new HelpMessage(1.5f,List.of("DIG","CASH"));byte[] bytes={109,0x3f,(byte)0xc0,0,0,2,'D','I','G',0,'C','A','S','H',0};assertArrayEquals(bytes,packet.encode());assertEquals(packet,PacketCodec.decode(bytes));assertThrows(ProtocolException.class,()->PacketCodec.decode(Arrays.copyOf(bytes,bytes.length-1)));assertThrows(ProtocolException.class,()->PacketCodec.decode(new byte[]{109,0,0,0,0,1}));
+    }
     @Test void territoryStateUsesRetailShortActionsAndFixedPercentageWithoutTrailingBytes(){
         for(int action:new int[]{3,4,6,7}){byte[] bytes={(byte)106,2,(byte)action};assertArrayEquals(bytes,new TerritoryBaseState(2,action,3,2,75).encode());assertEquals(new TerritoryBaseState(2,action,0,0,.5),PacketCodec.decode(bytes));}
         byte[] bytes={(byte)106,2,5,3,2,(byte)0xc0,0x12};assertArrayEquals(bytes,new TerritoryBaseState(2,5,3,2,75).encode());assertEquals(new TerritoryBaseState(2,5,3,2,75),PacketCodec.decode(bytes));

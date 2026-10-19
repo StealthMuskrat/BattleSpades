@@ -23,14 +23,18 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
         CompletionStage<Void> plugin(ModeEvents.Event event);
         void matchStarted();void rebuildResources();void matchEnded(Integer winner);
         void endVote(double wall);void vote(double wall);void scheduleEnd(Integer winner);CompletionStage<Void> cancelEnd();
-        void hillEvent(HostedZoneRuntime.HillEvent event);
+        void hillEvent(HostedZoneRuntime.HillEvent event);void carryObservation(HostedCarryRuntime.Observation event);
         void escapeWatch();void reveal(PlayerLife player,Consumer<GamePacket> send);
         void resetResultBaselines();void scheduleResults(Integer winner);
         void retireDeployables(PlayerLife player);void failure(String label,Throwable error);
         void close();
     }
     private final Thread owner=Thread.currentThread();
-    private final TomlTable raw;private final SpawnGeometry geometry;private HostedCtfRuntime ctf;private HostedZoneRuntime zones;private HostedEscapeWatch escapeWatch;
+    private final TomlTable raw;private final SpawnGeometry geometry;private HostedCarryRuntime carry;private HostedCtfRuntime ctf;private HostedZoneRuntime zones;private HostedEscapeWatch escapeWatch;
+    public Optional<HostedCarryRuntime> carry(){owned();return Optional.ofNullable(carry);}
+    public void carryObservation(HostedCarryRuntime.Observation event){owned();services.carryObservation(event);}
+    public boolean friendlyFire(){owned();return config.friendlyFire();}
+    public void openMapVote(){owned();try{services.vote(wall());if(!media().ballot().active())media().ballot().start(maps,wall());}catch(RuntimeException e){failure("objective map vote",e);}}
     public Optional<HostedZoneRuntime> zones(){owned();return Optional.ofNullable(zones);}
     public HostedEscapeWatch escapeWatch(){owned();return Objects.requireNonNull(escapeWatch,"Escape watch not attached");}
     public Optional<HostedCtfRuntime> ctf(){owned();return Optional.ofNullable(ctf);}
@@ -88,7 +92,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
             LifeRuntime.Clock clock,SourceRandom random,OwnerLoop loop,List<String> maps,LifeRuntime.Effects lifeEffects,HostedInputRuntime.Ports inputs,Services services){
         var config=modeConfig(requestedConfig);this.raw=raw;this.geometry=prepared.spawns();
         logCommands=raw.getBoolean("admin.log_commands",()->true);conductSettings=HostedConductRuntime.Settings.from(raw);prefabSettings=HostedPrefabRuntime.Settings.from(raw);constructionSettings=HostedConstructionRuntime.Settings.from(raw);this.config=Objects.requireNonNull(config);this.metadata=Objects.requireNonNull(metadata);this.clock=Objects.requireNonNull(clock);this.random=Objects.requireNonNull(random);this.loop=Objects.requireNonNull(loop);this.maps=List.copyOf(maps);this.services=Objects.requireNonNull(services);Objects.requireNonNull(lifeEffects);Objects.requireNonNull(inputs);
-        if(!Set.of("tdm","arena","ctf","cctf","tc","mh").contains(config.modeCode())||!metadata.activeMode().equals(config.modeCode())||metadata.environment().sourceCrc()!=prepared.world().sourceCrc())throw new IllegalArgumentException("Standard match requires matching prepared mode and config");
+        if(!Set.of("tdm","arena","ctf","cctf","tc","mh","dia","oc").contains(config.modeCode())||!metadata.activeMode().equals(config.modeCode())||metadata.environment().sourceCrc()!=prepared.world().sourceCrc())throw new IllegalArgumentException("Standard match requires matching prepared mode and config");
         cooldown=5;respawn=number(raw,"game.respawn_time",5);musicEnabled=raw.getBoolean("audio.mode_start_music",()->true);
         teams=List.of(team(2,config.team1()),team(3,config.team2()));
         events=new ModeEvents(8192,1024,this::mode,services::plugin,services::failure,loop);
@@ -122,6 +126,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
             case "arena"->new ArenaMode(ArenaMode.Settings.from(raw),()->teams,this::rows,this::peer,board,clock::wall,clock::monotonic,events::size,()->60,p->send(p,true,null),effects,loop);
             case "ctf","cctf"->new CtfMode(CtfMode.Settings.from(raw,config.rules(),config.modeCode()),()->Objects.requireNonNull(ctf,"CTF owner not attached"),()->teams,this::rows,this::peer,board,clock::wall,clock::monotonic,events::size,p->send(p,true,null),effects,loop);
             case "tc","mh"->new ZoneMode(ZoneMode.Settings.from(raw,config.rules(),config.modeCode()),()->Objects.requireNonNull(zones,"Zone owner not attached"),()->teams,this::rows,this::peer,board,clock::wall,clock::monotonic,events::size,p->send(p,true,null),effects,loop);
+            case "dia","oc"->new CarryMode(CarryMode.Settings.from(raw,config.rules(),config.modeCode()),()->Objects.requireNonNull(carry,"Carry objectives not attached"),()->teams,this::rows,this::peer,board,clock::wall,clock::monotonic,events::size,p->send(p,true,null),effects,loop);
             default->throw new IllegalArgumentException("Standard mode");
         };
         spawns=new StandardSpawns(prepared.spawns(),mode,random,lives::players,clock::monotonic);
@@ -151,8 +156,8 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
         social=new HostedSocialRuntime(this,host,loop,logCommands);media=new HostedMedia(host,this::lives,maps,random,loop);media.joinAudio(()->metadata,this::mode,()->musicEnabled,services::failure);
         if(runtimeFactory!=null)runtime=Objects.requireNonNull(runtimeFactory.apply(host));
         if(combatFactory!=null)combatRuntime=Objects.requireNonNull(combatFactory.apply(host));
-        if(entityFactory!=null){entities=Objects.requireNonNull(entityFactory.apply(host));construction=new HostedConstructionRuntime(this,host,config,constructionSettings);corpses=new HostedCorpseRuntime(this,host,config,metadata.environment().gravity(),entities.wireReady(),config.modeCode().equals("cctf"));prefabs=new HostedPrefabRuntime(this,host,prefabSettings,prefabRoots);if(mode instanceof CtfMode c)ctf=new HostedCtfRuntime(this,host,c,geometry,raw);if(mode instanceof ZoneMode z)zones=new HostedZoneRuntime(this,host,z,geometry,raw,loop);
-            lives.objectives(new ObjectiveDropRequests(()->ctf==null?Optional.empty():Optional.of((p,at,velocity)->CompletableFuture.completedFuture(ctf.drop(p,at,velocity,false))),entities.registry(),this::frameLoop,p->send(p,true,null),loop));
+        if(entityFactory!=null){entities=Objects.requireNonNull(entityFactory.apply(host));construction=new HostedConstructionRuntime(this,host,config,constructionSettings);corpses=new HostedCorpseRuntime(this,host,config,metadata.environment().gravity(),entities.wireReady(),config.modeCode().equals("cctf"));prefabs=new HostedPrefabRuntime(this,host,prefabSettings,prefabRoots);if(mode instanceof CtfMode c)ctf=new HostedCtfRuntime(this,host,c,geometry,raw);if(mode instanceof ZoneMode z)zones=new HostedZoneRuntime(this,host,z,geometry,raw,loop);if(mode instanceof CarryMode c)carry=c.settings().code().equals("dia")?new HostedDiamondRuntime(this,host,c,geometry,raw,config.rules(),new SourceRandom(new java.security.SecureRandom().nextLong())):new HostedOccupationRuntime(this,host,c,geometry,raw,config.rules());
+            lives.objectives(new ObjectiveDropRequests(()->carry!=null?Optional.of((p,at,velocity)->CompletableFuture.completedFuture(carry.drop(p,at,velocity,false,null))):ctf==null?Optional.empty():Optional.of((p,at,velocity)->CompletableFuture.completedFuture(ctf.drop(p,at,velocity,false))),entities.registry(),this::frameLoop,p->send(p,true,null),loop));
             inputRuntime.actions((p,packet)->construction.packet(p,packet)||prefabs.packet(p,packet)||entities.packet(p,packet)); }
     }
     private final class Effects implements TdmMode.Effects,ArenaMode.Effects {
@@ -163,7 +168,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     }
     private final class LifeEffects implements LifeRuntime.Effects {
         private final LifeRuntime.Effects delegate;LifeEffects(LifeRuntime.Effects delegate){this.delegate=delegate;}
-        public void beforeSpawn(PlayerLife p){if(escapeWatch!=null)escapeWatch.forget(p);if(zones!=null)zones.forget(p);if(ctf!=null)ctf.retire(p);if(entities!=null){entities.effects().extinguish(p.id());construction.mutations().cancel(p);prefabs.forget(p);corpses.beforeSpawn(p);}delegate.beforeSpawn(p);}public void spawned(PlayerLife p){delegate.spawned(p);events.offer(ModeEvents.Event.of("on_player_spawn",binding.row(p)));}
+        public void beforeSpawn(PlayerLife p){if(carry!=null)carry.retire(p,null);if(escapeWatch!=null)escapeWatch.forget(p);if(zones!=null)zones.forget(p);if(ctf!=null)ctf.retire(p);if(entities!=null){entities.effects().extinguish(p.id());construction.mutations().cancel(p);prefabs.forget(p);corpses.beforeSpawn(p);}delegate.beforeSpawn(p);}public void spawned(PlayerLife p){delegate.spawned(p);events.offer(ModeEvents.Event.of("on_player_spawn",binding.row(p)));}
         public void died(PlayerLife v,PlayerLife k,int weapon,int presentation,boolean enemy){if(escapeWatch!=null)escapeWatch.forget(v);if(corpses!=null)corpses.died(v);delegate.died(v,k,weapon,presentation,enemy);}
         public void damaged(LifeRuntime.DamageEvidence d){if(conduct!=null)conduct.harm(d);delegate.damaged(d);}public void healed(LifeRuntime.HealingEvidence h){delegate.healed(h);}public void beforeDeath(LifeRuntime.DeathEvidence d){delegate.beforeDeath(d);}
         public void transitionCredited(PlayerLife v,PlayerLife a,int type){delegate.transitionCredited(v,a,type);}public void forget(PlayerLife p){delegate.forget(p);}public void transitionForget(PlayerLife p){delegate.transitionForget(p);}public void respawnFailed(PlayerLife p,RuntimeException error){delegate.respawnFailed(p,error);}
@@ -186,7 +191,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     public List<GamePacket> reveal(int id){
         var packets=new ArrayList<>(lives().reveal(id));var target=host().scorePeer(id).orElseThrow();
         var collecting=new Scoreboard.Peer(){public boolean inGame(){return target.inGame();}public Optional<Set<Integer>> knownPlayers(){return target.knownPlayers();}public void send(GamePacket p){packets.add(p);}};
-        board.reveal(collecting);if(entities!=null){packets.addAll(entities.reveal(id));packets.addAll(corpses.catchup());}mode.reveal(collecting,()->{escapeWatch().reveal(packets::add);services.reveal(lives.player(id),packets::add);});media().ballot().reveal(packets::add);return List.copyOf(packets);
+        board.reveal(collecting);if(entities!=null){packets.addAll(entities.reveal(id));packets.addAll(corpses.catchup());}mode.reveal(collecting,()->{escapeWatch().reveal(packets::add);services.reveal(lives.player(id),packets::add);});if(carry!=null)carry.startCue(lives.player(id),packets::add);media().ballot().reveal(packets::add);return List.copyOf(packets);
     }
     public void input(int id,LiveClientInput input,int receivedLoop){if(inputs().allow(lives().player(id),MovementPacketRates.Kind.CLIENT_DATA,receivedLoop))lives().input(id,input,receivedLoop);}
     public boolean clockAllowed(int id,int serverLoop){return lives().players().stream().filter(p->p.id()==id).findFirst().map(p->inputs().allow(p,MovementPacketRates.Kind.CLOCK_SYNC,serverLoop)).orElse(true);}
@@ -196,11 +201,11 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     public void transitionDetach(int id){detach(id,true);}public void disconnected(int id){detach(id,false);}
     private void detach(int id,boolean transitionOnly){
         var player=lives().players().stream().filter(p->p.id()==id).findFirst().orElse(null);if(player==null)return;
-        try{if(escapeWatch!=null)escapeWatch.forget(player);if(zones!=null)zones.forget(player);if(entities!=null){social.forget(player);conduct.forget(player);construction.forget(player);prefabs.forget(player);corpses.forget(player);entities.forget(player);}if(transitionOnly)lives.transitionDetach(id);else lives.disconnected(id);}finally{if(lives.players().stream().noneMatch(p->p==player)){for(var team:teams)team.remove(player);if(media!=null)media.forget(id);}}
+        try{if(escapeWatch!=null)escapeWatch.forget(player);if(zones!=null)zones.forget(player);if(carry!=null)carry.retire(player,null);if(entities!=null){social.forget(player);conduct.forget(player);construction.forget(player);prefabs.forget(player);corpses.forget(player);entities.forget(player);}if(transitionOnly)lives.transitionDetach(id);else lives.disconnected(id);}finally{if(lives.players().stream().noneMatch(p->p==player)){for(var team:teams)team.remove(player);if(media!=null)media.forget(id);}}
     }
     @Override public void close(){
         if(Thread.currentThread()!=owner)throw new IllegalStateException("Match outside owner");if(closed||closing)return;closing=true;Throwable error=null;
-        var cleanup=new ArrayList<Runnable>();if(ctf!=null)cleanup.add(ctf::close);if(zones!=null)cleanup.add(zones::close);if(social!=null)cleanup.add(social::clear);if(conduct!=null)cleanup.add(conduct::clear);if(prefabs!=null)cleanup.add(prefabs::close);if(construction!=null)cleanup.add(construction::close);if(corpses!=null)cleanup.add(corpses::clear);cleanup.add(inputRuntime::close);if(runtime!=null)cleanup.add(runtime::close);if(entities!=null)cleanup.add(entities::close);if(combatRuntime!=null)cleanup.add(combatRuntime::close);if(media!=null)cleanup.add(()->media.ballot().close());cleanup.add(events::clear);cleanup.add(services::close);
+        var cleanup=new ArrayList<Runnable>();if(ctf!=null)cleanup.add(ctf::close);if(zones!=null)cleanup.add(zones::close);if(carry!=null)cleanup.add(carry::close);if(social!=null)cleanup.add(social::clear);if(conduct!=null)cleanup.add(conduct::clear);if(prefabs!=null)cleanup.add(prefabs::close);if(construction!=null)cleanup.add(construction::close);if(corpses!=null)cleanup.add(corpses::clear);cleanup.add(inputRuntime::close);if(runtime!=null)cleanup.add(runtime::close);if(entities!=null)cleanup.add(entities::close);if(combatRuntime!=null)cleanup.add(combatRuntime::close);if(media!=null)cleanup.add(()->media.ballot().close());cleanup.add(events::clear);cleanup.add(services::close);
         try{for(var operation:cleanup)try{operation.run();}catch(RuntimeException|Error failure){if(error==null)error=failure;else if(error!=failure)error.addSuppressed(failure);}}finally{closed=true;}
         if(error instanceof Error fatal)throw fatal;if(error instanceof RuntimeException ordinary)throw ordinary;
     }

@@ -1,0 +1,79 @@
+{
+  "date_utc": "2026-10-19",
+  "base_commit": "35496f4a26338225bd84365ba7e3193310277b90",
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "scope": "Hosted Diamond Mine and Occupation, shared native carry/drop/retirement/replay and HelpMessage109",
+  "junit": {
+    "test": {
+      "suites": 110,
+      "tests": 6306,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 3,
+      "tests": 48,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "java_total": 6354,
+  "reference_tests": {
+    "tests": 78,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "reference_modules": [
+    "test_diamond_mine_fixes",
+    "test_diamond_always_found",
+    "test_diamond_loose_cash_in",
+    "test_occupation_fixes",
+    "test_recovered_objective_modes",
+    "test_recovered_objective_packets",
+    "test_objective_abuse",
+    "test_pickups"
+  ],
+  "gradle": "check build passed including portability and distributions",
+  "jar_sha256": "64189d53329bb538d50268f4b595e3ccc14a6aaf51b1de542537ba98d1dee090",
+  "jar_bytes": 2352014,
+  "jar_crc_valid": true,
+  "java_class_major": 69,
+  "smoke": {
+    "version": {
+      "exit": 0
+    },
+    "config": {
+      "exit": 0
+    },
+    "hosting": {
+      "exit": 2
+    }
+  },
+  "production_source_fingerprint": {
+    "files": 252,
+    "sha256": "cb6d071ee95456b8dbe40f2b19265fec0096eb5867447357045143f6110d6392"
+  },
+  "frozen_resource_paths_unchanged": 262,
+  "six_source_directories_match": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "codec_reproduction": "All three outputs reproduced exactly in isolated tree",
+  "new_tests": {
+    "grouped_component": 6,
+    "udp_integration": 2
+  },
+  "previous_zone_ci": {
+    "run_id": 39315247712,
+    "build_native_ubuntu_windows": "success",
+    "macos": "cancelled before execution",
+    "all_five_passed": false
+  },
+  "ci": {
+    "status": "pending",
+    "all_five_jobs_passed": false
+  },
+  "full_migration_complete": false,
+  "full_python_baseline_passing": false,
+  "supported_client_acceptance": false
+}

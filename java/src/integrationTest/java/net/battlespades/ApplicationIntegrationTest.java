@@ -149,6 +149,21 @@ class ApplicationIntegrationTest {
             }
         });
     }
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(strings={"dia","oc"})
+    void productionCarryModesCanonicalizeDropsAndReplayLiveGroundOrCarrierState(String code){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            Files.writeString(temp.resolve("Carry.json"),"{\"diamond_base_points\":[[24,24,97]],\"diamond_base_w_h_d\":[[8,8,8]],\"occupation_base_point\":[24,24,97],\"occupation_base_w_h_d\":[8,8,8],\"occupation_bomb_points\":[[12,12,100]]}");var ports=new net.battlespades.support.StandardPorts();var prepared=net.battlespades.support.StandardPorts.prepared(temp.resolve("Carry.vxl"),code);var config=new SceneConfig("Carry UDP",27015,0,ModeCatalog.get(code),"Carry",false,false,true,999,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var owner=new net.battlespades.runtime.OwnerLoop(0,1024,256,error->fail(error))){
+                var factory=new StandardMatchFactory(config,org.tomlj.Toml.parse("[modes."+code+"]\ntime_limit=0\ndiscovery_guarantee_blocks=1\nbomb_fuse_time=20\n[objectives]\nobjective_pickup_requires_los=false\n"),ports,new SourceRandom(0),owner,List.of("Carry"),c->new StandardMatchFactory.Ports(ports,ports,ports,ports,ports,ports));
+                try(var state=new HostedSceneState("Carry",code,prepared,1,10000,factory.modes());var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),2,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),state.scene(),new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var late=new Client(host.address())){
+                    state.attach(host);host.serialPackets(net.battlespades.runtime.IngamePackets.Settings.defaults(1024,256),Runnable::run,error->fail(error));var match=(StandardMatchDomain)state.domain();match.frameLoop(100);match.mode().start();var carry=match.carry().orElseThrow();var loop=new Loop(host);loop.pump=now->{owner.pump(now*1_000_000);host.service(now,100);host.drainPackets(100).toCompletableFuture().join();};loop.ticketAndLoad(a,match.world());a.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"Carrier"),false);loop.until(()->a.has(69));loop.until(()->{try{a.send(new ClientInput(100,127,false,5,1,0,0,0,0,24,0),false);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0);});var p=match.lives().player(0);p.body().position(new Vector(12.5,12.5,97.5));carry.mined(p,List.of(new MutableWorld.Cell(12,12,97)),true);carry.tick();assertTrue(carry.carrying(p));int type=code.equals("dia")?15:14;
+                    loop.ticketAndLoad(late,match.world());late.send(new SimplePackets.NewPlayerConnection(3,0,0,0,"Late"),false);loop.until(()->late.has(69));loop.until(()->{try{late.send(new ClientInput(200,127,false,5,1,0,0,0,0,24,0),false);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(1);});loop.until(()->late.packets.stream().anyMatch(packet->packet instanceof SimplePackets.PickPickup pick&&pick.player_id()==0&&pick.pickup_id()==type)&&late.packets.stream().anyMatch(MinimapZone.class::isInstance));
+                    late.packets.clear();a.packets.clear();a.send(new DropPickup(999,254,type,new DropPickup.Position(12.5,12.5,97.5),new DropPickup.Position(0,0,0)),false);loop.until(()->!carry.carrying(p)&&late.packets.stream().anyMatch(packet->packet instanceof DropPickup drop&&drop.playerId()==0&&drop.loop()==100)&&late.packets.stream().anyMatch(packet->packet instanceof CreateEntity entity&&entity.entity().type()==type));assertNull(p.pickupId());assertTrue(ports.errors.isEmpty());
+                }
+            }
+        });
+    }
     @Test void productionConstructionWaitsForAppliedInputEchoesCanonicalIdentityAndCancelsOldLifeReservations(){
         assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
             var ports=new net.battlespades.support.StandardPorts();var prepared=net.battlespades.support.StandardPorts.prepared(temp.resolve("Construction.vxl"),"tdm");

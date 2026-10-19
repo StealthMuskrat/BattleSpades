@@ -29,6 +29,8 @@ public final class ConfiguredScene implements JoinScene {
         default void beforeReplay(int id){}
         default List<GamePacket> reveal(int id){return List.of();}
         default void input(int id,LiveClientInput input,int receivedLoop){}
+        default boolean clockAllowed(int id,int serverLoop){return true;}
+        default void position(int id,LivePositionReport report,int serverLoop){}
         default void roundTripMillis(int id,Double measurement){}
         default void actionLink(int id,net.battlespades.player.ActionClock.Link link){}
         default void packet(int id,GamePacket packet){}
@@ -73,6 +75,8 @@ public final class ConfiguredScene implements JoinScene {
         owned();var packets=new java.util.ArrayList<GamePacket>(gameplay.reveal(id));packets.addAll(world().terrainHealth().reveal(id,serverLoop,128));return List.copyOf(packets);
     }
     @Override public void input(int id,LiveClientInput input,int loop){owned();gameplay.input(id,input,loop);}
+    @Override public boolean clockAllowed(int id,int serverLoop){owned();return gameplay.clockAllowed(id,serverLoop);}
+    @Override public void position(int id,LivePositionReport report,int serverLoop){owned();gameplay.position(id,report,serverLoop);}
     @Override public void roundTripMillis(int id,Double measurement){owned();gameplay.roundTripMillis(id,measurement);}
     @Override public void actionLink(int id,net.battlespades.player.ActionClock.Link link){owned();gameplay.actionLink(id,link);}
     @Override public void packet(int id,GamePacket packet){owned();gameplay.packet(id,packet);}

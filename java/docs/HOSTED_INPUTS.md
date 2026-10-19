@@ -1,3 +1,5 @@
+This is the preceding hosted-input checkpoint. [Movement networking](MOVEMENT_NETWORK.md) is the current follow-up.
+
 # Hosted held tools and fresh input actions
 
 Local Java check/build passes **6,273 component + 41 integration = 6,314 tests**,

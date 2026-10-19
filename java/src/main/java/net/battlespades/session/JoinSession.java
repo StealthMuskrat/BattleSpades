@@ -124,6 +124,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
             byte[] body=Framing.inbound(wire,key,settings.maxInboundBytes());int id=body[0]&255;
             if(id==0) {
                 var clock=(SimplePackets.ClockSync)PacketCodec.decode(body);
+                if(admitted&&slot!=null&&!scene.clockAllowed(slot.id(),serverLoop))return;
                 var response=new SimplePackets.ClockSync(clock.client_time(),serverLoop+settings.clockLoopBias());
                 if(!sendFrame(new SessionFrame(0x30,response.encode(),Delivery.UNSEQUENCED))) droppedClocks++;
                 return;
@@ -172,6 +173,14 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
                 var input=LiveClientInput.decode(body);
                 if(state==State.INPUT&&!settle(serverLoop))return;
                 scene.input(slot.id(),input,serverLoop);return;
+            }
+            if(id==116){
+                if(admitted&&slot!=null){
+                    LivePositionReport report;
+                    try{report=LivePositionReport.decode(body);}catch(ProtocolException invalid){malformed++;return;}
+                    scene.position(slot.id(),report,serverLoop);
+                }
+                return;
             }
             if(admitted && PacketCodec.supports(id)){var packet=PacketCodec.decode(body);if(awaitPackets)deferred=java.util.Objects.requireNonNull(scene.packetAsync(slot.id(),packet));else scene.packet(slot.id(),packet);}
         } catch(ProtocolException invalid) {malformed++;fail(13);}

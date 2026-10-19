@@ -25,6 +25,8 @@ public interface JoinScene extends AsyncPackets,SceneLifecycle {
     default List<GamePacket> reveal(int playerId) {return List.of();}
     default List<GamePacket> reveal(int playerId,int serverLoop) {return reveal(playerId);}
     default void input(int playerId,LiveClientInput input,int receivedServerLoop) {}
+    default boolean clockAllowed(int playerId,int serverLoop){return true;}
+    default void position(int playerId,LivePositionReport report,int serverLoop){}
     default void roundTripMillis(int playerId,Double measurement) {}
     default void actionLink(int playerId,net.battlespades.player.ActionClock.Link link) {}
     default void packet(int playerId,GamePacket packet) {}

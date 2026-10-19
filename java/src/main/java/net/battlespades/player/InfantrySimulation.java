@@ -11,7 +11,8 @@ import net.battlespades.simulation.FixedStepRuntime;
  */
 public final class InfantrySimulation {
     public record Settings(double gravity,boolean sameTeamCollision,boolean fallDamage,int gapLimit,
-        boolean enforceStarvation,double timeoutSeconds,int airborneTicks,boolean enforceBacklog,int backlogFrames) {
+        boolean enforceStarvation,double timeoutSeconds,int airborneTicks,boolean enforceBacklog,int backlogFrames,boolean clientAuthority) {
+        public Settings(double gravity,boolean sameTeamCollision,boolean fallDamage,int gapLimit,boolean enforceStarvation,double timeoutSeconds,int airborneTicks,boolean enforceBacklog,int backlogFrames){this(gravity,sameTeamCollision,fallDamage,gapLimit,enforceStarvation,timeoutSeconds,airborneTicks,enforceBacklog,backlogFrames,false);}
         public Settings {if(!Double.isFinite(gravity)||gravity<0||!Double.isFinite(timeoutSeconds))throw new IllegalArgumentException("Simulation settings");}
         public static Settings defaults(){return new Settings(1,false,true,8,false,8,24,false,6);}
     }
@@ -101,6 +102,7 @@ public final class InfantrySimulation {
             if(amount>0)runtime.damage(p.id(),amount,null,7);
         }
         if(!after.airborne()){m.airTime=0;if(before.airborne())m.ownBlast=null;}
+        if(settings.clientAuthority)p.positionReports().pin(p,runtime.movementWallClock());
         m.landed=before.airborne()&&!p.body().state().airborne();hooks.afterMove(p,dt);
     }
     /** Connected-player labelled knockback; detached explosion actor/effect timelines are not supplied here. */

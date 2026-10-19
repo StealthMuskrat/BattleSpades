@@ -12,6 +12,8 @@ public final class HostedInputRuntime implements LifeRuntime.Inputs,AutoCloseabl
     public interface Ports {
         boolean mountedGun(PlayerLife player);
         void rejectedTool(PlayerLife player,int requested,int held);
+        /** Required shared anticheat owner counts every call and rate-limits its diagnostic output. */
+        void movementReport(PlayerLife player,String kind,Map<String,Double> detail);
         /** Remaining paint owner receives authorized brush state, including secondary-trigger release. */
         void paintbrush(PlayerLife player,LiveClientInput input);
         void reset(PlayerLife player);void observedInput(PlayerLife player,LiveClientInput input,int receivedLoop);
@@ -27,6 +29,14 @@ public final class HostedInputRuntime implements LifeRuntime.Inputs,AutoCloseabl
         teabags=new TeabagTracker(()->match.binding().players(),objectives,match.profiles(),()->false,()->config.rules().enabled("RULE_POINTS_FROM_TEABAGGING"));
     }
     private void owned(){if(Thread.currentThread()!=owner||closed)throw new IllegalStateException("Input runtime outside active owner");}
+    public boolean allow(PlayerLife p,MovementPacketRates.Kind kind,int loop){
+        owned();if(p.packetRates().allow(kind,p.bot(),match.monotonic(),loop))return true;
+        ports.movementReport(p,"rate:"+kind.key(),Map.of("rate",kind.rate(),"burst",kind.burst()));return false;
+    }
+    public void position(PlayerLife p,LivePositionReport report,int loop){
+        owned();if(!allow(p,MovementPacketRates.Kind.POSITION_DATA,loop))return;
+        if(!p.positionReports().receive(p,report,match.wall()))ports.movementReport(p,"position_nonfinite",Map.of());
+    }
     public boolean authorized(PlayerLife p,int tool){owned();if(!p.alive()||!p.spawned()||tool<0||tool>=66||!p.toolEnabled(tool))return false;return ToolSelection.authorized(p,tool,true,tool==15&&!p.selection().loadout().contains(tool)&&ports.mountedGun(p));}
     public Integer ensureLegal(PlayerLife p){owned();return ToolSelection.ensureLegal(p,tool->authorized(p,tool));}
     public Integer unmounted(PlayerLife p){owned();return ToolSelection.unmounted(p,tool->authorized(p,tool));}

@@ -24,6 +24,10 @@ public final class FixtureScene implements JoinScene,net.battlespades.scene.Conf
     private final StateData state;
     public final Map<Integer,Admission> players=new LinkedHashMap<>();
     public final List<LiveClientInput> inputs=new ArrayList<>();
+    public java.util.function.BiPredicate<Integer,Integer> clockGate=(id,loop)->true;
+    public final List<LivePositionReport> positions=new ArrayList<>();
+    @Override public boolean clockAllowed(int id,int loop){return clockGate.test(id,loop);}
+    @Override public void position(int id,LivePositionReport report,int loop){positions.add(report);}
     public final List<Integer> receivedLoops=new ArrayList<>();
     public final Map<Integer,Integer> capabilities=new LinkedHashMap<>();
     public final List<GamePacket> received=new ArrayList<>();

@@ -55,6 +55,7 @@ public final class StandardPorts implements StandardMatchDomain.Services,LifeRun
     public Object crateBaseline(PlayerLife player){return player.health();}public void crateCollected(PlayerLife player,int award,Object baseline){log.add("crate:"+player.id()+":"+award);}
     public void resourcesRebuilt(MapResourceService.Result result){resourceRebuilds++;log.add("map-resources");}public void skippedEntityTicks(long count){skippedEntities+=count;}
     public void blastStimulus(Vector at,int source,int team,double radius,double lifetime){blastLog.add("stimulus:"+source);}public Object beginBlast(PlayerLife thrower,int killType,Vector origin){blastLog.add("begin");return new Object();}public void endBlast(Object scope){blastLog.add("end");}public void blastScopeFault(String phase){blastLog.add("fault:"+phase);}
+    public final List<String> movementReports=new ArrayList<>();public void movementReport(PlayerLife p,String kind,Map<String,Double> detail){movementReports.add(kind);}
     public boolean mounted;public void rejectedTool(PlayerLife p,int requested,int held){log.add("tool-rejected:"+p.id()+":"+requested+":"+held);}
     public void paintbrush(PlayerLife p,LiveClientInput input){log.add("paint:"+p.id());}
     public java.util.function.IntSupplier combatLoop=()->0;public final List<Integer> shotLoops=new ArrayList<>();

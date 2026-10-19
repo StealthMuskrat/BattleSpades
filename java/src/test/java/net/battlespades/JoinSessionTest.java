@@ -246,7 +246,10 @@ class JoinSessionTest {
     @Test void transportClockBypassesReliableQueueAndUnknownPacketsDoNotResetJoin() {
         try(var h=new Flow()) {
             h.client(new SimplePackets.ClockSync(12345,0));var frame=h.wire.frames.getFirst();assertEquals(Delivery.UNSEQUENCED,frame.delivery());assertEquals(12345,((SimplePackets.ClockSync)PacketCodec.decode(frame.body())).client_time());
-            h.receive(new byte[]{(byte)200,7,8,9},false);assertEquals(JoinSession.State.TICKET,h.session.state());h.load();
+            h.receive(new byte[]{(byte)200,7,8,9},false);assertEquals(JoinSession.State.TICKET,h.session.state());h.load();h.select();
+            h.scene.clockGate=(id,loop)->{assertEquals(0,id);assertEquals((int)(h.now*60/1000),loop);return false;};h.wire.frames.clear();h.client(new SimplePackets.ClockSync(12346,0));assertTrue(h.wire.frames.isEmpty());assertEquals(JoinSession.State.INPUT,h.session.state());
+            h.client(new LivePositionReport(12.5,48.25,99));assertEquals(List.of(new LivePositionReport(12.5,48.25,99)),h.scene.positions);h.receive(new byte[]{116,1,2,3,4,5},false);assertEquals(JoinSession.State.INPUT,h.session.state());assertEquals(-1,h.wire.reason);assertEquals(1,h.scene.positions.size());
+            h.scene.clockGate=(id,loop)->true;h.client(new SimplePackets.ClockSync(12347,0));assertEquals(0,h.wire.frames.getFirst().id());
         }
     }
     @Test void capabilityProfilesMatchSourceAndNeverEnterXorKey() throws IOException {

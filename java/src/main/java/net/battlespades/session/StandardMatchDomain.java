@@ -97,7 +97,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     private void owned(){if(Thread.currentThread()!=owner||closed)throw new IllegalStateException("Standard match outside active owner");}
     private ApplicationHost host(){owned();return Objects.requireNonNull(host,"Match host not attached");}
     public LifeRuntime lives(){owned();return lives;}public BaseRoundMode mode(){owned();return mode;}public StandardSpawns spawns(){owned();return spawns;}
-    public double monotonic(){owned();return clock.monotonic();}
+    public double monotonic(){owned();return clock.monotonic();}public double wall(){owned();return clock.wall();}
     public Scoreboard scoreboard(){owned();return board;}public MatchLifeBinding binding(){owned();return binding;}public CombatEvidence combat(){owned();return combat;}public ProfileTracker profiles(){owned();return profiles;}
     public HostedMedia media(){owned();return Objects.requireNonNull(media,"Media not attached");}public HostedPlayerControls controls(){owned();return Objects.requireNonNull(controls,"Controls not attached");}
     private Map<Integer,Scoreboard.Player> rows(){return binding.players();}
@@ -141,7 +141,9 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
         var collecting=new Scoreboard.Peer(){public boolean inGame(){return target.inGame();}public Optional<Set<Integer>> knownPlayers(){return target.knownPlayers();}public void send(GamePacket p){packets.add(p);}};
         board.reveal(collecting);if(entities!=null)packets.addAll(entities.reveal(id));mode.reveal(collecting,()->services.reveal(lives.player(id),packets::add));media().ballot().reveal(packets::add);return List.copyOf(packets);
     }
-    public void input(int id,LiveClientInput input,int receivedLoop){lives().input(id,input,receivedLoop);}public void roundTripMillis(int id,Double value){lives().roundTripMillis(id,value);}public void actionLink(int id,ActionClock.Link link){lives().actionLink(id,link);}
+    public void input(int id,LiveClientInput input,int receivedLoop){if(inputs().allow(lives().player(id),MovementPacketRates.Kind.CLIENT_DATA,receivedLoop))lives().input(id,input,receivedLoop);}
+    public boolean clockAllowed(int id,int serverLoop){return lives().players().stream().filter(p->p.id()==id).findFirst().map(p->inputs().allow(p,MovementPacketRates.Kind.CLOCK_SYNC,serverLoop)).orElse(true);}
+    public void position(int id,LivePositionReport report,int serverLoop){inputs().position(lives().player(id),report,serverLoop);}public void roundTripMillis(int id,Double value){lives().roundTripMillis(id,value);}public void actionLink(int id,ActionClock.Link link){lives().actionLink(id,link);}
     public void packet(int id,GamePacket packet){lives().packet(id,packet);}public CompletionStage<Void> packetAsync(int id,GamePacket packet){return lives().packetAsync(id,packet);}
     public void transitionDetach(int id){detach(id,true);}public void disconnected(int id){detach(id,false);}
     private void detach(int id,boolean transitionOnly){

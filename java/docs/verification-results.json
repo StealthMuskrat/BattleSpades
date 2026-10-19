@@ -17,7 +17,7 @@
     "META-INF/THIRD_PARTY_NOTICES.md",
     "META-INF/JAVA-THIRD-PARTY-NOTICES.md"
   ],
-  "repeated_build_identical": false,
+  "repeated_build_identical": true,
   "junit": {
     "test": {
       "suites": 110,
@@ -34,12 +34,64 @@
       "skipped": 0
     }
   },
-  "verification_stage": "Upstream reconciliation and capture-zone implementations verified locally; CI pending",
-  "java_implementation_commit": null,
-  "tested_tree": null,
+  "verification_stage": "Updated upstream and TC/Multi-Hill checkpoint verified locally; four CI jobs passed, macOS queued awaiting runner",
+  "java_implementation_commit": "13bf1e85f556bc5a9ef2197bd368ea15c33982f5",
+  "tested_tree": "8dd0a01a8939a34a96fd90f7809277bfc3a8e0b8",
   "ci": {
-    "status": "pending",
-    "all_five_jobs_passed": false
+    "status": "pending_macos_runner",
+    "observed_at_utc": "2026-10-19T20:12:28.882372+00:00",
+    "run_id": 39315247712,
+    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39315247712",
+    "head_sha": "13bf1e85f556bc5a9ef2197bd368ea15c33982f5",
+    "tested_tree": "8dd0a01a8939a34a96fd90f7809277bfc3a8e0b8",
+    "attempt": 1,
+    "all_five_jobs_passed": false,
+    "all_final_steps_verified": false,
+    "completed_job_final_steps_verified": true,
+    "completed_jobs": 4,
+    "completed_final_steps": 53,
+    "jobs": [
+      {
+        "id": 118274905611,
+        "name": "build",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 13
+      },
+      {
+        "id": 118274906234,
+        "name": "native-enet",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 16
+      },
+      {
+        "id": 118275830105,
+        "name": "platform (macos-latest)",
+        "status": "queued",
+        "conclusion": null,
+        "steps": 0
+      },
+      {
+        "id": 118275830284,
+        "name": "platform (ubuntu-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 12
+      },
+      {
+        "id": 118275830401,
+        "name": "platform (windows-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 12
+      }
+    ],
+    "configured_source_generators_reproduced": 77,
+    "repeated_archive_byte_comparison": true,
+    "identical_uploaded_artifact_smoked_on_completed_platforms": 2,
+    "local_to_ci_artifact_hash_compared": false,
+    "pending_summary": "CI [run 39315247712](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39315247712) targets implementation `13bf1e85f556bc5a9ef2197bd368ea15c33982f5`, merge tree `8dd0a01a8939a34a96fd90f7809277bfc3a8e0b8`. Build, native ENet, Ubuntu and Windows passed; all 53 final steps in those four jobs completed successfully or were intentionally skipped. Native impaired transport/loader checks and all 77 configured reference generators passed, and the build byte-compared repeated application archives. Ubuntu and Windows smoked the uploaded artifact and passed component/integration tests. **macOS remains queued awaiting a runner; all-five-job verification is pending** (observed 2026-10-19T20:12:28.882372+00:00). No macOS pass, local-to-CI artifact hash comparison or supported-client acceptance is claimed."
   },
   "movement": {
     "cases": 118,
@@ -388,7 +440,10 @@
     "command": "python -m pytest -q tests/test_input_loss_recovery.py tests/test_action_clock.py tests/test_action_clock_recovery_review.py"
   },
   "publication": {
-    "status": "pending"
+    "status": "published",
+    "branch": "port/java25",
+    "implementation_commit": "13bf1e85f556bc5a9ef2197bd368ea15c33982f5",
+    "upstream_merge_parent": "546c548780c400f21d73ca6713f86194ceb3c844"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -6145,12 +6200,72 @@
       "parameterized_udp": 2
     },
     "ci": {
-      "status": "pending",
-      "all_five_jobs_passed": false
+      "status": "pending_macos_runner",
+      "observed_at_utc": "2026-10-19T20:12:28.882372+00:00",
+      "run_id": 39315247712,
+      "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39315247712",
+      "head_sha": "13bf1e85f556bc5a9ef2197bd368ea15c33982f5",
+      "tested_tree": "8dd0a01a8939a34a96fd90f7809277bfc3a8e0b8",
+      "attempt": 1,
+      "all_five_jobs_passed": false,
+      "all_final_steps_verified": false,
+      "completed_job_final_steps_verified": true,
+      "completed_jobs": 4,
+      "completed_final_steps": 53,
+      "jobs": [
+        {
+          "id": 118274905611,
+          "name": "build",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 13
+        },
+        {
+          "id": 118274906234,
+          "name": "native-enet",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 16
+        },
+        {
+          "id": 118275830105,
+          "name": "platform (macos-latest)",
+          "status": "queued",
+          "conclusion": null,
+          "steps": 0
+        },
+        {
+          "id": 118275830284,
+          "name": "platform (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 12
+        },
+        {
+          "id": 118275830401,
+          "name": "platform (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 12
+        }
+      ],
+      "configured_source_generators_reproduced": 77,
+      "repeated_archive_byte_comparison": true,
+      "identical_uploaded_artifact_smoked_on_completed_platforms": 2,
+      "local_to_ci_artifact_hash_compared": false,
+      "pending_summary": "CI [run 39315247712](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39315247712) targets implementation `13bf1e85f556bc5a9ef2197bd368ea15c33982f5`, merge tree `8dd0a01a8939a34a96fd90f7809277bfc3a8e0b8`. Build, native ENet, Ubuntu and Windows passed; all 53 final steps in those four jobs completed successfully or were intentionally skipped. Native impaired transport/loader checks and all 77 configured reference generators passed, and the build byte-compared repeated application archives. Ubuntu and Windows smoked the uploaded artifact and passed component/integration tests. **macOS remains queued awaiting a runner; all-five-job verification is pending** (observed 2026-10-19T20:12:28.882372+00:00). No macOS pass, local-to-CI artifact hash comparison or supported-client acceptance is claimed."
     },
     "full_migration_complete": false,
     "full_reference_python_baseline_passing": false,
-    "supported_retail_client_validated": false
+    "supported_retail_client_validated": false,
+    "implementation_commit": "13bf1e85f556bc5a9ef2197bd368ea15c33982f5",
+    "tested_tree": "8dd0a01a8939a34a96fd90f7809277bfc3a8e0b8",
+    "publication": {
+      "status": "published",
+      "branch": "port/java25",
+      "implementation_commit": "13bf1e85f556bc5a9ef2197bd368ea15c33982f5",
+      "upstream_merge_parent": "546c548780c400f21d73ca6713f86194ceb3c844"
+    }
   },
   "source_reconciliation": {
     "head": "546c548780c400f21d73ca6713f86194ceb3c844",
@@ -6199,5 +6314,6 @@
     "merge_parent_for_publication": "546c548780c400f21d73ca6713f86194ceb3c844",
     "six_reference_directories_exactly_match_main": true,
     "files_unchanged_from_import": true
-  }
+  },
+  "repeated_build_scope": "CI build byte-compared repeated archives; no fresh local repeated JAR or local-to-CI hash comparison claimed"
 }

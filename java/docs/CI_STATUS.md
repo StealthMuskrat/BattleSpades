@@ -19,7 +19,19 @@ all four fresh isolated native transport/packaged-loader profiles pass. The nati
 still uses FixtureScene. Normal hosting exits 2. No complete platform gameplay,
 supported retail-client test or local-to-CI artifact hash identity is claimed.
 
-All five CI jobs are required for this checkpoint after publication. Full migration is
+All five CI jobs passed for implementation `aea96236a466b48d5307941385f8eb01951f6eb2`, tested/published tree
+`6c278e641b9d1808625e3d03b94901007879b4ef`, in [run 39180327801](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39180327801). The native job independently rebuilt
+the original oracles and reproduced all 77 configured generators, including the new
+BaseMode/native-WorldManager/final-rescue spawn-chain traces. The build byte-compared
+repeated archives. Ubuntu, Windows and macOS smoked the uploaded JAR and passed
+source-built component/integration tests. Every final step completed successfully or
+was intentionally skipped. No local-to-CI artifact hash identity or complete platform
+gameplay is claimed.
+
+The first impaired-native attempt returned disconnect reason 0 instead of required 18.
+A fresh local repeat and the same-commit native CI rerun passed with assertions and
+deadlines unchanged. The initial failure is retained in verification-results.json; no
+transport fix or broader reliability conclusion is inferred from a successful retry. Full migration is
 incomplete. The existing medpack/Zombie/VIP original-baseline discrepancies remain
 unwaived; these focused passes do not establish a passing full original-source baseline.
 

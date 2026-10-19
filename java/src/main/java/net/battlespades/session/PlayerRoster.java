@@ -26,6 +26,9 @@ public final class PlayerRoster {
         var previous=lives.get(player.playerId());long identity=previous==null?++nextIdentity:previous.identity;
         long token=++nextLife;lives.put(player.playerId(),new Life(token,identity,player,color&0xffffff,null));return token;
     }
+    /** A live class/loadout change updates fresh catch-up without inventing a new life or identity.
+     * Its SetClassLoadout packet is ordered by the caller for peers that already know the body. */
+    public void appearance(PlayerPackets.CreatePlayer player){owned();var life=lives.get(player.playerId());if(life==null)throw new IllegalStateException("Unknown player appearance");lives.put(player.playerId(),new Life(life.token,life.identity,player,life.color,life.death));}
     public long identity(int id){owned();var life=lives.get(id);return life==null?0:life.identity;}
     public void remove(int id) {owned();lives.remove(id);}
     public void color(int id,int color) {owned();var life=lives.get(id);if(life!=null) lives.put(id,new Life(life.token,life.identity,life.create,color&0xffffff,life.death));}

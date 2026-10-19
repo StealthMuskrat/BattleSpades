@@ -1,7 +1,7 @@
 {
   "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
-  "jar_sha256": "0bcfbbfb92d2f0cf47e1034b86429c2fe66306390a4ee35fcfb8e01c6adb22f8",
-  "jar_bytes": 2403794,
+  "jar_sha256": "95eb587b70a35c7fe11aca122a223a4c62df16ed2df549007b844fdf392f3bf9",
+  "jar_bytes": 2403975,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -6596,8 +6596,8 @@
     }
   },
   "demolition_vip": {
-    "observed_utc": "2026-10-19T21:19:42.017211+00:00",
-    "base_commit": "c8fc0e7d0d4a6380da7e7b527f0896f7e914a1bf",
+    "observed_utc": "2026-10-19T21:26:49.215471+00:00",
+    "base_commit": "ad9917bac23cee02fad98153fe13aa7da1cc0b4e",
     "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
     "scope": "Demolition and VIP, committed topology subscribers, native packets18/117 and real sub-round/respawn/health/terrain owners",
     "junit": {
@@ -6642,8 +6642,8 @@
       "percent": "75030fc01207"
     },
     "gradle": "check build passed, including strict compilation, portability and distributions",
-    "jar_sha256": "0bcfbbfb92d2f0cf47e1034b86429c2fe66306390a4ee35fcfb8e01c6adb22f8",
-    "jar_bytes": 2403794,
+    "jar_sha256": "95eb587b70a35c7fe11aca122a223a4c62df16ed2df549007b844fdf392f3bf9",
+    "jar_bytes": 2403975,
     "jar_crc_valid": true,
     "java_class_major": 69,
     "smoke": {
@@ -6659,7 +6659,7 @@
     },
     "production_source_fingerprint": {
       "files": 259,
-      "sha256": "150250a30e47cf51a51e873c15f452be3bab193d9690cf9604d6fd4bd91f42be"
+      "sha256": "cf7efb454b7a9340312b968d8f49e4e01e96f4fbe8fff97674073296de3871bf"
     },
     "frozen_resource_paths_unchanged": 262,
     "six_source_directories_match": "546c548780c400f21d73ca6713f86194ceb3c844",
@@ -6680,6 +6680,13 @@
     },
     "full_migration_complete": false,
     "full_python_baseline_passing": false,
-    "supported_client_acceptance": false
+    "supported_client_acceptance": false,
+    "vip_roster_replay": "Live promotion refreshes cached CreatePlayer appearance without changing roster life/identity tokens or resending a CreatePlayer to existing peers. The same component/UDP regressions now require unchanged known-life tokens and late boss class10/11 models as well as crowns.",
+    "previous_demvip_checkpoint": {
+      "implementation_commit": "ad9917bac23cee02fad98153fe13aa7da1cc0b4e",
+      "tested_tree": "8c22bafac82da14ab8227f8e75e9eff06c432f4b",
+      "ci_run": 39326688290,
+      "status": "See recorded predecessor CI evidence; latest replay fix requires its own all-five run."
+    }
   }
 }

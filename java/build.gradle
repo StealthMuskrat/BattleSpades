@@ -40,6 +40,8 @@ tasks.register('integrationTest', Test) {
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
     shouldRunAfter test
+    dependsOn tasks.named('jar')
+    systemProperty 'battlespades.applicationJar', layout.buildDirectory.file('libs/BattleSpades.jar').get().asFile.absolutePath
 }
 tasks.withType(Test).configureEach {
     useJUnitPlatform()

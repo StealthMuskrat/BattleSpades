@@ -1,5 +1,7 @@
 # Isolated creator host and builder authority
 
+The following records a previous checkpoint. The completed standalone creator launcher, remaining tools, verified ownership attachment and light persistence are documented in [WORLD_CREATION.md](WORLD_CREATION.md).
+
 The isolated creator host passes **6,344 component + 57 integration = 6,401 Java tests** across 117 suites, with zero Java failures, errors or skips. Java 25 `check build`, strict compilation, portability and distributions pass. All four codec/catalog outputs reproduce exactly in an isolated tree. The six reference source directories still match upstream `546c548780c400f21d73ca6713f86194ceb3c844` and all 262 frozen resource paths are unchanged.
 
 Fresh unchanged original-source checks report **52 passed, 0 failed and 3 skipped out of 55**; the skips require retail baseplates absent from this workspace. The original native FogColor encoder independently reproduces packet 74 as `4a00563412` for RGB 18/52/86. Previous project/validation differential evidence remains in [UGC_PIPELINE.md](UGC_PIPELINE.md); those larger traces were not rerun for this checkpoint.

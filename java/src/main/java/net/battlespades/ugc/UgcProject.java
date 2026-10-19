@@ -33,6 +33,8 @@ public final class UgcProject {
     private static String clean(String s,String fallback,int limit){s=s.replace("\0","").strip();if(s.isEmpty())s=fallback;return s.substring(0,s.offsetByCodePoints(0,Math.min(limit,s.codePointCount(0,s.length()))));}
     public String title(){return title;}public String description(){return description;}public String author(){return author;}public String baseplate(){return baseplate;}public String targetMode(){return targetMode;}public String skybox(){return skybox;}public Integer prefabSet(){return prefabSet;}public boolean overhead(){return overhead;}public boolean modified(){return modified;}public BigInteger handle(){return handle;}public List<String> tags(){return tags;}public List<List<Integer>> groundColors(){return groundColors;}public List<Placement> placements(){return List.copyOf(placements);}
     public Terrain terrain(){return terrain(baseplate);}public Terrain prefabTerrain(){return prefabSet==null?terrain():terrain(PALETTES.get(prefabSet));}
+    public void description(String value){description=clean(value,"Undescribed UGC",512);modified=true;}
+    public void author(String value){author=clean(value,"Unknown",80);modified=true;}
     public void targetMode(String value){targetMode=target(value);modified=true;}
     public void prefabSet(Integer value){if(value!=null&&(value<0||value>=6))throw new IllegalArgumentException("Prefab palette must be 0..5");prefabSet=value;modified=true;}
     public boolean title(String value){if(value.isBlank()||value.codePointCount(0,value.length())>80||value.indexOf('\0')>=0||value.indexOf('\n')>=0||value.indexOf('\r')>=0)return false;title=value.strip();modified=true;return true;}

@@ -6,18 +6,19 @@ import java.io.PrintStream;
 import java.nio.file.Path;
 import net.battlespades.config.ServerConfig;
 
-/** Migration diagnostic launcher. Refuses gameplay startup until compatibility is implemented. */
+/** Portable diagnostics and standalone world creation; ordinary match startup remains gated. */
 public final class Main {
     private Main() {}
     public static void main(String[] args) { System.exit(run(args, System.out, System.err)); }
     public static int run(String[] args, PrintStream out, PrintStream error) {
         if (args.length == 1 && args[0].equals("--help")) {
-            out.println("BattleSpades Java 25 migration (not a playable server yet)");
+            out.println("BattleSpades Java 25: world creator and migration diagnostics");
             out.println("  java -jar BattleSpades.jar --check-config PATH");
             out.println("  java -jar BattleSpades.jar --version");
             out.println("  java -jar BattleSpades.jar --ugc-assets RETAIL_ROOT");
             out.println("  java -jar BattleSpades.jar --ugc-create RETAIL_ROOT DIRECTORY NAME TERRAIN MODE");
             out.println("  java -jar BattleSpades.jar --ugc-check DIRECTORY NAME");
+            out.println("  java -jar BattleSpades.jar --ugc-host --retail-root RETAIL_ROOT --project NAME [--config PATH] [--publish-root hosted_ugc] [--control-stdin]");
             return 0;
         }
         if(args.length>0&&args[0].startsWith("--ugc-"))return net.battlespades.ugc.UgcCommands.run(args,out,error);
@@ -41,8 +42,8 @@ public final class Main {
                 return 2;
             }
         }
-        error.println("Java migration incomplete: a configured gameplay scene, player simulation and game modes are not available.");
-        error.println("Use --help for diagnostics. Continue using the reference server for gameplay.");
+        error.println("Ordinary gameplay startup is incomplete. Use --ugc-host for world creation.");
+        error.println("Use --help for commands.");
         return 2;
     }
 }

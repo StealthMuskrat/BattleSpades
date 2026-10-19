@@ -1,12 +1,8 @@
 # BattleSpades Java 25 migration
 
-**Development components, not a playable server.** This executable deliberately
-returns exit code 2 for normal game startup. Common scene/lifecycle and owned
-movement/flight and WorldUpdate replication components exist; combat and concrete modes
-remain incomplete.
-Owned application sessions and live catch-up are tested with a domain fixture.
-See [FEATURE_PARITY.md](docs/FEATURE_PARITY.md) and the
-[migration plan](../JAVA25_MIGRATION_PLAN.md). Do not deploy this JAR as a game server.
+The standalone Java world creator is available through `--ugc-host`, including native editor tools, authored objects/lights, previews, saves and reopen. See [WORLD_CREATION.md](docs/WORLD_CREATION.md) for launch options and verification limits. General competitive match startup remains gated with exit 2 while its remaining services are migrated.
+
+See [FEATURE_PARITY.md](docs/FEATURE_PARITY.md) and the [migration plan](../JAVA25_MIGRATION_PLAN.md).
 
 ## Build
 
@@ -40,7 +36,7 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
-The Map Creator project pipeline adds offline create/check/assets commands, objective validation, canonical file saves, capacity tracking, editor object ownership and native source-map/replay components. The explicit creator host API now connects real sessions, builder mutations and saved editor state; production creator startup and remaining retail tool/client acceptance are pending. See [CREATOR_HOST.md](docs/CREATOR_HOST.md). See [UGC_PIPELINE.md](docs/UGC_PIPELINE.md).
+The world-creation workflow now has a standalone launcher, complete builder/projectile/flare bindings, verified ownership API, canonical VXL/light metadata persistence and graceful shutdown. See [WORLD_CREATION.md](docs/WORLD_CREATION.md).
 
 Zombie outbreak/round ownership and all ten Hardcore variants now share the concrete mode runtime, native role/loadout/movement state and real infection/respawn/catch-up owners. See [ZOMBIE_HARDCORE.md](docs/ZOMBIE_HARDCORE.md).
 

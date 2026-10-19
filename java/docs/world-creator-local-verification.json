@@ -1,0 +1,130 @@
+{
+  "observed_utc": "2026-10-19T23:40:31.645814+00:00",
+  "base_commit": "2f35b7f0bde0a8fc07c0b87669b820fd851a8015",
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "scope": "complete standalone world-creation workflow: create/launch/edit/native tools/lights/objectives/preview/save/reopen/shutdown",
+  "junit": {
+    "test": {
+      "suites": 114,
+      "tests": 6347,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 4,
+      "tests": 60,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "java_total": 6407,
+  "reference_tests": {
+    "tests": 116,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 3
+  },
+  "reference_passed": 113,
+  "reference_skips": [
+    {
+      "test": "tests.test_ugc_round5.test_capacity_matches_retail_baseplates[DesertBaseplate-2820321-1137]",
+      "message": "retail UGC baseplates are not installed"
+    },
+    {
+      "test": "tests.test_ugc_round5.test_capacity_matches_retail_baseplates[MountainBaseplate-1180703-672]",
+      "message": "retail UGC baseplates are not installed"
+    },
+    {
+      "test": "tests.test_ugc_round5.test_capacity_matches_retail_baseplates[WaterBaseplate-262144-1024]",
+      "message": "retail UGC baseplates are not installed"
+    }
+  ],
+  "reference_source_unchanged": true,
+  "native_fog": {
+    "encoder": "unchanged shared.packet.FogColor Cython",
+    "rgb": [
+      18,
+      52,
+      86
+    ],
+    "hex": "4a00563412"
+  },
+  "native_editor_packets": {
+    "encoder": "unchanged shared.packet Cython",
+    "hex": [
+      "62010000000801000200030007",
+      "4408010000004100f9ffffff",
+      "6603000000010203",
+      "760101020304"
+    ]
+  },
+  "gradle": "Final full check build passed; an initially corrupt generated local JAR was rebuilt; no code assertions or deadlines were weakened",
+  "local_artifact_correction": {
+    "observed_utc": "2026-10-19T23:36:15.963661+00:00",
+    "failure": "Packaged creator JVM startup rejected the generated local JAR as invalid/corrupt; Python ZIP CRC check found no ZIP central directory",
+    "final_full_java_results_before_package_rebuild": {
+      "component": {
+        "tests": 6347,
+        "failures": 0
+      },
+      "integration": {
+        "tests": 60,
+        "failures": 1,
+        "failure_scope": "packaged JAR startup only"
+      }
+    },
+    "correction": "Rebuild only generated jar; then rerun failed integration task and final check/build using unchanged passed component tests; no source assertions or deadlines relaxed"
+  },
+  "jar_sha256": "08ee5f09df13f9f7d7191b528bcbc308aaf67455335852066f6e0927bb756c2e",
+  "jar_bytes": 2602821,
+  "jar_crc_valid": true,
+  "java_class_major": 69,
+  "smoke": {
+    "version": {
+      "exit": 0
+    },
+    "config": {
+      "exit": 0
+    },
+    "help": {
+      "exit": 0
+    },
+    "ugc_missing": {
+      "exit": 2
+    },
+    "hosting": {
+      "exit": 2
+    }
+  },
+  "production_source_fingerprint": {
+    "files": 281,
+    "sha256": "8840ff2870233cd8e39bc6bd82670072408fb4530f9bff21ec1463442f00096d"
+  },
+  "frozen_resource_paths_unchanged": 262,
+  "six_source_directories_match": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "generator_reproduction": [
+    "java/src/main/java/net/battlespades/protocol/SimplePackets.java",
+    "java/src/main/java/net/battlespades/protocol/PacketCodec.java",
+    "java/docs/simple-packets.json",
+    "java/src/main/java/net/battlespades/ugc/UgcCatalog.java"
+  ],
+  "new_tests": {
+    "grouped_component": 3,
+    "actual_udp_integration": 3,
+    "modified_existing_editor_recolor_regression": true
+  },
+  "ci": {
+    "status": "pending",
+    "all_five_jobs_passed": false
+  },
+  "world_creation_workflow_implemented": true,
+  "standalone_creator": "offline first-socket ownership; optional password; local operator stdin",
+  "verified_identity_embedding_supported": true,
+  "authenticated_cloud_identity_backend_bundled": false,
+  "world_creation_retail_client_acceptance": false,
+  "full_migration_complete": false,
+  "full_python_baseline_passing": false,
+  "supported_client_acceptance": false
+}

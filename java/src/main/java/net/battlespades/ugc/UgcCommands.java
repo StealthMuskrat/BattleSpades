@@ -9,7 +9,7 @@ import net.battlespades.world.VxlMap;
 /** Offline project commands use exactly the same model as the owned editor components. */
 public final class UgcCommands {
     private UgcCommands(){}
-    public static int run(String[] args,PrintStream out,PrintStream error){try{
+    public static int run(String[] args,PrintStream out,PrintStream error){if(args.length>0&&args[0].equals("--ugc-host"))return CreatorLauncher.run(args,System.in,out,error);try{
         if(args.length==2&&args[0].equals("--ugc-assets")){var assets=UgcAssets.discover(List.of(Path.of(args[1])));out.println("Retail UGC assets: "+assets.root());for(var terrain:UgcProject.TERRAINS)out.println(terrain.key()+": "+assets.compatible(terrain).size()+" installed palette constructs");return 0;}
         if(args.length==6&&args[0].equals("--ugc-create")){var assets=UgcAssets.discover(List.of(Path.of(args[1])));var project=new UgcProject(args[3],"","",args[4],args[5]);var presentation=UgcAssets.presentation(Files.readString(assets.files(project.terrain()).metadata()));project.skybox(presentation.skybox());project.groundColors(presentation.colors());VxlMap.load(Files.readAllBytes(assets.files(project.terrain()).vxl()),"retail");var opened=UgcWorkspace.create(project,Path.of(args[2]),args[3],assets,false);out.println("Created UGC project: "+opened.files().sidecar());return report(opened,out);}
         if(args.length==3&&args[0].equals("--ugc-check"))return report(UgcWorkspace.open(Path.of(args[1]),args[2],null),out);

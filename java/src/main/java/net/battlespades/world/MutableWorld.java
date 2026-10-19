@@ -65,6 +65,11 @@ public final class MutableWorld implements AutoCloseable {
     /** The canonical server removal hook runs before the per-cell catch-up cursor is recorded. */
     public RemovalLease observeRemovals(java.util.function.Consumer<Cell> observer){active();if(removalObserver!=null)throw new IllegalStateException("Canonical removal observer already installed");removalObserver=java.util.Objects.requireNonNull(observer);return ()->{active();if(removalObserver==observer)removalObserver=null;};}
 
+    private record TopologyListener(java.util.function.BiConsumer<Cell,Boolean> action,java.util.function.Consumer<RuntimeException> fault){}
+    private final List<TopologyListener> topologyListeners=new ArrayList<>();
+    /** Independent committed-topology subscribers never replace the canonical removal hook. */
+    public RemovalLease observeTopology(java.util.function.BiConsumer<Cell,Boolean> listener,java.util.function.Consumer<RuntimeException> fault){active();var item=new TopologyListener(java.util.Objects.requireNonNull(listener),java.util.Objects.requireNonNull(fault));topologyListeners.add(item);return ()->{active();topologyListeners.remove(item);};}
+    private void topology(Cell cell,boolean solid){for(var item:List.copyOf(topologyListeners))try{item.action.accept(cell,solid);}catch(RuntimeException e){item.fault.accept(e);}}
     private boolean closed;
     public MutableWorld(VxlMap base,long epoch,int journalLimit) {
         this.base=java.util.Objects.requireNonNull(base);this.epoch=epoch;this.journalLimit=journalLimit;sourceCrc=(int)base.sourceCrc();
@@ -134,12 +139,12 @@ public final class MutableWorld implements AutoCloseable {
                 }
             }
         }
-        if(publish){if(!solid&&removalObserver!=null)removalObserver.accept(cell);recordCell(cell);}
+        if(publish){if(!solid&&removalObserver!=null)removalObserver.accept(cell);if(previous!=solid)topology(cell,solid);recordCell(cell);}
     }
     /** Source destroy_blocks commits the whole component before support-loss callbacks can start another blast. */
     public List<Cell> destroyBlocks(List<Cell> positions){
         active();var removed=new java.util.ArrayList<Cell>();var seen=new java.util.HashSet<Cell>();for(var cell:positions)if(seen.add(cell)&&cell.z<239&&solid(cell)){set(cell,false,0,null,false);removed.add(cell);}
-        var observer=removalObserver;for(var cell:removed){if(observer!=null)observer.accept(cell);recordCell(cell);}return List.copyOf(removed);
+        var observer=removalObserver;for(var cell:removed){if(observer!=null)observer.accept(cell);topology(cell,false);recordCell(cell);}return List.copyOf(removed);
     }
     void recordCell(Cell cell) {
         active();revision++;
@@ -248,5 +253,5 @@ public final class MutableWorld implements AutoCloseable {
         @Override public void close() {owned();if(!released) {released=true;leases.remove(this);pendingPackets=List.of();cells=List.of();pendingCell=null;prune();}}
     }
     private CellState stateOf(Cell cell) {return new CellState(solid(cell),color(cell),explicit(cell),initialHealth(cell),terrainHealth.accumulated(cell),terrainHealth.scale());}
-    @Override public void close() {owned();if(closed) return;closed=true;for(var l:List.copyOf(leases)) l.close();journal.clear();columns.clear();dirtyColumns.clear();staticLights.clear();lightListeners.clear();air.clear();health.clear();terrainHealth.close();}
+    @Override public void close() {owned();if(closed) return;closed=true;for(var l:List.copyOf(leases)) l.close();journal.clear();columns.clear();dirtyColumns.clear();staticLights.clear();lightListeners.clear();topologyListeners.clear();air.clear();health.clear();terrainHealth.close();}
 }

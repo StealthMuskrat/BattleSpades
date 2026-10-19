@@ -67,6 +67,9 @@ public final class PlayerLife {
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Life accessed outside owner");}
     void team(int value){owned();if(value!=0&&value!=2&&value!=3)throw new IllegalArgumentException("Team");team=value;}
     void color(int value){owned();color=value&0xffffff;}
+    public void clearPendingSelection(){owned();pending=null;}
+    /** Direct unattributed mode damage still resets passive healing. */
+    public void modeDamageStamp(double wall){owned();lastDamageWall=wall;}
     void clearPending(){owned();pending=null;}
     public int id(){owned();return id;}public int team(){owned();return team;}public int health(){owned();return health;}
     public boolean diedReloading(){owned();return diedReloading;}

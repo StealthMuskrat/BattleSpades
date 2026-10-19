@@ -19,8 +19,8 @@ public final class HostedEscapeWatch {
     private final Map<Integer,Track> tracks=new LinkedHashMap<>();
     public HostedEscapeWatch(StandardMatchDomain match,ApplicationHost host,TomlTable raw){this.match=match;this.host=host;enabled=CtfMode.Settings.flag(raw,"objectives.escape_watch_enabled",true);interval=number(raw,"interval",1,.1,60);sky=number(raw,"sky_seconds",5,0,600);embedded=number(raw,"embedded_seconds",3,0,600);entombed=number(raw,"entomb_seconds",5,0,600);}
     private static double number(TomlTable raw,String key,double value,double min,double max){return Math.max(min,Math.min(max,CtfMode.Settings.number(raw,"objectives.escape_watch_"+key,value)));}
-    private boolean modeMarked(PlayerLife p){return match.ctf().map(c->c.exposed(p)).orElse(false);}
-    private boolean objective(PlayerLife p){return match.carry().map(c->c.carrying(p)).orElseGet(()->match.zones().map(z->z.objective(p)).orElseGet(()->match.ctf().map(c->c.carrying(p)).orElse(false)));}
+    private boolean modeMarked(PlayerLife p){return match.vip().map(v->v.marked(p)).orElseGet(()->match.ctf().map(c->c.exposed(p)).orElse(false));}
+    private boolean objective(PlayerLife p){return match.vip().map(v->v.marked(p)).orElse(false)||match.carry().map(c->c.carrying(p)).orElseGet(()->match.zones().map(z->z.objective(p)).orElseGet(()->match.ctf().map(c->c.carrying(p)).orElse(false)));}
     private void marker(PlayerLife p,boolean visible){host.broadcastKnown(MatchPackets.ChangePlayer.marker(p.id(),visible),Delivery.RELIABLE,p.id());}
     private boolean solid(int x,int y,int z){if(x<0||x>=512||y<0||y>=512||z>=240)return true;return z>=0&&match.world().solid(x,y,z);}
     private boolean sealed(Vector p){

@@ -32,9 +32,14 @@ public final class RoundClock {
         for(int second=Math.toIntExact(FlowCatalog.value("finalCountdown"));second>0;second--){double t=second;if(fired.contains(t)||remaining>t)continue;fired.add(t);if(remaining<=t-1)continue;effects.announce(new FlowCatalog.Cue(t,"COUNTDOWN_FROM_TEN",List.of(""+second)));}
     }
     public CompletionStage<Void> tick(double wall,int queued){
+        return tickRemaining(wall,queued,timeLimit>0?timeLimit-(wall-startTime):Double.POSITIVE_INFINITY,true,true);
+    }
+    /** VIP supplies an independent sub-round deadline and suppresses the whole-match ballot. */
+    public CompletionStage<Void> tickRemaining(double wall,int queued,double remaining,boolean active,boolean vote){
         if(ended)return CompletableFuture.completedFuture(null);elapsed=wall-startTime;if(escapeEnabled)try{effects.escapeWatch();}catch(RuntimeException e){effects.escapeFailure(e);}
-        if(timeLimit>0&&!timeoutMusicPlayed&&timeLimit-elapsed<=FlowCatalog.number("timeoutMusicSeconds")){timeoutMusicPlayed=true;effects.timeoutMusic();}if(timeLimit>0)countdown(timeLimit-elapsed);if(timeLimit>0&&timeLimit-elapsed<=FlowCatalog.number("voteLeadSeconds"))effects.ensureVote(wall);
-        if(timeLimit>0&&elapsed>=timeLimit){if(timeoutRemaining==null)timeoutRemaining=queued;if(timeoutRemaining==0)return Objects.requireNonNull(effects.endByTime());}else timeoutRemaining=null;return CompletableFuture.completedFuture(null);
+        if(!active||!Double.isFinite(remaining)){timeoutRemaining=null;return CompletableFuture.completedFuture(null);}
+        if(!timeoutMusicPlayed&&remaining<=FlowCatalog.number("timeoutMusicSeconds")){timeoutMusicPlayed=true;effects.timeoutMusic();}countdown(remaining);if(vote&&remaining<=FlowCatalog.number("voteLeadSeconds"))effects.ensureVote(wall);
+        if(remaining<=0){if(timeoutRemaining==null)timeoutRemaining=queued;if(timeoutRemaining==0)return Objects.requireNonNull(effects.endByTime());}else timeoutRemaining=null;return CompletableFuture.completedFuture(null);
     }
     public static Integer scoreWinner(List<TeamState> teams,long limit){if(limit<=0)return null;for(var t:teams)if(t.score>=limit)return t.id;return null;}
     public static Integer timeWinner(List<TeamState> teams){var sorted=teams.stream().sorted(Comparator.comparingLong((TeamState t)->t.score).reversed()).toList();return !sorted.isEmpty()&&(sorted.size()==1||sorted.getFirst().score>sorted.get(1).score)?sorted.getFirst().id:null;}

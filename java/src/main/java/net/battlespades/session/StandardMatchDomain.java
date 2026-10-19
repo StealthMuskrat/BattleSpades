@@ -23,6 +23,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
         CompletionStage<Void> plugin(ModeEvents.Event event);
         void matchStarted();void rebuildResources();void matchEnded(Integer winner);
         void endVote(double wall);void vote(double wall);void scheduleEnd(Integer winner);CompletionStage<Void> cancelEnd();
+        void demolitionRepair(PlayerLife player,int count);void vipRound(HostedVipRuntime.RoundObservation event);
         void hillEvent(HostedZoneRuntime.HillEvent event);void carryObservation(HostedCarryRuntime.Observation event);
         void escapeWatch();void reveal(PlayerLife player,Consumer<GamePacket> send);
         void resetResultBaselines();void scheduleResults(Integer winner);
@@ -30,7 +31,13 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
         void close();
     }
     private final Thread owner=Thread.currentThread();
-    private final TomlTable raw;private final SpawnGeometry geometry;private HostedCarryRuntime carry;private HostedCtfRuntime ctf;private HostedZoneRuntime zones;private HostedEscapeWatch escapeWatch;
+    private final TomlTable raw;private final SpawnGeometry geometry;private HostedDemolitionRuntime demolition;private HostedVipRuntime vip;private HostedCarryRuntime carry;private HostedCtfRuntime ctf;private HostedZoneRuntime zones;private HostedEscapeWatch escapeWatch;
+    public Optional<HostedDemolitionRuntime> demolition(){owned();return Optional.ofNullable(demolition);}
+    public Optional<HostedVipRuntime> vip(){owned();return Optional.ofNullable(vip);}
+    public void demolitionRepair(PlayerLife player,int count){owned();services.demolitionRepair(player,count);}
+    public void vipRound(HostedVipRuntime.RoundObservation event){owned();services.vipRound(event);}
+    public void restoreGameplayMusic(){media().music().gameplay(musicEnabled);}
+    public void timeoutMusic(){media().music().timeout();}
     public Optional<HostedCarryRuntime> carry(){owned();return Optional.ofNullable(carry);}
     public void carryObservation(HostedCarryRuntime.Observation event){owned();services.carryObservation(event);}
     public boolean friendlyFire(){owned();return config.friendlyFire();}
@@ -92,7 +99,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
             LifeRuntime.Clock clock,SourceRandom random,OwnerLoop loop,List<String> maps,LifeRuntime.Effects lifeEffects,HostedInputRuntime.Ports inputs,Services services){
         var config=modeConfig(requestedConfig);this.raw=raw;this.geometry=prepared.spawns();
         logCommands=raw.getBoolean("admin.log_commands",()->true);conductSettings=HostedConductRuntime.Settings.from(raw);prefabSettings=HostedPrefabRuntime.Settings.from(raw);constructionSettings=HostedConstructionRuntime.Settings.from(raw);this.config=Objects.requireNonNull(config);this.metadata=Objects.requireNonNull(metadata);this.clock=Objects.requireNonNull(clock);this.random=Objects.requireNonNull(random);this.loop=Objects.requireNonNull(loop);this.maps=List.copyOf(maps);this.services=Objects.requireNonNull(services);Objects.requireNonNull(lifeEffects);Objects.requireNonNull(inputs);
-        if(!Set.of("tdm","arena","ctf","cctf","tc","mh","dia","oc").contains(config.modeCode())||!metadata.activeMode().equals(config.modeCode())||metadata.environment().sourceCrc()!=prepared.world().sourceCrc())throw new IllegalArgumentException("Standard match requires matching prepared mode and config");
+        if(!Set.of("tdm","arena","ctf","cctf","tc","mh","dia","oc","dem","vip").contains(config.modeCode())||!metadata.activeMode().equals(config.modeCode())||metadata.environment().sourceCrc()!=prepared.world().sourceCrc())throw new IllegalArgumentException("Standard match requires matching prepared mode and config");
         cooldown=5;respawn=number(raw,"game.respawn_time",5);musicEnabled=raw.getBoolean("audio.mode_start_music",()->true);
         teams=List.of(team(2,config.team1()),team(3,config.team2()));
         events=new ModeEvents(8192,1024,this::mode,services::plugin,services::failure,loop);
@@ -103,16 +110,16 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
         combat=new CombatEvidence(()->new CombatEvidence.Context(!mode().clock().ended,true,false,null),this::rows,(a,b)->a.team()!=b.team(),board);
         binding=new MatchLifeBinding(this::lives,new LifeEffects(lifeEffects),profiles,combat,events,clock::monotonic);
         lives=new LifeRuntime(prepared.world(),config.rules(),config.modeCode(),clock,new LifeRuntime.Policy(){
-            public AdmissionPolicy.Context admissionContext(int id){return new AdmissionPolicy.Context(lives().players().stream().map(p->new AdmissionPolicy.Occupant(p.id(),p.name(),services.admin(p.id()),p.team())).toList(),null,new AdmissionPolicy.ModePolicy(){public ClassCatalog.Selection prepareSelection(int team,ClassCatalog.Selection s){return config.modeCode().equals("cctf")&&(team==2||team==3)?classicSelection(s):s;}});}
-            public void prepareSpawn(PlayerLife p){} // Ordinary BaseMode has no prepare_player_spawn hook.
-            public Vector spawnPoint(PlayerLife p){return spawns().spawn(p);}public Optional<Vector> spawnOrientation(PlayerLife p){return Optional.empty();}
-            public boolean canRespawn(PlayerLife p){return !(mode() instanceof ArenaMode arena)||arena.canRespawn(p);}
-            public double respawnDelay(PlayerLife p){return mode() instanceof ArenaMode arena?arena.respawnTime(respawn):respawn;}
+            public AdmissionPolicy.Context admissionContext(int id){return new AdmissionPolicy.Context(lives().players().stream().map(p->new AdmissionPolicy.Occupant(p.id(),p.name(),services.admin(p.id()),p.team())).toList(),null,new AdmissionPolicy.ModePolicy(){public ClassCatalog.Selection prepareSelection(int team,ClassCatalog.Selection s){return vip!=null&&(team==2||team==3)?vip.ordinary(s):config.modeCode().equals("cctf")&&(team==2||team==3)?classicSelection(s):s;}});}
+            public void prepareSpawn(PlayerLife p){if(vip!=null)vip.prepareSpawn(p);}
+            public Vector spawnPoint(PlayerLife p){return vip!=null?vip.spawn(p).orElseGet(()->spawns().spawn(p)):spawns().spawn(p);}public Optional<Vector> spawnOrientation(PlayerLife p){return Optional.empty();}
+            public boolean canRespawn(PlayerLife p){return vip!=null?vip.canRespawn(p):!(mode() instanceof ArenaMode arena)||arena.canRespawn(p);}
+            public double respawnDelay(PlayerLife p){return vip!=null?vip.respawnDelay(p,respawn):mode() instanceof ArenaMode arena?arena.respawnTime(respawn):respawn;}
             public double walletScale(){return config.rules().number("RULE_CHARACTER_BLOCK_WALLETS");}
             public int teamColor(PlayerLife p){return teams.stream().filter(t->t.id==p.team()).findFirst().map(TeamState::color).orElse(0x707070);}
             public int score(PlayerLife p){return Math.toIntExact(binding.row(p).score);}public boolean opponents(PlayerLife a,PlayerLife b){return a.team()!=b.team();}
-            public int deathType(PlayerLife v,PlayerLife k,int type){return type;}
-            public Optional<LifeRuntime.DamageModifier> damageModifier(){return mode() instanceof ArenaMode arena?Optional.of((v,amount,s,type)->arena.damage(amount)):Optional.empty();}
+            public int deathType(PlayerLife v,PlayerLife k,int type){return vip!=null&&vip.active()&&vip.liveVip(v)?26:type;}
+            public Optional<LifeRuntime.DamageModifier> damageModifier(){return vip!=null?Optional.of((v,amount,s,type)->vip.incoming(v,amount,s)):mode() instanceof ArenaMode arena?Optional.of((v,amount,s,type)->arena.damage(amount)):Optional.empty();}
             public boolean combatScoringActive(){return !mode().clock().ended;}
         },binding,new LifeRuntime.Messages(){
             public void broadcast(GamePacket p){send(p,true,knownId(p));}public void owner(int id,GamePacket p){host().sendPlayer(id,p);}public boolean inGame(int id){return host().inGame(id);}
@@ -127,6 +134,8 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
             case "ctf","cctf"->new CtfMode(CtfMode.Settings.from(raw,config.rules(),config.modeCode()),()->Objects.requireNonNull(ctf,"CTF owner not attached"),()->teams,this::rows,this::peer,board,clock::wall,clock::monotonic,events::size,p->send(p,true,null),effects,loop);
             case "tc","mh"->new ZoneMode(ZoneMode.Settings.from(raw,config.rules(),config.modeCode()),()->Objects.requireNonNull(zones,"Zone owner not attached"),()->teams,this::rows,this::peer,board,clock::wall,clock::monotonic,events::size,p->send(p,true,null),effects,loop);
             case "dia","oc"->new CarryMode(CarryMode.Settings.from(raw,config.rules(),config.modeCode()),()->Objects.requireNonNull(carry,"Carry objectives not attached"),()->teams,this::rows,this::peer,board,clock::wall,clock::monotonic,events::size,p->send(p,true,null),effects,loop);
+            case "dem"->new DemolitionMode(DemolitionMode.Settings.from(raw,config.rules()),()->Objects.requireNonNull(demolition),()->teams,this::rows,this::peer,board,clock::wall,clock::monotonic,events::size,p->send(p,true,null),effects,loop);
+            case "vip"->new VipMode(VipMode.Settings.from(raw,config.rules()),()->Objects.requireNonNull(vip),()->teams,this::rows,this::peer,board,clock::wall,clock::monotonic,events::size,p->send(p,true,null),effects,loop);
             default->throw new IllegalArgumentException("Standard mode");
         };
         spawns=new StandardSpawns(prepared.spawns(),mode,random,lives::players,clock::monotonic);
@@ -149,14 +158,15 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
         owned();if(host!=null||!lives.players().isEmpty())throw new IllegalStateException("Match must attach once before admission");host=Objects.requireNonNull(application);escapeWatch=new HostedEscapeWatch(this,host,raw);conduct=new HostedConductRuntime(this,host,conductSettings);
         var byId=new LinkedHashMap<Integer,TeamState>();for(var t:teams)byId.put(t.id,t);
         controls=new HostedPlayerControls(host,lives,byId,events,new HostedPlayerControls.Mode(){
-            public Object eventPlayer(PlayerLife p){return binding.row(p);}public boolean allowsTeam(PlayerLife p,int team){return true;}public boolean locked(int team){return false;}public boolean assignsTeams(){return false;}public void retireDeployables(PlayerLife p){if(entities!=null)entities.actions().retire(p);services.retireDeployables(p);}
+            public Object eventPlayer(PlayerLife p){return binding.row(p);}public boolean allowsTeam(PlayerLife p,int team){return vip==null||vip.allowsTeam(p);}public boolean locked(int team){return false;}public boolean assignsTeams(){return false;}public void retireDeployables(PlayerLife p){if(entities!=null)entities.actions().retire(p);services.retireDeployables(p);}
             public ClassCatalog.Selection normalize(int id,List<Integer> tools,List<String> prefabs,List<Integer> ugc,int fallback){return ClassCatalog.normalize(id,tools,prefabs,ugc,fallback,selectionDisabled());}
-            public boolean selectable(int id){return AdmissionPolicy.classSelectable(id,config.rules(),config.mode(),false,false);}public boolean allowsSelection(PlayerLife p,ClassCatalog.Selection s){return !config.modeCode().equals("cctf")||(p.team()==2||p.team()==3)&&s.equals(classicSelection(s));}public boolean liveUgc(PlayerLife p,ClassCatalog.Selection s){return false;}
+            public boolean selectable(int id){return AdmissionPolicy.classSelectable(id,config.rules(),config.mode(),false,false);}public boolean allowsSelection(PlayerLife p,ClassCatalog.Selection s){return vip==null&&(!config.modeCode().equals("cctf")||(p.team()==2||p.team()==3)&&s.equals(classicSelection(s)));}public boolean liveUgc(PlayerLife p,ClassCatalog.Selection s){return false;}
         },config.rules(),config.admission(),cooldown,clock::monotonic,clock::wall,loop,services::failure);
         social=new HostedSocialRuntime(this,host,loop,logCommands);media=new HostedMedia(host,this::lives,maps,random,loop);media.joinAudio(()->metadata,this::mode,()->musicEnabled,services::failure);
         if(runtimeFactory!=null)runtime=Objects.requireNonNull(runtimeFactory.apply(host));
         if(combatFactory!=null)combatRuntime=Objects.requireNonNull(combatFactory.apply(host));
         if(entityFactory!=null){entities=Objects.requireNonNull(entityFactory.apply(host));construction=new HostedConstructionRuntime(this,host,config,constructionSettings);corpses=new HostedCorpseRuntime(this,host,config,metadata.environment().gravity(),entities.wireReady(),config.modeCode().equals("cctf"));prefabs=new HostedPrefabRuntime(this,host,prefabSettings,prefabRoots);if(mode instanceof CtfMode c)ctf=new HostedCtfRuntime(this,host,c,geometry,raw);if(mode instanceof ZoneMode z)zones=new HostedZoneRuntime(this,host,z,geometry,raw,loop);if(mode instanceof CarryMode c)carry=c.settings().code().equals("dia")?new HostedDiamondRuntime(this,host,c,geometry,raw,config.rules(),new SourceRandom(new java.security.SecureRandom().nextLong())):new HostedOccupationRuntime(this,host,c,geometry,raw,config.rules());
+            if(mode instanceof DemolitionMode d)demolition=new HostedDemolitionRuntime(this,host,d,geometry);if(mode instanceof VipMode v)vip=new HostedVipRuntime(this,host,v,loop,random,config.rules(),geometry);
             lives.objectives(new ObjectiveDropRequests(()->carry!=null?Optional.of((p,at,velocity)->CompletableFuture.completedFuture(carry.drop(p,at,velocity,false,null))):ctf==null?Optional.empty():Optional.of((p,at,velocity)->CompletableFuture.completedFuture(ctf.drop(p,at,velocity,false))),entities.registry(),this::frameLoop,p->send(p,true,null),loop));
             inputRuntime.actions((p,packet)->construction.packet(p,packet)||prefabs.packet(p,packet)||entities.packet(p,packet)); }
     }
@@ -168,7 +178,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     }
     private final class LifeEffects implements LifeRuntime.Effects {
         private final LifeRuntime.Effects delegate;LifeEffects(LifeRuntime.Effects delegate){this.delegate=delegate;}
-        public void beforeSpawn(PlayerLife p){if(carry!=null)carry.retire(p,null);if(escapeWatch!=null)escapeWatch.forget(p);if(zones!=null)zones.forget(p);if(ctf!=null)ctf.retire(p);if(entities!=null){entities.effects().extinguish(p.id());construction.mutations().cancel(p);prefabs.forget(p);corpses.beforeSpawn(p);}delegate.beforeSpawn(p);}public void spawned(PlayerLife p){delegate.spawned(p);events.offer(ModeEvents.Event.of("on_player_spawn",binding.row(p)));}
+        public void beforeSpawn(PlayerLife p){if(carry!=null)carry.retire(p,null);if(escapeWatch!=null)escapeWatch.forget(p);if(zones!=null)zones.forget(p);if(ctf!=null)ctf.retire(p);if(entities!=null){entities.effects().extinguish(p.id());construction.mutations().cancel(p);prefabs.forget(p);corpses.beforeSpawn(p);}delegate.beforeSpawn(p);}public void spawned(PlayerLife p){if(demolition!=null)demolition.lock(p);delegate.spawned(p);events.offer(ModeEvents.Event.of("on_player_spawn",binding.row(p)));}
         public void died(PlayerLife v,PlayerLife k,int weapon,int presentation,boolean enemy){if(escapeWatch!=null)escapeWatch.forget(v);if(corpses!=null)corpses.died(v);delegate.died(v,k,weapon,presentation,enemy);}
         public void damaged(LifeRuntime.DamageEvidence d){if(conduct!=null)conduct.harm(d);delegate.damaged(d);}public void healed(LifeRuntime.HealingEvidence h){delegate.healed(h);}public void beforeDeath(LifeRuntime.DeathEvidence d){delegate.beforeDeath(d);}
         public void transitionCredited(PlayerLife v,PlayerLife a,int type){delegate.transitionCredited(v,a,type);}public void forget(PlayerLife p){delegate.forget(p);}public void transitionForget(PlayerLife p){delegate.transitionForget(p);}public void respawnFailed(PlayerLife p,RuntimeException error){delegate.respawnFailed(p,error);}
@@ -178,20 +188,22 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
         return new InitialInfo(p.identity(),p.mode(),p.map(),p.features(),p.blockWalletMultiplier(),p.blockHealthMultiplier(),List.copyOf(disabled),p.disabledClasses(),p.movementSpeedMultipliers(),p.ugcPrefabSets(),p.enablePlayerScore(),p.serverName(),p.groundColors(),p.loadouts(),c.settings().shootWithIntel()?1:0,p.friendlyFire(),p.customRules(),p.enableCorpseExplosion(),p.ugcMode());
     }
     @Override public StateData configureStateData(StateData p,int capability){
+        if(mode instanceof DemolitionMode)return new StateData(p.playerId(),p.fogColor(),p.gravity(),p.lighting(),p.timeScale(),p.scoreLimit(),p.modeType(),p.teamHeadcountType(),withoutScores(p.team1()),withoutScores(p.team2()),p.lockTeamSwap(),p.lockSpectatorSwap(),p.prefabs(),p.entities(),p.cameraPoints(),p.cameraRotations(),p.hasMapEnded());
         if(!(mode instanceof ZoneMode z)||z.settings().territory())return p;
         return new StateData(p.playerId(),p.fogColor(),p.gravity(),p.lighting(),p.timeScale(),0,p.modeType(),p.teamHeadcountType(),withoutMaximum(p.team1()),withoutMaximum(p.team2()),p.lockTeamSwap(),p.lockSpectatorSwap(),p.prefabs(),p.entities(),p.cameraPoints(),p.cameraRotations(),p.hasMapEnded());
     }
+    private static StateData.Team withoutScores(StateData.Team t){return new StateData.Team(t.name(),t.color(),t.score(),t.locked(),t.canSeeOther(),false,false,t.infiniteBlocks(),t.lockedClass(),t.lockedScore(),t.classes());}
     private static StateData.Team withoutMaximum(StateData.Team t){return new StateData.Team(t.name(),t.color(),t.score(),t.locked(),t.canSeeOther(),t.showScore(),false,t.infiniteBlocks(),t.lockedClass(),t.lockedScore(),t.classes());}
     public JoinScene scene(){owned();return scene;}public TransitionRoster transitionRoster(){owned();return transition;}public List<TeamState> teams(){owned();return teams;}public ModeEvents events(){owned();return events;}
     public MutableWorld world(){return lives().world();}public PlayerRoster roster(){return lives().roster();}public boolean spectator(int id){return lives().spectator(id);}public AdmissionPolicy.Context admissionContext(int id){return lives().admissionContext(id);}
     public JoinScene.Admission admit(int id,SimplePackets.NewPlayerConnection request,ClassCatalog.Selection selection,int capability){
-        host();if(config.modeCode().equals("cctf")&&(request.team()==2||request.team()==3))selection=classicSelection(selection==null?ClassCatalog.normalize(5,List.of(),config.rules()):selection);var admission=lives.admit(id,request,selection,capability);var player=lives.player(id);teams.stream().filter(t->t.id==player.team()).findFirst().ifPresent(t->t.add(player));return admission;
+        host();if(config.modeCode().equals("cctf")&&(request.team()==2||request.team()==3))selection=classicSelection(selection==null?ClassCatalog.normalize(5,List.of(),config.rules()):selection);if(vip!=null&&(request.team()==2||request.team()==3))selection=vip.ordinary(selection==null?ClassCatalog.normalize(6,List.of(),config.rules()):selection);var admission=lives.admit(id,request,selection,capability);var player=lives.player(id);teams.stream().filter(t->t.id==player.team()).findFirst().ifPresent(t->t.add(player));if(vip!=null)events.offer(ModeEvents.Event.of("on_player_join",binding.row(player)));if(demolition!=null)demolition.lock(player);return admission;
     }
     public void beforeReplay(int id){lives().beforeReplay(id);}
     public List<GamePacket> reveal(int id){
         var packets=new ArrayList<>(lives().reveal(id));var target=host().scorePeer(id).orElseThrow();
         var collecting=new Scoreboard.Peer(){public boolean inGame(){return target.inGame();}public Optional<Set<Integer>> knownPlayers(){return target.knownPlayers();}public void send(GamePacket p){packets.add(p);}};
-        board.reveal(collecting);if(entities!=null){packets.addAll(entities.reveal(id));packets.addAll(corpses.catchup());}mode.reveal(collecting,()->{escapeWatch().reveal(packets::add);services.reveal(lives.player(id),packets::add);});if(carry!=null)carry.startCue(lives.player(id),packets::add);media().ballot().reveal(packets::add);return List.copyOf(packets);
+        board.reveal(collecting);if(entities!=null){packets.addAll(entities.reveal(id));packets.addAll(corpses.catchup());}mode.reveal(collecting,()->{escapeWatch().reveal(packets::add);services.reveal(lives.player(id),packets::add);});if(carry!=null)carry.startCue(lives.player(id),packets::add);if(demolition!=null)demolition.revealLock(lives.player(id),packets::add);if(vip!=null)vip.lockedOut(lives.player(id),packets::add);media().ballot().reveal(packets::add);return List.copyOf(packets);
     }
     public void input(int id,LiveClientInput input,int receivedLoop){if(inputs().allow(lives().player(id),MovementPacketRates.Kind.CLIENT_DATA,receivedLoop))lives().input(id,input,receivedLoop);}
     public boolean clockAllowed(int id,int serverLoop){return lives().players().stream().filter(p->p.id()==id).findFirst().map(p->inputs().allow(p,MovementPacketRates.Kind.CLOCK_SYNC,serverLoop)).orElse(true);}
@@ -205,7 +217,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     }
     @Override public void close(){
         if(Thread.currentThread()!=owner)throw new IllegalStateException("Match outside owner");if(closed||closing)return;closing=true;Throwable error=null;
-        var cleanup=new ArrayList<Runnable>();if(ctf!=null)cleanup.add(ctf::close);if(zones!=null)cleanup.add(zones::close);if(carry!=null)cleanup.add(carry::close);if(social!=null)cleanup.add(social::clear);if(conduct!=null)cleanup.add(conduct::clear);if(prefabs!=null)cleanup.add(prefabs::close);if(construction!=null)cleanup.add(construction::close);if(corpses!=null)cleanup.add(corpses::clear);cleanup.add(inputRuntime::close);if(runtime!=null)cleanup.add(runtime::close);if(entities!=null)cleanup.add(entities::close);if(combatRuntime!=null)cleanup.add(combatRuntime::close);if(media!=null)cleanup.add(()->media.ballot().close());cleanup.add(events::clear);cleanup.add(services::close);
+        var cleanup=new ArrayList<Runnable>();if(demolition!=null)cleanup.add(demolition::close);if(vip!=null)cleanup.add(vip::close);if(ctf!=null)cleanup.add(ctf::close);if(zones!=null)cleanup.add(zones::close);if(carry!=null)cleanup.add(carry::close);if(social!=null)cleanup.add(social::clear);if(conduct!=null)cleanup.add(conduct::clear);if(prefabs!=null)cleanup.add(prefabs::close);if(construction!=null)cleanup.add(construction::close);if(corpses!=null)cleanup.add(corpses::clear);cleanup.add(inputRuntime::close);if(runtime!=null)cleanup.add(runtime::close);if(entities!=null)cleanup.add(entities::close);if(combatRuntime!=null)cleanup.add(combatRuntime::close);if(media!=null)cleanup.add(()->media.ballot().close());cleanup.add(events::clear);cleanup.add(services::close);
         try{for(var operation:cleanup)try{operation.run();}catch(RuntimeException|Error failure){if(error==null)error=failure;else if(error!=failure)error.addSuppressed(failure);}}finally{closed=true;}
         if(error instanceof Error fatal)throw fatal;if(error instanceof RuntimeException ordinary)throw ordinary;
     }

@@ -40,6 +40,8 @@ public final class StandardPorts implements StandardMatchDomain.Services,LifeRun
     }
     public double wall(){return wall;}public double monotonic(){return monotonic;}public boolean admin(int id){return false;}public boolean stopping(){return stopping;}
     public CompletionStage<Void> plugin(ModeEvents.Event event){return plugin.apply(event);}public void matchStarted(){log.add("start");}public void rebuildResources(){log.add("resources");}public void matchEnded(Integer winner){log.add("end:"+winner);}public void endVote(double wall){log.add("vote-end");}public void vote(double wall){log.add("vote");}public void scheduleEnd(Integer winner){log.add("schedule-end");}public CompletionStage<Void> cancelEnd(){log.add("cancel-end");return CompletableFuture.completedFuture(null);}
+    public final List<HostedVipRuntime.RoundObservation> vipRounds=new ArrayList<>();public final Map<PlayerLife,Integer> repairs=new IdentityHashMap<>();
+    public void vipRound(HostedVipRuntime.RoundObservation event){vipRounds.add(event);}public void demolitionRepair(PlayerLife p,int count){repairs.merge(p,count,Integer::sum);}
     public final List<HostedCarryRuntime.Observation> carryEvents=new ArrayList<>();
     public void carryObservation(HostedCarryRuntime.Observation event){carryEvents.add(event);}
     public final List<HostedZoneRuntime.HillEvent> hillEvents=new ArrayList<>();

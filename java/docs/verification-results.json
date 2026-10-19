@@ -1,7 +1,7 @@
 {
   "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
-  "jar_sha256": "64189d53329bb538d50268f4b595e3ccc14a6aaf51b1de542537ba98d1dee090",
-  "jar_bytes": 2352014,
+  "jar_sha256": "0bcfbbfb92d2f0cf47e1034b86429c2fe66306390a4ee35fcfb8e01c6adb22f8",
+  "jar_bytes": 2403794,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -17,81 +17,29 @@
     "META-INF/THIRD_PARTY_NOTICES.md",
     "META-INF/JAVA-THIRD-PARTY-NOTICES.md"
   ],
-  "repeated_build_identical": true,
+  "repeated_build_identical": false,
   "junit": {
     "test": {
       "suites": 110,
-      "tests": 6306,
+      "tests": 6314,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
       "suites": 3,
-      "tests": 48,
+      "tests": 50,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Diamond Mine and Occupation verified locally; Build, native ENet, Ubuntu and Windows passed; **macOS is tests are still running; all-five verification remains incomplete**",
-  "java_implementation_commit": "476739b77a55fc7f4b1c63a22c960b5e55c5692e",
-  "tested_tree": "4a746b3f1c322bc18de810ca4fb2ab0e6b9cd374",
+  "verification_stage": "Demolition and VIP verified locally; CI pending; original VIP test-double failures retained",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "incomplete_macos_in_progress",
-    "observed_at_utc": "2026-10-19T20:50:28.731613+00:00",
-    "run_id": 39321095562,
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39321095562",
-    "head_sha": "476739b77a55fc7f4b1c63a22c960b5e55c5692e",
-    "tested_tree": "4a746b3f1c322bc18de810ca4fb2ab0e6b9cd374",
-    "attempt": 1,
-    "all_five_jobs_passed": false,
-    "all_final_steps_verified": false,
-    "completed_job_steps_verified": true,
-    "completed_jobs": 4,
-    "completed_final_steps": 53,
-    "jobs": [
-      {
-        "id": 118295039632,
-        "name": "build",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 13
-      },
-      {
-        "id": 118295040376,
-        "name": "native-enet",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 16
-      },
-      {
-        "id": 118295730545,
-        "name": "platform (windows-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 12
-      },
-      {
-        "id": 118295730664,
-        "name": "platform (macos-latest)",
-        "status": "in_progress",
-        "conclusion": null,
-        "steps": 11
-      },
-      {
-        "id": 118295730741,
-        "name": "platform (ubuntu-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 12
-      }
-    ],
-    "configured_source_generators_reproduced": 77,
-    "repeated_archive_byte_comparison": true,
-    "identical_uploaded_artifact_smoked_on_platforms": 2,
-    "local_to_ci_artifact_hash_compared": false,
-    "summary": "Build, native ENet, Ubuntu and Windows passed; **macOS is tests are still running; all-five verification remains incomplete** for implementation `476739b77a55fc7f4b1c63a22c960b5e55c5692e`, tested tree `4a746b3f1c322bc18de810ca4fb2ab0e6b9cd374`, in [run 39321095562](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39321095562). All 53 final steps in the completed jobs succeeded or were intentionally skipped. Native impaired transport/loader checks and all 77 configured reference generators passed; the build byte-compared repeated archives. Completed platform jobs smoked the uploaded artifact and passed component/integration tests. No local-to-CI artifact hash identity or supported-client acceptance is claimed. Observed 2026-10-19T20:50:28.731613+00:00."
+    "status": "pending",
+    "all_five_jobs_passed": false
   },
   "movement": {
     "cases": 118,
@@ -440,9 +388,7 @@
     "command": "python -m pytest -q tests/test_input_loss_recovery.py tests/test_action_clock.py tests/test_action_clock_recovery_review.py"
   },
   "publication": {
-    "status": "published",
-    "branch": "port/java25",
-    "implementation_commit": "476739b77a55fc7f4b1c63a22c960b5e55c5692e"
+    "status": "pending"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -6314,7 +6260,7 @@
     "six_reference_directories_exactly_match_main": true,
     "files_unchanged_from_import": true
   },
-  "repeated_build_scope": "CI build compared repeated archives; no local-to-CI artifact hash identity claimed",
+  "repeated_build_scope": "No fresh repeated archive comparison yet for this checkpoint",
   "previous_capture_zone_checkpoint": {
     "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
     "verification_stage": "Updated upstream and TC/Multi-Hill checkpoint verified locally; four CI jobs passed, macOS queued awaiting runner",
@@ -6551,5 +6497,189 @@
       "branch": "port/java25",
       "implementation_commit": "476739b77a55fc7f4b1c63a22c960b5e55c5692e"
     }
+  },
+  "previous_carry_checkpoint": {
+    "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+    "verification_stage": "Diamond Mine and Occupation verified locally; Build, native ENet, Ubuntu and Windows passed; **macOS is tests are still running; all-five verification remains incomplete**",
+    "java_implementation_commit": "476739b77a55fc7f4b1c63a22c960b5e55c5692e",
+    "tested_tree": "4a746b3f1c322bc18de810ca4fb2ab0e6b9cd374",
+    "ci": {
+      "status": "incomplete_macos_in_progress",
+      "observed_at_utc": "2026-10-19T20:50:28.731613+00:00",
+      "run_id": 39321095562,
+      "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39321095562",
+      "head_sha": "476739b77a55fc7f4b1c63a22c960b5e55c5692e",
+      "tested_tree": "4a746b3f1c322bc18de810ca4fb2ab0e6b9cd374",
+      "attempt": 1,
+      "all_five_jobs_passed": false,
+      "all_final_steps_verified": false,
+      "completed_job_steps_verified": true,
+      "completed_jobs": 4,
+      "completed_final_steps": 53,
+      "jobs": [
+        {
+          "id": 118295039632,
+          "name": "build",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 13
+        },
+        {
+          "id": 118295040376,
+          "name": "native-enet",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 16
+        },
+        {
+          "id": 118295730545,
+          "name": "platform (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 12
+        },
+        {
+          "id": 118295730664,
+          "name": "platform (macos-latest)",
+          "status": "in_progress",
+          "conclusion": null,
+          "steps": 11
+        },
+        {
+          "id": 118295730741,
+          "name": "platform (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 12
+        }
+      ],
+      "configured_source_generators_reproduced": 77,
+      "repeated_archive_byte_comparison": true,
+      "identical_uploaded_artifact_smoked_on_platforms": 2,
+      "local_to_ci_artifact_hash_compared": false,
+      "summary": "Build, native ENet, Ubuntu and Windows passed; **macOS is tests are still running; all-five verification remains incomplete** for implementation `476739b77a55fc7f4b1c63a22c960b5e55c5692e`, tested tree `4a746b3f1c322bc18de810ca4fb2ab0e6b9cd374`, in [run 39321095562](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39321095562). All 53 final steps in the completed jobs succeeded or were intentionally skipped. Native impaired transport/loader checks and all 77 configured reference generators passed; the build byte-compared repeated archives. Completed platform jobs smoked the uploaded artifact and passed component/integration tests. No local-to-CI artifact hash identity or supported-client acceptance is claimed. Observed 2026-10-19T20:50:28.731613+00:00."
+    },
+    "jar_sha256": "64189d53329bb538d50268f4b595e3ccc14a6aaf51b1de542537ba98d1dee090",
+    "jar_bytes": 2352014,
+    "junit": {
+      "test": {
+        "suites": 110,
+        "tests": 6306,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "suites": 3,
+        "tests": 48,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "smoke": {
+      "version": {
+        "exit": 0
+      },
+      "config": {
+        "exit": 0
+      },
+      "hosting": {
+        "exit": 2
+      }
+    },
+    "repeated_build_identical": true,
+    "publication": {
+      "status": "published",
+      "branch": "port/java25",
+      "implementation_commit": "476739b77a55fc7f4b1c63a22c960b5e55c5692e"
+    }
+  },
+  "demolition_vip": {
+    "observed_utc": "2026-10-19T21:19:42.017211+00:00",
+    "base_commit": "c8fc0e7d0d4a6380da7e7b527f0896f7e914a1bf",
+    "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+    "scope": "Demolition and VIP, committed topology subscribers, native packets18/117 and real sub-round/respawn/health/terrain owners",
+    "junit": {
+      "test": {
+        "suites": 110,
+        "tests": 6314,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "suites": 3,
+        "tests": 50,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "java_total": 6364,
+    "reference_tests": {
+      "tests": 71,
+      "failures": 35,
+      "errors": 0,
+      "skipped": 0
+    },
+    "reference_passed": 36,
+    "reference_modules": [
+      "test_demolition",
+      "test_demolition_fixes",
+      "test_vip",
+      "test_vip_sudden_death_rules",
+      "test_vip_already_dead",
+      "test_vip_bot_roster_edges",
+      "test_bot_vip_snapshot_state",
+      "test_recovered_objective_packets"
+    ],
+    "reference_failure_signature": "AttributeError: 'types.SimpleNamespace' object has no attribute 'set_tool'",
+    "reference_failure_scope": "All 35 failures occur in unchanged reference VIP test doubles, which lack set_tool required by the updated upstream live-promotion implementation. No source/tests were patched or skipped.",
+    "native_packet_bytes": {
+      "focus": "12000400080019",
+      "counters": "750205010000006400000000",
+      "percent": "75030fc01207"
+    },
+    "gradle": "check build passed, including strict compilation, portability and distributions",
+    "jar_sha256": "0bcfbbfb92d2f0cf47e1034b86429c2fe66306390a4ee35fcfb8e01c6adb22f8",
+    "jar_bytes": 2403794,
+    "jar_crc_valid": true,
+    "java_class_major": 69,
+    "smoke": {
+      "version": {
+        "exit": 0
+      },
+      "config": {
+        "exit": 0
+      },
+      "hosting": {
+        "exit": 2
+      }
+    },
+    "production_source_fingerprint": {
+      "files": 259,
+      "sha256": "150250a30e47cf51a51e873c15f452be3bab193d9690cf9604d6fd4bd91f42be"
+    },
+    "frozen_resource_paths_unchanged": 262,
+    "six_source_directories_match": "546c548780c400f21d73ca6713f86194ceb3c844",
+    "codec_reproduction": "All three outputs reproduced exactly in isolated tree",
+    "new_tests": {
+      "grouped_component": 8,
+      "udp_integration": 2
+    },
+    "previous_carry_ci": {
+      "run_id": 39321095562,
+      "build_native_ubuntu_windows": "success",
+      "macos": "still running at latest observation",
+      "all_five_passed": false
+    },
+    "ci": {
+      "status": "pending",
+      "all_five_jobs_passed": false
+    },
+    "full_migration_complete": false,
+    "full_python_baseline_passing": false,
+    "supported_client_acceptance": false
   }
 }

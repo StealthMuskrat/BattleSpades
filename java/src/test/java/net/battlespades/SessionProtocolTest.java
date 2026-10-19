@@ -13,6 +13,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SessionProtocolTest {
+    @Test void demolitionProgressBranchesAndPoiUseTheNativeFixed16AndIntegerLayouts(){
+        byte[] counters={117,2,5,1,0,0,0,100,0,0,0,0};var row=new TeamProgress(2,1,100,0,0,true,false,true,false);assertArrayEquals(counters,row.encode());assertEquals(row,PacketCodec.decode(counters));
+        byte[] percent={117,3,15,(byte)0xc0,0x12,7};var fractional=new TeamProgress(3,0,0,75,7,true,true,true,true);assertArrayEquals(percent,fractional.encode());assertEquals(fractional,PacketCodec.decode(percent));byte[] focus={18,0,4,0,8,0,25};var poi=new PoiFocus(16,32,100);assertArrayEquals(focus,poi.encode());assertEquals(poi,PacketCodec.decode(focus));for(var bytes:List.of(counters,percent,focus)){for(int n=0;n<bytes.length;n++){var truncated=Arrays.copyOf(bytes,n);assertThrows(ProtocolException.class,()->PacketCodec.decode(truncated));}assertThrows(ProtocolException.class,()->PacketCodec.decode(Arrays.copyOf(bytes,bytes.length+1)));}
+    }
     @Test void helpDelayUsesBigEndianAndRetainsTheStringListBoundary(){
         var packet=new HelpMessage(1.5f,List.of("DIG","CASH"));byte[] bytes={109,0x3f,(byte)0xc0,0,0,2,'D','I','G',0,'C','A','S','H',0};assertArrayEquals(bytes,packet.encode());assertEquals(packet,PacketCodec.decode(bytes));assertThrows(ProtocolException.class,()->PacketCodec.decode(Arrays.copyOf(bytes,bytes.length-1)));assertThrows(ProtocolException.class,()->PacketCodec.decode(new byte[]{109,0,0,0,0,1}));
     }

@@ -128,6 +128,26 @@ class ApplicationIntegrationTest {
             }
         });
     }
+    private static void joinObjectiveClient(Loop loop,Client client,StandardMatchDomain match,ApplicationHost host,int id,int team)throws Exception{
+        loop.ticketAndLoad(client,match.world());client.send(new SimplePackets.NewPlayerConnection(team,0,0,0,"P"+id),false);if(team==0)loop.until(()->match.lives().players().stream().anyMatch(p->p.id()==id));else loop.until(()->client.has(69));loop.until(()->{try{if(team==0)client.send(new SimplePackets.ClientInMenu(0),false);else client.send(new ClientInput(100,127,false,5,1,0,0,0,0,24,0),false);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(id);});
+    }
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(strings={"dem","vip"})
+    void demolitionAndVipReplayNativeObjectiveStateToLateUdpScene(String code){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            Files.writeString(temp.resolve("Objectives.json"),"{\"team_one_base_point\":[248,248,100],\"team_one_base_w_h_d\":[4,4,2],\"team_two_base_point\":[264,264,100],\"team_two_base_w_h_d\":[4,4,2]}");var ports=new net.battlespades.support.StandardPorts();var prepared=net.battlespades.support.StandardPorts.prepared(temp.resolve("Objectives.vxl"),code);var config=new SceneConfig("Objectives UDP",27015,0,ModeCatalog.get(code),"Objectives",false,false,true,999,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var owner=new net.battlespades.runtime.OwnerLoop(0,1024,256,error->fail(error))){
+                var factory=new StandardMatchFactory(config,org.tomlj.Toml.parse("[modes."+code+"]\ntime_limit=0\nbuild_state_length=1\nselection_delay=0\n"),ports,new SourceRandom(0),owner,List.of("Objectives"),c->new StandardMatchFactory.Ports(ports,ports,ports,ports,ports,ports));
+                try(var state=new HostedSceneState("Objectives",code,prepared,1,10000,factory.modes());var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),3,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),state.scene(),new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var b=new Client(host.address());var late=new Client(host.address())){
+                    state.attach(host);host.serialPackets(net.battlespades.runtime.IngamePackets.Settings.defaults(1024,256),Runnable::run,error->fail(error));var match=(StandardMatchDomain)state.domain();match.mode().start();var loop=new Loop(host);loop.pump=now->{owner.pump(now*1_000_000);host.service(now,100);host.drainPackets(100).toCompletableFuture().join();};joinObjectiveClient(loop,a,match,host,0,2);joinObjectiveClient(loop,b,match,host,1,3);
+                    if(code.equals("dem")){ports.wall++;match.demolition().orElseThrow().tick();}else match.vip().orElseThrow().tick();joinObjectiveClient(loop,late,match,host,2,0);
+                    if(code.equals("dem")){loop.until(()->late.packets.stream().filter(TeamProgress.class::isInstance).count()==2);var hud=(StateData)late.packets.stream().filter(StateData.class::isInstance).findFirst().orElseThrow();assertFalse(hud.team1().showScore());assertFalse(hud.team2().showMaxScore());assertTrue(late.packets.stream().anyMatch(packet->packet instanceof MinimapZone z&&z.locked()==0));var d=match.demolition().orElseThrow();var cell=d.base(3).objective().iterator().next();match.world().destroyBlocks(List.of(cell));d.tick();loop.until(()->a.packets.stream().anyMatch(packet->packet instanceof TeamProgress t&&t.team()==3&&t.numerator()==1));}
+                    else{loop.until(()->late.packets.stream().filter(packet->packet instanceof MatchPackets.ChangePlayer c&&c.action()==8&&c.value()==1).count()==2);assertEquals(10,match.lives().player(0).selection().classId());a.packets.clear();match.lives().die(0,1,0);match.events().tick(1).toCompletableFuture().join();loop.until(()->late.packets.stream().anyMatch(packet->packet instanceof SimplePackets.TeamMapVisibility v&&v.team_id()==3&&v.visible()==1));assertFalse(match.vip().orElseThrow().canRespawn(match.lives().player(0)));assertTrue(late.packets.stream().anyMatch(packet->packet instanceof LifePackets.KillAction k&&k.playerId()==0&&k.killType()==26&&k.respawnTime()==255));}
+                    assertTrue(ports.errors.isEmpty());
+                }
+            }
+        });
+    }
     @org.junit.jupiter.params.ParameterizedTest
     @org.junit.jupiter.params.provider.ValueSource(strings={"tc","mh"})
     void captureModesReplayOwnedZonesToLateUdpJoinerAndEmitCanonicalObjectiveUpdates(String code){

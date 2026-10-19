@@ -40,6 +40,9 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
+Demolition and VIP now have concrete terrain/base-health/build-lock/airstrike and boss/subround/respawn/sudden-death owners. See [DEMVIP_MODES.md](docs/DEMVIP_MODES.md).
+
+
 Diamond Mine and Occupation now have concrete mining, cash-in, bomb fuse/interception/disposal, real blast and carried-state replay owners. See [CARRY_MODES.md](docs/CARRY_MODES.md).
 
 

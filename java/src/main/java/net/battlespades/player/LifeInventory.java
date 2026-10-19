@@ -40,6 +40,8 @@ public final class LifeInventory {
         maxBlocks=Math.max(0,(int)maximum);blocks=reset?Math.min(maxBlocks,Math.max(0,(int)initial)):Math.min(blocks,maxBlocks);
     }
     public void spawn(int classId,double walletScale){owned();classWallet(classId,walletScale,true);resetGuns();resetOriented();resetDeployables();turrets=LifeCatalog.TURRET_INITIAL;reloading=false;reloadEnd=0;tool=weapon;}
+    /** VIP promotion replenishes equipment while retaining the current block wallet. */
+    public void refreshEquipment(){owned();resetGuns();resetOriented();resetDeployables();turrets=LifeCatalog.TURRET_INITIAL;reloading=false;reloadEnd=0;tool=weapon;}
     private void resetGuns(){weapons.clear();LifeCatalog.WEAPONS.forEach((id,p)->weapons.put(id,new Ammo(p.clip(),p.initial())));var p=LifeCatalog.WEAPONS.getOrDefault(weapon,LifeCatalog.WEAPONS.values().iterator().next());clip=p.clip();reserve=p.initial();}
     private void resetOriented(){oriented.clear();LifeCatalog.ORIENTED.forEach((id,p)->oriented.put(id,p.magazineInitial()+p.reserveInitial()));launchers.clear();orientedDue.clear();disguise=LifeCatalog.DISGUISE_INITIAL;}
     private void resetDeployables(){deployable.clear();LifeCatalog.DEPLOYABLES.forEach((id,p)->deployable.put(id,p.initial()));deployableDue.clear();}

@@ -1,0 +1,87 @@
+{
+  "observed_utc": "2026-10-19T21:19:42.017211+00:00",
+  "base_commit": "c8fc0e7d0d4a6380da7e7b527f0896f7e914a1bf",
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "scope": "Demolition and VIP, committed topology subscribers, native packets18/117 and real sub-round/respawn/health/terrain owners",
+  "junit": {
+    "test": {
+      "suites": 110,
+      "tests": 6314,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 3,
+      "tests": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "java_total": 6364,
+  "reference_tests": {
+    "tests": 71,
+    "failures": 35,
+    "errors": 0,
+    "skipped": 0
+  },
+  "reference_passed": 36,
+  "reference_modules": [
+    "test_demolition",
+    "test_demolition_fixes",
+    "test_vip",
+    "test_vip_sudden_death_rules",
+    "test_vip_already_dead",
+    "test_vip_bot_roster_edges",
+    "test_bot_vip_snapshot_state",
+    "test_recovered_objective_packets"
+  ],
+  "reference_failure_signature": "AttributeError: 'types.SimpleNamespace' object has no attribute 'set_tool'",
+  "reference_failure_scope": "All 35 failures occur in unchanged reference VIP test doubles, which lack set_tool required by the updated upstream live-promotion implementation. No source/tests were patched or skipped.",
+  "native_packet_bytes": {
+    "focus": "12000400080019",
+    "counters": "750205010000006400000000",
+    "percent": "75030fc01207"
+  },
+  "gradle": "check build passed, including strict compilation, portability and distributions",
+  "jar_sha256": "0bcfbbfb92d2f0cf47e1034b86429c2fe66306390a4ee35fcfb8e01c6adb22f8",
+  "jar_bytes": 2403794,
+  "jar_crc_valid": true,
+  "java_class_major": 69,
+  "smoke": {
+    "version": {
+      "exit": 0
+    },
+    "config": {
+      "exit": 0
+    },
+    "hosting": {
+      "exit": 2
+    }
+  },
+  "production_source_fingerprint": {
+    "files": 259,
+    "sha256": "150250a30e47cf51a51e873c15f452be3bab193d9690cf9604d6fd4bd91f42be"
+  },
+  "frozen_resource_paths_unchanged": 262,
+  "six_source_directories_match": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "codec_reproduction": "All three outputs reproduced exactly in isolated tree",
+  "new_tests": {
+    "grouped_component": 8,
+    "udp_integration": 2
+  },
+  "previous_carry_ci": {
+    "run_id": 39321095562,
+    "build_native_ubuntu_windows": "success",
+    "macos": "still running at latest observation",
+    "all_five_passed": false
+  },
+  "ci": {
+    "status": "pending",
+    "all_five_jobs_passed": false
+  },
+  "full_migration_complete": false,
+  "full_python_baseline_passing": false,
+  "supported_client_acceptance": false
+}

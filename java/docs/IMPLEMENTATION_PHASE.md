@@ -5,10 +5,10 @@ That request supersedes the earlier instruction to defer testing until all
 remaining implementation is complete. Verification is recorded separately from
 the remaining migration work below.
 
-The last verified commit is `f8e96396b4656d60dd602a795d3384f03d541c6c`.
-The working tree contains subsequent production changes that passed local
-verification on 2026-10-19. Previous checkpoint counts, CI runs and artifact hashes do not cover
-these changes. The diagnostic launcher remains gated.
+The current verified implementation commit is `97b05b197999db083cf70849c6f3c82249cc4d17`.
+The accumulated changes are published in that checkpoint and verified locally
+and by all five CI jobs. Earlier checkpoint counts and artifact hashes apply
+only to their recorded snapshots. The diagnostic launcher remains gated.
 
 ## Implemented in the current working tree
 
@@ -104,6 +104,6 @@ The remaining implementation above is still required.
 
 The current accumulated implementation batch passes **6,294 component + 44 integration = 6,338 Java tests** across 113 suites, with zero failures, errors or skips. The consolidated Java 25 `check build`, strict compiler warnings, portability checks and distribution packaging pass. All **47 selected original CTF/Classic/objective regressions** pass freshly. The preceding 326 selected Python checks were run for the preceding implementation snapshot and were not rerun here.
 
-Packet-generator reproduction is exact for all three outputs. Frozen Java fixtures/catalogs and the six original source directories remain unchanged. The CRC-valid JAR is 2261083 bytes, SHA-256 `3206345496e67d6a95b54772b888b3b24c8262cdad26f3b942ea77ffc6853091`. Version/configuration smokes exit 0; ordinary hosting remains gated at exit 2. Cross-platform/native CI is pending for this checkpoint. Full migration, production service composition and supported-client acceptance remain incomplete.
+Packet-generator reproduction is exact for all three outputs. Frozen Java fixtures/catalogs and the six original source directories remain unchanged. The CRC-valid JAR is 2261083 bytes, SHA-256 `3206345496e67d6a95b54772b888b3b24c8262cdad26f3b942ea77ffc6853091`. Version/configuration smokes exit 0; ordinary hosting remains gated at exit 2. All five CI jobs passed for implementation `97b05b197999db083cf70849c6f3c82249cc4d17`, tree `83b43cd911c4f3d4ea8b516e571bb8e71d546b14`, in [run 39308869800](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39308869800). Every final job step completed successfully or was intentionally skipped. The build verified repeated JAR bytes; the native job passed impaired transport/loader interoperability and rebuilt all 77 configured reference generators; Ubuntu, Windows and macOS each smoked the uploaded artifact and passed component/integration tests. No local-to-CI artifact hash comparison or supported-client gameplay acceptance is claimed. Full migration, production service composition and supported-client acceptance remain incomplete.
 
 The factory now binds `ctf` and `cctf` to actual objective and lifecycle owners. See [CTF_RUNTIME.md](CTF_RUNTIME.md).

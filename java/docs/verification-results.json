@@ -17,7 +17,7 @@
     "META-INF/THIRD_PARTY_NOTICES.md",
     "META-INF/JAVA-THIRD-PARTY-NOTICES.md"
   ],
-  "repeated_build_identical": false,
+  "repeated_build_identical": true,
   "junit": {
     "test": {
       "suites": 110,
@@ -34,12 +34,49 @@
       "skipped": 0
     }
   },
-  "verification_stage": "Accumulated runtime and CTF checkpoint verified locally; CI pending",
-  "java_implementation_commit": null,
-  "tested_tree": null,
+  "verification_stage": "Accumulated runtime and CTF checkpoint verified locally and by all five CI jobs",
+  "java_implementation_commit": "97b05b197999db083cf70849c6f3c82249cc4d17",
+  "tested_tree": "83b43cd911c4f3d4ea8b516e571bb8e71d546b14",
   "ci": {
-    "status": "pending",
-    "all_five_jobs_passed": false
+    "status": "success",
+    "run_id": 39308869800,
+    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39308869800",
+    "head_sha": "97b05b197999db083cf70849c6f3c82249cc4d17",
+    "tested_tree": "83b43cd911c4f3d4ea8b516e571bb8e71d546b14",
+    "attempt": 1,
+    "all_five_jobs_passed": true,
+    "all_final_steps_verified": true,
+    "jobs": [
+      {
+        "id": 118252961465,
+        "name": "native-enet",
+        "steps": 16
+      },
+      {
+        "id": 118252961787,
+        "name": "build",
+        "steps": 13
+      },
+      {
+        "id": 118253679478,
+        "name": "platform (macos-latest)",
+        "steps": 12
+      },
+      {
+        "id": 118253679546,
+        "name": "platform (ubuntu-latest)",
+        "steps": 12
+      },
+      {
+        "id": 118253679729,
+        "name": "platform (windows-latest)",
+        "steps": 12
+      }
+    ],
+    "configured_generators_reproduced": 77,
+    "full_reference_python_baseline_passing": false,
+    "local_to_ci_artifact_hash_compared": false,
+    "supported_retail_client_validated": false
   },
   "movement": {
     "cases": 118,
@@ -388,7 +425,10 @@
     "command": "python -m pytest -q tests/test_input_loss_recovery.py tests/test_action_clock.py tests/test_action_clock_recovery_review.py"
   },
   "publication": {
-    "status": "pending"
+    "status": "published",
+    "commit": "97b05b197999db083cf70849c6f3c82249cc4d17",
+    "tree": "83b43cd911c4f3d4ea8b516e571bb8e71d546b14",
+    "branch": "port/java25"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -5941,11 +5981,52 @@
       "udp_integration": 2
     },
     "ci": {
-      "status": "pending",
-      "all_five_jobs_passed": false
+      "status": "success",
+      "run_id": 39308869800,
+      "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39308869800",
+      "head_sha": "97b05b197999db083cf70849c6f3c82249cc4d17",
+      "tested_tree": "83b43cd911c4f3d4ea8b516e571bb8e71d546b14",
+      "attempt": 1,
+      "all_five_jobs_passed": true,
+      "all_final_steps_verified": true,
+      "jobs": [
+        {
+          "id": 118252961465,
+          "name": "native-enet",
+          "steps": 16
+        },
+        {
+          "id": 118252961787,
+          "name": "build",
+          "steps": 13
+        },
+        {
+          "id": 118253679478,
+          "name": "platform (macos-latest)",
+          "steps": 12
+        },
+        {
+          "id": 118253679546,
+          "name": "platform (ubuntu-latest)",
+          "steps": 12
+        },
+        {
+          "id": 118253679729,
+          "name": "platform (windows-latest)",
+          "steps": 12
+        }
+      ],
+      "configured_generators_reproduced": 77,
+      "full_reference_python_baseline_passing": false,
+      "local_to_ci_artifact_hash_compared": false,
+      "supported_retail_client_validated": false
     },
     "full_migration_complete": false,
     "full_reference_python_baseline_passing": false,
-    "supported_retail_client_validated": false
-  }
+    "supported_retail_client_validated": false,
+    "implementation_commit": "97b05b197999db083cf70849c6f3c82249cc4d17",
+    "tested_tree": "83b43cd911c4f3d4ea8b516e571bb8e71d546b14",
+    "published": true
+  },
+  "repeated_build_verifier": "CI build job"
 }

@@ -38,6 +38,9 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     private final TransitionRoster transition;private final ConfiguredScene scene;
     private ApplicationHost host;private HostedMedia media;private HostedPlayerControls controls;private boolean closed,closing;
     private Function<ApplicationHost,HostedPlayerRuntime> runtimeFactory;private HostedPlayerRuntime runtime;
+    private Function<ApplicationHost,HostedEntityRuntime> entityFactory;private HostedEntityRuntime entities;
+    public void entities(Function<ApplicationHost,HostedEntityRuntime> factory){owned();if(host!=null||entityFactory!=null)throw new IllegalStateException("Entities must bind once before host attachment");entityFactory=Objects.requireNonNull(factory);}
+    public HostedEntityRuntime entities(){owned();return Objects.requireNonNull(entities,"Entity runtime not bound");}
     /** Concrete factory binding, registered before the host or any actor exists. */
     public void runtime(Function<ApplicationHost,HostedPlayerRuntime> factory){owned();if(host!=null||runtimeFactory!=null)throw new IllegalStateException("Runtime must bind once before host attachment");runtimeFactory=Objects.requireNonNull(factory);}
     public HostedPlayerRuntime runtime(){owned();return Objects.requireNonNull(runtime,"Player runtime not bound");}
@@ -103,9 +106,10 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
         },config.rules(),config.admission(),cooldown,clock::monotonic,clock::wall,loop,services::failure);
         media=new HostedMedia(host,this::lives,maps,random,loop);media.joinAudio(()->metadata,this::mode,()->musicEnabled,services::failure);
         if(runtimeFactory!=null)runtime=Objects.requireNonNull(runtimeFactory.apply(host));
+        if(entityFactory!=null)entities=Objects.requireNonNull(entityFactory.apply(host));
     }
     private final class Effects implements TdmMode.Effects,ArenaMode.Effects {
-        public void resetLifeCounters(){binding.resetCounters();}public void matchStarted(){services.matchStarted();}public void gameplayMusic(){media().music().gameplay(musicEnabled);}public void rebuildResources(){services.rebuildResources();}
+        public void resetLifeCounters(){binding.resetCounters();}public void matchStarted(){services.matchStarted();}public void gameplayMusic(){media().music().gameplay(musicEnabled);}public void rebuildResources(){if(entities!=null)entities.rebuild();services.rebuildResources();}
         public void matchEnded(Integer winner){services.matchEnded(winner);}public void endVote(double wall){services.endVote(wall);}public void scheduleEnd(Integer winner){services.scheduleEnd(winner);}public CompletionStage<Void> cancelEnd(){return services.cancelEnd();}
         public void recordDeath(Scoreboard.Player p){spawns.death(p.life);}public void escapeWatch(){services.escapeWatch();}public void escapeFailure(RuntimeException e){services.failure("escape",e);}public void timeoutMusic(){media().music().timeout();}public void vote(double wall){services.vote(wall);media().ballot().tick(wall);}public void cosmeticFailure(RuntimeException e){services.failure("mode cosmetic",e);}public boolean stopping(){return services.stopping();}
         public void respawn(PlayerLife p){lives.respawn(p.id());}public void respawnFailure(PlayerLife p,RuntimeException e){services.failure("arena respawn:"+p.id(),e);}
@@ -126,7 +130,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     public List<GamePacket> reveal(int id){
         var packets=new ArrayList<>(lives().reveal(id));var target=host().scorePeer(id).orElseThrow();
         var collecting=new Scoreboard.Peer(){public boolean inGame(){return target.inGame();}public Optional<Set<Integer>> knownPlayers(){return target.knownPlayers();}public void send(GamePacket p){packets.add(p);}};
-        board.reveal(collecting);mode.reveal(collecting,()->services.reveal(lives.player(id),packets::add));media().ballot().reveal(packets::add);return List.copyOf(packets);
+        board.reveal(collecting);if(entities!=null)packets.addAll(entities.reveal(id));mode.reveal(collecting,()->services.reveal(lives.player(id),packets::add));media().ballot().reveal(packets::add);return List.copyOf(packets);
     }
     public void input(int id,LiveClientInput input,int receivedLoop){lives().input(id,input,receivedLoop);}public void roundTripMillis(int id,Double value){lives().roundTripMillis(id,value);}public void actionLink(int id,ActionClock.Link link){lives().actionLink(id,link);}
     public void packet(int id,GamePacket packet){lives().packet(id,packet);}public CompletionStage<Void> packetAsync(int id,GamePacket packet){return lives().packetAsync(id,packet);}
@@ -137,7 +141,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     }
     @Override public void close(){
         if(Thread.currentThread()!=owner)throw new IllegalStateException("Match outside owner");if(closed||closing)return;closing=true;Throwable error=null;
-        var cleanup=new ArrayList<Runnable>();if(runtime!=null)cleanup.add(runtime::close);if(media!=null)cleanup.add(()->media.ballot().close());cleanup.add(events::clear);cleanup.add(services::close);
+        var cleanup=new ArrayList<Runnable>();if(runtime!=null)cleanup.add(runtime::close);if(entities!=null)cleanup.add(entities::close);if(media!=null)cleanup.add(()->media.ballot().close());cleanup.add(events::clear);cleanup.add(services::close);
         try{for(var operation:cleanup)try{operation.run();}catch(RuntimeException|Error failure){if(error==null)error=failure;else if(error!=failure)error.addSuppressed(failure);}}finally{closed=true;}
         if(error instanceof Error fatal)throw fatal;if(error instanceof RuntimeException ordinary)throw ordinary;
     }

@@ -79,7 +79,11 @@ class JoinSessionTest {
             assertTrue(h.session.gameplayKnown(new SimplePackets.PlayerLeft(1),Delivery.RELIABLE,1));assertFalse(h.session.gameplayKnown(score,Delivery.RELIABLE,1));
             h.wire.accepted=true;h.pulse(0);assertFalse(h.session.knownPlayers().contains(1));
             var tail=h.wire.ids().subList(h.wire.ids().size()-3,h.wire.ids().size());assertEquals(List.of(28,85,64),tail);
-            h.session.replaceScene(h.scene);assertTrue(h.session.knownPlayers().isEmpty());h.session.close();assertTrue(h.session.knownPlayers().isEmpty());
+            var entity=new EntityRecord(65535,3,1,0,new Vector3f(1,2,3),new Vector3f(0,0,0),0,new Vector3f(0,0,0),0,4,0,0,List.of(),List.of());
+            h.wire.accepted=false;assertTrue(h.session.gameplay(new CreateEntity(entity),Delivery.RELIABLE));assertEquals(java.util.Set.of(65535),h.session.knownEntities());
+            assertTrue(h.session.gameplay(new SimplePackets.DestroyEntity(-1),Delivery.RELIABLE));assertTrue(h.session.knownEntities().isEmpty());assertTrue(h.session.gameplay(new CreateEntity(entity),Delivery.RELIABLE));assertEquals(java.util.Set.of(65535),h.session.knownEntities());
+            h.wire.accepted=true;h.pulse(0);assertEquals(List.of(21,19,21),h.wire.ids().subList(h.wire.ids().size()-3,h.wire.ids().size()));
+            h.session.replaceScene(h.scene);assertTrue(h.session.knownPlayers().isEmpty());assertTrue(h.session.knownEntities().isEmpty());h.session.close();assertTrue(h.session.knownPlayers().isEmpty());assertTrue(h.session.knownEntities().isEmpty());
         }
     }
     @Test void admissionAudioQueuesBeforeTerrainReplayAndRunsOnceAcrossBackpressure(){

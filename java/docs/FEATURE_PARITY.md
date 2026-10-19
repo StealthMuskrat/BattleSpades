@@ -1,3 +1,9 @@
+# Hosted entity and map-resource checkpoint
+
+Hosted entity simulation, map resources, reliable per-scene entity visibility and actual support/blast delivery are bound to TDM/Arena factories. 6,310 Java tests and 417 focused original regressions pass locally. All five CI jobs are pending publication. Full hosting and migration remain incomplete. See [ENTITY_RUNTIME.md](ENTITY_RUNTIME.md).
+
+## Previous factory/player-runtime checkpoint
+
 # Factory and player-runtime checkpoint
 
 Prepared-metadata TDM/Arena factories and connected-player physics, statistics, replication, repair and periodic service bindings are implemented. 6,307 Java tests and 353 focused original regressions pass locally. All five CI jobs pass in [run 39183158502](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39183158502). Full hosting and migration remain incomplete. See [PLAYER_RUNTIME.md](PLAYER_RUNTIME.md).

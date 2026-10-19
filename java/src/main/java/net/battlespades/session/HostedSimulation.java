@@ -21,10 +21,10 @@ public final class HostedSimulation {
     private CompletionStage<Void> stopping;private Throwable failed;
     private long previous;private double pending;
     private boolean started,running,advancing,pumping;
-    /** Full player-service binding supplied by StandardMatchFactory, selected again after every scene rollover. */
+    /** Player and entity-service binding supplied by StandardMatchFactory, selected again after every scene rollover. */
     public HostedSimulation(ApplicationHost host,OwnerLoop loop,Supplier<StandardMatchDomain> match,SimulationFrame.Services other,
             LongSupplier measuredNanos,IngamePackets.Settings packets){
-        this(host,loop,match,()->match.get().runtime().gameplay().periodic(),()->match.get().runtime().repair(),new PlayerFrames(match,other),tick->match.get().runtime().replicate(tick),measuredNanos,packets);
+        this(host,loop,match,()->match.get().runtime().gameplay().periodic(),()->match.get().runtime().repair(),new MatchFrames(match,other),tick->match.get().runtime().replicate(tick),measuredNanos,packets);
     }
     public HostedSimulation(ApplicationHost host,OwnerLoop loop,Supplier<StandardMatchDomain> match,
             Supplier<PeriodicServices> periodic,Supplier<TerrainRepair> repair,SimulationFrame.Services other,
@@ -50,11 +50,11 @@ public final class HostedSimulation {
         },measuredNanos,loop);
         int[] currentTick={0};runtime=new AsyncFixedStepRuntime(()->running,tick->{currentTick[0]=(int)tick;return frame.step(currentTick[0]);},()->replicate.accept(currentTick[0]),()->loop.sleep(0),other::failure,loop);
     }
-    private record PlayerFrames(Supplier<StandardMatchDomain> match,SimulationFrame.Services other) implements SimulationFrame.Services {
-        private PlayerFrames{Objects.requireNonNull(match);Objects.requireNonNull(other);}
+    private record MatchFrames(Supplier<StandardMatchDomain> match,SimulationFrame.Services other) implements SimulationFrame.Services {
+        private MatchFrames{Objects.requireNonNull(match);Objects.requireNonNull(other);}
         public boolean enabled(SimulationFrame.Phase phase){return other.enabled(phase);}
         public CompletionStage<Void> asynchronous(SimulationFrame.Phase phase,int tick){if(phase==SimulationFrame.Phase.PLAYERS){match.get().runtime().players(tick);return CompletableFuture.completedFuture(null);}return other.asynchronous(phase,tick);}
-        public void synchronous(SimulationFrame.Phase phase,int tick){other.synchronous(phase,tick);}public void subsystem(SimulationFrame.Phase phase,double ms){other.subsystem(phase,ms);}public void failure(String label,Throwable error){other.failure(label,error);}public void tickMetrics(double ms){other.tickMetrics(ms);}public void health(double ms){other.health(ms);}
+        public void synchronous(SimulationFrame.Phase phase,int tick){if(phase==SimulationFrame.Phase.ENTITIES)match.get().entities().tick();else other.synchronous(phase,tick);}public void subsystem(SimulationFrame.Phase phase,double ms){other.subsystem(phase,ms);}public void failure(String label,Throwable error){other.failure(label,error);}public void tickMetrics(double ms){other.tickMetrics(ms);}public void health(double ms){other.health(ms);}
     }
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Hosted simulation outside owner");}
     public void start(){owned();if(started||stopping!=null)throw new IllegalStateException("Simulation can start once");started=true;match.get().mode().start();running=true;previous=loop.nowNanos();}

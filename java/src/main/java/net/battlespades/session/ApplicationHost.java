@@ -102,6 +102,16 @@ public final class ApplicationHost implements AutoCloseable {
     public List<net.battlespades.match.Scoreboard.Peer> scorePeers(){owned();return sessions.values().stream().filter(s->s.playerId().isPresent()).flatMap(s->scorePeer(s.playerId().orElseThrow()).stream()).toList();}
     /** Source remote firearm feedback excludes the predicting owner while retaining sequenced-unreliable delivery. */
     public int broadcastExcept(GamePacket packet,Delivery delivery,int excludedPlayer){owned();if(closing)return 0;int accepted=0;for(var session:sessions.values())if(session.playerId().orElse(-1)!=excludedPlayer&&session.gameplay(packet,delivery))accepted++;return accepted;}
+    /** Source per-GameScene create knowledge follows reliable acceptance, including ordered backpressure. */
+    public java.util.Set<Integer> knownEntities(int playerId){owned();if(closing)return java.util.Set.of();for(var session:sessions.values())if(session.playerId().orElse(-1)==playerId)return session.knownEntities();return java.util.Set.of();}
+    public int broadcastCreateEntity(net.battlespades.entities.MapEntity entity){
+        owned();if(closing||!entity.alive||!entity.wireVisible)return 0;int accepted=0;var packet=new net.battlespades.protocol.CreateEntity(entity.toWireEntity());
+        for(var session:sessions.values())if(!session.knownEntities().contains(entity.id())&&session.gameplay(packet,Delivery.RELIABLE))accepted++;return accepted;
+    }
+    public int broadcastDestroyEntity(int id){
+        owned();if(closing)return 0;int accepted=0;var packet=new net.battlespades.protocol.SimplePackets.DestroyEntity(id);
+        for(var session:sessions.values())if(session.knownEntities().contains(id&65535)&&session.gameplay(packet,Delivery.RELIABLE))accepted++;return accepted;
+    }
     public List<WorldUpdateLink> snapshotLinks(){owned();return closing?List.of():sessions.values().stream().map(session->(WorldUpdateLink)session).toList();}
     /** Reliable controls retain their loading queue; cosmetic unreliable cues require a live scene. */
     public boolean sendPlayer(int id,GamePacket packet,Delivery delivery){owned();if(delivery==Delivery.RELIABLE)return sendPlayer(id,packet);if(closing)return false;for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return session.gameplay(packet,delivery);return false;}

@@ -6,6 +6,9 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.*;
 import net.battlespades.match.*;
+import net.battlespades.combat.*;
+import net.battlespades.entities.*;
+import net.battlespades.physics.PlayerPhysics.Vector;
 import net.battlespades.player.*;
 import net.battlespades.protocol.*;
 import net.battlespades.runtime.OwnerLoop;
@@ -16,11 +19,12 @@ import net.battlespades.simulation.*;
 import net.battlespades.world.*;
 
 /** Controlled external service boundaries for the production assembly, never packaged. */
-public final class StandardPorts implements StandardMatchDomain.Services,LifeRuntime.Effects,LifeRuntime.Inputs,LifeRuntime.Clock,SimulationFrame.Services,HostedPlayerRuntime.Ports {
+public final class StandardPorts implements StandardMatchDomain.Services,LifeRuntime.Effects,LifeRuntime.Inputs,LifeRuntime.Clock,SimulationFrame.Services,HostedPlayerRuntime.Ports,HostedEntityRuntime.Ports {
     public final List<String> log=new ArrayList<>();public final List<Throwable> errors=new ArrayList<>();public final List<GamePacket> packets=new ArrayList<>();
     public double wall=1000,monotonic=100;public int closes;public boolean failSpawn,stopping=true;
     public CompletionStage<Void> playerPhase=CompletableFuture.completedFuture(null);
     public int moves,deliveredPackets;public long deliveredBytes;public boolean transition;public double lastSkill=Double.NaN;
+    public long skippedEntities;public int resourceRebuilds;public final List<String> blastLog=new ArrayList<>();
     public final List<EntityRecord> entities=new ArrayList<>();public final List<WorldUpdate.TurretRow> turrets=new ArrayList<>();
     public Function<ModeEvents.Event,CompletionStage<Void>> plugin=e->{log.add(e.name());return CompletableFuture.completedFuture(null);};
     public StandardMatchDomain create(String map,String code,PreparedMap.Bound bound,MapMetadata metadata,OwnerLoop loop){
@@ -48,4 +52,12 @@ public final class StandardPorts implements StandardMatchDomain.Services,LifeRun
     public List<EntityRecord> entities(){return List.copyOf(entities);}public List<WorldUpdate.TurretRow> turrets(){return List.copyOf(turrets);}public void delivered(int packets,long bytes){deliveredPackets+=packets;deliveredBytes+=bytes;}
     public void lagHistory(PlayerLife p,int tick){log.add("lag:"+p.id());}public void housekeeping(PlayerLife p){log.add("housekeeping:"+p.id());}public int pendingTerrainMutations(){return 0;}public void report(PlayerLife p,String kind,boolean enforced){log.add("report:"+kind);}
     public void afterMove(PlayerLife p,double dt){moves++;}public void observePhysics(PlayerLife p,double now){log.add("observe:"+p.id());}public boolean transitionBusy(){return transition;}public TeamBalancer.Bots bots(){return null;}public boolean hearingEnabled(){return false;}public void blockDestroyed(GameplaySounds.Position center,int source,int team,double lifetime){log.add("heard");}public void updateBotSkill(double now){lastSkill=now;log.add("skill");}public void anticheatReport(double now){log.add("report");}
+    public TerrainDamage.Domain terrain(StandardMatchDomain match){return new TerrainDamage.Domain(){
+        public boolean allowsDig(PlayerLife player,BlockDamageModel.Cell cell){return true;}public boolean buildDamage(){return true;}
+        public void repair(List<BlockDamageModel.Cell> cells){match.runtime().repair().record(cells,0);}public void reliable(GamePacket packet){packets.add(packet);}public void sound(int sound,BlockDamageModel.Cell cell,PlayerLife source){}public void reject(PlayerLife player,String reason){}
+        public void profileBlocks(PlayerLife player,int count){}public void scoreBlocks(PlayerLife player,int count,List<List<BlockDamageModel.Cell>> chunks){}public Integer activeShotTool(PlayerLife player){return null;}public void achievedBlocks(PlayerLife player,List<BlockDamageModel.Cell> removed,List<BlockDamageModel.Cell> collapsed,List<List<BlockDamageModel.Cell>> chunks,Integer tool){}public void collapsedRepair(List<BlockDamageModel.Cell> cells){}public void modeDestroyed(PlayerLife player,List<BlockDamageModel.Cell> cells,boolean mined){}
+    };}
+    public Object crateBaseline(PlayerLife player){return player.health();}public void crateCollected(PlayerLife player,int award,Object baseline){log.add("crate:"+player.id()+":"+award);}
+    public void resourcesRebuilt(MapResourceService.Result result){resourceRebuilds++;log.add("map-resources");}public void skippedEntityTicks(long count){skippedEntities+=count;}
+    public void blastStimulus(Vector at,int source,int team,double radius,double lifetime){blastLog.add("stimulus:"+source);}public Object beginBlast(PlayerLife thrower,int killType,Vector origin){blastLog.add("begin");return new Object();}public void endBlast(Object scope){blastLog.add("end");}public void blastScopeFault(String phase){blastLog.add("fault:"+phase);}
 }

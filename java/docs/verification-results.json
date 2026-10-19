@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "f7fcea3f608af9d877c84c5201eb6f58933a47cf9b955c98965f3f8b254244ee",
-  "jar_bytes": 2036880,
+  "jar_sha256": "6e6aff40416d134334e8b0fc1ee4aa146a9169744068475981b819569f4c5610",
+  "jar_bytes": 2051464,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -20,7 +20,7 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "tests": 6266,
+      "tests": 6269,
       "failures": 0,
       "errors": 0,
       "skipped": 0
@@ -32,38 +32,17 @@
       "skipped": 0
     }
   },
-  "verification_stage": "Production factories and connected-player runtime verified locally and by all five CI jobs",
-  "java_implementation_commit": "f96bbca34a9880450ecc27e81a444a8ba9d35977",
-  "tested_tree": "a781f34b3178525f352f01399a1ff8897fb71788",
+  "verification_stage": "Hosted entity, map-resource and blast/support local verification complete; CI pending publication",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "all_five_jobs_passed": true,
-    "all_final_steps_verified": true,
+    "status": "pending_publication",
+    "all_five_jobs_passed": false,
+    "all_final_steps_verified": false,
     "configured_generators": 77,
     "full_reference_python_baseline_passing": false,
     "local_to_ci_artifact_hash_compared": false,
-    "packaged_native_probe_player_domain": "FixtureScene; actual UDP additionally exercises StandardMatchFactory and factory-backed HostedSimulation",
-    "run_id": 39183158502,
-    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39183158502",
-    "head_sha": "f96bbca34a9880450ecc27e81a444a8ba9d35977",
-    "jobs": {
-      "build": "success",
-      "native-enet": "success",
-      "platform (macos-latest)": "success",
-      "platform (windows-latest)": "success",
-      "platform (ubuntu-latest)": "success"
-    },
-    "job_ids": {
-      "build": 117840023790,
-      "native-enet": 117840024003,
-      "platform (macos-latest)": 117840352676,
-      "platform (windows-latest)": 117840352735,
-      "platform (ubuntu-latest)": 117840352805
-    },
-    "native_original_fixtures_reproduced": true,
-    "repeated_ci_archive_identical": true,
-    "same_uploaded_jar_three_platforms": true,
-    "component_and_udp_tests_use_source_built_classes": true
+    "packaged_native_probe_player_domain": "FixtureScene; actual UDP additionally exercises StandardMatchFactory, hosted entities and factory-backed HostedSimulation"
   },
   "movement": {
     "cases": 118,
@@ -416,12 +395,12 @@
   },
   "publication": {
     "branch": "port/java25",
-    "branch_updated": true,
-    "expected_parent": "63f4fcec9d124906a545f871ec0f6ccda1bda7da",
+    "branch_updated": false,
+    "expected_parent": "8dc1092641333197cf687447d3b621949f3615c8",
     "force": false,
     "authorization": "User authorized this and future verified migration checkpoints, code/workflow changes and all five CI jobs; requested multiple implementations per batch.",
-    "implementation_commit": "f96bbca34a9880450ecc27e81a444a8ba9d35977",
-    "tested_tree": "a781f34b3178525f352f01399a1ff8897fb71788"
+    "implementation_commit": null,
+    "tested_tree": null
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -1017,11 +996,12 @@
     }
   },
   "reference_entity_tests": {
-    "passed": 57,
+    "tests": 417,
+    "passed": 417,
     "failures": 0,
+    "errors": 0,
     "skipped": 0,
-    "command": "PYTHONPATH=java/build/reference-python python -m pytest -q tests/test_entities.py tests/test_entities_behaviors.py tests/test_attached_entities.py",
-    "full_reference_python_baseline_passing": false
+    "scope": "Previous 353 focused cases plus all 64 entity registry/behavior/map resource/attached entity regressions, all rerun freshly. Full original baseline discrepancies remain unwaived."
   },
   "previous_entity_checkpoint": {
     "verification_stage": "Concrete uint16 entity registry, base damage lifecycle and per-scene visibility",
@@ -5082,5 +5062,191 @@
     "production_bootstrap_enabled": false,
     "ci_implementation_commit": "f96bbca34a9880450ecc27e81a444a8ba9d35977",
     "ci_run_id": 39183158502
+  },
+  "previous_factory_player_runtime_checkpoint": {
+    "java_implementation_commit": "f96bbca34a9880450ecc27e81a444a8ba9d35977",
+    "tested_tree": "a781f34b3178525f352f01399a1ff8897fb71788",
+    "jar_sha256": "f7fcea3f608af9d877c84c5201eb6f58933a47cf9b955c98965f3f8b254244ee",
+    "jar_bytes": 2036880,
+    "junit": {
+      "test": {
+        "tests": 6266,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "tests": 41,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "ci": {
+      "status": "success",
+      "all_five_jobs_passed": true,
+      "all_final_steps_verified": true,
+      "configured_generators": 77,
+      "full_reference_python_baseline_passing": false,
+      "local_to_ci_artifact_hash_compared": false,
+      "packaged_native_probe_player_domain": "FixtureScene; actual UDP additionally exercises StandardMatchFactory and factory-backed HostedSimulation",
+      "run_id": 39183158502,
+      "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39183158502",
+      "head_sha": "f96bbca34a9880450ecc27e81a444a8ba9d35977",
+      "jobs": {
+        "build": "success",
+        "native-enet": "success",
+        "platform (macos-latest)": "success",
+        "platform (windows-latest)": "success",
+        "platform (ubuntu-latest)": "success"
+      },
+      "job_ids": {
+        "build": 117840023790,
+        "native-enet": 117840024003,
+        "platform (macos-latest)": 117840352676,
+        "platform (windows-latest)": 117840352735,
+        "platform (ubuntu-latest)": 117840352805
+      },
+      "native_original_fixtures_reproduced": true,
+      "repeated_ci_archive_identical": true,
+      "same_uploaded_jar_three_platforms": true,
+      "component_and_udp_tests_use_source_built_classes": true
+    }
+  },
+  "hosted_entity_runtime": {
+    "new_component_tests": 3,
+    "new_integration_tests": 0,
+    "new_source_policy_generators": 0,
+    "source_environment_correction": {
+      "initial_tests": 417,
+      "initial_passed": 413,
+      "initial_failed": 4,
+      "cause": "The initial subprocess PYTHONPATH omitted the already-built native ENet reference module. All four failures were ModuleNotFoundError: enet.",
+      "correction": "Include java/build/reference-python and rerun all 417 focused cases unchanged.",
+      "source_or_assertions_changed": false,
+      "all_417_unchanged_cases_passed_after_correction": true
+    },
+    "regeneration": {
+      "checked_paths": 264,
+      "all_previous_fixtures_unchanged": true,
+      "new_generators": 0,
+      "configured_generators": 77,
+      "prior_77_generators_reused_locally": true,
+      "ci_fresh_all_generators_required": true
+    },
+    "native_profiles": {
+      "native-transport-results.json": {
+        "oracle": "compiled vendored pyenet / ENet",
+        "profiles": [
+          {
+            "profile": "nominal",
+            "reliable_messages": 81,
+            "reliable_payload_sha256": "8bf5b28d7bc1cdca600b721861267251ba12443d0b16aa754887216142f0041a",
+            "unreliable_echoes": 48,
+            "reconnect": true,
+            "protocol_rejections": {
+              "167": 10,
+              "169": 3
+            },
+            "server_disconnect_reason": 18,
+            "java_retransmissions": 0,
+            "forwarded_datagrams": 1045,
+            "dropped_datagrams": 0,
+            "duplicate_datagrams": 0,
+            "delayed_datagrams": 0,
+            "java_malformed_datagrams": 0,
+            "game_client_test": false,
+            "result": "PASS"
+          },
+          {
+            "profile": "loss-reorder-duplicate",
+            "reliable_messages": 81,
+            "reliable_payload_sha256": "8bf5b28d7bc1cdca600b721861267251ba12443d0b16aa754887216142f0041a",
+            "unreliable_echoes": 33,
+            "reconnect": true,
+            "protocol_rejections": {
+              "167": 10,
+              "169": 3
+            },
+            "server_disconnect_reason": 18,
+            "java_retransmissions": 70,
+            "forwarded_datagrams": 1337,
+            "dropped_datagrams": 135,
+            "duplicate_datagrams": 101,
+            "delayed_datagrams": 1222,
+            "java_malformed_datagrams": 0,
+            "game_client_test": false,
+            "result": "PASS"
+          }
+        ]
+      },
+      "native-loader-results.json": {
+        "oracle": "vendored native ENet with independently decoded application packets",
+        "profiles": [
+          {
+            "profile": "nominal",
+            "private_password": false,
+            "full_chunks": 453,
+            "full_records_sha256": "a04e25f22eff412ed7565b1cdd13ca0fa4033fdde416d2d0b4890ffcdbd4dc10",
+            "delta_chunks": 0,
+            "dropped_datagrams": 0,
+            "duplicate_datagrams": 0,
+            "delayed_datagrams": 0,
+            "concurrent_reserved_ids": [
+              0,
+              1
+            ],
+            "full_refusal_reason": 4,
+            "ticket_xor": true,
+            "capability_trailer": true,
+            "canonical_health": true,
+            "canonical_removal": true,
+            "roster_reconcile": true,
+            "scene_reload": true,
+            "configured_metadata": true,
+            "sidecar_layering": true,
+            "metadata_reload": true,
+            "packaged_application": true,
+            "game_client_test": false,
+            "result": "PASS"
+          },
+          {
+            "profile": "impaired",
+            "private_password": true,
+            "full_chunks": 453,
+            "full_records_sha256": "a04e25f22eff412ed7565b1cdd13ca0fa4033fdde416d2d0b4890ffcdbd4dc10",
+            "delta_chunks": 0,
+            "dropped_datagrams": 109,
+            "duplicate_datagrams": 74,
+            "delayed_datagrams": 895,
+            "concurrent_reserved_ids": [
+              0,
+              1
+            ],
+            "full_refusal_reason": 4,
+            "ticket_xor": true,
+            "capability_trailer": true,
+            "canonical_health": true,
+            "canonical_removal": true,
+            "roster_reconcile": true,
+            "scene_reload": true,
+            "configured_metadata": true,
+            "sidecar_layering": true,
+            "metadata_reload": true,
+            "packaged_application": true,
+            "game_client_test": false,
+            "result": "PASS"
+          }
+        ]
+      }
+    },
+    "full_migration_complete": false,
+    "static_entity_simulation_bound": true,
+    "map_resources_bound": true,
+    "canonical_support_blast_bound": true,
+    "reliable_entity_knowledge_bound": true,
+    "moving_entity_worldupdate_domain_supplied": false,
+    "all_production_domains_complete": false,
+    "production_bootstrap_enabled": false
   }
 }

@@ -1,3 +1,5 @@
+This is the preceding player-runtime checkpoint. [Hosted entities and resources](ENTITY_RUNTIME.md) is the current follow-up.
+
 # Production factories and connected-player runtime
 
 Local Java check/build passes **6,266 component + 41 integration = 6,307 tests**,

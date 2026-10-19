@@ -16,7 +16,13 @@ transport/packaged-loader profiles pass. The native loader uses FixtureScene; no
 hosting exits 2. No supported retail-client test, complete platform gameplay or
 local-to-CI artifact hash identity is claimed.
 
-All five CI jobs are required for this checkpoint after publication. Full migration and
+All five CI jobs passed for implementation `69442fee5df3a733d9ab73f87b1721e13857bf54`, tested/published tree
+`12580a72376f10cabb0068d55c179f26248271b0`, in [run 39185377778](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39185377778). The native job independently rebuilt
+the original oracles and reproduced all 77 configured generators. The build byte-compared
+repeated application archives. Ubuntu, Windows and macOS smoked the uploaded JAR and
+passed source-built component/integration tests. Every final step completed successfully
+or was intentionally skipped. No local-to-CI artifact hash identity or complete platform
+gameplay is claimed. Full migration and
 ordinary hosting remain incomplete. The initial focused-source subprocess omitted the
 already-built native ENet reference directory from PYTHONPATH: four imports failed while
 413 cases passed. With that directory restored, all 417 unchanged cases pass. The original

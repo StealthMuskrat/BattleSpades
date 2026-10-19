@@ -19,6 +19,13 @@ public final class PlayerLife {
     private final InputTimeline inputTimeline=new InputTimeline();
     private final OwnerAnchors ownerAnchors=new OwnerAnchors(inputTimeline);
     private final ActionClock actionClock=new ActionClock(inputTimeline);
+    private final AnticheatStatistics anticheat=new AnticheatStatistics();
+    public AnticheatStatistics anticheat(){owned();return anticheat;}
+    private final DisguiseState disguise=new DisguiseState();
+    private Integer mountedEntityId;
+    public DisguiseState disguise(){owned();return disguise;}
+    public Integer mountedEntityId(){owned();return mountedEntityId;}
+    public void mountedEntityId(Integer id){owned();mountedEntityId=id;}
     private final PlayerMotion motion=new PlayerMotion();
     private final MovementPacketRates packetRates=new MovementPacketRates();
     private final PlayerPositionReports positionReports=new PlayerPositionReports();
@@ -150,7 +157,7 @@ public final class PlayerLife {
         walletScale(walletScale);inventory.spawn(selection.classId(),walletScale);position=Objects.requireNonNull(at);generation++;health=maxHealth=LifeCatalog.HEALTH;damageHistory.clear();spawnedAt=monotonic;protectionCancelled=false;protectionCap=null;alive=true;spawned=true;lastDeath=null;color=teamColor&0xffffff;
         jetpack=selection.loadout().stream().filter(LifeCatalog.PACK_FUEL::containsKey).findFirst().orElse(0);parachute=selection.loadout().contains(72)?72:0;
         carry(null,false,null);hardcoreNextHeal=0;inputTimeline.resetLife();actionClock.reset(null);motion.resetLife();flight.resetLife();fire.resetLife();ownerAnchors.resetLife(at);body=new PlayerPhysics(world);body.position(at);body.profile(movementProfile());orientBody();body.flight(flight.mover(this));
-        positionReports.spawned(at);
+        positionReports.spawned(at);disguise.reset();mountedEntityId=null;
         // RoundLifecycle, rather than Player.spawn itself, clears death_time after a successful spawn.
     }
     public void clearDeathTime(){owned();deathTime=0;}

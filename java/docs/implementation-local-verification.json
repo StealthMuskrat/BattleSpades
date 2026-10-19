@@ -1,0 +1,79 @@
+{
+  "date_utc": "2026-10-19",
+  "scope": "Pre-CTF uncommitted implementation snapshot above f8e96396b4656d60dd602a795d3384f03d541c6c",
+  "gradle_command": "gradle --no-daemon check build",
+  "gradle_result": "BUILD SUCCESSFUL in 49s",
+  "java": {
+    "test": {
+      "suites": 110,
+      "tests": 6288,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 3,
+      "tests": 42,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "java_total": 6330,
+  "python_reference": {
+    "tests": 326,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "python_reference_modules": [
+    "tests/test_projectiles.py",
+    "tests/test_deployment_tools.py",
+    "tests/test_runtime_deployable_packets.py",
+    "tests/test_machine_gun.py",
+    "tests/test_rocket_turret.py",
+    "tests/test_disguise_lifetime.py",
+    "tests/test_deployable_inventory.py",
+    "tests/test_fire.py",
+    "tests/test_chemical_goo.py",
+    "tests/test_flare_block.py",
+    "tests/test_classic_corpse.py",
+    "tests/test_world_mutations.py",
+    "tests/test_construction_actions.py",
+    "tests/test_prefabs.py",
+    "tests/test_prefab_instant_replication.py",
+    "tests/test_prefab_block_health.py",
+    "tests/test_conduct.py",
+    "tests/test_commands.py",
+    "tests/test_anticheat_commands.py",
+    "tests/test_anticheat_report.py"
+  ],
+  "python_environment": "Original aoslib.kv6.pyx compiled with Cython/GCC into java/build/reference-python; temporary runner appended that build directory to aoslib.__path__. Original reference sources unchanged.",
+  "packet_generator_outputs_reproduced_exactly": [
+    "SimplePackets.java",
+    "PacketCodec.java",
+    "simple-packets.json"
+  ],
+  "original_six_source_directories_unchanged": true,
+  "frozen_java_fixtures_unchanged": true,
+  "jar": {
+    "bytes": 2234721,
+    "sha256": "bb5df37c7a1c63b5a830b4e2180af8a38cecffb390e19eb38589ff98a3dcc4a4",
+    "zip_crc_valid": true
+  },
+  "tested_production_source_fingerprint": {
+    "algorithm": "sha256 of sorted relative-path, NUL, file sha256, LF records",
+    "files": 239,
+    "sha256": "6d618687ec260c376b58f4ea6d2617c5dd0992e9af4d4c033840052d8357614a"
+  },
+  "fixes": [
+    "Restored cadence-only generic turret commit; dedicated placement consumes stock exactly once after readiness validation, including the final turret.",
+    "Chemical goo splash includes source radius + 0.5 offsets instead of filtering at radius 3."
+  ],
+  "full_migration_complete": false,
+  "full_reference_python_baseline_passing": false,
+  "published_this_batch": false,
+  "ci_run_for_this_batch": false,
+  "native_client_or_cross_platform_validation_this_batch": false,
+  "superseded_by": "ctf-local-verification.json"
+}

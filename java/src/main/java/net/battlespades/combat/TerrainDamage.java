@@ -16,6 +16,7 @@ public final class TerrainDamage {
     public interface Domain {
         boolean allowsDig(PlayerLife player,Cell cell);boolean buildDamage();
         void repair(List<Cell> cells);void reliable(GamePacket packet);void sound(int sound,Cell cell,PlayerLife source);void reject(PlayerLife player,String reason);
+        default void causerPacket(int causer,GamePacket nativePacket,GamePacket exactPacket){reliable(exactPacket);}
         void profileBlocks(PlayerLife player,int count);void scoreBlocks(PlayerLife player,int count,List<List<Cell>> chunks);
         Integer activeShotTool(PlayerLife player);
         void achievedBlocks(PlayerLife player,List<Cell> removed,List<Cell> collapsed,List<List<Cell>> chunks,Integer tool);
@@ -36,7 +37,7 @@ public final class TerrainDamage {
     public TerrainDamage(MutableWorld world,Domain domain,IntSupplier randomSeed){this.world=Objects.requireNonNull(world);map=CollisionMap.of(world);this.domain=Objects.requireNonNull(domain);this.randomSeed=Objects.requireNonNull(randomSeed);}
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Terrain combat outside owner");}
     public static DamagePacket packet(PlayerLife player,Cell cell,double amount,Integer type,int seed,Integer causer){int actor=player==null?255:player.id();return new DamagePacket(actor,type==null?6:type,(float)Math.min(amount,KILL_DAMAGE),0,1,seed&255,causer==null?(player==null?0:player.id()):causer,new Vector3f(cell.x(),cell.y(),cell.z()));}
-    private void broadcast(PlayerLife player,Cell cell,double amount,Integer type,int seed,Integer causer){var packet=packet(player,cell,amount,type,seed,causer);domain.reliable(packet);Integer sound=SOUNDS.get(packet.type());if(sound!=null)domain.sound(sound,cell,player);}
+    private void broadcast(PlayerLife player,Cell cell,double amount,Integer type,int seed,Integer causer){var packet=packet(player,cell,amount,type,seed,causer);if(causer==null)domain.reliable(packet);else domain.causerPacket(causer,packet,packet(player,cell,amount,6,0,null));Integer sound=SOUNDS.get(packet.type());if(sound!=null)domain.sound(sound,cell,player);}
     private void collapse(PlayerLife player,List<Cell> removed){
         domain.profileBlocks(player,removed.size());var chunks=TerrainCollapse.find(world,removed);var collapsed=new ArrayList<Cell>();
         for(var chunk:chunks)for(var cell:world.destroyBlocks(chunk.stream().map(c->new MutableWorld.Cell(c.x(),c.y(),c.z())).toList()))collapsed.add(new Cell(cell.x(),cell.y(),cell.z()));

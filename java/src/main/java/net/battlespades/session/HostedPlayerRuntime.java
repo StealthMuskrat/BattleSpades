@@ -12,7 +12,7 @@ import net.battlespades.world.*;
 import org.tomlj.TomlTable;
 
 /** Concrete connected-player physics, profile/combat ticks, replication, repair and periodic services.
- * Effect/entity/corpse presentation, input actions, bots and observation remain required owning domains.
+ * Match-owned devices, effects and corpses supply their presentation; mode presentation, bots and observation remain required.
  */
 public final class HostedPlayerRuntime implements AutoCloseable {
     public interface Ports {
@@ -45,12 +45,12 @@ public final class HostedPlayerRuntime implements AutoCloseable {
         var lives=match.lives();if(!lives.players().isEmpty())throw new IllegalStateException("Player runtime must bind before admission");
         replication=new ReplicationService(new ReplicationService.World(){
             public List<PlayerSnapshot> players(){return currentSnapshots(ports);}public List<? extends WorldUpdateLink> connections(){return host.snapshotLinks();}
-            public List<EntityRecord> entities(){return ports.entities();}public List<WorldUpdate.TurretRow> turrets(){return ports.turrets();}public void delivered(int packets,long bytes){ports.delivered(packets,bytes);}
+            public List<EntityRecord> entities(){return ports.entities();}public List<WorldUpdate.TurretRow> turrets(){return match.entities().turrets();}public void delivered(int packets,long bytes){ports.delivered(packets,bytes);}
         },settings.replication());
         infantry=new InfantrySimulation(lives,settings.infantry(),new InfantrySimulation.Hooks(){
-            public void lagHistory(PlayerLife p,int tick){ports.lagHistory(p,tick);}public void housekeeping(PlayerLife p){ports.housekeeping(p);}public boolean burdened(PlayerLife p){return p.pickupBurdensome();}public int pendingTerrainMutations(){return ports.pendingTerrainMutations();}
-            public void report(PlayerLife p,String kind,boolean enforced){ports.report(p,kind,enforced);}public void disconnect(PlayerLife p,int reason){if(current(p))host.disconnectPlayer(p.id(),reason);}public void afterMove(PlayerLife p,double dt){ports.afterMove(p,dt);}
-            public void afterTick(PlayerLife p,double dt){var row=match.binding().row(p);boolean airborne=p.generation()>0&&p.body().state().airborne();match.profiles().tick(row,dt,airborne,scene.mapName(),match.binding().players().values());match.combat().tick(row,dt,airborne,ports.presentation(p).onFire());ports.observePhysics(p,clock.monotonic());}
+            public void lagHistory(PlayerLife p,int tick){ports.lagHistory(p,tick);}public void housekeeping(PlayerLife p){ports.housekeeping(p);}public boolean burdened(PlayerLife p){return p.pickupBurdensome();}public int pendingTerrainMutations(){return match.construction().mutations().metrics().pending();}
+            public void report(PlayerLife p,String kind,boolean enforced){match.inputs().account(p,kind,enforced,Map.of());ports.report(p,kind,enforced);}public void disconnect(PlayerLife p,int reason){if(current(p))host.disconnectPlayer(p.id(),reason);}public void afterMove(PlayerLife p,double dt){ports.afterMove(p,dt);}
+            public void afterTick(PlayerLife p,double dt){var row=match.binding().row(p);boolean airborne=p.generation()>0&&p.body().state().airborne();match.profiles().tick(row,dt,airborne,scene.mapName(),match.binding().players().values());match.combat().tick(row,dt,airborne,match.entities().effects().onFire(p));ports.observePhysics(p,clock.monotonic());}
             public void failed(PlayerLife p,RuntimeException error){ports.failure("player:"+p.id(),error);}
         });
         repair=new TerrainRepair(lives.world(),settings::repair,()->lives.players().stream().map(p->new TerrainRepair.Recipient(p.id(),!p.bot()&&host.inGame(p.id()),true)).toList(),(recipient,packet)->{if(!host.sendPlayer(recipient.playerId(),packet))throw new IllegalStateException("Terrain repair control rejected");});
@@ -66,7 +66,7 @@ public final class HostedPlayerRuntime implements AutoCloseable {
     private boolean current(PlayerLife p){return match.lives().players().stream().anyMatch(actor->actor==p);}
     private List<PlayerSnapshot> currentSnapshots(Ports ports){
         owned();var roster=match.lives().players();var ids=new HashSet<Integer>();var result=new ArrayList<PlayerSnapshot>();
-        for(var p:roster){ids.add(p.id());if(identities.get(p.id())!=p){identities.put(p.id(),p);snapshots.put(p.id(),new PlayerSnapshot(p,ports::presentation));}result.add(snapshots.get(p.id()));}
+        for(var p:roster){ids.add(p.id());if(identities.get(p.id())!=p){identities.put(p.id(),p);snapshots.put(p.id(),new PlayerSnapshot(p,actor->{var v=ports.presentation(actor);return new PlayerSnapshot.Presentation(actor.inventory().tool(),actor.pickupId(),match.entities().effects().onFire(actor),actor.disguise().active(),match.entities().effects().touchingGoo(actor),match.corpses().replicate(actor),v.modeAllowsTool(),match.inputs().mounted(actor)||v.mountedMachineGunAuthorized());}));}result.add(snapshots.get(p.id()));}
         snapshots.keySet().retainAll(ids);identities.keySet().retainAll(ids);return List.copyOf(result);
     }
     private void owned(){if(Thread.currentThread()!=owner||closed)throw new IllegalStateException("Player runtime outside active owner");}

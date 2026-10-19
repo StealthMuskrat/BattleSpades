@@ -1,0 +1,72 @@
+{
+  "date_utc": "2026-10-19",
+  "base_commit": "f8e96396b4656d60dd602a795d3384f03d541c6c",
+  "scope": "Accumulated runtime implementations plus hosted CTF and Classic CTF",
+  "junit": {
+    "test": {
+      "suites": 110,
+      "tests": 6294,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 3,
+      "tests": 44,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "java_total": 6338,
+  "reference_ctf_tests": {
+    "tests": 47,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "reference_modules": [
+    "test_ctf_entities",
+    "test_ctf_end_and_departure",
+    "test_classic_ctf",
+    "test_retail_intel_radar",
+    "test_objective_abuse"
+  ],
+  "previous_batch_reference_tests": {
+    "passed": 326,
+    "rerun_this_batch": false,
+    "evidence": "implementation-local-verification.json"
+  },
+  "jar_sha256": "3206345496e67d6a95b54772b888b3b24c8262cdad26f3b942ea77ffc6853091",
+  "jar_bytes": 2261083,
+  "jar_crc_valid": true,
+  "smoke": {
+    "version": {
+      "exit": 0
+    },
+    "config": {
+      "exit": 0
+    },
+    "hosting": {
+      "exit": 2
+    }
+  },
+  "production_source_fingerprint": {
+    "files": 242,
+    "sha256": "b59f2466fbfc80673640fe6ddf46bb6c351a75026287bdb3709ce8ce35d722f2"
+  },
+  "codec_reproduction": "All three outputs byte-identical in temporary directory",
+  "frozen_java_fixtures_and_catalogs_unchanged": true,
+  "original_six_source_directories_unchanged": true,
+  "new_ctf_tests": {
+    "component": 6,
+    "udp_integration": 2
+  },
+  "ci": {
+    "status": "pending",
+    "all_five_jobs_passed": false
+  },
+  "full_migration_complete": false,
+  "full_reference_python_baseline_passing": false,
+  "supported_retail_client_validated": false
+}

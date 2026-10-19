@@ -24,16 +24,31 @@ public final class HostedEntityRuntime implements AutoCloseable {
         Object beginBlast(PlayerLife thrower,int killType,Vector origin);void endBlast(Object scope);void blastScopeFault(String phase);
         void failure(String label,Throwable error);
     }
-    public record Settings(boolean wireReady,boolean buildDamage,int tickLimit){
-        public Settings{if(tickLimit<64)throw new IllegalArgumentException("Entity tick limit must be at least 64");}
+    public record Settings(boolean wireReady,boolean buildDamage,int tickLimit,double radarLifetime){
+        public Settings(boolean wireReady,boolean buildDamage,int tickLimit){this(wireReady,buildDamage,tickLimit,45);}
+        public Settings{if(!Double.isFinite(radarLifetime)||radarLifetime<1||radarLifetime>250)throw new IllegalArgumentException("Radar lifetime");if(tickLimit<64)throw new IllegalArgumentException("Entity tick limit must be at least 64");}
         public static Settings from(TomlTable raw){
             Object limit=raw.get("network.entity_tick_batch_limit");if(limit!=null&&!(limit instanceof Long))throw new IllegalArgumentException("Entity tick limit must be integer");
-            return new Settings(flag(raw,"world.entities_wire_ready",true),flag(raw,"game.build_damage",true),(int)Math.max(64,Math.min(Integer.MAX_VALUE,limit==null?8192:(Long)limit)));
+            return new Settings(flag(raw,"world.entities_wire_ready",true),flag(raw,"game.build_damage",true),(int)Math.max(64,Math.min(Integer.MAX_VALUE,limit==null?8192:(Long)limit)),radar(raw));
         }
+        private static double radar(TomlTable raw){Object value=raw.get("game.radar_station_lifetime_seconds");if(value==null)return 45;if(value instanceof Number n&&Double.isFinite(n.doubleValue()))return Math.max(1,Math.min(250,n.doubleValue()));throw new IllegalArgumentException("Radar lifetime must be finite numeric");}
         private static boolean flag(TomlTable raw,String key,boolean fallback){Object value=raw.get(key);if(value==null)return fallback;if(value instanceof Boolean b)return b;throw new IllegalArgumentException(key+" must be boolean");}
     }
     private final Thread owner=Thread.currentThread();private final StandardMatchDomain match;private final ApplicationHost host;private final LifeRuntime.Clock clock;private final Settings settings;private final Ports ports;
     private final EntityRegistry registry=new EntityRegistry();private final PickupWorld world;private final TerrainDamage terrain;private final BlastTerrain blastTerrain;private final BlastRuntime blasts;private final DeployableRuntime devices;private final MapResourceService resources;
+    private final ShieldAnchors shields;
+    public ShieldAnchors shields(){owned();return shields;}
+    private DeployableActions actions;private final SurfaceEffects effects;private final HostedProjectileRuntime projectiles;
+    public boolean wireReady(){owned();return settings.wireReady();}
+    public SurfaceEffects effects(){owned();return effects;}
+    public HostedProjectileRuntime projectiles(){owned();return projectiles;}
+    public boolean packet(PlayerLife p,GamePacket packet){owned();return projectiles.packet(p,packet)||actions.packet(p,packet);}
+    public void known(int id,GamePacket packet){owned();for(var session:host.transitionSessions())if(session.inGame()&&session.knownEntities().contains(id))session.gameplay(packet,Delivery.RELIABLE);}
+    public List<WorldUpdate.TurretRow> turrets(){owned();return registry.all().stream().filter(e->e.alive&&e.behavior instanceof RocketTurretBehavior).map(e->((RocketTurretBehavior)e.behavior).row(e)).toList();}
+    public void turretTick(){owned();for(var e:registry.all())if(e.alive&&e.behavior instanceof RocketTurretBehavior turret)turret.update(e,1.0/60);}
+    public void forget(PlayerLife p){owned();actions.forget(p);shields.forget(p.id());projectiles.forget(p.id());effects.forget(p.id());actions.retire(p);}
+    public DeployableActions actions(){owned();return Objects.requireNonNull(actions);}
+    public void reliable(GamePacket packet){owned();host.broadcast(packet,Delivery.RELIABLE);}
     private boolean closed;
     public HostedEntityRuntime(ApplicationHost host,StandardMatchDomain match,PreparedMap.Bound prepared,MapMetadata metadata,SceneConfig scene,Settings settings,LifeRuntime.Clock clock,SourceRandom random,Ports ports){
         this.host=Objects.requireNonNull(host);this.match=Objects.requireNonNull(match);this.settings=Objects.requireNonNull(settings);this.clock=Objects.requireNonNull(clock);this.ports=Objects.requireNonNull(ports);Objects.requireNonNull(random);
@@ -58,16 +73,21 @@ public final class HostedEntityRuntime implements AutoCloseable {
         });
         // Install last: failed construction cannot leave a world listener behind.
         devices=new DeployableRuntime(match.lives(),registry,blasts,this::context,error->ports.failure("entity support",error));
+        shields=new ShieldAnchors(match,host);
+        effects=new SurfaceEffects(match,this,scene.friendlyFire(),new SourceRandom(Double.doubleToLongBits(clock.wall())));
+        projectiles=new HostedProjectileRuntime(match,this,host);
+        actions=new DeployableActions(match,this,settings.radarLifetime());
     }
     private void owned(){if(Thread.currentThread()!=owner||closed)throw new IllegalStateException("Entity runtime outside active owner");}
     public EntityContext context(){owned();return new EntityContext(1.0/60,clock.wall(),match.lives().players().stream().filter(p->p.alive()&&p.spawned()).toList(),registry,this::create,this::destroy,devices,world,this::move);}
     public void tick(){owned();long skipped=registry.tick(context(),settings.tickLimit());if(skipped!=0)ports.skippedEntityTicks(skipped);}
+    public void resetRound(){owned();for(var e:registry.all())if(e.wireVisible)destroy(e.id());registry.clear();actions.clear();shields.clear();projectiles.clear();effects.clear();devices.reset();for(var p:match.lives().players()){p.mountedEntityId(null);p.chargeIds(List.of());p.radarEntityId(null);}}
     public MapResourceService.Result rebuild(){owned();return resources.rebuild();}
     public int create(MapEntity entity){owned();return host.broadcastCreateEntity(entity);}
     public int destroy(int id){owned();return host.broadcastDestroyEntity(id);}
     public void move(MapEntity entity){owned();host.broadcast(ChangeEntity.position(entity.id(),new Vector3f((float)entity.x,(float)entity.y,(float)entity.z)),Delivery.RELIABLE);}
     /** The normal loader queues this list atomically and records knowledge on reliable acceptance. */
-    public List<GamePacket> reveal(int playerId){owned();if(!settings.wireReady())return List.of();var known=host.knownEntities(playerId);return registry.staticEntities().stream().filter(e->!known.contains(e.id())).map(e->(GamePacket)new CreateEntity(e.toWireEntity())).toList();}
+    public List<GamePacket> reveal(int playerId){owned();if(!settings.wireReady())return List.of();var known=host.knownEntities(playerId);var result=new ArrayList<GamePacket>();for(var e:registry.staticEntities())if(!known.contains(e.id())){result.add(new CreateEntity(e.toWireEntity()));if(e.behavior instanceof RocketTurretBehavior turret)result.addAll(turret.properties(e));}return List.copyOf(result);}
     public EntityRegistry registry(){owned();return registry;}public TerrainDamage terrain(){owned();return terrain;}public BlastTerrain blastTerrain(){owned();return blastTerrain;}public BlastRuntime blasts(){owned();return blasts;}public DeployableRuntime devices(){owned();return devices;}
-    @Override public void close(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Entity runtime outside owner");if(closed)return;devices.close();registry.clear();closed=true;}
+    @Override public void close(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Entity runtime outside owner");if(closed)return;devices.close();actions.clear();shields.clear();projectiles.clear();effects.clear();registry.clear();closed=true;}
 }

@@ -1,7 +1,7 @@
 {
   "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "0254c72e2cecbfd3fc86a1a9dda90f9f91996624e04cfcbc7c96cb370a0c7c07",
-  "jar_bytes": 2079943,
+  "jar_sha256": "3206345496e67d6a95b54772b888b3b24c8262cdad26f3b942ea77ffc6853091",
+  "jar_bytes": 2261083,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -17,53 +17,29 @@
     "META-INF/THIRD_PARTY_NOTICES.md",
     "META-INF/JAVA-THIRD-PARTY-NOTICES.md"
   ],
-  "repeated_build_identical": true,
+  "repeated_build_identical": false,
   "junit": {
     "test": {
-      "tests": 6276,
+      "suites": 110,
+      "tests": 6294,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
-      "tests": 41,
+      "suites": 3,
+      "tests": 44,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Movement networking verified locally and by all five CI jobs",
-  "java_implementation_commit": "45fb8a93a8412ce11fc23c44938870ec6ac5e7c8",
-  "tested_tree": "5a28c2fe4fc0a8319903dd9f929e4f5797eb8247",
+  "verification_stage": "Accumulated runtime and CTF checkpoint verified locally; CI pending",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "all_five_jobs_passed": true,
-    "all_final_steps_verified": true,
-    "configured_generators": 77,
-    "full_reference_python_baseline_passing": false,
-    "local_to_ci_artifact_hash_compared": false,
-    "packaged_native_probe_player_domain": "FixtureScene; actual UDP additionally exercises factory-backed movement networking and position pinning",
-    "run_id": 39191321035,
-    "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39191321035",
-    "head_sha": "45fb8a93a8412ce11fc23c44938870ec6ac5e7c8",
-    "jobs": {
-      "native-enet": "success",
-      "build": "success",
-      "platform (windows-latest)": "success",
-      "platform (macos-latest)": "success",
-      "platform (ubuntu-latest)": "success"
-    },
-    "job_ids": {
-      "native-enet": 117864566755,
-      "build": 117864567488,
-      "platform (windows-latest)": 117865032412,
-      "platform (macos-latest)": 117865032436,
-      "platform (ubuntu-latest)": 117865032460
-    },
-    "native_original_fixtures_reproduced": true,
-    "repeated_ci_archive_identical": true,
-    "same_uploaded_jar_three_platforms": true,
-    "component_and_udp_tests_use_source_built_classes": true
+    "status": "pending",
+    "all_five_jobs_passed": false
   },
   "movement": {
     "cases": 118,
@@ -87,16 +63,13 @@
   },
   "smoke": {
     "version": {
-      "exit": 0,
-      "output": "BattleSpades 0.1.0-java25-dev; protocol 168; gameplay incomplete"
+      "exit": 0
     },
     "config": {
-      "exit": 0,
-      "output": "Core configuration valid: BattleSpades Server, UDP 27015, 24 players, 60 Hz\nValidation covers core/network/join, Match Lobby rules and common scene settings; full gameplay is pending."
+      "exit": 0
     },
     "hosting": {
-      "exit": 2,
-      "output": "Picked up JAVA_TOOL_OPTIONS: \nJava migration incomplete: a configured gameplay scene, player simulation and game modes are not available.\nUse --help for diagnostics. Continue using the reference server for gameplay."
+      "exit": 2
     }
   },
   "scene": {
@@ -415,13 +388,7 @@
     "command": "python -m pytest -q tests/test_input_loss_recovery.py tests/test_action_clock.py tests/test_action_clock_recovery_review.py"
   },
   "publication": {
-    "branch": "port/java25",
-    "branch_updated": true,
-    "expected_parent": "561366086b6d376f3f6f879fbf6d92c7eb41d1ef",
-    "force": false,
-    "authorization": "User authorized this and future verified migration checkpoints, code/workflow changes and all five CI jobs; requested multiple implementations per batch.",
-    "implementation_commit": "45fb8a93a8412ce11fc23c44938870ec6ac5e7c8",
-    "tested_tree": "5a28c2fe4fc0a8319903dd9f929e4f5797eb8247"
+    "status": "pending"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -740,7 +707,7 @@
       "isolated_retry_same_assertions_passed": true
     }
   },
-  "both_archives_crc_valid": true,
+  "both_archives_crc_valid": false,
   "reference_shot_geometry_tests": {
     "passed": 223,
     "failures": 0,
@@ -5832,5 +5799,153 @@
     "production_bootstrap_enabled": false,
     "ci_implementation_commit": "45fb8a93a8412ce11fc23c44938870ec6ac5e7c8",
     "ci_run_id": 39191321035
+  },
+  "previous_movement_network_checkpoint": {
+    "verification_stage": "Movement networking verified locally and by all five CI jobs",
+    "java_implementation_commit": "45fb8a93a8412ce11fc23c44938870ec6ac5e7c8",
+    "tested_tree": "5a28c2fe4fc0a8319903dd9f929e4f5797eb8247",
+    "ci": {
+      "status": "success",
+      "all_five_jobs_passed": true,
+      "all_final_steps_verified": true,
+      "configured_generators": 77,
+      "full_reference_python_baseline_passing": false,
+      "local_to_ci_artifact_hash_compared": false,
+      "packaged_native_probe_player_domain": "FixtureScene; actual UDP additionally exercises factory-backed movement networking and position pinning",
+      "run_id": 39191321035,
+      "url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39191321035",
+      "head_sha": "45fb8a93a8412ce11fc23c44938870ec6ac5e7c8",
+      "jobs": {
+        "native-enet": "success",
+        "build": "success",
+        "platform (windows-latest)": "success",
+        "platform (macos-latest)": "success",
+        "platform (ubuntu-latest)": "success"
+      },
+      "job_ids": {
+        "native-enet": 117864566755,
+        "build": 117864567488,
+        "platform (windows-latest)": 117865032412,
+        "platform (macos-latest)": 117865032436,
+        "platform (ubuntu-latest)": 117865032460
+      },
+      "native_original_fixtures_reproduced": true,
+      "repeated_ci_archive_identical": true,
+      "same_uploaded_jar_three_platforms": true,
+      "component_and_udp_tests_use_source_built_classes": true
+    },
+    "jar_sha256": "0254c72e2cecbfd3fc86a1a9dda90f9f91996624e04cfcbc7c96cb370a0c7c07",
+    "jar_bytes": 2079943,
+    "junit": {
+      "test": {
+        "tests": 6276,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "tests": 41,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "smoke": {
+      "version": {
+        "exit": 0,
+        "output": "BattleSpades 0.1.0-java25-dev; protocol 168; gameplay incomplete"
+      },
+      "config": {
+        "exit": 0,
+        "output": "Core configuration valid: BattleSpades Server, UDP 27015, 24 players, 60 Hz\nValidation covers core/network/join, Match Lobby rules and common scene settings; full gameplay is pending."
+      },
+      "hosting": {
+        "exit": 2,
+        "output": "Picked up JAVA_TOOL_OPTIONS: \nJava migration incomplete: a configured gameplay scene, player simulation and game modes are not available.\nUse --help for diagnostics. Continue using the reference server for gameplay."
+      }
+    },
+    "repeated_build_identical": true,
+    "both_archives_crc_valid": true,
+    "publication": {
+      "branch": "port/java25",
+      "branch_updated": true,
+      "expected_parent": "561366086b6d376f3f6f879fbf6d92c7eb41d1ef",
+      "force": false,
+      "authorization": "User authorized this and future verified migration checkpoints, code/workflow changes and all five CI jobs; requested multiple implementations per batch.",
+      "implementation_commit": "45fb8a93a8412ce11fc23c44938870ec6ac5e7c8",
+      "tested_tree": "5a28c2fe4fc0a8319903dd9f929e4f5797eb8247"
+    }
+  },
+  "ctf_runtime": {
+    "date_utc": "2026-10-19",
+    "base_commit": "f8e96396b4656d60dd602a795d3384f03d541c6c",
+    "scope": "Accumulated runtime implementations plus hosted CTF and Classic CTF",
+    "junit": {
+      "test": {
+        "suites": 110,
+        "tests": 6294,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "suites": 3,
+        "tests": 44,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "java_total": 6338,
+    "reference_ctf_tests": {
+      "tests": 47,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "reference_modules": [
+      "test_ctf_entities",
+      "test_ctf_end_and_departure",
+      "test_classic_ctf",
+      "test_retail_intel_radar",
+      "test_objective_abuse"
+    ],
+    "previous_batch_reference_tests": {
+      "passed": 326,
+      "rerun_this_batch": false,
+      "evidence": "implementation-local-verification.json"
+    },
+    "jar_sha256": "3206345496e67d6a95b54772b888b3b24c8262cdad26f3b942ea77ffc6853091",
+    "jar_bytes": 2261083,
+    "jar_crc_valid": true,
+    "smoke": {
+      "version": {
+        "exit": 0
+      },
+      "config": {
+        "exit": 0
+      },
+      "hosting": {
+        "exit": 2
+      }
+    },
+    "production_source_fingerprint": {
+      "files": 242,
+      "sha256": "b59f2466fbfc80673640fe6ddf46bb6c351a75026287bdb3709ce8ce35d722f2"
+    },
+    "codec_reproduction": "All three outputs byte-identical in temporary directory",
+    "frozen_java_fixtures_and_catalogs_unchanged": true,
+    "original_six_source_directories_unchanged": true,
+    "new_ctf_tests": {
+      "component": 6,
+      "udp_integration": 2
+    },
+    "ci": {
+      "status": "pending",
+      "all_five_jobs_passed": false
+    },
+    "full_migration_complete": false,
+    "full_reference_python_baseline_passing": false,
+    "supported_retail_client_validated": false
   }
 }

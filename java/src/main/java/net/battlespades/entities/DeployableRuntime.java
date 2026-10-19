@@ -24,6 +24,7 @@ public final class DeployableRuntime implements AutoCloseable {
     public PlayerLife player(int id){owned();return lives.players().stream().filter(p->p.id()==id).findFirst().orElse(null);}
     public void radarAdded(int team){owned();radarCounts.put(team,radarCount(team)+1);}
     public void radarRemoved(int team){owned();radarCounts.put(team,Math.max(0,radarCount(team)-1));}
+    public void reset(){owned();radarCounts.clear();}
     public int radarCount(int team){owned();return radarCounts.getOrDefault(team,0);}
     public static Vector attachmentCenter(MapEntity e){return switch(e.face){case 0->new Vector(e.x,e.y+.5,e.z+.5);case 1->new Vector(e.x+1,e.y+.5,e.z+.5);case 2->new Vector(e.x+.5,e.y,e.z+.5);case 3->new Vector(e.x+.5,e.y+1,e.z+.5);case 4->new Vector(e.x+.5,e.y+.5,e.z);case 5->new Vector(e.x+.5,e.y+.5,e.z+1);default->new Vector(e.x+.5,e.y+.5,e.z+.5);};}
     public static void detonate(Explosive behavior,MapEntity entity,EntityContext context){

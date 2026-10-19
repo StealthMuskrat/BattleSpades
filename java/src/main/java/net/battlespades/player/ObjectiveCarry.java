@@ -12,6 +12,8 @@ public final class ObjectiveCarry {
     private ObjectiveCarry(){}
     public record Vectors(Position position,Position velocity){}
     public record Dropped(int type,int state,Position position,Position velocity){}
+    /** Forced objective retirement may need to clear a desynchronised native carry state. */
+    public static void clear(PlayerLife player){Objects.requireNonNull(player).carry(null,false,null);}
     public static boolean validType(int type){return type>=14&&type<=16;}
     public static boolean pickup(PlayerLife player,int type,boolean burdensome,int state,Consumer<GamePacket> reliable) {
         Objects.requireNonNull(player);Objects.requireNonNull(reliable);

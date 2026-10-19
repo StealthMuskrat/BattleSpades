@@ -11,6 +11,7 @@ public final class PlayerSlots {
     private final int limit;
     public PlayerSlots(int limit) {if(limit<1 || limit>255) throw new IllegalArgumentException("Player slots");this.limit=limit;}
     private void owned() {if(Thread.currentThread()!=owner) throw new IllegalStateException("Slots accessed outside owner");}
+    public int limit(){owned();return limit;}
     public int occupied() {owned();return used.cardinality();}
     public Optional<Reservation> reserve() {owned();int id=used.nextClearBit(0);if(id>=limit) return Optional.empty();used.set(id);return Optional.of(new Reservation(id));}
     public final class Reservation implements AutoCloseable {

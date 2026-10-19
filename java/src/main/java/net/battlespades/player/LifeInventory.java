@@ -10,6 +10,7 @@ public final class LifeInventory {
     private final Thread owner=Thread.currentThread();
     private final Map<Integer,Ammo> weapons=new LinkedHashMap<>();
     private final Map<Integer,Integer> oriented=new TreeMap<>(),deployable=new TreeMap<>();
+    private final Map<Integer,Double> orientedDue=new TreeMap<>();
     private final Map<Integer,Double> deployableDue=new TreeMap<>();
     private final Map<Integer,LauncherUse> launchers=new TreeMap<>();
     private int weapon=LifeCatalog.DEFAULT_WEAPON,tool=weapon,clip,reserve,blocks,maxBlocks,turrets,disguise;
@@ -19,6 +20,8 @@ public final class LifeInventory {
     public int weapon(){owned();return weapon;}public int tool(){owned();return tool;}public Ammo ammo(){owned();return new Ammo(clip,reserve);}
     public Map<Integer,Ammo> weapons(){owned();return Map.copyOf(weapons);}public Map<Integer,Integer> oriented(){owned();return Map.copyOf(oriented);}
     public Map<Integer,Integer> deployables(){owned();return Map.copyOf(deployable);}public Map<Integer,Double> deployableDue(){owned();return Map.copyOf(deployableDue);}
+    public void consumeTurret(){owned();if(turrets<=0)throw new IllegalStateException("Empty turret wallet");turrets--;}
+    public boolean consumeDisguise(){owned();if(disguise<=0)return false;disguise--;return true;}
     public int blocks(){owned();return blocks;}public int maxBlocks(){owned();return maxBlocks;}public int turrets(){owned();return turrets;}public int disguise(){owned();return disguise;}
     public boolean reloading(){owned();return reloading;}public double reloadEnd(){owned();return reloadEnd;}
     public void ammo(int magazine,int remaining){owned();if(magazine<0||remaining<0)throw new IllegalArgumentException("Negative ammo");clip=magazine;reserve=remaining;}
@@ -38,7 +41,7 @@ public final class LifeInventory {
     }
     public void spawn(int classId,double walletScale){owned();classWallet(classId,walletScale,true);resetGuns();resetOriented();resetDeployables();turrets=LifeCatalog.TURRET_INITIAL;reloading=false;reloadEnd=0;tool=weapon;}
     private void resetGuns(){weapons.clear();LifeCatalog.WEAPONS.forEach((id,p)->weapons.put(id,new Ammo(p.clip(),p.initial())));var p=LifeCatalog.WEAPONS.getOrDefault(weapon,LifeCatalog.WEAPONS.values().iterator().next());clip=p.clip();reserve=p.initial();}
-    private void resetOriented(){oriented.clear();LifeCatalog.ORIENTED.forEach((id,p)->oriented.put(id,p.magazineInitial()+p.reserveInitial()));launchers.clear();disguise=LifeCatalog.DISGUISE_INITIAL;}
+    private void resetOriented(){oriented.clear();LifeCatalog.ORIENTED.forEach((id,p)->oriented.put(id,p.magazineInitial()+p.reserveInitial()));launchers.clear();orientedDue.clear();disguise=LifeCatalog.DISGUISE_INITIAL;}
     private void resetDeployables(){deployable.clear();LifeCatalog.DEPLOYABLES.forEach((id,p)->deployable.put(id,p.initial()));deployableDue.clear();}
     public void oriented(int toolId,int count){owned();if(!LifeCatalog.ORIENTED.containsKey(toolId)||count<0)throw new IllegalArgumentException("Oriented wallet");oriented.put(toolId,count);}
     public void launcherUse(int toolId,int left,double now){owned();if(!Double.isFinite(now)||left<0)throw new IllegalArgumentException("Launcher state");launchers.put(toolId,new LauncherUse(left,now));}
@@ -58,9 +61,21 @@ public final class LifeInventory {
         turrets=Math.min(LifeCatalog.TURRET_MAX,turrets+LifeCatalog.TURRET_RESTOCK);
         if(type!=0){LifeCatalog.DEPLOYABLES.forEach((id,p)->deployable.put(id,Math.min(p.maximum(),Math.max(0,deployable.getOrDefault(id,0))+p.restock())));disguise=Math.min(LifeCatalog.DISGUISE_MAX,disguiseBefore+LifeCatalog.DISGUISE_RESTOCK);}
     }
+    public boolean orientedReady(int id,double now,boolean bot,boolean infiniteBlocks){
+        owned();if(id==20||id==21)return deployableReady(id,now);if(!Double.isFinite(now)||now+.05<orientedDue.getOrDefault(id,0.0))return false;
+        Integer left=clipLeft(id,now,bot);if(left!=null&&left==0)return false;
+        if(id==48)return true;if(id==29)return infiniteBlocks||blocks>0;return oriented.getOrDefault(id,1)>0;
+    }
+    public void consumeOriented(int id,double now,boolean bot,boolean infiniteBlocks){
+        owned();if(!orientedReady(id,now,bot,infiniteBlocks))throw new IllegalStateException("Oriented preflight not ready");
+        Integer left=clipLeft(id,now,bot);if(left!=null)launcherUse(id,Math.max(0,left-1),now);
+        if(id==20||id==21){commitDeployable(id,now);return;}
+        if(id==29){if(!infiniteBlocks)blocks=Math.max(0,blocks-1);}else if(id!=48&&oriented.containsKey(id))oriented.put(id,Math.max(0,oriented.get(id)-1));
+        var profile=net.battlespades.combat.CombatCatalog.WEAPONS.get(id);double interval=profile==null?0:Math.max(0,profile.interval());orientedDue.put(id,Math.max(now,orientedDue.getOrDefault(id,0.0))+interval);
+    }
     public boolean removeBlock(){owned();if(blocks<=0)return false;blocks--;return true;}
     public void addBlocks(int count){owned();if(count<0)throw new IllegalArgumentException("Negative block grant");blocks=(int)Math.min(maxBlocks,(long)blocks+count);}
     public boolean deployableReady(int toolId,double now){owned();return LifeCatalog.CADENCE.containsKey(toolId)&&Double.isFinite(now)&&now+0.05>=deployableDue.getOrDefault(toolId,0.0)&&rawDeployableStock(toolId)>0;}
-    public int rawDeployableStock(int toolId){owned();var rule=LifeCatalog.DEPLOYABLES.get(toolId);if(rule!=null)return Math.min(rule.maximum(),Math.max(0,deployable.getOrDefault(toolId,0)));if(toolId==16)return Math.min(LifeCatalog.TURRET_MAX,Math.max(0,turrets));if(toolId==22)return Math.max(0,disguise);return toolId==15?1:0;}
+    public int rawDeployableStock(int toolId){owned();var rule=LifeCatalog.DEPLOYABLES.get(toolId);if(rule!=null)return Math.min(rule.maximum(),Math.max(0,deployable.getOrDefault(toolId,0)));if(toolId==16)return Math.min(LifeCatalog.TURRET_MAX,Math.max(0,turrets));if(toolId==64)return Math.max(0,disguise);return toolId==15?1:0;}
     public void commitDeployable(int toolId,double now){owned();if(!deployableReady(toolId,now))throw new IllegalStateException("Deployable preflight not ready");if(LifeCatalog.DEPLOYABLES.containsKey(toolId))deployable.put(toolId,deployable.get(toolId)-1);deployableDue.put(toolId,Math.max(now,deployableDue.getOrDefault(toolId,0.0))+LifeCatalog.CADENCE.get(toolId));}
 }

@@ -54,6 +54,7 @@ public final class ApplicationHost implements AutoCloseable {
     private void owned() {if(Thread.currentThread()!=owner) throw new IllegalStateException("Application host accessed outside owner");if(closed) throw new IllegalStateException("Application host closed");}
     public SocketAddress address() throws IOException {owned();return transport.address();}
     public List<JoinSession.Metrics> sessions() {owned();return sessions.values().stream().map(JoinSession::metrics).toList();}
+    public int playerLimit(){owned();return slots.limit();}
     public int occupiedSlots() {owned();return slots.occupied();}
     public boolean inGame(int id) {owned();if(closing)return false;for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return session.inGame();return false;}
     public void service(long nowMillis,int loopCount) throws IOException {

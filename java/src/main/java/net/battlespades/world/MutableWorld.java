@@ -86,6 +86,8 @@ public final class MutableWorld implements AutoCloseable {
     public int sourceCrc() { return sourceCrc; }
     /** Identity, rather than a checksum, protects worker-prepared geometry from another terrain. */
     public boolean pristineSource(VxlMap source) { active();return base==source&&revision==0&&columns.isEmpty(); }
+    /** Source WorldManager.get_solid: out-of-bounds gameplay probes read as air. */
+    public boolean solid(int x,int y,int z){active();return x>=0&&x<512&&y>=0&&y<512&&z>=0&&z<240&&solid(new Cell(x,y,z));}
     public boolean solid(Cell cell) { active();var c=columns.get(cell.column());return c==null?base.solid(cell.x,cell.y,cell.z):c.solid.get(cell.z); }
     public int color(Cell cell) { active();var c=columns.get(cell.column());return c==null?base.color(cell.x,cell.y,cell.z):c.colors[cell.z]; }
     public boolean explicit(Cell cell) { active();var c=columns.get(cell.column());return c==null?base.hasExplicitColor(cell.x,cell.y,cell.z):c.explicit.get(cell.z); }

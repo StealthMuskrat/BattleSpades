@@ -174,6 +174,9 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
                 if(state==State.INPUT&&!settle(serverLoop))return;
                 scene.input(slot.id(),input,serverLoop);return;
             }
+            if(LivePlacement.supports(id)){
+                if(admitted&&slot!=null){LivePlacement placement;try{placement=LivePlacement.decode(body);}catch(ProtocolException invalid){malformed++;return;}if(awaitPackets)deferred=java.util.Objects.requireNonNull(scene.packetAsync(slot.id(),placement));else scene.packet(slot.id(),placement);}return;
+            }
             if(id==116){
                 if(admitted&&slot!=null){
                     LivePositionReport report;

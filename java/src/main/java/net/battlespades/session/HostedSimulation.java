@@ -10,7 +10,7 @@ import net.battlespades.simulation.*;
 import net.battlespades.world.TerrainRepair;
 
 /** Host-driven asynchronous 60 Hz assembly. Every pump services UDP even while an authoritative phase awaits.
- * Remaining simulation phases, replication and metrics must be bound to their actual domain owners.
+ * Match phases bind player/device/projectile/construction/effect/corpse/conduct owners; remaining bot/plugin/service phases stay explicit.
  * The caller keeps pumping until stop completes, then closes host, scene state and owner loop in that order.
  */
 public final class HostedSimulation {
@@ -52,9 +52,9 @@ public final class HostedSimulation {
     }
     private record MatchFrames(Supplier<StandardMatchDomain> match,SimulationFrame.Services other) implements SimulationFrame.Services {
         private MatchFrames{Objects.requireNonNull(match);Objects.requireNonNull(other);}
-        public boolean enabled(SimulationFrame.Phase phase){return other.enabled(phase);}
+        public boolean enabled(SimulationFrame.Phase phase){return phase==SimulationFrame.Phase.GOO||phase==SimulationFrame.Phase.CORPSES||phase==SimulationFrame.Phase.PREFABS||other.enabled(phase);}
         public CompletionStage<Void> asynchronous(SimulationFrame.Phase phase,int tick){if(phase==SimulationFrame.Phase.PLAYERS){match.get().runtime().players(tick);return CompletableFuture.completedFuture(null);}return other.asynchronous(phase,tick);}
-        public void synchronous(SimulationFrame.Phase phase,int tick){if(phase==SimulationFrame.Phase.ENTITIES)match.get().entities().tick();else other.synchronous(phase,tick);}public void subsystem(SimulationFrame.Phase phase,double ms){other.subsystem(phase,ms);}public void failure(String label,Throwable error){other.failure(label,error);}public void tickMetrics(double ms){other.tickMetrics(ms);}public void health(double ms){other.health(ms);}
+        public void synchronous(SimulationFrame.Phase phase,int tick){switch(phase){case ENTITIES->match.get().entities().tick();case PROJECTILES->match.get().entities().projectiles().tick();case WORLD_MUTATIONS->match.get().construction().tick();case PREFABS->match.get().prefabs().tick();case CORPSES->match.get().corpses().tick();case TURRETS->match.get().entities().turretTick();case FIRE->match.get().entities().effects().fireTick();case CONDUCT->match.get().conduct().tick(tick);case GOO->match.get().entities().effects().gooTick();default->other.synchronous(phase,tick);}}public void subsystem(SimulationFrame.Phase phase,double ms){other.subsystem(phase,ms);}public void failure(String label,Throwable error){other.failure(label,error);}public void tickMetrics(double ms){other.tickMetrics(ms);}public void health(double ms){other.health(ms);}
     }
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Hosted simulation outside owner");}
     public void start(){owned();if(started||stopping!=null)throw new IllegalStateException("Simulation can start once");started=true;match.get().mode().start();running=true;previous=loop.nowNanos();}

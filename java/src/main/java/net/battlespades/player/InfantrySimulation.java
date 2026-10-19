@@ -95,6 +95,7 @@ public final class InfantrySimulation {
         m.fallResult=body.update(dt,settings.gravity,peers);var after=body.state();
         if(after.jumped()&&Boolean.FALSE.equals(m.flightCapable)&&!p.flight().ownsJump())m.retailJumpLabel=p.inputTimeline().appliedLabel();
         m.fallResult=p.flight().afterMove(p,dt,before.airborne(),canopyVelocity,canopyPhysics,m.fallResult,settings.gravity);
+        p.disguise().moved(p,runtime.movementClock());
         if(before.airborne())m.airTime+=dt;else if(after.airborne())m.airborneSince=runtime.movementClock();
         if(m.fallResult>0&&settings.fallDamage&&(after.position().z()<=237||p.waterFallDamage())){
             double fraction=Math.max(0,Math.min(1,(m.airTime-1.0/60)/(4.0/60-1.0/60)));double amount=m.fallResult*fraction;

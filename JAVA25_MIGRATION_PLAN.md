@@ -1,8 +1,9 @@
 # BattleSpades Java 25 migration plan
 
 Reference: StealthMuskrat/BattleSpades `port/java25`, source commit
-`6216b771282d2d349ccd67ee58c378f035c83553`. Original Python/Cython sources
-remain unchanged and available for differential testing. License: AGPL-3.0-or-later;
+`546c548780c400f21d73ca6713f86194ceb3c844`. The user-updated `main` reference
+was imported exactly (seven commits, 29 changed files); the six original
+source directories match that commit and remain available for differential testing. License: AGPL-3.0-or-later;
 retain LICENSE, LICENSING.md and THIRD_PARTY_NOTICES.md.
 
 ## Scope and audit evidence
@@ -11,7 +12,7 @@ This is a large, incomplete migration. The structural audit covers every tracked
 file, its SHA-256, size, source symbols/imports and documentation headings in
 `java/docs/source-inventory.json`. Every Python/Cython module and its proposed
 Java destination is enumerated in `java/docs/SOURCE_INVENTORY.md`.
-A structural inventory is not a completed behavioral audit of all 276,648 source
+A structural inventory is not a completed behavioral audit of all 277,001 source
 lines. Detailed behavioral review and golden tests must accompany each port.
 The production server is not replaced until all compatibility gates pass.
 

@@ -1,7 +1,7 @@
 {
-  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
-  "jar_sha256": "3206345496e67d6a95b54772b888b3b24c8262cdad26f3b942ea77ffc6853091",
-  "jar_bytes": 2261083,
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "jar_sha256": "4c4dcd50fa7db004f0f11304df8b7e68e70f0eeaf8e7ee62316bbd0c4a4b2ee4",
+  "jar_bytes": 2307094,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -17,66 +17,29 @@
     "META-INF/THIRD_PARTY_NOTICES.md",
     "META-INF/JAVA-THIRD-PARTY-NOTICES.md"
   ],
-  "repeated_build_identical": true,
+  "repeated_build_identical": false,
   "junit": {
     "test": {
       "suites": 110,
-      "tests": 6294,
+      "tests": 6300,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
       "suites": 3,
-      "tests": 44,
+      "tests": 46,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Accumulated runtime and CTF checkpoint verified locally and by all five CI jobs",
-  "java_implementation_commit": "97b05b197999db083cf70849c6f3c82249cc4d17",
-  "tested_tree": "83b43cd911c4f3d4ea8b516e571bb8e71d546b14",
+  "verification_stage": "Upstream reconciliation and capture-zone implementations verified locally; CI pending",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "run_id": 39308869800,
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39308869800",
-    "head_sha": "97b05b197999db083cf70849c6f3c82249cc4d17",
-    "tested_tree": "83b43cd911c4f3d4ea8b516e571bb8e71d546b14",
-    "attempt": 1,
-    "all_five_jobs_passed": true,
-    "all_final_steps_verified": true,
-    "jobs": [
-      {
-        "id": 118252961465,
-        "name": "native-enet",
-        "steps": 16
-      },
-      {
-        "id": 118252961787,
-        "name": "build",
-        "steps": 13
-      },
-      {
-        "id": 118253679478,
-        "name": "platform (macos-latest)",
-        "steps": 12
-      },
-      {
-        "id": 118253679546,
-        "name": "platform (ubuntu-latest)",
-        "steps": 12
-      },
-      {
-        "id": 118253679729,
-        "name": "platform (windows-latest)",
-        "steps": 12
-      }
-    ],
-    "configured_generators_reproduced": 77,
-    "full_reference_python_baseline_passing": false,
-    "local_to_ci_artifact_hash_compared": false,
-    "supported_retail_client_validated": false
+    "status": "pending",
+    "all_five_jobs_passed": false
   },
   "movement": {
     "cases": 118,
@@ -425,10 +388,7 @@
     "command": "python -m pytest -q tests/test_input_loss_recovery.py tests/test_action_clock.py tests/test_action_clock_recovery_review.py"
   },
   "publication": {
-    "status": "published",
-    "commit": "97b05b197999db083cf70849c6f3c82249cc4d17",
-    "tree": "83b43cd911c4f3d4ea8b516e571bb8e71d546b14",
-    "branch": "port/java25"
+    "status": "pending"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -6028,5 +5988,216 @@
     "tested_tree": "83b43cd911c4f3d4ea8b516e571bb8e71d546b14",
     "published": true
   },
-  "repeated_build_verifier": "CI build job"
+  "repeated_build_verifier": "CI build job",
+  "previous_ctf_checkpoint": {
+    "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+    "verification_stage": "Accumulated runtime and CTF checkpoint verified locally and by all five CI jobs",
+    "java_implementation_commit": "97b05b197999db083cf70849c6f3c82249cc4d17",
+    "tested_tree": "83b43cd911c4f3d4ea8b516e571bb8e71d546b14",
+    "ci": {
+      "status": "success",
+      "run_id": 39308869800,
+      "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39308869800",
+      "head_sha": "97b05b197999db083cf70849c6f3c82249cc4d17",
+      "tested_tree": "83b43cd911c4f3d4ea8b516e571bb8e71d546b14",
+      "attempt": 1,
+      "all_five_jobs_passed": true,
+      "all_final_steps_verified": true,
+      "jobs": [
+        {
+          "id": 118252961465,
+          "name": "native-enet",
+          "steps": 16
+        },
+        {
+          "id": 118252961787,
+          "name": "build",
+          "steps": 13
+        },
+        {
+          "id": 118253679478,
+          "name": "platform (macos-latest)",
+          "steps": 12
+        },
+        {
+          "id": 118253679546,
+          "name": "platform (ubuntu-latest)",
+          "steps": 12
+        },
+        {
+          "id": 118253679729,
+          "name": "platform (windows-latest)",
+          "steps": 12
+        }
+      ],
+      "configured_generators_reproduced": 77,
+      "full_reference_python_baseline_passing": false,
+      "local_to_ci_artifact_hash_compared": false,
+      "supported_retail_client_validated": false
+    },
+    "jar_sha256": "3206345496e67d6a95b54772b888b3b24c8262cdad26f3b942ea77ffc6853091",
+    "jar_bytes": 2261083,
+    "junit": {
+      "test": {
+        "suites": 110,
+        "tests": 6294,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "suites": 3,
+        "tests": 44,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "smoke": {
+      "version": {
+        "exit": 0
+      },
+      "config": {
+        "exit": 0
+      },
+      "hosting": {
+        "exit": 2
+      }
+    },
+    "repeated_build_identical": true,
+    "both_archives_crc_valid": false,
+    "publication": {
+      "status": "published",
+      "commit": "97b05b197999db083cf70849c6f3c82249cc4d17",
+      "tree": "83b43cd911c4f3d4ea8b516e571bb8e71d546b14",
+      "branch": "port/java25"
+    }
+  },
+  "capture_zones": {
+    "date_utc": "2026-10-19",
+    "base_commit": "40fd12eb504c3cb0028cd3cbf99bfacecb2df4f3",
+    "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+    "scope": "Updated upstream reference plus hosted Territory Control and Multi-Hill, shared capture resupply, escape-watch and objective airstrike ownership",
+    "junit": {
+      "test": {
+        "suites": 110,
+        "tests": 6300,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "suites": 3,
+        "tests": 46,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "java_total": 6346,
+    "reference_tests": {
+      "tests": 65,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "reference_modules": [
+      "test_territory_control",
+      "test_multi_hill",
+      "test_recovered_objective_packets",
+      "test_recovered_objective_modes",
+      "test_objective_abuse",
+      "test_escape_watch"
+    ],
+    "gradle": {
+      "command": "check build",
+      "result": "BUILD SUCCESSFUL in 58s",
+      "strict_compiler": true,
+      "verifyPortable": true,
+      "distributions": true
+    },
+    "jar_sha256": "4c4dcd50fa7db004f0f11304df8b7e68e70f0eeaf8e7ee62316bbd0c4a4b2ee4",
+    "jar_bytes": 2307094,
+    "jar_crc_valid": true,
+    "java_class_major": 69,
+    "smoke": {
+      "version": {
+        "exit": 0
+      },
+      "config": {
+        "exit": 0
+      },
+      "hosting": {
+        "exit": 2
+      }
+    },
+    "production_source_fingerprint": {
+      "files": 247,
+      "sha256": "0e8b6333cf05f93d188e8f25fe0017ad31fe52df156260283ce81a9bf8d2be85"
+    },
+    "codec_reproduction": "All three outputs byte-identical in isolated tree",
+    "frozen_java_paths_unchanged": 262,
+    "original_six_source_directories_match": "546c548780c400f21d73ca6713f86194ceb3c844",
+    "upstream_imported_files": 29,
+    "upstream_commits": 7,
+    "new_tests": {
+      "grouped_component": 6,
+      "parameterized_udp": 2
+    },
+    "ci": {
+      "status": "pending",
+      "all_five_jobs_passed": false
+    },
+    "full_migration_complete": false,
+    "full_reference_python_baseline_passing": false,
+    "supported_retail_client_validated": false
+  },
+  "source_reconciliation": {
+    "head": "546c548780c400f21d73ca6713f86194ceb3c844",
+    "tree": "c1bab9c6869448a7e3b5271fec41e637bcf17717",
+    "base": "6216b771282d2d349ccd67ee58c378f035c83553",
+    "files": [
+      ".github/workflows/container.yml",
+      "VERSION",
+      "config.toml",
+      "modes/hardcore.py",
+      "modes/multi_hill.py",
+      "modes/unofficial/base.py",
+      "modes/unofficial/combat.py",
+      "modes/unofficial/races.py",
+      "modes/vip.py",
+      "modes/zombie.py",
+      "release/NOTES.md",
+      "scripts/steam_linux_sidecar.py",
+      "server/bot_ai/policies.py",
+      "tests/test_bot_built_block_breach.py",
+      "tests/test_bot_policies.py",
+      "tests/test_event_sounds.py",
+      "tests/test_hardcore.py",
+      "tests/test_join_greeting.py",
+      "tests/test_launcher.py",
+      "tests/test_mode_fixes_round2_scoring.py",
+      "tests/test_multi_hill.py",
+      "tests/test_retail_rules_modes.py",
+      "tests/test_rules_audit_2026_09_27.py",
+      "tests/test_runtime_paths.py",
+      "tests/test_simple_bot_navigation.py",
+      "tests/test_steam_linux_sidecar.py",
+      "tests/test_surface_corridor.py",
+      "tests/test_unofficial_modes.py",
+      "tests/test_unofficial_objectives.py"
+    ],
+    "commit_objects_verified": [
+      "34c25192def16b39db26daf06f42920d3ace0e88",
+      "de8dfcf9a49c18a82d05d2694725d01e808bd1f1",
+      "2186b5ff92fb5d2f84efbd5e37bd2d132b25a718",
+      "aa6f74a172c0c416bd5d34cdc20b691e401e81c3",
+      "86a5b6bc35c1fa8c21c9cb1a974bffbf194ca0fa",
+      "1e39cc637dd3f3606f2bf5a8753ef6ce1556a482",
+      "546c548780c400f21d73ca6713f86194ceb3c844"
+    ],
+    "merge_parent_for_publication": "546c548780c400f21d73ca6713f86194ceb3c844",
+    "six_reference_directories_exactly_match_main": true,
+    "files_unchanged_from_import": true
+  }
 }

@@ -128,6 +128,27 @@ class ApplicationIntegrationTest {
             }
         });
     }
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(strings={"tc","mh"})
+    void captureModesReplayOwnedZonesToLateUdpJoinerAndEmitCanonicalObjectiveUpdates(String code){
+        assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+            Files.writeString(temp.resolve("Zones.json"),"{\"tc_base_points\":[[12,12,97],[24,24,97]],\"tc_base_w_h_d\":[[8,8,8],[8,8,8]],\"mh_base_points\":[[12,12,97],[24,24,97]],\"mh_base_w_h_d\":[[8,8,8],[8,8,8]]}");
+            var ports=new net.battlespades.support.StandardPorts();var prepared=net.battlespades.support.StandardPorts.prepared(temp.resolve("Zones.vxl"),code);var config=new SceneConfig("Zones UDP",27015,0,ModeCatalog.get(code),"Zones",false,false,true,999,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            try(var owner=new net.battlespades.runtime.OwnerLoop(0,1024,256,error->fail(error))){
+                var factory=new StandardMatchFactory(config,org.tomlj.Toml.parse("[modes."+code+"]\ntime_limit=0\nbase_active_time=2\n"),ports,new SourceRandom(0),owner,List.of("Zones"),candidate->new StandardMatchFactory.Ports(ports,ports,ports,ports,ports,ports));
+                try(var state=new HostedSceneState("Zones",code,prepared,1,10000,factory.modes());var host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),2,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),state.scene(),new BoundedSnapshotCompression(1,2));var a=new Client(host.address());var late=new Client(host.address())){
+                    state.attach(host);host.serialPackets(net.battlespades.runtime.IngamePackets.Settings.defaults(1024,256),Runnable::run,error->fail(error));var match=(StandardMatchDomain)state.domain();match.mode().start();var zones=match.zones().orElseThrow();var loop=new Loop(host);loop.pump=now->{owner.pump(now*1_000_000);host.service(now,100);host.drainPackets(100).toCompletableFuture().join();};
+                    loop.ticketAndLoad(a,match.world());a.send(new SimplePackets.NewPlayerConnection(2,0,0,0,"Holder"),false);loop.until(()->a.has(69));loop.until(()->{try{a.send(new ClientInput(100,127,false,5,1,0,0,0,0,24,0),false);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(0);});var p=match.lives().player(0);p.body().position(new Vector(12,12,97));zones.tick();
+                    loop.ticketAndLoad(late,match.world());late.send(new SimplePackets.NewPlayerConnection(3,0,0,0,"Late"),false);loop.until(()->late.has(69));loop.until(()->{try{late.send(new ClientInput(200,127,false,5,1,0,0,0,0,24,0),false);}catch(Exception e){throw new IllegalStateException(e);}return host.inGame(1);});loop.until(()->late.packets.stream().filter(MinimapZone.class::isInstance).count()==(code.equals("tc")?2:1));
+                    var hud=(StateData)late.packets.stream().filter(StateData.class::isInstance).findFirst().orElseThrow();assertEquals(code.equals("tc")?2:0,hud.scoreLimit());assertEquals(code.equals("tc"),hud.team1().showMaxScore());assertTrue(late.packets.stream().filter(MinimapZone.class::isInstance).map(MinimapZone.class::cast).allMatch(z->z.visibleTeam()==1));
+                    late.packets.clear();a.packets.clear();match.lives().player(1).body().position(new Vector(12,12,97));ports.wall+=.5;zones.tick();
+                    if(code.equals("tc")){loop.until(()->late.packets.stream().anyMatch(packet->packet instanceof TerritoryBaseState t&&t.action()==6)&&a.packets.stream().anyMatch(packet->packet instanceof TerritoryBaseState t&&t.action()==6));assertTrue(late.packets.stream().anyMatch(packet->packet instanceof TerritoryBaseState t&&t.action()==3));}
+                    else {loop.until(()->late.packets.stream().anyMatch(packet->packet instanceof MinimapZone z&&z.color()==0xff0000));ports.wall+=1.5;zones.tick();loop.until(()->late.packets.stream().anyMatch(packet->packet instanceof CreateEntity e&&e.entity().type()==17)&&late.packets.stream().anyMatch(SimplePackets.MinimapZoneClear.class::isInstance));}
+                    assertTrue(ports.errors.isEmpty());
+                }
+            }
+        });
+    }
     @Test void productionConstructionWaitsForAppliedInputEchoesCanonicalIdentityAndCancelsOldLifeReservations(){
         assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
             var ports=new net.battlespades.support.StandardPorts();var prepared=net.battlespades.support.StandardPorts.prepared(temp.resolve("Construction.vxl"),"tdm");

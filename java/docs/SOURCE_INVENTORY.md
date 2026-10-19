@@ -48,9 +48,9 @@ Structural inventory; presence does not establish functional parity.
 | `modes/ctf.py` | 1053 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
 | `modes/demolition.py` | 733 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
 | `modes/diamond_mine.py` | 936 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
-| `modes/hardcore.py` | 134 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
+| `modes/hardcore.py` | 136 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
 | `modes/lobby_skeletons.py` | 16 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
-| `modes/multi_hill.py` | 618 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
+| `modes/multi_hill.py` | 770 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
 | `modes/objective_guard.py` | 298 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
 | `modes/objective_zones.py` | 162 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
 | `modes/occupation.py` | 969 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
@@ -60,17 +60,17 @@ Structural inventory; presence does not establish functional parity.
 | `modes/ugc.py` | 935 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
 | `modes/unofficial/__init__.py` | 20 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
 | `modes/unofficial/arena_designs.py` | 407 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
-| `modes/unofficial/base.py` | 651 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
+| `modes/unofficial/base.py` | 658 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
 | `modes/unofficial/bot_support.py` | 64 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
 | `modes/unofficial/catalog.py` | 71 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
-| `modes/unofficial/combat.py` | 440 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
+| `modes/unofficial/combat.py` | 451 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
 | `modes/unofficial/guides.py` | 41 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
 | `modes/unofficial/maps.py` | 170 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
 | `modes/unofficial/objectives.py` | 644 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
-| `modes/unofficial/races.py` | 203 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
+| `modes/unofficial/races.py` | 211 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
 | `modes/unofficial/revised_maps.py` | 191 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
-| `modes/vip.py` | 1385 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
-| `modes/zombie.py` | 1292 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
+| `modes/vip.py` | 1592 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
+| `modes/zombie.py` | 1122 | `net.battlespades.mode` | pending unless parity matrix says otherwise |
 | `plugins/__init__.py` | 11 | `net.battlespades.plugin` | pending unless parity matrix says otherwise |
 | `plugins/_example_plugin.py` | 34 | `net.battlespades.plugin` | pending unless parity matrix says otherwise |
 | `plugins/base_plugin.py` | 232 | `net.battlespades.plugin` | pending unless parity matrix says otherwise |
@@ -165,7 +165,7 @@ Structural inventory; presence does not establish functional parity.
 | `scripts/soak/soak_client.py` | 150 | `net.battlespades.test tools` | pending unless parity matrix says otherwise |
 | `scripts/soak/soak_server.py` | 1092 | `net.battlespades.test tools` | pending unless parity matrix says otherwise |
 | `scripts/soak/soak_supervisor.py` | 453 | `net.battlespades.test tools` | pending unless parity matrix says otherwise |
-| `scripts/steam_linux_sidecar.py` | 363 | `net.battlespades.test tools` | pending unless parity matrix says otherwise |
+| `scripts/steam_linux_sidecar.py` | 376 | `net.battlespades.test tools` | pending unless parity matrix says otherwise |
 | `scripts/udp_lag_proxy.py` | 141 | `net.battlespades.test tools` | pending unless parity matrix says otherwise |
 | `scripts/verify_release_assets.py` | 91 | `net.battlespades.test tools` | pending unless parity matrix says otherwise |
 | `scripts/worldupdate_stall_probe.py` | 610 | `net.battlespades.test tools` | pending unless parity matrix says otherwise |
@@ -196,7 +196,7 @@ Structural inventory; presence does not establish functional parity.
 | `server/bot_ai/navigation_atlas.py` | 796 | `net.battlespades.server / simulation / services` | pending unless parity matrix says otherwise |
 | `server/bot_ai/path_following.py` | 314 | `net.battlespades.server / simulation / services` | pending unless parity matrix says otherwise |
 | `server/bot_ai/planning_budget.py` | 280 | `net.battlespades.server / simulation / services` | pending unless parity matrix says otherwise |
-| `server/bot_ai/policies.py` | 2549 | `net.battlespades.server / simulation / services` | pending unless parity matrix says otherwise |
+| `server/bot_ai/policies.py` | 2561 | `net.battlespades.server / simulation / services` | pending unless parity matrix says otherwise |
 | `server/bot_ai/prefab_policy.py` | 113 | `net.battlespades.server / simulation / services` | pending unless parity matrix says otherwise |
 | `server/bot_ai/profiles.py` | 259 | `net.battlespades.server / simulation / services` | pending unless parity matrix says otherwise |
 | `server/bot_ai/project_sites.py` | 567 | `net.battlespades.server / simulation / services` | pending unless parity matrix says otherwise |
@@ -410,7 +410,7 @@ Structural inventory; presence does not establish functional parity.
 | `tests/test_bot_awareness.py` | 1026 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_bot_banter.py` | 149 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_bot_breach_queue.py` | 128 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
-| `tests/test_bot_built_block_breach.py` | 137 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
+| `tests/test_bot_built_block_breach.py` | 145 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_bot_carrier_mobility.py` | 175 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_bot_carrier_weapon_permission.py` | 133 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_bot_class_selection.py` | 142 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
@@ -444,7 +444,7 @@ Structural inventory; presence does not establish functional parity.
 | `tests/test_bot_perception_budget.py` | 167 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_bot_planning_budget.py` | 420 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_bot_planning_integration.py` | 607 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
-| `tests/test_bot_policies.py` | 418 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
+| `tests/test_bot_policies.py` | 439 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_bot_prefab_lifecycle.py` | 147 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_bot_project_sites.py` | 262 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_bot_recovery_skills.py` | 501 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
@@ -522,7 +522,7 @@ Structural inventory; presence does not establish functional parity.
 | `tests/test_fun_playability.py` | 173 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_game_rules.py` | 178 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_grave_blast_cost.py` | 171 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
-| `tests/test_hardcore.py` | 314 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
+| `tests/test_hardcore.py` | 325 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_hud_packets.py` | 331 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_human_block_placement.py` | 131 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_initial_info_features.py` | 80 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
@@ -561,7 +561,7 @@ Structural inventory; presence does not establish functional parity.
 | `tests/test_movement_engine.py` | 3 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_movement_jitter.py` | 1277 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_movement_stress_scenario.py` | 981 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
-| `tests/test_multi_hill.py` | 318 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
+| `tests/test_multi_hill.py` | 322 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_native_host.py` | 115 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_navigation_atlas.py` | 199 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_network_transport_parity.py` | 138 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
@@ -601,7 +601,7 @@ Structural inventory; presence does not establish functional parity.
 | `tests/test_retail_intel_radar.py` | 85 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_retail_jump_launch.py` | 185 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_retail_jump_recovery_delivery.py` | 194 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
-| `tests/test_retail_rules_modes.py` | 365 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
+| `tests/test_retail_rules_modes.py` | 360 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_retail_spawn_boxes.py` | 308 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_retail_values.py` | 195 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_retail_world_branches.py` | 262 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
@@ -618,7 +618,7 @@ Structural inventory; presence does not establish functional parity.
 | `tests/test_room_admin.py` | 392 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_round_awards.py` | 253 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_round_runtime_reset.py` | 144 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
-| `tests/test_rules_audit_2026_09_27.py` | 684 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
+| `tests/test_rules_audit_2026_09_27.py` | 692 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_runtime_deployable_packets.py` | 45 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_runtime_paths.py` | 136 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_score_events.py` | 617 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
@@ -650,7 +650,7 @@ Structural inventory; presence does not establish functional parity.
 | `tests/test_steam_master.py` | 262 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_steam_p2p.py` | 96 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_stock_scene_reload.py` | 48 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
-| `tests/test_surface_corridor.py` | 335 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
+| `tests/test_surface_corridor.py` | 340 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_tdm.py` | 304 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_tdm_spawn.py` | 209 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_team_balance.py` | 363 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
@@ -666,8 +666,8 @@ Structural inventory; presence does not establish functional parity.
 | `tests/test_unicode_paths.py` | 120 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_unofficial_arenas.py` | 95 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_unofficial_bots.py` | 309 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
-| `tests/test_unofficial_modes.py` | 242 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
-| `tests/test_unofficial_objectives.py` | 411 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
+| `tests/test_unofficial_modes.py` | 260 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
+| `tests/test_unofficial_objectives.py` | 451 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_update_check.py` | 239 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_user_block_mode_health.py` | 75 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |
 | `tests/test_validation_rig.py` | 254 | `net.battlespades.JUnit / differential harness` | pending unless parity matrix says otherwise |

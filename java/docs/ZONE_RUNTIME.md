@@ -1,0 +1,27 @@
+# Territory Control and Multi-Hill checkpoint
+
+The capture-zone batch passes **6,300 component + 46 integration = 6,346 Java tests** across 113 suites, with zero failures, errors or skips. Consolidated Java 25 `check build`, strict compiler warnings, portability checks and distribution packaging pass. All **65 selected original TC/Multi-Hill/objective/escape-watch tests** pass against updated source `546c548780c400f21d73ca6713f86194ceb3c844`. Earlier CTF/runtime test evidence remains scoped to its recorded snapshots.
+
+The seven new `main` commits and all 29 changed reference/config/workflow files are imported exactly. The six original source directories match `main` at `546c548780c400f21d73ca6713f86194ceb3c844`. All 262 frozen Java fixture/catalog resource paths remain byte-identical; their historical provenance stays intact. Of the preceding 265 checked paths (which also included three generator outputs), only `PacketCodec.java` changes intentionally to add packet 106. The source inventory now audits 1,164 files and 277,001 Python/Cython source lines at the new baseline. The packet generator reproduces all three outputs exactly.
+
+The CRC-valid JAR is 2307094 bytes, SHA-256 `4c4dcd50fa7db004f0f11304df8b7e68e70f0eeaf8e7ee62316bbd0c4a4b2ee4`, with class major 69. Version/configuration smokes exit 0; ordinary hosting remains gated at exit 2. All five CI jobs are pending for this checkpoint. Full migration, achievement/persistence/service composition and supported-client acceptance remain incomplete.
+
+## Connected implementations
+
+`StandardMatchFactory` now binds `tc` and `mh` alongside TDM, Arena, CTF and Classic CTF. Both use the actual prepared metadata/world, roster, scoreboard/profile economy, media, life and entity owners. Shared objective volumes normalize/clamp authored bounds, retain the exact packet-43/44 identity, and build deterministic dry fallback zones from the team anchors. Presence excludes AFK bodies and escape-watch flags. Resupply heals, refills ammunition/tools and blocks immediately, then at the configured interval, retaining real body identity across slot reuse.
+
+TC sorts/selects authored territories along the team axis, initializes blue/neutral/green ownership, interpolates the retail capture-rate table and freezes contention. Enemy territory passes through neutral before ownership flips. Every capturing occupant receives claim/control credit; team scores count owned territories and advertise that count as the HUD target. Personal occupancy/contention, defend/assault kills, enter/leave HUD actions, localized entry/capture cues, late joins and deactivation are connected. Packet 106 uses its short action forms without trailing fields.
+
+Multi-Hill rotates deterministic active subsets with ten-second intermissions. Empty hills become neutral; contested hills render red and pause team scoring. First/claim/control/occupy/contest and kill bonuses use the live score/profile owner. Team points settle before timeout, are capped at the deadline, and retain the one-second timeout-drain grace. Its HUD has no maximum score and score totals cannot end the mode.
+
+Expired hills launch actual ownerless airstrike projectiles: the first shell immediately and the remaining shells through one cancellable owner-loop queue, shared across simultaneously depleted hills. Siren/flyby cues, source offset order, entity type 17, neutral team and owner byte 255 are retained. Flight, body/terrain collision, HP/terrain blast damage and visual lifetime use the existing concrete owners. End, retirement, restart, deactivation and close cancel pending shells; existing shells remain in flight until their normal cleanup or round reset.
+
+The hosted escape watch classifies bounds/floor/sky, embedded bodies and objective-only sealed pockets with the source hold durations, bounded fill and two-clean-pass hysteresis. It sends/replays markers, respects CTF-owned exposure markers and checks actual player identity.
+
+## Verification and remaining boundaries
+
+Five grouped live-owner component cases and one packet-boundary case cover the connected behavior. Two parameterized real-UDP cases verify both factories, HUD targets/maximums, late-join zones, contention and ownerless shell creation/zone clearing. The airstrike component case runs actual flight through ownerless HP and terrain blasts. Existing harnesses and frozen policy fixtures are reused; no extra golden generator or duplicated transport implementation was added.
+
+Multi-Hill achievement observations (`Scored`, `ContestWon`, `HillKill`, `Expired`) are a required `StandardMatchDomain.Services.hillEvent` boundary with real bodies and zone identities. This checkpoint does not implement persistence, achievement unlocks or post-airstrike survivor tracking. Other objective/community/hardcore modes, full UGC/editor, bot AI/actions, authenticated identity/admin, persistence/master/results, complete startup/ending/transition composition and supported-client acceptance remain required. Historical full-Python-baseline discrepancies refer to the old source snapshot; the full baseline has not been rerun or declared passing for the updated source.
+
+Machine-readable evidence: [zones-local-verification.json](zones-local-verification.json), [zones-upstream-reconciliation.json](zones-upstream-reconciliation.json). CI status: [CI_STATUS.md](CI_STATUS.md).

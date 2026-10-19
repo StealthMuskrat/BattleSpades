@@ -36,10 +36,10 @@ public final class HostedProjectileRuntime {
     }
     private void rejected(PlayerLife p,int tool){match.inputs().report(p,"launch_rejected",Map.of("tool",(double)tool));}
     private static double launchSpeed(int tool){return switch(tool){case 11,32,29,48,54,57->50;case 31->35;case 33,14,47->40;case 12,55,58->75;case 13->150;default->150;};}
-    public Projectile serverShot(ProjectileSpec spec,Vector at,Vector velocity,PlayerLife owner){if(owner==null)return null;var p=engine.spawn(spec,at,velocity,owner.id(),match.wall());visual(p,owner,0);return p;}
+    public Projectile serverShot(ProjectileSpec spec,Vector at,Vector velocity,PlayerLife owner){var p=engine.spawn(spec,at,velocity,owner==null?-1:owner.id(),match.wall());visual(p,owner,0);return p;}
     private void visual(Projectile p,PlayerLife owner,double fuse){
-        if(p.spec.entityType()==0){host.broadcastExcept(new OrientedItemPacket(match.frameLoop(),owner.id(),p.tool,fuse,wire(p.position),wire(p.velocity)),Delivery.RELIABLE,owner.id());return;}
-        var v=new EntityRegistry.Placement();v.state=owner.team();v.playerId=owner.id();v.kind="projectile";v.velocity=p.velocity;v.radius=.02;v.fuse=p.tool==57?5:fuse;
+        if(p.spec.entityType()==0){if(owner==null)throw new IllegalArgumentException("Ownerless projectile requires an entity visual");host.broadcastExcept(new OrientedItemPacket(match.frameLoop(),owner.id(),p.tool,fuse,wire(p.position),wire(p.velocity)),Delivery.RELIABLE,owner.id());return;}
+        var v=new EntityRegistry.Placement();v.state=owner==null?1:owner.team();v.playerId=owner==null?255:owner.id();v.kind="projectile";v.velocity=p.velocity;v.radius=.02;v.fuse=p.tool==57?5:fuse;
         if(p.blockColor!=null)v.color=new Vector(p.blockColor>>16&255,p.blockColor>>8&255,p.blockColor&255);
         var e=entities.registry().place(p.spec.entityType(),p.position.x(),p.position.y(),p.position.z(),v);p.entityId=e.id();entities.create(e);
     }

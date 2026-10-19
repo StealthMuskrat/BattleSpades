@@ -40,6 +40,9 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
+The capture-zone batch adds Territory Control and Multi-Hill factories, shared resupply, live escape-watch eligibility, packet-106 territory HUD state and cancellable staggered objective airstrikes. See [ZONE_RUNTIME.md](docs/ZONE_RUNTIME.md) for scope and evidence. The reference baseline is now upstream `main` at `546c548`. Required achievement and production services remain explicit boundaries.
+
+
 The latest batch adds generic kill/teamplay economy, teabag credit, complete
 escape-watch detection/marker policy, and round countdown/timeout arbitration,
 plus HUD builders and native marker/localized-message codecs. Two UDP compositions

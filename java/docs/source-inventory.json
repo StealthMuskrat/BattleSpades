@@ -1,5 +1,5 @@
 {
-  "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
   "files": [
     {
       "path": ".dockerignore",
@@ -8,9 +8,9 @@
     },
     {
       "path": ".github/workflows/container.yml",
-      "bytes": 4605,
-      "sha256": "55d73bc1a746e9ae8b5dc558ca56fb750b2194ee792d15c8178c57bf6596887f",
-      "lines": 150
+      "bytes": 4761,
+      "sha256": "77057f4c29be3b1070e053fd2ca92a00f723aab3cab790dade554d0da3198a93",
+      "lines": 152
     },
     {
       "path": ".github/workflows/release.yml",
@@ -129,7 +129,7 @@
     {
       "path": "VERSION",
       "bytes": 13,
-      "sha256": "6fcd30b25635a2ac385f42fc0c42ec834986af529d66672009083ba662d78376"
+      "sha256": "89720dc996865bf908b596462529682d0f58e4483c747ca86d4699da6c7ee518"
     },
     {
       "path": "aoslib/__init__.py",
@@ -1452,8 +1452,8 @@
     },
     {
       "path": "config.toml",
-      "bytes": 37996,
-      "sha256": "5191cecfea64e42fb282fd55bc3cc88a2db90b027bb105ab19eadce1c44ebd00",
+      "bytes": 37997,
+      "sha256": "3c81cca36c57a1bf80af5481720fdf40d19372729d80f964a90f456ed5d17191",
       "lines": 788
     },
     {
@@ -4101,9 +4101,9 @@
     },
     {
       "path": "modes/hardcore.py",
-      "bytes": 6163,
-      "sha256": "7f263d6d5968ae60671353eb3a8822f6dc960513c57ba85e1e0d42c8dd3961db",
-      "lines": 134,
+      "bytes": 6272,
+      "sha256": "046474a1375e6517e86aa77742d260bfd6749a4bae9decd342992b9504a405b9",
+      "lines": 136,
       "symbols": [
         "HardcoreMixin",
         "normalize_survivor_selection",
@@ -4151,9 +4151,9 @@
     },
     {
       "path": "modes/multi_hill.py",
-      "bytes": 26038,
-      "sha256": "015ea498b833bc3ee31d4eda7f20217bb807eedecf75c2f9bf3c47cd30e612bc",
-      "lines": 618,
+      "bytes": 32583,
+      "sha256": "73c97bcdcd3096998a08dcab7df03ad7c3d8af79ee82b9d0d1138751b92bb1db",
+      "lines": 770,
       "symbols": [
         "_configured_rule",
         "MultiHillMode",
@@ -4164,6 +4164,10 @@
         "on_mode_start",
         "deactivate",
         "on_tick",
+        "_start_airstrike",
+        "_fire_next_airstrike_shell",
+        "_drain_airstrike_shells",
+        "_cancel_airstrike_task",
         "reveal_to",
         "start_cue_for",
         "on_player_kill",
@@ -4185,6 +4189,8 @@
         ".objective_zones",
         ".territory_control",
         "__future__",
+        "asyncio",
+        "collections",
         "logging",
         "math",
         "server",
@@ -4193,7 +4199,8 @@
         "server.scoreboard",
         "shared.constants",
         "shared.constants_gamemode",
-        "time"
+        "time",
+        "types"
       ]
     },
     {
@@ -4599,9 +4606,9 @@
     },
     {
       "path": "modes/unofficial/base.py",
-      "bytes": 30799,
-      "sha256": "fa6c5d0b1753320b332094b34d73a7be6517bb429a38fe3b34fe3e636a005579",
-      "lines": 651,
+      "bytes": 31019,
+      "sha256": "b2a92ed9c92256740e62aef06fd7a1bcdc64054b843ac42f2e0a331dd3e20302",
+      "lines": 658,
       "symbols": [
         "KitPreview",
         "distance",
@@ -4737,9 +4744,9 @@
     },
     {
       "path": "modes/unofficial/combat.py",
-      "bytes": 19159,
-      "sha256": "a60b58c12c024b80c451bafe1e32f325742bdb63253a88a6a491eb2f4769926b",
-      "lines": 440,
+      "bytes": 19528,
+      "sha256": "3a96ebacf20f0e9bf01251ec5bccf1b851d7235b6a41f0b71699b57c13974215",
+      "lines": 451,
       "symbols": [
         "BlockHunt",
         "_load_arena",
@@ -4766,6 +4773,8 @@
         "get_spawn_point",
         "prepare_round",
         "begin_round",
+        "on_player_join",
+        "on_player_leave",
         "choose_holder",
         "pass_to",
         "modify_incoming_damage",
@@ -4957,9 +4966,9 @@
     },
     {
       "path": "modes/unofficial/races.py",
-      "bytes": 8930,
-      "sha256": "3d1001027a94c432e4db88def75202a7f4559e3a9073ac58c77722c190402caa",
-      "lines": 203,
+      "bytes": 9241,
+      "sha256": "a4d9c25376a206218baf675abaa8ada56e745fd4eaf3cbe2e6589dcf90f5ee70",
+      "lines": 211,
       "symbols": [
         "CourseMode",
         "__init__",
@@ -4968,6 +4977,7 @@
         "get_spawn_point",
         "prepare_round",
         "begin_round",
+        "on_player_join",
         "show_checkpoint",
         "reveal_to",
         "clear_markers",
@@ -5015,9 +5025,9 @@
     },
     {
       "path": "modes/vip.py",
-      "bytes": 58734,
-      "sha256": "846b8f596c6a78877400fd7086c306403a53bdf20c10c760819aa66ad5f4a43c",
-      "lines": 1385,
+      "bytes": 69246,
+      "sha256": "15e7c78c488ab869f4a9ac3026b7e39f8dcd1a4cdbdf501ddf81a4e89db3a22e",
+      "lines": 1592,
       "symbols": [
         "VIPPhase",
         "_other_team",
@@ -5028,6 +5038,7 @@
         "countdown_seconds_remaining",
         "_reset_subround_clock",
         "_end_by_time",
+        "_tick_vip_clock",
         "on_tick",
         "on_player_join",
         "on_player_death",
@@ -5041,6 +5052,8 @@
         "respawn_time_for",
         "death_kill_type_for",
         "modify_incoming_damage",
+        "_city_spawn_zone",
+        "_get_city_spawn_candidates",
         "get_spawn_point",
         "reveal_to",
         "_locked_out",
@@ -5092,6 +5105,7 @@
         "server.audio",
         "server.class_selection",
         "server.game_constants",
+        "server.map_metadata",
         "server.player",
         "server.scoreboard",
         "shared.constants",
@@ -5103,9 +5117,9 @@
     },
     {
       "path": "modes/zombie.py",
-      "bytes": 55028,
-      "sha256": "d5f79789a51b209b9a74c93501ccdeda623fa8c8b7c31357af844db1d967b035",
-      "lines": 1292,
+      "bytes": 43985,
+      "sha256": "5e37be0756525184e60a501fae560d25ed61aea3ffbd2d03e517064d9fb35009",
+      "lines": 1122,
       "symbols": [
         "ZombiePhase",
         "ZombieMode",
@@ -5131,10 +5145,12 @@
         "allows_team_change",
         "can_player_respawn",
         "respawn_time_for",
+        "death_kill_type_for",
         "modify_incoming_damage",
         "get_spawn_point",
         "configure_state_data",
         "configure_initial_info",
+        "_set_team_map_visibility",
         "start_cue_for",
         "reveal_to",
         "countdown_seconds_remaining",
@@ -5578,10 +5594,11 @@
     },
     {
       "path": "release/NOTES.md",
-      "bytes": 2206,
-      "sha256": "279092a3ee246e748acb1b53f3ecfb0f57db2c960e124eed27818eba06f1fe79",
-      "lines": 41,
+      "bytes": 3423,
+      "sha256": "54800e64c18a66c924ea5c9a1296b81559a844c1c624370d589e5acb01b7792c",
+      "lines": 64,
       "headings": [
+        "Game modes",
         "Maps and Workshop",
         "Hosting and discovery",
         "Release and update compatibility"
@@ -8451,9 +8468,9 @@
     },
     {
       "path": "scripts/steam_linux_sidecar.py",
-      "bytes": 16555,
-      "sha256": "e4fd7a2b6c4b40b660c9615f67c22525895252e9f9c120b986f4c2a153171c86",
-      "lines": 363,
+      "bytes": 17405,
+      "sha256": "4a460ed2a4d14c1938e7079f320c62d1a33cffff9b4b7a869dc6a2746c7adada",
+      "lines": 376,
       "symbols": [
         "write_status",
         "canonical_mode",
@@ -9721,9 +9738,9 @@
     },
     {
       "path": "server/bot_ai/policies.py",
-      "bytes": 104642,
-      "sha256": "c1e120545848f0cfedf825caa64f9980b32609440159b9de7f915d6b5bc48f56",
-      "lines": 2549,
+      "bytes": 105211,
+      "sha256": "5076fb95cf74017988774123a1c0f86ec40ac9d58c47691946a5887d1df0b124",
+      "lines": 2561,
       "symbols": [
         "ModeBotPosture",
         "ModeBotStrategy",
@@ -9820,6 +9837,7 @@
         "enum",
         "math",
         "modes.unofficial.catalog",
+        "server.hardcore",
         "shared.constants",
         "typing"
       ]
@@ -18270,9 +18288,9 @@
     },
     {
       "path": "tests/test_bot_built_block_breach.py",
-      "bytes": 5332,
-      "sha256": "e99ec2c6d268aab88c3828108c4f798bb4e494caa78193d02f48c3986f5167be",
-      "lines": 137,
+      "bytes": 5637,
+      "sha256": "12869078457acbf4c5102e0aec85dcbb5498b2b29816ac309f038ed5f0a8e217",
+      "lines": 145,
       "symbols": [
         "_MutableFixtureVxl",
         "set_solid",
@@ -18280,6 +18298,7 @@
         "_breach_for",
         "test_built_wall_costs_more_swings_than_map_terrain",
         "test_removed_built_cell_forgets_its_health",
+        "test_mode_dig_restriction_removes_breach_navigation",
         "test_zombie_hand_breach_timeout_covers_every_retail_damage_roll",
         "test_director_publishes_built_block_health_to_the_worker"
       ],
@@ -19589,13 +19608,15 @@
     },
     {
       "path": "tests/test_bot_policies.py",
-      "bytes": 14014,
-      "sha256": "c518d13b906e59da7e67da7ee360063e57dab5741e2fd7e4254a3b08acd2e539",
-      "lines": 418,
+      "bytes": 14935,
+      "sha256": "87ece1528831009b118bb40e5560b715aa1abd52d4b1fa87632979929c9b87a3",
+      "lines": 439,
       "symbols": [
         "_player",
         "_frame",
         "test_ctf_carrier_routes_to_own_base",
+        "test_hardcore_ctf_carrier_uses_capture_policy_instead_of_combat_fallback",
+        "test_hardcore_vip_keeps_guard_roles",
         "test_vip_guard_and_attacker_have_distinct_goals",
         "test_arena_wounded_bot_regroups_without_enemy_knowledge",
         "test_tdm_wounded_squad_resumes_its_goal_after_a_short_regroup",
@@ -22010,8 +22031,8 @@
     },
     {
       "path": "tests/test_event_sounds.py",
-      "bytes": 11388,
-      "sha256": "ac2d4ad6f10b53a01fb5223c79a62a740cfafd54c4406d8763625f056234be02",
+      "bytes": 11471,
+      "sha256": "ab117cc88b04fa732ff4718cb5c0105ffe7a292db7185f97c86417db0c3b767d",
       "lines": 301,
       "symbols": [
         "_sounds",
@@ -22463,9 +22484,9 @@
     },
     {
       "path": "tests/test_hardcore.py",
-      "bytes": 13818,
-      "sha256": "14f425bc37a6777e7a5d704cc9551db860c080d10921fbb4aea6ee536fd26a9a",
-      "lines": 314,
+      "bytes": 14351,
+      "sha256": "dee07e240b32ee95bb1b2c154c37ddea345e99bd3345085b8ddad1dfc6a1c9c0",
+      "lines": 325,
       "symbols": [
         "game",
         "human",
@@ -22473,6 +22494,7 @@
         "test_all_advertised_primary_choices_survive_join_commit_and_spawn",
         "test_forged_kit_cannot_smuggle_other_class_weapons_or_gadgets",
         "test_hardcore_rules_are_live_scoped_and_do_not_mutate_normal_rules",
+        "test_non_zombie_hardcore_join_replaces_forged_zombie_class",
         "test_heavy_armour_only_affects_body_bullets_and_resets_stock_class_resistance",
         "test_medpacks_pause_after_damage_and_share_one_recipient_cooldown",
         "test_death_retains_body_without_grave_or_explosion_and_teabag_pays_once",
@@ -22804,7 +22826,7 @@
     {
       "path": "tests/test_join_greeting.py",
       "bytes": 7189,
-      "sha256": "dbcecb2e0def41417ff09e9c691389d1c89596c7ada619b77fc573af963474af",
+      "sha256": "205b38f3fe36045963cce40aad81629f595b96a6284c3cfe4d6935a37e80928a",
       "lines": 169,
       "symbols": [
         "test_default_greeting_contains_release_discord_and_server_source_notice",
@@ -23147,7 +23169,7 @@
     {
       "path": "tests/test_launcher.py",
       "bytes": 5110,
-      "sha256": "0b63d10697d638d61975f6fd32e3c74aa719cf4170e315b5ff93a1b5a11a1de0",
+      "sha256": "5f9c230f41bcabedaca9df0c2b897e3bdd564bb3406ce44659abac84841ac1d5",
       "lines": 162,
       "symbols": [
         "test_check_report_reconfigures_a_narrow_console_for_unicode_paths",
@@ -23908,8 +23930,8 @@
     },
     {
       "path": "tests/test_mode_fixes_round2_scoring.py",
-      "bytes": 8721,
-      "sha256": "3a372162b13dada1383e3642b1075ced92d418c8ac3a480f493949e37dfbb3c2",
+      "bytes": 8745,
+      "sha256": "0fe4e19f570586cd1647703a78f19235ed8e1aa6157d10205cd06ab9871909c7",
       "lines": 236,
       "symbols": [
         "_PlainMode",
@@ -24219,9 +24241,9 @@
     },
     {
       "path": "tests/test_multi_hill.py",
-      "bytes": 10755,
-      "sha256": "296ca9e8511e4fa0b62e14a7f124c2dd07b1833f2e622d3f2d9329eced717b04",
-      "lines": 318,
+      "bytes": 10883,
+      "sha256": "202802720d822bad25972deffc0e8c54d5d470053674f49c234b9bffdd1558b2",
+      "lines": 322,
       "symbols": [
         "_World",
         "__init__",
@@ -24248,9 +24270,9 @@
         "test_contested_shout_is_rate_limited",
         "test_presence_awards_occupy_and_contest",
         "test_kills_on_the_hill_award_defend_and_assault",
-        "test_simultaneous_limit_is_deterministic",
+        "test_high_scores_continue_until_time_expires_then_resolve_deterministically",
         "end",
-        "test_multihill_score_limit_comes_from_modes_overlay_not_a_phantom_rule"
+        "test_multihill_remains_time_only_even_with_a_legacy_score_limit_overlay"
       ],
       "imports": [
         "__future__",
@@ -25537,9 +25559,9 @@
     },
     {
       "path": "tests/test_retail_rules_modes.py",
-      "bytes": 15328,
-      "sha256": "cd5027128f80a3315f90ec06f45304c2791bd0507d6b5ded9ac7cebd161a4a0a",
-      "lines": 365,
+      "bytes": 15215,
+      "sha256": "5f2f2f744aab89d31c9c362b711f3843e29eb5244038a4dd9f90790f54a79bce",
+      "lines": 360,
       "symbols": [
         "_decode",
         "_clock",
@@ -26418,9 +26440,9 @@
     },
     {
       "path": "tests/test_rules_audit_2026_09_27.py",
-      "bytes": 24744,
-      "sha256": "3556f5bc64a4951251f6be7d2b1e5e18e4d613129e5d3937217b906a417d68bd",
-      "lines": 684,
+      "bytes": 25170,
+      "sha256": "272a331092aa630bb36eb3b117bebeb63ecb1a4ad1854d38040bf4401103e04c",
+      "lines": 692,
       "symbols": [
         "_bare_player",
         "test_spawn_stock_is_the_stock_initial_values_and_rpg2_is_six",
@@ -26462,8 +26484,8 @@
         "test_tc_capture_rate_is_the_stock_table",
         "test_tc_contested_base_is_frozen_and_every_capturer_is_paid",
         "test_vip_sudden_death_team_gets_the_never_respawn_sentinel",
-        "test_vip_match_ends_after_the_configured_rounds_played",
-        "end_by_time",
+        "test_vip_match_ends_at_the_kill_target_not_the_number_of_subrounds",
+        "end_by_score",
         "play",
         "test_ctf_claim_is_paid_only_for_a_home_grab",
         "_teamplay_mode",
@@ -26531,7 +26553,7 @@
     {
       "path": "tests/test_runtime_paths.py",
       "bytes": 4288,
-      "sha256": "304d0cab4db692ad98cfbf7ddc2f0adacd418dfe658e4333df120a44a36c85cd",
+      "sha256": "567f8820fa5696afea9907c7b3fb7024a1a1f3ea1ffda8f90b8212f502fad741",
       "lines": 136,
       "symbols": [
         "test_source_runtime_root_ignores_working_directory",
@@ -27100,8 +27122,8 @@
     },
     {
       "path": "tests/test_simple_bot_navigation.py",
-      "bytes": 69424,
-      "sha256": "416b26841714b7af0ef09a12c8a4041bd16224c355899f4a9d69909ac2e8b6e4",
+      "bytes": 69578,
+      "sha256": "a4ef4297213e4e4022a3c2fb2a237f596b7465274f7b6a2924757a0f6292a8d9",
       "lines": 2141,
       "symbols": [
         "_FixtureVxl",
@@ -27657,8 +27679,8 @@
     },
     {
       "path": "tests/test_steam_linux_sidecar.py",
-      "bytes": 9448,
-      "sha256": "28ac4f99e9c1717cb18013a7b3e0756c55769fc752e1f8256da95fea95ed03c5",
+      "bytes": 9428,
+      "sha256": "6fa217733a3f9b3abf70b99eb785aa431f2e7b8a930414dbac794dc63d8baff4",
       "lines": 235,
       "symbols": [
         "test_native_ipv4_binding_precedes_user_creation",
@@ -27792,9 +27814,9 @@
     },
     {
       "path": "tests/test_surface_corridor.py",
-      "bytes": 17732,
-      "sha256": "ff1e7f8f7fa7738f90fe5a0877f5c8f5c1cc413fd3a12943205d4c04ddd2f2d4",
-      "lines": 335,
+      "bytes": 18082,
+      "sha256": "a6728d24308f9d8d7bd515056f4f42483dc6ceb566264e9c967e1898c5dff38f",
+      "lines": 340,
       "symbols": [
         "test_incremental_search_finds_exit_behind_bot_and_keeps_its_corners",
         "test_map_search_does_not_cross_rejected_edge_or_unbuildable_void",
@@ -27816,6 +27838,7 @@
         "server.bot_ai.simple_navigation",
         "server.bot_ai.simple_worker",
         "server.bot_ai.surface_corridor",
+        "server.class_selection",
         "server.config",
         "server.game_constants",
         "server.main",
@@ -28457,9 +28480,9 @@
     },
     {
       "path": "tests/test_unofficial_modes.py",
-      "bytes": 9114,
-      "sha256": "8716b22cb0e9562768a06b0958f2cf3a026045be9dd6dca03f3c64e91383967d",
-      "lines": 242,
+      "bytes": 9809,
+      "sha256": "091ce2ffdcdc3f02c920ff89bc4f0b925447ac7dcce56b25ed4569bf3e5d27ce",
+      "lines": 260,
       "symbols": [
         "Connection",
         "__init__",
@@ -28471,6 +28494,8 @@
         "remove_bot",
         "make_game",
         "start",
+        "test_restart_without_a_ready_roster_clears_previous_round_state",
+        "scenario",
         "test_every_mode_starts_ticks_and_resets_without_killing_winners",
         "scenario",
         "test_unofficial_wire_metadata_uses_supported_retail_mode_and_classes",
@@ -28510,11 +28535,15 @@
     },
     {
       "path": "tests/test_unofficial_objectives.py",
-      "bytes": 16822,
-      "sha256": "fb3339e87520a87e1951730a5e6e3f91f5b0ceedb4fb9c25c9f4f3bd201ab576",
-      "lines": 411,
+      "bytes": 18404,
+      "sha256": "1ca12d3ea6e9863cad668a63d313a4866bf4e3af57616ed6183a49b7cc30ba49",
+      "lines": 451,
       "symbols": [
         "drain",
+        "test_late_race_joiner_can_complete_every_checkpoint",
+        "scenario",
+        "test_hot_potato_late_join_has_three_lives_and_departing_carrier_is_cleared",
+        "scenario",
         "test_false_wall_stash_once_and_enemy_cache_delivery",
         "scenario",
         "test_tunnel_rats_needs_two_deliveries",

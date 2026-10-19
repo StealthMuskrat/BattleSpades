@@ -21,12 +21,55 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HostedEntityRuntimeTest {
     @TempDir Path temp;
+    private Path zoneMap(String name)throws Exception{
+        var path=temp.resolve(name+".vxl");Files.writeString(temp.resolve(name+".json"),"{\"tc_base_points\":[[40,40,97],[80,40,97],[120,40,97]],\"tc_base_w_h_d\":[[12,12,12],[12,12,12],[12,12,12]],\"mh_base_points\":[[40,40,97],[80,40,97],[120,40,97]],\"mh_base_w_h_d\":[[12,12,12],[12,12,12],[12,12,12]]}");return path;
+    }
+    @Test void territoryContentionFreezesProgressAndEnemyCaptureNeutralizesBeforeWinning()throws Exception{
+        try(var h=new Harness(zoneMap("Territory"),"tc","max_active_bases=3\ncapture_rate=100\n")){
+            h.match.mode().start();var zones=h.match.zones().orElseThrow();assertEquals(List.of(2,1,3),zones.states().stream().map(HostedZoneRuntime.State::owner).toList());assertEquals(3,h.match.mode().sceneState().activeScoreLimit());
+            var blue=actor(h,0,2,0,5,8);var green=actor(h,1,3,0,5);blue.body().position(new Vector(120,40,97));green.body().position(new Vector(120,40,97));zones.tick();assertTrue(zones.states().get(2).contested());assertEquals(1,zones.states().get(2).progress());
+            h.ports.wall+=5;zones.tick();assertEquals(25,h.match.binding().row(blue).score);assertEquals(25,h.match.binding().row(green).score);
+            green.body().position(new Vector(300,300,97));h.ports.wall+=.5;zones.tick();assertEquals(1,zones.states().get(2).owner());assertEquals(.5,zones.states().get(2).progress());assertEquals(1,h.match.teams().getFirst().score);
+            h.ports.wall+=.5;zones.tick();assertEquals(2,zones.states().get(2).owner());assertEquals(125,h.match.binding().row(blue).score);assertEquals(2,h.match.teams().getFirst().score);
+            blue.body().position(new Vector(80,40,97));h.ports.wall+=.5;zones.tick();assertTrue(h.match.mode().clock().ended);assertEquals(2,h.match.mode().winner());assertEquals(275,h.match.binding().row(blue).score);assertEquals(3,h.match.teams().getFirst().score);assertTrue(h.ports.errors.isEmpty());
+        }
+    }
+    @Test void captureResupplyIsImmediateThenIntervalGatedAndAfkOrReusedBodiesCannotHold()throws Exception{
+        try(var h=new Harness(zoneMap("Refill"),"tc","[objectives]\nobjective_afk_seconds=1\n")){
+            h.match.mode().start();var zones=h.match.zones().orElseThrow();var p=actor(h,0,2,0,5,8);p.body().position(new Vector(40,40,97));p.health(20);int blocks=p.inventory().maxBlocks();while(p.inventory().removeBlock()){}zones.tick();assertEquals(p.maxHealth(),p.health());assertEquals(blocks,p.inventory().blocks());
+            p.health(20);h.ports.wall+=.5;zones.tick();assertEquals(20,p.health());h.ports.monotonic+=1;h.ports.wall+=10;zones.tick();assertFalse(zones.states().getFirst().occupants().contains(p.id()));assertEquals(20,p.health());
+            h.match.disconnected(0);var replacement=actor(h,0,2,0,5);replacement.body().position(new Vector(40,40,97));replacement.health(20);h.ports.wall+=.5;zones.tick();assertEquals(replacement.maxHealth(),replacement.health());assertEquals(Set.of(0),zones.states().getFirst().occupants());assertTrue(h.ports.errors.isEmpty());
+        }
+    }
+    @Test void multiHillNeutralizesEmptyZonesContestsInRedAndSerializesTwoRealAirstrikesWithoutTicks()throws Exception{
+        try(var h=new Harness(zoneMap("Hills"),"mh","max_active_bases=2\nbase_active_time=2\n")){
+            h.match.mode().start();var zones=h.match.zones().orElseThrow();var blue=actor(h,0,2,0,5);var green=actor(h,1,3,0,5);blue.body().position(new Vector(40,40,97));green.body().position(new Vector(80,40,97));zones.tick();assertEquals(400,h.match.binding().row(blue).score);assertEquals(400,h.match.binding().row(green).score);
+            h.ports.wall++;zones.tick();assertEquals(List.of(1L,1L),h.match.teams().stream().map(t->t.score).toList());green.body().position(new Vector(40,40,97));zones.tick();var replay=new ArrayList<GamePacket>();zones.reveal(replay::add);assertEquals(0xff0000,((MinimapZone)replay.get(0)).color());assertEquals(0xffffff,((MinimapZone)replay.get(1)).color());assertEquals(1,zones.states().get(1).owner());
+            h.ports.wall++;zones.tick();assertTrue(zones.states().isEmpty());assertEquals(9,zones.pendingShells());var engine=h.match.entities().projectiles().engine();assertEquals(1,engine.projectiles().size());var shell=engine.projectiles().getFirst();assertSame(ProjectileSpec.AIRSTRIKE,shell.spec);assertEquals(-1,shell.throwerId);var visual=h.match.entities().registry().get(shell.entityId);assertEquals(17,visual.type);assertEquals(255,visual.playerId);assertEquals(1,visual.state);assertEquals(new Vector(0,0,100),shell.velocity);
+            h.loop.pump(649_000_000);assertEquals(1,engine.projectiles().size());h.loop.pump(650_000_000);assertEquals(2,engine.projectiles().size());for(int i=2;i<=9;i++)h.loop.pump(i*650_000_000L);assertEquals(10,engine.projectiles().size());assertEquals(0,zones.pendingShells());assertEquals(2,h.ports.hillEvents.stream().filter(HostedZoneRuntime.Expired.class::isInstance).count());assertEquals(0,h.match.mode().sceneState().activeScoreLimit());h.match.mode().endByScore(2);assertFalse(h.match.mode().clock().ended);
+            blue.endProtection(h.ports.monotonic);green.endProtection(h.ports.monotonic);long revision=h.match.world().revision();for(int i=0;i<60&&!engine.projectiles().isEmpty();i++)h.match.entities().projectiles().tick();assertTrue(engine.projectiles().isEmpty());assertFalse(blue.alive());assertFalse(green.alive());assertEquals(16,blue.lastDeath().killType());assertTrue(h.match.world().revision()>revision);assertTrue(h.ports.blastLog.contains("stimulus:-1"));assertTrue(h.ports.errors.isEmpty());
+        }
+    }
+    @Test void hillDeadlineSettlesOnlyEligibleTeamTicksAndRetirementCancelsQueuedShells()throws Exception{
+        try(var h=new Harness(zoneMap("Deadline"),"mh","base_active_time=20\n")){
+            h.match.mode().start();var zones=h.match.zones().orElseThrow();var p=actor(h,0,2,0,5);p.body().position(new Vector(40,40,97));zones.tick();h.match.mode().clock().timeLimit=3;h.match.events().offer(net.battlespades.match.ModeEvents.Event.of("pending"));h.ports.wall+=4;h.match.mode().tick(1).toCompletableFuture().join();assertEquals(3,h.match.teams().getFirst().score);assertEquals(400,h.match.binding().row(p).score);assertTrue(h.match.mode().clock().ended);assertEquals(2,h.match.mode().winner());assertTrue(h.match.entities().projectiles().engine().projectiles().isEmpty());
+            h.match.mode().clock().timeLimit=0;h.match.mode().start();zones.tick();h.ports.wall+=20;zones.tick();assertEquals(4,zones.pendingShells());h.match.mode().beginRetirement(false);assertEquals(0,zones.pendingShells());h.loop.pump(10_000_000_000L);assertEquals(1,h.match.entities().projectiles().engine().projectiles().size());assertTrue(h.ports.errors.isEmpty());
+        }
+    }
+    @Test void escapeWatchHoldsSkyFlagsClearsAfterTwoPassesAndRejectsSealedObjectivePresence()throws Exception{
+        try(var h=new Harness(zoneMap("Escape"),"tc","[objectives]\nescape_watch_embedded_seconds=0\nescape_watch_entomb_seconds=0\n")){
+            h.match.mode().start();var p=actor(h,0,2,0,5);var watch=h.match.escapeWatch();p.body().position(new Vector(40,40,-1));watch.tick();assertFalse(watch.flagged(p));h.ports.monotonic+=5;watch.tick();assertTrue(watch.flagged(p));var replay=new ArrayList<GamePacket>();watch.reveal(replay::add);assertEquals(List.of(MatchPackets.ChangePlayer.marker(0,true)),replay);
+            p.body().position(new Vector(40,40,97));h.ports.monotonic++;watch.tick();assertTrue(watch.flagged(p));h.ports.monotonic++;watch.tick();assertFalse(watch.flagged(p));
+            for(int x=39;x<=41;x++)for(int y=39;y<=41;y++)for(int z=96;z<=100;z++)if(x==39||x==41||y==39||y==41||z==96||z==100)h.match.world().set(new MutableWorld.Cell(x,y,z),true,0x123456,null);
+            h.ports.monotonic++;watch.tick();assertEquals("entombed",watch.classify(p));assertTrue(watch.flagged(p));h.match.zones().orElseThrow().tick();assertTrue(h.match.zones().orElseThrow().states().getFirst().occupants().isEmpty());h.match.disconnected(0);assertFalse(watch.flagged(p));assertTrue(h.ports.errors.isEmpty());
+        }
+    }
     private static final class Harness implements AutoCloseable {
         final StandardPorts ports=new StandardPorts();final OwnerLoop loop=new OwnerLoop(0,1024,256,error->fail(error));
         final HostedSceneState state;final ApplicationHost host;final StandardMatchDomain match;
         Harness(Path path,String settings)throws Exception{this(path,"tdm",settings);}
         Harness(Path path,String code,String settings)throws Exception{
-            StandardPorts.writeMap(path);if(Set.of("ctf","cctf").contains(code)){byte[] column={2,100,100,0,1,2,3,4,0,(byte)239,(byte)239,(byte)239,1,2,3,4};byte[] data=new byte[512*512*column.length];for(int i=0;i<512*512;i++)System.arraycopy(column,0,data,i*column.length,column.length);Files.write(path,data);}var prepared=PreparedMap.prepare(MapAssembly.load(path,code));var config=new SceneConfig("Entities",27015,0,ModeCatalog.get(code),"Entities",false,false,true,999,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
+            StandardPorts.writeMap(path);if(Set.of("ctf","cctf","tc","mh").contains(code)){byte[] column={2,100,100,0,1,2,3,4,0,(byte)239,(byte)239,(byte)239,1,2,3,4};byte[] data=new byte[512*512*column.length];for(int i=0;i<512*512;i++)System.arraycopy(column,0,data,i*column.length,column.length);Files.write(path,data);}var prepared=PreparedMap.prepare(MapAssembly.load(path,code));var config=new SceneConfig("Entities",27015,0,ModeCatalog.get(code),"Entities",false,false,true,999,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());
             var raw=org.tomlj.Toml.parse("[modes."+code+"]\ntime_limit=0\n"+settings);var factory=new StandardMatchFactory(config,raw,ports,new SourceRandom(0),loop,List.of("Entities"),candidate->new StandardMatchFactory.Ports(ports,ports,ports,ports,ports,ports));
             state=new HostedSceneState("Entities",code,prepared,1,10000,factory.modes());host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),4,JoinSettings.defaults(),state.scene(),new BoundedSnapshotCompression(1,2));state.attach(host);match=(StandardMatchDomain)state.domain();
         }

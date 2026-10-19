@@ -13,6 +13,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SessionProtocolTest {
+    @Test void territoryStateUsesRetailShortActionsAndFixedPercentageWithoutTrailingBytes(){
+        for(int action:new int[]{3,4,6,7}){byte[] bytes={(byte)106,2,(byte)action};assertArrayEquals(bytes,new TerritoryBaseState(2,action,3,2,75).encode());assertEquals(new TerritoryBaseState(2,action,0,0,.5),PacketCodec.decode(bytes));}
+        byte[] bytes={(byte)106,2,5,3,2,(byte)0xc0,0x12};assertArrayEquals(bytes,new TerritoryBaseState(2,5,3,2,75).encode());assertEquals(new TerritoryBaseState(2,5,3,2,75),PacketCodec.decode(bytes));
+        assertThrows(ProtocolException.class,()->PacketCodec.decode(new byte[]{106,2,3,0}));assertThrows(ProtocolException.class,()->PacketCodec.decode(new byte[]{106,2,5,3,2,0}));
+    }
     static Stream<String> packets() throws IOException {return GoldenPacketTest.lines("session.tsv").stream().filter(s->!s.startsWith("Flight/"));}
     @ParameterizedTest @MethodSource("packets") void sourceJoinAndActualRetailHealthPackets(String row) {
         var p=row.split("\t");byte[] expected=HexFormat.of().parseHex(p[1]);

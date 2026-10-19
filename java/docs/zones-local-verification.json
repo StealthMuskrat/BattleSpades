@@ -1,0 +1,79 @@
+{
+  "date_utc": "2026-10-19",
+  "base_commit": "40fd12eb504c3cb0028cd3cbf99bfacecb2df4f3",
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "scope": "Updated upstream reference plus hosted Territory Control and Multi-Hill, shared capture resupply, escape-watch and objective airstrike ownership",
+  "junit": {
+    "test": {
+      "suites": 110,
+      "tests": 6300,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 3,
+      "tests": 46,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "java_total": 6346,
+  "reference_tests": {
+    "tests": 65,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "reference_modules": [
+    "test_territory_control",
+    "test_multi_hill",
+    "test_recovered_objective_packets",
+    "test_recovered_objective_modes",
+    "test_objective_abuse",
+    "test_escape_watch"
+  ],
+  "gradle": {
+    "command": "check build",
+    "result": "BUILD SUCCESSFUL in 58s",
+    "strict_compiler": true,
+    "verifyPortable": true,
+    "distributions": true
+  },
+  "jar_sha256": "4c4dcd50fa7db004f0f11304df8b7e68e70f0eeaf8e7ee62316bbd0c4a4b2ee4",
+  "jar_bytes": 2307094,
+  "jar_crc_valid": true,
+  "java_class_major": 69,
+  "smoke": {
+    "version": {
+      "exit": 0
+    },
+    "config": {
+      "exit": 0
+    },
+    "hosting": {
+      "exit": 2
+    }
+  },
+  "production_source_fingerprint": {
+    "files": 247,
+    "sha256": "0e8b6333cf05f93d188e8f25fe0017ad31fe52df156260283ce81a9bf8d2be85"
+  },
+  "codec_reproduction": "All three outputs byte-identical in isolated tree",
+  "frozen_java_paths_unchanged": 262,
+  "original_six_source_directories_match": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "upstream_imported_files": 29,
+  "upstream_commits": 7,
+  "new_tests": {
+    "grouped_component": 6,
+    "parameterized_udp": 2
+  },
+  "ci": {
+    "status": "pending",
+    "all_five_jobs_passed": false
+  },
+  "full_migration_complete": false,
+  "full_reference_python_baseline_passing": false,
+  "supported_retail_client_validated": false
+}

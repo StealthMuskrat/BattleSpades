@@ -1,3 +1,5 @@
+The following full-baseline evidence belongs to source `6216b771282d2d349ccd67ee58c378f035c83553`. The reference is now `546c548780c400f21d73ca6713f86194ceb3c844`; 65 selected capture-zone/objective/escape-watch tests pass freshly, but its full Python baseline has not been rerun. See [ZONE_RUNTIME.md](ZONE_RUNTIME.md).
+
 # Reference baseline (2026-10-15 UTC)
 
 The 2026-10-16 flight checkpoint separately passes **117 original tests**:

@@ -10,6 +10,7 @@ public record ProjectileSpec(String name,Motion motion,double gravity,double dam
     public enum Motion {BOUNCE,CONTACT,STICK,DEPLOY}
     private static ProjectileSpec basic(String name,Motion motion,double gravity,double damage,double blocks,int kill,int type,int entity,double radius,double low,double high){return new ProjectileSpec(name,motion,gravity,damage,blocks,kill,type,0,0,0,entity,radius,low,high,0,0,0);}
     public static final Map<Integer,ProjectileSpec> TOOLS;
+    public static final ProjectileSpec AIRSTRIKE=basic("airstrike",Motion.CONTACT,100,400,15,16,18,17,6,1,2);
     public static final ProjectileSpec TURRET=basic("rocket_turret_rocket",Motion.CONTACT,.05,50,10,18,21,21,3,.1,.3);
     static {
         var s=new LinkedHashMap<Integer,ProjectileSpec>();

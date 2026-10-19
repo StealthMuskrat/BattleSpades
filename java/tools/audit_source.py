@@ -1,7 +1,7 @@
 """Produce a complete tracked-file inventory without importing game modules."""
 import ast, hashlib, json, pathlib, re, subprocess
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SOURCE = '6216b771282d2d349ccd67ee58c378f035c83553'
+SOURCE = '546c548780c400f21d73ca6713f86194ceb3c844'
 rows = []
 for name in subprocess.check_output(['git','ls-tree','-r','--name-only',SOURCE], cwd=ROOT, text=True).splitlines():
     p = ROOT / name

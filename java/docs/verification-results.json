@@ -1,7 +1,7 @@
 {
   "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
-  "jar_sha256": "a3216142aec5c31808b816aff61a267ed3a4faf772318a98b89bc3927f8e19d3",
-  "jar_bytes": 2436289,
+  "jar_sha256": "c1362d073322ea2fa2699f21cd75d9ad8ee48b2d4c7fed5b04981e5661ba8678",
+  "jar_bytes": 2505161,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -17,80 +17,29 @@
     "META-INF/THIRD_PARTY_NOTICES.md",
     "META-INF/JAVA-THIRD-PARTY-NOTICES.md"
   ],
-  "repeated_build_identical": true,
+  "repeated_build_identical": false,
   "junit": {
     "test": {
-      "suites": 110,
-      "tests": 6329,
+      "suites": 112,
+      "tests": 6339,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
-      "suites": 3,
-      "tests": 52,
+      "suites": 4,
+      "tests": 55,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Zombie and all ten Hardcore variants verified locally; all five CI jobs passed; reference failures retained",
-  "java_implementation_commit": "078664999ad7ba490994677b857ada05df904e50",
-  "tested_tree": "a6ed77f797f5cb7ddc4effe64aefc76c3eb8e5a5",
+  "verification_stage": "Map Creator pipeline components verified locally; CI pending; missing-retail-asset source skips retained",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "observed_at_utc": "2026-10-19T22:09:28.070192+00:00",
-    "run_id": 39331928555,
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39331928555",
-    "head_sha": "078664999ad7ba490994677b857ada05df904e50",
-    "tested_tree": "a6ed77f797f5cb7ddc4effe64aefc76c3eb8e5a5",
-    "attempt": 1,
-    "all_five_jobs_passed": true,
-    "all_final_steps_verified": true,
-    "completed_jobs": 5,
-    "completed_final_steps": 65,
-    "jobs": [
-      {
-        "id": 118331976610,
-        "name": "native-enet",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 16
-      },
-      {
-        "id": 118331976957,
-        "name": "build",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 13
-      },
-      {
-        "id": 118332845394,
-        "name": "platform (ubuntu-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 12
-      },
-      {
-        "id": 118332845497,
-        "name": "platform (macos-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 12
-      },
-      {
-        "id": 118332845549,
-        "name": "platform (windows-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 12
-      }
-    ],
-    "configured_source_generators_reproduced": 77,
-    "repeated_archive_byte_comparison": true,
-    "identical_uploaded_artifact_smoked_on_platforms": 3,
-    "local_to_ci_artifact_hash_compared": false,
-    "summary": "All five CI jobs passed for implementation `078664999ad7ba490994677b857ada05df904e50`, tested tree `a6ed77f797f5cb7ddc4effe64aefc76c3eb8e5a5`, in [run 39331928555](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39331928555). All 65 final steps succeeded or were intentionally skipped. Native impaired transport/loader checks and all 77 configured reference generators passed; the build byte-compared repeated archives. All three platform jobs smoked the uploaded artifact and passed component/integration tests. No local-to-CI artifact hash identity or supported-client acceptance is claimed. Observed 2026-10-19T22:09:28.070192+00:00."
+    "status": "pending",
+    "all_five_jobs_passed": false
   },
   "movement": {
     "cases": 118,
@@ -118,6 +67,12 @@
     },
     "config": {
       "exit": 0
+    },
+    "help": {
+      "exit": 0
+    },
+    "ugc_missing": {
+      "exit": 2
     },
     "hosting": {
       "exit": 2
@@ -439,9 +394,7 @@
     "command": "python -m pytest -q tests/test_input_loss_recovery.py tests/test_action_clock.py tests/test_action_clock_recovery_review.py"
   },
   "publication": {
-    "status": "published",
-    "branch": "port/java25",
-    "implementation_commit": "078664999ad7ba490994677b857ada05df904e50"
+    "status": "pending"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -6313,7 +6266,7 @@
     "six_reference_directories_exactly_match_main": true,
     "files_unchanged_from_import": true
   },
-  "repeated_build_scope": "CI build compared repeated archives; no local-to-CI artifact hash identity claimed",
+  "repeated_build_scope": "No fresh repeated archive comparison yet for this checkpoint",
   "previous_capture_zone_checkpoint": {
     "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
     "verification_stage": "Updated upstream and TC/Multi-Hill checkpoint verified locally; four CI jobs passed, macOS queued awaiting runner",
@@ -7070,5 +7023,222 @@
       "branch": "port/java25",
       "implementation_commit": "078664999ad7ba490994677b857ada05df904e50"
     }
+  },
+  "previous_zombie_hardcore_checkpoint": {
+    "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+    "verification_stage": "Zombie and all ten Hardcore variants verified locally; all five CI jobs passed; reference failures retained",
+    "java_implementation_commit": "078664999ad7ba490994677b857ada05df904e50",
+    "tested_tree": "a6ed77f797f5cb7ddc4effe64aefc76c3eb8e5a5",
+    "ci": {
+      "status": "success",
+      "observed_at_utc": "2026-10-19T22:09:28.070192+00:00",
+      "run_id": 39331928555,
+      "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39331928555",
+      "head_sha": "078664999ad7ba490994677b857ada05df904e50",
+      "tested_tree": "a6ed77f797f5cb7ddc4effe64aefc76c3eb8e5a5",
+      "attempt": 1,
+      "all_five_jobs_passed": true,
+      "all_final_steps_verified": true,
+      "completed_jobs": 5,
+      "completed_final_steps": 65,
+      "jobs": [
+        {
+          "id": 118331976610,
+          "name": "native-enet",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 16
+        },
+        {
+          "id": 118331976957,
+          "name": "build",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 13
+        },
+        {
+          "id": 118332845394,
+          "name": "platform (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 12
+        },
+        {
+          "id": 118332845497,
+          "name": "platform (macos-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 12
+        },
+        {
+          "id": 118332845549,
+          "name": "platform (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 12
+        }
+      ],
+      "configured_source_generators_reproduced": 77,
+      "repeated_archive_byte_comparison": true,
+      "identical_uploaded_artifact_smoked_on_platforms": 3,
+      "local_to_ci_artifact_hash_compared": false,
+      "summary": "All five CI jobs passed for implementation `078664999ad7ba490994677b857ada05df904e50`, tested tree `a6ed77f797f5cb7ddc4effe64aefc76c3eb8e5a5`, in [run 39331928555](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39331928555). All 65 final steps succeeded or were intentionally skipped. Native impaired transport/loader checks and all 77 configured reference generators passed; the build byte-compared repeated archives. All three platform jobs smoked the uploaded artifact and passed component/integration tests. No local-to-CI artifact hash identity or supported-client acceptance is claimed. Observed 2026-10-19T22:09:28.070192+00:00."
+    },
+    "jar_sha256": "a3216142aec5c31808b816aff61a267ed3a4faf772318a98b89bc3927f8e19d3",
+    "jar_bytes": 2436289,
+    "junit": {
+      "test": {
+        "suites": 110,
+        "tests": 6329,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "suites": 3,
+        "tests": 52,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "smoke": {
+      "version": {
+        "exit": 0
+      },
+      "config": {
+        "exit": 0
+      },
+      "hosting": {
+        "exit": 2
+      }
+    },
+    "repeated_build_identical": true,
+    "publication": {
+      "status": "published",
+      "branch": "port/java25",
+      "implementation_commit": "078664999ad7ba490994677b857ada05df904e50"
+    }
+  },
+  "ugc_pipeline": {
+    "observed_utc": "2026-10-19T22:29:06.356235+00:00",
+    "base_commit": "520695d762833a10e1849ff3c205c3c28278510d",
+    "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+    "scope": "Map Creator project/validation/assets/capacity/storage/wire/editor components and offline CLI",
+    "junit": {
+      "test": {
+        "suites": 112,
+        "tests": 6339,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "suites": 4,
+        "tests": 55,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "java_total": 6394,
+    "reference_tests": {
+      "tests": 55,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 3
+    },
+    "reference_passed": 52,
+    "reference_skips": [
+      {
+        "test": "tests.test_ugc_round5.test_capacity_matches_retail_baseplates[DesertBaseplate-2820321-1137]",
+        "message": "retail UGC baseplates are not installed"
+      },
+      {
+        "test": "tests.test_ugc_round5.test_capacity_matches_retail_baseplates[MountainBaseplate-1180703-672]",
+        "message": "retail UGC baseplates are not installed"
+      },
+      {
+        "test": "tests.test_ugc_round5.test_capacity_matches_retail_baseplates[WaterBaseplate-262144-1024]",
+        "message": "retail UGC baseplates are not installed"
+      }
+    ],
+    "reference_modules": [
+      "test_ugc_map_creator",
+      "test_ugc_round5",
+      "test_ugc_protocol",
+      "test_ugc_tutorial_lifecycle"
+    ],
+    "reference_source_unchanged": true,
+    "differential": {
+      "project_traces": 24,
+      "mutations": 1920,
+      "mode_validations": 216,
+      "source_vxl_samples": 4,
+      "all_equal": true,
+      "expected_sha256": "a7b249d4aebb2673608c8d8e42effa0e2231dce5379cdb4ba39a172f5d3e2c4b",
+      "actual_sha256": "bbce82f6ad7897067c6dada9da885dcdc879d046b4c4c9cdcc8276e777381911"
+    },
+    "native_packet_bytes": {
+      "encoder": "unchanged shared.packet Cython",
+      "hex": [
+        "62010000000801000200030007",
+        "4408010000004100f9ffffff",
+        "6603000000010203",
+        "760101020304"
+      ]
+    },
+    "gradle": "check build passed; final 6s check reused all passed tests after rebuilding a corrupt generated local JAR; strict compilation, portability and distributions pass",
+    "jar_sha256": "c1362d073322ea2fa2699f21cd75d9ad8ee48b2d4c7fed5b04981e5661ba8678",
+    "jar_bytes": 2505161,
+    "jar_crc_valid": true,
+    "java_class_major": 69,
+    "smoke": {
+      "version": {
+        "exit": 0
+      },
+      "config": {
+        "exit": 0
+      },
+      "help": {
+        "exit": 0
+      },
+      "ugc_missing": {
+        "exit": 2
+      },
+      "hosting": {
+        "exit": 2
+      }
+    },
+    "production_source_fingerprint": {
+      "files": 274,
+      "sha256": "60b3340e404b46f1a99a1ce919f6fb4b0b7d0d58c8a00664e967b641f8704097"
+    },
+    "frozen_resource_paths_unchanged": 262,
+    "six_source_directories_match": "546c548780c400f21d73ca6713f86194ceb3c844",
+    "generator_reproduction": [
+      "java/src/main/java/net/battlespades/protocol/SimplePackets.java",
+      "java/src/main/java/net/battlespades/protocol/PacketCodec.java",
+      "java/docs/simple-packets.json",
+      "java/src/main/java/net/battlespades/ugc/UgcCatalog.java"
+    ],
+    "new_tests": {
+      "grouped_component": 10,
+      "disk_cli_integration": 3
+    },
+    "catalog": {
+      "prefab_definitions": 448,
+      "editor_items": 19,
+      "terrain_choices": 9,
+      "palettes": 6
+    },
+    "ci": {
+      "status": "pending",
+      "all_five_jobs_passed": false
+    },
+    "full_ugc_hosting_complete": false,
+    "full_migration_complete": false,
+    "full_python_baseline_passing": false,
+    "supported_client_acceptance": false
   }
 }

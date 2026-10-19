@@ -160,6 +160,8 @@ jobs:
           python -S java/tools/generate_deployable_golden.py
           python -S java/tools/generate_care_radar_golden.py
           python -S java/tools/generate_simple_packets.py
+          python -S java/tools/export_ugc_catalog.py
+          git diff --exit-code -- java/src/main/java/net/battlespades/ugc/UgcCatalog.java
           python -S java/tools/generate_crate_golden.py
           python -S java/tools/generate_map_markers_golden.py
           python -S java/tools/generate_map_resources_golden.py

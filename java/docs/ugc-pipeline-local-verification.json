@@ -1,0 +1,121 @@
+{
+  "observed_utc": "2026-10-19T22:29:06.356235+00:00",
+  "base_commit": "520695d762833a10e1849ff3c205c3c28278510d",
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "scope": "Map Creator project/validation/assets/capacity/storage/wire/editor components and offline CLI",
+  "junit": {
+    "test": {
+      "suites": 112,
+      "tests": 6339,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 4,
+      "tests": 55,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "java_total": 6394,
+  "reference_tests": {
+    "tests": 55,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 3
+  },
+  "reference_passed": 52,
+  "reference_skips": [
+    {
+      "test": "tests.test_ugc_round5.test_capacity_matches_retail_baseplates[DesertBaseplate-2820321-1137]",
+      "message": "retail UGC baseplates are not installed"
+    },
+    {
+      "test": "tests.test_ugc_round5.test_capacity_matches_retail_baseplates[MountainBaseplate-1180703-672]",
+      "message": "retail UGC baseplates are not installed"
+    },
+    {
+      "test": "tests.test_ugc_round5.test_capacity_matches_retail_baseplates[WaterBaseplate-262144-1024]",
+      "message": "retail UGC baseplates are not installed"
+    }
+  ],
+  "reference_modules": [
+    "test_ugc_map_creator",
+    "test_ugc_round5",
+    "test_ugc_protocol",
+    "test_ugc_tutorial_lifecycle"
+  ],
+  "reference_source_unchanged": true,
+  "differential": {
+    "project_traces": 24,
+    "mutations": 1920,
+    "mode_validations": 216,
+    "source_vxl_samples": 4,
+    "all_equal": true,
+    "expected_sha256": "a7b249d4aebb2673608c8d8e42effa0e2231dce5379cdb4ba39a172f5d3e2c4b",
+    "actual_sha256": "bbce82f6ad7897067c6dada9da885dcdc879d046b4c4c9cdcc8276e777381911"
+  },
+  "native_packet_bytes": {
+    "encoder": "unchanged shared.packet Cython",
+    "hex": [
+      "62010000000801000200030007",
+      "4408010000004100f9ffffff",
+      "6603000000010203",
+      "760101020304"
+    ]
+  },
+  "gradle": "check build passed; final 6s check reused all passed tests after rebuilding a corrupt generated local JAR; strict compilation, portability and distributions pass",
+  "jar_sha256": "c1362d073322ea2fa2699f21cd75d9ad8ee48b2d4c7fed5b04981e5661ba8678",
+  "jar_bytes": 2505161,
+  "jar_crc_valid": true,
+  "java_class_major": 69,
+  "smoke": {
+    "version": {
+      "exit": 0
+    },
+    "config": {
+      "exit": 0
+    },
+    "help": {
+      "exit": 0
+    },
+    "ugc_missing": {
+      "exit": 2
+    },
+    "hosting": {
+      "exit": 2
+    }
+  },
+  "production_source_fingerprint": {
+    "files": 274,
+    "sha256": "60b3340e404b46f1a99a1ce919f6fb4b0b7d0d58c8a00664e967b641f8704097"
+  },
+  "frozen_resource_paths_unchanged": 262,
+  "six_source_directories_match": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "generator_reproduction": [
+    "java/src/main/java/net/battlespades/protocol/SimplePackets.java",
+    "java/src/main/java/net/battlespades/protocol/PacketCodec.java",
+    "java/docs/simple-packets.json",
+    "java/src/main/java/net/battlespades/ugc/UgcCatalog.java"
+  ],
+  "new_tests": {
+    "grouped_component": 10,
+    "disk_cli_integration": 3
+  },
+  "catalog": {
+    "prefab_definitions": 448,
+    "editor_items": 19,
+    "terrain_choices": 9,
+    "palettes": 6
+  },
+  "ci": {
+    "status": "pending",
+    "all_five_jobs_passed": false
+  },
+  "full_ugc_hosting_complete": false,
+  "full_migration_complete": false,
+  "full_python_baseline_passing": false,
+  "supported_client_acceptance": false
+}

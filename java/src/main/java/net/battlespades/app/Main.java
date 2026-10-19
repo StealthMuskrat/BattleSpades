@@ -15,8 +15,12 @@ public final class Main {
             out.println("BattleSpades Java 25 migration (not a playable server yet)");
             out.println("  java -jar BattleSpades.jar --check-config PATH");
             out.println("  java -jar BattleSpades.jar --version");
+            out.println("  java -jar BattleSpades.jar --ugc-assets RETAIL_ROOT");
+            out.println("  java -jar BattleSpades.jar --ugc-create RETAIL_ROOT DIRECTORY NAME TERRAIN MODE");
+            out.println("  java -jar BattleSpades.jar --ugc-check DIRECTORY NAME");
             return 0;
         }
+        if(args.length>0&&args[0].startsWith("--ugc-"))return net.battlespades.ugc.UgcCommands.run(args,out,error);
         if (args.length == 1 && args[0].equals("--version")) {
             out.println("BattleSpades 0.1.0-java25-dev; protocol 168; gameplay incomplete");
             return 0;

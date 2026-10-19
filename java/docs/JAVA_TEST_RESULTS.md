@@ -15,7 +15,13 @@ four fresh native transport/packaged-loader profiles pass. The native loader use
 ordinary hosting exits 2. No supported retail-client test, complete platform gameplay or
 local-to-CI artifact hash identity is claimed.
 
-All five CI jobs are required for this checkpoint after publication. Full migration and
+All five CI jobs passed for implementation `45fb8a93a8412ce11fc23c44938870ec6ac5e7c8`, tested/published tree
+`5a28c2fe4fc0a8319903dd9f929e4f5797eb8247`, in [run 39191321035](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39191321035). The native job independently rebuilt
+the original oracles and reproduced all 77 configured generators. The build byte-compared
+repeated application archives. Ubuntu, Windows and macOS smoked the uploaded JAR and
+passed source-built component/integration tests. Every final step completed successfully
+or was intentionally skipped. No local-to-CI artifact hash identity or complete platform
+gameplay is claimed. Full migration and
 ordinary hosting remain incomplete. Original medpack/Zombie/VIP baseline discrepancies
 remain unwaived; focused passes do not establish a passing full original baseline.
 

@@ -1,6 +1,6 @@
 # Movement-network checkpoint
 
-Movement packet budgets, live PositionData decoding/telemetry and configured post-physics client authority are bound to TDM/Arena. 6,317 Java tests and 852 focused original regressions pass locally. All five CI jobs are pending publication. Full hosting and migration remain incomplete. See [MOVEMENT_NETWORK.md](MOVEMENT_NETWORK.md).
+Movement packet budgets, live PositionData decoding/telemetry and configured post-physics client authority are bound to TDM/Arena. 6,317 Java tests and 852 focused original regressions pass locally. All five CI jobs pass in [run 39191321035](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39191321035). Full hosting and migration remain incomplete. See [MOVEMENT_NETWORK.md](MOVEMENT_NETWORK.md).
 
 ## Previous hosted-input checkpoint
 

@@ -6,6 +6,7 @@ import java.util.*;
 /** Variable editor packets: raw voxel shorts, native u32 counts and bounded opaque previews. */
 public final class UgcPackets {
     private UgcPackets(){}
+    public record Fog(int color)implements GamePacket{public Fog{if((color&0xff000000)!=0)throw new IllegalArgumentException("Fog RGB");}@Override public int id(){return 74;}@Override public void write(Wire.Writer w){w.u8(id()).i32(color<<8);}static Fog read(Wire.Reader r){return new Fog(r.i32()>>>8);}}
     public record Item(int mode,int x,int y,int z,int item){}
     public record Batch(List<Item> items)implements GamePacket{
         public Batch{items=List.copyOf(items);if(items.size()>8192)throw new IllegalArgumentException("UGC batch too large");}

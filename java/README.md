@@ -40,7 +40,7 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
-The Map Creator project pipeline adds offline create/check/assets commands, objective validation, canonical file saves, capacity tracking, editor object ownership and native source-map/replay components. A playable creator host remains pending. See [UGC_PIPELINE.md](docs/UGC_PIPELINE.md).
+The Map Creator project pipeline adds offline create/check/assets commands, objective validation, canonical file saves, capacity tracking, editor object ownership and native source-map/replay components. The explicit creator host API now connects real sessions, builder mutations and saved editor state; production creator startup and remaining retail tool/client acceptance are pending. See [CREATOR_HOST.md](docs/CREATOR_HOST.md). See [UGC_PIPELINE.md](docs/UGC_PIPELINE.md).
 
 Zombie outbreak/round ownership and all ten Hardcore variants now share the concrete mode runtime, native role/loadout/movement state and real infection/respawn/catch-up owners. See [ZOMBIE_HARDCORE.md](docs/ZOMBIE_HARDCORE.md).
 

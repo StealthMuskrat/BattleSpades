@@ -1,0 +1,31 @@
+# Isolated creator host and builder authority
+
+The isolated creator host passes **6,344 component + 57 integration = 6,401 Java tests** across 117 suites, with zero Java failures, errors or skips. Java 25 `check build`, strict compilation, portability and distributions pass. All four codec/catalog outputs reproduce exactly in an isolated tree. The six reference source directories still match upstream `546c548780c400f21d73ca6713f86194ceb3c844` and all 262 frozen resource paths are unchanged.
+
+Fresh unchanged original-source checks report **52 passed, 0 failed and 3 skipped out of 55**; the skips require retail baseplates absent from this workspace. The original native FogColor encoder independently reproduces packet 74 as `4a00563412` for RGB 18/52/86. Previous project/validation differential evidence remains in [UGC_PIPELINE.md](UGC_PIPELINE.md); those larger traces were not rerun for this checkpoint.
+
+The CRC-valid application JAR is 2565206 bytes, SHA-256 `e6b4b2f748ac36b1c5dfda03eaa4db954611aa0e1896b1a0ea2141e1483c7f67`, class major 69. Version/configuration/help checks exit 0; missing-project checks and ordinary hosting exit 2. CI for this new checkpoint is pending. This provides an explicit isolated creator API; complete retail editor tools, production startup/services, supported-client acceptance and the overall migration remain incomplete.
+
+## Host and loader
+
+`CreatorHost.open` composes an actual ENet `ApplicationHost`, serial packet queue, fixed-step owner loop, real player lives, plain verified spawns, infantry physics, replication, immutable map compression and independent model/save workers. Call `service` with nondecreasing relative milliseconds on its owner. Its dedicated scene forces team 2/class 13, zero combat damage/respawn delay, infinite blocks, creator-only loadouts and editor features. It never registers UGC in the competitive selector or exposes an incomplete creator command through normal startup. Asset discovery and project create/reopen are the existing offline APIs.
+
+The common join scene gains default-empty source-map hooks and a final socket-close callback. Creator joins send 114, then the prepared zlib 54/56/58 source stream under the ordinary packet budget/backpressure cursor, then require client validation before full canonical 55/57/59 MapSync. State 45, skybox and force-team 115 precede admission. Real first-input terrain/roster barriers reveal objective batches and native type-29 markers. Source-data and canonical edits are distinct streams; late joins receive the authored canonical terrain. Disconnecting a reserved but unadmitted socket also releases its editor ownership.
+
+## Builder mutations
+
+`UgcConstruction` gates actual live held tools and installed selections. Class-13 native prefab build/erase preparation uses one worker, original KV6 colors, recovered pivot/rotation rounding, native unclipped model ranges and source ground-plane/clipping policy. Validation and commit budgets default to 1,024/512 cells, with 64 prefab jobs. Native model echo precedes the bounded commits, completion follows them, build sound excludes the predicting owner, and completed builds lift entombed live players into three clear cells. Pending work captures player identity and life generation and is cancelled on departure/loadout replacement.
+
+Single blocks, supported lines and legacy liberation use the existing bounded post-physics `WorldMutations` queue and applied-input barrier, preserving infinite stock. Capacity gates building at request admission and follows committed topology; erasure remains available. Paint packets use source tool/range/LOS/token policy and owner-inclusive canonical color echoes. Held editor brush input applies the recovered ray, surface-only secondary sphere, ordering, 128-cell ceiling and sound throttle. Super-spade shots bind existing shot validation/cadence and native terrain damage/collapse owners. Oriented drill/snowblower projectiles and flare construction are not yet attached to this isolated host.
+
+## Editor dispatch and lifecycle
+
+Peer UGC placement routes through the actual receive-side `LivePlacement` decoder into host/socket, held-tool, range and top-support checks. Target mode, palette, safe skybox/fog, preview request/upload, validation and explicit save messages bind to the real editor/workspace. Packet 74 preserves native four-byte color packing; generated fog data comes from unchanged source constants. Preview disk writes are immutable worker jobs whose owner continuation precedes the final full save. Shutdown closes sockets, cancels construction and waits for the ordered final checkpoint before releasing world, owner loop and workers.
+
+Five grouped component cases add loader budget/backpressure/validation timeout/socket cleanup, actual bounded prefab build/erase/raw-color/relocation/cancellation behavior, block input barriers/lines/infinite stock/brush handling, dedicated presentation and independent fog bytes. Two actual UDP integrations reuse the existing client/loop harness: creator source-before-validation and normalized admission, guest rejection, markers/settings/preview/save/reopen, native build/paint, and an independently decoded late-join canonical MapSync column. No duplicate UDP harness or frozen golden was introduced.
+
+## Remaining migration work
+
+The explicit host currently uses first-socket offline ownership. Authenticated identities/services, remaining creator projectiles/flare tools, a production creator CLI, supported retail-client acceptance, capacity/soak acceptance, tutorial, bots, admin/persistence/results/achievement/master services and full production startup/end composition remain required. The normal executable still rejects ordinary hosting with exit 2. This checkpoint does not claim complete migration or a passing full Python baseline.
+
+Evidence: [creator-host-local-verification.json](creator-host-local-verification.json). CI: [CI_STATUS.md](CI_STATUS.md).

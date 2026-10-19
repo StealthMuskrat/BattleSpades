@@ -12,6 +12,12 @@ public interface JoinScene extends AsyncPackets,SceneLifecycle {
     }
     MutableWorld world();
     InitialInfo initialInfo(int capability);
+    default InitialInfo initialInfo(JoinSession connection,int playerId,int capability){return initialInfo(capability);}
+    /** Prepared immutable source frames, consumed under the normal join budget before validation. */
+    default java.util.Iterator<GamePacket> sourceMap(JoinSession connection,int playerId,int capability){return java.util.Collections.emptyIterator();}
+    default boolean shipsSourceMap(){return false;}
+    default List<GamePacket> afterState(JoinSession connection,int playerId,int capability){return List.of();}
+    default void connectionClosed(JoinSession connection,int playerId){}
     StateData stateData(int playerId,int capability);
     String skybox();
     default int requiredCapability() {return 0;}

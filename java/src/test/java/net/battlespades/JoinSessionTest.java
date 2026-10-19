@@ -70,6 +70,16 @@ class JoinSessionTest {
         @Override public void close() {session.close();scene.close();compression.close();}
     }
     private static final class WireWriter {byte[] frame(byte[] data) {return new net.battlespades.protocol.Wire.Writer().u8(0x30).bytes(data).toByteArray();}}
+    @Test void creatorSourceRespectsBudgetAndBackpressureBeforeRequiredValidation(){
+        try(var h=new Flow(FixtureScene.copy(JoinSettings.defaults(),Map.of("packetBudget",1)))){
+            h.scene.shipsSource=true;h.scene.sourceFrames=List.of(new SimplePackets.MapDataStart(),new LoadingPackets.MapChunk(56,100,new byte[]{1}),new SimplePackets.MapDataEnd());h.ticket(new byte[0],0);h.wire.blockedId=56;
+            for(int i=0;i<5;i++)h.pulse(0);assertEquals(List.of(114,54),h.wire.ids());assertEquals(JoinSession.State.SOURCE,h.session.state());assertTrue(h.compression.jobs.isEmpty());
+            h.wire.blockedId=-1;h.pulse(0);assertEquals(List.of(114,54,56),h.wire.ids());h.pulse(0);assertEquals(List.of(114,54,56,58),h.wire.ids());assertEquals(JoinSession.State.MAP,h.session.state());h.pulse(5000);assertEquals(18,h.wire.reason);assertEquals(List.of(0),h.scene.closedConnections);assertEquals(0,h.slots.occupied());h.session.close();assertEquals(List.of(0),h.scene.closedConnections);
+        }
+        try(var h=new Flow()){
+            h.scene.shipsSource=true;h.scene.sourceFrames=List.of(new SimplePackets.MapDataStart(),new LoadingPackets.MapChunk(56,100,new byte[]{1}),new SimplePackets.MapDataEnd());h.ticket(new byte[0],0);h.pulse(0);h.validate();for(int i=0;i<128&&h.session.state()!=JoinSession.State.SELECT;i++)h.pulse(0);assertEquals(JoinSession.State.SELECT,h.session.state());assertTrue(h.wire.ids().indexOf(58)<h.wire.ids().indexOf(60));assertTrue(h.wire.ids().contains(57));h.session.close();assertEquals(List.of(0),h.scene.closedConnections);assertTrue(h.scene.departed.isEmpty());
+        }
+    }
     @Test void reliableRosterVisibilitySurvivesBackpressureAndForgetsDeparturesAndSceneReload(){
         try(var h=new Flow()){
             h.load();h.select();h.game();assertEquals(java.util.Set.of(0),h.session.knownPlayers());

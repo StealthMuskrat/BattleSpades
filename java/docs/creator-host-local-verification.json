@@ -1,0 +1,101 @@
+{
+  "observed_utc": "2026-10-19T23:00:39.877307+00:00",
+  "base_commit": "f1dedcde4307ccb4c45c5684e4c14501124af8e1",
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "scope": "isolated creator ENet host, source-map loader, live builder edits, metadata/preview/save dispatch",
+  "junit": {
+    "test": {
+      "suites": 113,
+      "tests": 6344,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 4,
+      "tests": 57,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "java_total": 6401,
+  "reference_tests": {
+    "tests": 55,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 3
+  },
+  "reference_passed": 52,
+  "reference_skips": [
+    {
+      "test": "tests.test_ugc_round5.test_capacity_matches_retail_baseplates[DesertBaseplate-2820321-1137]",
+      "message": "retail UGC baseplates are not installed"
+    },
+    {
+      "test": "tests.test_ugc_round5.test_capacity_matches_retail_baseplates[MountainBaseplate-1180703-672]",
+      "message": "retail UGC baseplates are not installed"
+    },
+    {
+      "test": "tests.test_ugc_round5.test_capacity_matches_retail_baseplates[WaterBaseplate-262144-1024]",
+      "message": "retail UGC baseplates are not installed"
+    }
+  ],
+  "reference_source_unchanged": true,
+  "native_fog": {
+    "encoder": "unchanged shared.packet.FogColor Cython",
+    "rgb": [
+      18,
+      52,
+      86
+    ],
+    "hex": "4a00563412"
+  },
+  "gradle": "check build passed, including strict compilation, portability, distributions and both full test tasks",
+  "jar_sha256": "e6b4b2f748ac36b1c5dfda03eaa4db954611aa0e1896b1a0ea2141e1483c7f67",
+  "jar_bytes": 2565206,
+  "jar_crc_valid": true,
+  "java_class_major": 69,
+  "smoke": {
+    "version": {
+      "exit": 0
+    },
+    "config": {
+      "exit": 0
+    },
+    "help": {
+      "exit": 0
+    },
+    "ugc_missing": {
+      "exit": 2
+    },
+    "hosting": {
+      "exit": 2
+    }
+  },
+  "production_source_fingerprint": {
+    "files": 278,
+    "sha256": "7ff29cba154e83d4a6cce3432fb115ed2cae71d229502500cca8a1bb092725df"
+  },
+  "frozen_resource_paths_unchanged": 262,
+  "six_source_directories_match": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "generator_reproduction": [
+    "java/src/main/java/net/battlespades/protocol/SimplePackets.java",
+    "java/src/main/java/net/battlespades/protocol/PacketCodec.java",
+    "java/docs/simple-packets.json",
+    "java/src/main/java/net/battlespades/ugc/UgcCatalog.java"
+  ],
+  "new_tests": {
+    "grouped_component": 5,
+    "actual_udp_integration": 2
+  },
+  "ci": {
+    "status": "pending",
+    "all_five_jobs_passed": false
+  },
+  "creator_host_scope": "explicit offline-owner API; no production CLI host exposure",
+  "full_ugc_hosting_complete": false,
+  "full_migration_complete": false,
+  "full_python_baseline_passing": false,
+  "supported_client_acceptance": false
+}

@@ -77,6 +77,7 @@ public final class PacketCodec {
             case 109 -> HelpMessage.read(r);
             case 18 -> PoiFocus.read(r);
             case 117 -> TeamProgress.read(r);
+            case 74 -> UgcPackets.Fog.read(r);
             case 68 -> UgcPackets.Objectives.read(r);
             case 98 -> UgcPackets.Batch.read(r);
             case 102 -> UgcPackets.Preview.read(r);
@@ -114,5 +115,5 @@ public final class PacketCodec {
         r.end();
         return packet;
     }
-    public static boolean supports(int id) { return switch(id) { case 0,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,64,67,68,69,70,71,72,73,76,77,78,79,80,81,82,83,84,85,86,93,94,95,96,97,98,99,100,101,102,105,106,108,109,110,111,112,113,114,115,117,118 -> true; default -> false; }; }
+    public static boolean supports(int id) { return switch(id) { case 0,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,64,67,68,69,70,71,72,73,74,76,77,78,79,80,81,82,83,84,85,86,93,94,95,96,97,98,99,100,101,102,105,106,108,109,110,111,112,113,114,115,117,118 -> true; default -> false; }; }
 }

@@ -17,6 +17,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
 import net.battlespades.protocol.*;
+import net.battlespades.ugc.*;
+import net.battlespades.support.CreatorFixtures;
 import net.battlespades.session.*;
 import net.battlespades.support.FixtureScene;
 import net.battlespades.support.LifeHarness;
@@ -111,6 +113,38 @@ class ApplicationIntegrationTest {
             until(()->client.has(114));client.send(new SimplePackets.MapDataValidation(world.sourceCrc()),false);until(()->client.has(45));
         }
     }
+    private static byte[] receivedColumn(Client client,int x,int y)throws Exception{
+        var compressed=new java.io.ByteArrayOutputStream();for(var packet:client.packets)if(packet instanceof LoadingPackets.MapChunk chunk&&chunk.id()==57)compressed.write(chunk.data());
+        byte[] bytes;try(var inflate=new java.util.zip.InflaterInputStream(new java.io.ByteArrayInputStream(compressed.toByteArray()))){bytes=inflate.readAllBytes();}
+        var reader=ByteBuffer.wrap(bytes).order(java.nio.ByteOrder.LITTLE_ENDIAN);while(reader.hasRemaining()){int cx=reader.getInt(),cy=reader.getInt(),start=reader.position();while(true){int at=reader.position(),words=bytes[at]&255,top=Math.max(0,(bytes[at+2]&255)-(bytes[at+1]&255)+1);reader.position(at+(words==0?4+4*top:4*words));if(words==0)break;}if(cx==x&&cy==y)return Arrays.copyOfRange(bytes,start,reader.position());}throw new AssertionError("MapSync column missing");
+    }
+    private void creatorLoad(Loop loop,Client client,CreatorHost creator,int tool)throws Exception{
+        loop.clients.add(client);client.connect();loop.until(()->client.peerId>=0);client.send(new LoadingPackets.SteamSessionTicket(new byte[]{3,7,19}),false);client.key=new byte[]{3,7,19};loop.until(()->client.has(58));
+        var ids=client.packets.stream().map(GamePacket::id).toList();assertTrue(ids.indexOf(114)<ids.indexOf(54));assertTrue(ids.indexOf(54)<ids.indexOf(56));assertTrue(ids.indexOf(56)<ids.indexOf(58));assertFalse(client.has(60));assertFalse(client.has(55));
+        var compressed=new java.io.ByteArrayOutputStream();for(var packet:client.packets)if(packet instanceof LoadingPackets.MapChunk chunk&&chunk.id()==56)compressed.write(chunk.data());try(var inflate=new java.util.zip.InflaterInputStream(new java.io.ByteArrayInputStream(compressed.toByteArray()))){var crc=new java.util.zip.CRC32();crc.update(inflate.readAllBytes());assertEquals(creator.scene().world().sourceCrc(),(int)crc.getValue());}
+        client.send(new SimplePackets.MapDataValidation(creator.scene().world().sourceCrc()),false);loop.until(()->client.has(45)&&client.has(115));var info=(InitialInfo)client.packets.stream().filter(InitialInfo.class::isInstance).findFirst().orElseThrow();assertEquals(2,info.map().isUgc());var state=(StateData)client.packets.stream().filter(StateData.class::isInstance).findFirst().orElseThrow();assertEquals(12,state.modeType());assertEquals(List.of(13),state.team1().classes());assertTrue(state.lockTeamSwap());
+        client.send(new PlayerPackets.SetClassLoadout(127,13,0,List.of(),List.of(CreatorFixtures.MODEL),List.of(7)),false);client.send(new SimplePackets.NewPlayerConnection(3,0,0,0,"Builder"),false);loop.until(()->client.has(69));int id=state.playerId();loop.until(()->{try{client.send(new ClientInput(100,127,false,tool,1,0,0,0,0,24,0),false);}catch(Exception e){throw new IllegalStateException(e);}return creator.application().inGame(id);});assertEquals(2,creator.scene().lives().player(id).team());assertEquals(13,creator.scene().lives().player(id).selection().classId());assertTrue(client.has(98)&&client.has(68));
+    }
+    @Test void isolatedCreatorHostLoadsSourceElectsSocketOwnerAndSavesPeerEditsAndPreview(){assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+        var assets=CreatorFixtures.assets(temp.resolve("retail"));var opened=CreatorFixtures.project(temp.resolve("projects"),assets);var errors=new ArrayList<Throwable>();var raw=org.tomlj.Toml.parse("");var config=SceneConfig.from(net.battlespades.config.ServerConfig.load(Path.of("../config.toml")));
+        try(var creator=CreatorHost.open(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),config,raw,opened,assets,errors::add);var a=new Client(creator.address());var b=new Client(creator.address())){
+            var loop=new Loop(creator.application());loop.pump=creator::service;creatorLoad(loop,a,creator,41);creatorLoad(loop,b,creator,41);var scene=creator.scene();var p=scene.lives().player(0);p.body().position(new Vector(255,255,97));scene.lives().player(1).body().position(new Vector(255,255,97));
+            b.send(new SimplePackets.PlaceUGC(100,255,255,99,7,1),false);b.send(new SimplePackets.SetUGCEditMode(6),false);b.send(new SimplePackets.ClockSync(991,0),false);loop.until(()->b.packets.stream().anyMatch(v->v instanceof SimplePackets.ClockSync c&&c.client_time()==991));assertTrue(scene.editor().project().placements().isEmpty());assertEquals("ctf",scene.editor().project().targetMode());
+            a.send(new SimplePackets.PlaceUGC(100,255,255,99,7,1),false);loop.until(()->b.packets.stream().anyMatch(v->v instanceof CreateEntity e&&e.entity().type()==29));assertEquals(1,scene.editor().project().placements().size());
+            a.send(new SimplePackets.SetUGCEditMode(6),false);a.send(new SimplePackets.SkyboxData("User_Lunar.txt"),false);var colors=new UgcPackets.GroundColors(List.of(new UgcPackets.Color(1,2,3,4)));a.send(colors,false);byte[] png={(byte)137,80,78,71,13,10,26,10,1};a.send(new UgcPackets.Preview(png),false);loop.until(()->b.has(102)&&b.has(118)&&b.has(74));assertEquals("tdm",scene.editor().project().targetMode());assertEquals("User_Lunar.txt",scene.editor().project().skybox());
+            a.send(new SimplePackets.UGCMessage(0),false);loop.until(()->a.packets.stream().anyMatch(v->v instanceof MatchPackets.LocalisedMessage m&&m.stringId().equals("UGC_MAP_SAVE_SUCCESSFULLY")));assertArrayEquals(png,new UgcWorkspace(opened.files()).preview().orElseThrow());assertTrue(errors.isEmpty(),errors.toString());
+        }
+        var saved=UgcWorkspace.open(temp.resolve("projects"),"Creator",null);assertEquals("tdm",saved.project().targetMode());assertEquals(1,saved.project().placements().size());assertTrue(saved.project().overhead());assertEquals(List.of(1,2,3,4),saved.project().groundColors().getFirst());assertTrue(errors.isEmpty(),errors.toString());
+    });}
+    @Test void creatorNativePrefabBrushAndLateJoinShareCanonicalTerrain(){assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+        var assets=CreatorFixtures.assets(temp.resolve("retail"));var opened=CreatorFixtures.project(temp.resolve("projects"),assets);var errors=new ArrayList<Throwable>();var config=SceneConfig.from(net.battlespades.config.ServerConfig.load(Path.of("../config.toml")));
+        try(var creator=CreatorHost.open(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),config,org.tomlj.Toml.parse(""),opened,assets,errors::add);var a=new Client(creator.address());var late=new Client(creator.address())){
+            var loop=new Loop(creator.application());loop.pump=creator::service;creatorLoad(loop,a,creator,42);var scene=creator.scene();a.send(new PrefabPacket(30,100,CreatorFixtures.MODEL,127,0,0,0,0,0,250,250,30,0xffffff,false),false);loop.until(()->a.has(30)&&a.has(29));assertTrue(scene.world().solid(250,250,30));assertEquals(0x123456,scene.world().color(new MutableWorld.Cell(250,250,99))&0xffffff);
+            var p=scene.lives().player(0);p.body().position(new Vector(255,255,97));a.send(new ClientInput(101,127,false,43,1,0,0,0,0,0,0),false);a.send(new SimplePackets.PaintBlockPacket(101,250,250,99,0xaabbcc),false);loop.until(()->a.packets.stream().anyMatch(v->v instanceof SimplePackets.PaintBlockPacket paint&&paint.color()==0xaabbcc));assertEquals(0xaabbcc,scene.world().color(new MutableWorld.Cell(250,250,99))&0xffffff);
+            creatorLoad(loop,late,creator,5);assertTrue(late.has(57));assertFalse(late.has(30));assertArrayEquals(scene.world().serializeColumn(250,250),receivedColumn(late,250,250));assertEquals(0,scene.world().activeLeases());assertTrue(errors.isEmpty(),errors.toString());
+        }
+        var saved=VxlMap.loadServer(UgcWorkspace.open(temp.resolve("projects"),"Creator",null).source(),"retail");assertTrue(saved.solid(250,250,30));assertEquals(0xaabbcc,saved.color(250,250,99)&0xffffff);
+    });}
     @org.junit.jupiter.params.ParameterizedTest
     @org.junit.jupiter.params.provider.ValueSource(strings={"ctf","cctf"})
     void productionCtfJoinsReplayBothBaseZonesAndCarrierThenCanonicalizePacket71(String code){

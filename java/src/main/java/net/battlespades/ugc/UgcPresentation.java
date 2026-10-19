@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+package net.battlespades.ugc;
+import java.util.*;
+import net.battlespades.scene.*;
+import net.battlespades.player.ClassCatalog;
+import net.battlespades.protocol.*;
+/** Dedicated editor metadata never registers UGC in the competitive mode selector. */
+public final class UgcPresentation {
+    private UgcPresentation(){}
+    public static SceneConfig config(SceneConfig base,UgcProject project){var rules=base.rules().overlay(Map.ofEntries(Map.entry("RULE_ENABLE_BLOCKS",true),Map.entry("RULE_ENABLE_FLARE_BLOCKS",true),Map.entry("RULE_ENABLE_PREFABS",true),Map.entry("RULE_ENABLE_GRAVESTONES",false),Map.entry("RULE_ENABLE_CORPSE_EXPLOSION",false),Map.entry("RULE_ENABLE_DEATH_CAM",false),Map.entry("RULE_ENABLE_MINI_MAP",true),Map.entry("RULE_ENABLE_SPECTATORS",false),Map.entry("RULE_ENABLE_FALL_ON_WATER_DAMAGE",false),Map.entry("RULE_ENABLE_COLOUR_PICKER",true),Map.entry("RULE_RESPAWN_TIMES",0)));
+        var mode=new ModeCatalog.Definition("ugc",12,"MAP_CREATOR","UGC_DESCRIPTION",List.of("","",""),0,0,false,false,List.of(13));String name="Map Creator - "+project.title();if(name.codePointCount(0,name.length())>31)name=name.substring(0,name.offsetByCodePoints(0,31));return new SceneConfig(name,base.port(),base.steamId(),mode,project.baseplate(),false,false,false,0,base.fogColor(),base.skybox(),base.team1(),base.team2(),rules,"ugc",base.admission());}
+    public static InitialInfo initial(InitialInfo p,UgcProject project){var d=ClassCatalog.get(13);var allowed=new HashSet<Integer>(d.common());d.slots().forEach(allowed::addAll);allowed.remove(23);var disabled=new ArrayList<Integer>();for(int i=0;i<66;i++)if(!allowed.contains(i))disabled.add(i);var classes=new ArrayList<Integer>();for(int i=0;i<18;i++)if(i!=13)classes.add(i);var f=p.features();var features=new InitialInfo.Features(f.classic(),1,0,f.maxDrawDistance(),1,1,0,f.sniperBeam(),0,f.exposedTeamsOnMinimap(),f.numericHp(),f.textureSkin(),f.beachZModifiable(),f.minimapHeightIcons(),0);var colors=project.groundColors().isEmpty()?p.groundColors():project.groundColors().stream().map(c->new InitialInfo.Rgba(c.get(0),c.get(1),c.get(2),c.get(3))).toList();return new InitialInfo(p.identity(),p.mode(),new InitialInfo.MapInfo(project.baseplate(),project.baseplate(),p.map().checksum(),2),features,p.blockWalletMultiplier(),p.blockHealthMultiplier(),disabled,classes,p.movementSpeedMultipliers(),List.of(project.prefabTerrain().tag()),0,p.serverName(),colors,p.loadouts(),p.allowShootingHoldingIntel(),0,p.customRules(),0,UgcProject.modeId(project.targetMode()));}
+    public static StateData state(StateData p,List<String> prefabs,Integer fog){return new StateData(p.playerId(),fog==null?p.fogColor():fog,p.gravity(),p.lighting(),p.timeScale(),0,12,p.teamHeadcountType(),team(p.team1(),false,List.of(13)),team(p.team2(),true,List.of()),true,true,prefabs,List.of(),p.cameraPoints(),p.cameraRotations(),0);}
+    private static StateData.Team team(StateData.Team t,boolean locked,List<Integer> classes){return new StateData.Team(t.name(),t.color(),0,locked,t.canSeeOther(),false,false,true,locked,false,classes);}
+}

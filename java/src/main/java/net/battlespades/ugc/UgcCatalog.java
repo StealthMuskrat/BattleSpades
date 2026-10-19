@@ -457,4 +457,5 @@ public final class UgcCatalog {
         result.put("ugc_prefab_primitive_sphere",Set.of(9,1,2,0,3,4,5));
         return Collections.unmodifiableMap(result);
     }
+    public static final Map<String,Integer> FOG=Map.ofEntries(Map.entry("Alcatraz.txt",5063746),Map.entry("ArcticBase.txt",7515823),Map.entry("Atlantis.txt",4023510),Map.entry("BranCastle.txt",1973790),Map.entry("Chicago.txt",0),Map.entry("Classic.txt",1973790),Map.entry("Classic_B.txt",7329759),Map.entry("Colosseum.txt",10645056),Map.entry("Egypt.txt",12809293),Map.entry("Frontier.txt",10710849),Map.entry("GreatWall.txt",10721674),Map.entry("Invasion.txt",4013365),Map.entry("London.txt",2170907),Map.entry("LunarBase.txt",4078393),Map.entry("MayanJungle.txt",4541479),Map.entry("SecretBase.txt",4545636),Map.entry("SecretBase_Night.txt",0),Map.entry("Tokyo.txt",0),Map.entry("User_Desert.txt",12809293),Map.entry("User_Grassland.txt",7329759),Map.entry("User_Lunar.txt",4078393),Map.entry("User_Mountain.txt",3291965),Map.entry("User_Temple.txt",4013365),Map.entry("User_Urban.txt",8421503),Map.entry("WW1.txt",11044461),Map.entry("WW2.txt",11044461),Map.entry("WW2_DockLands.txt",11044461));
 }

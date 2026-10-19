@@ -19,6 +19,7 @@ public final class StandardSpawns {
     private static Position position(Vector p){return new Position(p.x(),p.y(),p.z());}
     private static SpawnResolver.Player view(PlayerLife p){return new SpawnResolver.Player(p.id(),p.team(),p.alive(),p.spawned(),position(p.position()),position(p.position()));}
     public Vector spawn(PlayerLife player){double now=monotonic.getAsDouble();return resolver.resolve(player.team(),()->proposal(player,now),now).toPhysics();}
+    public Vector spawnPlain(PlayerLife player){return resolver.resolve(player.team(),()->plain(player.team()),monotonic.getAsDouble()).toPhysics();}
     private Position proposal(PlayerLife player,double now){
         Position smart;try{smart=resolver.choose(view(player),players.get().stream().map(StandardSpawns::view).toList(),now);}catch(RuntimeException failure){smart=null;}
         return smart==null?plain(player.team()):smart;

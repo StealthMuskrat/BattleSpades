@@ -64,6 +64,10 @@ public final class FixtureScene implements JoinScene,net.battlespades.scene.Conf
             return (T)source.getClass().getDeclaredConstructor(types).newInstance(values);
         } catch(ReflectiveOperationException e) {throw new IllegalStateException(e instanceof InvocationTargetException invoke?invoke.getCause():e);}
     }
+    public List<GamePacket> sourceFrames=List.of();public boolean shipsSource;public final List<Integer> closedConnections=new ArrayList<>();
+    @Override public java.util.Iterator<GamePacket> sourceMap(net.battlespades.session.JoinSession connection,int id,int capability){return sourceFrames.iterator();}
+    @Override public boolean shipsSourceMap(){return shipsSource;}
+    @Override public void connectionClosed(net.battlespades.session.JoinSession connection,int id){closedConnections.add(id);}
     @Override public MutableWorld world() {return world;}
     @Override public int requiredCapability() {return requiredCapability;}
     @Override public InitialInfo initialInfo(int capability) {return info;}

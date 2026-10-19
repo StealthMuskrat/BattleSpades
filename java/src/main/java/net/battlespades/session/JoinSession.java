@@ -17,7 +17,7 @@ import net.battlespades.world.*;
 
 /** Network/application owner state machine for one real ENet peer. No worker touches this object. */
 public final class JoinSession implements WorldUpdateLink,AutoCloseable {
-    public enum State { TICKET, PASSWORD, INITIAL, MAP, STATE, SELECT, ADMITTING, INPUT, LIVE, RETIRING, CLOSED }
+    public enum State { TICKET, PASSWORD, INITIAL, SOURCE, MAP, STATE, SELECT, ADMITTING, INPUT, LIVE, RETIRING, CLOSED }
     public interface WireSink {
         boolean send(SessionFrame frame);
         void disconnect(int reason);
@@ -72,6 +72,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     private long malformed,domainFailures,droppedClocks;
     private PlayerSlots.Reservation slot;
     private MapSyncTransfer transfer;
+    private java.util.Iterator<GamePacket> sourceFrames=java.util.Collections.emptyIterator();private GamePacket sourcePending;
     private MutableWorld.Capture capture;
     private SnapshotCompression.Task task;
     private PlayerPackets.SetClassLoadout selection;
@@ -231,7 +232,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
         if(state==State.CLOSED) return;
         if(slot==null) {slot=slots.reserve().orElse(null);if(slot==null) {fail(4);return;}}
         if(capability<scene.requiredCapability()) {fail(10);return;}
-        long epoch=++generation;var source=scene;var info=source.initialInfo(capability);
+        long epoch=++generation;var source=scene;var info=source.initialInfo(this,slot.id(),capability);
         if(!current(epoch,source)) return;
         if(info.map().checksum()!=scene.world().sourceCrc()) throw new IllegalStateException("InitialInfo CRC differs from active source");
         byte[] body=info.encode();if(capability>0) body=new Wire.Writer().bytes(body).bytes(flightProfile(capability)).toByteArray();
@@ -289,10 +290,15 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
                 if(retireUntil<0) retireUntil=now+settings.transitionGraceMillis();
                 if(now>=retireUntil) begin();return;
             }
-            if(state==State.INITIAL) {transfer=new MapSyncTransfer(generation,now,scene.world().sourceCrc(),settings.mapMode(),requireValidation,false);state=State.MAP;}
+            if(state==State.INITIAL){long epoch=generation;var source=scene;sourceFrames=java.util.Objects.requireNonNull(source.sourceMap(this,slot.id(),capability));if(!current(epoch,source))return;sourcePending=null;state=State.SOURCE;}
+            if(state==State.SOURCE){
+                while(budget>0&&(sourcePending!=null||sourceFrames.hasNext())){if(sourcePending==null)sourcePending=java.util.Objects.requireNonNull(sourceFrames.next());if(!sendFrame(new SessionFrame(sourcePending)))return;sourcePending=null;budget--;}
+                if(sourcePending!=null||sourceFrames.hasNext())return;
+                sourceFrames=java.util.Collections.emptyIterator();transfer=new MapSyncTransfer(generation,now,scene.world().sourceCrc(),settings.mapMode(),requireValidation||scene.shipsSourceMap(),scene.shipsSourceMap());state=State.MAP;
+            }
             if(state==State.MAP) {
                 budget-=transfer.pump(now,budget,f->sendFrame(new SessionFrame(f.prefix(),f.packet().encode(),Delivery.RELIABLE)));
-                if(transfer.state()==MapSyncTransfer.State.TIMED_OUT) {fail(requireValidation?18:11);return;}
+                if(transfer.state()==MapSyncTransfer.State.TIMED_OUT) {fail(requireValidation||scene.shipsSourceMap()?18:11);return;}
                 if(transfer.state()==MapSyncTransfer.State.PREPARING) {
                     if(capture==null) {
                         if(!compression.available()) return;
@@ -308,6 +314,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
                     long epoch=generation;var source=scene;var data=source.stateData(slot.id(),capability);
                     if(!current(epoch,source)) return;if(data.playerId()!=slot.id()) throw new IllegalStateException("StateData must keep reserved identity");
                     var frames=new ArrayList<SessionFrame>();frames.add(new SessionFrame(0x31,data.encode(),Delivery.RELIABLE));frames.add(new SessionFrame(new SimplePackets.SkyboxData(scene.skybox())));
+                    for(var packet:source.afterState(this,slot.id(),capability))frames.add(new SessionFrame(packet));
                     if(!current(epoch,source)) return;
                     if(enqueue(frames) && syncRoster()) state=State.STATE;
                 }
@@ -367,6 +374,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
         state=State.RETIRING;enqueue(List.of(new SessionFrame(new SimplePackets.MapEnded())));
     }
     private void releaseScene() {
+        sourceFrames=java.util.Collections.emptyIterator();sourcePending=null;
         if(transfer!=null) transfer.cancel();transfer=null;
         if(task!=null) task.close();task=null;
         if(capture!=null) capture.lease().close();capture=null;
@@ -374,7 +382,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
             var previous=slot;var source=scene;boolean hadPlayer=admitted;slot=null;admitted=false;
             try {if(hadPlayer) source.disconnected(previous.id());}
             catch(RuntimeException failed) {domainFailures++;}
-            finally {previous.close();}
+            finally {try{source.connectionClosed(this,previous.id());}catch(RuntimeException failed){domainFailures++;}finally{previous.close();}}
         }
     }
     public void fail(int reason) {owned();if(state==State.CLOSED) return;try {sink.disconnect(reason);} finally {close();}}

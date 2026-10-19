@@ -34,6 +34,8 @@ public final class GameRules {
         overrides.forEach((k,v)->{if(!CATALOG.containsKey(k))throw new IllegalArgumentException("Unknown rule "+k);if(!explicit.contains(k))resolved.put(k,v);});
         return new GameRules(resolved,explicit);
     }
+    /** A forced, immutable mode view retains the operator's explicit-key provenance. */
+    public GameRules overlay(Map<String,?> overrides){var resolved=new LinkedHashMap<>(values);overrides.forEach((k,v)->{if(!CATALOG.containsKey(k))throw new IllegalArgumentException("Unknown rule "+k);resolved.put(k,v);});return new GameRules(resolved,explicit);}
     public GameRules apply(TomlTable table){return apply(table.toMap());}
     public GameRules apply(Map<String,?> overrides){
         var resolved=new LinkedHashMap<>(values);var requested=new HashSet<>(explicit);

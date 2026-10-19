@@ -1,0 +1,113 @@
+{
+  "observed_utc": "2026-10-19T21:55:22.319429+00:00",
+  "base_commit": "685f52e6dce4723dd3ba33988d03ff03d8bfd074",
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "scope": "Zombie outbreak/round owners and all ten Hardcore variants",
+  "junit": {
+    "test": {
+      "suites": 110,
+      "tests": 6329,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 3,
+      "tests": 52,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "java_total": 6381,
+  "reference_tests": {
+    "tests": 119,
+    "failures": 10,
+    "errors": 0,
+    "skipped": 0
+  },
+  "reference_passed": 109,
+  "reference_modules": [
+    "test_zombie",
+    "test_zombie_rounds",
+    "test_hardcore"
+  ],
+  "reference_failures": [
+    {
+      "test": "tests.test_zombie.test_zombie_mode_is_registered_with_asymmetric_native_snapshot",
+      "message": "assert 0 == 1\n +  where 0 = <shared.packet.InitialInfo object at 0x7fa03acd4630>.exposed_teams_always_on_minimap"
+    },
+    {
+      "test": "tests.test_zombie.test_outbreak_keeps_one_survivor_and_assigns_melee_only_patient_zero",
+      "message": "AttributeError: '_Server' object has no attribute 'respawn_player'"
+    },
+    {
+      "test": "tests.test_zombie.test_round_clock_starts_at_outbreak_not_idle_server_uptime",
+      "message": "AttributeError: '_Server' object has no attribute 'respawn_player'"
+    },
+    {
+      "test": "tests.test_zombie.test_survivor_death_converts_before_respawn_and_reveals_last_man",
+      "message": "AttributeError: '_Server' object has no attribute 'respawn_player'"
+    },
+    {
+      "test": "tests.test_zombie.test_newly_infected_respawns_once_at_the_death_site",
+      "message": "AttributeError: '_Server' object has no attribute 'respawn_player'"
+    },
+    {
+      "test": "tests.test_zombie.test_periodic_survival_score_uses_native_zombie_xp_reason",
+      "message": "AttributeError: '_Server' object has no attribute 'respawn_player'"
+    },
+    {
+      "test": "tests.test_zombie.test_departed_only_zombie_is_replaced_without_soft_lock",
+      "message": "AttributeError: '_Server' object has no attribute 'respawn_player'"
+    },
+    {
+      "test": "tests.test_zombie.test_join_and_class_selection_cannot_escape_infection_role",
+      "message": "AttributeError: '_Server' object has no attribute 'respawn_player'"
+    },
+    {
+      "test": "tests.test_zombie.test_time_limit_awards_survivors_when_one_is_still_alive",
+      "message": "AttributeError: '_Server' object has no attribute 'respawn_player'"
+    },
+    {
+      "test": "tests.test_zombie_rounds.test_non_final_round_restarts_on_the_same_map",
+      "message": "assert [1, 2, 2, 3] == [1, 2, 3]\n  \n  At index 2 diff: 2 != 3\n  Left contains one more item: 3\n  Use -v to get more diff"
+    }
+  ],
+  "reference_failure_scope": "Eight unchanged _Server doubles lack respawn_player; one minimap expectation and one reset call-list expectation disagree with the current reference implementation. Original source/tests were not patched or skipped.",
+  "gradle": "check build passed, including strict compilation, portability and distributions",
+  "jar_sha256": "a3216142aec5c31808b816aff61a267ed3a4faf772318a98b89bc3927f8e19d3",
+  "jar_bytes": 2436289,
+  "jar_crc_valid": true,
+  "java_class_major": 69,
+  "smoke": {
+    "version": {
+      "exit": 0
+    },
+    "config": {
+      "exit": 0
+    },
+    "hosting": {
+      "exit": 2
+    }
+  },
+  "production_source_fingerprint": {
+    "files": 262,
+    "sha256": "a5a0e49f2d1dbbd96c82e58cb346406b18292909002aa4a2fb24a7ad15ce7e9b"
+  },
+  "frozen_resource_paths_unchanged": 262,
+  "six_source_directories_match": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "codec_reproduction": "All three outputs reproduced exactly in isolated tree",
+  "new_tests": {
+    "grouped_component": 5,
+    "hardcore_factory_cases": 10,
+    "udp_integration": 2
+  },
+  "ci": {
+    "status": "pending",
+    "all_five_jobs_passed": false
+  },
+  "full_migration_complete": false,
+  "full_python_baseline_passing": false,
+  "supported_client_acceptance": false
+}

@@ -43,7 +43,7 @@ public final class HostedSceneState implements AutoCloseable {
     public SceneRollover.State snapshot(){owned();return new SceneRollover.State(active.map,active.code,active.mode,active,fogOverride);}
     private Entry create(String map,String code,PreparedMap candidate,long epoch){
         Objects.requireNonNull(map);Objects.requireNonNull(candidate);var factory=factories.get(code);if(factory==null)throw new IllegalArgumentException("Unknown mode: "+code);
-        if(!candidate.assembly().metadata().activeMode().equals(code))throw new IllegalArgumentException("Prepared map belongs to another mode");
+        if(!candidate.assembly().metadata().activeMode().equals(net.battlespades.player.Hardcore.base(code)))throw new IllegalArgumentException("Prepared map belongs to another mode");
         var bound=candidate.bind(epoch,journalLimit);Domain domain=null;
         try{domain=Objects.requireNonNull(factory.create(map,code,bound,candidate.assembly().metadata()));var entry=new Entry(map,code,bound,domain);if(entry.scene.world()!=bound.world())throw new IllegalArgumentException("Domain must use its prepared world");return entry;}
         catch(RuntimeException|Error error){if(domain!=null)try{domain.close();}catch(RuntimeException|Error cleanup){error.addSuppressed(cleanup);}bound.close();throw error;}

@@ -94,7 +94,6 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     private final ArrayDeque<BlastScope> blasts=new ArrayDeque<>();
     public LifeRuntime(MutableWorld world,GameRules rules,String mode,Clock clock,Policy policy,Effects effects,Messages messages,Inputs inputs){
         this.world=Objects.requireNonNull(world);this.rules=Objects.requireNonNull(rules);this.mode=Objects.requireNonNull(mode);this.clock=Objects.requireNonNull(clock);this.policy=Objects.requireNonNull(policy);this.effects=Objects.requireNonNull(effects);this.messages=Objects.requireNonNull(messages);this.inputs=Objects.requireNonNull(inputs);
-        if(mode.startsWith("hc_"))throw new IllegalArgumentException("Hardcore lifecycle requires its own policy");
     }
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Life runtime accessed outside owner");}
     @Override public MutableWorld world(){owned();return world;}
@@ -136,7 +135,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
         if(source!=null&&source!=victim&&victim.protectionRemaining(clock.monotonic())>0)return false;
         if(source!=null&&source!=victim)source.endProtection(clock.monotonic());
         var modifier=policy.damageModifier();if(modifier.isPresent()){amount=modifier.get().apply(victim,amount,source,killType);if(amount<=0)return false;}
-        if(source!=null&&source!=victim){amount*=rules.number("RULE_WEAPON_DAMAGE");if((mode.equals("zom")||mode.equals("zombie"))&&LifeCatalog.ZOMBIES.contains(source.selection().classId()))amount*=rules.number("RULE_ZOMBIE_CLASS_DAMAGE");if(rules.enabled("RULE_ONE_HIT_KILL")&&LifeCatalog.ONE_HIT.contains(killType))amount=Math.max(amount,victim.health());}
+        if(source!=null&&source!=victim){amount*=rules.number("RULE_WEAPON_DAMAGE");if((Hardcore.base(mode).equals("zom")||mode.equals("zombie"))&&LifeCatalog.ZOMBIES.contains(source.selection().classId()))amount*=rules.number("RULE_ZOMBIE_CLASS_DAMAGE");if(rules.enabled("RULE_ONE_HIT_KILL")&&LifeCatalog.ONE_HIT.contains(killType))amount=Math.max(amount,victim.health());}
         victim.damageStamp(clock.wall());if(!Double.isFinite(amount))throw new IllegalArgumentException("Nonfinite accepted damage");double rounded=Math.max(0,Math.rint(amount));if(rounded<=0)return false;
         int before=victim.health();victim.health((int)Math.max(0,before-rounded));int removed=before-victim.health();
         if(policy.combatScoringActive()&&source!=null&&source!=victim&&source.team()!=0&&victim.team()!=0&&policy.opponents(source,victim)&&removed>0)victim.damageHistory().record(source,removed,clock.monotonic(),players::get);
@@ -184,6 +183,8 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     @Override public List<GamePacket> reveal(int id){
         owned();var p=player(id);Long token=deadJoin.remove(id);if(token!=null&&p.alive()&&p.spawned()&&p.generation()!=token){var packets=new ArrayList<GamePacket>();packets.add(p.create());packets.addAll(p.spawnOwnerPackets());return List.copyOf(packets);}return List.of();
     }
+    /** Trusted mode reassignment; the mode owns team roster updates and any transition death. */
+    public void modeTeam(PlayerLife player,int team){owned();if(!current(player))throw new IllegalArgumentException("Stale mode player");player.team(team);}
     public void respawn(int id){owned();var p=player(id);if(p.team()==0)throw new IllegalStateException("Spectator respawn");spawn(p);p.clearDeathTime();publish(p);restock(id,0,false);effects.spawned(p);}
     /** RoundLifecycle captures wall time once and isolates failures only inside each respawn attempt. */
     public void processRespawns(){

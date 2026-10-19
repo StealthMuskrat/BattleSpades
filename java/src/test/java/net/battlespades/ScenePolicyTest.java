@@ -93,7 +93,7 @@ class ScenePolicyTest {
         assertEquals("zom",ModeCatalog.resolve(" zombie "));assertThrows(IllegalArgumentException.class,()->ModeCatalog.resolve("typo"));
     }
     @Test void configDiagnosticsRejectUnknownRulesAndUnavailableHardcorePolicy() throws Exception {
-        for(String text:List.of("[game_rules]\nRULE_UNKNOWN=true","[game_rules]\nRULE_CHARACTER_SPEED=true","[world]\nfog_color_rgb=[1,2,256]","[game]\ndefault_mode='hc_tdm'","[game]\ndefault_mode='typo'")){
+        for(String text:List.of("[game_rules]\nRULE_UNKNOWN=true","[game_rules]\nRULE_CHARACTER_SPEED=true","[world]\nfog_color_rgb=[1,2,256]","[game]\ndefault_mode='typo'")){
             var file=core(text).root().resolve("scene.toml");assertEquals(2,Main.run(new String[]{"--check-config",file.toString()},new PrintStream(OutputStream.nullOutputStream()),new PrintStream(OutputStream.nullOutputStream())));
         }
     }

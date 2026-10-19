@@ -60,7 +60,7 @@ public final class HostedEntityRuntime implements AutoCloseable {
             public void reliable(GamePacket packet){host.broadcast(packet,Delivery.RELIABLE);}
         });
         blasts=new BlastRuntime(match.lives(),registry,blastTerrain,clock::monotonic,new BlastRuntime.Domain(){
-            public boolean buildDamage(){return settings.buildDamage();}public boolean friendlyFire(){return scene.friendlyFire();}public boolean hardcore(PlayerLife player){return false;}
+            public boolean buildDamage(){return settings.buildDamage();}public boolean friendlyFire(){return scene.friendlyFire();}public boolean hardcore(PlayerLife player){return match.hardcore();}
             public void stimulus(Vector at,int source,int team,double radius,double lifetime){ports.blastStimulus(at,source,team,radius,lifetime);}
             public Object begin(PlayerLife source,int type,Vector at){return ports.beginBlast(source,type,at);}public void end(Object scope){ports.endBlast(scope);}public void scopeFault(String phase){ports.blastScopeFault(phase);}
         },this::context);

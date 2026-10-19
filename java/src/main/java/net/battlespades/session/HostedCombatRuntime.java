@@ -51,7 +51,7 @@ public final class HostedCombatRuntime implements AutoCloseable {
         public boolean dig(PlayerLife p,Vector origin,Vector direction,ShootPacket packet,List<Vector> eyes,double slack){return match.entities().terrain().dig(p,origin,direction,packet,eyes,slack);}
         public void dropped(PlayerLife p,ShootPacket packet,String reason){ports.dropped(p,packet,reason);}public void cadenceDropped(PlayerLife p,ShootPacket packet,double now){ports.cadenceDropped(p,packet,now);}
         public void nearMiss(PlayerLife p,ShootPacket packet,Vector origin,Vector direction,CombatCatalog.Profile profile){ports.nearMiss(p,packet,origin,direction,profile);}
-        public boolean hardcore(PlayerLife p){return false;}public void reject(PlayerLife p,String reason){ports.rejected(p,reason);}public void shieldImpact(PlayerLife p,Vector at,boolean melee){match.entities().shields().hit(p,at,melee);}
+        public boolean hardcore(PlayerLife p){return match.hardcore();}public void reject(PlayerLife p,String reason){ports.rejected(p,reason);}public void shieldImpact(PlayerLife p,Vector at,boolean melee){match.entities().shields().hit(p,at,melee);}
         public void playerHit(PlayerLife a,PlayerLife b,boolean head){match.profiles().hit(match.binding().row(a),match.binding().row(b));}
         public void reliable(GamePacket packet){host.broadcast(packet,Delivery.RELIABLE);}public void unreliable(GamePacket packet){host.broadcast(packet,Delivery.UNRELIABLE);}
         public void damageEntity(HitTrace.Entity entity,double amount,PlayerLife p){match.entities().registry().damageEntity(entity.id(),amount,p,match.entities().context());}

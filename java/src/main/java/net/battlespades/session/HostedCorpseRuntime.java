@@ -21,7 +21,8 @@ public final class HostedCorpseRuntime {
     private final StandardMatchDomain match;private final ApplicationHost host;private final SceneConfig scene;private final double gravity;private final boolean classic,wireReady;
     private final Map<Integer,Corpse> corpses=new LinkedHashMap<>();private final Map<Integer,Normal> normal=new LinkedHashMap<>();private final Map<PlayerLife,Integer> graves=new IdentityHashMap<>();
     public HostedCorpseRuntime(StandardMatchDomain match,ApplicationHost host,SceneConfig scene,double gravity,boolean wireReady,boolean classic){this.match=Objects.requireNonNull(match);this.host=Objects.requireNonNull(host);this.scene=Objects.requireNonNull(scene);this.gravity=gravity;this.wireReady=wireReady;this.classic=classic;}
-    public void died(PlayerLife p){corpses.remove(p.id());normal.remove(p.id());if(classic){corpses.put(p.id(),new Corpse(p));return;}var state=new Normal(p);normal.put(p.id(),state);if(state.remaining<=0)complete(state);}
+    public void died(PlayerLife p){died(p,false);}
+    public void died(PlayerLife p,boolean converting){corpses.remove(p.id());normal.remove(p.id());if(classic||converting){corpses.put(p.id(),new Corpse(p));return;}var state=new Normal(p);normal.put(p.id(),state);if(state.remaining<=0)complete(state);}
     private boolean current(PlayerLife p,long generation){return p.generation()==generation&&match.lives().players().stream().anyMatch(v->v==p);}
     public boolean replicate(PlayerLife p){var state=normal.get(p.id());return state!=null&&state.owner==p&&current(p,state.generation)&&!state.exploded&&state.remaining>0;}
     public List<Corpse> hittable(){if(!scene.rules().enabled("RULE_ENABLE_CORPSE_EXPLOSION"))return List.of();return corpses.values().stream().filter(c->!c.exploded&&current(c.owner,c.generation)).toList();}

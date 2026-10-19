@@ -122,7 +122,7 @@ public final class PlayerLife {
         owned();ownerAnchors.record(stamp,position,velocity,serverTick,suppliedSequence);flight.ownerRowQueued(this);
     }
     MovementProfile movementProfile(){return ClassCatalog.movement(selection.classId(),mode,rules);}
-    double canopyWaterDamage(){return ClassCatalog.get(selection.classId()).movement().get(8);}
+    double canopyWaterDamage(){return Hardcore.enabled(mode)?movementProfile().waterDamage():ClassCatalog.get(selection.classId()).movement().get(8);}
     double canopyClearance(){
         var at=position();double feet=at.z()+((motion.movement&32)!=0&&!body.state().wade()?1.35:2.25);
         int start=Math.max(0,(int)Math.floor(feet));double best=Double.POSITIVE_INFINITY;

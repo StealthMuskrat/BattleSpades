@@ -40,6 +40,8 @@ implemented. Today it fails explicitly with the incomplete-migration message.
 
 ## Current components
 
+Zombie outbreak/round ownership and all ten Hardcore variants now share the concrete mode runtime, native role/loadout/movement state and real infection/respawn/catch-up owners. See [ZOMBIE_HARDCORE.md](docs/ZOMBIE_HARDCORE.md).
+
 Demolition and VIP now have concrete terrain/base-health/build-lock/airstrike and boss/subround/respawn/sudden-death owners. See [DEMVIP_MODES.md](docs/DEMVIP_MODES.md).
 
 

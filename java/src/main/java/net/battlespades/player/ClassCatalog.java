@@ -49,13 +49,13 @@ public final class ClassCatalog {
     public static Selection normalize(int id,Collection<Integer> selected,GameRules rules){return normalize(id,selected,List.of(),List.of(),null,rules.disabledTools());}
     /** The advertised rule scale is rounded with Python's ties-to-even before native float stores. */
     public static double speedScale(int id,String mode,GameRules rules){
-        double scale=rules.number("RULE_CHARACTER_SPEED");
+        double scale=rules.number("RULE_CHARACTER_SPEED");if(Hardcore.enabled(mode))scale*=Hardcore.speed(id);mode=Hardcore.base(mode);
         if((id==4||id==14||id==15)&&(mode.equals("zom")||mode.equals("zombie")))scale*=rules.number("RULE_CLASS_SPEED");
         return Math.rint(scale*64.0)/64.0;
     }
     public static MovementProfile movement(int id,String mode,GameRules rules){
         var d=get(id);var m=d.movement;double scale=speedScale(id,mode,rules);
-        return new MovementProfile((float)(m.get(0)*scale),(float)(m.get(1)*scale),(float)(m.get(2)*scale),m.get(3).floatValue(),m.get(4).floatValue(),m.get(5).floatValue(),m.get(6).floatValue(),m.get(7).floatValue(),rules.enabled("RULE_ENABLE_FALL_ON_WATER_DAMAGE")?m.get(8).floatValue():0,d.uphill);
+        var ordinary=new MovementProfile((float)(m.get(0)*scale),(float)(m.get(1)*scale),(float)(m.get(2)*scale),m.get(3).floatValue(),m.get(4).floatValue(),m.get(5).floatValue(),m.get(6).floatValue(),m.get(7).floatValue(),rules.enabled("RULE_ENABLE_FALL_ON_WATER_DAMAGE")?m.get(8).floatValue():0,d.uphill);return Hardcore.enabled(mode)?Hardcore.movement(id,(float)scale,ordinary):ordinary;
     }
     /** Stock inventory gate only; active-tool, mounted-entity and mode authorization remain caller policies. */
     public static boolean inventoryToolAuthorized(boolean alive,boolean spawned,int tool,Selection selection,GameRules rules){

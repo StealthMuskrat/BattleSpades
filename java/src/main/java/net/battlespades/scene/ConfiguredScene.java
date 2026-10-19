@@ -47,12 +47,11 @@ public final class ConfiguredScene implements JoinScene {
     }
     public ConfiguredScene(SceneConfig config,ScenePackets.Environment environment,Supplier<ScenePackets.State> state,Gameplay gameplay){
         this.config=Objects.requireNonNull(config);this.environment=Objects.requireNonNull(environment);this.state=Objects.requireNonNull(state);this.gameplay=Objects.requireNonNull(gameplay);
-        if(config.modeCode().startsWith("hc_"))throw new IllegalArgumentException("Hardcore scene policy is not implemented");
         if(environment.sourceCrc()!=gameplay.world().sourceCrc())throw new IllegalArgumentException("Metadata CRC differs from committed world");
     }
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Scene accessed outside owner");}
     public MovementProfile movement(int classId){owned();return ClassCatalog.movement(classId,config.modeCode(),config.rules());}
-    public double gravity(){owned();return environment.gravity();}
+    public double gravity(){owned();return net.battlespades.player.Hardcore.enabled(config.modeCode())?1:environment.gravity();}
     @Override public MutableWorld world(){owned();return gameplay.world();}
     @Override public PlayerRoster roster(){owned();return gameplay.roster();}
     @Override public boolean spectator(int id){owned();return gameplay.spectator(id);}
@@ -63,7 +62,7 @@ public final class ConfiguredScene implements JoinScene {
     @Override public Admission admit(int id,SimplePackets.NewPlayerConnection request,PlayerPackets.SetClassLoadout pending,int capability){
         // Packet 13 is cached independently before packet 15: its invalid class uses Classic (5),
         // rather than borrowing a later NewPlayerConnection class as its fallback.
-        owned();var selection=ClassCatalog.normalize(pending!=null?pending.classId():request.class_id(),pending!=null?pending.loadout():List.of(),pending!=null?pending.prefabs():List.of(),pending!=null?pending.ugcTools():List.of(),pending!=null?null:request.class_id(),config.rules().disabledTools());
+        owned();var selection=net.battlespades.player.Hardcore.enabled(config.modeCode())?net.battlespades.player.Hardcore.normalize(pending!=null?pending.classId():request.class_id(),pending!=null?pending.loadout():List.of()):ClassCatalog.normalize(pending!=null?pending.classId():request.class_id(),pending!=null?pending.loadout():List.of(),pending!=null?pending.prefabs():List.of(),pending!=null?pending.ugcTools():List.of(),pending!=null?null:request.class_id(),config.rules().disabledTools());
         var decision=AdmissionPolicy.resolve(id,request,selection,config.admission(),config.rules(),config.mode(),gameplay.admissionContext(id));
         gameplay.admissionResolved(id,decision);
         var admitted=new SimplePackets.NewPlayerConnection(decision.team().wire(),decision.selection().classId(),request.forced_team(),request.local_language(),decision.name());

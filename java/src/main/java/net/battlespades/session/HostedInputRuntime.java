@@ -32,7 +32,7 @@ public final class HostedInputRuntime implements LifeRuntime.Inputs,AutoCloseabl
         this.match=Objects.requireNonNull(match);this.ports=Objects.requireNonNull(ports);
         var objectives=new ObjectiveScores(()->new ProfileTracker.Context(false,config.modeCode(),match.mode().clock().ended),()->match.mode().clock().retiring,()->match.binding().players(),match.scoreboard());
         // Ordinary TDM/Arena inherit BaseMode's grave representation and have no equipped-tool override.
-        teabags=new TeabagTracker(()->match.binding().players(),objectives,match.profiles(),()->false,()->config.rules().enabled("RULE_POINTS_FROM_TEABAGGING"));
+        teabags=new TeabagTracker(()->match.binding().players(),objectives,match.profiles(),match::hardcore,()->config.rules().enabled("RULE_POINTS_FROM_TEABAGGING"));
     }
     private void owned(){if(Thread.currentThread()!=owner||closed)throw new IllegalStateException("Input runtime outside active owner");}
     public boolean allow(PlayerLife p,MovementPacketRates.Kind kind,int loop){

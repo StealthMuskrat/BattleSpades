@@ -44,7 +44,7 @@ public final class DeployableActions {
         var registry=entities.registry();var liveCharges=p.chargeIds().stream().filter(id->{var e=registry.get(id);return e!=null&&e.alive;}).toList();if(tool==59&&liveCharges.size()>=2)return false;
         EntityBehavior behavior;int type;String kind="deployable";
         switch(tool){
-            case 51->{type=30;kind="medpack";behavior=new MedpackBehavior(p.team(),25,3,1,new MedpackBehavior.Care(){public boolean hardcore(){return false;}public double wall(){return match.wall();}public void heal(PlayerLife player,int amount){match.lives().heal(player.id(),amount);}});}
+            case 51->{type=30;kind="medpack";behavior=new MedpackBehavior(p.team(),25,3,1,new MedpackBehavior.Care(){public boolean hardcore(){return match.hardcore();}public double wall(){return match.wall();}public void heal(PlayerLife player,int amount){match.lives().heal(player.id(),amount);}});}
             case 21->{type=10;var stock=ExplosionGeometry.stock().stream().filter(s->s.name().equals("dynamite")).findFirst().orElseThrow();behavior=new TimedExplosiveBehavior(new DeviceBlast(p.id(),300,7,2,15,stock.radius(),true,.1,.15,16,false),7,1);}
             case 20->{type=9;var stock=ExplosionGeometry.stock().stream().filter(s->s.name().equals("landmine")).findFirst().orElseThrow();behavior=new ProximityMineBehavior(new DeviceBlast(p.id(),100,15,1,14,stock.radius(),false,0,0,15,true),1,p.team(),2.5,4,3,-.5);}
             case 59->{type=38;behavior=new RemoteChargeBehavior(new DeviceBlast(p.id(),300,7,2,36,8,true,.1,.15,41,false),1);}

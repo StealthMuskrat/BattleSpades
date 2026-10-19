@@ -21,8 +21,6 @@ public record SceneConfig(String name,int port,long steamId,ModeCatalog.Definiti
         rules=rules.compatibility(Map.of("RULE_RESPAWN_TIMES",respawn,"RULE_ENABLE_FALL_ON_WATER_DAMAGE",fall));
         String name=core.name();int count=name.codePointCount(0,name.length());if(count>31)name=name.substring(0,name.offsetByCodePoints(0,31));
         String modeCode=ModeCatalog.resolve(text(raw,"game.default_mode","tdm"));var mode=ModeCatalog.get(modeCode);
-        // Hardcore uses extra rule, class and wire-profile policies. Reject until they are ported.
-        if(modeCode.startsWith("hc_"))throw new IllegalArgumentException("Hardcore scene policy is not implemented");
         return new SceneConfig(name,core.port(),core.steamId(),mode,text(raw,"game.default_map","MayanJungle"),bool(raw,"game.same_team_collision",false),bool(raw,"game.friendly_fire",false),fall,(int)Math.max(0,number(raw,"game.score_limit",10)),color(raw,"world.fog_color_rgb",0x0c0d0b),normalizeSkybox(text(raw,"world.default_skybox",DEFAULT_SKYBOX)),new Team(text(raw,"teams.team1_name","TEAM1_COLOR"),color(raw,"teams.team1_color",0x2c75b3)),new Team(text(raw,"teams.team2_name","TEAM2_COLOR"),color(raw,"teams.team2_color",0x89b32c)),rules,modeCode,AdmissionPolicy.Settings.from(raw));
     }
     public static final String DEFAULT_SKYBOX="User_Grassland.txt";

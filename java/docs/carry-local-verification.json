@@ -70,10 +70,69 @@
     "all_five_passed": false
   },
   "ci": {
-    "status": "pending",
-    "all_five_jobs_passed": false
+    "status": "incomplete_macos_in_progress",
+    "observed_at_utc": "2026-10-19T20:50:28.731613+00:00",
+    "run_id": 39321095562,
+    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39321095562",
+    "head_sha": "476739b77a55fc7f4b1c63a22c960b5e55c5692e",
+    "tested_tree": "4a746b3f1c322bc18de810ca4fb2ab0e6b9cd374",
+    "attempt": 1,
+    "all_five_jobs_passed": false,
+    "all_final_steps_verified": false,
+    "completed_job_steps_verified": true,
+    "completed_jobs": 4,
+    "completed_final_steps": 53,
+    "jobs": [
+      {
+        "id": 118295039632,
+        "name": "build",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 13
+      },
+      {
+        "id": 118295040376,
+        "name": "native-enet",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 16
+      },
+      {
+        "id": 118295730545,
+        "name": "platform (windows-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 12
+      },
+      {
+        "id": 118295730664,
+        "name": "platform (macos-latest)",
+        "status": "in_progress",
+        "conclusion": null,
+        "steps": 11
+      },
+      {
+        "id": 118295730741,
+        "name": "platform (ubuntu-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 12
+      }
+    ],
+    "configured_source_generators_reproduced": 77,
+    "repeated_archive_byte_comparison": true,
+    "identical_uploaded_artifact_smoked_on_platforms": 2,
+    "local_to_ci_artifact_hash_compared": false,
+    "summary": "Build, native ENet, Ubuntu and Windows passed; **macOS is tests are still running; all-five verification remains incomplete** for implementation `476739b77a55fc7f4b1c63a22c960b5e55c5692e`, tested tree `4a746b3f1c322bc18de810ca4fb2ab0e6b9cd374`, in [run 39321095562](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39321095562). All 53 final steps in the completed jobs succeeded or were intentionally skipped. Native impaired transport/loader checks and all 77 configured reference generators passed; the build byte-compared repeated archives. Completed platform jobs smoked the uploaded artifact and passed component/integration tests. No local-to-CI artifact hash identity or supported-client acceptance is claimed. Observed 2026-10-19T20:50:28.731613+00:00."
   },
   "full_migration_complete": false,
   "full_python_baseline_passing": false,
-  "supported_client_acceptance": false
+  "supported_client_acceptance": false,
+  "implementation_commit": "476739b77a55fc7f4b1c63a22c960b5e55c5692e",
+  "tested_tree": "4a746b3f1c322bc18de810ca4fb2ab0e6b9cd374",
+  "publication": {
+    "status": "published",
+    "branch": "port/java25",
+    "implementation_commit": "476739b77a55fc7f4b1c63a22c960b5e55c5692e"
+  }
 }

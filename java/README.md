@@ -1,6 +1,6 @@
 Migration CI policy: build, native ENet, Linux and Windows only. **Defer macOS testing until the full migration is complete**, then run macOS acceptance.
 
-Current checkpoint: [HUD markers and hosted achievement foundations](docs/HUD_ACHIEVEMENTS.md). Local verification: 6,447 Java tests, 206 selected original source tests and all four required CI jobs pass. The migration remains incomplete.
+Current checkpoint: [objective achievements and asynchronous result capture](docs/ACHIEVEMENT_OBJECTIVES.md). Local verification: 6,449 Java tests and 206 selected original source tests pass; four-job CI pending. The migration remains incomplete.
 
 # Standard hosted voting checkpoint
 

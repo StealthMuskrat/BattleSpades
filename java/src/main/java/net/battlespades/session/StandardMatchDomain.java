@@ -33,24 +33,24 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     private final Thread owner=Thread.currentThread();
     private final TomlTable raw;private final SpawnGeometry geometry;private HostedZombieRuntime zombie;private HostedDemolitionRuntime demolition;private HostedVipRuntime vip;private HostedCarryRuntime carry;private HostedCtfRuntime ctf;private HostedZoneRuntime zones;private HostedEscapeWatch escapeWatch;
     public Optional<HostedZombieRuntime> zombie(){owned();return Optional.ofNullable(zombie);}
-    public void zombieRound(HostedZombieRuntime.RoundObservation event){owned();host().achievements().ifPresent(a->a.guard("zombie_round",()->a.round(event.started())));services.zombieRound(event);}
+    public void zombieRound(HostedZombieRuntime.RoundObservation event){owned();host().achievements().ifPresent(a->a.guard("zombie_round",()->a.zombieRound(this,event)));services.zombieRound(event);}
     public boolean hardcore(){return Hardcore.enabled(config.modeCode());}
     public String baseCode(){return Hardcore.base(config.modeCode());}
     @Override public int requiredCapability(){return hardcore()?3:0;}
     public Optional<HostedDemolitionRuntime> demolition(){owned();return Optional.ofNullable(demolition);}
     public Optional<HostedVipRuntime> vip(){owned();return Optional.ofNullable(vip);}
     public void demolitionRepair(PlayerLife player,int count){owned();services.demolitionRepair(player,count);}
-    public void vipRound(HostedVipRuntime.RoundObservation event){owned();host().achievements().ifPresent(a->a.guard("vip_round",()->a.round(event.started())));services.vipRound(event);}
+    public void vipRound(HostedVipRuntime.RoundObservation event){owned();host().achievements().ifPresent(a->a.guard("vip_round",()->a.vipRound(this,event)));services.vipRound(event);}
     public void restoreGameplayMusic(){media().music().gameplay(musicEnabled);}
     public void timeoutMusic(){media().music().timeout();}
     public Optional<HostedCarryRuntime> carry(){owned();return Optional.ofNullable(carry);}
-    public void carryObservation(HostedCarryRuntime.Observation event){owned();services.carryObservation(event);}
+    public void carryObservation(HostedCarryRuntime.Observation event){owned();host().achievements().ifPresent(a->a.guard("carry",()->a.carry(this,event)));services.carryObservation(event);}
     public boolean friendlyFire(){owned();return config.friendlyFire();}
     public void openMapVote(){owned();try{if(host().voting().isPresent()){media().ensureMapVote(wall());return;}services.vote(wall());if(!media().ballot().active())media().ballot().start(maps,wall());}catch(RuntimeException e){failure("objective map vote",e);}}
     public Optional<HostedZoneRuntime> zones(){owned();return Optional.ofNullable(zones);}
     public HostedEscapeWatch escapeWatch(){owned();return Objects.requireNonNull(escapeWatch,"Escape watch not attached");}
     public Optional<HostedCtfRuntime> ctf(){owned();return Optional.ofNullable(ctf);}
-    public void hillEvent(HostedZoneRuntime.HillEvent event){owned();services.hillEvent(event);}
+    public void hillEvent(HostedZoneRuntime.HillEvent event){owned();host().achievements().ifPresent(a->a.guard("hill",()->a.hill(this,event)));services.hillEvent(event);}
     public boolean shootWithIntel(){owned();return mode instanceof CtfMode c&&c.settings().shootWithIntel();}
     public static SceneConfig modeConfig(SceneConfig config){
         String base=Hardcore.base(config.modeCode());var rules=Hardcore.enabled(config.modeCode())?Hardcore.rules(config.rules()):base.equals("cctf")?config.rules().compatibility(Map.of("RULE_ENABLE_WEAPON_CLASSIC_SMG",true,"RULE_ENABLE_WEAPON_CLASSIC_SHOTGUN",true)):config.rules();
@@ -189,7 +189,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     }
     private final class Effects implements TdmMode.Effects,ArenaMode.Effects {
         public void resetLifeCounters(){host().results().ifPresent(r->r.beforeReset(StandardMatchDomain.this));if(entities!=null){construction.mutations().clear();construction.safety().clear();prefabs.clear();entities.resetRound();corpses.reset();}binding.resetCounters();}public void matchStarted(){host().achievements().ifPresent(a->a.guard("match_started",a::matchStarted));host().results().ifPresent(r->r.begin(StandardMatchDomain.this));media().matchStarted(config.mapName());services.matchStarted();}public void gameplayMusic(){media().music().gameplay(musicEnabled);}public void rebuildResources(){if(entities!=null)entities.rebuild();services.rebuildResources();}
-        public void matchEnded(Integer winner){host().achievements().ifPresent(a->a.guard("match_ended",a::matchEnded));services.matchEnded(winner);}public void endVote(double wall){if(host().voting().isPresent())media().ensureRoundEndVote(wall);else services.endVote(wall);}public void scheduleEnd(Integer winner){if(host().roundEnding().isPresent())host().roundEnding().orElseThrow().schedule(StandardMatchDomain.this,winner);else services.scheduleEnd(winner);}public CompletionStage<Void> cancelEnd(){return host().roundEnding().map(ending->ending.cancel(StandardMatchDomain.this)).orElseGet(services::cancelEnd);}
+        public void matchEnded(Integer winner){host().achievements().ifPresent(a->a.guard("match_ended",()->a.matchEnded(StandardMatchDomain.this,winner)));services.matchEnded(winner);}public void endVote(double wall){if(host().voting().isPresent())media().ensureRoundEndVote(wall);else services.endVote(wall);}public void scheduleEnd(Integer winner){if(host().roundEnding().isPresent())host().roundEnding().orElseThrow().schedule(StandardMatchDomain.this,winner);else services.scheduleEnd(winner);}public CompletionStage<Void> cancelEnd(){return host().roundEnding().map(ending->ending.cancel(StandardMatchDomain.this)).orElseGet(services::cancelEnd);}
         public void recordDeath(Scoreboard.Player p){spawns.death(p.life);}public void escapeWatch(){StandardMatchDomain.this.escapeWatch().tick();services.escapeWatch();}public void escapeFailure(RuntimeException e){services.failure("escape",e);}public void timeoutMusic(){media().music().timeout();}public void vote(double wall){if(host().voting().isPresent())media().ensureMapVote(wall);else{services.vote(wall);media().ballot().tick(wall);}}public void cosmeticFailure(RuntimeException e){services.failure("mode cosmetic",e);}public boolean stopping(){return services.stopping();}
         public void respawn(PlayerLife p){lives.respawn(p.id());}public void respawnFailure(PlayerLife p,RuntimeException e){services.failure("arena respawn:"+p.id(),e);}
     }

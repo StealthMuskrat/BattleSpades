@@ -1,0 +1,788 @@
+[
+  {
+    "name": "zombie_awards",
+    "bot": false,
+    "steps": [
+      [
+        "zombie_start",
+        [
+          0
+        ]
+      ],
+      [
+        "kill",
+        0,
+        1,
+        0
+      ],
+      [
+        "kill",
+        0,
+        1,
+        0
+      ],
+      [
+        "kill",
+        0,
+        1,
+        0
+      ],
+      [
+        "zombie_end",
+        [
+          2
+        ]
+      ],
+      [
+        "kill",
+        0,
+        1,
+        0
+      ]
+    ],
+    "players": [
+      {
+        "progress": {},
+        "unlocked": [
+          "zombie_kills_humans",
+          "zombie_mvp"
+        ]
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      },
+      {
+        "progress": {},
+        "unlocked": [
+          "zombie_survivor"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bot_competition",
+    "bot": true,
+    "steps": [
+      [
+        "zombie_start",
+        [
+          0
+        ]
+      ],
+      [
+        "kill",
+        0,
+        1,
+        0
+      ],
+      [
+        "kill",
+        2,
+        0,
+        0
+      ],
+      [
+        "kill",
+        2,
+        0,
+        0
+      ],
+      [
+        "zombie_end",
+        []
+      ]
+    ],
+    "players": [
+      {
+        "progress": {},
+        "unlocked": []
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      }
+    ]
+  },
+  {
+    "name": "vip_awards",
+    "bot": false,
+    "steps": [
+      [
+        "vip_start",
+        [
+          0,
+          1
+        ]
+      ],
+      [
+        "kill",
+        0,
+        2,
+        0
+      ],
+      [
+        "kill",
+        0,
+        2,
+        0
+      ],
+      [
+        "vip_end",
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    ],
+    "players": [
+      {
+        "progress": {},
+        "unlocked": [
+          "vip_mvp"
+        ]
+      },
+      {
+        "progress": {},
+        "unlocked": [
+          "vip_pacifist"
+        ]
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      }
+    ]
+  },
+  {
+    "name": "vip_round_reset",
+    "bot": false,
+    "steps": [
+      [
+        "vip_start",
+        [
+          0,
+          1
+        ]
+      ],
+      [
+        "kill",
+        0,
+        2,
+        0
+      ],
+      [
+        "vip_start",
+        [
+          0,
+          1
+        ]
+      ],
+      [
+        "vip_end",
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    ],
+    "players": [
+      {
+        "progress": {},
+        "unlocked": [
+          "vip_pacifist"
+        ]
+      },
+      {
+        "progress": {},
+        "unlocked": [
+          "vip_pacifist"
+        ]
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      }
+    ]
+  },
+  {
+    "name": "diamonds",
+    "bot": false,
+    "steps": [
+      [
+        "carry",
+        "diamond_picked_up",
+        0,
+        1,
+        10,
+        false,
+        5,
+        1
+      ],
+      [
+        "carry",
+        "diamond_cashed_in",
+        0,
+        null,
+        10,
+        false,
+        null,
+        2
+      ],
+      [
+        "carry",
+        "diamond_picked_up",
+        0,
+        null,
+        11,
+        true,
+        null,
+        3
+      ],
+      [
+        "carry",
+        "diamond_cashed_in",
+        0,
+        null,
+        11,
+        true,
+        null,
+        2
+      ],
+      [
+        "carry",
+        "diamond_cashed_in",
+        0,
+        null,
+        12,
+        true,
+        null,
+        2
+      ],
+      [
+        "carry",
+        "diamond_cashed_in",
+        0,
+        null,
+        13,
+        true,
+        null,
+        2
+      ]
+    ],
+    "players": [
+      {
+        "progress": {
+          "diamond_thief_count": 1,
+          "diamond_interceptor_count": 1
+        },
+        "unlocked": [
+          "diamond_collector",
+          "diamond_hotfoot"
+        ]
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      }
+    ]
+  },
+  {
+    "name": "diamond_retake",
+    "bot": false,
+    "steps": [
+      [
+        "carry",
+        "diamond_picked_up",
+        0,
+        1,
+        10,
+        false,
+        5.01,
+        1
+      ],
+      [
+        "carry",
+        "diamond_picked_up",
+        2,
+        null,
+        10,
+        true,
+        null,
+        2
+      ],
+      [
+        "carry",
+        "diamond_cashed_in",
+        2,
+        null,
+        10,
+        false,
+        null,
+        3
+      ]
+    ],
+    "players": [
+      {
+        "progress": {},
+        "unlocked": []
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      },
+      {
+        "progress": {
+          "diamond_interceptor_count": 1
+        },
+        "unlocked": []
+      }
+    ]
+  },
+  {
+    "name": "bomb_attack",
+    "bot": false,
+    "steps": [
+      [
+        "carry",
+        "bomb_picked_up",
+        0,
+        null,
+        10,
+        true,
+        null,
+        2
+      ],
+      [
+        "carry",
+        "bomb_dropped",
+        0,
+        null,
+        10,
+        true,
+        null,
+        2
+      ],
+      [
+        "carry",
+        "bomb_detonated",
+        0,
+        null,
+        10,
+        true,
+        null,
+        2
+      ],
+      [
+        "match_end",
+        2
+      ]
+    ],
+    "players": [
+      {
+        "progress": {},
+        "unlocked": [
+          "bomb_final_bomber",
+          "bomb_hotfoot",
+          "bomb_survivor"
+        ]
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      }
+    ]
+  },
+  {
+    "name": "bomb_intercept",
+    "bot": false,
+    "steps": [
+      [
+        "carry",
+        "bomb_picked_up",
+        0,
+        null,
+        10,
+        true,
+        null,
+        2
+      ],
+      [
+        "carry",
+        "bomb_carrier_killed",
+        1,
+        0,
+        10,
+        false,
+        null,
+        3
+      ],
+      [
+        "carry",
+        "bomb_detonated",
+        null,
+        null,
+        10,
+        false,
+        null,
+        1
+      ]
+    ],
+    "players": [
+      {
+        "progress": {},
+        "unlocked": []
+      },
+      {
+        "progress": {
+          "bomb_interceptor_count": 1
+        },
+        "unlocked": []
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      }
+    ]
+  },
+  {
+    "name": "bomb_recovered",
+    "bot": false,
+    "steps": [
+      [
+        "carry",
+        "bomb_carrier_killed",
+        1,
+        0,
+        10,
+        false,
+        null,
+        3
+      ],
+      [
+        "carry",
+        "bomb_picked_up",
+        0,
+        null,
+        10,
+        false,
+        null,
+        2
+      ],
+      [
+        "carry",
+        "bomb_detonated",
+        null,
+        null,
+        10,
+        false,
+        null,
+        1
+      ]
+    ],
+    "players": [
+      {
+        "progress": {},
+        "unlocked": []
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      }
+    ]
+  },
+  {
+    "name": "intel_return",
+    "bot": false,
+    "steps": [
+      [
+        "intel_kill",
+        0,
+        1,
+        2,
+        0
+      ],
+      [
+        "intel_return",
+        2
+      ],
+      [
+        "intel_return",
+        2
+      ],
+      [
+        "intel_kill",
+        0,
+        1,
+        2,
+        0
+      ],
+      [
+        "intel_pickup",
+        2
+      ],
+      [
+        "intel_return",
+        2
+      ]
+    ],
+    "players": [
+      {
+        "progress": {
+          "intel_defence_count": 1
+        },
+        "unlocked": []
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      }
+    ]
+  },
+  {
+    "name": "intel_transition",
+    "bot": false,
+    "steps": [
+      [
+        "intel_kill",
+        0,
+        1,
+        2,
+        9
+      ],
+      [
+        "intel_return",
+        2
+      ]
+    ],
+    "players": [
+      {
+        "progress": {},
+        "unlocked": []
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      }
+    ]
+  },
+  {
+    "name": "hill_awards",
+    "bot": false,
+    "steps": [
+      [
+        "hill_score",
+        0
+      ],
+      [
+        "hill_contest",
+        [
+          0
+        ],
+        true
+      ],
+      [
+        "hill_contest",
+        [
+          1
+        ],
+        false
+      ],
+      [
+        "hill_kill",
+        0,
+        1,
+        true,
+        true
+      ],
+      [
+        "hill_expired",
+        [
+          0,
+          1
+        ]
+      ],
+      [
+        "move",
+        1,
+        50,
+        50,
+        97
+      ],
+      [
+        "tick",
+        1
+      ]
+    ],
+    "players": [
+      {
+        "progress": {
+          "hill_defender_count": 1,
+          "hill_kill_shooting_out_count": 1,
+          "hill_kill_shooting_in_count": 1,
+          "hill_strike_survivor_count": 1
+        },
+        "unlocked": [
+          "hill_greedy",
+          "hill_strike_stay_put"
+        ]
+      },
+      {
+        "progress": {
+          "hill_interceptor_count": 1,
+          "hill_strike_survivor_count": 1
+        },
+        "unlocked": []
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      }
+    ]
+  },
+  {
+    "name": "hill_shared",
+    "bot": false,
+    "steps": [
+      [
+        "hill_score",
+        0
+      ],
+      [
+        "hill_score",
+        1
+      ],
+      [
+        "hill_expired",
+        [
+          0,
+          1
+        ]
+      ],
+      [
+        "dead",
+        1
+      ],
+      [
+        "tick",
+        0.5
+      ],
+      [
+        "tick",
+        0.5
+      ]
+    ],
+    "players": [
+      {
+        "progress": {
+          "hill_strike_survivor_count": 1
+        },
+        "unlocked": [
+          "hill_strike_stay_put"
+        ]
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      }
+    ]
+  },
+  {
+    "name": "match_reset",
+    "bot": false,
+    "steps": [
+      [
+        "carry",
+        "diamond_picked_up",
+        0,
+        1,
+        10,
+        false,
+        2,
+        1
+      ],
+      [
+        "hill_score",
+        0
+      ],
+      [
+        "intel_kill",
+        0,
+        1,
+        2,
+        0
+      ],
+      [
+        "match_start"
+      ],
+      [
+        "carry",
+        "diamond_cashed_in",
+        0,
+        null,
+        10,
+        false,
+        null,
+        2
+      ],
+      [
+        "intel_return",
+        2
+      ],
+      [
+        "hill_expired",
+        []
+      ]
+    ],
+    "players": [
+      {
+        "progress": {},
+        "unlocked": []
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      },
+      {
+        "progress": {},
+        "unlocked": []
+      }
+    ]
+  }
+]

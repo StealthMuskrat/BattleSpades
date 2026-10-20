@@ -1,0 +1,99 @@
+{
+  "parent": "2ea4e9f54c0e7880166b72cef3b52d3bae547a91",
+  "observed_utc": "2026-10-20T17:20:40.737233+00:00",
+  "jar_sha256": "53ad2600de8a453917d045bec07e0aaa8826788a8ae5f01a185edaf4b7dc5588",
+  "jar_bytes": 2835407,
+  "jar_crc_valid": true,
+  "class_major": 69,
+  "junit": {
+    "test": {
+      "suites": 119,
+      "tests": 6366,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 5,
+      "tests": 83,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "java_tests": 6449,
+  "source": {
+    "tests": 206,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "source_modules": [
+    "tests/test_hud_packets.py",
+    "tests/test_achievements.py",
+    "tests/test_achievement_rules.py"
+  ],
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "seven_source_directories_unchanged": true,
+  "frozen_resources_unchanged": 265,
+  "new_resources": 1,
+  "configured_reference_generators": 80,
+  "smokes": [
+    {
+      "args": [
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "BattleSpades 0.1.0-java25-dev; protocol 168; gameplay incomplete\n",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+    },
+    {
+      "args": [
+        "--check-config",
+        "config.toml"
+      ],
+      "exit": 0,
+      "stdout": "Core configuration valid: BattleSpades Server, UDP 27015, 24 players, 60 Hz\nValidation covers core/network/join, Match Lobby rules and common scene settings; full gameplay is pending.\n",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+    },
+    {
+      "args": [
+        "--help"
+      ],
+      "exit": 0,
+      "stdout": "BattleSpades Java 25: world creator and migration diagnostics\n  java -jar BattleSpades.jar --check-config PATH\n  java -jar BattleSpades.jar --version\n  java -jar BattleSpades.jar --results-import INPUT_NDJSON OUTBOX_DIRECTORY\n  java -jar BattleSpades.jar --ugc-assets RETAIL_ROOT\n  java -jar BattleSpades.jar --ugc-create RETAIL_ROOT DIRECTORY NAME TERRAIN MODE\n  java -jar BattleSpades.jar --ugc-check DIRECTORY NAME\n  java -jar BattleSpades.jar --ugc-host --retail-root RETAIL_ROOT --project NAME [--config PATH] [--publish-root hosted_ugc] [--control-stdin]\n",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+    },
+    {
+      "args": [
+        "--ugc-host",
+        "/workspace/scratch/dc9e10c1d797/tmp/nonexistent-hud-review-project"
+      ],
+      "exit": 2,
+      "stdout": "",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\nWorld creator error: Unexpected creator argument: /workspace/scratch/dc9e10c1d797/tmp/nonexistent-hud-review-project\n"
+    },
+    {
+      "args": [],
+      "exit": 2,
+      "stdout": "",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\nOrdinary gameplay startup is incomplete. Use --ugc-host for world creation.\nUse --help for commands.\n"
+    }
+  ],
+  "full_reference_python_baseline_passing": false,
+  "intact_source_observations": {
+    "tier_boundaries": 134,
+    "combat_traces": 8,
+    "objective_subround_traces": 14,
+    "native_billboard_vectors": 68,
+    "legacy_sqlite_export": true
+  },
+  "full_migration_complete": false,
+  "macos_deferred_until_full_migration_complete": true,
+  "scope_limitations": [
+    "Explosion scopes, authored achievement regions, terrain/crate and demolition achievement rules remain incomplete",
+    "Achievement store and result outbox are distinct durable transactions; abrupt process loss between handoff and envelope persistence is not atomic",
+    "Portable achievement file uses the common 8 MiB document limit; full fleet capacity unverified",
+    "Ordinary standalone hosting and supported-client acceptance remain incomplete"
+  ]
+}

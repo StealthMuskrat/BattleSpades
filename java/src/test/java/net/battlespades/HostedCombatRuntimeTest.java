@@ -42,6 +42,26 @@ class HostedCombatRuntimeTest {
             }
         }
     }
+    @SuppressWarnings("unchecked") @Test void originalObjectiveTracesRetainCarryHistorySubroundScopesAndHillSurvivors()throws Exception{
+        List<?> traces;try(var in=Objects.requireNonNull(getClass().getResourceAsStream("/golden/achievement-objectives.json"))){traces=(List<?>)MetadataDocument.json(new String(in.readAllBytes(),java.nio.charset.StandardCharsets.UTF_8));}
+        for(var value:traces){var trace=(Map<String,Object>)value;var ref=new java.util.concurrent.atomic.AtomicReference<HostedAchievements>();try(var h=new Harness(temp.resolve(trace.get("name")+".vxl"),false,(host,loop,ports)->ref.set(new HostedAchievements(host,HostedAchievements.prepare(null).toCompletableFuture().get(),session->Optional.empty(),ports,loop,true)))){
+            var engine=ref.get();var players=new PlayerLife[]{h.admit(0,2,new Vector(10,10,97)),h.admit(1,3,new Vector(10,10,97)),h.admit(2,3,new Vector(10,10,97))};players[2].bot((Boolean)trace.get("bot"));var zone=new net.battlespades.match.ObjectiveZone(0,5,15,5,15,90,100,new Vector(10,10,97));
+            for(var stepValue:(List<?>)trace.get("steps")){var step=(List<Object>)stepValue;String op=(String)step.getFirst();switch(op){
+                case "zombie_start","zombie_end"->h.match.zombieRound(new HostedZombieRuntime.RoundObservation(op.equals("zombie_start"),((List<Number>)step.get(1)).stream().map(i->players[i.intValue()]).toList()));
+                case "vip_start","vip_end"->{var ids=(List<Number>)step.get(1);h.match.vipRound(new HostedVipRuntime.RoundObservation(op.equals("vip_start"),Map.of(2,players[ids.get(0).intValue()],3,players[ids.get(1).intValue()]),op.equals("vip_start")?Set.of(2,3):new HashSet<>(((List<Number>)step.get(2)).stream().map(Number::intValue).toList())));}
+                case "kill"->{var victim=players[n(step,2)];assertTrue(h.match.lives().die(victim.id(),n(step,1),n(step,3)),trace.get("name").toString());h.match.lives().respawn(victim.id());victim.body().position(new Vector(10,10,97));}
+                case "match_start"->engine.matchStarted();case "match_end"->engine.matchEnded(h.match,n(step,1));
+                case "carry"->h.match.carryObservation(new HostedCarryRuntime.Observation((String)step.get(1),step.get(2)==null?null:players[n(step,2)],step.get(3)==null?null:players[n(step,3)],n(step,4),(Boolean)step.get(5),step.get(6)==null?null:((Number)step.get(6)).doubleValue(),new Vector(10,10,97),n(step,7)));
+                case "intel_kill"->engine.intelCarrierKilled(h.match,players[n(step,1)],players[n(step,2)],n(step,3),n(step,4));case "intel_return"->engine.intelReturned(h.match,n(step,1));case "intel_pickup"->engine.intelPickedUp(n(step,1));
+                case "hill_score"->h.match.hillEvent(new HostedZoneRuntime.Scored(zone,players[n(step,1)]));case "hill_contest"->h.match.hillEvent(new HostedZoneRuntime.ContestWon(((List<Number>)step.get(1)).stream().map(i->players[i.intValue()]).toList(),(Boolean)step.get(2)));
+                case "hill_kill"->h.match.hillEvent(new HostedZoneRuntime.HillKill(players[n(step,1)],players[n(step,2)],(Boolean)step.get(3),(Boolean)step.get(4)));
+                case "hill_expired"->{var inside=new HashMap<Integer,PlayerLife>();var teams=new HashMap<Integer,Integer>();for(var id:(List<Number>)step.get(1)){var p=players[id.intValue()];inside.put(p.id(),p);teams.put(p.id(),p.team());}h.match.hillEvent(new HostedZoneRuntime.Expired(zone,inside,teams));}
+                case "move"->players[n(step,1)].body().position(new Vector(((Number)step.get(2)).doubleValue(),((Number)step.get(3)).doubleValue(),((Number)step.get(4)).doubleValue()));case "dead"->h.match.lives().die(n(step,1),null,0);case "tick"->engine.tick(h.match,((Number)step.get(1)).doubleValue());default->fail(op);
+            }}
+            var expected=(List<Map<String,Object>>)trace.get("players");for(int i=0;i<3;i++){if(players[i].bot())continue;String identity="name:p"+i;var handoff=engine.takeUnreported(identity).toCompletableFuture();long deadline=System.nanoTime()+4_000_000_000L;while(!handoff.isDone()){assertTrue(System.nanoTime()<deadline);h.loop.pump(h.loop.nowNanos()+1_000_000);Thread.onSpinWait();}assertEquals(expected.get(i).get("unlocked"),handoff.join().stream().sorted().toList(),trace.get("name")+" P"+i);var counters=new TreeMap<String,Long>();((Map<String,Number>)expected.get(i).get("progress")).forEach((k,v)->counters.put(k,v.longValue()));assertEquals(counters,engine.progress(identity),trace.get("name")+" P"+i);}assertTrue(engine.faults().isEmpty(),engine.faults().toString());
+        }}
+    }
+    private static int n(List<?> row,int index){return ((Number)row.get(index)).intValue();}
     @Test void ownedShotTargetsFriendlyFireWithoutChangingProfileOpponentRelationAndRejectsBeforeAmmo()throws Exception{
         for(boolean friendly:new boolean[]{false,true})try(var h=new Harness(temp.resolve("Combat"+friendly+".vxl"),friendly)){
             var p=h.admit(0,2,new Vector(10,10,97));var ally=h.admit(1,2,new Vector(13,10,96.5));var enemy=h.admit(2,3,new Vector(16,10,96.5));p.fire().tool(6,true);p.inventory().ammo(8,100);h.fire(p,100,1000,p.position());

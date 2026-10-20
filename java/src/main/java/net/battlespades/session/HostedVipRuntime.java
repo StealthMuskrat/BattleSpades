@@ -35,6 +35,7 @@ public final class HostedVipRuntime implements AutoCloseable {
     private List<PlayerLife> candidates(int team,PlayerLife exclude){return match.lives().players().stream().filter(p->p!=exclude&&p.team()==team&&(p.bot()||host.inGame(p.id()))).toList();}
     private boolean ready(PlayerLife exclude){return TEAMS.stream().allMatch(t->candidates(t,exclude).size()>=settings.minimum());}
     public Phase phase(){return phase;}public boolean active(){return phase==Phase.ACTIVE;}public int rounds(){return rounds;}
+    RoundObservation roundObservation(){return new RoundObservation(false,vips,alive);}
     public Optional<PlayerLife> vip(int team){return Optional.ofNullable(vips.get(team));}
     public boolean marked(PlayerLife p){return vips.values().stream().anyMatch(v->v==p);}
     public boolean liveVip(PlayerLife p){return p!=null&&vips.get(p.team())==p&&alive.contains(p.team());}

@@ -21,6 +21,7 @@ public final class HostedTransitionServices implements MatchTransitions.Services
     private final ApplicationHost host;
     private final OwnerLoop loop;
     private final Bindings bindings;
+    private RoundRestart<net.battlespades.player.PlayerLife> restart;
     public HostedTransitionServices(HostedSceneState state,ApplicationHost host,OwnerLoop loop,Bindings bindings){this.state=Objects.requireNonNull(state);this.host=Objects.requireNonNull(host);this.loop=Objects.requireNonNull(loop);this.bindings=Objects.requireNonNull(bindings);state.attach(host);}
     public SceneRollover.State state(){return state.snapshot();}
     public List<SceneRollover.Peer> peers(){return new SessionTransitions(host,state::scene,state.domain().transitionRoster(),loop).peers();}
@@ -40,5 +41,6 @@ public final class HostedTransitionServices implements MatchTransitions.Services
     public CompletionStage<Void> prepareBots(){return bindings.prepareBots();}public double graceSeconds(){return bindings.graceSeconds();}
     public void resetRuntime(){bindings.resetRuntime();}public void resetRepair(){bindings.resetRepair();}public void resetJournal(){bindings.resetJournal();}public void resetHud(){bindings.resetHud();}
     public void notePlayed(String map){host.voting().ifPresent(voting->voting.service().rotation().notePlayed(map));bindings.notePlayed(map);}public CompletionStage<Void> rebindBots(){return bindings.rebindBots();}
-    public CompletionStage<Void> restartRound(TransitionMode mode){if(state.domain() instanceof StandardMatchDomain match){if(mode!=match.mode())throw new IllegalArgumentException("Restart mode is not the active domain");return HostedRoundRestart.run(match,host,loop,bindings::prepareBots,bindings::resetBotsAfterRestart,bindings::resetHud);}return bindings.restartRound(mode);}public void failure(String label,Throwable error){bindings.failure(label,error);}
+    public CompletionStage<Void> restartRound(TransitionMode mode){if(state.domain() instanceof StandardMatchDomain match){if(mode!=match.mode())throw new IllegalArgumentException("Restart mode is not the active domain");if(restart!=null)throw new IllegalStateException("Hosted restart already running");var task=HostedRoundRestart.create(match,host,loop,bindings::prepareBots,bindings::resetBotsAfterRestart,bindings::resetHud);restart=task;try{return task.run().whenComplete((unused,error)->{if(restart==task)restart=null;});}catch(RuntimeException|Error error){restart=null;throw error;}}return bindings.restartRound(mode);}public CompletionStage<Void> cancelRestart(){return restart==null?CompletableFuture.completedFuture(null):restart.cancel();}
+    public void failure(String label,Throwable error){bindings.failure(label,error);}
 }

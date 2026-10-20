@@ -14,6 +14,7 @@ import net.battlespades.world.WorldPreflight;
 public final class MatchTransitions<C> implements RoundEndSequence.Transition {
     public interface Services<C> extends SceneRollover.Services<C> {
         CompletionStage<Void> restartRound(TransitionMode mode);
+        default CompletionStage<Void> cancelRestart(){return CompletableFuture.completedFuture(null);}
         /** Optional resource ownership: called only after a completed change or completed rollback recovery. */
         default void transitionFinished(){}
     }
@@ -24,6 +25,27 @@ public final class MatchTransitions<C> implements RoundEndSequence.Transition {
     private final BiFunction<String,String,CompletionStage<C>> load;
     private final Executor schedule;
     private boolean preparing,inProgress;
+    private Ending ending;
+    private static final class Ending {
+        final CompletableFuture<RoundEndSequence.Result> result;
+        CompletionStage<RoundEndSequence.Result> settled;
+        CompletableFuture<?> wait;
+        boolean boundary,restart,retired;
+        Ending(CompletableFuture<RoundEndSequence.Result> result){this.result=result;settled=result;}
+        void check(){if(retired)throw new CancellationException("Ending transition retired");}
+    }
+    /** Pure preflight/dwell may be invalidated. A scene transaction must settle before its owner is released. */
+    public CompletionStage<Void> retireEnding(){
+        owner.owned();var task=ending;if(task==null)return CompletableFuture.completedFuture(null);task.retired=true;
+        if(!task.boundary){if(task.wait!=null)task.wait.cancel(false);task.result.completeExceptionally(new CancellationException("Ending transition retired"));}
+        CompletionStage<Void> cleanup;try{cleanup=task.restart?services.cancelRestart():CompletableFuture.completedFuture(null);}catch(RuntimeException error){cleanup=CompletableFuture.failedFuture(error);}
+        var done=new CompletableFuture<Void>();cleanup.whenComplete((unused,cleanupError)->owner.resume(()->task.settled.whenComplete((value,error)->owner.resume(()->{
+            var cause=error==null?null:OwnerSequence.cause(error);if(cause instanceof CancellationException)cause=null;
+            var fault=cleanupError==null?cause:OwnerSequence.cause(cleanupError);if(fault!=null&&cause!=null&&fault!=cause)fault.addSuppressed(cause);
+            if(fault==null)done.complete(null);else done.completeExceptionally(fault);
+        },done)),done));return done.minimalCompletionStage();
+    }
+
     private CompletableFuture<RoundEndSequence.Result> request;
     public MatchTransitions(Services<C> services,BiFunction<String,String,CompletionStage<C>> load,Executor resume){
         this.services=Objects.requireNonNull(services);this.load=Objects.requireNonNull(load);schedule=Objects.requireNonNull(resume);owner=new OwnerSequence(resume);rollover=new SceneRollover<>(services,resume);
@@ -71,17 +93,18 @@ public final class MatchTransitions<C> implements RoundEndSequence.Transition {
     private CompletionStage<RoundEndSequence.Result> change(String map,Double seconds,Integer headline,boolean ownEnding,CompletableFuture<RoundEndSequence.Result> permit,boolean modeChange,String code){
         owner.owned();if(busy(permit))return CompletableFuture.completedFuture(result(false,BUSY));String name=WorldPreflight.normalize(map);
         if(!modeChange){if(name.isEmpty())return CompletableFuture.completedFuture(result(false,"Invalid or empty map name"));if(currentMap(name))return CompletableFuture.completedFuture(result(true,"Map "+name+" is already loaded"));}
-        preparing=true;var done=new CompletableFuture<RoundEndSequence.Result>();
-        var returned=done.handle((value,error)->{try{if(error!=null)throw new CompletionException(OwnerSequence.cause(error));return value;}finally{preparing=false;inProgress=false;}});
+        preparing=true;var done=new CompletableFuture<RoundEndSequence.Result>();var task=ownEnding?new Ending(done):null;if(task!=null)ending=task;
+        var returned=done.handle((value,error)->{try{if(error!=null)throw new CompletionException(OwnerSequence.cause(error));return value;}finally{preparing=false;inProgress=false;if(ending==task)ending=null;}});if(task!=null)task.settled=returned;
         CompletionStage<C> candidate;try{candidate=Objects.requireNonNull(load.apply(name,code));}catch(Throwable error){preflightFailure(done,error,name,code,modeChange);return returned.minimalCompletionStage();}
         candidate.whenComplete((world,error)->owner.resume(()->{
+            if(task!=null&&task.retired)return;
             if(error!=null){preflightFailure(done,OwnerSequence.cause(error),name,code,modeChange);return;}
             var actions=new ArrayList<Supplier<CompletionStage<Void>>>();
             if(seconds!=null){double dwell=TransitionPackets.bound(seconds,120);actions.add(()->{
                 if(TransitionPackets.supportsStatistics(ScenePackets.displayName(services.state().map()))){for(var packet:TransitionPackets.statistics(dwell,headline))services.broadcast(packet);services.flush();}
-                return dwell>0?services.sleep(dwell):CompletableFuture.completedFuture(null);
+                var wait=dwell>0?services.sleep(dwell):CompletableFuture.<Void>completedFuture(null);if(task!=null)task.wait=wait.toCompletableFuture();return wait;
             });}
-            actions.add(()->{inProgress=true;return rollover.run(name,code,world,ownEnding).thenAccept(value->{services.transitionFinished();done.complete(value);});});
+            actions.add(()->{if(task!=null){task.check();task.wait=null;task.boundary=true;}inProgress=true;return rollover.run(name,code,world,ownEnding).thenAccept(value->{services.transitionFinished();done.complete(value);});});
             owner.run(actions.iterator()).whenComplete((unused,fault)->owner.resume(()->{if(fault!=null)done.completeExceptionally(OwnerSequence.cause(fault));},done));
         },done));return returned.minimalCompletionStage();
     }
@@ -95,7 +118,8 @@ public final class MatchTransitions<C> implements RoundEndSequence.Transition {
     private CompletionStage<RoundEndSequence.Result> restart(boolean ownEnding){
         owner.owned();if(busy())return CompletableFuture.completedFuture(result(false,BUSY));inProgress=true;var done=new CompletableFuture<RoundEndSequence.Result>();var mode=services.state().mode();
         if(mode==null){inProgress=false;return CompletableFuture.completedFuture(result(false,"No active game mode"));}
-        var actions=List.<Supplier<CompletionStage<Void>>>of(()->mode.cancelForTransition(ownEnding),()->{services.resetVote();mode.beginRetirement(false);return services.drainLeaves(mode);},()->{services.discardTimeline();return services.restartRound(mode);});
-        owner.run(actions.iterator()).whenComplete((unused,error)->owner.resume(()->{inProgress=false;if(error==null)done.complete(result(true,"Match restarted"));else{var cause=OwnerSequence.cause(error);if(cause instanceof Error||cause instanceof CancellationException)done.completeExceptionally(cause);else{services.failure("same-map round restart",cause);done.complete(result(false,"Match restart failed; see server log"));}}},done));return done.minimalCompletionStage();
+        var task=ownEnding?new Ending(done):null;if(task!=null){task.boundary=true;task.restart=true;ending=task;}
+        var actions=List.<Supplier<CompletionStage<Void>>>of(()->mode.cancelForTransition(ownEnding),()->{services.resetVote();mode.beginRetirement(false);return services.drainLeaves(mode);},()->{if(task!=null)task.check();services.discardTimeline();return services.restartRound(mode);});
+        owner.run(actions.iterator()).whenComplete((unused,error)->owner.resume(()->{inProgress=false;if(ending==task)ending=null;if(error==null)done.complete(result(true,"Match restarted"));else{var cause=OwnerSequence.cause(error);if(cause instanceof Error||cause instanceof CancellationException)done.completeExceptionally(cause);else{services.failure("same-map round restart",cause);done.complete(result(false,"Match restart failed; see server log"));}}},done));return done.minimalCompletionStage();
     }
 }

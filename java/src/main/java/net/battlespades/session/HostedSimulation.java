@@ -76,7 +76,7 @@ public final class HostedSimulation {
         var result=new CompletableFuture<Void>();stopping=result.minimalCompletionStage();
         batch.whenComplete((count,error)->sequence.resume(()->{
             Throwable prior=error==null?null:OwnerSequence.cause(error);
-            CompletionStage<Void> deactivate;try{deactivate=sequence.run(List.<Supplier<CompletionStage<Void>>>of(host::shutdownResults,()->match.get().mode().deactivate()).iterator());}catch(RuntimeException|Error failure){if(prior!=null)failure.addSuppressed(prior);result.completeExceptionally(failure);return;}
+            CompletionStage<Void> deactivate;try{deactivate=sequence.run(List.<Supplier<CompletionStage<Void>>>of(host::shutdownEndings,()->match.get().mode().deactivate(),host::shutdownResults).iterator());}catch(RuntimeException|Error failure){if(prior!=null)failure.addSuppressed(prior);result.completeExceptionally(failure);return;}
             deactivate.whenComplete((unused,cleanup)->sequence.resume(()->{Throwable root=cleanup==null?prior:OwnerSequence.cause(cleanup);if(cleanup!=null&&prior!=null&&root!=prior)root.addSuppressed(prior);if(root==null)result.complete(null);else result.completeExceptionally(root);},result));
         },result));return stopping;
     }

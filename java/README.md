@@ -1,3 +1,5 @@
+Current checkpoint: [hosted round ending, presentation, restart/rollover ownership and shutdown](docs/HOSTED_ROUND_ENDING.md). Local verification: 6,435 Java tests pass; CI pending. The migration remains incomplete.
+
 # Standard hosted voting checkpoint
 
 Ranked rotation, map ballots and vote-kick policy now share the standard host lifecycle, admission and frame scheduler. See [HOSTED_VOTING.md](docs/HOSTED_VOTING.md). The broader migration remains incomplete.

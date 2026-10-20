@@ -1,0 +1,85 @@
+{
+  "parent": "e04eb5be9892a86971155e0f0442f42196775e17",
+  "junit": {
+    "test": {
+      "suites": 116,
+      "tests": 6357,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 5,
+      "tests": 78,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "source_tests": {
+    "tests": 36,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "failed_cases": [
+      {
+        "name": "test_zombie_outbreak_publishes_team_and_class_locks_and_locks_survivor_class",
+        "class": "tests.test_retail_end_screen",
+        "message": "AttributeError: '_Server' object has no attribute 'respawn_player'"
+      }
+    ],
+    "files": [
+      "tests/test_end_sequence.py",
+      "tests/test_retail_end_screen.py",
+      "tests/test_round_runtime_reset.py",
+      "tests/test_match_transitions.py"
+    ]
+  },
+  "jar_bytes": 2715579,
+  "jar_sha256": "f6d06ee3ca3543d5e82c6c2aabff2857ff61df800af17282f51e17614d4c2304",
+  "jar_crc_valid": true,
+  "class_major": 69,
+  "smoke": {
+    "version": {
+      "exit": 0,
+      "output": "BattleSpades 0.1.0-java25-dev; protocol 168; gameplay incomplete\n"
+    },
+    "config": {
+      "exit": 0,
+      "output": "Core configuration valid: BattleSpades Server, UDP 27015, 24 players, 60 Hz\nValidation covers core/network/join, Match Lobby rules and common scene settings; full gameplay is pending.\n"
+    },
+    "help": {
+      "exit": 0,
+      "output": "BattleSpades Java 25: world creator and migration diagnostics\n  java -jar BattleSpades.jar --check-config PATH\n  java -jar BattleSpades.jar --version\n  java -jar BattleSpades.jar --results-import INPUT_NDJSON OUTBOX_DIRECTORY\n  java -jar BattleSpades.jar --ugc-assets RETAIL_ROOT\n  java -jar BattleSpades.jar --ugc-create RETAIL_ROOT DIRECTORY NAME TERRAIN MODE\n  java -jar BattleSpades.jar --ugc-check DIRECTORY NAME\n  java -jar BattleSpades.jar --ugc-host --retail-root RETAIL_ROOT --project NAME [--config PATH] [--publish-root hosted_ugc] [--control-stdin]\n"
+    },
+    "missing_ugc": {
+      "exit": 2,
+      "output": "World creator error: Unexpected creator argument: /workspace/scratch/dc9e10c1d797/nonexistent-ending-project\n"
+    },
+    "ordinary_start": {
+      "exit": 2,
+      "output": "Ordinary gameplay startup is incomplete. Use --ugc-host for world creation.\nUse --help for commands.\n"
+    }
+  },
+  "full_migration_complete": false,
+  "full_python_baseline_passing": false,
+  "first_archive_discarded": {
+    "bytes": 1796557,
+    "reason": "BadZipFile; existing packaged integration subprocesses rejected the incomplete archive"
+  },
+  "initial_source_collection_corrections": "Restored native shared/aoslib extension paths from the preserved workspace; native sources unchanged.",
+  "final_java_log": "hosted-ending-java-final.log",
+  "observed_utc": "2026-10-20T14:31:41.956824+00:00",
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "seven_source_directories_unchanged": true,
+  "frozen_resources_unchanged": 263,
+  "java_tests": 6435,
+  "local_repeated_archive_comparison": false,
+  "configured_reference_generators": 79,
+  "implementation_families": [
+    "hosted ending and final results presentation",
+    "retained in-place restart and cancellation",
+    "ending-owned rollover retirement",
+    "mode-specific native headlines and ordered shutdown"
+  ]
+}

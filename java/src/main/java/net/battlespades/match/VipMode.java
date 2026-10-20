@@ -15,6 +15,7 @@ public final class VipMode extends BaseRoundMode {
     }
     private final Settings settings;private final Supplier<HostedVipRuntime> runtime;
     public VipMode(Settings settings,Supplier<HostedVipRuntime> runtime,Supplier<List<TeamState>> teams,Supplier<Map<Integer,Scoreboard.Player>> players,Function<PlayerLife,Optional<Scoreboard.Peer>> peer,Scoreboard board,DoubleSupplier wall,DoubleSupplier monotonic,IntSupplier queued,Consumer<GamePacket> reliable,Effects effects,Executor resume){super("vip",settings.target(),settings.seconds(),settings.scoreboard(),teams,players,peer,board,wall,monotonic,queued,reliable,effects,resume);this.settings=settings;this.runtime=runtime;}
+    @Override public int endMessageId(Integer winning){sequence.owned();return winning==null?8:winning==2?6:winning==3?7:8;}
     public Settings settings(){return settings;}
     public void start(){runtime.get().deactivate();super.start();for(var t:teams.get())t.reset();runtime.get().start();}
     public CompletionStage<Void> tick(int tick){return sequence.run(List.<Supplier<CompletionStage<Void>>>of(()->clock.tickRemaining(wall.getAsDouble(),queued.getAsInt(),runtime.get().remaining(),runtime.get().active(),false),()->{if(!clock.ended&&!clock.retiring)runtime.get().tick();return CompletableFuture.completedFuture(null);}).iterator());}

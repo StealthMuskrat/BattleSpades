@@ -10,7 +10,7 @@ import net.battlespades.runtime.OwnerLoop;
 
 /** In-place restart: real mode/objective, entity, score and connected-life owners; bot/HUD services remain explicit. */
 final class HostedRoundRestart {
-    static CompletionStage<Void> run(StandardMatchDomain match,ApplicationHost host,OwnerLoop loop,
+    static RoundRestart<PlayerLife> create(StandardMatchDomain match,ApplicationHost host,OwnerLoop loop,
             Supplier<CompletionStage<Void>> prepareBots,Supplier<CompletionStage<Void>> resetBots,Runnable resetHud){
         var mode=match.mode();
         return new RoundRestart<>(new RoundRestart.Services<PlayerLife>(){
@@ -23,6 +23,6 @@ final class HostedRoundRestart {
             public boolean connected(PlayerLife p){return match.lives().players().stream().anyMatch(current->current==p)&&host.addressHost(p.id()).isPresent();}
             public void respawn(PlayerLife p){match.lives().respawn(p.id());}public void respawnFailure(PlayerLife p,Throwable error){match.failure("restart respawn:"+p.id(),error);}
             public CompletionStage<Void> resetBots(){return resetBots.get();}
-        },loop).run();
+        },loop);
     }
 }

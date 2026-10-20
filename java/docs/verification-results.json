@@ -1,7 +1,7 @@
 {
   "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
-  "jar_sha256": "8f5555d985d67d5a2917b6b792d1a8b1be7146f8615cce60bbec8b1e317f4968",
-  "jar_bytes": 2702490,
+  "jar_sha256": "f6d06ee3ca3543d5e82c6c2aabff2857ff61df800af17282f51e17614d4c2304",
+  "jar_bytes": 2715579,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -17,80 +17,30 @@
     "META-INF/THIRD_PARTY_NOTICES.md",
     "META-INF/JAVA-THIRD-PARTY-NOTICES.md"
   ],
-  "repeated_build_identical": true,
+  "repeated_build_identical": false,
   "junit": {
     "test": {
       "suites": 116,
-      "tests": 6356,
+      "tests": 6357,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
       "suites": 5,
-      "tests": 75,
+      "tests": 78,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Standard hosted voting implemented and verified; all five CI jobs and all 77 targeted unchanged source tests passed",
-  "java_implementation_commit": "036fcd1f4b32fc3de0859d8af27552a5a9250f72",
-  "tested_tree": "9ecf0840c9f565bdcf703182caa09a02038cdc77",
+  "verification_stage": "Hosted ending locally verified; all five CI jobs pending; selected source tests 35 passed / 1 existing failure",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "observed_at_utc": "2026-10-20T02:06:45.398527+00:00",
-    "run_id": 39356365544,
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39356365544",
-    "head_sha": "036fcd1f4b32fc3de0859d8af27552a5a9250f72",
-    "tested_tree": "9ecf0840c9f565bdcf703182caa09a02038cdc77",
-    "attempt": 1,
-    "all_five_jobs_passed": true,
-    "all_final_steps_verified": true,
-    "completed_jobs": 5,
-    "completed_final_steps": 65,
-    "jobs": [
-      {
-        "id": 118411969161,
-        "name": "build",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 13
-      },
-      {
-        "id": 118411969349,
-        "name": "native-enet",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 16
-      },
-      {
-        "id": 118412661177,
-        "name": "platform (ubuntu-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 12
-      },
-      {
-        "id": 118412661229,
-        "name": "platform (macos-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 12
-      },
-      {
-        "id": 118412661234,
-        "name": "platform (windows-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 12
-      }
-    ],
-    "configured_source_generators_reproduced": 79,
-    "repeated_archive_byte_comparison": true,
-    "identical_uploaded_artifact_smoked_on_platforms": 3,
-    "local_to_ci_artifact_hash_compared": false,
-    "summary": "All five CI jobs passed for implementation `036fcd1f4b32fc3de0859d8af27552a5a9250f72`, tested tree `9ecf0840c9f565bdcf703182caa09a02038cdc77`, in [run 39356365544](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39356365544). All 65 final steps succeeded or were intentionally skipped. Native impaired transport/loader checks and all 79 configured reference generators passed; the build byte-compared repeated archives. All three platform jobs smoked the uploaded artifact and passed component/integration tests. No local-to-CI artifact hash identity or supported-client acceptance is claimed. Observed 2026-10-20T02:06:45.398527+00:00."
+    "status": "pending",
+    "all_five_jobs_passed": false,
+    "full_reference_python_baseline_passing": false
   },
   "movement": {
     "cases": 118,
@@ -155,7 +105,7 @@
     "net/battlespades/catalog/modes.toml",
     "net/battlespades/catalog/rules.toml"
   ],
-  "local_packaging_note": "Current application archive passes ZIP CRC; local repeat-build identity not measured for this batch. CI compared repeated application archives.",
+  "local_packaging_note": "First incomplete local JAR rejected. Rebuilt archive passed CRC, full Java checks and packaged application integration tests. Cause of initial truncation is unestablished.",
   "admission": {
     "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
     "unicode": "15.0.0",
@@ -445,9 +395,9 @@
     "command": "python -m pytest -q tests/test_input_loss_recovery.py tests/test_action_clock.py tests/test_action_clock_recovery_review.py"
   },
   "publication": {
-    "status": "published",
     "branch": "port/java25",
-    "implementation_commit": "036fcd1f4b32fc3de0859d8af27552a5a9250f72"
+    "verification_parent": "e04eb5be9892a86971155e0f0442f42196775e17",
+    "status": "implementation pending publication"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -6318,7 +6268,7 @@
     "six_reference_directories_exactly_match_main": true,
     "files_unchanged_from_import": true
   },
-  "repeated_build_scope": "CI build compared repeated archives; no local-to-CI artifact hash identity claimed",
+  "repeated_build_scope": "Local final archive CRC verified; repeated archive comparison pending in CI.",
   "previous_capture_zone_checkpoint": {
     "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
     "verification_stage": "Updated upstream and TC/Multi-Hill checkpoint verified locally; four CI jobs passed, macOS queued awaiting runner",
@@ -8078,9 +8028,9 @@
       "implementation_commit": "e50298b4f228319f8ccd2c3eed520573afb0a2ee"
     }
   },
-  "java_component_tests": 6356,
-  "java_integration_tests": 75,
-  "java_tests": 6431,
+  "java_component_tests": 6357,
+  "java_integration_tests": 78,
+  "java_tests": 6435,
   "full_migration_complete": false,
   "supported_client_acceptance": false,
   "round_results": {
@@ -8689,5 +8639,151 @@
       "branch": "port/java25",
       "implementation_commit": "036fcd1f4b32fc3de0859d8af27552a5a9250f72"
     }
+  },
+  "previous_hosted_voting_checkpoint": {
+    "java_implementation_commit": "036fcd1f4b32fc3de0859d8af27552a5a9250f72",
+    "tested_tree": "9ecf0840c9f565bdcf703182caa09a02038cdc77",
+    "ci": {
+      "status": "success",
+      "observed_at_utc": "2026-10-20T02:06:45.398527+00:00",
+      "run_id": 39356365544,
+      "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39356365544",
+      "head_sha": "036fcd1f4b32fc3de0859d8af27552a5a9250f72",
+      "tested_tree": "9ecf0840c9f565bdcf703182caa09a02038cdc77",
+      "attempt": 1,
+      "all_five_jobs_passed": true,
+      "all_final_steps_verified": true,
+      "completed_jobs": 5,
+      "completed_final_steps": 65,
+      "jobs": [
+        {
+          "id": 118411969161,
+          "name": "build",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 13
+        },
+        {
+          "id": 118411969349,
+          "name": "native-enet",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 16
+        },
+        {
+          "id": 118412661177,
+          "name": "platform (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 12
+        },
+        {
+          "id": 118412661229,
+          "name": "platform (macos-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 12
+        },
+        {
+          "id": 118412661234,
+          "name": "platform (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 12
+        }
+      ],
+      "configured_source_generators_reproduced": 79,
+      "repeated_archive_byte_comparison": true,
+      "identical_uploaded_artifact_smoked_on_platforms": 3,
+      "local_to_ci_artifact_hash_compared": false,
+      "summary": "All five CI jobs passed for implementation `036fcd1f4b32fc3de0859d8af27552a5a9250f72`, tested tree `9ecf0840c9f565bdcf703182caa09a02038cdc77`, in [run 39356365544](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39356365544). All 65 final steps succeeded or were intentionally skipped. Native impaired transport/loader checks and all 79 configured reference generators passed; the build byte-compared repeated archives. All three platform jobs smoked the uploaded artifact and passed component/integration tests. No local-to-CI artifact hash identity or supported-client acceptance is claimed. Observed 2026-10-20T02:06:45.398527+00:00."
+    },
+    "jar_sha256": "8f5555d985d67d5a2917b6b792d1a8b1be7146f8615cce60bbec8b1e317f4968",
+    "java_tests": 6431
+  },
+  "hosted_round_ending": {
+    "parent": "e04eb5be9892a86971155e0f0442f42196775e17",
+    "junit": {
+      "test": {
+        "suites": 116,
+        "tests": 6357,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "suites": 5,
+        "tests": 78,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "source_tests": {
+      "tests": 36,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "failed_cases": [
+        {
+          "name": "test_zombie_outbreak_publishes_team_and_class_locks_and_locks_survivor_class",
+          "class": "tests.test_retail_end_screen",
+          "message": "AttributeError: '_Server' object has no attribute 'respawn_player'"
+        }
+      ],
+      "files": [
+        "tests/test_end_sequence.py",
+        "tests/test_retail_end_screen.py",
+        "tests/test_round_runtime_reset.py",
+        "tests/test_match_transitions.py"
+      ]
+    },
+    "jar_bytes": 2715579,
+    "jar_sha256": "f6d06ee3ca3543d5e82c6c2aabff2857ff61df800af17282f51e17614d4c2304",
+    "jar_crc_valid": true,
+    "class_major": 69,
+    "smoke": {
+      "version": {
+        "exit": 0,
+        "output": "BattleSpades 0.1.0-java25-dev; protocol 168; gameplay incomplete\n"
+      },
+      "config": {
+        "exit": 0,
+        "output": "Core configuration valid: BattleSpades Server, UDP 27015, 24 players, 60 Hz\nValidation covers core/network/join, Match Lobby rules and common scene settings; full gameplay is pending.\n"
+      },
+      "help": {
+        "exit": 0,
+        "output": "BattleSpades Java 25: world creator and migration diagnostics\n  java -jar BattleSpades.jar --check-config PATH\n  java -jar BattleSpades.jar --version\n  java -jar BattleSpades.jar --results-import INPUT_NDJSON OUTBOX_DIRECTORY\n  java -jar BattleSpades.jar --ugc-assets RETAIL_ROOT\n  java -jar BattleSpades.jar --ugc-create RETAIL_ROOT DIRECTORY NAME TERRAIN MODE\n  java -jar BattleSpades.jar --ugc-check DIRECTORY NAME\n  java -jar BattleSpades.jar --ugc-host --retail-root RETAIL_ROOT --project NAME [--config PATH] [--publish-root hosted_ugc] [--control-stdin]\n"
+      },
+      "missing_ugc": {
+        "exit": 2,
+        "output": "World creator error: Unexpected creator argument: /workspace/scratch/dc9e10c1d797/nonexistent-ending-project\n"
+      },
+      "ordinary_start": {
+        "exit": 2,
+        "output": "Ordinary gameplay startup is incomplete. Use --ugc-host for world creation.\nUse --help for commands.\n"
+      }
+    },
+    "full_migration_complete": false,
+    "full_python_baseline_passing": false,
+    "first_archive_discarded": {
+      "bytes": 1796557,
+      "reason": "BadZipFile; existing packaged integration subprocesses rejected the incomplete archive"
+    },
+    "initial_source_collection_corrections": "Restored native shared/aoslib extension paths from the preserved workspace; native sources unchanged.",
+    "final_java_log": "hosted-ending-java-final.log",
+    "observed_utc": "2026-10-20T14:31:41.956824+00:00",
+    "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+    "seven_source_directories_unchanged": true,
+    "frozen_resources_unchanged": 263,
+    "java_tests": 6435,
+    "local_repeated_archive_comparison": false,
+    "configured_reference_generators": 79,
+    "implementation_families": [
+      "hosted ending and final results presentation",
+      "retained in-place restart and cancellation",
+      "ending-owned rollover retirement",
+      "mode-specific native headlines and ordered shutdown"
+    ]
   }
 }

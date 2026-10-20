@@ -17,6 +17,7 @@ public final class CarryMode extends BaseRoundMode {
     }
     private final Supplier<HostedCarryRuntime> objectives;private final Settings settings;
     public CarryMode(Settings settings,Supplier<HostedCarryRuntime> objectives,Supplier<List<TeamState>> teams,Supplier<Map<Integer,Scoreboard.Player>> players,Function<PlayerLife,Optional<Scoreboard.Peer>> peer,Scoreboard board,DoubleSupplier wall,DoubleSupplier monotonic,IntSupplier queued,Consumer<GamePacket> reliable,Effects effects,Executor resume){super(settings.code(),settings.target(),settings.seconds(),settings.scoreboard(),teams,players,peer,board,wall,monotonic,queued,reliable,effects,resume);this.settings=settings;this.objectives=objectives;}
+    @Override public int endMessageId(Integer winning){sequence.owned();return settings.code().equals("oc")?(winning==null?8:5):super.endMessageId(winning);}
     public Settings settings(){return settings;}
     public void start(){objectives.get().clear();super.start();for(var t:teams.get())t.reset();objectives.get().start();}
     public CompletionStage<Void> tick(int loop){return sequence.run(List.<Supplier<CompletionStage<Void>>>of(()->super.tick(loop),()->{if(!clock.ended&&!clock.retiring)objectives.get().tick();return CompletableFuture.completedFuture(null);}).iterator());}

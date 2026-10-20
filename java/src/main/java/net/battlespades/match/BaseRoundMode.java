@@ -84,6 +84,7 @@ public abstract class BaseRoundMode implements TransitionMode {
         }return CompletableFuture.completedFuture(null);
     }
     public CompletionStage<Void> tick(int loop){sequence.owned();return clock.tick(wall.getAsDouble(),queued.getAsInt());}
+    public int endMessageId(Integer winning){sequence.owned();var roster=teams.get();return RoundClock.headline(winning,roster.stream().filter(t->t.id==2).findFirst().orElseThrow().score,roster.stream().filter(t->t.id==3).findFirst().orElseThrow().score);}
     public void endByScore(int team){sequence.owned();if(clock.ended||clock.retiring)return;var winning=teams.get().stream().filter(t->t.id==team).findFirst().orElseThrow();reliable.accept(Announcements.localised("TEAM_DEFEAT",List.of(winning.name),true,false));end(team);}
     public void endByTime(){
         sequence.owned();if(clock.ended||clock.retiring)return;Integer winning=RoundClock.timeWinner(teams.get());

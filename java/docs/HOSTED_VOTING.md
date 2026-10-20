@@ -1,3 +1,5 @@
+Historical voting checkpoint: the subsequently implemented [hosted round-ending coordinator](HOSTED_ROUND_ENDING.md) now consumes this shared ballot. The evidence below describes the earlier voting-only tree.
+
 # Standard hosted voting
 
 This checkpoint completes the standard-host composition of the existing ranked rotation, retail map-ballot and vote-kick policies.

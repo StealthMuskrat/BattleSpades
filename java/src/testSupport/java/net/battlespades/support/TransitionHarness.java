@@ -62,7 +62,8 @@ public final class TransitionHarness implements MatchTransitions.Services<Object
     public CompletionStage<Void> drainLeaves(TransitionMode mode){return leavesOperation==null?events.settleLeaves(mode):leavesOperation.apply(mode);}
     public void discardTimeline(){events.clear();packets=0;if(discardOperation!=null)discardOperation.run();}
     public double graceSeconds(){return scenario%2;}
-    public CompletionStage<Void> sleep(double seconds){log.add("sleep:"+(int)seconds);return done();}
+    public java.util.function.DoubleFunction<CompletionStage<Void>> sleepOperation;
+    public CompletionStage<Void> sleep(double seconds){log.add("sleep:"+(int)seconds);return sleepOperation==null?done():sleepOperation.apply(seconds);}
     public void resetRuntime(){log.add("runtime-reset");if(fault==0&&scenario>=8)throw new IllegalStateException("reset failure");}
     public void resetRepair(){log.add("repair-reset");}public void resetJournal(){log.addAll(List.of("journal-clear","journal-clear"));}public void resetHud(){log.add("hud-reset");}
     public void notePlayed(String oldMap){log.add("played:"+oldMap);}public void installWorld(String next,String mode,Object prepared){map=next;code=mode;world=prepared;log.add("bind-journal");fog=null;if(installOperation!=null)installOperation.accept(prepared);}

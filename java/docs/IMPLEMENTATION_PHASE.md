@@ -1,3 +1,13 @@
+# Current administration checkpoint
+
+The administration batch implements password login, one-time room-host claims, verified auto-admin identities, durable bans/admission and moderation on real match-host connections. **6,350 component + 63 integration = 6,413 Java tests** pass across 119 suites, with zero Java failures, errors or skips. Strict Java 25 compilation, `check build`, portability and distributions pass. Three new grouped component cases and three actual-UDP cases verify persistence/failure recovery, permissions, secret log redaction, map rollover and suspended-ban safety across compact-ID reuse. Existing component results were reused after correcting only the new UDP fixture.
+
+Unchanged original command/room-admin tests report **45 passed and 3 failed out of 48**; all three failures are GUI configuration imports of the unavailable `tomlkit` package. Original tests were neither changed nor skipped. Native duration/identity/password/token vectors match the Java checks. The six source directories remain exact against `546c548780c400f21d73ca6713f86194ceb3c844`; all 262 existing Java resource paths remain unchanged against this batch's parent.
+
+The CRC-valid application JAR is 2631945 bytes, SHA-256 `cfe106761bc7c21c0353af907e12f24625a3af8d6a7685ba421e3bfadc16e62f`, class major 69. Version/configuration/help checks exit 0; missing UGC projects and ordinary match startup exit 2. CI for this checkpoint is pending. Steam/master verification, remaining server commands, persistent results/profiles/achievements, bots, Tutorial, normal startup and supported-client acceptance remain incomplete. See [ADMINISTRATION.md](ADMINISTRATION.md).
+
+## Previous verified checkpoints
+
 # Current world creation checkpoint
 
 The Java world-creation workflow passes **6,347 component + 60 integration = 6,407 Java tests** across 118 suites, with zero Java failures, errors or skips. Strict Java 25 compilation, `check build`, portability and distributions pass. A generated local archive was rebuilt after the packaged-JAR check detected corruption; the final full build and both complete test tasks pass. No assertion or deadline was weakened.
@@ -124,27 +134,12 @@ full migration compatibility or production readiness.
 
 ## Required remaining implementation
 
-1. Additional mode factories and their actual objectives, HUD, rules, selection,
-   scoring, carry/drop, revival and round-ending bindings. TDM, Arena, CTF and Classic CTF
-   now have host factory bindings; the other modes still require their real owners.
-2. Full UGC editor construction/prefab build/erase range handling and brush flow.
-   Packet 31 is decoded but the ordinary competitive owner rejects editor erases.
-3. Bot AI/director, navigation, motor/action integration and shared slot ownership;
-   bind real bot paths into construction safety when the director is installed.
-4. Authenticated identity/admin/creator ownership, remaining command families,
-   persistent bans/results/profiles/achievements, master/discovery services and
-   required production observers. Public command routing does not provide admin
-   authentication or the remaining admin command families.
-5. Finish explicit startup composition, configured prefab roots, actual service
-   owners, end/results/transition/reset bindings and shutdown. Keep the launcher
-   gated until these owners exist; do not replace required domains with no-ops.
-6. Complete source compatibility reconciliation, supported-client and platform
-   validation, and all five CI jobs for a verified published checkpoint. Local
-   verification of the current batch does not complete those migration gates.
-
-For that preceding checkpoint, the Python/reference directories and frozen fixtures remained unchanged. Focused
-Java regression coverage was added for the accumulated behavior; existing hosted
-and UDP test harnesses were extended for runtime and delivery checks.
+1. Dedicated Tutorial host, authored lesson/lane restoration flow and the remaining unofficial mode families.
+2. Bot AI/director, navigation, motor/action integration, shared slot ownership and real bot-path construction safety.
+3. Durable profiles/results/achievements and their accepted-event and round-end service bindings.
+4. Steam/master identity verification, discovery, remaining admin/server command families and required production observers. The administration embedding and moderation batch is described in ADMINISTRATION.md; it does not provide those external services.
+5. Complete normal startup composition, production observers, persistent service ownership and shutdown. Keep the ordinary launcher gated until these owners exist.
+6. Source compatibility reconciliation, live supported-client/capacity validation and all five CI jobs for each verified checkpoint. Passing a batch does not complete those migration gates.
 
 ## Local verification — 2026-10-19
 

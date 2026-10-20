@@ -277,3 +277,5 @@ or interrupted reference suite as passing. See [MIGRATION_REPORT.md](docs/MIGRAT
 
 License: AGPL-3.0-or-later for the port, with ENet-derived range coder under MIT.
 Third-party notices and individual dependency license texts are packaged in the JAR.
+
+Administration embedding, room-host claims and durable bans are documented in [ADMINISTRATION.md](docs/ADMINISTRATION.md). Ordinary gameplay startup remains gated pending the remaining service owners.

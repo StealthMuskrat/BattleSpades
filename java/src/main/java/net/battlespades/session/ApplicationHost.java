@@ -24,6 +24,9 @@ public final class ApplicationHost implements AutoCloseable {
     private final SnapshotCompression compression;
     private final int eventBudget;
     private JoinScene scene;
+    private HostedAdministration administration;
+    public void administration(HostedAdministration service){owned();if(administration!=null||!sessions.isEmpty())throw new IllegalStateException("Administration binds once before connections");administration=java.util.Objects.requireNonNull(service);}
+    public java.util.Optional<HostedAdministration> administration(){owned();return java.util.Optional.ofNullable(administration);}
     private java.util.function.Function<String,Integer> admissionGate;
     public void admissionGate(java.util.function.Function<String,Integer> gate){owned();if(admissionGate!=null)throw new IllegalStateException("Admission gate already bound");admissionGate=java.util.Objects.requireNonNull(gate);}
     public java.util.Optional<String> addressHost(int id){owned();for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return java.util.Optional.of(session.addressHost());return java.util.Optional.empty();}
@@ -63,7 +66,7 @@ public final class ApplicationHost implements AutoCloseable {
         for(int i=0;i<eventBudget;i++) {
             var event=transport.poll().orElse(null);if(event==null) break;var peer=event.peer();var key=new PeerKey(peer.id(),peer.generation());
             switch(event.type()) {
-                case CONNECT -> {Integer denied=admissionGate==null?null:admissionGate.apply(JoinSession.addressHost(peer.address()));if(denied!=null){peer.disconnect(denied);break;}sessions.put(key,new JoinSession(peer.address(),new JoinSession.WireSink() {
+                case CONNECT -> {String address=JoinSession.addressHost(peer.address());Integer denied=administration==null?null:administration.admissionReason(address);if(denied==null&&admissionGate!=null)denied=admissionGate.apply(address);if(denied!=null){peer.disconnect(denied);break;}sessions.put(key,new JoinSession(peer.address(),new JoinSession.WireSink() {
                     @Override public boolean send(SessionFrame frame) {return peer.send(frame.encode(),frame.delivery());}
                     @Override public void disconnect(int reason) {peer.disconnect(reason);}
                     @Override public Double roundTripMillis(){return (double)peer.metrics().roundTripTime();}
@@ -82,7 +85,7 @@ public final class ApplicationHost implements AutoCloseable {
                 case DISCONNECT -> {var session=sessions.remove(key);if(session!=null){var queued=queuedSessions.remove(session);if(packets!=null&&queued!=null)packets.forget(queued);session.close();}}
             }
         }
-        for(var session:sessions.values()) session.pulse(nowMillis,loopCount);
+        for(var session:sessions.values()) session.pulse(nowMillis,loopCount);if(administration!=null)administration.prune();
     }
     public int broadcast(GamePacket packet,Delivery delivery) {owned();if(closing)return 0;int accepted=0;for(var session:sessions.values()) if(session.gameplay(packet,delivery)) accepted++;return accepted;}
     /** Source known_player_lives gate; reliable queue acceptance establishes or forgets visibility. */
@@ -126,6 +129,6 @@ public final class ApplicationHost implements AutoCloseable {
     public void replaceScene(JoinScene replacement) {owned();if(replacement==scene) throw new IllegalArgumentException("Scene must change");if(packets!=null)packets.clear();queuedSessions.clear();for(var session:sessions.values()) session.replaceScene(replacement);scene=replacement;}
     @Override public void close() throws IOException {
         if(Thread.currentThread()!=owner) throw new IllegalStateException("Application host closed outside owner");if(closed||closing) return;
-        closing=true;if(packets!=null)packets.clear();queuedSessions.clear();try {for(var session:sessions.values()) session.close();sessions.clear();compression.close();} finally {closed=true;transport.close();}
+        closing=true;if(packets!=null)packets.clear();queuedSessions.clear();try {for(var session:sessions.values()) session.close();sessions.clear();if(administration!=null)administration.clear();compression.close();} finally {closed=true;transport.close();}
     }
 }

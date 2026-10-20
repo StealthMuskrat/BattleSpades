@@ -1,0 +1,274 @@
+{
+  "requests": [
+    {
+      "request": "48454c4c4f",
+      "response": "4849"
+    },
+    {
+      "request": "48454c4c4f4c414e",
+      "response": "7b226e616d65223a20224361665c7530306539205c75643833635c7564666165222c2022706c61796572735f63757272656e74223a20332c2022706c61796572735f6d6178223a20342c20226d6170223a20224c697665204d6170222c202267616d655f6d6f6465223a202263637466222c202267616d655f76657273696f6e223a2022312e306131227d"
+    },
+    {
+      "request": "6a756e6b",
+      "response": null
+    },
+    {
+      "request": "ffffffff54",
+      "response": "ffffffff49a8436166c3a920f09f8eae004c697665204d6170006163656f6673706164657300416365206f6620537061646573001c6d030401646c0100312e302e302e3000b17780007c55817a0e4001763136383b706c61796c6973743d383b726567696f6e3d65753b6d6f64653d303030313b636c61737369633b72656c61793d3132333b67616d656d6f64653d63637466001c6d030000000000"
+    },
+    {
+      "request": "ffffffff54536f7572636520456e67696e6520517565727900",
+      "response": "ffffffff4178563412"
+    },
+    {
+      "request": "ffffffff54536f7572636520456e67696e652051756572790078563412",
+      "response": "ffffffff49a8436166c3a920f09f8eae004c697665204d6170006163656f6673706164657300416365206f6620537061646573001c6d030401646c0100312e302e302e3000b17780007c55817a0e4001763136383b706c61796c6973743d383b726567696f6e3d65753b6d6f64653d303030313b636c61737369633b72656c61793d3132333b67616d656d6f64653d63637466001c6d030000000000"
+    },
+    {
+      "request": "ffffffff54536f7572636520456e67696e652051756572790000000000",
+      "response": "ffffffff4178563412"
+    },
+    {
+      "request": "ffffffff55",
+      "response": "ffffffff4178563412"
+    },
+    {
+      "request": "ffffffff5578563412",
+      "response": "ffffffff440200506c6179657232000000008000000000015a6fc3ab00ffffff7f00000000"
+    },
+    {
+      "request": "ffffffff5678563412",
+      "response": "ffffffff450a006d6f64650063637466006d6170004c697665204d617000667269656e646c795f6669726500310066616c6c5f64616d6167650030007265737061776e5f74696d6500350073636f72655f6c696d6974003130007465616d3100426c6575007465616d32004772c3bc6e007465616d315f73636f72650034007465616d325f73636f7265003500"
+    },
+    {
+      "request": "ffffffff57",
+      "response": "ffffffff4178563412"
+    },
+    {
+      "request": "ffffffff3f",
+      "response": null
+    },
+    {
+      "request": "ffffffff54626164",
+      "response": null
+    },
+    {
+      "request": "ffffffff56000000",
+      "response": "ffffffff4178563412"
+    },
+    {
+      "request": "ffffffff54536f7572636520456e67696e652051756572790078",
+      "response": "ffffffff4178563412"
+    },
+    {
+      "request": "ffffffff54536f7572636520456e67696e6520517565727900785634126578747261",
+      "response": "ffffffff49a8436166c3a920f09f8eae004c697665204d6170006163656f6673706164657300416365206f6620537061646573001c6d030401646c0100312e302e302e3000b17780007c55817a0e4001763136383b706c61796c6973743d383b726567696f6e3d65753b6d6f64653d303030313b636c61737369633b72656c61793d3132333b67616d656d6f64653d63637466001c6d030000000000"
+    }
+  ],
+  "duration": "ffffffff440200506c6179657232000000008000005040015a6fc3ab00ffffff7f00005040",
+  "replacement": "ffffffff440200506c6179657232000000008000008040014e6577000300000000000000",
+  "tags": [
+    {
+      "mode": "tdm",
+      "value": "v168;playlist=8;region=eu;mode=0001;relay=123;gamemode=tdm"
+    },
+    {
+      "mode": "cctf",
+      "value": "v168;playlist=8;region=eu;mode=0001;classic;relay=123;gamemode=cctf"
+    },
+    {
+      "mode": "zombie",
+      "value": "v168;playlist=8;region=eu;mode=0001;relay=123;gamemode=zom"
+    },
+    {
+      "mode": "hc_tdm",
+      "value": "v168;playlist=8;region=eu;mode=0001;relay=123;gamemode=hc_tdm"
+    },
+    {
+      "mode": "dem",
+      "value": "v168;playlist=8;region=eu;mode=0001;relay=123;gamemode=dem"
+    },
+    {
+      "mode": "mafia",
+      "value": "v168;playlist=8;region=eu;mode=0001;relay=123;gamemode=nor"
+    }
+  ],
+  "metrics": [
+    {
+      "tick_samples": 0,
+      "tick_avg_ms": 0.0,
+      "tick_p50_ms": 0.0,
+      "tick_p95_ms": 0.0,
+      "tick_p99_ms": 0.0,
+      "tick_max_ms": 0.0,
+      "world_serializations": 2,
+      "world_sends": 5,
+      "world_bytes": 126,
+      "dropped_ingame_packets": 0,
+      "skipped_plugin_callbacks": 0,
+      "skipped_entity_ticks": 0,
+      "map_mutation_overflows": 0,
+      "dropped_mode_events": 0,
+      "committed_world_mutations": 0,
+      "rejected_world_mutations": 0,
+      "expired_world_mutations": 0,
+      "world_mutation_queue_peak": 0,
+      "terrain_repair_cells": 0,
+      "terrain_repair_sends": 0,
+      "terrain_repair_queue_peak": 0,
+      "dropped_terrain_repairs": 0,
+      "failed_terrain_repair_sends": 0,
+      "bot_perception_entity_overflow": 0,
+      "subsystem_a_avg_ms": 1.5,
+      "subsystem_a_p99_ms": 2.0,
+      "subsystem_z_avg_ms": 3.0,
+      "subsystem_z_p99_ms": 3.0
+    },
+    {
+      "tick_samples": 2,
+      "tick_avg_ms": 5.0,
+      "tick_p50_ms": 2.0,
+      "tick_p95_ms": 8.0,
+      "tick_p99_ms": 8.0,
+      "tick_max_ms": 8.0,
+      "world_serializations": 4,
+      "world_sends": 10,
+      "world_bytes": 252,
+      "dropped_ingame_packets": 0,
+      "skipped_plugin_callbacks": 0,
+      "skipped_entity_ticks": 0,
+      "map_mutation_overflows": 0,
+      "dropped_mode_events": 0,
+      "committed_world_mutations": 0,
+      "rejected_world_mutations": 0,
+      "expired_world_mutations": 0,
+      "world_mutation_queue_peak": 0,
+      "terrain_repair_cells": 0,
+      "terrain_repair_sends": 0,
+      "terrain_repair_queue_peak": 0,
+      "dropped_terrain_repairs": 0,
+      "failed_terrain_repair_sends": 0,
+      "bot_perception_entity_overflow": 0,
+      "subsystem_a_avg_ms": 1.5,
+      "subsystem_a_p99_ms": 2.0,
+      "subsystem_z_avg_ms": 3.0,
+      "subsystem_z_p99_ms": 3.0
+    },
+    {
+      "tick_samples": 3,
+      "tick_avg_ms": 4.0,
+      "tick_p50_ms": 4.0,
+      "tick_p95_ms": 7.0,
+      "tick_p99_ms": 7.0,
+      "tick_max_ms": 7.0,
+      "world_serializations": 6,
+      "world_sends": 15,
+      "world_bytes": 378,
+      "dropped_ingame_packets": 0,
+      "skipped_plugin_callbacks": 0,
+      "skipped_entity_ticks": 0,
+      "map_mutation_overflows": 0,
+      "dropped_mode_events": 0,
+      "committed_world_mutations": 0,
+      "rejected_world_mutations": 0,
+      "expired_world_mutations": 0,
+      "world_mutation_queue_peak": 0,
+      "terrain_repair_cells": 0,
+      "terrain_repair_sends": 0,
+      "terrain_repair_queue_peak": 0,
+      "dropped_terrain_repairs": 0,
+      "failed_terrain_repair_sends": 0,
+      "bot_perception_entity_overflow": 0,
+      "subsystem_a_avg_ms": 1.5,
+      "subsystem_a_p99_ms": 2.0,
+      "subsystem_z_avg_ms": 3.0,
+      "subsystem_z_p99_ms": 3.0
+    },
+    {
+      "tick_samples": 4,
+      "tick_avg_ms": 5.5,
+      "tick_p50_ms": 8.0,
+      "tick_p95_ms": 9.0,
+      "tick_p99_ms": 9.0,
+      "tick_max_ms": 9.0,
+      "world_serializations": 8,
+      "world_sends": 20,
+      "world_bytes": 504,
+      "dropped_ingame_packets": 0,
+      "skipped_plugin_callbacks": 0,
+      "skipped_entity_ticks": 0,
+      "map_mutation_overflows": 0,
+      "dropped_mode_events": 0,
+      "committed_world_mutations": 0,
+      "rejected_world_mutations": 0,
+      "expired_world_mutations": 0,
+      "world_mutation_queue_peak": 0,
+      "terrain_repair_cells": 0,
+      "terrain_repair_sends": 0,
+      "terrain_repair_queue_peak": 0,
+      "dropped_terrain_repairs": 0,
+      "failed_terrain_repair_sends": 0,
+      "bot_perception_entity_overflow": 0,
+      "subsystem_a_avg_ms": 1.5,
+      "subsystem_a_p99_ms": 2.0,
+      "subsystem_z_avg_ms": 3.0,
+      "subsystem_z_p99_ms": 3.0
+    },
+    {
+      "tick_samples": 36000,
+      "tick_avg_ms": 18004.5,
+      "tick_p50_ms": 18005.0,
+      "tick_p95_ms": 34204.0,
+      "tick_p99_ms": 35644.0,
+      "tick_max_ms": 36004.0,
+      "world_serializations": 10,
+      "world_sends": 25,
+      "world_bytes": 630,
+      "dropped_ingame_packets": 0,
+      "skipped_plugin_callbacks": 0,
+      "skipped_entity_ticks": 0,
+      "map_mutation_overflows": 0,
+      "dropped_mode_events": 0,
+      "committed_world_mutations": 0,
+      "rejected_world_mutations": 0,
+      "expired_world_mutations": 0,
+      "world_mutation_queue_peak": 0,
+      "terrain_repair_cells": 0,
+      "terrain_repair_sends": 0,
+      "terrain_repair_queue_peak": 0,
+      "dropped_terrain_repairs": 0,
+      "failed_terrain_repair_sends": 0,
+      "bot_perception_entity_overflow": 0,
+      "subsystem_a_avg_ms": 1.5,
+      "subsystem_a_p99_ms": 2.0,
+      "subsystem_z_avg_ms": 3.0,
+      "subsystem_z_p99_ms": 3.0
+    },
+    {
+      "tick_samples": 0,
+      "tick_avg_ms": 0.0,
+      "tick_p50_ms": 0.0,
+      "tick_p95_ms": 0.0,
+      "tick_p99_ms": 0.0,
+      "tick_max_ms": 0.0,
+      "world_serializations": 10,
+      "world_sends": 25,
+      "world_bytes": 630,
+      "dropped_ingame_packets": 0,
+      "skipped_plugin_callbacks": 0,
+      "skipped_entity_ticks": 0,
+      "map_mutation_overflows": 0,
+      "dropped_mode_events": 0,
+      "committed_world_mutations": 0,
+      "rejected_world_mutations": 0,
+      "expired_world_mutations": 0,
+      "world_mutation_queue_peak": 0,
+      "terrain_repair_cells": 0,
+      "terrain_repair_sends": 0,
+      "terrain_repair_queue_peak": 0,
+      "dropped_terrain_repairs": 0,
+      "failed_terrain_repair_sends": 0,
+      "bot_perception_entity_overflow": 0
+    }
+  ]
+}

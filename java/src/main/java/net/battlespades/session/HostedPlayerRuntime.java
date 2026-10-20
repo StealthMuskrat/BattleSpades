@@ -45,7 +45,7 @@ public final class HostedPlayerRuntime implements AutoCloseable {
         var lives=match.lives();if(!lives.players().isEmpty())throw new IllegalStateException("Player runtime must bind before admission");
         replication=new ReplicationService(new ReplicationService.World(){
             public List<PlayerSnapshot> players(){return currentSnapshots(ports);}public List<? extends WorldUpdateLink> connections(){return host.snapshotLinks();}
-            public List<EntityRecord> entities(){return ports.entities();}public List<WorldUpdate.TurretRow> turrets(){return match.entities().turrets();}public void delivered(int packets,long bytes){ports.delivered(packets,bytes);}
+            public List<EntityRecord> entities(){return ports.entities();}public List<WorldUpdate.TurretRow> turrets(){return match.entities().turrets();}public void delivered(int packets,long bytes){host.telemetry().ifPresent(t->t.metrics().recordWorldDelivery(packets,bytes));ports.delivered(packets,bytes);}
         },settings.replication());
         infantry=new InfantrySimulation(lives,settings.infantry(),new InfantrySimulation.Hooks(){
             public void lagHistory(PlayerLife p,int tick){ports.lagHistory(p,tick);}public void housekeeping(PlayerLife p){ports.housekeeping(p);}public boolean burdened(PlayerLife p){return p.pickupBurdensome();}public int pendingTerrainMutations(){return match.construction().mutations().metrics().pending();}

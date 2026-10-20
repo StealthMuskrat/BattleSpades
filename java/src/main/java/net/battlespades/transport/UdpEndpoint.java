@@ -12,13 +12,18 @@ import net.battlespades.protocol.ProtocolException;
 /** Portable, nonblocking datagrams. Single network-owner thread; no authoritative state. */
 public final class UdpEndpoint implements AutoCloseable {
     private final DatagramChannel channel;
-    private final int limit;
+    private final int limit,sendLimit;
     private final ByteBuffer input;
     public record Datagram(SocketAddress source, byte[] payload) {
         public Datagram { payload = payload.clone(); }
         @Override public byte[] payload() { return payload.clone(); }
     }
     public UdpEndpoint(InetSocketAddress bind, int limit) throws IOException {
+        this(bind,limit,limit);
+    }
+    public UdpEndpoint(InetSocketAddress bind,int limit,int sendLimit) throws IOException {
+        if(sendLimit<1||sendLimit>65507)throw new IllegalArgumentException("Invalid UDP send limit");
+        this.sendLimit=sendLimit;
         if (limit < 1 || limit > 65507) throw new IllegalArgumentException("Invalid UDP limit");
         this.limit = limit;
         input = ByteBuffer.allocate(limit + 1);
@@ -37,7 +42,7 @@ public final class UdpEndpoint implements AutoCloseable {
     }
     /** false means socket backpressure; retain the message in a bounded owner queue. */
     public boolean send(SocketAddress destination, byte[] payload) throws IOException {
-        if (payload.length > limit) throw new ProtocolException("Oversized outbound UDP datagram");
+        if (payload.length > sendLimit) throw new ProtocolException("Oversized outbound UDP datagram");
         int sent = channel.send(ByteBuffer.wrap(payload), destination);
         return sent == payload.length;
     }

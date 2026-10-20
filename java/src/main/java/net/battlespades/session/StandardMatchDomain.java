@@ -45,6 +45,8 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     public void timeoutMusic(){media().music().timeout();}
     public Optional<HostedCarryRuntime> carry(){owned();return Optional.ofNullable(carry);}
     public void carryObservation(HostedCarryRuntime.Observation event){owned();host().achievements().ifPresent(a->a.guard("carry",()->a.carry(this,event)));services.carryObservation(event);}
+    public boolean fallDamage(){owned();return config.fallDamage();}
+    public double respawnTime(){owned();return respawn;}
     public boolean friendlyFire(){owned();return config.friendlyFire();}
     public void openMapVote(){owned();try{if(host().voting().isPresent()){media().ensureMapVote(wall());return;}services.vote(wall());if(!media().ballot().active())media().ballot().start(maps,wall());}catch(RuntimeException e){failure("objective map vote",e);}}
     public Optional<HostedZoneRuntime> zones(){owned();return Optional.ofNullable(zones);}

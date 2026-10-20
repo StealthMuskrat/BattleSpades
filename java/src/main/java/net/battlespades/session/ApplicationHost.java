@@ -31,6 +31,14 @@ public final class ApplicationHost implements AutoCloseable {
     private net.battlespades.replication.ReplicationService.OwnerTuning reconciliation;
     void rememberReconciliation(net.battlespades.replication.ReplicationService.OwnerTuning value){owned();reconciliation=java.util.Objects.requireNonNull(value);}
     java.util.Optional<net.battlespades.replication.ReplicationService.OwnerTuning> reconciliation(){owned();return java.util.Optional.ofNullable(reconciliation);}
+    public AutoCloseable connectionless(EnetHost.Connectionless handler){owned();if(!sessions.isEmpty())throw new IllegalStateException("Discovery binds before connections");return transport.connectionless(handler);}
+    private HostedDiscovery discovery;
+    public void discovery(HostedDiscovery service){owned();if(discovery!=null||!sessions.isEmpty())throw new IllegalStateException("Discovery binds once before connections");discovery=java.util.Objects.requireNonNull(service);}
+    public java.util.Optional<HostedDiscovery> discovery(){owned();return java.util.Optional.ofNullable(discovery);}
+    private net.battlespades.service.TelemetryService telemetry;
+    public void telemetry(net.battlespades.service.TelemetryService service){owned();if(telemetry!=null||!sessions.isEmpty())throw new IllegalStateException("Telemetry binds once before connections");telemetry=java.util.Objects.requireNonNull(service);}
+    public java.util.Optional<net.battlespades.service.TelemetryService> telemetry(){owned();return java.util.Optional.ofNullable(telemetry);}
+    public java.util.concurrent.CompletionStage<Void> shutdownTelemetry(){owned();return telemetry==null?java.util.concurrent.CompletableFuture.completedFuture(null):telemetry.stop();}
     private HostedAchievements achievements;
     public void achievements(HostedAchievements service){owned();if(achievements!=null||!sessions.isEmpty())throw new IllegalStateException("Achievements bind once before connections");achievements=java.util.Objects.requireNonNull(service);}
     public java.util.Optional<HostedAchievements> achievements(){owned();return java.util.Optional.ofNullable(achievements);}
@@ -87,7 +95,7 @@ public final class ApplicationHost implements AutoCloseable {
     public boolean inGame(int id) {owned();if(closing)return false;for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return session.inGame();return false;}
     public void service(long nowMillis,int loopCount) throws IOException {
         owned();if(nowMillis<0 || nowMillis<lastNow) throw new IllegalArgumentException("Application clock moved backwards");lastNow=nowMillis;
-        transport.service(nowMillis);
+        transport.service(nowMillis);if(discovery!=null)discovery.service();
         for(int i=0;i<eventBudget;i++) {
             var event=transport.poll().orElse(null);if(event==null) break;var peer=event.peer();var key=new PeerKey(peer.id(),peer.generation());
             switch(event.type()) {
@@ -154,8 +162,9 @@ public final class ApplicationHost implements AutoCloseable {
     public void replaceScene(JoinScene replacement) {owned();if(replacement==scene) throw new IllegalArgumentException("Scene must change");if(packets!=null)packets.clear();queuedSessions.clear();for(var session:sessions.values()) session.replaceScene(replacement);scene=replacement;}
     @Override public void close() throws IOException {
         if(Thread.currentThread()!=owner) throw new IllegalStateException("Application host closed outside owner");if(closed||closing) return;
+        if(telemetry!=null&&!telemetry.stopped())throw new IllegalStateException("Await shutdownTelemetry before closing the host");
         if(roundEnding!=null&&!roundEnding.stopped())throw new IllegalStateException("Await shutdownEndings before closing the host");
         if(achievements!=null&&!achievements.stopped())throw new IllegalStateException("Await shutdownAchievements before closing the host");
-        if(results!=null&&!results.stopped())throw new IllegalStateException("Await shutdownResults before closing the host");closing=true;if(packets!=null)packets.clear();queuedSessions.clear();try {if(review!=null)review.close();if(voting!=null)voting.close();for(var session:sessions.values()) session.close();sessions.clear();if(administration!=null)administration.clear();compression.close();} finally {closed=true;transport.close();}
+        if(results!=null&&!results.stopped())throw new IllegalStateException("Await shutdownResults before closing the host");closing=true;if(packets!=null)packets.clear();queuedSessions.clear();try {if(review!=null)review.close();if(voting!=null)voting.close();for(var session:sessions.values()) session.close();sessions.clear();if(administration!=null)administration.clear();compression.close();} finally {try{if(discovery!=null)discovery.close();}finally{closed=true;transport.close();}}
     }
 }

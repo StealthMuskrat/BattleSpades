@@ -45,6 +45,7 @@ public abstract class BaseRoundMode implements TransitionMode {
         });clock.timeLimit=timeLimit;
         economy=new GenericEconomy(()->new GenericEconomy.Context(new ProfileTracker.Context(false,code,clock.ended),true,true),players,board,monotonic);
     }
+    public long scoreLimit(){sequence.owned();return scoreLimit;}
     public boolean scoreboardEnabled(){sequence.owned();return endRoundScoreboard;}
     public RoundClock clock(){sequence.owned();return clock;}public boolean started(){sequence.owned();return started;}public Integer winner(){sequence.owned();return winner;}public boolean endSequenceRunning(){sequence.owned();return endSequenceRunning;}
     /** Wire HUD limit and team bars come from this mode, never the generic CTF-era config limit. */

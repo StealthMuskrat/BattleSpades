@@ -1,0 +1,112 @@
+{
+  "parent": "4ab39f3983465c3d3cb638bd2d0a842702859dc7",
+  "observed_utc": "2026-10-20T18:27:14.603023+00:00",
+  "jar_sha256": "78a547acb47716ce66a653062601215537dce5ca899c83b67f45f3043491d9d1",
+  "jar_bytes": 2898559,
+  "jar_crc_valid": true,
+  "class_major": 69,
+  "junit": {
+    "test": {
+      "suites": 120,
+      "tests": 6371,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 5,
+      "tests": 84,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "java_tests": 6455,
+  "source": {
+    "tests": 39,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "source_modules": [
+    "tests/test_a2s_lan.py",
+    "tests/test_a2s_modes.py",
+    "tests/test_telemetry_hardening.py",
+    "tests/test_steam_master.py"
+  ],
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "seven_source_directories_unchanged": true,
+  "frozen_resources_unchanged": 267,
+  "new_resources": 1,
+  "configured_reference_generators": 82,
+  "smokes": [
+    {
+      "args": [
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "BattleSpades 0.1.0-java25-dev; protocol 168; gameplay incomplete\n",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+    },
+    {
+      "args": [
+        "--check-config",
+        "config.toml"
+      ],
+      "exit": 0,
+      "stdout": "Core configuration valid: BattleSpades Server, UDP 27015, 24 players, 60 Hz\nValidation covers core/network/join, Match Lobby rules and common scene settings; full gameplay is pending.\n",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+    },
+    {
+      "args": [
+        "--help"
+      ],
+      "exit": 0,
+      "stdout": "BattleSpades Java 25: world creator and migration diagnostics\n  java -jar BattleSpades.jar --check-config PATH\n  java -jar BattleSpades.jar --version\n  java -jar BattleSpades.jar --results-import INPUT_NDJSON OUTBOX_DIRECTORY\n  java -jar BattleSpades.jar --ugc-assets RETAIL_ROOT\n  java -jar BattleSpades.jar --ugc-create RETAIL_ROOT DIRECTORY NAME TERRAIN MODE\n  java -jar BattleSpades.jar --ugc-check DIRECTORY NAME\n  java -jar BattleSpades.jar --ugc-host --retail-root RETAIL_ROOT --project NAME [--config PATH] [--publish-root hosted_ugc] [--control-stdin]\n",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+    },
+    {
+      "args": [
+        "--ugc-host",
+        "/workspace/scratch/dc9e10c1d797/tmp/nonexistent-hud-review-project"
+      ],
+      "exit": 2,
+      "stdout": "",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\nWorld creator error: Unexpected creator argument: /workspace/scratch/dc9e10c1d797/tmp/nonexistent-hud-review-project\n"
+    },
+    {
+      "args": [],
+      "exit": 2,
+      "stdout": "",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\nOrdinary gameplay startup is incomplete. Use --ugc-host for world creation.\nUse --help for commands.\n"
+    }
+  ],
+  "full_reference_python_baseline_passing": false,
+  "intact_source_observations": {
+    "tier_boundaries": 134,
+    "combat_traces": 8,
+    "objective_subround_traces": 14,
+    "environmental_traces": 28,
+    "environmental_owner_boundaries": 227,
+    "native_billboard_vectors": 68,
+    "legacy_sqlite_export": true
+  },
+  "full_migration_complete": false,
+  "macos_deferred_until_full_migration_complete": true,
+  "scope_limitations": [
+    "Ordinary competitive startup remains gated; bots and plugin/service composition are unfinished",
+    "Optional bot/plugin counters require their future explicit owners",
+    "Explicit hosted logging does not replace the global Java logging provider",
+    "Owner counters sampled at frame end exclude a retiring match partial frame; replication delivery counters are captured directly",
+    "Supported-client and full fleet capacity acceptance remain unverified"
+  ],
+  "runtime_services": {
+    "wire_requests": 16,
+    "mode_tags": 6,
+    "metric_windows": 6,
+    "bounded_samples_per_lane": 36000,
+    "logging_min_capacity": 256,
+    "logging_min_rotation_bytes": 1048576,
+    "real_udp_host_integration": true
+  }
+}

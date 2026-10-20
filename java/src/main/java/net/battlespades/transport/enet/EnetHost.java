@@ -23,6 +23,14 @@ public final class EnetHost implements AutoCloseable {
     private final int[] incomingSessions,outgoingSessions;
     private final ArrayDeque<EnetEvent> events=new ArrayDeque<>();
     private long generation,queuedBytes,received,malformed,refused,socketBackpressure;
+    /** null passes through to ENet; an empty reply consumes a recognized query without responding. */
+    @FunctionalInterface public interface Connectionless {byte[] reply(byte[] request);}
+    private Connectionless connectionless;
+    public AutoCloseable connectionless(Connectionless handler){
+        owned();if(connectionless!=null)throw new IllegalStateException("Connectionless handler already bound");
+        connectionless=java.util.Objects.requireNonNull(handler);
+        return ()->{if(Thread.currentThread()!=owner)throw new IllegalStateException("Connectionless lease outside owner");if(connectionless==handler)connectionless=null;};
+    }
     private int sendCursor;
     private boolean closed;
     private final long originNanos=System.nanoTime();
@@ -31,7 +39,7 @@ public final class EnetHost implements AutoCloseable {
         this.limits=limits;peers=new EnetPeer[limits.peerCount()];
         incomingSessions=new int[peers.length];outgoingSessions=new int[peers.length];
         Arrays.fill(incomingSessions,255);Arrays.fill(outgoingSessions,255);
-        udp=new UdpEndpoint(bind,4096);
+        udp=new UdpEndpoint(bind,4096,65507);
     }
     private void owned() {
         if(Thread.currentThread()!=owner) throw new IllegalStateException("ENet host accessed outside network owner");
@@ -61,6 +69,7 @@ public final class EnetHost implements AutoCloseable {
             try {incoming=udp.receive();} catch(ProtocolException invalid) {malformed++;continue;}
             if(incoming.isEmpty()) break;
             received++;var d=incoming.orElseThrow();
+            if(connectionless!=null){byte[] reply=connectionless.reply(d.payload());if(reply!=null){if(reply.length>65507){malformed++;continue;}if(reply.length>0)send(d.source(),reply);continue;}}
             try {receive(d.source(),EnetDatagram.decode(d.payload()),nowMillis);}
             catch(ProtocolException invalid) {malformed++;}
         }
@@ -121,7 +130,7 @@ public final class EnetHost implements AutoCloseable {
         } finally {
             for(var peer:peers) if(peer!=null) peer.abort(0,false);
             Arrays.fill(peers,null);events.clear();queuedBytes=0;
-            closed=true;udp.close();
+            connectionless=null;closed=true;udp.close();
         }
     }
 }

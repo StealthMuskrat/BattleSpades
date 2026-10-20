@@ -217,6 +217,17 @@ class HostedEntityRuntimeTest {
     private static PlayerLife actor(Harness h,int id,int team,int cid,Integer... tools){
         h.match.lives().admit(id,new SimplePackets.NewPlayerConnection(team,0,0,0,"P"+id),new ClassCatalog.Selection(cid,List.of(tools),List.of(),List.of()),0);var p=h.match.lives().player(id);p.body().position(new Vector(12.5,12.5,97.25));for(int x=12;x<=16;x++)for(int y=12;y<=15;y++)h.match.world().set(new MutableWorld.Cell(x,y,100),true,0x123456,null);return p;
     }
+    @Test void infiniteWalletCoversLinesFlaresPrefabsAndBlockLauncherWithoutBypassingTheirAuthorities()throws Exception{
+        try(var h=new Harness(temp.resolve("Wallet.vxl"),"")){
+            h.match.mode().start();var p=actor(h,0,2,0,5,22,29,23);p.bot(true);p.apply(new ClassCatalog.Selection(0,List.of(5,22,29,23),List.of("review_block"),List.of()));while(p.inventory().removeBlock()){}h.match.teamRules().set(2,true,false);p.fire().tool(5,true);
+            assertTrue(h.match.construction().line(p,new BlockDamageModel.Cell(15,12,99),new BlockDamageModel.Cell(16,12,99),1));h.match.construction().tick();assertTrue(h.match.world().solid(16,12,99));assertEquals(0,p.inventory().blocks());
+            p.fire().tool(22,true);assertTrue(h.match.construction().flare(p,new LivePlacement(104,2,127,15,15,99,4,0,-1,-1)));assertEquals(0,p.inventory().blocks());
+            p.fire().tool(29,true);assertTrue(h.match.entities().projectiles().use(p,29,new Vector3f(12.5f,12.5f,97.25f),new Vector3f(20,0,0),1,3));assertEquals(0,p.inventory().blocks());
+            var models=temp.resolve("wallet-models");Files.createDirectories(models);Files.write(models.resolve("review_block.kv6"),net.battlespades.support.CreatorFixtures.model(1,1,1));p.fire().tool(23,true);
+            try(var prefabs=new HostedPrefabRuntime(h.match,h.host,new HostedPrefabRuntime.Settings(32,2048),List.of(models))){assertTrue(prefabs.place(p,new PrefabPacket(30,4,"review_block",127,0,0,0,0,0,15,14,99,0xabcdef,false)));long deadline=System.nanoTime()+4_000_000_000L;while(!h.match.world().solid(15,14,99)){assertTrue(System.nanoTime()<deadline,"prefab worker adoption timed out");prefabs.tick();Thread.onSpinWait();}assertEquals(0,p.inventory().blocks());}
+            h.match.teamRules().set(2,false,false);p.fire().tool(5,true);assertFalse(h.match.construction().single(p,new BlockDamageModel.Cell(14,14,99),5));assertEquals(0,h.match.construction().mutations().metrics().pending());assertTrue(h.ports.errors.isEmpty());
+        }
+    }
     @Test void turretConsumesLastStockOnceAndMgRelocationRetainsEquipmentWhileForeignMountIsReleased()throws Exception{
         try(var h=new Harness(temp.resolve("Devices.vxl"),"")){
             h.match.mode().start();var engineer=actor(h,0,2,12,5,16,64);var a=h.match.entities().actions();engineer.fire().tool(16,true);

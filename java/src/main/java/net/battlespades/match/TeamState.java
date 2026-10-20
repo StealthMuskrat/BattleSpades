@@ -12,7 +12,7 @@ public final class TeamState {
     public String name;
     public int red,green,blue,spawnIndex;
     public long score,captures,kills;
-    public boolean lockedScore;
+    public boolean lockedScore,infiniteBlocks;
     private final List<PlayerLife> players=new ArrayList<>();
     private final List<Vector> spawns=new ArrayList<>();
     public Vector intelPosition;

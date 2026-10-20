@@ -1,0 +1,88 @@
+{
+  "parent": "4bfad96646918d7cc67acb04400175e8d3300ef4",
+  "observed_utc": "2026-10-20T15:32:35.054934+00:00",
+  "jar_sha256": "83e278b9ea41ab2b48de428a23170b80e211bed03f423b49e89878f19e6647bb",
+  "jar_bytes": 2766818,
+  "jar_crc_valid": true,
+  "class_major": 69,
+  "junit": {
+    "test": {
+      "suites": 117,
+      "tests": 6361,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 5,
+      "tests": 80,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "java_tests": 6441,
+  "source": {
+    "tests": 41,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "source_modules": [
+    "tests/test_anticheat_report.py",
+    "tests/test_hud_packets.py"
+  ],
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "seven_source_directories_unchanged": true,
+  "frozen_resources_unchanged": 263,
+  "configured_reference_generators": 79,
+  "smokes": [
+    {
+      "args": [
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "BattleSpades 0.1.0-java25-dev; protocol 168; gameplay incomplete\n",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+    },
+    {
+      "args": [
+        "--check-config",
+        "config.toml"
+      ],
+      "exit": 0,
+      "stdout": "Core configuration valid: BattleSpades Server, UDP 27015, 24 players, 60 Hz\nValidation covers core/network/join, Match Lobby rules and common scene settings; full gameplay is pending.\n",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+    },
+    {
+      "args": [
+        "--help"
+      ],
+      "exit": 0,
+      "stdout": "BattleSpades Java 25: world creator and migration diagnostics\n  java -jar BattleSpades.jar --check-config PATH\n  java -jar BattleSpades.jar --version\n  java -jar BattleSpades.jar --results-import INPUT_NDJSON OUTBOX_DIRECTORY\n  java -jar BattleSpades.jar --ugc-assets RETAIL_ROOT\n  java -jar BattleSpades.jar --ugc-create RETAIL_ROOT DIRECTORY NAME TERRAIN MODE\n  java -jar BattleSpades.jar --ugc-check DIRECTORY NAME\n  java -jar BattleSpades.jar --ugc-host --retail-root RETAIL_ROOT --project NAME [--config PATH] [--publish-root hosted_ugc] [--control-stdin]\n",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+    },
+    {
+      "args": [
+        "--ugc-host",
+        "/workspace/scratch/dc9e10c1d797/tmp/nonexistent-hud-review-project"
+      ],
+      "exit": 2,
+      "stdout": "",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\nWorld creator error: Unexpected creator argument: /workspace/scratch/dc9e10c1d797/tmp/nonexistent-hud-review-project\n"
+    },
+    {
+      "args": [],
+      "exit": 2,
+      "stdout": "",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\nOrdinary gameplay startup is incomplete. Use --ugc-host for world creation.\nUse --help for commands.\n"
+    }
+  ],
+  "full_reference_python_baseline_passing": false,
+  "full_migration_complete": false,
+  "macos_deferred_until_full_migration_complete": true,
+  "initial_validation_corrections": [
+    "Reserved fixture name Owner was replaced by the existing allocator; the fixture now uses Alice.",
+    "Scene rollover bypasses domain disconnect; review snapshots now use the shared life-retirement hook."
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
-  "jar_sha256": "f6d06ee3ca3543d5e82c6c2aabff2857ff61df800af17282f51e17614d4c2304",
-  "jar_bytes": 2715579,
+  "jar_sha256": "83e278b9ea41ab2b48de428a23170b80e211bed03f423b49e89878f19e6647bb",
+  "jar_bytes": 2766818,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -17,415 +17,32 @@
     "META-INF/THIRD_PARTY_NOTICES.md",
     "META-INF/JAVA-THIRD-PARTY-NOTICES.md"
   ],
-  "repeated_build_identical": true,
+  "repeated_build_identical": false,
   "junit": {
     "test": {
-      "suites": 116,
-      "tests": 6357,
+      "suites": 117,
+      "tests": 6361,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
       "suites": 5,
-      "tests": 78,
+      "tests": 80,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Hosted ending verified with 6435 Java tests and four required CI jobs; macOS deferred until full migration completion; selected source tests 35 passed / 1 existing failure",
-  "java_implementation_commit": "d62fca366e9b578273e09b82be2990482bb433cd",
-  "tested_tree": "b1ecfd5074ae96dd2092e69732a763702f7f7586",
+  "verification_stage": "Hosted HUD/review locally verified; four required CI jobs pending; macOS deferred until full migration completion",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "required_checks_passed_macos_deferred",
-    "observed_at_utc": "2026-10-20T15:08:23.800322+00:00",
-    "run_id": 39440226295,
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39440226295",
-    "head_sha": "d62fca366e9b578273e09b82be2990482bb433cd",
-    "tested_tree": "b1ecfd5074ae96dd2092e69732a763702f7f7586",
-    "attempt": 3,
-    "all_required_jobs_passed": true,
-    "all_required_final_steps_verified": true,
+    "status": "pending",
     "required_jobs": 4,
-    "completed_required_final_steps": 53,
-    "jobs": [
-      {
-        "id": 118702913463,
-        "name": "build",
-        "status": "completed",
-        "conclusion": "success",
-        "run_id": 39440226295,
-        "logs_url": null,
-        "steps": [
-          {
-            "name": "Set up job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 1
-          },
-          {
-            "name": "Run actions/checkout@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 2
-          },
-          {
-            "name": "Run actions/setup-java@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 3
-          },
-          {
-            "name": "Run gradle/actions/setup-gradle@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 4
-          },
-          {
-            "name": "Build and verify migration components",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 5
-          },
-          {
-            "name": "Core configuration smoke test",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 6
-          },
-          {
-            "name": "Verify reproducible application archive",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 7
-          },
-          {
-            "name": "Run actions/upload-artifact@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 8
-          },
-          {
-            "name": "Run actions/upload-artifact@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 9
-          },
-          {
-            "name": "Post Run gradle/actions/setup-gradle@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 16
-          },
-          {
-            "name": "Post Run actions/setup-java@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 17
-          },
-          {
-            "name": "Post Run actions/checkout@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 18
-          },
-          {
-            "name": "Complete job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 19
-          }
-        ]
-      },
-      {
-        "id": 118702914615,
-        "name": "platform (windows-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "run_id": 39440226295,
-        "logs_url": null,
-        "steps": [
-          {
-            "name": "Set up job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 1
-          },
-          {
-            "name": "Run actions/checkout@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 2
-          },
-          {
-            "name": "Run actions/setup-java@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 3
-          },
-          {
-            "name": "Run gradle/actions/setup-gradle@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 4
-          },
-          {
-            "name": "Run actions/download-artifact@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 5
-          },
-          {
-            "name": "Run identical application artifact",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 6
-          },
-          {
-            "name": "Component tests on platform",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 7
-          },
-          {
-            "name": "Run actions/upload-artifact@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 8
-          },
-          {
-            "name": "Post Run gradle/actions/setup-gradle@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 14
-          },
-          {
-            "name": "Post Run actions/setup-java@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 15
-          },
-          {
-            "name": "Post Run actions/checkout@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 16
-          },
-          {
-            "name": "Complete job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 17
-          }
-        ]
-      },
-      {
-        "id": 118702992737,
-        "name": "native-enet",
-        "status": "completed",
-        "conclusion": "success",
-        "run_id": 39440226295,
-        "logs_url": null,
-        "steps": [
-          {
-            "name": "Set up job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 1
-          },
-          {
-            "name": "Run actions/checkout@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 2
-          },
-          {
-            "name": "Run actions/setup-java@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 3
-          },
-          {
-            "name": "Run gradle/actions/setup-gradle@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 4
-          },
-          {
-            "name": "Run actions/setup-python@v5",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 5
-          },
-          {
-            "name": "Compile Java transport probe",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 6
-          },
-          {
-            "name": "Build development-only native ENet oracle",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 7
-          },
-          {
-            "name": "Native interoperability with loss, reorder, duplicates and reconnect",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 8
-          },
-          {
-            "name": "Native application loader, password, live catch-up and scene reload",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 9
-          },
-          {
-            "name": "Rebuild original world and scene oracles and reproduce fixtures",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 10
-          },
-          {
-            "name": "Run actions/upload-artifact@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 11
-          },
-          {
-            "name": "Post Run actions/setup-python@v5",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 19
-          },
-          {
-            "name": "Post Run gradle/actions/setup-gradle@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 20
-          },
-          {
-            "name": "Post Run actions/setup-java@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 21
-          },
-          {
-            "name": "Post Run actions/checkout@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 22
-          },
-          {
-            "name": "Complete job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 23
-          }
-        ]
-      },
-      {
-        "id": 118702998255,
-        "name": "platform (ubuntu-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "run_id": 39440226295,
-        "logs_url": null,
-        "steps": [
-          {
-            "name": "Set up job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 1
-          },
-          {
-            "name": "Run actions/checkout@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 2
-          },
-          {
-            "name": "Run actions/setup-java@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 3
-          },
-          {
-            "name": "Run gradle/actions/setup-gradle@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 4
-          },
-          {
-            "name": "Run actions/download-artifact@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 5
-          },
-          {
-            "name": "Run identical application artifact",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 6
-          },
-          {
-            "name": "Component tests on platform",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 7
-          },
-          {
-            "name": "Run actions/upload-artifact@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 8
-          },
-          {
-            "name": "Post Run gradle/actions/setup-gradle@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 14
-          },
-          {
-            "name": "Post Run actions/setup-java@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 15
-          },
-          {
-            "name": "Post Run actions/checkout@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 16
-          },
-          {
-            "name": "Complete job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 17
-          }
-        ]
-      }
-    ],
-    "configured_source_generators_reproduced": 79,
-    "repeated_archive_byte_comparison": true,
-    "identical_uploaded_artifact_smoked_on_platforms": [
-      "ubuntu-latest",
-      "windows-latest"
-    ],
-    "local_to_ci_artifact_hash_compared": false,
-    "full_reference_python_baseline_passing": false,
-    "macos": {
-      "deferred": true,
-      "until": "Full migration completion",
-      "user_instruction": "from here on stop doing tests for macOS, once the migration is complete then do a macOS test",
-      "initial_attempt_failure": "Existing unchanged realUdpSpectatorMenuTeamClassAndPaletteShareCanonicalLifeAndRoster timed out waiting for unreliable sound packets; all new ending cases passed.",
-      "attempt_2": "Cancelled after 15 minutes with runner_id 0 and no executed steps.",
-      "older_in_flight_run_cancellation": "Connector has no cancel action; browser requires GitHub sign-in. No additional macOS runs or retries will be launched during migration."
-    },
-    "workflow_change_validation": "Parsed YAML; only Linux and Windows remain in the platform matrix. No production/test/resource changes after the verified implementation."
+    "all_required_jobs_passed": false,
+    "macos_deferred_until_full_migration_complete": true,
+    "full_reference_python_baseline_passing": false
   },
   "movement": {
     "cases": 118,
@@ -490,7 +107,7 @@
     "net/battlespades/catalog/modes.toml",
     "net/battlespades/catalog/rules.toml"
   ],
-  "local_packaging_note": "First incomplete local JAR rejected. Rebuilt archive passed CRC, full Java checks and packaged application integration tests. Cause of initial truncation is unestablished.",
+  "local_packaging_note": "All packaged member CRCs verified; packaged application integration and launch checks passed.",
   "admission": {
     "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
     "unicode": "15.0.0",
@@ -781,9 +398,8 @@
   },
   "publication": {
     "branch": "port/java25",
-    "implementation_commit": "d62fca366e9b578273e09b82be2990482bb433cd",
-    "tested_tree": "b1ecfd5074ae96dd2092e69732a763702f7f7586",
-    "status": "verified implementation published; this checkpoint records required checks and the user-requested macOS deferral"
+    "verification_parent": "4bfad96646918d7cc67acb04400175e8d3300ef4",
+    "status": "implementation pending publication"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -6654,7 +6270,7 @@
     "six_reference_directories_exactly_match_main": true,
     "files_unchanged_from_import": true
   },
-  "repeated_build_scope": "CI byte-compared repeated archives; Linux and Windows smoked the identical uploaded artifact. macOS acceptance is deferred; local-to-CI archive hashes were not compared.",
+  "repeated_build_scope": "CRC verified locally; repeated archive byte comparison pending in CI.",
   "previous_capture_zone_checkpoint": {
     "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
     "verification_stage": "Updated upstream and TC/Multi-Hill checkpoint verified locally; four CI jobs passed, macOS queued awaiting runner",
@@ -8414,9 +8030,9 @@
       "implementation_commit": "e50298b4f228319f8ccd2c3eed520573afb0a2ee"
     }
   },
-  "java_component_tests": 6357,
-  "java_integration_tests": 78,
-  "java_tests": 6435,
+  "java_component_tests": 6361,
+  "java_integration_tests": 80,
+  "java_tests": 6441,
   "full_migration_complete": false,
   "supported_client_acceptance": false,
   "round_results": {
@@ -9563,5 +9179,489 @@
     },
     "java_implementation_commit": "d62fca366e9b578273e09b82be2990482bb433cd",
     "tested_tree": "b1ecfd5074ae96dd2092e69732a763702f7f7586"
+  },
+  "previous_hosted_ending_checkpoint": {
+    "java_implementation_commit": "d62fca366e9b578273e09b82be2990482bb433cd",
+    "tested_tree": "b1ecfd5074ae96dd2092e69732a763702f7f7586",
+    "ci": {
+      "status": "required_checks_passed_macos_deferred",
+      "observed_at_utc": "2026-10-20T15:08:23.800322+00:00",
+      "run_id": 39440226295,
+      "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39440226295",
+      "head_sha": "d62fca366e9b578273e09b82be2990482bb433cd",
+      "tested_tree": "b1ecfd5074ae96dd2092e69732a763702f7f7586",
+      "attempt": 3,
+      "all_required_jobs_passed": true,
+      "all_required_final_steps_verified": true,
+      "required_jobs": 4,
+      "completed_required_final_steps": 53,
+      "jobs": [
+        {
+          "id": 118702913463,
+          "name": "build",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 39440226295,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Build and verify migration components",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Core configuration smoke test",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Verify reproducible application archive",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Post Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Post Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            }
+          ]
+        },
+        {
+          "id": 118702914615,
+          "name": "platform (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 39440226295,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/download-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run identical application artifact",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Component tests on platform",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Post Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Post Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            }
+          ]
+        },
+        {
+          "id": 118702992737,
+          "name": "native-enet",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 39440226295,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Compile Java transport probe",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Build development-only native ENet oracle",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Native interoperability with loss, reorder, duplicates and reconnect",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Native application loader, password, live catch-up and scene reload",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Rebuild original world and scene oracles and reproduce fixtures",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Post Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 21
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 22
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 23
+            }
+          ]
+        },
+        {
+          "id": 118702998255,
+          "name": "platform (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 39440226295,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/download-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run identical application artifact",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Component tests on platform",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Post Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Post Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            }
+          ]
+        }
+      ],
+      "configured_source_generators_reproduced": 79,
+      "repeated_archive_byte_comparison": true,
+      "identical_uploaded_artifact_smoked_on_platforms": [
+        "ubuntu-latest",
+        "windows-latest"
+      ],
+      "local_to_ci_artifact_hash_compared": false,
+      "full_reference_python_baseline_passing": false,
+      "macos": {
+        "deferred": true,
+        "until": "Full migration completion",
+        "user_instruction": "from here on stop doing tests for macOS, once the migration is complete then do a macOS test",
+        "initial_attempt_failure": "Existing unchanged realUdpSpectatorMenuTeamClassAndPaletteShareCanonicalLifeAndRoster timed out waiting for unreliable sound packets; all new ending cases passed.",
+        "attempt_2": "Cancelled after 15 minutes with runner_id 0 and no executed steps.",
+        "older_in_flight_run_cancellation": "Connector has no cancel action; browser requires GitHub sign-in. No additional macOS runs or retries will be launched during migration."
+      },
+      "workflow_change_validation": "Parsed YAML; only Linux and Windows remain in the platform matrix. No production/test/resource changes after the verified implementation."
+    },
+    "jar_sha256": "f6d06ee3ca3543d5e82c6c2aabff2857ff61df800af17282f51e17614d4c2304",
+    "java_tests": 6435
+  },
+  "hud_and_anticheat_review": {
+    "parent": "4bfad96646918d7cc67acb04400175e8d3300ef4",
+    "observed_utc": "2026-10-20T15:32:35.054934+00:00",
+    "jar_sha256": "83e278b9ea41ab2b48de428a23170b80e211bed03f423b49e89878f19e6647bb",
+    "jar_bytes": 2766818,
+    "jar_crc_valid": true,
+    "class_major": 69,
+    "junit": {
+      "test": {
+        "suites": 117,
+        "tests": 6361,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "suites": 5,
+        "tests": 80,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "java_tests": 6441,
+    "source": {
+      "tests": 41,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "source_modules": [
+      "tests/test_anticheat_report.py",
+      "tests/test_hud_packets.py"
+    ],
+    "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+    "seven_source_directories_unchanged": true,
+    "frozen_resources_unchanged": 263,
+    "configured_reference_generators": 79,
+    "smokes": [
+      {
+        "args": [
+          "--version"
+        ],
+        "exit": 0,
+        "stdout": "BattleSpades 0.1.0-java25-dev; protocol 168; gameplay incomplete\n",
+        "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+      },
+      {
+        "args": [
+          "--check-config",
+          "config.toml"
+        ],
+        "exit": 0,
+        "stdout": "Core configuration valid: BattleSpades Server, UDP 27015, 24 players, 60 Hz\nValidation covers core/network/join, Match Lobby rules and common scene settings; full gameplay is pending.\n",
+        "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+      },
+      {
+        "args": [
+          "--help"
+        ],
+        "exit": 0,
+        "stdout": "BattleSpades Java 25: world creator and migration diagnostics\n  java -jar BattleSpades.jar --check-config PATH\n  java -jar BattleSpades.jar --version\n  java -jar BattleSpades.jar --results-import INPUT_NDJSON OUTBOX_DIRECTORY\n  java -jar BattleSpades.jar --ugc-assets RETAIL_ROOT\n  java -jar BattleSpades.jar --ugc-create RETAIL_ROOT DIRECTORY NAME TERRAIN MODE\n  java -jar BattleSpades.jar --ugc-check DIRECTORY NAME\n  java -jar BattleSpades.jar --ugc-host --retail-root RETAIL_ROOT --project NAME [--config PATH] [--publish-root hosted_ugc] [--control-stdin]\n",
+        "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+      },
+      {
+        "args": [
+          "--ugc-host",
+          "/workspace/scratch/dc9e10c1d797/tmp/nonexistent-hud-review-project"
+        ],
+        "exit": 2,
+        "stdout": "",
+        "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\nWorld creator error: Unexpected creator argument: /workspace/scratch/dc9e10c1d797/tmp/nonexistent-hud-review-project\n"
+      },
+      {
+        "args": [],
+        "exit": 2,
+        "stdout": "",
+        "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\nOrdinary gameplay startup is incomplete. Use --ugc-host for world creation.\nUse --help for commands.\n"
+      }
+    ],
+    "full_reference_python_baseline_passing": false,
+    "full_migration_complete": false,
+    "macos_deferred_until_full_migration_complete": true,
+    "initial_validation_corrections": [
+      "Reserved fixture name Owner was replaced by the existing allocator; the fixture now uses Alice.",
+      "Scene rollover bypasses domain disconnect; review snapshots now use the shared life-retirement hook."
+    ]
   }
 }

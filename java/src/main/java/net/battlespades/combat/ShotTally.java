@@ -9,7 +9,7 @@ import net.battlespades.player.PlayerLife;
 /** Source accepted-trigger aggregation and client-chosen pellet seed observations. */
 public final class ShotTally {
     public record Weapon(long shots,long hits,long headshots) {}
-    public record Snapshot(long shots,long hits,long headshots,long pelletHits,Map<Integer,Weapon> weapons,Map<Integer,Long> seeds){public Snapshot{weapons=Map.copyOf(weapons);seeds=Map.copyOf(seeds);}}
+    public record Snapshot(long shots,long hits,long headshots,long pelletHits,Map<Integer,Weapon> weapons,Map<Integer,Long> seeds){public Snapshot{weapons=Collections.unmodifiableMap(new LinkedHashMap<>(weapons));seeds=Collections.unmodifiableMap(new LinkedHashMap<>(seeds));}}
     public record Resolved(PlayerLife player,int tool,boolean hit) {}
     public static final class Statistics {
         private final Thread owner=Thread.currentThread();private long shots,hits,headshots,pelletHits;

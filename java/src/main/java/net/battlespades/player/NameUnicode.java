@@ -54,6 +54,8 @@ public final class NameUnicode {
         int start=0,end=text.length();while(start<end&&space(text.codePointAt(start)))start+=Character.charCount(text.codePointAt(start));
         while(end>start&&space(text.codePointBefore(end)))end-=Character.charCount(text.codePointBefore(end));return text.substring(start,end);
     }
+    /** Python str.lstrip with the same pinned whitespace table as strip. */
+    public static String stripLeading(String text){int start=0;while(start<text.length()&&space(text.codePointAt(start)))start+=Character.charCount(text.codePointAt(start));return text.substring(start);}
     static String nfkd(String text){return string(decompose(text));}
     static String nfkc(String text){
         int[] source=decompose(text);if(source.length==0)return "";

@@ -31,6 +31,9 @@ public final class ApplicationHost implements AutoCloseable {
     private net.battlespades.replication.ReplicationService.OwnerTuning reconciliation;
     void rememberReconciliation(net.battlespades.replication.ReplicationService.OwnerTuning value){owned();reconciliation=java.util.Objects.requireNonNull(value);}
     java.util.Optional<net.battlespades.replication.ReplicationService.OwnerTuning> reconciliation(){owned();return java.util.Optional.ofNullable(reconciliation);}
+    private HostedAnticheatReview review;
+    public HostedAnticheatReview review(org.tomlj.TomlTable raw){owned();if(review==null)review=new HostedAnticheatReview(this,raw);return review;}
+    public java.util.concurrent.CompletionStage<Void> shutdownReview(){owned();return review==null?java.util.concurrent.CompletableFuture.completedFuture(null):review.shutdown();}
     private HostedRoundEnding roundEnding;
     public void roundEnding(HostedRoundEnding service){owned();if(roundEnding!=null||!sessions.isEmpty())throw new IllegalStateException("Round ending binds once before connections");roundEnding=java.util.Objects.requireNonNull(service);}
     public java.util.Optional<HostedRoundEnding> roundEnding(){owned();return java.util.Optional.ofNullable(roundEnding);}
@@ -148,6 +151,6 @@ public final class ApplicationHost implements AutoCloseable {
     @Override public void close() throws IOException {
         if(Thread.currentThread()!=owner) throw new IllegalStateException("Application host closed outside owner");if(closed||closing) return;
         if(roundEnding!=null&&!roundEnding.stopped())throw new IllegalStateException("Await shutdownEndings before closing the host");
-        if(results!=null&&!results.stopped())throw new IllegalStateException("Await shutdownResults before closing the host");closing=true;if(packets!=null)packets.clear();queuedSessions.clear();try {if(voting!=null)voting.close();for(var session:sessions.values()) session.close();sessions.clear();if(administration!=null)administration.clear();compression.close();} finally {closed=true;transport.close();}
+        if(results!=null&&!results.stopped())throw new IllegalStateException("Await shutdownResults before closing the host");closing=true;if(packets!=null)packets.clear();queuedSessions.clear();try {if(review!=null)review.close();if(voting!=null)voting.close();for(var session:sessions.values()) session.close();sessions.clear();if(administration!=null)administration.clear();compression.close();} finally {closed=true;transport.close();}
     }
 }

@@ -1,0 +1,8994 @@
+[
+  {
+    "name": "one_explosion",
+    "steps": [
+      [
+        "begin",
+        0,
+        3,
+        null
+      ],
+      [
+        "kill",
+        0,
+        1,
+        3
+      ],
+      [
+        "kill",
+        0,
+        2,
+        3
+      ],
+      [
+        "end"
+      ],
+      [
+        "begin",
+        0,
+        3,
+        null
+      ],
+      [
+        "kill",
+        0,
+        1,
+        3
+      ],
+      [
+        "kill",
+        0,
+        2,
+        3
+      ],
+      [
+        "end"
+      ],
+      [
+        "begin",
+        0,
+        4,
+        null
+      ],
+      [
+        "kill",
+        0,
+        1,
+        4
+      ],
+      [
+        "kill",
+        0,
+        2,
+        4
+      ],
+      [
+        "kill",
+        0,
+        3,
+        4
+      ],
+      [
+        "end"
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row",
+            "misc_triple_explosion"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row",
+            "misc_triple_explosion"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "nested_explosions",
+    "steps": [
+      [
+        "begin",
+        0,
+        3,
+        null
+      ],
+      [
+        "kill",
+        0,
+        1,
+        3
+      ],
+      [
+        "begin",
+        0,
+        4,
+        null
+      ],
+      [
+        "kill",
+        0,
+        2,
+        4
+      ],
+      [
+        "end"
+      ],
+      [
+        "kill",
+        0,
+        2,
+        3
+      ],
+      [
+        "kill",
+        0,
+        3,
+        3
+      ],
+      [
+        "end"
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_triple_explosion"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_triple_explosion"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "buried_mines",
+    "steps": [
+      [
+        "begin",
+        0,
+        14,
+        [
+          40,
+          40,
+          90
+        ]
+      ],
+      [
+        "kill",
+        0,
+        1,
+        14
+      ],
+      [
+        "end"
+      ],
+      [
+        "begin",
+        0,
+        14,
+        [
+          40,
+          40,
+          90
+        ]
+      ],
+      [
+        "kill",
+        0,
+        1,
+        14
+      ],
+      [
+        "end"
+      ],
+      [
+        "begin",
+        0,
+        14,
+        [
+          40,
+          40,
+          90
+        ]
+      ],
+      [
+        "kill",
+        0,
+        1,
+        14
+      ],
+      [
+        "end"
+      ],
+      [
+        "begin",
+        0,
+        14,
+        [
+          40,
+          40,
+          90
+        ]
+      ],
+      [
+        "kill",
+        0,
+        1,
+        14
+      ],
+      [
+        "end"
+      ],
+      [
+        "begin",
+        0,
+        14,
+        [
+          40,
+          40,
+          90
+        ]
+      ],
+      [
+        "kill",
+        0,
+        1,
+        14
+      ],
+      [
+        "end"
+      ],
+      [
+        "begin",
+        0,
+        14,
+        [
+          40,
+          40,
+          90
+        ]
+      ],
+      [
+        "kill",
+        0,
+        1,
+        14
+      ],
+      [
+        "end"
+      ],
+      [
+        "begin",
+        0,
+        14,
+        [
+          40,
+          40,
+          90
+        ]
+      ],
+      [
+        "kill",
+        0,
+        1,
+        14
+      ],
+      [
+        "end"
+      ],
+      [
+        "begin",
+        0,
+        14,
+        [
+          40,
+          40,
+          90
+        ]
+      ],
+      [
+        "kill",
+        0,
+        1,
+        14
+      ],
+      [
+        "end"
+      ],
+      [
+        "begin",
+        0,
+        14,
+        [
+          40,
+          40,
+          90
+        ]
+      ],
+      [
+        "kill",
+        0,
+        1,
+        14
+      ],
+      [
+        "end"
+      ],
+      [
+        "begin",
+        0,
+        14,
+        [
+          40,
+          40,
+          90
+        ]
+      ],
+      [
+        "kill",
+        0,
+        1,
+        14
+      ],
+      [
+        "end"
+      ]
+    ],
+    "regions": [],
+    "solid": [
+      [
+        40,
+        40,
+        90
+      ],
+      [
+        41,
+        41,
+        91
+      ]
+    ],
+    "official": false,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 1
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 1
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 1
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 2
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 2
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 2
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 3
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 3
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 3
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 4
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 4
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 4
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 5
+          },
+          "unlocked": [
+            "landmine_hidden",
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 5
+          },
+          "unlocked": [
+            "landmine_hidden",
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 5
+          },
+          "unlocked": [
+            "landmine_hidden",
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 6
+          },
+          "unlocked": [
+            "landmine_hidden",
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 6
+          },
+          "unlocked": [
+            "landmine_hidden",
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 6
+          },
+          "unlocked": [
+            "landmine_hidden",
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 7
+          },
+          "unlocked": [
+            "landmine_hidden",
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 7
+          },
+          "unlocked": [
+            "landmine_hidden",
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 7
+          },
+          "unlocked": [
+            "landmine_hidden",
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 8
+          },
+          "unlocked": [
+            "landmine_hidden",
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 8
+          },
+          "unlocked": [
+            "landmine_hidden",
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 8
+          },
+          "unlocked": [
+            "landmine_hidden",
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 9
+          },
+          "unlocked": [
+            "landmine_hidden",
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 9
+          },
+          "unlocked": [
+            "landmine_hidden",
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 9
+          },
+          "unlocked": [
+            "landmine_hidden",
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 10
+          },
+          "unlocked": [
+            "landmine_hidden",
+            "misc_five_in_a_row",
+            "misc_ten_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "landmine_hidden_count": 10
+          },
+          "unlocked": [
+            "landmine_hidden",
+            "misc_five_in_a_row",
+            "misc_ten_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "unburied_mine",
+    "steps": [
+      [
+        "begin",
+        0,
+        14,
+        [
+          40,
+          40,
+          90
+        ]
+      ],
+      [
+        "kill",
+        0,
+        1,
+        14
+      ],
+      [
+        "end"
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "below_feet",
+    "steps": [
+      [
+        "begin",
+        0,
+        15,
+        [
+          10,
+          10,
+          99.74
+        ]
+      ],
+      [
+        "damage",
+        1,
+        0,
+        15
+      ],
+      [
+        "kill",
+        0,
+        1,
+        15
+      ],
+      [
+        "end"
+      ],
+      [
+        "begin",
+        0,
+        15,
+        [
+          10,
+          10,
+          99.75
+        ]
+      ],
+      [
+        "damage",
+        1,
+        0,
+        15
+      ],
+      [
+        "kill",
+        0,
+        1,
+        15
+      ],
+      [
+        "end"
+      ],
+      [
+        "begin",
+        0,
+        15,
+        [
+          10,
+          10,
+          100
+        ]
+      ],
+      [
+        "damage",
+        1,
+        0,
+        15
+      ],
+      [
+        "end"
+      ],
+      [
+        "kill",
+        0,
+        1,
+        7
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "dynamite_below_count": 1
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "dynamite_below_count": 1
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "dynamite_below_count": 1
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "dynamite_below_count": 1
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "dynamite_below_count": 1
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "dynamite_below_count": 2
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "turret_identity",
+    "steps": [
+      [
+        "projectile",
+        "rocket_turret_rocket",
+        0,
+        null,
+        18,
+        0,
+        1
+      ],
+      [
+        "begin",
+        0,
+        18,
+        [
+          10,
+          10,
+          97
+        ]
+      ],
+      [
+        "damage",
+        1,
+        0,
+        18
+      ],
+      [
+        "kill",
+        0,
+        1,
+        18
+      ],
+      [
+        "end"
+      ],
+      [
+        "projectile",
+        "rocket_turret_rocket",
+        0,
+        null,
+        18,
+        0,
+        1
+      ],
+      [
+        "begin",
+        0,
+        18,
+        [
+          10,
+          10,
+          97
+        ]
+      ],
+      [
+        "damage",
+        1,
+        0,
+        18
+      ],
+      [
+        "kill",
+        0,
+        1,
+        18
+      ],
+      [
+        "end"
+      ],
+      [
+        "projectile",
+        "rocket_turret_rocket",
+        0,
+        null,
+        18,
+        0,
+        1
+      ],
+      [
+        "begin",
+        0,
+        18,
+        [
+          10,
+          10,
+          97
+        ]
+      ],
+      [
+        "damage",
+        1,
+        0,
+        18
+      ],
+      [
+        "kill",
+        0,
+        1,
+        18
+      ],
+      [
+        "end"
+      ],
+      [
+        "projectile",
+        "rocket_turret_rocket",
+        0,
+        null,
+        18,
+        0,
+        1
+      ],
+      [
+        "begin",
+        0,
+        18,
+        [
+          10,
+          10,
+          97
+        ]
+      ],
+      [
+        "damage",
+        1,
+        0,
+        18
+      ],
+      [
+        "kill",
+        0,
+        1,
+        18
+      ],
+      [
+        "end"
+      ],
+      [
+        "projectile",
+        "rocket_turret_rocket",
+        0,
+        null,
+        18,
+        0,
+        1
+      ],
+      [
+        "begin",
+        0,
+        18,
+        [
+          10,
+          10,
+          97
+        ]
+      ],
+      [
+        "damage",
+        1,
+        0,
+        18
+      ],
+      [
+        "kill",
+        0,
+        1,
+        18
+      ],
+      [
+        "end"
+      ],
+      [
+        "projectile",
+        "rocket_turret_rocket",
+        0,
+        null,
+        18,
+        0,
+        1
+      ],
+      [
+        "begin",
+        0,
+        18,
+        [
+          10,
+          10,
+          97
+        ]
+      ],
+      [
+        "damage",
+        1,
+        0,
+        18
+      ],
+      [
+        "kill",
+        0,
+        1,
+        18
+      ],
+      [
+        "end"
+      ],
+      [
+        "projectile",
+        "rocket_turret_rocket",
+        0,
+        null,
+        18,
+        0,
+        1
+      ],
+      [
+        "begin",
+        0,
+        18,
+        [
+          10,
+          10,
+          97
+        ]
+      ],
+      [
+        "damage",
+        1,
+        0,
+        18
+      ],
+      [
+        "kill",
+        0,
+        1,
+        18
+      ],
+      [
+        "end"
+      ],
+      [
+        "projectile",
+        "rocket_turret_rocket",
+        0,
+        null,
+        18,
+        0,
+        1
+      ],
+      [
+        "begin",
+        0,
+        18,
+        [
+          10,
+          10,
+          97
+        ]
+      ],
+      [
+        "damage",
+        1,
+        0,
+        18
+      ],
+      [
+        "kill",
+        0,
+        1,
+        18
+      ],
+      [
+        "end"
+      ],
+      [
+        "projectile",
+        "rocket_turret_rocket",
+        0,
+        null,
+        18,
+        0,
+        1
+      ],
+      [
+        "begin",
+        0,
+        18,
+        [
+          10,
+          10,
+          97
+        ]
+      ],
+      [
+        "damage",
+        1,
+        0,
+        18
+      ],
+      [
+        "kill",
+        0,
+        1,
+        18
+      ],
+      [
+        "end"
+      ],
+      [
+        "projectile",
+        "rocket_turret_rocket",
+        0,
+        null,
+        18,
+        1,
+        1
+      ],
+      [
+        "begin",
+        0,
+        18,
+        [
+          10,
+          10,
+          97
+        ]
+      ],
+      [
+        "damage",
+        1,
+        0,
+        18
+      ],
+      [
+        "kill",
+        0,
+        1,
+        18
+      ],
+      [
+        "end"
+      ],
+      [
+        "projectile",
+        "rocket_turret_rocket",
+        0,
+        null,
+        18,
+        0,
+        1
+      ],
+      [
+        "begin",
+        0,
+        18,
+        [
+          10,
+          10,
+          97
+        ]
+      ],
+      [
+        "damage",
+        1,
+        0,
+        18
+      ],
+      [
+        "kill",
+        0,
+        1,
+        18
+      ],
+      [
+        "end"
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row",
+            "misc_ten_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row",
+            "misc_ten_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row",
+            "misc_ten_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row",
+            "misc_ten_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row",
+            "misc_ten_in_a_row"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row",
+            "misc_ten_in_a_row",
+            "turret_accuracy"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "misc_five_in_a_row",
+            "misc_ten_in_a_row",
+            "turret_accuracy"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "turret_evasion",
+    "steps": [
+      [
+        "projectile",
+        "rocket_turret_rocket",
+        0,
+        null,
+        18,
+        0,
+        1
+      ],
+      [
+        "begin",
+        0,
+        18,
+        [
+          10,
+          10,
+          97
+        ]
+      ],
+      [
+        "blocks",
+        0,
+        [
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            1,
+            0,
+            1
+          ],
+          [
+            2,
+            0,
+            1
+          ],
+          [
+            3,
+            0,
+            1
+          ],
+          [
+            4,
+            0,
+            1
+          ],
+          [
+            5,
+            0,
+            1
+          ],
+          [
+            6,
+            0,
+            1
+          ],
+          [
+            7,
+            0,
+            1
+          ],
+          [
+            8,
+            0,
+            1
+          ],
+          [
+            9,
+            0,
+            1
+          ],
+          [
+            10,
+            0,
+            1
+          ],
+          [
+            11,
+            0,
+            1
+          ],
+          [
+            12,
+            0,
+            1
+          ],
+          [
+            13,
+            0,
+            1
+          ],
+          [
+            14,
+            0,
+            1
+          ],
+          [
+            15,
+            0,
+            1
+          ],
+          [
+            16,
+            0,
+            1
+          ],
+          [
+            17,
+            0,
+            1
+          ],
+          [
+            18,
+            0,
+            1
+          ],
+          [
+            19,
+            0,
+            1
+          ],
+          [
+            20,
+            0,
+            1
+          ],
+          [
+            21,
+            0,
+            1
+          ],
+          [
+            22,
+            0,
+            1
+          ],
+          [
+            23,
+            0,
+            1
+          ],
+          [
+            24,
+            0,
+            1
+          ],
+          [
+            25,
+            0,
+            1
+          ],
+          [
+            26,
+            0,
+            1
+          ],
+          [
+            27,
+            0,
+            1
+          ],
+          [
+            28,
+            0,
+            1
+          ],
+          [
+            29,
+            0,
+            1
+          ],
+          [
+            30,
+            0,
+            1
+          ],
+          [
+            31,
+            0,
+            1
+          ],
+          [
+            32,
+            0,
+            1
+          ],
+          [
+            33,
+            0,
+            1
+          ],
+          [
+            34,
+            0,
+            1
+          ],
+          [
+            35,
+            0,
+            1
+          ],
+          [
+            36,
+            0,
+            1
+          ],
+          [
+            37,
+            0,
+            1
+          ],
+          [
+            38,
+            0,
+            1
+          ],
+          [
+            39,
+            0,
+            1
+          ],
+          [
+            40,
+            0,
+            1
+          ],
+          [
+            41,
+            0,
+            1
+          ],
+          [
+            42,
+            0,
+            1
+          ],
+          [
+            43,
+            0,
+            1
+          ],
+          [
+            44,
+            0,
+            1
+          ],
+          [
+            45,
+            0,
+            1
+          ],
+          [
+            46,
+            0,
+            1
+          ],
+          [
+            47,
+            0,
+            1
+          ],
+          [
+            48,
+            0,
+            1
+          ],
+          [
+            49,
+            0,
+            1
+          ],
+          [
+            50,
+            0,
+            1
+          ],
+          [
+            51,
+            0,
+            1
+          ],
+          [
+            52,
+            0,
+            1
+          ],
+          [
+            53,
+            0,
+            1
+          ],
+          [
+            54,
+            0,
+            1
+          ],
+          [
+            55,
+            0,
+            1
+          ],
+          [
+            56,
+            0,
+            1
+          ],
+          [
+            57,
+            0,
+            1
+          ],
+          [
+            58,
+            0,
+            1
+          ],
+          [
+            59,
+            0,
+            1
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "end"
+      ],
+      [
+        "projectile",
+        "rocket_turret_rocket",
+        0,
+        null,
+        18,
+        0,
+        1
+      ],
+      [
+        "begin",
+        0,
+        18,
+        [
+          10,
+          10,
+          97
+        ]
+      ],
+      [
+        "damage",
+        1,
+        0,
+        18
+      ],
+      [
+        "blocks",
+        0,
+        [
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            1,
+            0,
+            1
+          ],
+          [
+            2,
+            0,
+            1
+          ],
+          [
+            3,
+            0,
+            1
+          ],
+          [
+            4,
+            0,
+            1
+          ],
+          [
+            5,
+            0,
+            1
+          ],
+          [
+            6,
+            0,
+            1
+          ],
+          [
+            7,
+            0,
+            1
+          ],
+          [
+            8,
+            0,
+            1
+          ],
+          [
+            9,
+            0,
+            1
+          ],
+          [
+            10,
+            0,
+            1
+          ],
+          [
+            11,
+            0,
+            1
+          ],
+          [
+            12,
+            0,
+            1
+          ],
+          [
+            13,
+            0,
+            1
+          ],
+          [
+            14,
+            0,
+            1
+          ],
+          [
+            15,
+            0,
+            1
+          ],
+          [
+            16,
+            0,
+            1
+          ],
+          [
+            17,
+            0,
+            1
+          ],
+          [
+            18,
+            0,
+            1
+          ],
+          [
+            19,
+            0,
+            1
+          ],
+          [
+            20,
+            0,
+            1
+          ],
+          [
+            21,
+            0,
+            1
+          ],
+          [
+            22,
+            0,
+            1
+          ],
+          [
+            23,
+            0,
+            1
+          ],
+          [
+            24,
+            0,
+            1
+          ],
+          [
+            25,
+            0,
+            1
+          ],
+          [
+            26,
+            0,
+            1
+          ],
+          [
+            27,
+            0,
+            1
+          ],
+          [
+            28,
+            0,
+            1
+          ],
+          [
+            29,
+            0,
+            1
+          ],
+          [
+            30,
+            0,
+            1
+          ],
+          [
+            31,
+            0,
+            1
+          ],
+          [
+            32,
+            0,
+            1
+          ],
+          [
+            33,
+            0,
+            1
+          ],
+          [
+            34,
+            0,
+            1
+          ],
+          [
+            35,
+            0,
+            1
+          ],
+          [
+            36,
+            0,
+            1
+          ],
+          [
+            37,
+            0,
+            1
+          ],
+          [
+            38,
+            0,
+            1
+          ],
+          [
+            39,
+            0,
+            1
+          ],
+          [
+            40,
+            0,
+            1
+          ],
+          [
+            41,
+            0,
+            1
+          ],
+          [
+            42,
+            0,
+            1
+          ],
+          [
+            43,
+            0,
+            1
+          ],
+          [
+            44,
+            0,
+            1
+          ],
+          [
+            45,
+            0,
+            1
+          ],
+          [
+            46,
+            0,
+            1
+          ],
+          [
+            47,
+            0,
+            1
+          ],
+          [
+            48,
+            0,
+            1
+          ],
+          [
+            49,
+            0,
+            1
+          ],
+          [
+            50,
+            0,
+            1
+          ],
+          [
+            51,
+            0,
+            1
+          ],
+          [
+            52,
+            0,
+            1
+          ],
+          [
+            53,
+            0,
+            1
+          ],
+          [
+            54,
+            0,
+            1
+          ],
+          [
+            55,
+            0,
+            1
+          ],
+          [
+            56,
+            0,
+            1
+          ],
+          [
+            57,
+            0,
+            1
+          ],
+          [
+            58,
+            0,
+            1
+          ],
+          [
+            59,
+            0,
+            1
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "end"
+      ],
+      [
+        "projectile",
+        "rocket_turret_rocket",
+        0,
+        null,
+        18,
+        0,
+        1
+      ],
+      [
+        "begin",
+        0,
+        18,
+        [
+          10,
+          10,
+          97
+        ]
+      ],
+      [
+        "blocks",
+        0,
+        [
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            1,
+            0,
+            1
+          ],
+          [
+            2,
+            0,
+            1
+          ],
+          [
+            3,
+            0,
+            1
+          ],
+          [
+            4,
+            0,
+            1
+          ],
+          [
+            5,
+            0,
+            1
+          ],
+          [
+            6,
+            0,
+            1
+          ],
+          [
+            7,
+            0,
+            1
+          ],
+          [
+            8,
+            0,
+            1
+          ],
+          [
+            9,
+            0,
+            1
+          ],
+          [
+            10,
+            0,
+            1
+          ],
+          [
+            11,
+            0,
+            1
+          ],
+          [
+            12,
+            0,
+            1
+          ],
+          [
+            13,
+            0,
+            1
+          ],
+          [
+            14,
+            0,
+            1
+          ],
+          [
+            15,
+            0,
+            1
+          ],
+          [
+            16,
+            0,
+            1
+          ],
+          [
+            17,
+            0,
+            1
+          ],
+          [
+            18,
+            0,
+            1
+          ],
+          [
+            19,
+            0,
+            1
+          ],
+          [
+            20,
+            0,
+            1
+          ],
+          [
+            21,
+            0,
+            1
+          ],
+          [
+            22,
+            0,
+            1
+          ],
+          [
+            23,
+            0,
+            1
+          ],
+          [
+            24,
+            0,
+            1
+          ],
+          [
+            25,
+            0,
+            1
+          ],
+          [
+            26,
+            0,
+            1
+          ],
+          [
+            27,
+            0,
+            1
+          ],
+          [
+            28,
+            0,
+            1
+          ],
+          [
+            29,
+            0,
+            1
+          ],
+          [
+            30,
+            0,
+            1
+          ],
+          [
+            31,
+            0,
+            1
+          ],
+          [
+            32,
+            0,
+            1
+          ],
+          [
+            33,
+            0,
+            1
+          ],
+          [
+            34,
+            0,
+            1
+          ],
+          [
+            35,
+            0,
+            1
+          ],
+          [
+            36,
+            0,
+            1
+          ],
+          [
+            37,
+            0,
+            1
+          ],
+          [
+            38,
+            0,
+            1
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "end"
+      ],
+      [
+        "projectile",
+        "rocket_turret_rocket",
+        0,
+        null,
+        18,
+        0,
+        1
+      ],
+      [
+        "begin",
+        0,
+        18,
+        [
+          10,
+          10,
+          97
+        ]
+      ],
+      [
+        "blocks",
+        0,
+        [
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "end"
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": [
+            "turret_evasion"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "turret_reset",
+    "steps": [
+      [
+        "projectile",
+        "rocket_turret_rocket",
+        0,
+        null,
+        18,
+        0,
+        1
+      ],
+      [
+        "begin",
+        0,
+        18,
+        [
+          10,
+          10,
+          97
+        ]
+      ],
+      [
+        "blocks",
+        0,
+        [
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            1,
+            0,
+            1
+          ],
+          [
+            2,
+            0,
+            1
+          ],
+          [
+            3,
+            0,
+            1
+          ],
+          [
+            4,
+            0,
+            1
+          ],
+          [
+            5,
+            0,
+            1
+          ],
+          [
+            6,
+            0,
+            1
+          ],
+          [
+            7,
+            0,
+            1
+          ],
+          [
+            8,
+            0,
+            1
+          ],
+          [
+            9,
+            0,
+            1
+          ],
+          [
+            10,
+            0,
+            1
+          ],
+          [
+            11,
+            0,
+            1
+          ],
+          [
+            12,
+            0,
+            1
+          ],
+          [
+            13,
+            0,
+            1
+          ],
+          [
+            14,
+            0,
+            1
+          ],
+          [
+            15,
+            0,
+            1
+          ],
+          [
+            16,
+            0,
+            1
+          ],
+          [
+            17,
+            0,
+            1
+          ],
+          [
+            18,
+            0,
+            1
+          ],
+          [
+            19,
+            0,
+            1
+          ],
+          [
+            20,
+            0,
+            1
+          ],
+          [
+            21,
+            0,
+            1
+          ],
+          [
+            22,
+            0,
+            1
+          ],
+          [
+            23,
+            0,
+            1
+          ],
+          [
+            24,
+            0,
+            1
+          ],
+          [
+            25,
+            0,
+            1
+          ],
+          [
+            26,
+            0,
+            1
+          ],
+          [
+            27,
+            0,
+            1
+          ],
+          [
+            28,
+            0,
+            1
+          ],
+          [
+            29,
+            0,
+            1
+          ],
+          [
+            30,
+            0,
+            1
+          ],
+          [
+            31,
+            0,
+            1
+          ],
+          [
+            32,
+            0,
+            1
+          ],
+          [
+            33,
+            0,
+            1
+          ],
+          [
+            34,
+            0,
+            1
+          ],
+          [
+            35,
+            0,
+            1
+          ],
+          [
+            36,
+            0,
+            1
+          ],
+          [
+            37,
+            0,
+            1
+          ],
+          [
+            38,
+            0,
+            1
+          ],
+          [
+            39,
+            0,
+            1
+          ],
+          [
+            40,
+            0,
+            1
+          ],
+          [
+            41,
+            0,
+            1
+          ],
+          [
+            42,
+            0,
+            1
+          ],
+          [
+            43,
+            0,
+            1
+          ],
+          [
+            44,
+            0,
+            1
+          ],
+          [
+            45,
+            0,
+            1
+          ],
+          [
+            46,
+            0,
+            1
+          ],
+          [
+            47,
+            0,
+            1
+          ],
+          [
+            48,
+            0,
+            1
+          ],
+          [
+            49,
+            0,
+            1
+          ],
+          [
+            50,
+            0,
+            1
+          ],
+          [
+            51,
+            0,
+            1
+          ],
+          [
+            52,
+            0,
+            1
+          ],
+          [
+            53,
+            0,
+            1
+          ],
+          [
+            54,
+            0,
+            1
+          ],
+          [
+            55,
+            0,
+            1
+          ],
+          [
+            56,
+            0,
+            1
+          ],
+          [
+            57,
+            0,
+            1
+          ],
+          [
+            58,
+            0,
+            1
+          ],
+          [
+            59,
+            0,
+            1
+          ],
+          [
+            60,
+            0,
+            1
+          ],
+          [
+            61,
+            0,
+            1
+          ],
+          [
+            62,
+            0,
+            1
+          ],
+          [
+            63,
+            0,
+            1
+          ],
+          [
+            64,
+            0,
+            1
+          ],
+          [
+            65,
+            0,
+            1
+          ],
+          [
+            66,
+            0,
+            1
+          ],
+          [
+            67,
+            0,
+            1
+          ],
+          [
+            68,
+            0,
+            1
+          ],
+          [
+            69,
+            0,
+            1
+          ],
+          [
+            70,
+            0,
+            1
+          ],
+          [
+            71,
+            0,
+            1
+          ],
+          [
+            72,
+            0,
+            1
+          ],
+          [
+            73,
+            0,
+            1
+          ],
+          [
+            74,
+            0,
+            1
+          ],
+          [
+            75,
+            0,
+            1
+          ],
+          [
+            76,
+            0,
+            1
+          ],
+          [
+            77,
+            0,
+            1
+          ],
+          [
+            78,
+            0,
+            1
+          ],
+          [
+            79,
+            0,
+            1
+          ],
+          [
+            80,
+            0,
+            1
+          ],
+          [
+            81,
+            0,
+            1
+          ],
+          [
+            82,
+            0,
+            1
+          ],
+          [
+            83,
+            0,
+            1
+          ],
+          [
+            84,
+            0,
+            1
+          ],
+          [
+            85,
+            0,
+            1
+          ],
+          [
+            86,
+            0,
+            1
+          ],
+          [
+            87,
+            0,
+            1
+          ],
+          [
+            88,
+            0,
+            1
+          ],
+          [
+            89,
+            0,
+            1
+          ],
+          [
+            90,
+            0,
+            1
+          ],
+          [
+            91,
+            0,
+            1
+          ],
+          [
+            92,
+            0,
+            1
+          ],
+          [
+            93,
+            0,
+            1
+          ],
+          [
+            94,
+            0,
+            1
+          ],
+          [
+            95,
+            0,
+            1
+          ],
+          [
+            96,
+            0,
+            1
+          ],
+          [
+            97,
+            0,
+            1
+          ],
+          [
+            98,
+            0,
+            1
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "end"
+      ],
+      [
+        "match_start"
+      ],
+      [
+        "projectile",
+        "rocket_turret_rocket",
+        0,
+        null,
+        18,
+        0,
+        1
+      ],
+      [
+        "begin",
+        0,
+        18,
+        [
+          10,
+          10,
+          97
+        ]
+      ],
+      [
+        "blocks",
+        0,
+        [
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "end"
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "structure_sizes",
+    "steps": [
+      [
+        "blocks",
+        0,
+        [
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        [],
+        [
+          49
+        ],
+        8
+      ],
+      [
+        "blocks",
+        0,
+        [
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        [],
+        [
+          50
+        ],
+        8
+      ],
+      [
+        "begin",
+        0,
+        3,
+        null
+      ],
+      [
+        "blocks",
+        0,
+        [
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        [],
+        [
+          99,
+          100,
+          101
+        ],
+        null
+      ],
+      [
+        "end"
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "minigun_demolish"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "minigun_demolish"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "grenade_demolish_count": 2
+          },
+          "unlocked": [
+            "minigun_demolish"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "grenade_demolish_count": 2
+          },
+          "unlocked": [
+            "minigun_demolish"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "wrong_structure_cause",
+    "steps": [
+      [
+        "begin",
+        0,
+        4,
+        null
+      ],
+      [
+        "blocks",
+        0,
+        [
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        [],
+        [
+          100
+        ],
+        8
+      ],
+      [
+        "end"
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "zombie_terrain",
+    "steps": [
+      [
+        "zombie_start"
+      ],
+      [
+        "blocks",
+        0,
+        [
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        [
+          [
+            0,
+            0,
+            2
+          ],
+          [
+            0,
+            0,
+            3
+          ]
+        ],
+        [],
+        null
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "block_as_zombie_count": 3
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "crate_health",
+    "steps": [
+      [
+        "health",
+        0,
+        1
+      ],
+      [
+        "crate_health",
+        0
+      ],
+      [
+        "health",
+        0,
+        49
+      ],
+      [
+        "crate_health",
+        0
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "health_drop_greedy"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "crate_match_scope",
+    "steps": [
+      [
+        "health",
+        0,
+        1
+      ],
+      [
+        "crate_health",
+        0
+      ],
+      [
+        "match_start"
+      ],
+      [
+        "health",
+        0,
+        1
+      ],
+      [
+        "crate_health",
+        0
+      ],
+      [
+        "zombie_start"
+      ],
+      [
+        "health",
+        0,
+        49
+      ],
+      [
+        "crate_health",
+        0
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "health_drop_greedy"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "crate_ammo",
+    "steps": [
+      [
+        "weapon",
+        0,
+        6
+      ],
+      [
+        "ammo",
+        0,
+        0
+      ],
+      [
+        "crate_ammo",
+        0,
+        49
+      ],
+      [
+        "crate_ammo",
+        0,
+        0
+      ],
+      [
+        "crate_ammo",
+        0,
+        1
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "ammo_drop_greedy"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "crate_weapon_scope",
+    "steps": [
+      [
+        "weapon",
+        0,
+        6
+      ],
+      [
+        "ammo",
+        0,
+        0
+      ],
+      [
+        "crate_ammo",
+        0,
+        49
+      ],
+      [
+        "weapon",
+        0,
+        7
+      ],
+      [
+        "crate_ammo",
+        0,
+        1
+      ],
+      [
+        "match_start"
+      ],
+      [
+        "weapon",
+        0,
+        6
+      ],
+      [
+        "crate_ammo",
+        0,
+        1
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "region_all_volumes",
+    "steps": [
+      [
+        "blocks",
+        0,
+        [
+          [
+            40,
+            40,
+            90
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "blocks",
+        1,
+        [
+          [
+            41,
+            41,
+            91
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "blocks",
+        0,
+        [
+          [
+            43,
+            40,
+            90
+          ],
+          [
+            44,
+            41,
+            91
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "match_start"
+      ],
+      [
+        "blocks",
+        0,
+        [
+          [
+            40,
+            40,
+            90
+          ],
+          [
+            41,
+            41,
+            91
+          ],
+          [
+            43,
+            40,
+            90
+          ],
+          [
+            44,
+            41,
+            91
+          ]
+        ],
+        [],
+        [],
+        null
+      ]
+    ],
+    "regions": [
+      [
+        "map_isleofdoom_destroy",
+        2,
+        [
+          40.0,
+          41.0,
+          40.0,
+          41.0,
+          90.0,
+          91.0
+        ],
+        null,
+        1
+      ],
+      [
+        "map_isleofdoom_destroy",
+        2,
+        [
+          43.0,
+          44.0,
+          40.0,
+          41.0,
+          90.0,
+          91.0
+        ],
+        null,
+        1
+      ]
+    ],
+    "solid": [
+      [
+        40,
+        40,
+        90
+      ],
+      [
+        41,
+        41,
+        91
+      ],
+      [
+        43,
+        40,
+        90
+      ],
+      [
+        44,
+        41,
+        91
+      ]
+    ],
+    "official": true,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "map_isleofdoom_destroy"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "map_isleofdoom_destroy"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "map_isleofdoom_destroy"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "region_shared_credit",
+    "steps": [
+      [
+        "blocks",
+        0,
+        [
+          [
+            40,
+            40,
+            90
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "blocks",
+        1,
+        [
+          [
+            41,
+            41,
+            91
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "blocks",
+        0,
+        [
+          [
+            43,
+            40,
+            90
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "blocks",
+        1,
+        [
+          [
+            44,
+            41,
+            91
+          ]
+        ],
+        [],
+        [],
+        null
+      ]
+    ],
+    "regions": [
+      [
+        "map_isleofdoom_destroy",
+        2,
+        [
+          40.0,
+          41.0,
+          40.0,
+          41.0,
+          90.0,
+          91.0
+        ],
+        null,
+        1
+      ],
+      [
+        "map_isleofdoom_destroy",
+        2,
+        [
+          43.0,
+          44.0,
+          40.0,
+          41.0,
+          90.0,
+          91.0
+        ],
+        null,
+        1
+      ]
+    ],
+    "solid": [
+      [
+        40,
+        40,
+        90
+      ],
+      [
+        41,
+        41,
+        91
+      ],
+      [
+        43,
+        40,
+        90
+      ],
+      [
+        44,
+        41,
+        91
+      ]
+    ],
+    "official": true,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "map_isleofdoom_destroy"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": [
+            "map_isleofdoom_destroy"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "region_resync",
+    "steps": [
+      [
+        "blocks",
+        0,
+        [
+          [
+            40,
+            40,
+            90
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "raw_remove",
+        [
+          [
+            41,
+            41,
+            91
+          ]
+        ]
+      ],
+      [
+        "tick",
+        1
+      ]
+    ],
+    "regions": [
+      [
+        "map_isleofdoom_destroy",
+        2,
+        [
+          40.0,
+          41.0,
+          40.0,
+          41.0,
+          90.0,
+          91.0
+        ],
+        null,
+        1
+      ]
+    ],
+    "solid": [
+      [
+        40,
+        40,
+        90
+      ],
+      [
+        41,
+        41,
+        91
+      ]
+    ],
+    "official": true,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "map_isleofdoom_destroy"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "region_unofficial",
+    "steps": [
+      [
+        "blocks",
+        0,
+        [
+          [
+            40,
+            40,
+            90
+          ],
+          [
+            41,
+            41,
+            91
+          ]
+        ],
+        [],
+        [],
+        null
+      ]
+    ],
+    "regions": [
+      [
+        "map_isleofdoom_destroy",
+        2,
+        [
+          40.0,
+          41.0,
+          40.0,
+          41.0,
+          90.0,
+          91.0
+        ],
+        null,
+        1
+      ]
+    ],
+    "solid": [
+      [
+        40,
+        40,
+        90
+      ],
+      [
+        41,
+        41,
+        91
+      ]
+    ],
+    "official": false,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "region_departure",
+    "steps": [
+      [
+        "blocks",
+        0,
+        [
+          [
+            40,
+            40,
+            90
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "depart",
+        0
+      ],
+      [
+        "blocks",
+        1,
+        [
+          [
+            41,
+            41,
+            91
+          ]
+        ],
+        [],
+        [],
+        null
+      ]
+    ],
+    "regions": [
+      [
+        "map_isleofdoom_destroy",
+        2,
+        [
+          40.0,
+          41.0,
+          40.0,
+          41.0,
+          90.0,
+          91.0
+        ],
+        null,
+        1
+      ]
+    ],
+    "solid": [
+      [
+        40,
+        40,
+        90
+      ],
+      [
+        41,
+        41,
+        91
+      ]
+    ],
+    "official": true,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": [
+            "map_isleofdoom_destroy"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "region_already_razed",
+    "steps": [
+      [
+        "blocks",
+        0,
+        [
+          [
+            40,
+            40,
+            90
+          ],
+          [
+            41,
+            41,
+            91
+          ]
+        ],
+        [],
+        [],
+        null
+      ]
+    ],
+    "regions": [
+      [
+        "map_isleofdoom_destroy",
+        2,
+        [
+          40.0,
+          41.0,
+          40.0,
+          41.0,
+          90.0,
+          91.0
+        ],
+        null,
+        1
+      ],
+      [
+        "map_isleofdoom_destroy",
+        2,
+        [
+          43.0,
+          44.0,
+          40.0,
+          41.0,
+          90.0,
+          91.0
+        ],
+        null,
+        1
+      ]
+    ],
+    "solid": [
+      [
+        40,
+        40,
+        90
+      ],
+      [
+        41,
+        41,
+        91
+      ]
+    ],
+    "official": true,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "region_melee",
+    "steps": [
+      [
+        "kill",
+        0,
+        1,
+        0
+      ],
+      [
+        "kill",
+        0,
+        1,
+        2
+      ],
+      [
+        "kill",
+        0,
+        1,
+        2
+      ]
+    ],
+    "regions": [
+      [
+        "map_maya_kill",
+        1,
+        [
+          9.0,
+          11.0,
+          9.0,
+          11.0,
+          96.0,
+          98.0
+        ],
+        2,
+        2
+      ]
+    ],
+    "solid": [],
+    "official": true,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "map_maya_kill"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "region_rocket",
+    "steps": [
+      [
+        "blocks",
+        0,
+        [
+          [
+            40,
+            40,
+            90
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "begin",
+        0,
+        4,
+        null
+      ],
+      [
+        "blocks",
+        0,
+        [
+          [
+            41,
+            41,
+            91
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "end"
+      ]
+    ],
+    "regions": [
+      [
+        "map_moon_destroy",
+        2,
+        [
+          40.0,
+          41.0,
+          40.0,
+          41.0,
+          90.0,
+          91.0
+        ],
+        null,
+        1
+      ]
+    ],
+    "solid": [
+      [
+        40,
+        40,
+        90
+      ],
+      [
+        41,
+        41,
+        91
+      ]
+    ],
+    "official": true,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "map_moon_destroy"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": [
+            "map_moon_destroy"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "region_zombie",
+    "steps": [
+      [
+        "zombie_start"
+      ],
+      [
+        "blocks",
+        0,
+        [
+          [
+            40,
+            40,
+            90
+          ],
+          [
+            41,
+            41,
+            91
+          ]
+        ],
+        [],
+        [],
+        null
+      ]
+    ],
+    "regions": [
+      [
+        "map_zombieisland_destroy",
+        2,
+        [
+          40.0,
+          41.0,
+          40.0,
+          41.0,
+          90.0,
+          91.0
+        ],
+        2,
+        1
+      ]
+    ],
+    "solid": [
+      [
+        40,
+        40,
+        90
+      ],
+      [
+        41,
+        41,
+        91
+      ]
+    ],
+    "official": true,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "block_as_zombie_count": 2
+          },
+          "unlocked": [
+            "map_zombieisland_destroy"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "airborne_rockets",
+    "steps": [
+      [
+        "airborne",
+        0,
+        true
+      ],
+      [
+        "projectile",
+        "rocket",
+        0,
+        1,
+        4,
+        null,
+        null
+      ],
+      [
+        "projectile",
+        "rocket",
+        0,
+        1,
+        4,
+        null,
+        null
+      ],
+      [
+        "projectile",
+        "rocket",
+        0,
+        1,
+        4,
+        null,
+        null
+      ],
+      [
+        "projectile",
+        "rocket",
+        0,
+        1,
+        4,
+        null,
+        null
+      ],
+      [
+        "projectile",
+        "rocket",
+        0,
+        1,
+        4,
+        null,
+        null
+      ],
+      [
+        "airborne",
+        0,
+        false
+      ],
+      [
+        "projectile",
+        "rocket",
+        0,
+        1,
+        4,
+        null,
+        null
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "tdm",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "airborne_rocket_count": 1
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "airborne_rocket_count": 2
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "airborne_rocket_count": 3
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "airborne_rocket_count": 4
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "airborne_rocket_count": 5
+          },
+          "unlocked": [
+            "airborne_rockets"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "airborne_rocket_count": 5
+          },
+          "unlocked": [
+            "airborne_rockets"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "airborne_rocket_count": 5
+          },
+          "unlocked": [
+            "airborne_rockets"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "excluded_bot_contact",
+    "steps": [
+      [
+        "airborne",
+        0,
+        true
+      ],
+      [
+        "projectile",
+        "rocket",
+        0,
+        1,
+        4,
+        null,
+        null
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "tdm",
+    "bots": [
+      1
+    ],
+    "count_bots": false,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "demolition",
+    "steps": [
+      [
+        "begin",
+        0,
+        6,
+        null
+      ],
+      [
+        "blocks",
+        0,
+        [
+          [
+            20,
+            10,
+            100
+          ],
+          [
+            20,
+            11,
+            100
+          ],
+          [
+            20,
+            12,
+            100
+          ],
+          [
+            20,
+            13,
+            100
+          ],
+          [
+            20,
+            14,
+            100
+          ],
+          [
+            20,
+            15,
+            100
+          ],
+          [
+            20,
+            16,
+            100
+          ],
+          [
+            20,
+            17,
+            100
+          ],
+          [
+            20,
+            18,
+            100
+          ],
+          [
+            20,
+            19,
+            100
+          ],
+          [
+            21,
+            10,
+            100
+          ],
+          [
+            21,
+            11,
+            100
+          ],
+          [
+            21,
+            12,
+            100
+          ],
+          [
+            21,
+            13,
+            100
+          ],
+          [
+            21,
+            14,
+            100
+          ],
+          [
+            21,
+            15,
+            100
+          ],
+          [
+            21,
+            16,
+            100
+          ],
+          [
+            21,
+            17,
+            100
+          ],
+          [
+            21,
+            18,
+            100
+          ],
+          [
+            21,
+            19,
+            100
+          ],
+          [
+            22,
+            10,
+            100
+          ],
+          [
+            22,
+            11,
+            100
+          ],
+          [
+            22,
+            12,
+            100
+          ],
+          [
+            22,
+            13,
+            100
+          ],
+          [
+            22,
+            14,
+            100
+          ],
+          [
+            22,
+            15,
+            100
+          ],
+          [
+            22,
+            16,
+            100
+          ],
+          [
+            22,
+            17,
+            100
+          ],
+          [
+            22,
+            18,
+            100
+          ],
+          [
+            22,
+            19,
+            100
+          ],
+          [
+            23,
+            10,
+            100
+          ],
+          [
+            23,
+            11,
+            100
+          ],
+          [
+            23,
+            12,
+            100
+          ],
+          [
+            23,
+            13,
+            100
+          ],
+          [
+            23,
+            14,
+            100
+          ],
+          [
+            23,
+            15,
+            100
+          ],
+          [
+            23,
+            16,
+            100
+          ],
+          [
+            23,
+            17,
+            100
+          ],
+          [
+            23,
+            18,
+            100
+          ],
+          [
+            23,
+            19,
+            100
+          ],
+          [
+            24,
+            10,
+            100
+          ],
+          [
+            24,
+            11,
+            100
+          ],
+          [
+            24,
+            12,
+            100
+          ],
+          [
+            24,
+            13,
+            100
+          ],
+          [
+            24,
+            14,
+            100
+          ],
+          [
+            24,
+            15,
+            100
+          ],
+          [
+            24,
+            16,
+            100
+          ],
+          [
+            24,
+            17,
+            100
+          ],
+          [
+            24,
+            18,
+            100
+          ],
+          [
+            24,
+            19,
+            100
+          ],
+          [
+            25,
+            10,
+            100
+          ],
+          [
+            25,
+            11,
+            100
+          ],
+          [
+            25,
+            12,
+            100
+          ],
+          [
+            25,
+            13,
+            100
+          ],
+          [
+            25,
+            14,
+            100
+          ],
+          [
+            25,
+            15,
+            100
+          ],
+          [
+            25,
+            16,
+            100
+          ],
+          [
+            25,
+            17,
+            100
+          ],
+          [
+            25,
+            18,
+            100
+          ],
+          [
+            25,
+            19,
+            100
+          ],
+          [
+            26,
+            10,
+            100
+          ],
+          [
+            26,
+            11,
+            100
+          ],
+          [
+            26,
+            12,
+            100
+          ],
+          [
+            26,
+            13,
+            100
+          ],
+          [
+            26,
+            14,
+            100
+          ],
+          [
+            26,
+            15,
+            100
+          ],
+          [
+            26,
+            16,
+            100
+          ],
+          [
+            26,
+            17,
+            100
+          ],
+          [
+            26,
+            18,
+            100
+          ],
+          [
+            26,
+            19,
+            100
+          ],
+          [
+            27,
+            10,
+            100
+          ],
+          [
+            27,
+            11,
+            100
+          ],
+          [
+            27,
+            12,
+            100
+          ],
+          [
+            27,
+            13,
+            100
+          ],
+          [
+            27,
+            14,
+            100
+          ],
+          [
+            27,
+            15,
+            100
+          ],
+          [
+            27,
+            16,
+            100
+          ],
+          [
+            27,
+            17,
+            100
+          ],
+          [
+            27,
+            18,
+            100
+          ],
+          [
+            27,
+            19,
+            100
+          ],
+          [
+            28,
+            10,
+            100
+          ],
+          [
+            28,
+            11,
+            100
+          ],
+          [
+            28,
+            12,
+            100
+          ],
+          [
+            28,
+            13,
+            100
+          ],
+          [
+            28,
+            14,
+            100
+          ],
+          [
+            28,
+            15,
+            100
+          ],
+          [
+            28,
+            16,
+            100
+          ],
+          [
+            28,
+            17,
+            100
+          ],
+          [
+            28,
+            18,
+            100
+          ],
+          [
+            28,
+            19,
+            100
+          ],
+          [
+            29,
+            10,
+            100
+          ],
+          [
+            29,
+            11,
+            100
+          ],
+          [
+            29,
+            12,
+            100
+          ],
+          [
+            29,
+            13,
+            100
+          ],
+          [
+            29,
+            14,
+            100
+          ],
+          [
+            29,
+            15,
+            100
+          ],
+          [
+            29,
+            16,
+            100
+          ],
+          [
+            29,
+            17,
+            100
+          ],
+          [
+            29,
+            18,
+            100
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "end"
+      ],
+      [
+        "blocks",
+        0,
+        [
+          [
+            29,
+            19,
+            100
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "repair",
+        0,
+        25
+      ],
+      [
+        "match_end",
+        2
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "dem",
+    "bots": [],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "demolition_damage_many_rounds_count": 99,
+            "drillgun_demolition_count": 99
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "demolition_damage_many_rounds_count": 99,
+            "drillgun_demolition_count": 99
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "demolition_damage_many_rounds_count": 100,
+            "drillgun_demolition_count": 99
+          },
+          "unlocked": [
+            "demolition_damage_one_round"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "demolition_damage_many_rounds_count": 100,
+            "drillgun_demolition_count": 99,
+            "demolition_repair_count": 25
+          },
+          "unlocked": [
+            "demolition_damage_one_round"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "demolition_damage_many_rounds_count": 100,
+            "drillgun_demolition_count": 99,
+            "demolition_repair_count": 25
+          },
+          "unlocked": [
+            "demolition_damage_one_round",
+            "demolition_final_damage"
+          ]
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  },
+  {
+    "name": "demolition_bot_final",
+    "steps": [
+      [
+        "blocks",
+        0,
+        [
+          [
+            20,
+            10,
+            100
+          ],
+          [
+            20,
+            11,
+            100
+          ],
+          [
+            20,
+            12,
+            100
+          ],
+          [
+            20,
+            13,
+            100
+          ],
+          [
+            20,
+            14,
+            100
+          ],
+          [
+            20,
+            15,
+            100
+          ],
+          [
+            20,
+            16,
+            100
+          ],
+          [
+            20,
+            17,
+            100
+          ],
+          [
+            20,
+            18,
+            100
+          ],
+          [
+            20,
+            19,
+            100
+          ],
+          [
+            21,
+            10,
+            100
+          ],
+          [
+            21,
+            11,
+            100
+          ],
+          [
+            21,
+            12,
+            100
+          ],
+          [
+            21,
+            13,
+            100
+          ],
+          [
+            21,
+            14,
+            100
+          ],
+          [
+            21,
+            15,
+            100
+          ],
+          [
+            21,
+            16,
+            100
+          ],
+          [
+            21,
+            17,
+            100
+          ],
+          [
+            21,
+            18,
+            100
+          ],
+          [
+            21,
+            19,
+            100
+          ],
+          [
+            22,
+            10,
+            100
+          ],
+          [
+            22,
+            11,
+            100
+          ],
+          [
+            22,
+            12,
+            100
+          ],
+          [
+            22,
+            13,
+            100
+          ],
+          [
+            22,
+            14,
+            100
+          ],
+          [
+            22,
+            15,
+            100
+          ],
+          [
+            22,
+            16,
+            100
+          ],
+          [
+            22,
+            17,
+            100
+          ],
+          [
+            22,
+            18,
+            100
+          ],
+          [
+            22,
+            19,
+            100
+          ],
+          [
+            23,
+            10,
+            100
+          ],
+          [
+            23,
+            11,
+            100
+          ],
+          [
+            23,
+            12,
+            100
+          ],
+          [
+            23,
+            13,
+            100
+          ],
+          [
+            23,
+            14,
+            100
+          ],
+          [
+            23,
+            15,
+            100
+          ],
+          [
+            23,
+            16,
+            100
+          ],
+          [
+            23,
+            17,
+            100
+          ],
+          [
+            23,
+            18,
+            100
+          ],
+          [
+            23,
+            19,
+            100
+          ],
+          [
+            24,
+            10,
+            100
+          ],
+          [
+            24,
+            11,
+            100
+          ],
+          [
+            24,
+            12,
+            100
+          ],
+          [
+            24,
+            13,
+            100
+          ],
+          [
+            24,
+            14,
+            100
+          ],
+          [
+            24,
+            15,
+            100
+          ],
+          [
+            24,
+            16,
+            100
+          ],
+          [
+            24,
+            17,
+            100
+          ],
+          [
+            24,
+            18,
+            100
+          ],
+          [
+            24,
+            19,
+            100
+          ],
+          [
+            25,
+            10,
+            100
+          ],
+          [
+            25,
+            11,
+            100
+          ],
+          [
+            25,
+            12,
+            100
+          ],
+          [
+            25,
+            13,
+            100
+          ],
+          [
+            25,
+            14,
+            100
+          ],
+          [
+            25,
+            15,
+            100
+          ],
+          [
+            25,
+            16,
+            100
+          ],
+          [
+            25,
+            17,
+            100
+          ],
+          [
+            25,
+            18,
+            100
+          ],
+          [
+            25,
+            19,
+            100
+          ],
+          [
+            26,
+            10,
+            100
+          ],
+          [
+            26,
+            11,
+            100
+          ],
+          [
+            26,
+            12,
+            100
+          ],
+          [
+            26,
+            13,
+            100
+          ],
+          [
+            26,
+            14,
+            100
+          ],
+          [
+            26,
+            15,
+            100
+          ],
+          [
+            26,
+            16,
+            100
+          ],
+          [
+            26,
+            17,
+            100
+          ],
+          [
+            26,
+            18,
+            100
+          ],
+          [
+            26,
+            19,
+            100
+          ],
+          [
+            27,
+            10,
+            100
+          ],
+          [
+            27,
+            11,
+            100
+          ],
+          [
+            27,
+            12,
+            100
+          ],
+          [
+            27,
+            13,
+            100
+          ],
+          [
+            27,
+            14,
+            100
+          ],
+          [
+            27,
+            15,
+            100
+          ],
+          [
+            27,
+            16,
+            100
+          ],
+          [
+            27,
+            17,
+            100
+          ],
+          [
+            27,
+            18,
+            100
+          ],
+          [
+            27,
+            19,
+            100
+          ],
+          [
+            28,
+            10,
+            100
+          ],
+          [
+            28,
+            11,
+            100
+          ],
+          [
+            28,
+            12,
+            100
+          ],
+          [
+            28,
+            13,
+            100
+          ],
+          [
+            28,
+            14,
+            100
+          ],
+          [
+            28,
+            15,
+            100
+          ],
+          [
+            28,
+            16,
+            100
+          ],
+          [
+            28,
+            17,
+            100
+          ],
+          [
+            28,
+            18,
+            100
+          ],
+          [
+            28,
+            19,
+            100
+          ],
+          [
+            29,
+            10,
+            100
+          ],
+          [
+            29,
+            11,
+            100
+          ],
+          [
+            29,
+            12,
+            100
+          ],
+          [
+            29,
+            13,
+            100
+          ],
+          [
+            29,
+            14,
+            100
+          ],
+          [
+            29,
+            15,
+            100
+          ],
+          [
+            29,
+            16,
+            100
+          ],
+          [
+            29,
+            17,
+            100
+          ],
+          [
+            29,
+            18,
+            100
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "blocks",
+        1,
+        [
+          [
+            29,
+            19,
+            100
+          ]
+        ],
+        [],
+        [],
+        null
+      ],
+      [
+        "match_end",
+        2
+      ]
+    ],
+    "regions": [],
+    "solid": [],
+    "official": false,
+    "mode": "dem",
+    "bots": [
+      1
+    ],
+    "count_bots": true,
+    "snapshots": [
+      [
+        {
+          "progress": {
+            "demolition_damage_many_rounds_count": 99
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "demolition_damage_many_rounds_count": 99
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ],
+      [
+        {
+          "progress": {
+            "demolition_damage_many_rounds_count": 99
+          },
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        },
+        {
+          "progress": {},
+          "unlocked": []
+        }
+      ]
+    ]
+  }
+]

@@ -17,7 +17,7 @@ The achievement store and result outbox are separate durable stores, as in the o
 
 Differential evidence extends the existing achievement generator with fourteen intact original-engine objective/sub-round traces. They cover positive awards, bot competition, sub-round and match resets, objective recovery and retaking, one-time intel return, transition death exclusion, sole/shared hill scorers, leaving a strike zone and dying during a strike. An actual UDP integration pauses the real achievement worker across two result captures and a round reset, admits another client during that wait, verifies that the second round's unlock stays with its own result, and awaits outbox and achievement shutdown.
 
-Explosion scopes, authored achievement regions, terrain/crate achievements, demolition damage/final damage, ordinary standalone hosting and supported-client acceptance remain incomplete. The catalog's 77 definitions are not a claim that every rule is implemented. macOS testing remains deferred until full migration completion.
+The follow-up [environmental achievement checkpoint](ACHIEVEMENT_ENVIRONMENT.md) implements explosion scopes, authored-region evaluation, terrain/crate achievements and demolition damage/final damage. Ordinary standalone hosting and supported-client acceptance remain incomplete. The catalog's 77 definitions are not a claim that every rule is implemented. macOS testing remains deferred until full migration completion.
 
 ## Checkpoint verification
 

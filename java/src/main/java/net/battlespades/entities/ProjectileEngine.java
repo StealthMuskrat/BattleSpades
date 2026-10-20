@@ -13,7 +13,7 @@ public final class ProjectileEngine {
     public static final class Projectile {
         public final ProjectileSpec spec;public final int tool,throwerId;public final double spawnedAt,lifespanAt;
         public Vector position,velocity;public Double explodeAt;public Integer entityId,attachedPlayerId,contactPlayerId,sourceLoop,blockColor,turretId,turretTargetId;
-        public EntityRegistry.Cell contactBlock;public boolean stuck;
+        public MapEntity turretSource;public EntityRegistry.Cell contactBlock;public boolean stuck;
         private Projectile(ProjectileSpec spec,int tool,Vector position,Vector velocity,Double fuse,int thrower,double now){this.spec=Objects.requireNonNull(spec);this.tool=tool;this.position=position;this.velocity=velocity;throwerId=thrower;spawnedAt=now;explodeAt=fuse==null?null:now+Math.max(0,fuse);lifespanAt=spec.lifespan()>0?now+spec.lifespan():0;}
     }
     private final List<Projectile> live=new ArrayList<>();

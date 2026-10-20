@@ -69,7 +69,7 @@ public final class HostedCombatRuntime implements AutoCloseable {
         public void profileBlocks(PlayerLife p,int count){if(p!=null)match.profiles().add(match.binding().row(p),BLOCKS_DESTROYED,count,0);}
         public void scoreBlocks(PlayerLife p,int count,List<List<Cell>> chunks){if(p!=null)match.combat().blocksDestroyed(match.binding().row(p),count,chunks.stream().map(List::size).toList());}
         public Integer activeShotTool(PlayerLife p){return p==null?null:shots.activeShotTool(p);}
-        public void achievedBlocks(PlayerLife p,List<Cell> removed,List<Cell> collapsed,List<List<Cell>> chunks,Integer tool){ports.blocksDestroyed(p,removed,collapsed,chunks,tool);}
+        public void achievedBlocks(PlayerLife p,List<Cell> removed,List<Cell> collapsed,List<List<Cell>> chunks,Integer tool){host.achievements().ifPresent(a->a.guard("blocks_destroyed",()->a.blocksDestroyed(match,p,removed,collapsed,chunks,tool)));ports.blocksDestroyed(p,removed,collapsed,chunks,tool);}
         public void collapsedRepair(List<Cell> cells){match.runtime().repair().recordCollapse(cells,match.frameLoop());}
         public void modeDestroyed(PlayerLife p,List<Cell> cells,boolean mined){match.events().offer(ModeEvents.Event.of("on_blocks_destroyed",match.binding().row(p),List.copyOf(cells),mined));}
     }

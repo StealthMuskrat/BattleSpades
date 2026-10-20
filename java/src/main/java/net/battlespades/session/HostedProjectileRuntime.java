@@ -20,7 +20,7 @@ public final class HostedProjectileRuntime {
         void create(MapEntity entity);void destroy(int id);void known(int id,GamePacket packet);void sweep();
         void impact(Vector at,PlayerLife player,boolean chemical);void breakDisguise(PlayerLife player);void report(PlayerLife player,String kind,Map<String,Double> detail);
     }
-    private final Domain domain;private final ApplicationHost host;
+    private final Domain domain;private final ApplicationHost host;private StandardMatchDomain achievementMatch;
     private final ProjectileEngine engine=new ProjectileEngine();
     public HostedProjectileRuntime(Domain domain,ApplicationHost host){this.domain=Objects.requireNonNull(domain);this.host=Objects.requireNonNull(host);}
     public HostedProjectileRuntime(StandardMatchDomain match,HostedEntityRuntime entities,ApplicationHost host){this(new Domain(){
@@ -28,7 +28,7 @@ public final class HostedProjectileRuntime {
         public double wall(){return match.wall();}public double monotonic(){return match.monotonic();}public int frameLoop(){return match.frameLoop();}public boolean authorized(PlayerLife p,int tool){return match.inputs().authorized(p,tool);}public boolean infiniteBlocks(PlayerLife p){return match.teamRules().infinite(p.team());}
         public void create(MapEntity e){entities.create(e);}public void destroy(int id){entities.destroy(id);}public void known(int id,GamePacket packet){entities.known(id,packet);}public void sweep(){entities.shields().sweep();}
         public void impact(Vector at,PlayerLife p,boolean chemical){entities.effects().impact(at,p,chemical);}public void breakDisguise(PlayerLife p){match.inputs().breakDisguise(p);}public void report(PlayerLife p,String kind,Map<String,Double> detail){match.inputs().report(p,kind,detail);}
-    },host);}
+    },host);achievementMatch=match;}
     public ProjectileEngine engine(){return engine;}
     private static Vector vector(Vector3f p){return new Vector(p.x(),p.y(),p.z());}
     private static Vector3f wire(Vector p){return new Vector3f((float)p.x(),(float)p.y(),(float)p.z());}
@@ -72,13 +72,14 @@ public final class HostedProjectileRuntime {
         var v=new EntityRegistry.Placement();v.state=state;v.playerId=owner;v.kind="projectile";v.radius=radius;v.fuse=p.explodeAt==null?5:Math.max(0,Math.min(5,p.explodeAt-domain.wall()));var e=domain.registry().place(35,p.position.x(),p.position.y(),p.position.z(),v);p.entityId=e.id();domain.create(e);if(p.attachedPlayerId!=null)target(e.id(),p.attachedPlayerId);
     }
     private void detach(Projectile p){var e=domain.registry().get(p.entityId);if(e==null||e.type!=35)return;e.x=p.position.x();e.y=p.position.y();e.z=p.position.z();target(e.id(),null);domain.known(e.id(),ChangeEntity.position(e.id(),wire(p.position)));}
-    private void drill(Projectile p){var owner=domain.lives().players().stream().filter(v->v.id()==p.throwerId).findFirst().orElse(null);if(owner==null||p.contactBlock==null)return;var at=new Vector(p.contactBlock.x(),p.contactBlock.y(),p.contactBlock.z());var e=domain.registry().get(p.entityId);domain.blastTerrain().apply(at,20,owner,1,10,e==null?null:e.id());}
+    private void drill(Projectile p){var owner=domain.lives().players().stream().filter(v->v.id()==p.throwerId).findFirst().orElse(null);if(owner==null||p.contactBlock==null)return;var at=new Vector(p.contactBlock.x(),p.contactBlock.y(),p.contactBlock.z());var e=domain.registry().get(p.entityId);HostedAchievements.BlastScope scope=achievementMatch==null?null:host.achievements().map(a->a.guard("drill_cause",()->a.blastBegin(achievementMatch,owner,net.battlespades.match.AchievementCatalog.constant("DRILL_KILL"),null),null)).orElse(null);try{domain.blastTerrain().apply(at,20,owner,1,10,e==null?null:e.id());}finally{if(scope!=null)scope.close();}}
     private void deploy(Projectile p){
         removeVisual(p);var owner=domain.lives().players().stream().filter(v->v.id()==p.throwerId).findFirst().orElse(null);var c=p.contactBlock;if(owner==null||c==null||!domain.world().solid(c.x(),c.y(),c.z()))return;
         var v=new EntityRegistry.Placement();v.playerId=owner.id();v.state=owner.team();v.kind="deployable";v.supportCell=c;v.behavior=new ProximityMineBehavior(new DeviceBlast(owner.id(),100,15,1,35,3,false,.75,.75,40,false),1,owner.team(),2.5,4,3,-.5);var at=p.position;domain.create(domain.registry().place(9,at.x(),at.y(),at.z(),v));
     }
     private void explode(Projectile p,boolean destroyed){
         var owner=domain.lives().players().stream().filter(v->v.id()==p.throwerId).findFirst().orElse(null);var e=domain.registry().get(p.entityId);if(p.entityId!=null&&e==null)return;
+        if(achievementMatch!=null)host.achievements().ifPresent(a->a.guard("projectile_exploding",()->a.projectileExploding(achievementMatch,p,owner)));
         boolean snow=p.spec.name().equals("snowball");if(snow&&e!=null){blockCannon(p,owner);domain.known(e.id(),BlastTerrain.packet(owner,p.position,p.spec.blockDamage(),p.spec.damageType(),0,e.id(),0));}
         removeVisual(p);if(p.spec.name().equals("chemical_bomb")){domain.impact(p.position,owner,true);return;}
         var s=p.spec;boolean terminal=destroyed&&s.destroyedDamage()>0;var request=new BlastRuntime.Request(p.position,terminal?s.destroyedDamage():s.damage(),terminal?s.destroyedBlockDamage():s.blockDamage(),s.killType(),owner);request.radius=terminal&&s.destroyedRadius()>0?s.destroyedRadius():s.radius();request.minimum=terminal?s.destroyedMinimum():s.minimum();request.maximum=terminal?s.destroyedMaximum():s.maximum();request.terrainType=s.damageType();request.forceDestroy=s.motion()!=ProjectileSpec.Motion.CONTACT;if(snow)request.predictionFrames=3;domain.blasts().apply(request);if(s.name().equals("molotov"))domain.impact(p.position,owner,false);

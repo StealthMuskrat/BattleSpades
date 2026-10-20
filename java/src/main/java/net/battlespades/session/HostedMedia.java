@@ -11,14 +11,14 @@ import net.battlespades.transport.enet.Delivery;
 import net.battlespades.world.MapMetadata;
 
 /** Binds the services to actual host delivery and canonical live actors; candidate ranking remains explicit. */
-public final class HostedMedia {
+public final class HostedMedia implements AutoCloseable {
     private final ApplicationHost host;private final Supplier<LifeRuntime> lives;
     private final MusicService music;private final MapBallot<PlayerLife> ballot;
     private final HostedVoting voting;
     private JoinAudio<PlayerLife> joinAudio;
     private final Map<Integer,PlayerLife> revealed=new HashMap<>();
     public HostedMedia(ApplicationHost host,Supplier<LifeRuntime> lives,List<String> available,SourceRandom random,OwnerLoop loop){
-        this(host,lives,available,random,loop,null);
+        this(host,lives,available,random,loop,host.voting().orElse(null));
     }
     public HostedMedia(ApplicationHost host,Supplier<LifeRuntime> lives,SourceRandom random,OwnerLoop loop,HostedVoting voting){this(host,lives,List.of(),random,loop,Objects.requireNonNull(voting));}
     private HostedMedia(ApplicationHost host,Supplier<LifeRuntime> lives,List<String> available,SourceRandom random,OwnerLoop loop,HostedVoting voting){
@@ -36,6 +36,12 @@ public final class HostedMedia {
             audio.reveal(p,map.ambientSounds(),position);
         });joinAudio=audio;
     }
+    public void ensureMapVote(double wall){if(voting!=null)voting.service().ensureMapVote(wall);}
+    public void ensureRoundEndVote(double wall){if(voting!=null)voting.service().ensureRoundEndVote(wall);}
+    public void matchStarted(String map){if(voting!=null){voting.reset();voting.service().rotation().notePlayed(map);}}
+    public void revealPackets(Consumer<GamePacket> send){if(voting==null)ballot.reveal(send);else voting.service().reveal(send);}
+    /** A retiring scene must not dispose the host's ballot or its immutable catalog/history. */
+    @Override public void close(){revealed.clear();if(voting==null)ballot.close();}
     public MusicService music(){return music;}public MapBallot<PlayerLife> ballot(){return ballot;}
     public void packet(PlayerLife actor,GamePacket packet){if(voting==null)ballot.packet(actor,packet);else voting.packet(actor,packet);}
     /** Invoke after first-input world reveal, once per canonical actor/scene. */

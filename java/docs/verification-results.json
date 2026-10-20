@@ -1,7 +1,7 @@
 {
   "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
-  "jar_sha256": "d8218da12e347fc667101cffb0c9d0db53fa664a2e2075e3a61ea4f6e57e6e06",
-  "jar_bytes": 2695255,
+  "jar_sha256": "8f5555d985d67d5a2917b6b792d1a8b1be7146f8615cce60bbec8b1e317f4968",
+  "jar_bytes": 2702490,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -17,80 +17,29 @@
     "META-INF/THIRD_PARTY_NOTICES.md",
     "META-INF/JAVA-THIRD-PARTY-NOTICES.md"
   ],
-  "repeated_build_identical": true,
+  "repeated_build_identical": false,
   "junit": {
     "test": {
       "suites": 116,
-      "tests": 6355,
+      "tests": 6356,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
       "suites": 5,
-      "tests": 72,
+      "tests": 75,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Hosted runtime controls implemented and verified; all five CI jobs and all 44 targeted unchanged source tests passed",
-  "java_implementation_commit": "14d6f239a10684699874d103f918bd61738b4f67",
-  "tested_tree": "3430dcb1b8953cb209cee4d1265a4813a02e83a6",
+  "verification_stage": "Standard hosted voting implemented and locally verified; CI pending",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "observed_at_utc": "2026-10-20T01:35:20.853725+00:00",
-    "run_id": 39353628603,
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39353628603",
-    "head_sha": "14d6f239a10684699874d103f918bd61738b4f67",
-    "tested_tree": "3430dcb1b8953cb209cee4d1265a4813a02e83a6",
-    "attempt": 1,
-    "all_five_jobs_passed": true,
-    "all_final_steps_verified": true,
-    "completed_jobs": 5,
-    "completed_final_steps": 65,
-    "jobs": [
-      {
-        "id": 118403334771,
-        "name": "build",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 13
-      },
-      {
-        "id": 118403335052,
-        "name": "native-enet",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 16
-      },
-      {
-        "id": 118404110775,
-        "name": "platform (windows-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 12
-      },
-      {
-        "id": 118404110794,
-        "name": "platform (ubuntu-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 12
-      },
-      {
-        "id": 118404110829,
-        "name": "platform (macos-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 12
-      }
-    ],
-    "configured_source_generators_reproduced": 79,
-    "repeated_archive_byte_comparison": true,
-    "identical_uploaded_artifact_smoked_on_platforms": 3,
-    "local_to_ci_artifact_hash_compared": false,
-    "summary": "All five CI jobs passed for implementation `14d6f239a10684699874d103f918bd61738b4f67`, tested tree `3430dcb1b8953cb209cee4d1265a4813a02e83a6`, in [run 39353628603](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39353628603). All 65 final steps succeeded or were intentionally skipped. Native impaired transport/loader checks and all 79 configured reference generators passed; the build byte-compared repeated archives. All three platform jobs smoked the uploaded artifact and passed component/integration tests. No local-to-CI artifact hash identity or supported-client acceptance is claimed. Observed 2026-10-20T01:35:20.853725+00:00."
+    "status": "pending",
+    "all_five_jobs_passed": false
   },
   "movement": {
     "cases": 118,
@@ -155,7 +104,7 @@
     "net/battlespades/catalog/modes.toml",
     "net/battlespades/catalog/rules.toml"
   ],
-  "local_packaging_note": "Current application archive passes ZIP CRC; local repeat-build identity not measured for this batch. CI compared repeated application archives.",
+  "local_packaging_note": "Current application archive passes ZIP CRC; local repeated build identity not measured.",
   "admission": {
     "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
     "unicode": "15.0.0",
@@ -445,9 +394,8 @@
     "command": "python -m pytest -q tests/test_input_loss_recovery.py tests/test_action_clock.py tests/test_action_clock_recovery_review.py"
   },
   "publication": {
-    "status": "published",
-    "branch": "port/java25",
-    "implementation_commit": "14d6f239a10684699874d103f918bd61738b4f67"
+    "status": "pending",
+    "branch": "port/java25"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -6318,7 +6266,7 @@
     "six_reference_directories_exactly_match_main": true,
     "files_unchanged_from_import": true
   },
-  "repeated_build_scope": "CI build compared repeated archives; no local-to-CI artifact hash identity claimed",
+  "repeated_build_scope": "CI repeated archive comparison pending; no local-to-CI artifact identity claimed",
   "previous_capture_zone_checkpoint": {
     "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
     "verification_stage": "Updated upstream and TC/Multi-Hill checkpoint verified locally; four CI jobs passed, macOS queued awaiting runner",
@@ -8078,9 +8026,9 @@
       "implementation_commit": "e50298b4f228319f8ccd2c3eed520573afb0a2ee"
     }
   },
-  "java_component_tests": 6355,
-  "java_integration_tests": 72,
-  "java_tests": 6427,
+  "java_component_tests": 6356,
+  "java_integration_tests": 75,
+  "java_tests": 6431,
   "full_migration_complete": false,
   "supported_client_acceptance": false,
   "round_results": {
@@ -8542,5 +8490,94 @@
       "branch": "port/java25",
       "implementation_commit": "14d6f239a10684699874d103f918bd61738b4f67"
     }
+  },
+  "hosted_voting": {
+    "observed_utc": "2026-10-20T01:55:14.218208+00:00",
+    "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+    "verification_parent_commit": "399d274106796f1b0ce4e50ed5068c81d9a02c5e",
+    "implemented_families": [
+      "ranked map rotation/startup settings",
+      "standard map-ballot lifecycle and rollover",
+      "retail vote-kick lifecycle and admission"
+    ],
+    "java_component_tests": 6356,
+    "java_integration_tests": 75,
+    "java_tests": 6431,
+    "junit": {
+      "test": {
+        "suites": 116,
+        "tests": 6356,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "suites": 5,
+        "tests": 75,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "source_tests": {
+      "tests": 77,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "files": [
+        "tests/test_audio_voting.py",
+        "tests/test_votekick_retail_format.py",
+        "tests/test_lobby_config.py",
+        "tests/test_map_vote_fit.py"
+      ]
+    },
+    "gradle": "Full check build passed; passing components reused after correcting the new room-claim fixture to claim before becoming an administrator; no assertions or deadlines weakened",
+    "source_directories_unchanged": [
+      "server",
+      "shared",
+      "aoslib",
+      "protocol",
+      "modes",
+      "tests",
+      "commands"
+    ],
+    "unchanged_existing_resources": 263,
+    "configured_source_generators": 79,
+    "jar_sha256": "8f5555d985d67d5a2917b6b792d1a8b1be7146f8615cce60bbec8b1e317f4968",
+    "jar_bytes": 2702490,
+    "java_class_major": 69,
+    "smoke": {
+      "version": {
+        "exit": 0
+      },
+      "config": {
+        "exit": 0
+      },
+      "help": {
+        "exit": 0
+      },
+      "ugc_missing": {
+        "exit": 2
+      },
+      "hosting": {
+        "exit": 2
+      }
+    },
+    "production_source_fingerprint": {
+      "files": 385,
+      "sha256": "0bd327a74050d4c91d400b83f0f951ec6b286bb6d57a131cef05b55fa868c964"
+    },
+    "ci": {
+      "status": "pending",
+      "all_five_jobs_passed": false
+    },
+    "full_migration_complete": false,
+    "supported_client_acceptance": false,
+    "remaining": [
+      "bots AI and director",
+      "Tutorial host and lessons",
+      "achievement evaluation and local profile persistence",
+      "master registration/authentication and complete standalone startup"
+    ]
   }
 }

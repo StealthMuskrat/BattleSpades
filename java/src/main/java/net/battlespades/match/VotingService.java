@@ -8,7 +8,7 @@ import java.util.function.*;
 import net.battlespades.protocol.*;
 
 /** Single retail overlay owner combining rotation, map waiters, kick policy and match-boundary reset. */
-public final class VotingService<P> {
+public final class VotingService<P> implements AutoCloseable {
     private final Thread owner=Thread.currentThread();private final MapRotation rotation;private final KickBallot.Context<P> context;
     private final Supplier<String> current,mode;private final Supplier<List<String>> stock;private final MapBallot<P> map;private final KickBallot<P> kick;
     public VotingService(MapRotation rotation,KickBallot.Context<P> context,KickBallot.Settings settings,Supplier<String> current,Supplier<String> mode,Supplier<List<String>> stock,DoubleSupplier monotonic,DoubleSupplier wall,Function<Double,CompletionStage<Void>> sleep,Consumer<GamePacket> broadcast,BiConsumer<String,Throwable> failure,Executor resume){
@@ -29,5 +29,6 @@ public final class VotingService<P> {
     }
     public void reveal(Consumer<GamePacket> send){owned();if(kick.active())kick.reveal(send);else map.reveal(send);}
     public void forget(int id){owned();kick.forget(id);map.forget(id);}
+    @Override public void close(){owned();kick.cancel(false,null);map.close();}
     public void reset(){owned();kick.cancel(false,null);map.cancel();map.consume();kick.clearMatchKicks();}
 }

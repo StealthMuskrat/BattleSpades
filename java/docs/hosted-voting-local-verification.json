@@ -1,0 +1,89 @@
+{
+  "observed_utc": "2026-10-20T01:55:14.218208+00:00",
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "verification_parent_commit": "399d274106796f1b0ce4e50ed5068c81d9a02c5e",
+  "implemented_families": [
+    "ranked map rotation/startup settings",
+    "standard map-ballot lifecycle and rollover",
+    "retail vote-kick lifecycle and admission"
+  ],
+  "java_component_tests": 6356,
+  "java_integration_tests": 75,
+  "java_tests": 6431,
+  "junit": {
+    "test": {
+      "suites": 116,
+      "tests": 6356,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 5,
+      "tests": 75,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "source_tests": {
+    "tests": 77,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "files": [
+      "tests/test_audio_voting.py",
+      "tests/test_votekick_retail_format.py",
+      "tests/test_lobby_config.py",
+      "tests/test_map_vote_fit.py"
+    ]
+  },
+  "gradle": "Full check build passed; passing components reused after correcting the new room-claim fixture to claim before becoming an administrator; no assertions or deadlines weakened",
+  "source_directories_unchanged": [
+    "server",
+    "shared",
+    "aoslib",
+    "protocol",
+    "modes",
+    "tests",
+    "commands"
+  ],
+  "unchanged_existing_resources": 263,
+  "configured_source_generators": 79,
+  "jar_sha256": "8f5555d985d67d5a2917b6b792d1a8b1be7146f8615cce60bbec8b1e317f4968",
+  "jar_bytes": 2702490,
+  "java_class_major": 69,
+  "smoke": {
+    "version": {
+      "exit": 0
+    },
+    "config": {
+      "exit": 0
+    },
+    "help": {
+      "exit": 0
+    },
+    "ugc_missing": {
+      "exit": 2
+    },
+    "hosting": {
+      "exit": 2
+    }
+  },
+  "production_source_fingerprint": {
+    "files": 385,
+    "sha256": "0bd327a74050d4c91d400b83f0f951ec6b286bb6d57a131cef05b55fa868c964"
+  },
+  "ci": {
+    "status": "pending",
+    "all_five_jobs_passed": false
+  },
+  "full_migration_complete": false,
+  "supported_client_acceptance": false,
+  "remaining": [
+    "bots AI and director",
+    "Tutorial host and lessons",
+    "achievement evaluation and local profile persistence",
+    "master registration/authentication and complete standalone startup"
+  ]
+}

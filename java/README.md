@@ -1,3 +1,7 @@
+# Standard hosted voting checkpoint
+
+Ranked rotation, map ballots and vote-kick policy now share the standard host lifecycle, admission and frame scheduler. See [HOSTED_VOTING.md](docs/HOSTED_VOTING.md). The broader migration remains incomplete.
+
 # Hosted runtime-control checkpoint
 
 Same-map restart/reset, teleport and persistent live netcode tuning now bind to hosted runtime owners. See [RUNTIME_CONTROLS.md](docs/RUNTIME_CONTROLS.md). The broader migration remains incomplete.

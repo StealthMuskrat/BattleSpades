@@ -31,6 +31,9 @@ public final class ApplicationHost implements AutoCloseable {
     private net.battlespades.replication.ReplicationService.OwnerTuning reconciliation;
     void rememberReconciliation(net.battlespades.replication.ReplicationService.OwnerTuning value){owned();reconciliation=java.util.Objects.requireNonNull(value);}
     java.util.Optional<net.battlespades.replication.ReplicationService.OwnerTuning> reconciliation(){owned();return java.util.Optional.ofNullable(reconciliation);}
+    private HostedVoting voting;
+    public void voting(HostedVoting service){owned();if(voting!=null||!sessions.isEmpty())throw new IllegalStateException("Voting binds once before connections");voting=java.util.Objects.requireNonNull(service);}
+    public java.util.Optional<HostedVoting> voting(){owned();return java.util.Optional.ofNullable(voting);}
     private HostedRoundResults results;
     public void results(HostedRoundResults service){owned();if(results!=null||!sessions.isEmpty())throw new IllegalStateException("Results bind once before connections");results=java.util.Objects.requireNonNull(service);}
     public java.util.Optional<HostedRoundResults> results(){owned();return java.util.Optional.ofNullable(results);}
@@ -77,7 +80,7 @@ public final class ApplicationHost implements AutoCloseable {
         for(int i=0;i<eventBudget;i++) {
             var event=transport.poll().orElse(null);if(event==null) break;var peer=event.peer();var key=new PeerKey(peer.id(),peer.generation());
             switch(event.type()) {
-                case CONNECT -> {String address=JoinSession.addressHost(peer.address());Integer denied=administration==null?null:administration.admissionReason(address);if(denied==null&&admissionGate!=null)denied=admissionGate.apply(address);if(denied!=null){peer.disconnect(denied);break;}sessions.put(key,new JoinSession(peer.address(),new JoinSession.WireSink() {
+                case CONNECT -> {String address=JoinSession.addressHost(peer.address());Integer denied=administration==null?null:administration.admissionReason(address);if(denied==null&&admissionGate!=null)denied=admissionGate.apply(address);if(denied==null&&voting!=null)denied=voting.service().kick().matchKickReason(address);if(denied!=null){peer.disconnect(denied);break;}sessions.put(key,new JoinSession(peer.address(),new JoinSession.WireSink() {
                     @Override public boolean send(SessionFrame frame) {return peer.send(frame.encode(),frame.delivery());}
                     @Override public void disconnect(int reason) {peer.disconnect(reason);}
                     @Override public Double roundTripMillis(){return (double)peer.metrics().roundTripTime();}
@@ -140,6 +143,6 @@ public final class ApplicationHost implements AutoCloseable {
     public void replaceScene(JoinScene replacement) {owned();if(replacement==scene) throw new IllegalArgumentException("Scene must change");if(packets!=null)packets.clear();queuedSessions.clear();for(var session:sessions.values()) session.replaceScene(replacement);scene=replacement;}
     @Override public void close() throws IOException {
         if(Thread.currentThread()!=owner) throw new IllegalStateException("Application host closed outside owner");if(closed||closing) return;
-        if(results!=null&&!results.stopped())throw new IllegalStateException("Await shutdownResults before closing the host");closing=true;if(packets!=null)packets.clear();queuedSessions.clear();try {for(var session:sessions.values()) session.close();sessions.clear();if(administration!=null)administration.clear();compression.close();} finally {closed=true;transport.close();}
+        if(results!=null&&!results.stopped())throw new IllegalStateException("Await shutdownResults before closing the host");closing=true;if(packets!=null)packets.clear();queuedSessions.clear();try {if(voting!=null)voting.close();for(var session:sessions.values()) session.close();sessions.clear();if(administration!=null)administration.clear();compression.close();} finally {closed=true;transport.close();}
     }
 }

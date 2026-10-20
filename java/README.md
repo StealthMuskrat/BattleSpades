@@ -1,6 +1,6 @@
 Migration CI policy: build, native ENet, Linux and Windows only. **Defer macOS testing until the full migration is complete**, then run macOS acceptance.
 
-Current checkpoint: [environmental achievement rules](docs/ACHIEVEMENT_ENVIRONMENT.md). Local verification: 6,451 Java tests and 206 selected original source tests pass; four-job CI pending. The migration remains incomplete.
+Current checkpoint: [environmental achievement rules](docs/ACHIEVEMENT_ENVIRONMENT.md). Local verification: 6,451 Java tests, 206 selected original source tests and all four required CI jobs pass. The migration remains incomplete.
 
 # Standard hosted voting checkpoint
 

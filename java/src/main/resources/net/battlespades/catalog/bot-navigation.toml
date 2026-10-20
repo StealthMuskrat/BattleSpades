@@ -1,0 +1,217 @@
+# Unchanged source 546c548780c400f21d73ca6713f86194ceb3c844
+
+[[primary]]
+tool_id = 2
+damage_type = 2
+block_damage = 5.0
+pattern = "column"
+fire_interval = 0.8
+secondary = false
+random_extra = 0.0
+
+[[primary]]
+tool_id = 4
+damage_type = 2
+block_damage = 3.0
+pattern = "column"
+fire_interval = 0.3
+secondary = false
+random_extra = 0.0
+
+[[primary]]
+tool_id = 3
+damage_type = 3
+block_damage = 7.5
+pattern = "cube"
+fire_interval = 0.6
+secondary = false
+random_extra = 5.0
+
+[[primary]]
+tool_id = 24
+damage_type = 17
+block_damage = 2.0
+pattern = "cube"
+fire_interval = 0.4
+secondary = false
+random_extra = 8.0
+
+[[primary]]
+tool_id = 0
+damage_type = 0
+block_damage = 7.0
+pattern = "single"
+fire_interval = 0.6
+secondary = false
+random_extra = 0.0
+
+[[primary]]
+tool_id = 1
+damage_type = 1
+block_damage = 1.0
+pattern = "single"
+fire_interval = 0.5
+secondary = false
+random_extra = 0.0
+
+[[primary]]
+tool_id = 34
+damage_type = 26
+block_damage = 5.0
+pattern = "single"
+fire_interval = 0.5
+secondary = false
+random_extra = 0.0
+
+[[primary]]
+tool_id = 50
+damage_type = 35
+block_damage = 2.0
+pattern = "machete_vertical_pair"
+fire_interval = 0.7
+secondary = false
+random_extra = 0.0
+
+[[primary]]
+tool_id = 49
+damage_type = 34
+block_damage = 1.75
+pattern = "single"
+fire_interval = 0.5
+secondary = false
+random_extra = 0.0
+
+[[primary]]
+tool_id = 52
+damage_type = 36
+block_damage = 2.0
+pattern = "column"
+fire_interval = 1.0
+secondary = false
+random_extra = 0.0
+
+[[primary]]
+tool_id = 44
+damage_type = 28
+block_damage = 9.0
+pattern = "single"
+fire_interval = 0.2
+secondary = false
+random_extra = 0.0
+
+[[primary]]
+tool_id = 45
+damage_type = 29
+block_damage = 7.5
+pattern = "single"
+fire_interval = 0.2
+secondary = false
+random_extra = 0.0
+
+[[navigation]]
+tool_id = 2
+damage_type = 2
+block_damage = 5.0
+pattern = "column"
+fire_interval = 0.8
+secondary = false
+random_extra = 0.0
+
+[[navigation]]
+tool_id = 4
+damage_type = 2
+block_damage = 3.0
+pattern = "column"
+fire_interval = 0.3
+secondary = false
+random_extra = 0.0
+
+[[navigation]]
+tool_id = 3
+damage_type = 3
+block_damage = 7.5
+pattern = "cube"
+fire_interval = 0.6
+secondary = false
+random_extra = 5.0
+
+[[navigation]]
+tool_id = 24
+damage_type = 17
+block_damage = 2.0
+pattern = "cube"
+fire_interval = 0.4
+secondary = false
+random_extra = 8.0
+
+[[navigation]]
+tool_id = 0
+damage_type = 0
+block_damage = 7.0
+pattern = "single"
+fire_interval = 0.6
+secondary = false
+random_extra = 0.0
+
+[[navigation]]
+tool_id = 1
+damage_type = 1
+block_damage = 1.0
+pattern = "single"
+fire_interval = 0.5
+secondary = false
+random_extra = 0.0
+
+[[navigation]]
+tool_id = 34
+damage_type = 26
+block_damage = 5.0
+pattern = "single"
+fire_interval = 0.5
+secondary = false
+random_extra = 0.0
+
+[[navigation]]
+tool_id = 50
+damage_type = 35
+block_damage = 2.0
+pattern = "machete_vertical_pair"
+fire_interval = 0.7
+secondary = false
+random_extra = 0.0
+
+[[navigation]]
+tool_id = 49
+damage_type = 34
+block_damage = 1.75
+pattern = "single"
+fire_interval = 0.5
+secondary = false
+random_extra = 0.0
+
+[[navigation]]
+tool_id = 52
+damage_type = 36
+block_damage = 2.0
+pattern = "column"
+fire_interval = 1.0
+secondary = false
+random_extra = 0.0
+
+[[navigation]]
+tool_id = 44
+damage_type = 28
+block_damage = 9.0
+pattern = "single"
+fire_interval = 0.2
+secondary = false
+random_extra = 0.0
+
+[[navigation]]
+tool_id = 45
+damage_type = 31
+block_damage = 7.5
+pattern = "cube"
+fire_interval = 0.2
+secondary = true
+random_extra = 0.0

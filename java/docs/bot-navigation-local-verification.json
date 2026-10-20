@@ -1,0 +1,102 @@
+{
+  "parent": "97bbeff68e591389f29fc48300fac61ee7be4cce",
+  "observed_utc": "2026-10-20T21:03:57.889424+00:00",
+  "jar_sha256": "8c575e6f917e99e6e5b40a01746c4f2fcc4233daf32d0ec6ed16de4e8872c5b7",
+  "jar_bytes": 3155506,
+  "jar_crc_valid": true,
+  "class_major": 69,
+  "junit": {
+    "test": {
+      "suites": 125,
+      "tests": 6388,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 7,
+      "tests": 90,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "java_tests": 6478,
+  "source": {
+    "tests": 110,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "source_modules": [
+    "tests/test_simple_bot_navigation.py",
+    "tests/test_bot_built_block_breach.py",
+    "tests/test_bot_jetpack_climb.py",
+    "tests/test_bot_water_crossing.py"
+  ],
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "eight_source_directories_unchanged": true,
+  "frozen_resources_unchanged": 272,
+  "new_resources": 2,
+  "configured_reference_generators": 86,
+  "smokes": [
+    {
+      "args": [
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "BattleSpades 0.1.0-java25-dev; protocol 168; gameplay incomplete\n",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+    },
+    {
+      "args": [
+        "--check-config",
+        "config.toml"
+      ],
+      "exit": 0,
+      "stdout": "Core configuration valid: BattleSpades Server, UDP 27015, 24 players, 60 Hz\nValidation covers core/network/join, Match Lobby rules and common scene settings; full gameplay is pending.\n",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+    },
+    {
+      "args": [
+        "--help"
+      ],
+      "exit": 0,
+      "stdout": "BattleSpades Java 25: dedicated host, world creator and migration diagnostics\n  java -jar BattleSpades.jar --serve --config PATH [--bind HOST] [--port PORT] [--control-stdin] [--shutdown-after SECONDS]\n  java -jar BattleSpades.jar --check-config PATH\n  java -jar BattleSpades.jar --version\n  java -jar BattleSpades.jar --update [--config PATH] [--manifest URL]\n  java -jar BattleSpades.jar --results-import INPUT_NDJSON OUTBOX_DIRECTORY\n  java -jar BattleSpades.jar --ugc-assets RETAIL_ROOT\n  java -jar BattleSpades.jar --ugc-create RETAIL_ROOT DIRECTORY NAME TERRAIN MODE\n  java -jar BattleSpades.jar --ugc-check DIRECTORY NAME\n  java -jar BattleSpades.jar --ugc-host --retail-root RETAIL_ROOT --project NAME [--config PATH] [--publish-root hosted_ugc] [--control-stdin]\n",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+    },
+    {
+      "args": [
+        "--ugc-host",
+        "/workspace/scratch/dc9e10c1d797/tmp/nonexistent-hosting-project"
+      ],
+      "exit": 2,
+      "stdout": "",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\nWorld creator error: Unexpected creator argument: /workspace/scratch/dc9e10c1d797/tmp/nonexistent-hosting-project\n"
+    },
+    {
+      "args": [],
+      "exit": 2,
+      "stdout": "",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\nServer failed: Standalone migration does not yet support: bots.enabled, revival.enabled\n"
+    }
+  ],
+  "full_reference_python_baseline_passing": false,
+  "bot_navigation": {
+    "route_and_neighbor_queries": 58,
+    "connected_terrain_scenes": 18,
+    "water_construction_queries": 14,
+    "dig_profiles": 13,
+    "tool_selection_cases": 11,
+    "shared_credit_deferral_and_ownership": true,
+    "live_bots_enabled": false
+  },
+  "full_migration_complete": false,
+  "macos_deferred_until_full_migration_complete": true,
+  "scope_limitations": [
+    "Live bots remain explicitly disabled: real brain, director, gateway, mode/cooperative policies and host composition are not yet ported",
+    "Navigation returns proposals; authoritative movement, digging and construction acceptance remains the responsibility of existing gameplay handlers",
+    "Tutorial/community modes, Revival services, native integrations and fleet orchestration remain incomplete",
+    "Supported-client, capacity, full Python baseline and final macOS acceptance remain unverified"
+  ]
+}

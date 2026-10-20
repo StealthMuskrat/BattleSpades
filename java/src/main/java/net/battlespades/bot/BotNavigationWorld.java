@@ -30,6 +30,26 @@ public final class BotNavigationWorld {
     public boolean needsReplan(long before,Vector position,List<RouteStep> steps,boolean stuck){owned();if(base<0||before<base||before>version||latest!=version||steps.isEmpty())return true;var ahead=steps.subList(0,Math.min(64,steps.size()));if(stuck&&ahead.stream().anyMatch(s->s.affordance()!=Affordance.WALK&&s.affordance()!=Affordance.CROUCH||s.breach()!=null))return true;var checked=new HashSet<Integer>();if(changedNear(position.x(),position.y(),4,before,checked))return true;Vector previous=position;for(var step:ahead){var point=step.waypoint();if(!finite(previous)||!finite(point))return true;double span=Math.hypot(point.x()-previous.x(),point.y()-previous.y());if(span>1024)return true;int pieces=Math.max(1,(int)Math.ceil(span));for(int piece=0;piece<=pieces;piece++){double fraction=piece/(double)pieces;if(changedNear(previous.x()+(point.x()-previous.x())*fraction,previous.y()+(point.y()-previous.y())*fraction,1,before,checked))return true;}if(step.breach()!=null){var cells=new ArrayList<>(step.breach().blockingCells());cells.addFirst(step.breach().targetCell());for(var cell:cells)if(changedNear(cell.x()+.5,cell.y()+.5,1,before,checked))return true;}previous=point;}return false;}
     private Integer endpoint(Vector at,int radius,double vertical){Integer best=null;double bestScore=Double.POSITIVE_INFINITY;int px=(int)at.x(),py=(int)at.y();for(int y=Math.max(0,py-radius);y<Math.min(512,py+radius+1);y++)for(int x=Math.max(0,px-radius);x<Math.min(512,px+radius+1);x++){var s=surface(x,y,at.z(),(int)Math.ceil(vertical),false);double dz=s==null?Double.POSITIVE_INFINITY:Math.abs(s.position().z()-at.z());if(s!=null&&s.supportZ()<239&&dz<=vertical){double dx=x+.5-at.x(),dy=y+.5-at.y(),score=dx*dx+dy*dy+dz*dz;int node=y*512+x+s.supportZ()*512*512;if(score<bestScore||score==bestScore&&(best==null||node<best)){bestScore=score;best=node;}}}return best;}
     public Corridor corridor(Vector start,Vector goal,Set<Edge> blocked){owned();if(atlas==null)return null;if(corridorSupports==null){corridorSupports=new byte[512*512];for(int i=0;i<corridorSupports.length;i++)corridorSupports[i]=(byte)atlas.primary(i);if(map!=null)for(int col=dirty.nextSetBit(0);col>=0;col=dirty.nextSetBit(col+1))corridorSupports[col]=(byte)Math.min(255,map.surfaceZ(col%512,col/512));}Integer source=endpoint(start,1,1.5);var named=goalSurface(goal,false);Integer target;if(named==null)target=endpoint(goal,6,12.);else target=named.y()*512+named.x()+named.supportZ()*512*512;if(source==null||target==null)return null;var valid=new HashSet<Edge>();for(var edge:blocked)if(inside(edge.source().x(),edge.source().y())&&inside(edge.target().x(),edge.target().y()))valid.add(edge);var search=new SurfaceCorridorSearch(corridorSupports,512,512,source%(512*512),target%(512*512),valid,(x,y,support)->{var s=surface(x,y,support-2.25,2,false);return s==null?null:s.supportZ();},source/(512*512),target/(512*512),(x,y)->supports(x,y,false));return new Corridor(search);}
+    public record RoutePlan(List<RouteStep> steps,boolean reachedSegmentGoal,int expansions,boolean deferred) {
+        public RoutePlan { steps=List.copyOf(steps); }
+    }
+    private final BotRoutePlanner localPlanner=new BotRoutePlanner(this);
+    private final BotWaterNavigation waterNavigation=new BotWaterNavigation(this);
+    public BotWaterNavigation water() {owned();return waterNavigation;}
+    public RoutePlan plan(Vector start,Vector goal,Set<Affordance> abilities,BotDigProfile dig,boolean allowWater,Set<Edge> blocked) {
+        return plan(start,goal,abilities,dig,allowWater,blocked,true,true);
+    }
+    /** Recovery may bypass a useful ordinary segment to cost excavation at its boundary. */
+    public RoutePlan plan(Vector start,Vector goal,Set<Affordance> abilities,BotDigProfile dig,boolean allowWater,Set<Edge> blocked,boolean recoverStart,boolean preferExistingPath) {
+        owned();Objects.requireNonNull(start);Objects.requireNonNull(goal);
+        abilities=Set.copyOf(abilities);blocked=Set.copyOf(blocked);planningRequested=true;
+        if(budget==null)return localPlanner.plan(start,goal,abilities,dig,allowWater,blocked,null,recoverStart,preferExistingPath);
+        var job=observer==null?null:budget.acquire(observer,planningTime);
+        if(job==null)return new RoutePlan(List.of(),false,0,true);
+        double began=measured.getAsDouble();
+        try {return localPlanner.plan(start,goal,abilities,dig,allowWater,blocked,job,recoverStart,preferExistingPath);}
+        finally {budget.finish(job,measured.getAsDouble()-began);}
+    }
     public final class Corridor {
         private final SurfaceCorridorSearch search;private boolean deferred;private Corridor(SurfaceCorridorSearch search){this.search=search;}
         public boolean done(){owned();return search.done();}public boolean deferred(){owned();return deferred;}public int expansions(){owned();return search.expansions();}public List<Vector> path(){owned();return search.path();}public void exclude(Edge edge){owned();search.exclude(edge);}

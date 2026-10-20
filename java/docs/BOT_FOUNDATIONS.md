@@ -2,7 +2,7 @@
 
 This batch ports a connected group of bot subsystems to pure Java. It supplies immutable perception/action proposals, seeded personalities, adaptive difficulty, approximate hearing, fair planning credits, compact collision snapshots, semantic navigation/cache data, retained corridor guidance, path following and a worker lifecycle. A decision controller is a required worker binding; production code never supplies a fixture controller.
 
-**Live bots remain unavailable in standalone hosting.** The detailed local movement/breach/water/construction planner, `SimpleBotBrain`, authoritative director/motor/action gateway, mode policies and cooperative tactics still require migration. `ServerSettings` continues rejecting `bots.enabled=true`. This batch does not claim complete bot AI, supported-client acceptance or fleet capacity. macOS testing remains deferred until the complete migration is finished.
+**Live bots remain unavailable in standalone hosting.** The detailed local movement/breach/water/construction planner is now covered by the [local navigation checkpoint](BOT_NAVIGATION.md). `SimpleBotBrain`, authoritative director/motor/action gateway, mode policies and cooperative tactics still require migration. `ServerSettings` continues rejecting `bots.enabled=true`. This batch does not claim complete bot AI, supported-client acceptance or fleet capacity. macOS testing remains deferred until the complete migration is finished.
 
 ## Source mapping
 
@@ -15,7 +15,7 @@ This batch ports a connected group of bot subsystems to pure Java. It supplies i
 | `planning_budget.py` | `PlanningBudget` | FIFO claims, decision ownership, shared search/expansion limits, credit refunds, live waiter refresh, expiry, scaling and bounded profiling |
 | `compact_vxl.py` | `CompactVoxelMap` | Collision-only VXL spans, implicit underground/floor, classic/retail height handling, exposed marker removal and canonical edits |
 | `navigation_atlas.py` | `NavigationAtlas`, `Blake2s128` | Surface layers, components, clearance/passages, monotonic shore flow, validated source cache envelopes and atomic writes |
-| `simple_navigation.py` | `BotNavigationWorld` | Snapshot/delta ownership, block-health overlays, column-version route invalidation, LOS, nearest/goal supports and budgeted corridor setup; detailed local route planning remains pending |
+| `simple_navigation.py` | `BotNavigationWorld` | Snapshot/delta ownership, block-health overlays, column-version route invalidation, LOS, nearest/goal supports and budgeted corridor setup; detailed local route planning is covered by [BOT_NAVIGATION.md](BOT_NAVIGATION.md) |
 | `surface_corridor.py` | `SurfaceCorridorSearch` | Retained bidirectional weighted A*, layer-aware reverse traversal, fixed work bounds, exclusions, stale-chain refusal and corner guidance |
 | `path_following.py` | `PathFollowing` | Actual collision-world body-wide lookahead, safe ledges, ceiling/footprint checks, stable steering/gaze, exact-edge alignment and route progress |
 | `thread_supervisor.py` and active worker batch wrappers | `BotWorker` | Snapshot/terrain/frame coalescing, newest-generation frames, owner-isolated decisions, bad-snapshot quarantine, clean recycle, crash recovery, detached diagnostics and retained shutdown |
@@ -38,7 +38,7 @@ The private collision field uses four 64-bit words per column and retains no col
 
 Global corridor guidance spends at most 512 expansions per slice, 32,768 expansions overall and 32,768 discovered entries. It preserves its frontiers while waiting for planning credit. Late edge exclusions are checked against a completed parent chain; invalidated chains are refused. Guidance points still require the unported detailed planner and authoritative motor before execution.
 
-Delta stamps invalidate nearby route neighborhoods, compacted segments and breach cells while preserving routes after distant edits. A body with stalled exact steps reconsiders its route. Body-wide walking checks use the actual collision field, including shoulder clearance, footprint-induced lifting, ceiling clearance, safe drops and water refusal. These helpers do not authorize a gameplay action.
+Delta stamps invalidate nearby route neighborhoods, compacted segments and breach cells while preserving routes after distant edits. A body with stalled exact steps reconsiders its route. Body-wide walking checks use the actual collision field, including shoulder clearance, footprint-induced lifting, ceiling clearance, safe drops and water refusal. These helpers do not authorize a gameplay action. The connected local planner is now ported in [BOT_NAVIGATION.md](BOT_NAVIGATION.md); the authoritative motor remains pending.
 
 ## Evidence
 

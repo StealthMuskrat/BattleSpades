@@ -111,6 +111,8 @@ jobs:
           python java/tools/export_plugins.py
           python -S java/tools/export_updates.py
           python -S java/tools/export_bot_foundations.py
+          python -S java/tools/export_bot_navigation.py
+          git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/bot-navigation.toml java/src/test/resources/golden/bot-navigation.json
           git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/bot-foundations.toml java/src/test/resources/golden/bot-foundations.json
           git diff --exit-code -- java/src/test/resources/golden/updates.json
           git diff --exit-code -- java/src/test/resources/golden/plugins.json

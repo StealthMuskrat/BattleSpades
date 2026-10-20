@@ -39,6 +39,10 @@ public final class ApplicationHost implements AutoCloseable {
     public void telemetry(net.battlespades.service.TelemetryService service){owned();if(telemetry!=null||!sessions.isEmpty())throw new IllegalStateException("Telemetry binds once before connections");telemetry=java.util.Objects.requireNonNull(service);}
     public java.util.Optional<net.battlespades.service.TelemetryService> telemetry(){owned();return java.util.Optional.ofNullable(telemetry);}
     public java.util.concurrent.CompletionStage<Void> shutdownTelemetry(){owned();return telemetry==null?java.util.concurrent.CompletableFuture.completedFuture(null):telemetry.stop();}
+    private HostedPlugins plugins;
+    public void plugins(HostedPlugins service){owned();if(plugins!=null||!sessions.isEmpty())throw new IllegalStateException("Plugins bind once before connections");plugins=java.util.Objects.requireNonNull(service);}
+    public java.util.Optional<HostedPlugins> plugins(){owned();return java.util.Optional.ofNullable(plugins);}
+    public java.util.concurrent.CompletionStage<Void> shutdownPlugins(){owned();return plugins==null?java.util.concurrent.CompletableFuture.completedFuture(null):plugins.shutdown();}
     private HostedAchievements achievements;
     public void achievements(HostedAchievements service){owned();if(achievements!=null||!sessions.isEmpty())throw new IllegalStateException("Achievements bind once before connections");achievements=java.util.Objects.requireNonNull(service);}
     public java.util.Optional<HostedAchievements> achievements(){owned();return java.util.Optional.ofNullable(achievements);}
@@ -162,6 +166,7 @@ public final class ApplicationHost implements AutoCloseable {
     public void replaceScene(JoinScene replacement) {owned();if(replacement==scene) throw new IllegalArgumentException("Scene must change");if(packets!=null)packets.clear();queuedSessions.clear();for(var session:sessions.values()) session.replaceScene(replacement);scene=replacement;}
     @Override public void close() throws IOException {
         if(Thread.currentThread()!=owner) throw new IllegalStateException("Application host closed outside owner");if(closed||closing) return;
+        if(plugins!=null&&!plugins.stopped())throw new IllegalStateException("Await shutdownPlugins before closing the host");
         if(telemetry!=null&&!telemetry.stopped())throw new IllegalStateException("Await shutdownTelemetry before closing the host");
         if(roundEnding!=null&&!roundEnding.stopped())throw new IllegalStateException("Await shutdownEndings before closing the host");
         if(achievements!=null&&!achievements.stopped())throw new IllegalStateException("Await shutdownAchievements before closing the host");

@@ -169,6 +169,32 @@ class ApplicationIntegrationTest {
             long samples=telemetry.snapshot().get("tick_samples").longValue();f.reload(a,Map.of(a,"Alice",b,"Bob"));var after=(Map<?,?>)MetadataDocument.json(new String(discoveryQuery(f,raw,f.host.address(),hello),java.nio.charset.StandardCharsets.US_ASCII));assertEquals("Second",after.get("map"));assertEquals(2,((Number)after.get("players_current")).intValue());assertTrue(telemetry.snapshot().get("tick_samples").longValue()>samples);assertTrue(telemetry.snapshot().containsKey("subsystem_a2s_avg_ms"));assertTrue(telemetry.snapshot().get("world_serializations").longValue()>0);assertTrue(f.ports.log.stream().anyMatch(line->line.equals("A2S")));discovered.get().close();assertTrue(discovered.get().lanPort().isEmpty());b.send(new SimplePackets.ClockSync(123456,0),false);f.loop.until(()->b.packets.stream().anyMatch(packet->packet instanceof SimplePackets.ClockSync c&&c.client_time()==123456));
         }
     });}
+    @Test void externalPluginJarKeepsNetworkingAliveAcrossAwaitReloadAndRetainedShutdown(){assertTimeoutPreemptively(Duration.ofSeconds(25),()->{
+        Path directory=temp.resolve("plugin-host/plugins");Path jar=net.battlespades.support.PluginFixtures.jar(directory,"gate.jar",Map.of("external/GatePlugin.java",net.battlespades.support.PluginFixtures.gate()),"external.GatePlugin\n");var settings=new net.battlespades.plugin.PluginCatalog.Settings(true,directory,Set.of("gate"),Set.of(),2);var supplier=new java.util.concurrent.atomic.AtomicReference<java.util.function.Supplier<StandardMatchDomain>>();var plugins=new java.util.concurrent.atomic.AtomicReference<HostedPlugins>();var telemetry=new net.battlespades.service.TelemetryService(null);
+        try(var f=new AdministrationFixture(temp.resolve("plugin-host/maps"),null,(host,owner,ports,worker)->{host.telemetry(telemetry);try{var catalog=worker.submit(()->net.battlespades.plugin.PluginCatalog.prepare(settings,(name,error)->fail(error))).get(4,java.util.concurrent.TimeUnit.SECONDS);plugins.set(new HostedPlugins(host,()->supplier.get().get(),settings,catalog,worker,owner,()->ports.monotonic,()->ports.monotonic,ports::failure));}catch(Exception error){throw new IllegalStateException(error);}});var a=new Client(f.host.address());var b=new Client(f.host.address())){
+            supplier.set(f::match);f.load(a,"Alice",Set.of("steam:76561198000000000"));var manager=plugins.get().manager();manager.event(ModeEvents.Event.of("probe"),null).toCompletableFuture().join();
+            f.loop.until(()->a.packets.stream().anyMatch(p->p instanceof SimplePackets.ChatMessage c&&c.chat_type()==3&&c.value().equals("External plugin event")));
+            assertEquals(1,manager.all().size());manager.load(()->new net.battlespades.plugin.RuntimePlugin(){public String name(){return "Later";}}).toCompletableFuture().join();
+            var gate=new java.util.concurrent.CompletableFuture<Void>();var entered=new java.util.concurrent.CompletableFuture<Void>();manager.event(ModeEvents.Event.of("pause",gate,entered),null).toCompletableFuture().join();
+            f.loop.until(entered::isDone);
+            f.loop.ticketAndLoad(b,f.match().world());b.send(new SimplePackets.ClockSync(98765,0),false);
+            f.loop.until(()->b.packets.stream().anyMatch(p->p instanceof SimplePackets.ClockSync c&&c.client_time()==98765));
+            assertTrue(f.simulation.advancing(),"Tick remains suspended until the plugin gate completes");
+            gate.complete(null);int bob=((StateData)b.packets.stream().filter(StateData.class::isInstance).findFirst().orElseThrow()).playerId();f.join(b,"Bob",bob);f.match().lives().respawn(bob);
+            f.loop.until(()->f.ports.log.contains("on_player_spawn"));
+            assertTrue(telemetry.snapshot().get("skipped_plugin_callbacks").longValue()>0,"Awaited plugin time consumes the shared tick budget");
+            var retained=manager.get("Gate").orElseThrow();f.reload(a,Map.of(a,"Alice",b,"Bob"));
+            assertSame(retained,manager.get("Gate").orElseThrow());
+            assertTrue(f.ports.log.contains("PLUGINS"));
+            var finalGate=new java.util.concurrent.CompletableFuture<Void>();var event=manager.event(ModeEvents.Event.of("hold",finalGate),null).toCompletableFuture();var stopped=f.host.shutdownPlugins().toCompletableFuture();
+            assertFalse(stopped.isDone());b.send(new SimplePackets.ClockSync(98766,0),false);
+            f.loop.until(()->b.packets.stream().anyMatch(p->p instanceof SimplePackets.ClockSync c&&c.client_time()==98766));
+            assertFalse(event.isDone());finalGate.complete(null);
+            f.loop.until(stopped::isDone);stopped.join();
+            assertTrue(manager.all().isEmpty());
+            assertTrue(plugins.get().stopped());Files.delete(jar);
+        }
+    });}
     @Test void hostedBillboardsReplayAfterTrackedEntitiesKeepPrivateAudiencesAndClearBeforeRestart(){assertTimeoutPreemptively(Duration.ofSeconds(20),()->{
         try(var f=new AdministrationFixture(temp.resolve("hud-markers"),null);var a=new Client(f.host.address());var b=new Client(f.host.address());var late=new Client(f.host.address());var replacement=new Client(f.host.address())){
             int alice=f.load(a,"Alice",Set.of("steam:76561198000000000"));f.load(b,"Bob",Set.of());var match=f.match();var actor=match.lives().player(alice);var entity=match.entities().registry().place(4,40,40,98);match.entities().create(entity);f.loop.until(()->a.packets.stream().anyMatch(p->p instanceof CreateEntity c&&c.entity().entityId()==entity.id()));int global=net.battlespades.match.HudState.BILLBOARD_ID_BASE+9,personal=global+1;

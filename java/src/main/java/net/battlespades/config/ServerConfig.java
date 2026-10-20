@@ -19,6 +19,7 @@ public record ServerConfig(String name, int port, int maxPlayers, long steamId,
         int players = bounded(raw, "server.max_players", 24, 1, 255);
         int rate = bounded(raw, "server.tick_rate", 60, 1, 240);
         if (rate != 60) throw new IllegalArgumentException("server.tick_rate must be 60 for protocol 168");
+        net.battlespades.plugin.PluginCatalog.Settings.from(raw,path.toAbsolutePath().getParent());
         net.battlespades.session.HostedDiscovery.Settings.from(raw,port,integer(raw,"server.steam_id",90087911866072064L));
         net.battlespades.service.LoggingRuntime.Settings.from(raw,path.toAbsolutePath().getParent().resolve("logs"));
         net.battlespades.session.JoinSettings.from(raw);

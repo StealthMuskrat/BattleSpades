@@ -108,6 +108,8 @@ jobs:
           python java/tools/generate_query_golden.py
           python -S java/tools/export_domain_catalogs.py
           python java/tools/export_achievement_catalog.py
+          python java/tools/export_plugins.py
+          git diff --exit-code -- java/src/test/resources/golden/plugins.json
           python java/tools/export_runtime_services.py
           git diff --exit-code -- java/src/test/resources/golden/runtime-services.json
           python java/tools/export_achievement_environment.py

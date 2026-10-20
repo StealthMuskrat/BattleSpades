@@ -43,6 +43,7 @@ public final class HostedSimulation {
             public CompletionStage<Void> asynchronous(SimulationFrame.Phase phase,int tick){return switch(phase){
                 case PACKET_DRAIN->host.drainPackets(tick);
                 case MODE->match.get().events().tick(tick);
+                case PLUGINS->host.plugins().map(p->p.tick(tick).thenCompose(_->other.asynchronous(phase,tick))).orElseGet(()->other.asynchronous(phase,tick));
                 case RESPAWNS->periodic.get().respawns(tick,60,match.get().monotonic(),()->{match.get().lives().processRespawns();return CompletableFuture.completedFuture(null);});
                 default->other.asynchronous(phase,tick);
             };}
@@ -58,7 +59,7 @@ public final class HostedSimulation {
         public void synchronous(SimulationFrame.Phase phase,int tick){switch(phase){case ENTITIES->match.get().entities().tick();case PROJECTILES->match.get().entities().projectiles().tick();case WORLD_MUTATIONS->match.get().construction().tick();case PREFABS->match.get().prefabs().tick();case CORPSES->match.get().corpses().tick();case TURRETS->match.get().entities().turretTick();case FIRE->match.get().entities().effects().fireTick();case CONDUCT->match.get().conduct().tick(tick);case GOO->match.get().entities().effects().gooTick();default->other.synchronous(phase,tick);}}public void subsystem(SimulationFrame.Phase phase,double ms){other.subsystem(phase,ms);}public void failure(String label,Throwable error){other.failure(label,error);}public void tickMetrics(double ms){other.tickMetrics(ms);}public void health(double ms){other.health(ms);}
     }
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Hosted simulation outside owner");}
-    public void start(){owned();if(started||stopping!=null)throw new IllegalStateException("Simulation can start once");started=true;match.get().mode().start();running=true;previous=loop.nowNanos();}
+    public void start(){owned();if(started||stopping!=null)throw new IllegalStateException("Simulation can start once");host.plugins().ifPresent(p->{var ready=p.ready().toCompletableFuture();if(!ready.isDone())throw new IllegalStateException("Await plugin readiness before starting simulation");ready.join();});started=true;match.get().mode().start();running=true;previous=loop.nowNanos();}
     public long ticks(){owned();return runtime.ticks();}public boolean advancing(){owned();return advancing;}public CompletionStage<Integer> batch(){owned();return batch;}
     /** Monotonic absolute time. Elapsed time accumulated during awaits is submitted once to the next bounded batch. */
     public void pump(long nanos)throws IOException {
@@ -77,7 +78,7 @@ public final class HostedSimulation {
         var result=new CompletableFuture<Void>();stopping=result.minimalCompletionStage();
         batch.whenComplete((count,error)->sequence.resume(()->{
             Throwable prior=error==null?null:OwnerSequence.cause(error);
-            CompletionStage<Void> deactivate;try{deactivate=sequence.run(List.<Supplier<CompletionStage<Void>>>of(host::shutdownEndings,()->match.get().mode().deactivate(),host::shutdownResults,host::shutdownAchievements,host::shutdownReview,host::shutdownTelemetry).iterator());}catch(RuntimeException|Error failure){if(prior!=null)failure.addSuppressed(prior);result.completeExceptionally(failure);return;}
+            CompletionStage<Void> deactivate;try{deactivate=sequence.run(List.<Supplier<CompletionStage<Void>>>of(host::shutdownEndings,()->match.get().mode().deactivate(),host::shutdownResults,host::shutdownAchievements,host::shutdownReview,host::shutdownPlugins,host::shutdownTelemetry).iterator());}catch(RuntimeException|Error failure){if(prior!=null)failure.addSuppressed(prior);result.completeExceptionally(failure);return;}
             deactivate.whenComplete((unused,cleanup)->sequence.resume(()->{Throwable root=cleanup==null?prior:OwnerSequence.cause(cleanup);if(cleanup!=null&&prior!=null&&root!=prior)root.addSuppressed(prior);if(root==null)result.complete(null);else result.completeExceptionally(root);},result));
         },result));return stopping;
     }

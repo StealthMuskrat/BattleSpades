@@ -1,6 +1,6 @@
 Migration CI policy: build, native ENet, Linux and Windows only. **Defer macOS testing until the full migration is complete**, then run macOS acceptance.
 
-Current checkpoint: [portable discovery, telemetry and logging](docs/RUNTIME_SERVICES.md). Local verification: 6,455 Java tests, 39 selected original source tests and all four required CI jobs pass. The migration remains incomplete.
+Current checkpoint: [portable Java plugins](docs/PLUGINS.md). Local verification: 6,459 Java tests and 34 selected original source tests pass; four-job CI pending. The migration remains incomplete.
 
 # Standard hosted voting checkpoint
 

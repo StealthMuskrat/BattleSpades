@@ -1,0 +1,993 @@
+{
+  "lifecycle": [
+    {
+      "step": [
+        "load",
+        "alpha",
+        false,
+        false,
+        0
+      ],
+      "result": true,
+      "calls": [
+        "construct:alpha",
+        "load:alpha"
+      ],
+      "plugins": [
+        [
+          "alpha",
+          true
+        ]
+      ],
+      "skipped": 0,
+      "warnings": 0
+    },
+    {
+      "step": [
+        "load",
+        "alpha",
+        false,
+        false,
+        0
+      ],
+      "result": false,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha"
+      ],
+      "plugins": [
+        [
+          "alpha",
+          true
+        ]
+      ],
+      "skipped": 0,
+      "warnings": 0
+    },
+    {
+      "step": [
+        "load",
+        "broken",
+        true,
+        false,
+        0
+      ],
+      "result": false,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken"
+      ],
+      "plugins": [
+        [
+          "alpha",
+          true
+        ]
+      ],
+      "skipped": 0,
+      "warnings": 0
+    },
+    {
+      "step": [
+        "load",
+        "beta",
+        false,
+        true,
+        0
+      ],
+      "result": true,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta"
+      ],
+      "plugins": [
+        [
+          "alpha",
+          true
+        ],
+        [
+          "beta",
+          true
+        ]
+      ],
+      "skipped": 0,
+      "warnings": 0
+    },
+    {
+      "step": [
+        "disable",
+        "alpha"
+      ],
+      "result": true,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha"
+      ],
+      "plugins": [
+        [
+          "alpha",
+          false
+        ],
+        [
+          "beta",
+          true
+        ]
+      ],
+      "skipped": 0,
+      "warnings": 0
+    },
+    {
+      "step": [
+        "event",
+        "on_tick",
+        42,
+        null
+      ],
+      "result": null,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42"
+      ],
+      "plugins": [
+        [
+          "alpha",
+          false
+        ],
+        [
+          "beta",
+          true
+        ]
+      ],
+      "skipped": 0,
+      "warnings": 0
+    },
+    {
+      "step": [
+        "enable",
+        "alpha"
+      ],
+      "result": true,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha"
+      ],
+      "plugins": [
+        [
+          "alpha",
+          true
+        ],
+        [
+          "beta",
+          true
+        ]
+      ],
+      "skipped": 0,
+      "warnings": 0
+    },
+    {
+      "step": [
+        "event",
+        "on_player_spawn",
+        7,
+        null
+      ],
+      "result": null,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha",
+        "spawn:alpha:7",
+        "spawn:beta:7"
+      ],
+      "plugins": [
+        [
+          "alpha",
+          true
+        ],
+        [
+          "beta",
+          true
+        ]
+      ],
+      "skipped": 0,
+      "warnings": 0
+    },
+    {
+      "step": [
+        "unload",
+        "alpha"
+      ],
+      "result": true,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha",
+        "spawn:alpha:7",
+        "spawn:beta:7",
+        "unload:alpha"
+      ],
+      "plugins": [
+        [
+          "beta",
+          true
+        ]
+      ],
+      "skipped": 0,
+      "warnings": 0
+    },
+    {
+      "step": [
+        "unload",
+        "absent"
+      ],
+      "result": false,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha",
+        "spawn:alpha:7",
+        "spawn:beta:7",
+        "unload:alpha"
+      ],
+      "plugins": [
+        [
+          "beta",
+          true
+        ]
+      ],
+      "skipped": 0,
+      "warnings": 0
+    },
+    {
+      "step": [
+        "unload",
+        "beta"
+      ],
+      "result": true,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha",
+        "spawn:alpha:7",
+        "spawn:beta:7",
+        "unload:alpha",
+        "unload:beta"
+      ],
+      "plugins": [],
+      "skipped": 0,
+      "warnings": 0
+    },
+    {
+      "step": [
+        "load",
+        "faulty",
+        false,
+        false,
+        -1
+      ],
+      "result": true,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha",
+        "spawn:alpha:7",
+        "spawn:beta:7",
+        "unload:alpha",
+        "unload:beta",
+        "construct:faulty",
+        "load:faulty"
+      ],
+      "plugins": [
+        [
+          "faulty",
+          true
+        ]
+      ],
+      "skipped": 0,
+      "warnings": 0
+    },
+    {
+      "step": [
+        "event",
+        "on_tick",
+        76,
+        null
+      ],
+      "result": null,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha",
+        "spawn:alpha:7",
+        "spawn:beta:7",
+        "unload:alpha",
+        "unload:beta",
+        "construct:faulty",
+        "load:faulty",
+        "tick:faulty:76"
+      ],
+      "plugins": [
+        [
+          "faulty",
+          true
+        ]
+      ],
+      "skipped": 0,
+      "warnings": 0
+    },
+    {
+      "step": [
+        "unload",
+        "faulty"
+      ],
+      "result": true,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha",
+        "spawn:alpha:7",
+        "spawn:beta:7",
+        "unload:alpha",
+        "unload:beta",
+        "construct:faulty",
+        "load:faulty",
+        "tick:faulty:76",
+        "unload:faulty"
+      ],
+      "plugins": [],
+      "skipped": 0,
+      "warnings": 0
+    },
+    {
+      "step": [
+        "load",
+        "slow",
+        false,
+        false,
+        0.003
+      ],
+      "result": true,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha",
+        "spawn:alpha:7",
+        "spawn:beta:7",
+        "unload:alpha",
+        "unload:beta",
+        "construct:faulty",
+        "load:faulty",
+        "tick:faulty:76",
+        "unload:faulty",
+        "construct:slow",
+        "load:slow"
+      ],
+      "plugins": [
+        [
+          "slow",
+          true
+        ]
+      ],
+      "skipped": 0,
+      "warnings": 0
+    },
+    {
+      "step": [
+        "load",
+        "later",
+        false,
+        false,
+        0
+      ],
+      "result": true,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha",
+        "spawn:alpha:7",
+        "spawn:beta:7",
+        "unload:alpha",
+        "unload:beta",
+        "construct:faulty",
+        "load:faulty",
+        "tick:faulty:76",
+        "unload:faulty",
+        "construct:slow",
+        "load:slow",
+        "construct:later",
+        "load:later"
+      ],
+      "plugins": [
+        [
+          "slow",
+          true
+        ],
+        [
+          "later",
+          true
+        ]
+      ],
+      "skipped": 0,
+      "warnings": 0
+    },
+    {
+      "step": [
+        "event",
+        "on_tick",
+        77,
+        0.1
+      ],
+      "result": null,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha",
+        "spawn:alpha:7",
+        "spawn:beta:7",
+        "unload:alpha",
+        "unload:beta",
+        "construct:faulty",
+        "load:faulty",
+        "tick:faulty:76",
+        "unload:faulty",
+        "construct:slow",
+        "load:slow",
+        "construct:later",
+        "load:later",
+        "tick:slow:77"
+      ],
+      "plugins": [
+        [
+          "slow",
+          true
+        ],
+        [
+          "later",
+          true
+        ]
+      ],
+      "skipped": 1,
+      "warnings": 1
+    },
+    {
+      "step": [
+        "event",
+        "on_tick",
+        78,
+        0
+      ],
+      "result": null,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha",
+        "spawn:alpha:7",
+        "spawn:beta:7",
+        "unload:alpha",
+        "unload:beta",
+        "construct:faulty",
+        "load:faulty",
+        "tick:faulty:76",
+        "unload:faulty",
+        "construct:slow",
+        "load:slow",
+        "construct:later",
+        "load:later",
+        "tick:slow:77"
+      ],
+      "plugins": [
+        [
+          "slow",
+          true
+        ],
+        [
+          "later",
+          true
+        ]
+      ],
+      "skipped": 3,
+      "warnings": 1
+    },
+    {
+      "step": [
+        "disable",
+        "slow"
+      ],
+      "result": true,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha",
+        "spawn:alpha:7",
+        "spawn:beta:7",
+        "unload:alpha",
+        "unload:beta",
+        "construct:faulty",
+        "load:faulty",
+        "tick:faulty:76",
+        "unload:faulty",
+        "construct:slow",
+        "load:slow",
+        "construct:later",
+        "load:later",
+        "tick:slow:77",
+        "disable:slow"
+      ],
+      "plugins": [
+        [
+          "slow",
+          false
+        ],
+        [
+          "later",
+          true
+        ]
+      ],
+      "skipped": 3,
+      "warnings": 1
+    },
+    {
+      "step": [
+        "event",
+        "on_tick",
+        79,
+        null
+      ],
+      "result": null,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha",
+        "spawn:alpha:7",
+        "spawn:beta:7",
+        "unload:alpha",
+        "unload:beta",
+        "construct:faulty",
+        "load:faulty",
+        "tick:faulty:76",
+        "unload:faulty",
+        "construct:slow",
+        "load:slow",
+        "construct:later",
+        "load:later",
+        "tick:slow:77",
+        "disable:slow",
+        "tick:later:79"
+      ],
+      "plugins": [
+        [
+          "slow",
+          false
+        ],
+        [
+          "later",
+          true
+        ]
+      ],
+      "skipped": 3,
+      "warnings": 1
+    },
+    {
+      "step": [
+        "enable",
+        "slow"
+      ],
+      "result": true,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha",
+        "spawn:alpha:7",
+        "spawn:beta:7",
+        "unload:alpha",
+        "unload:beta",
+        "construct:faulty",
+        "load:faulty",
+        "tick:faulty:76",
+        "unload:faulty",
+        "construct:slow",
+        "load:slow",
+        "construct:later",
+        "load:later",
+        "tick:slow:77",
+        "disable:slow",
+        "tick:later:79",
+        "enable:slow"
+      ],
+      "plugins": [
+        [
+          "slow",
+          true
+        ],
+        [
+          "later",
+          true
+        ]
+      ],
+      "skipped": 3,
+      "warnings": 1
+    },
+    {
+      "step": [
+        "event",
+        "on_tick",
+        80,
+        -1
+      ],
+      "result": null,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha",
+        "spawn:alpha:7",
+        "spawn:beta:7",
+        "unload:alpha",
+        "unload:beta",
+        "construct:faulty",
+        "load:faulty",
+        "tick:faulty:76",
+        "unload:faulty",
+        "construct:slow",
+        "load:slow",
+        "construct:later",
+        "load:later",
+        "tick:slow:77",
+        "disable:slow",
+        "tick:later:79",
+        "enable:slow"
+      ],
+      "plugins": [
+        [
+          "slow",
+          true
+        ],
+        [
+          "later",
+          true
+        ]
+      ],
+      "skipped": 5,
+      "warnings": 1
+    },
+    {
+      "step": [
+        "unload",
+        "slow"
+      ],
+      "result": true,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha",
+        "spawn:alpha:7",
+        "spawn:beta:7",
+        "unload:alpha",
+        "unload:beta",
+        "construct:faulty",
+        "load:faulty",
+        "tick:faulty:76",
+        "unload:faulty",
+        "construct:slow",
+        "load:slow",
+        "construct:later",
+        "load:later",
+        "tick:slow:77",
+        "disable:slow",
+        "tick:later:79",
+        "enable:slow",
+        "unload:slow"
+      ],
+      "plugins": [
+        [
+          "later",
+          true
+        ]
+      ],
+      "skipped": 5,
+      "warnings": 1
+    },
+    {
+      "step": [
+        "unload",
+        "later"
+      ],
+      "result": true,
+      "calls": [
+        "construct:alpha",
+        "load:alpha",
+        "construct:alpha",
+        "construct:broken",
+        "load:broken",
+        "construct:beta",
+        "load:beta",
+        "disable:alpha",
+        "tick:beta:42",
+        "enable:alpha",
+        "spawn:alpha:7",
+        "spawn:beta:7",
+        "unload:alpha",
+        "unload:beta",
+        "construct:faulty",
+        "load:faulty",
+        "tick:faulty:76",
+        "unload:faulty",
+        "construct:slow",
+        "load:slow",
+        "construct:later",
+        "load:later",
+        "tick:slow:77",
+        "disable:slow",
+        "tick:later:79",
+        "enable:slow",
+        "unload:slow",
+        "unload:later"
+      ],
+      "plugins": [],
+      "skipped": 5,
+      "warnings": 1
+    }
+  ],
+  "example": [
+    {
+      "killer": null,
+      "victim": 1,
+      "messages": []
+    },
+    {
+      "killer": 0,
+      "victim": 0,
+      "messages": []
+    },
+    {
+      "killer": 0,
+      "victim": 1,
+      "messages": []
+    },
+    {
+      "killer": 0,
+      "victim": 1,
+      "messages": []
+    },
+    {
+      "killer": 0,
+      "victim": 1,
+      "messages": [
+        "P0 is on a spree! (3 kills)"
+      ]
+    },
+    {
+      "killer": 0,
+      "victim": 1,
+      "messages": [
+        "P0 is on a spree! (3 kills)"
+      ]
+    },
+    {
+      "killer": 0,
+      "victim": 1,
+      "messages": [
+        "P0 is on a spree! (3 kills)",
+        "P0 is dominating! (5 kills)"
+      ]
+    },
+    {
+      "killer": 0,
+      "victim": 1,
+      "messages": [
+        "P0 is on a spree! (3 kills)",
+        "P0 is dominating! (5 kills)"
+      ]
+    },
+    {
+      "killer": 0,
+      "victim": 1,
+      "messages": [
+        "P0 is on a spree! (3 kills)",
+        "P0 is dominating! (5 kills)"
+      ]
+    },
+    {
+      "killer": 0,
+      "victim": 1,
+      "messages": [
+        "P0 is on a spree! (3 kills)",
+        "P0 is dominating! (5 kills)"
+      ]
+    },
+    {
+      "killer": 0,
+      "victim": 1,
+      "messages": [
+        "P0 is on a spree! (3 kills)",
+        "P0 is dominating! (5 kills)"
+      ]
+    },
+    {
+      "killer": 0,
+      "victim": 1,
+      "messages": [
+        "P0 is on a spree! (3 kills)",
+        "P0 is dominating! (5 kills)",
+        "P0 is unstoppable! (10 kills)"
+      ]
+    },
+    {
+      "killer": 1,
+      "victim": 0,
+      "messages": [
+        "P0 is on a spree! (3 kills)",
+        "P0 is dominating! (5 kills)",
+        "P0 is unstoppable! (10 kills)"
+      ]
+    },
+    {
+      "killer": 0,
+      "victim": 1,
+      "messages": [
+        "P0 is on a spree! (3 kills)",
+        "P0 is dominating! (5 kills)",
+        "P0 is unstoppable! (10 kills)"
+      ]
+    },
+    {
+      "killer": 0,
+      "victim": 1,
+      "messages": [
+        "P0 is on a spree! (3 kills)",
+        "P0 is dominating! (5 kills)",
+        "P0 is unstoppable! (10 kills)"
+      ]
+    },
+    {
+      "killer": 0,
+      "victim": 1,
+      "messages": [
+        "P0 is on a spree! (3 kills)",
+        "P0 is dominating! (5 kills)",
+        "P0 is unstoppable! (10 kills)",
+        "P0 is on a spree! (3 kills)"
+      ]
+    }
+  ]
+}

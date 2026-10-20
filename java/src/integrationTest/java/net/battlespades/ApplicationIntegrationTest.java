@@ -17,6 +17,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
 import net.battlespades.protocol.*;
+import net.battlespades.results.*;
 import net.battlespades.ugc.*;
 import net.battlespades.support.CreatorFixtures;
 import net.battlespades.session.*;
@@ -116,23 +117,26 @@ class ApplicationIntegrationTest {
         }
     }
     private static final String ADMIN_SECRET="Long secret phrase 123",HOST_TOKEN="aValidRoomClaimToken_123456789";
+    @FunctionalInterface private interface HostedServicesSetup {void bind(ApplicationHost host,net.battlespades.runtime.OwnerLoop owner,net.battlespades.support.StandardPorts ports,java.util.concurrent.ExecutorService worker);}
     private static final class AdministrationFixture implements AutoCloseable {
         final net.battlespades.support.StandardPorts ports=new net.battlespades.support.StandardPorts();
         final net.battlespades.runtime.OwnerLoop owner=new net.battlespades.runtime.OwnerLoop(0,8192,1024,error->fail(error));
         final java.util.concurrent.ExecutorService worker=java.util.concurrent.Executors.newSingleThreadExecutor();
         final Map<JoinSession,Set<String>> verified=new java.util.IdentityHashMap<>();
         final net.battlespades.admin.BanStore bans;final HostedSceneState state;final ApplicationHost host;final HostedAdministration admin;final HostedSimulation simulation;final Loop loop;final PreparedMap second;final MatchTransitions<PreparedMap> transitions;
-        AdministrationFixture(Path directory,java.util.concurrent.Executor disk)throws Exception{
+        AdministrationFixture(Path directory,java.util.concurrent.Executor disk)throws Exception{this(directory,disk,null);}
+        AdministrationFixture(Path directory,java.util.concurrent.Executor disk,HostedServicesSetup setup)throws Exception{
             Files.createDirectories(directory);var first=net.battlespades.support.StandardPorts.prepared(directory.resolve("First.vxl"),"tdm");second=net.battlespades.support.StandardPorts.prepared(directory.resolve("Second.vxl"),"tdm");
             var raw=org.tomlj.Toml.parse("[modes.tdm]\ntime_limit=0\n[teams]\nbalance_mid_match=false\n[admin]\npassword='"+ADMIN_SECRET+"'\ncreator_token='"+HOST_TOKEN+"'\nauto_admin=['steam:76561198000000000']\n");
             var config=new SceneConfig("Admin UDP",27015,0,ModeCatalog.get("tdm"),"First",false,false,true,999,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());var factory=new StandardMatchFactory(config,raw,ports,new SourceRandom(0),owner,List.of("First","Second"),c->new StandardMatchFactory.Ports(ports,ports,ports,ports,ports,ports));
             bans=new net.battlespades.admin.BanStore(directory.resolve("bans.json"),()->ports.wall,disk==null?worker:disk,error->ports.failure("ban write",error));state=new HostedSceneState("First","tdm",first,1,10000,factory.modes());host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),4,FixtureScene.copy(JoinSettings.defaults(),Map.of("mapMode",MapSyncTransfer.Mode.AUTO)),state.scene(),new BoundedSnapshotCompression(1,4));
-            admin=new HostedAdministration(host,net.battlespades.admin.AdminAuthority.Settings.from(raw),bans,s->verified.getOrDefault(s,Set.of()),()->ports.monotonic,owner,ports::failure);transitions=new MatchTransitions<>(new HostedTransitionServices(state,host,owner,new net.battlespades.support.HostedTdmDomain.Bindings()),(map,code)->java.util.concurrent.CompletableFuture.completedFuture(second),owner);ports.stopping=false;
+            admin=new HostedAdministration(host,net.battlespades.admin.AdminAuthority.Settings.from(raw),bans,s->verified.getOrDefault(s,Set.of()),()->ports.monotonic,owner,ports::failure);if(setup!=null)setup.bind(host,owner,ports,worker);transitions=new MatchTransitions<>(new HostedTransitionServices(state,host,owner,new net.battlespades.support.HostedTdmDomain.Bindings()),(map,code)->java.util.concurrent.CompletableFuture.completedFuture(second),owner);ports.stopping=false;
             simulation=new HostedSimulation(host,owner,()->(StandardMatchDomain)state.domain(),ports,System::nanoTime,net.battlespades.runtime.IngamePackets.Settings.defaults(8192,256));simulation.start();loop=new Loop(host);loop.pump=now->{ports.wall=1000+now/1000.;ports.monotonic=100+now/1000.;simulation.pump(now*1_000_000);};
         }
         StandardMatchDomain match(){return (StandardMatchDomain)state.domain();}
-        int load(Client client,String name,Set<String> keys)throws Exception{
-            loop.ticketAndLoad(client,match().world());int id=((StateData)client.packets.stream().filter(StateData.class::isInstance).findFirst().orElseThrow()).playerId();verified.put(admin.connection(id).orElseThrow(),keys);join(client,name,id);return id;
+        int load(Client client,String name,Set<String> keys)throws Exception{return load(client,name,keys,s->{});}
+        int load(Client client,String name,Set<String> keys,java.util.function.Consumer<JoinSession> verifiedAccount)throws Exception{
+            loop.ticketAndLoad(client,match().world());int id=((StateData)client.packets.stream().filter(StateData.class::isInstance).findFirst().orElseThrow()).playerId();var session=admin.connection(id).orElseThrow();verified.put(session,keys);verifiedAccount.accept(session);join(client,name,id);return id;
         }
         void join(Client client,String name,int id)throws Exception{client.send(new SimplePackets.NewPlayerConnection(id==0?2:3,0,0,0,name),false);loop.until(()->client.has(69));loop.until(()->{try{client.send(new ClientInput(100+id*100,127,false,6,1,0,0,0,0,24,0),false);}catch(Exception error){throw new IllegalStateException(error);}return host.inGame(id);});}
         void command(Client client,String text)throws Exception{client.packets.clear();client.send(new SimplePackets.ChatMessage(254,0,text),false);}
@@ -168,6 +172,27 @@ class ApplicationIntegrationTest {
             // Explicit operator unban before disk completion allows a replacement from this test's shared loopback address.
             var removed=f.bans.remove("127.0.0.1").toCompletableFuture();int reused=f.load(replacement,"Replacement",Set.of());assertEquals(bob,reused);assertNotSame(old,f.admin.connection(reused).orElseThrow());assertFalse(f.admin.admin(reused));disk.remove().run();disk.remove().run();f.loop.until(removed::isDone);f.loop.until(()->!f.simulation.advancing());assertTrue(f.host.inGame(reused));assertEquals(-1,replacement.reason);assertTrue(f.bans.lookup("127.0.0.1").isEmpty());assertTrue(f.admin.admin(alice));
         }
+    });}
+    @SuppressWarnings("unchecked") private static Map<String,Object> resultPlayer(ResultOutbox.Event event,String account){return ((List<Map<String,Object>>)event.payload().get("players")).stream().filter(p->p.get("steamid").equals(account)).findFirst().orElseThrow();}
+    @SuppressWarnings("unchecked") private static long resultCount(ResultOutbox.Event event,String account,String stat){var stats=(Map<String,Object>)resultPlayer(event,account).get("stats");return ((Number)((List<?>)stats.get(stat)).getFirst()).longValue();}
+    @Test void actualHostReservesAcceptedStatsBeforeResetKeepsDepartedCreditAndPersistsShutdownWhileDeliveryWaits(){assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+        var accounts=new java.util.IdentityHashMap<JoinSession,RoundResultLedger.Identity>();var attempted=new ArrayList<ResultOutbox.Event>();var delivery=new java.util.concurrent.CompletableFuture<Boolean>();long[] resultMillis={1_000_000};var resultFailures=new ArrayList<Throwable>();var outbox=new ResultOutbox(temp.resolve("round-outbox"),temp.resolve("round-mirror"));
+        try(var f=new AdministrationFixture(temp.resolve("round-host"),null,(host,owner,ports,worker)->{
+            var publisher=new ResultPublisher(outbox,"one:27015",worker,owner,event->{attempted.add(event);return delivery;},resultFailures::add);
+            new HostedRoundResults(host,new HostedRoundResults.Settings(true,"one:27015","8",""),publisher,s->java.util.Optional.ofNullable(accounts.get(s)),id->List.of(),()->java.time.Instant.ofEpochMilli(resultMillis[0]),ports::failure);
+        });var a=new Client(f.host.address());var b=new Client(f.host.address());var replacement=new Client(f.host.address())){
+            int alice=f.load(a,"WireAlice",Set.of(),s->accounts.put(s,new RoundResultLedger.Identity("1000000000","CanonicalAlice"))),bob=f.load(b,"WireBob",Set.of(),s->accounts.put(s,new RoundResultLedger.Identity("1000000001","CanonicalBob")));var old=f.match().lives().player(bob);f.match().lives().die(bob,alice,0);f.loop.until(()->f.match().binding().row(f.match().lives().player(alice)).score>0);f.host.disconnectPlayer(bob,2);f.loop.until(()->b.reason==2);resultMillis[0]+=35000;f.match().scoreboard().gameStats(2);f.loop.until(()->!attempted.isEmpty());assertFalse(delivery.isDone());var first=attempted.getFirst();assertEquals(1,resultCount(first,"1000000000","1"));assertEquals(1,resultCount(first,"1000000001","220"));assertEquals("CanonicalAlice",resultPlayer(first,"1000000000").get("name"));assertTrue(first.payload().containsKey("match"));
+            // The reporting HTTP future is suspended, but actual UDP admission and simulation remain runnable.
+            int reused=f.load(replacement,"1000000000",Set.of());assertEquals(bob,reused,"Reused departing player slot");assertNotSame(old,f.match().lives().player(reused));assertTrue(f.host.inGame(reused));assertFalse(delivery.isDone());f.match().mode().start();f.match().lives().die(reused,alice,0);f.loop.until(()->f.match().binding().row(f.match().lives().player(alice)).score>0);delivery.complete(false);var stopped=f.simulation.stop().toCompletableFuture();f.loop.until(stopped::isDone);stopped.join();var pending=outbox.pending("one:27015",64);assertEquals(2,pending.size());assertEquals(first,pending.getFirst());assertEquals(1,resultCount(pending.get(1),"1000000000","1"),"New round profile delta: "+pending.get(1).json());assertEquals(1,((List<?>)pending.get(1).payload().get("players")).size(),"Only verified replacement-independent account credit");assertFalse(resultPlayer(pending.get(1),"1000000000").containsKey("participation"));assertEquals(1,resultFailures.size(),"Expected rejected delivery to be reported");assertTrue(f.host.results().orElseThrow().pendingMemory()==0);
+        }
+        var replayed=new ResultOutbox(temp.resolve("round-outbox"),temp.resolve("round-mirror")).pending("one:27015",64);assertEquals(2,replayed.size());assertNotEquals(replayed.getFirst().eventId(),replayed.get(1).eventId());
+    });}
+    @Test void offlineHostNeverResolvesClaimedAccountsOrUploadsPreviouslySpooledReports(){assertTimeoutPreemptively(Duration.ofSeconds(15),()->{
+        var seed=ResultOutbox.Event.from(Map.of("event_id","prior_round","server_id","one:27015","players",List.of()));var outbox=new ResultOutbox(temp.resolve("private-outbox"),null);outbox.putMany(List.of(seed));var calls=new java.util.concurrent.atomic.AtomicInteger();
+        try(var f=new AdministrationFixture(temp.resolve("private-host"),null,(host,owner,ports,worker)->{
+            var publisher=new ResultPublisher(outbox,"one:27015",worker,owner,event->{calls.incrementAndGet();return java.util.concurrent.CompletableFuture.completedFuture(true);},error->fail(error));
+            new HostedRoundResults(host,new HostedRoundResults.Settings(false,"one:27015","8",""),publisher,s->{throw new AssertionError("Offline host must not resolve account claims");},id->{throw new AssertionError("Offline host must not read achievements");},java.time.Instant::now,ports::failure);
+        });var client=new Client(f.host.address())){f.load(client,"1000000000",Set.of());f.loop.now+=5001;f.loop.step();f.match().scoreboard().gameStats(2);assertEquals(0,calls.get());var stop=f.simulation.stop().toCompletableFuture();f.loop.until(stop::isDone);stop.join();assertEquals(List.of(seed),outbox.pending("one:27015",64));assertEquals(0,calls.get());}
     });}
     private static byte[] receivedColumn(Client client,int x,int y)throws Exception{
         var compressed=new java.io.ByteArrayOutputStream();for(var packet:client.packets)if(packet instanceof LoadingPackets.MapChunk chunk&&chunk.id()==57)compressed.write(chunk.data());

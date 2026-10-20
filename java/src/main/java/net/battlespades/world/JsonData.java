@@ -7,6 +7,8 @@ import java.util.*;
 public final class JsonData {
     private JsonData(){}
     public static String encode(Object value){var out=new StringBuilder();write(out,value);return out.append('\n').toString();}
+    /** Python json.dumps(ensure_ascii=True) compatible escaping for portable result envelopes. */
+    public static String encodeAscii(Object value){String text=encode(value);var out=new StringBuilder(text.length());for(int i=0;i<text.length();i++){char c=text.charAt(i);if(c>127)out.append(String.format(Locale.ROOT,"\\u%04x",(int)c));else out.append(c);}return out.toString();}
     private static void write(StringBuilder out,Object value){
         if(value==null){out.append("null");return;}
         if(value instanceof String s){out.append('"');for(int i=0;i<s.length();i++){char c=s.charAt(i);switch(c){case '"'->out.append("\\\"");case '\\'->out.append("\\\\");case '\n'->out.append("\\n");case '\r'->out.append("\\r");case '\t'->out.append("\\t");default->{if(c<32)out.append(String.format(Locale.ROOT,"\\u%04x",(int)c));else out.append(c);}}}out.append('"');return;}

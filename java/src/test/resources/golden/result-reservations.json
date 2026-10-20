@@ -1,0 +1,471 @@
+{
+  "source": "unchanged server/revival_master.py + server/profile_stats.py snapshot",
+  "source_sha256": "b50a16276c73015e5ceffef2932d67fae1d9f137d695bd712f16a437daeb7653",
+  "cases": [
+    {
+      "mode": "tdm",
+      "steps": [
+        {
+          "op": "begin"
+        },
+        {
+          "op": "player",
+          "token": "old",
+          "slot": 7,
+          "name": "WireName",
+          "nickname": "Canonical\u96ea",
+          "identity": "1000000000",
+          "team": 2,
+          "kills": 4,
+          "deaths": 2,
+          "captures": 1,
+          "score": 17
+        },
+        {
+          "op": "player",
+          "token": "bot",
+          "slot": 8,
+          "name": "Bot",
+          "nickname": "Bot",
+          "identity": "1000000001",
+          "bot": true,
+          "team": 3,
+          "kills": 99,
+          "deaths": 0,
+          "captures": 0,
+          "score": 999
+        },
+        {
+          "op": "player",
+          "token": "anonymous",
+          "slot": 9,
+          "name": "ClaimedIdentity",
+          "nickname": "Unverified",
+          "identity": null,
+          "team": 3,
+          "kills": 99,
+          "deaths": 0,
+          "captures": 0,
+          "score": 999
+        },
+        {
+          "op": "advance",
+          "seconds": 35
+        },
+        {
+          "op": "capture",
+          "winner": 2,
+          "finished": true,
+          "expected": [
+            {
+              "event_id": "round_00000000000000000000000000000002",
+              "server_id": "one:27015",
+              "recorded_at": "2026-10-19T00:00:35+00:00",
+              "players": [
+                {
+                  "steamid": "1000000000",
+                  "name": "Canonical\u96ea",
+                  "total": [
+                    1,
+                    17
+                  ],
+                  "stats": {
+                    "1": [
+                      4,
+                      4
+                    ],
+                    "220": [
+                      2,
+                      0
+                    ],
+                    "201": [
+                      1,
+                      17
+                    ],
+                    "192": [
+                      1,
+                      17
+                    ],
+                    "159": [
+                      1,
+                      0
+                    ]
+                  },
+                  "participation": {
+                    "connected_seconds": 0,
+                    "active_seconds": 0,
+                    "afk_seconds": 0,
+                    "human_opponents": 0,
+                    "bot_opponents": 0,
+                    "result": "win"
+                  }
+                }
+              ],
+              "match": {
+                "match_id": "00000000000000000000000000000001",
+                "playlist_id": "8",
+                "mode_id": "tdm",
+                "map_crc": "ffffffff",
+                "duration_seconds": 35,
+                "started_at": "2026-10-19T00:00:00+00:00",
+                "ended_at": "2026-10-19T00:00:35+00:00"
+              }
+            }
+          ]
+        },
+        {
+          "op": "capture",
+          "winner": 2,
+          "finished": true,
+          "expected": []
+        },
+        {
+          "op": "update",
+          "token": "old",
+          "kills": 5,
+          "score": 27
+        },
+        {
+          "op": "depart",
+          "token": "old"
+        },
+        {
+          "op": "player",
+          "token": "replacement",
+          "slot": 7,
+          "name": "OtherWireName",
+          "nickname": "NewCanonical",
+          "identity": "1000000000",
+          "team": 3,
+          "kills": 2,
+          "deaths": 0,
+          "captures": 0,
+          "score": 20
+        },
+        {
+          "op": "advance",
+          "seconds": 5
+        },
+        {
+          "op": "capture",
+          "winner": 2,
+          "finished": false,
+          "expected": [
+            {
+              "event_id": "round_00000000000000000000000000000003",
+              "server_id": "one:27015",
+              "recorded_at": "2026-10-19T00:00:40+00:00",
+              "players": [
+                {
+                  "steamid": "1000000000",
+                  "name": "Canonical\u96ea",
+                  "total": [
+                    1,
+                    30
+                  ],
+                  "stats": {
+                    "1": [
+                      3,
+                      3
+                    ],
+                    "220": [
+                      0,
+                      0
+                    ],
+                    "201": [
+                      1,
+                      30
+                    ],
+                    "192": [
+                      1,
+                      30
+                    ]
+                  },
+                  "participation": {
+                    "connected_seconds": 0,
+                    "active_seconds": 0,
+                    "afk_seconds": 0,
+                    "human_opponents": 0,
+                    "bot_opponents": 0,
+                    "result": "unfinished"
+                  }
+                }
+              ],
+              "match": {
+                "match_id": "00000000000000000000000000000001",
+                "playlist_id": "8",
+                "mode_id": "tdm",
+                "map_crc": "ffffffff",
+                "duration_seconds": 40,
+                "started_at": "2026-10-19T00:00:00+00:00",
+                "ended_at": "2026-10-19T00:00:40+00:00"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "ctf",
+      "steps": [
+        {
+          "op": "begin"
+        },
+        {
+          "op": "player",
+          "token": "old",
+          "slot": 7,
+          "name": "WireName",
+          "nickname": "Canonical\u96ea",
+          "identity": "1000000000",
+          "team": 2,
+          "kills": 4,
+          "deaths": 2,
+          "captures": 1,
+          "score": 17,
+          "profile": {
+            "1": [
+              4,
+              0
+            ],
+            "220": [
+              2,
+              0
+            ],
+            "49": [
+              1,
+              1
+            ],
+            "1006": [
+              5,
+              0
+            ]
+          },
+          "connected": 45,
+          "active": 40,
+          "afk": 10,
+          "humans": 250,
+          "bots": 3
+        },
+        {
+          "op": "player",
+          "token": "bot",
+          "slot": 8,
+          "name": "Bot",
+          "nickname": "Bot",
+          "identity": "1000000001",
+          "bot": true,
+          "team": 3,
+          "kills": 99,
+          "deaths": 0,
+          "captures": 0,
+          "score": 999
+        },
+        {
+          "op": "player",
+          "token": "anonymous",
+          "slot": 9,
+          "name": "ClaimedIdentity",
+          "nickname": "Unverified",
+          "identity": null,
+          "team": 3,
+          "kills": 99,
+          "deaths": 0,
+          "captures": 0,
+          "score": 999
+        },
+        {
+          "op": "advance",
+          "seconds": 35
+        },
+        {
+          "op": "capture",
+          "winner": 2,
+          "finished": true,
+          "expected": [
+            {
+              "event_id": "round_00000000000000000000000000000002",
+              "server_id": "one:27015",
+              "recorded_at": "2026-10-19T00:00:35+00:00",
+              "players": [
+                {
+                  "steamid": "1000000000",
+                  "name": "Canonical\u96ea",
+                  "total": [
+                    1,
+                    17
+                  ],
+                  "stats": {
+                    "1": [
+                      4,
+                      0
+                    ],
+                    "220": [
+                      2,
+                      0
+                    ],
+                    "201": [
+                      1,
+                      17
+                    ],
+                    "49": [
+                      1,
+                      1
+                    ],
+                    "1006": [
+                      5,
+                      0
+                    ],
+                    "197": [
+                      1,
+                      17
+                    ],
+                    "159": [
+                      1,
+                      0
+                    ]
+                  },
+                  "participation": {
+                    "connected_seconds": 35,
+                    "active_seconds": 35,
+                    "afk_seconds": 0,
+                    "human_opponents": 100,
+                    "bot_opponents": 3,
+                    "result": "win"
+                  }
+                }
+              ],
+              "match": {
+                "match_id": "00000000000000000000000000000001",
+                "playlist_id": "8",
+                "mode_id": "ctf",
+                "map_crc": "ffffffff",
+                "duration_seconds": 35,
+                "started_at": "2026-10-19T00:00:00+00:00",
+                "ended_at": "2026-10-19T00:00:35+00:00"
+              }
+            }
+          ]
+        },
+        {
+          "op": "capture",
+          "winner": 2,
+          "finished": true,
+          "expected": []
+        },
+        {
+          "op": "reset"
+        },
+        {
+          "op": "update",
+          "token": "old",
+          "kills": 1,
+          "score": 100,
+          "profile": {
+            "1": [
+              5,
+              0
+            ],
+            "220": [
+              2,
+              0
+            ],
+            "49": [
+              1,
+              1
+            ],
+            "1006": [
+              7,
+              0
+            ]
+          },
+          "connected": 50,
+          "active": 44,
+          "afk": 11
+        },
+        {
+          "op": "depart",
+          "token": "old"
+        },
+        {
+          "op": "player",
+          "token": "replacement",
+          "slot": 7,
+          "name": "OtherWireName",
+          "nickname": "NewCanonical",
+          "identity": "1000000000",
+          "team": 3,
+          "kills": 2,
+          "deaths": 0,
+          "captures": 0,
+          "score": 20
+        },
+        {
+          "op": "advance",
+          "seconds": 5
+        },
+        {
+          "op": "capture",
+          "winner": 2,
+          "finished": false,
+          "expected": [
+            {
+              "event_id": "round_00000000000000000000000000000003",
+              "server_id": "one:27015",
+              "recorded_at": "2026-10-19T00:00:40+00:00",
+              "players": [
+                {
+                  "steamid": "1000000000",
+                  "name": "Canonical\u96ea",
+                  "total": [
+                    1,
+                    120
+                  ],
+                  "stats": {
+                    "1": [
+                      1,
+                      0
+                    ],
+                    "220": [
+                      0,
+                      0
+                    ],
+                    "201": [
+                      1,
+                      120
+                    ],
+                    "1006": [
+                      2,
+                      0
+                    ],
+                    "197": [
+                      1,
+                      120
+                    ]
+                  },
+                  "participation": {
+                    "connected_seconds": 5,
+                    "active_seconds": 4,
+                    "afk_seconds": 1,
+                    "human_opponents": 100,
+                    "bot_opponents": 3,
+                    "result": "unfinished"
+                  }
+                }
+              ],
+              "match": {
+                "match_id": "00000000000000000000000000000001",
+                "playlist_id": "8",
+                "mode_id": "ctf",
+                "map_crc": "ffffffff",
+                "duration_seconds": 40,
+                "started_at": "2026-10-19T00:00:00+00:00",
+                "ended_at": "2026-10-19T00:00:40+00:00"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

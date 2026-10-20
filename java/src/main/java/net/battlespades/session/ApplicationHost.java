@@ -24,6 +24,10 @@ public final class ApplicationHost implements AutoCloseable {
     private final SnapshotCompression compression;
     private final int eventBudget;
     private JoinScene scene;
+    private HostedRoundResults results;
+    public void results(HostedRoundResults service){owned();if(results!=null||!sessions.isEmpty())throw new IllegalStateException("Results bind once before connections");results=java.util.Objects.requireNonNull(service);}
+    public java.util.Optional<HostedRoundResults> results(){owned();return java.util.Optional.ofNullable(results);}
+    public java.util.concurrent.CompletionStage<Void> shutdownResults(){owned();return results==null?java.util.concurrent.CompletableFuture.completedFuture(null):results.shutdown();}
     private HostedAdministration administration;
     public void administration(HostedAdministration service){owned();if(administration!=null||!sessions.isEmpty())throw new IllegalStateException("Administration binds once before connections");administration=java.util.Objects.requireNonNull(service);}
     public java.util.Optional<HostedAdministration> administration(){owned();return java.util.Optional.ofNullable(administration);}
@@ -85,7 +89,7 @@ public final class ApplicationHost implements AutoCloseable {
                 case DISCONNECT -> {var session=sessions.remove(key);if(session!=null){var queued=queuedSessions.remove(session);if(packets!=null&&queued!=null)packets.forget(queued);session.close();}}
             }
         }
-        for(var session:sessions.values()) session.pulse(nowMillis,loopCount);if(administration!=null)administration.prune();
+        for(var session:sessions.values()) session.pulse(nowMillis,loopCount);if(administration!=null)administration.prune();if(results!=null)results.pulse(nowMillis/1000.);
     }
     public int broadcast(GamePacket packet,Delivery delivery) {owned();if(closing)return 0;int accepted=0;for(var session:sessions.values()) if(session.gameplay(packet,delivery)) accepted++;return accepted;}
     /** Source known_player_lives gate; reliable queue acceptance establishes or forgets visibility. */
@@ -129,6 +133,6 @@ public final class ApplicationHost implements AutoCloseable {
     public void replaceScene(JoinScene replacement) {owned();if(replacement==scene) throw new IllegalArgumentException("Scene must change");if(packets!=null)packets.clear();queuedSessions.clear();for(var session:sessions.values()) session.replaceScene(replacement);scene=replacement;}
     @Override public void close() throws IOException {
         if(Thread.currentThread()!=owner) throw new IllegalStateException("Application host closed outside owner");if(closed||closing) return;
-        closing=true;if(packets!=null)packets.clear();queuedSessions.clear();try {for(var session:sessions.values()) session.close();sessions.clear();if(administration!=null)administration.clear();compression.close();} finally {closed=true;transport.close();}
+        if(results!=null&&!results.stopped())throw new IllegalStateException("Await shutdownResults before closing the host");closing=true;if(packets!=null)packets.clear();queuedSessions.clear();try {for(var session:sessions.values()) session.close();sessions.clear();if(administration!=null)administration.clear();compression.close();} finally {closed=true;transport.close();}
     }
 }

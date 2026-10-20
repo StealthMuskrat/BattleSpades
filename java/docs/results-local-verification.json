@@ -1,0 +1,98 @@
+{
+  "observed_utc": "2026-10-20T00:37:55.695747+00:00",
+  "base_commit": "69adcb5760b109c708194e3aa49e9b5f283742fb",
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "scope": "round/profile delta reservation, departed account credit, durable fleet spool/SQLite import, acknowledged HTTP delivery/retries and actual host reset/shutdown/offline binding",
+  "junit": {
+    "test": {
+      "suites": 116,
+      "tests": 6353,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 5,
+      "tests": 67,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "java_total": 6420,
+  "source_tests": {
+    "tests": 48,
+    "passed": 48,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "modules": [
+      "test_result_outbox",
+      "test_profile_stats",
+      "test_revival_master"
+    ]
+  },
+  "native_reservation_fixture": {
+    "path": "java/src/test/resources/golden/result-reservations.json",
+    "cases": 2,
+    "events": 4,
+    "sha256": "3d3f621ddde41e4af10156a8e396233770fb8a94f3f92014abe94af2576a9f4d",
+    "reproduced": true,
+    "original_methods_unchanged": true
+  },
+  "legacy_migration": {
+    "original_sqlite_read_only": true,
+    "reports": 2,
+    "packaged_import_attempts": 2,
+    "idempotent": true,
+    "preserved_source_database_sha256": "1821ed3edf6baaed875f96c2a35e729eb18dc12da4564d9d90df351f588717f6"
+  },
+  "new_tests": {
+    "grouped_component": 3,
+    "http_and_packaged_import_integration": 2,
+    "actual_udp_integration": 2
+  },
+  "gradle": "check build passed in 28s; unchanged 6,353 component results reused after correcting only the new UDP test clock driver",
+  "initial_verification_correction": "A 35-second UDP network-time jump expired a peer in the slot-reuse test. Advancing only its controlled result UTC clock preserves real peer liveness; credit/identity assertions and deadlines were not relaxed.",
+  "assertions_or_deadlines_weakened": false,
+  "jar_sha256": "4845b683f93cff29dfbfe140a307b2719d8ce4ec4d5c7297f5038cd9140f931a",
+  "jar_bytes": 2680240,
+  "jar_crc_valid": true,
+  "java_class_major": 69,
+  "smoke": {
+    "version": {
+      "exit": 0
+    },
+    "config": {
+      "exit": 0
+    },
+    "help": {
+      "exit": 0
+    },
+    "ugc_missing": {
+      "exit": 2
+    },
+    "hosting": {
+      "exit": 2
+    }
+  },
+  "production_source_fingerprint": {
+    "files": 293,
+    "sha256": "08e12d36caa6493ce9e02763e5eb7aaaa2e915b9dc355a01aa05b38733126527"
+  },
+  "six_source_directories_match": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "frozen_resource_paths_unchanged": 262,
+  "frozen_resource_comparison_commit": "69adcb5760b109c708194e3aa49e9b5f283742fb",
+  "new_resource_paths": 1,
+  "configured_source_generators": 79,
+  "ci": {
+    "status": "pending",
+    "all_five_jobs_passed": false
+  },
+  "standalone_match_startup_enabled": false,
+  "master_registration_or_identity_verification_bundled": false,
+  "achievement_evaluation_or_local_profile_database_implemented": false,
+  "full_migration_complete": false,
+  "full_python_baseline_passing": false,
+  "supported_client_acceptance": false
+}

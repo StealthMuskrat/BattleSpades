@@ -279,3 +279,5 @@ License: AGPL-3.0-or-later for the port, with ENet-derived range coder under MIT
 Third-party notices and individual dependency license texts are packaged in the JAR.
 
 Administration embedding, room-host claims and durable bans are documented in [ADMINISTRATION.md](docs/ADMINISTRATION.md). Ordinary gameplay startup remains gated pending the remaining service owners.
+
+Durable round-result accounting, master submission, shutdown and SQLite import are documented in [RESULTS_PIPELINE.md](docs/RESULTS_PIPELINE.md).

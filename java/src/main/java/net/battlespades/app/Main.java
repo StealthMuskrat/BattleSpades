@@ -15,11 +15,16 @@ public final class Main {
             out.println("BattleSpades Java 25: world creator and migration diagnostics");
             out.println("  java -jar BattleSpades.jar --check-config PATH");
             out.println("  java -jar BattleSpades.jar --version");
+            out.println("  java -jar BattleSpades.jar --results-import INPUT_NDJSON OUTBOX_DIRECTORY");
             out.println("  java -jar BattleSpades.jar --ugc-assets RETAIL_ROOT");
             out.println("  java -jar BattleSpades.jar --ugc-create RETAIL_ROOT DIRECTORY NAME TERRAIN MODE");
             out.println("  java -jar BattleSpades.jar --ugc-check DIRECTORY NAME");
             out.println("  java -jar BattleSpades.jar --ugc-host --retail-root RETAIL_ROOT --project NAME [--config PATH] [--publish-root hosted_ugc] [--control-stdin]");
             return 0;
+        }
+        if(args.length>0&&args[0].equals("--results-import")){
+            if(args.length!=3){error.println("Usage: --results-import INPUT_NDJSON OUTBOX_DIRECTORY");return 2;}
+            try{int count=new net.battlespades.results.ResultOutbox(Path.of(args[2]),null).importJsonLines(Path.of(args[1]));out.println("Imported "+count+" result envelopes; existing identical IDs are retained.");return 0;}catch(IOException|IllegalArgumentException|IllegalStateException failure){error.println("Result import failed: "+failure.getMessage());return 2;}
         }
         if(args.length>0&&args[0].startsWith("--ugc-"))return net.battlespades.ugc.UgcCommands.run(args,out,error);
         if (args.length == 1 && args[0].equals("--version")) {

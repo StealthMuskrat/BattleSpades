@@ -1,3 +1,13 @@
+# Current round-result pipeline checkpoint
+
+The round-result batch implements owner-side counter reservation, disconnected-account credit, portable durable outbox/SQLite import, acknowledged master HTTP delivery and host reset/shutdown/offline integration. **6,353 component + 67 integration = 6,420 Java tests** pass across 121 suites with zero Java failures, errors or skips. Strict Java 25 compilation, `check build`, portability and distributions pass. The existing component results were reused after correcting only the new UDP test clock driver; no assertion or deadline was weakened.
+
+All **48 targeted unchanged original-source tests pass** across result outbox, profile statistics and Revival master. Two fixture traces execute the original reservation methods and reproduce four event envelopes. An actual original SQLite outbox was exported read-only and imported twice by the packaged Java application; both reports, original database bytes and idempotent IDs were verified. Three grouped component and four new integration cases cover native accounting, durable transactions/mirrors/cancellation, actual HTTP acknowledgements/retries, packaged import, UDP departure/slot reuse/reset/shutdown and offline suppression. CI now configures 79 reference generators. The six source directories remain exact against `546c548780c400f21d73ca6713f86194ceb3c844`; all 262 existing resources are unchanged, with one new result fixture added.
+
+The CRC-valid application JAR is 2680240 bytes, SHA-256 `4845b683f93cff29dfbfe140a307b2719d8ce4ec4d5c7297f5038cd9140f931a`, class major 69. Version/configuration/help checks exit 0; missing UGC projects and ordinary match startup exit 2. CI for this checkpoint is pending. This supplies the results pipeline embedding; master registration/authentication, achievement evaluation/local profile persistence, bots, Tutorial, other commands and complete standalone startup remain incomplete. See [RESULTS_PIPELINE.md](RESULTS_PIPELINE.md).
+
+## Previous verified checkpoints
+
 # Current administration checkpoint
 
 The administration batch implements password login, one-time room-host claims, verified auto-admin identities, durable bans/admission and moderation on real match-host connections. **6,350 component + 63 integration = 6,413 Java tests** pass across 119 suites, with zero Java failures, errors or skips. Strict Java 25 compilation, `check build`, portability and distributions pass. Three new grouped component cases and three actual-UDP cases verify persistence/failure recovery, permissions, secret log redaction, map rollover and suspended-ban safety across compact-ID reuse. Existing component results were reused after correcting only the new UDP fixture.

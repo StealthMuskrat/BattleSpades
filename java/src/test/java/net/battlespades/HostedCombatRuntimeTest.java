@@ -21,15 +21,26 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HostedCombatRuntimeTest {
     @TempDir Path temp;
+    @FunctionalInterface private interface Setup {void bind(ApplicationHost host,OwnerLoop loop,StandardPorts ports)throws Exception;}
     private static final class Harness implements AutoCloseable {
         final StandardPorts ports=new StandardPorts();final OwnerLoop loop=new OwnerLoop(0,1024,256,error->fail(error));final HostedSceneState state;final ApplicationHost host;final StandardMatchDomain match;
-        Harness(Path path,boolean friendly)throws Exception{
+        Harness(Path path,boolean friendly)throws Exception{this(path,friendly,null);}
+        Harness(Path path,boolean friendly,Setup setup)throws Exception{
             var prepared=StandardPorts.prepared(path,"tdm");var config=new SceneConfig("Combat",27015,0,ModeCatalog.get("tdm"),"Combat",false,friendly,true,999,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());var raw=org.tomlj.Toml.parse("[modes.tdm]\ntime_limit=0\n[network]\nlag_compensation_enabled=false\n");var factory=new StandardMatchFactory(config,raw,ports,new SourceRandom(0),loop,List.of("Combat"),candidate->new StandardMatchFactory.Ports(ports,ports,ports,ports,ports,ports));
-            state=new HostedSceneState("Combat","tdm",prepared,1,10000,factory.modes());host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),4,JoinSettings.defaults(),state.scene(),new BoundedSnapshotCompression(1,2));state.attach(host);match=(StandardMatchDomain)state.domain();match.mode().start();
+            state=new HostedSceneState("Combat","tdm",prepared,1,10000,factory.modes());host=new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),4,JoinSettings.defaults(),state.scene(),new BoundedSnapshotCompression(1,2));if(setup!=null)setup.bind(host,loop,ports);state.attach(host);match=(StandardMatchDomain)state.domain();match.mode().start();
         }
         PlayerLife admit(int id,int team,Vector at){match.scene().admit(id,new SimplePackets.NewPlayerConnection(team,5,0,0,"P"+id),null,0);var p=match.lives().player(id);p.body().position(at);p.orientation(1,0,0);return p;}
         void fire(PlayerLife p,int label,int tick,Vector origin){match.frameLoop(tick);p.inputTimeline().receive(new LiveClientInput(label,127,false,6,1,0,0,0,0,24,0),false,false,p.aim(),tick,match.world().topologyVersion(),false);match.packet(p.id(),new ShootPacket(label,254,0,new Vector3f((float)origin.x(),(float)origin.y(),(float)origin.z()),new Vector3f(1,0,0),32767,32767,true,false,0));}
-        public void close()throws java.io.IOException{try{host.close();}finally{try{state.close();}finally{loop.close();}}}
+        public void close()throws java.io.IOException{try{var stopped=host.shutdownAchievements().toCompletableFuture();long deadline=System.nanoTime()+4_000_000_000L;while(!stopped.isDone()){assertTrue(System.nanoTime()<deadline);loop.pump(loop.nowNanos()+1_000_000);Thread.onSpinWait();}stopped.join();host.close();}finally{try{state.close();}finally{loop.close();}}}
+    }
+    @SuppressWarnings("unchecked") @Test void originalAchievementCombatTracesUseAcceptedDeathAndMissOwnersAndPersistEveryTier()throws Exception{
+        for(var value:(List<?>)AchievementStoreTest.fixture().get("combat")){var trace=(Map<String,Object>)value;var ref=new java.util.concurrent.atomic.AtomicReference<HostedAchievements>();
+            try(var h=new Harness(temp.resolve(trace.get("name")+".vxl"),false,(host,loop,ports)->{var prepared=HostedAchievements.prepare(null).toCompletableFuture().get(4,java.util.concurrent.TimeUnit.SECONDS);ref.set(new HostedAchievements(host,prepared,s->Optional.empty(),ports,loop,(Boolean)trace.get("count_bots")));})){
+                h.ports.monotonic=1000;var killer=h.admit(0,2,new Vector(10,10,97));var victim=h.admit(1,3,new Vector(15,10,97));victim.bot((Boolean)trace.get("bot"));int tool=((Number)trace.get("tool")).intValue();killer.fire().tool(tool,true);
+                for(var stepValue:(List<?>)trace.get("steps")){var step=(Map<String,Object>)stepValue;if(step.containsKey("round"))ref.get().round((Boolean)step.get("round"));else if(Boolean.TRUE.equals(step.get("miss")))ref.get().resolved(new net.battlespades.combat.ShotTally.Resolved(killer,tool,false));else{h.ports.monotonic+=((Number)step.get("advance")).doubleValue();assertTrue(h.match.lives().die(1,0,((Number)step.get("kill")).intValue()));h.match.lives().respawn(1);}}
+                var handed=ref.get().takeUnreported("name:p0").toCompletableFuture();long deadline=System.nanoTime()+4_000_000_000L;while(!handed.isDone()){assertTrue(System.nanoTime()<deadline,trace.get("name").toString());h.loop.pump(h.loop.nowNanos()+1_000_000);Thread.onSpinWait();}assertEquals(trace.get("unlocked"),handed.join().stream().sorted().toList(),trace.get("name").toString());var expected=new TreeMap<String,Long>();((Map<String,Number>)trace.get("progress")).forEach((k,v)->expected.put(k,v.longValue()));assertEquals(expected,ref.get().progress("name:p0"),trace.get("name").toString());assertTrue(ref.get().faults().isEmpty());
+            }
+        }
     }
     @Test void ownedShotTargetsFriendlyFireWithoutChangingProfileOpponentRelationAndRejectsBeforeAmmo()throws Exception{
         for(boolean friendly:new boolean[]{false,true})try(var h=new Harness(temp.resolve("Combat"+friendly+".vxl"),friendly)){

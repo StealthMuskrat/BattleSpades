@@ -1,0 +1,2836 @@
+{
+  "tiers": [
+    {
+      "stat": "airborne_rocket_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "airborne_rocket_count",
+      "amount": 4,
+      "value": 4,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "airborne_rocket_count",
+      "amount": 1,
+      "value": 5,
+      "new": [
+        "airborne_rockets"
+      ],
+      "unlocked": [
+        "airborne_rockets"
+      ]
+    },
+    {
+      "stat": "airborne_rocket_count",
+      "amount": 1,
+      "value": 6,
+      "new": [],
+      "unlocked": [
+        "airborne_rockets"
+      ]
+    },
+    {
+      "stat": "airborne_seconds_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "airborne_seconds_count",
+      "amount": 3599,
+      "value": 3599,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "airborne_seconds_count",
+      "amount": 1,
+      "value": 3600,
+      "new": [
+        "airborne_for_hour"
+      ],
+      "unlocked": [
+        "airborne_for_hour"
+      ]
+    },
+    {
+      "stat": "airborne_seconds_count",
+      "amount": 1,
+      "value": 3601,
+      "new": [],
+      "unlocked": [
+        "airborne_for_hour"
+      ]
+    },
+    {
+      "stat": "block_as_zombie_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "block_as_zombie_count",
+      "amount": 665,
+      "value": 665,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "block_as_zombie_count",
+      "amount": 1,
+      "value": 666,
+      "new": [
+        "blocks_as_zombie"
+      ],
+      "unlocked": [
+        "blocks_as_zombie"
+      ]
+    },
+    {
+      "stat": "block_as_zombie_count",
+      "amount": 1,
+      "value": 667,
+      "new": [],
+      "unlocked": [
+        "blocks_as_zombie"
+      ]
+    },
+    {
+      "stat": "bomb_interceptor_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "bomb_interceptor_count",
+      "amount": 4,
+      "value": 4,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "bomb_interceptor_count",
+      "amount": 1,
+      "value": 5,
+      "new": [
+        "bomb_interceptor"
+      ],
+      "unlocked": [
+        "bomb_interceptor"
+      ]
+    },
+    {
+      "stat": "bomb_interceptor_count",
+      "amount": 1,
+      "value": 6,
+      "new": [],
+      "unlocked": [
+        "bomb_interceptor"
+      ]
+    },
+    {
+      "stat": "classic_kills_with_intel_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "classic_kills_with_intel_count",
+      "amount": 4,
+      "value": 4,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "classic_kills_with_intel_count",
+      "amount": 1,
+      "value": 5,
+      "new": [
+        "classic_kills_with_intel"
+      ],
+      "unlocked": [
+        "classic_kills_with_intel"
+      ]
+    },
+    {
+      "stat": "classic_kills_with_intel_count",
+      "amount": 1,
+      "value": 6,
+      "new": [],
+      "unlocked": [
+        "classic_kills_with_intel"
+      ]
+    },
+    {
+      "stat": "classic_rifle_headshot_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "classic_rifle_headshot_count",
+      "amount": 49,
+      "value": 49,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "classic_rifle_headshot_count",
+      "amount": 1,
+      "value": 50,
+      "new": [
+        "classic_rifle_headshots"
+      ],
+      "unlocked": [
+        "classic_rifle_headshots"
+      ]
+    },
+    {
+      "stat": "classic_rifle_headshot_count",
+      "amount": 1,
+      "value": 51,
+      "new": [],
+      "unlocked": [
+        "classic_rifle_headshots"
+      ]
+    },
+    {
+      "stat": "demolition_damage_many_rounds_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "demolition_damage_many_rounds_count",
+      "amount": 499,
+      "value": 499,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "demolition_damage_many_rounds_count",
+      "amount": 1,
+      "value": 500,
+      "new": [
+        "demolition_damage_many_rounds"
+      ],
+      "unlocked": [
+        "demolition_damage_many_rounds"
+      ]
+    },
+    {
+      "stat": "demolition_damage_many_rounds_count",
+      "amount": 1,
+      "value": 501,
+      "new": [],
+      "unlocked": [
+        "demolition_damage_many_rounds"
+      ]
+    },
+    {
+      "stat": "demolition_repair_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "demolition_repair_count",
+      "amount": 99,
+      "value": 99,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "demolition_repair_count",
+      "amount": 1,
+      "value": 100,
+      "new": [
+        "demolition_repair"
+      ],
+      "unlocked": [
+        "demolition_repair"
+      ]
+    },
+    {
+      "stat": "demolition_repair_count",
+      "amount": 1,
+      "value": 101,
+      "new": [],
+      "unlocked": [
+        "demolition_repair"
+      ]
+    },
+    {
+      "stat": "diamond_interceptor_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "diamond_interceptor_count",
+      "amount": 9,
+      "value": 9,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "diamond_interceptor_count",
+      "amount": 1,
+      "value": 10,
+      "new": [
+        "diamond_interceptor"
+      ],
+      "unlocked": [
+        "diamond_interceptor"
+      ]
+    },
+    {
+      "stat": "diamond_interceptor_count",
+      "amount": 1,
+      "value": 11,
+      "new": [],
+      "unlocked": [
+        "diamond_interceptor"
+      ]
+    },
+    {
+      "stat": "diamond_thief_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "diamond_thief_count",
+      "amount": 4,
+      "value": 4,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "diamond_thief_count",
+      "amount": 1,
+      "value": 5,
+      "new": [
+        "diamond_thief"
+      ],
+      "unlocked": [
+        "diamond_thief"
+      ]
+    },
+    {
+      "stat": "diamond_thief_count",
+      "amount": 1,
+      "value": 6,
+      "new": [],
+      "unlocked": [
+        "diamond_thief"
+      ]
+    },
+    {
+      "stat": "distance_run",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "distance_run",
+      "amount": 20999,
+      "value": 20999,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "distance_run",
+      "amount": 1,
+      "value": 21000,
+      "new": [
+        "misc_half_marathon"
+      ],
+      "unlocked": [
+        "misc_half_marathon"
+      ]
+    },
+    {
+      "stat": "distance_run",
+      "amount": 20999,
+      "value": 41999,
+      "new": [],
+      "unlocked": [
+        "misc_half_marathon"
+      ]
+    },
+    {
+      "stat": "distance_run",
+      "amount": 1,
+      "value": 42000,
+      "new": [
+        "misc_marathon"
+      ],
+      "unlocked": [
+        "misc_half_marathon",
+        "misc_marathon"
+      ]
+    },
+    {
+      "stat": "distance_run",
+      "amount": 1,
+      "value": 42001,
+      "new": [],
+      "unlocked": [
+        "misc_half_marathon",
+        "misc_marathon"
+      ]
+    },
+    {
+      "stat": "drillgun_demolition_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "drillgun_demolition_count",
+      "amount": 999,
+      "value": 999,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "drillgun_demolition_count",
+      "amount": 1,
+      "value": 1000,
+      "new": [
+        "drillgun_demolition"
+      ],
+      "unlocked": [
+        "drillgun_demolition"
+      ]
+    },
+    {
+      "stat": "drillgun_demolition_count",
+      "amount": 1,
+      "value": 1001,
+      "new": [],
+      "unlocked": [
+        "drillgun_demolition"
+      ]
+    },
+    {
+      "stat": "dynamite_below_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "dynamite_below_count",
+      "amount": 9,
+      "value": 9,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "dynamite_below_count",
+      "amount": 1,
+      "value": 10,
+      "new": [
+        "dynamite_below"
+      ],
+      "unlocked": [
+        "dynamite_below"
+      ]
+    },
+    {
+      "stat": "dynamite_below_count",
+      "amount": 1,
+      "value": 11,
+      "new": [],
+      "unlocked": [
+        "dynamite_below"
+      ]
+    },
+    {
+      "stat": "grenade_demolish_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "grenade_demolish_count",
+      "amount": 4,
+      "value": 4,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "grenade_demolish_count",
+      "amount": 1,
+      "value": 5,
+      "new": [
+        "grenade_demolish"
+      ],
+      "unlocked": [
+        "grenade_demolish"
+      ]
+    },
+    {
+      "stat": "grenade_demolish_count",
+      "amount": 1,
+      "value": 6,
+      "new": [],
+      "unlocked": [
+        "grenade_demolish"
+      ]
+    },
+    {
+      "stat": "hill_defender_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "hill_defender_count",
+      "amount": 9,
+      "value": 9,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "hill_defender_count",
+      "amount": 1,
+      "value": 10,
+      "new": [
+        "hill_defender"
+      ],
+      "unlocked": [
+        "hill_defender"
+      ]
+    },
+    {
+      "stat": "hill_defender_count",
+      "amount": 1,
+      "value": 11,
+      "new": [],
+      "unlocked": [
+        "hill_defender"
+      ]
+    },
+    {
+      "stat": "hill_interceptor_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "hill_interceptor_count",
+      "amount": 9,
+      "value": 9,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "hill_interceptor_count",
+      "amount": 1,
+      "value": 10,
+      "new": [
+        "hill_interceptor"
+      ],
+      "unlocked": [
+        "hill_interceptor"
+      ]
+    },
+    {
+      "stat": "hill_interceptor_count",
+      "amount": 1,
+      "value": 11,
+      "new": [],
+      "unlocked": [
+        "hill_interceptor"
+      ]
+    },
+    {
+      "stat": "hill_kill_shooting_in_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "hill_kill_shooting_in_count",
+      "amount": 49,
+      "value": 49,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "hill_kill_shooting_in_count",
+      "amount": 1,
+      "value": 50,
+      "new": [
+        "hill_kill_shooting_in"
+      ],
+      "unlocked": [
+        "hill_kill_shooting_in"
+      ]
+    },
+    {
+      "stat": "hill_kill_shooting_in_count",
+      "amount": 1,
+      "value": 51,
+      "new": [],
+      "unlocked": [
+        "hill_kill_shooting_in"
+      ]
+    },
+    {
+      "stat": "hill_kill_shooting_out_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "hill_kill_shooting_out_count",
+      "amount": 49,
+      "value": 49,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "hill_kill_shooting_out_count",
+      "amount": 1,
+      "value": 50,
+      "new": [
+        "hill_kill_shooting_out"
+      ],
+      "unlocked": [
+        "hill_kill_shooting_out"
+      ]
+    },
+    {
+      "stat": "hill_kill_shooting_out_count",
+      "amount": 1,
+      "value": 51,
+      "new": [],
+      "unlocked": [
+        "hill_kill_shooting_out"
+      ]
+    },
+    {
+      "stat": "hill_strike_survivor_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "hill_strike_survivor_count",
+      "amount": 4,
+      "value": 4,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "hill_strike_survivor_count",
+      "amount": 1,
+      "value": 5,
+      "new": [
+        "hill_strike_survivor"
+      ],
+      "unlocked": [
+        "hill_strike_survivor"
+      ]
+    },
+    {
+      "stat": "hill_strike_survivor_count",
+      "amount": 1,
+      "value": 6,
+      "new": [],
+      "unlocked": [
+        "hill_strike_survivor"
+      ]
+    },
+    {
+      "stat": "intel_defence_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "intel_defence_count",
+      "amount": 4,
+      "value": 4,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "intel_defence_count",
+      "amount": 1,
+      "value": 5,
+      "new": [
+        "intel_defence_easy"
+      ],
+      "unlocked": [
+        "intel_defence_easy"
+      ]
+    },
+    {
+      "stat": "intel_defence_count",
+      "amount": 4,
+      "value": 9,
+      "new": [],
+      "unlocked": [
+        "intel_defence_easy"
+      ]
+    },
+    {
+      "stat": "intel_defence_count",
+      "amount": 1,
+      "value": 10,
+      "new": [
+        "intel_defence_hard"
+      ],
+      "unlocked": [
+        "intel_defence_easy",
+        "intel_defence_hard"
+      ]
+    },
+    {
+      "stat": "intel_defence_count",
+      "amount": 1,
+      "value": 11,
+      "new": [],
+      "unlocked": [
+        "intel_defence_easy",
+        "intel_defence_hard"
+      ]
+    },
+    {
+      "stat": "jetpack_kill_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "jetpack_kill_count",
+      "amount": 19,
+      "value": 19,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "jetpack_kill_count",
+      "amount": 1,
+      "value": 20,
+      "new": [
+        "jetpack_kill"
+      ],
+      "unlocked": [
+        "jetpack_kill"
+      ]
+    },
+    {
+      "stat": "jetpack_kill_count",
+      "amount": 1,
+      "value": 21,
+      "new": [],
+      "unlocked": [
+        "jetpack_kill"
+      ]
+    },
+    {
+      "stat": "jetpack_smg_kill_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "jetpack_smg_kill_count",
+      "amount": 9,
+      "value": 9,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "jetpack_smg_kill_count",
+      "amount": 1,
+      "value": 10,
+      "new": [
+        "jetpack_smg_kill"
+      ],
+      "unlocked": [
+        "jetpack_smg_kill"
+      ]
+    },
+    {
+      "stat": "jetpack_smg_kill_count",
+      "amount": 1,
+      "value": 11,
+      "new": [],
+      "unlocked": [
+        "jetpack_smg_kill"
+      ]
+    },
+    {
+      "stat": "knife_zombie_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "knife_zombie_count",
+      "amount": 9,
+      "value": 9,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "knife_zombie_count",
+      "amount": 1,
+      "value": 10,
+      "new": [
+        "knife_zombies"
+      ],
+      "unlocked": [
+        "knife_zombies"
+      ]
+    },
+    {
+      "stat": "knife_zombie_count",
+      "amount": 1,
+      "value": 11,
+      "new": [],
+      "unlocked": [
+        "knife_zombies"
+      ]
+    },
+    {
+      "stat": "landmine_hidden_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "landmine_hidden_count",
+      "amount": 4,
+      "value": 4,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "landmine_hidden_count",
+      "amount": 1,
+      "value": 5,
+      "new": [
+        "landmine_hidden"
+      ],
+      "unlocked": [
+        "landmine_hidden"
+      ]
+    },
+    {
+      "stat": "landmine_hidden_count",
+      "amount": 1,
+      "value": 6,
+      "new": [],
+      "unlocked": [
+        "landmine_hidden"
+      ]
+    },
+    {
+      "stat": "low_health_kills",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "low_health_kills",
+      "amount": 9,
+      "value": 9,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "low_health_kills",
+      "amount": 1,
+      "value": 10,
+      "new": [
+        "low_health_killing"
+      ],
+      "unlocked": [
+        "low_health_killing"
+      ]
+    },
+    {
+      "stat": "low_health_kills",
+      "amount": 1,
+      "value": 11,
+      "new": [],
+      "unlocked": [
+        "low_health_killing"
+      ]
+    },
+    {
+      "stat": "pickaxe_kill_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "pickaxe_kill_count",
+      "amount": 9,
+      "value": 9,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "pickaxe_kill_count",
+      "amount": 1,
+      "value": 10,
+      "new": [
+        "pickaxe_kill"
+      ],
+      "unlocked": [
+        "pickaxe_kill"
+      ]
+    },
+    {
+      "stat": "pickaxe_kill_count",
+      "amount": 1,
+      "value": 11,
+      "new": [],
+      "unlocked": [
+        "pickaxe_kill"
+      ]
+    },
+    {
+      "stat": "pistol_zombie_kill_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "pistol_zombie_kill_count",
+      "amount": 4,
+      "value": 4,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "pistol_zombie_kill_count",
+      "amount": 1,
+      "value": 5,
+      "new": [
+        "pistol_zombie_kill"
+      ],
+      "unlocked": [
+        "pistol_zombie_kill"
+      ]
+    },
+    {
+      "stat": "pistol_zombie_kill_count",
+      "amount": 1,
+      "value": 6,
+      "new": [],
+      "unlocked": [
+        "pistol_zombie_kill"
+      ]
+    },
+    {
+      "stat": "shotgun_headshots_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "shotgun_headshots_count",
+      "amount": 9,
+      "value": 9,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "shotgun_headshots_count",
+      "amount": 1,
+      "value": 10,
+      "new": [
+        "shotgun_headshots"
+      ],
+      "unlocked": [
+        "shotgun_headshots"
+      ]
+    },
+    {
+      "stat": "shotgun_headshots_count",
+      "amount": 1,
+      "value": 11,
+      "new": [],
+      "unlocked": [
+        "shotgun_headshots"
+      ]
+    },
+    {
+      "stat": "sniper_kill_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "sniper_kill_count",
+      "amount": 24,
+      "value": 24,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "sniper_kill_count",
+      "amount": 1,
+      "value": 25,
+      "new": [
+        "sniper_kill"
+      ],
+      "unlocked": [
+        "sniper_kill"
+      ]
+    },
+    {
+      "stat": "sniper_kill_count",
+      "amount": 24,
+      "value": 49,
+      "new": [],
+      "unlocked": [
+        "sniper_kill"
+      ]
+    },
+    {
+      "stat": "sniper_kill_count",
+      "amount": 1,
+      "value": 50,
+      "new": [
+        "sniper_kill_hard"
+      ],
+      "unlocked": [
+        "sniper_kill",
+        "sniper_kill_hard"
+      ]
+    },
+    {
+      "stat": "sniper_kill_count",
+      "amount": 1,
+      "value": 51,
+      "new": [],
+      "unlocked": [
+        "sniper_kill",
+        "sniper_kill_hard"
+      ]
+    },
+    {
+      "stat": "spade_kill_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "spade_kill_count",
+      "amount": 9,
+      "value": 9,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "spade_kill_count",
+      "amount": 1,
+      "value": 10,
+      "new": [
+        "spade_kill"
+      ],
+      "unlocked": [
+        "spade_kill"
+      ]
+    },
+    {
+      "stat": "spade_kill_count",
+      "amount": 1,
+      "value": 11,
+      "new": [],
+      "unlocked": [
+        "spade_kill"
+      ]
+    },
+    {
+      "stat": "zombie_kills_in_water",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "zombie_kills_in_water",
+      "amount": 4,
+      "value": 4,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "zombie_kills_in_water",
+      "amount": 1,
+      "value": 5,
+      "new": [
+        "zombie_kills_in_water_ach"
+      ],
+      "unlocked": [
+        "zombie_kills_in_water_ach"
+      ]
+    },
+    {
+      "stat": "zombie_kills_in_water",
+      "amount": 1,
+      "value": 6,
+      "new": [],
+      "unlocked": [
+        "zombie_kills_in_water_ach"
+      ]
+    },
+    {
+      "stat": "zombie_seconds_as_lms_count",
+      "amount": 0,
+      "value": 0,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "zombie_seconds_as_lms_count",
+      "amount": 599,
+      "value": 599,
+      "new": [],
+      "unlocked": []
+    },
+    {
+      "stat": "zombie_seconds_as_lms_count",
+      "amount": 1,
+      "value": 600,
+      "new": [
+        "zombie_lms_multi_round"
+      ],
+      "unlocked": [
+        "zombie_lms_multi_round"
+      ]
+    },
+    {
+      "stat": "zombie_seconds_as_lms_count",
+      "amount": 1,
+      "value": 601,
+      "new": [],
+      "unlocked": [
+        "zombie_lms_multi_round"
+      ]
+    }
+  ],
+  "legacy": {
+    "version": 1,
+    "counters": {
+      "aosplay:42": {
+        "sniper_kill_count": 25,
+        "spade_kill_count": 3
+      }
+    },
+    "unlocks": {
+      "aosplay:42": {
+        "sniper_kill": {
+          "at": 1000.0,
+          "name": "Nai\u0308ve \ud83c\udfae",
+          "reported": 1001.0
+        },
+        "spade_kill": {
+          "at": 1002.0,
+          "name": "Nai\u0308ve \ud83c\udfae",
+          "reported": null
+        }
+      }
+    }
+  },
+  "combat": [
+    {
+      "name": "spade",
+      "tool": 2,
+      "bot": false,
+      "count_bots": true,
+      "steps": [
+        {
+          "kill": 2,
+          "advance": 2
+        },
+        {
+          "kill": 2,
+          "advance": 2
+        },
+        {
+          "kill": 2,
+          "advance": 2
+        }
+      ],
+      "progress": {
+        "spade_kill_count": 3
+      },
+      "unlocked": []
+    },
+    {
+      "name": "sniper",
+      "tool": 18,
+      "bot": false,
+      "count_bots": true,
+      "steps": [
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        }
+      ],
+      "progress": {
+        "sniper_kill_count": 25
+      },
+      "unlocked": [
+        "misc_fifteen_in_a_row",
+        "misc_five_in_a_row",
+        "misc_ten_in_a_row",
+        "sniper_accuracy",
+        "sniper_accuracy_hard",
+        "sniper_kill"
+      ]
+    },
+    {
+      "name": "classic",
+      "tool": 6,
+      "bot": false,
+      "count_bots": true,
+      "steps": [
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        },
+        {
+          "kill": 1,
+          "advance": 2
+        }
+      ],
+      "progress": {
+        "classic_rifle_headshot_count": 50
+      },
+      "unlocked": [
+        "classic_rifle_headshots",
+        "misc_fifteen_in_a_row",
+        "misc_five_in_a_row",
+        "misc_ten_in_a_row"
+      ]
+    },
+    {
+      "name": "miss",
+      "tool": 18,
+      "bot": false,
+      "count_bots": true,
+      "steps": [
+        {
+          "kill": 0,
+          "advance": 2
+        },
+        {
+          "kill": 0,
+          "advance": 2
+        },
+        {
+          "kill": 0,
+          "advance": 2
+        },
+        {
+          "miss": true
+        },
+        {
+          "kill": 0,
+          "advance": 2
+        },
+        {
+          "kill": 0,
+          "advance": 2
+        },
+        {
+          "kill": 0,
+          "advance": 2
+        }
+      ],
+      "progress": {},
+      "unlocked": [
+        "misc_five_in_a_row",
+        "sniper_accuracy"
+      ]
+    },
+    {
+      "name": "semi",
+      "tool": 19,
+      "bot": false,
+      "count_bots": true,
+      "steps": [
+        {
+          "kill": 0,
+          "advance": 2
+        },
+        {
+          "kill": 0,
+          "advance": 2
+        },
+        {
+          "kill": 0,
+          "advance": 2
+        }
+      ],
+      "progress": {},
+      "unlocked": [
+        "sniper2_rapid_kill"
+      ]
+    },
+    {
+      "name": "bot_included",
+      "tool": 2,
+      "bot": true,
+      "count_bots": true,
+      "steps": [
+        {
+          "kill": 2,
+          "advance": 2
+        },
+        {
+          "kill": 2,
+          "advance": 2
+        },
+        {
+          "kill": 2,
+          "advance": 2
+        }
+      ],
+      "progress": {
+        "spade_kill_count": 3
+      },
+      "unlocked": []
+    },
+    {
+      "name": "bot_excluded",
+      "tool": 2,
+      "bot": true,
+      "count_bots": false,
+      "steps": [
+        {
+          "kill": 2,
+          "advance": 2
+        },
+        {
+          "kill": 2,
+          "advance": 2
+        },
+        {
+          "kill": 2,
+          "advance": 2
+        }
+      ],
+      "progress": {},
+      "unlocked": []
+    },
+    {
+      "name": "intermission",
+      "tool": 2,
+      "bot": false,
+      "count_bots": true,
+      "steps": [
+        {
+          "round": false
+        },
+        {
+          "kill": 2,
+          "advance": 2
+        },
+        {
+          "kill": 2,
+          "advance": 2
+        },
+        {
+          "kill": 2,
+          "advance": 2
+        }
+      ],
+      "progress": {},
+      "unlocked": []
+    }
+  ],
+  "wire": [
+    {
+      "id": -32768,
+      "key": 0,
+      "icon": "Minimap_Zombie",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 0,
+      "hex": "29008000000000a1074f81ff7f4d696e696d61705f5a6f6d6269650000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -1,
+      "key": 1,
+      "icon": "MultiHill",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 1234567,
+      "hex": "29ffff0187d612a1074f81ff7f4d756c746948696c6c0000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 0,
+      "key": 2,
+      "icon": "OccupationTarget",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 2469134,
+      "hex": "290000020ead25a1074f81ff7f4f636375706174696f6e5461726765740000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 1,
+      "key": 3,
+      "icon": "base_icon",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 3703701,
+      "hex": "29010003958338a1074f81ff7f626173655f69636f6e0000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 28672,
+      "key": 4,
+      "icon": "bomb_icon_256x256",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 4938268,
+      "hex": "290070041c5a4ba1074f81ff7f626f6d625f69636f6e5f323536783235360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 32767,
+      "key": 5,
+      "icon": "ctf_capture_point",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 6172835,
+      "hex": "29ff7f05a3305ea1074f81ff7f6374665f636170747572655f706f696e740000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -32768,
+      "key": 6,
+      "icon": "ctf_secure_base",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 7407402,
+      "hex": "290080062a0771a1074f81ff7f6374665f7365637572655f626173650000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -1,
+      "key": 7,
+      "icon": "diamond_dropoff",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 8641969,
+      "hex": "29ffff07b1dd83a1074f81ff7f6469616d6f6e645f64726f706f66660000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 0,
+      "key": 8,
+      "icon": "diamond_icon_256x256",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 9876536,
+      "hex": "2900000838b496a1074f81ff7f6469616d6f6e645f69636f6e5f323536783235360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 1,
+      "key": 9,
+      "icon": "grenade_icon",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 11111103,
+      "hex": "29010009bf8aa9a1074f81ff7f6772656e6164655f69636f6e0000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 28672,
+      "key": 10,
+      "icon": "health_icon",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 12345670,
+      "hex": "2900700a4661bca1074f81ff7f6865616c74685f69636f6e0000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 32767,
+      "key": 11,
+      "icon": "heart_icon_256x256",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 13580237,
+      "hex": "29ff7f0bcd37cfa1074f81ff7f68656172745f69636f6e5f323536783235360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -32768,
+      "key": 12,
+      "icon": "intel_icon_256x256",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 14814804,
+      "hex": "2900800c540ee2a1074f81ff7f696e74656c5f69636f6e5f323536783235360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -1,
+      "key": 13,
+      "icon": "map_base_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 16049371,
+      "hex": "29ffff0ddbe4f4a1074f81ff7f6d61705f626173655f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 0,
+      "key": 14,
+      "icon": "map_bomb_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 506722,
+      "hex": "2900000e62bb07a1074f81ff7f6d61705f626f6d625f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 1,
+      "key": 15,
+      "icon": "map_diamond_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 1741289,
+      "hex": "2901000fe9911aa1074f81ff7f6d61705f6469616d6f6e645f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 28672,
+      "key": 16,
+      "icon": "map_grave_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 2975856,
+      "hex": "2900701070682da1074f81ff7f6d61705f67726176655f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 32767,
+      "key": 17,
+      "icon": "map_intel_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 4210423,
+      "hex": "29ff7f11f73e40a1074f81ff7f6d61705f696e74656c5f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -32768,
+      "key": 18,
+      "icon": "map_pickup_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 5444990,
+      "hex": "290080127e1553a1074f81ff7f6d61705f7069636b75705f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -1,
+      "key": 19,
+      "icon": "map_player_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 6679557,
+      "hex": "29ffff1305ec65a1074f81ff7f6d61705f706c617965725f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 0,
+      "key": 20,
+      "icon": "map_vip_player_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 7914124,
+      "hex": "290000148cc278a1074f81ff7f6d61705f7669705f706c617965725f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 1,
+      "key": 21,
+      "icon": "marker_attack_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 9148691,
+      "hex": "2901001513998ba1074f81ff7f6d61726b65725f61747461636b5f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 28672,
+      "key": 22,
+      "icon": "marker_bg_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 10383258,
+      "hex": "290070169a6f9ea1074f81ff7f6d61726b65725f62675f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 32767,
+      "key": 23,
+      "icon": "marker_build_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 11617825,
+      "hex": "29ff7f172146b1a1074f81ff7f6d61726b65725f6275696c645f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -32768,
+      "key": 24,
+      "icon": "marker_c4_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 12852392,
+      "hex": "29008018a81cc4a1074f81ff7f6d61726b65725f63345f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -1,
+      "key": 25,
+      "icon": "marker_defend_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 14086959,
+      "hex": "29ffff192ff3d6a1074f81ff7f6d61726b65725f646566656e645f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 0,
+      "key": 26,
+      "icon": "marker_dynamite_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 15321526,
+      "hex": "2900001ab6c9e9a1074f81ff7f6d61726b65725f64796e616d6974655f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 1,
+      "key": 27,
+      "icon": "marker_land_mine_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 16556093,
+      "hex": "2901001b3da0fca1074f81ff7f6d61726b65725f6c616e645f6d696e655f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 28672,
+      "key": 28,
+      "icon": "marker_machinegun_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 1013444,
+      "hex": "2900701cc4760fa1074f81ff7f6d61726b65725f6d616368696e6567756e5f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 32767,
+      "key": 29,
+      "icon": "marker_medpack_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 2248011,
+      "hex": "29ff7f1d4b4d22a1074f81ff7f6d61726b65725f6d65647061636b5f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -32768,
+      "key": 30,
+      "icon": "marker_radar_station_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 3482578,
+      "hex": "2900801ed22335a1074f81ff7f6d61726b65725f72616461725f73746174696f6e5f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -1,
+      "key": 31,
+      "icon": "marker_rally_point_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 4717145,
+      "hex": "29ffff1f59fa47a1074f81ff7f6d61726b65725f72616c6c795f706f696e745f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 0,
+      "key": 32,
+      "icon": "marker_satchel_charge_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 5951712,
+      "hex": "29000020e0d05aa1074f81ff7f6d61726b65725f7361746368656c5f6368617267655f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 1,
+      "key": 33,
+      "icon": "marker_tunnel_entrance_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 7186279,
+      "hex": "2901002167a76da1074f81ff7f6d61726b65725f74756e6e656c5f656e7472616e63655f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 28672,
+      "key": 34,
+      "icon": "marker_turret_16",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 8420846,
+      "hex": "29007022ee7d80a1074f81ff7f6d61726b65725f7475727265745f31360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 32767,
+      "key": 35,
+      "icon": "minimap_ammocrate",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 9655413,
+      "hex": "29ff7f23755493a1074f81ff7f6d696e696d61705f616d6d6f63726174650000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -32768,
+      "key": 36,
+      "icon": "minimap_base",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 10889980,
+      "hex": "29008024fc2aa6a1074f81ff7f6d696e696d61705f626173650000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -1,
+      "key": 37,
+      "icon": "minimap_blockcrate",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 12124547,
+      "hex": "29ffff258301b9a1074f81ff7f6d696e696d61705f626c6f636b63726174650000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 0,
+      "key": 38,
+      "icon": "minimap_bomb",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 13359114,
+      "hex": "290000260ad8cba1074f81ff7f6d696e696d61705f626f6d620000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 1,
+      "key": 39,
+      "icon": "minimap_ctf_capture_point",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 14593681,
+      "hex": "2901002791aedea1074f81ff7f6d696e696d61705f6374665f636170747572655f706f696e740000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 28672,
+      "key": 40,
+      "icon": "minimap_ctf_secure_base",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 15828248,
+      "hex": "290070281885f1a1074f81ff7f6d696e696d61705f6374665f7365637572655f626173650000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 32767,
+      "key": 41,
+      "icon": "minimap_diamond",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 285599,
+      "hex": "29ff7f299f5b04a1074f81ff7f6d696e696d61705f6469616d6f6e640000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -32768,
+      "key": 42,
+      "icon": "minimap_diamond_dropoff",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 1520166,
+      "hex": "2900802a263217a1074f81ff7f6d696e696d61705f6469616d6f6e645f64726f706f66660000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -1,
+      "key": 43,
+      "icon": "minimap_healthcrate",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 2754733,
+      "hex": "29ffff2bad082aa1074f81ff7f6d696e696d61705f6865616c746863726174650000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 0,
+      "key": 44,
+      "icon": "minimap_intel",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 3989300,
+      "hex": "2900002c34df3ca1074f81ff7f6d696e696d61705f696e74656c0000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 1,
+      "key": 45,
+      "icon": "minimap_multihill",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 5223867,
+      "hex": "2901002dbbb54fa1074f81ff7f6d696e696d61705f6d756c746968696c6c0000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 28672,
+      "key": 46,
+      "icon": "minimap_occupation_target",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 6458434,
+      "hex": "2900702e428c62a1074f81ff7f6d696e696d61705f6f636375706174696f6e5f7461726765740000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 32767,
+      "key": 47,
+      "icon": "minimap_spawn",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 7693001,
+      "hex": "29ff7f2fc96275a1074f81ff7f6d696e696d61705f737061776e0000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -32768,
+      "key": 48,
+      "icon": "pointer_icon",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 8927568,
+      "hex": "29008030503988a1074f81ff7f706f696e7465725f69636f6e0000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -1,
+      "key": 49,
+      "icon": "spawn_icon",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 10162135,
+      "hex": "29ffff31d70f9ba1074f81ff7f737061776e5f69636f6e0000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 0,
+      "key": 50,
+      "icon": "tc_base_icon",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 11396702,
+      "hex": "290000325ee6ada1074f81ff7f74635f626173655f69636f6e0000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 1,
+      "key": 51,
+      "icon": "tc_billboard_a",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 12631269,
+      "hex": "29010033e5bcc0a1074f81ff7f74635f62696c6c626f6172645f610000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 28672,
+      "key": 52,
+      "icon": "tc_billboard_b",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 13865836,
+      "hex": "290070346c93d3a1074f81ff7f74635f62696c6c626f6172645f620000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 32767,
+      "key": 53,
+      "icon": "tc_billboard_c",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 15100403,
+      "hex": "29ff7f35f369e6a1074f81ff7f74635f62696c6c626f6172645f630000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -32768,
+      "key": 54,
+      "icon": "tc_billboard_d",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 16334970,
+      "hex": "290080367a40f9a1074f81ff7f74635f62696c6c626f6172645f640000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -1,
+      "key": 55,
+      "icon": "tc_billboard_e",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 792321,
+      "hex": "29ffff3701170ca1074f81ff7f74635f62696c6c626f6172645f650000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 0,
+      "key": 56,
+      "icon": "tc_billboard_f",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 2026888,
+      "hex": "2900003888ed1ea1074f81ff7f74635f62696c6c626f6172645f660000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 1,
+      "key": 57,
+      "icon": "tc_billboard_g",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 3261455,
+      "hex": "290100390fc431a1074f81ff7f74635f62696c6c626f6172645f670000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 28672,
+      "key": 58,
+      "icon": "tc_minimap_a",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 4496022,
+      "hex": "2900703a969a44a1074f81ff7f74635f6d696e696d61705f610000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 32767,
+      "key": 59,
+      "icon": "tc_minimap_b",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 5730589,
+      "hex": "29ff7f3b1d7157a1074f81ff7f74635f6d696e696d61705f620000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -32768,
+      "key": 60,
+      "icon": "tc_minimap_base",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 6965156,
+      "hex": "2900803ca4476aa1074f81ff7f74635f6d696e696d61705f626173650000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -1,
+      "key": 61,
+      "icon": "tc_minimap_c",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 8199723,
+      "hex": "29ffff3d2b1e7da1074f81ff7f74635f6d696e696d61705f630000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 0,
+      "key": 62,
+      "icon": "tc_minimap_d",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 9434290,
+      "hex": "2900003eb2f48fa1074f81ff7f74635f6d696e696d61705f640000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 1,
+      "key": 63,
+      "icon": "tc_minimap_e",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 10668857,
+      "hex": "2901003f39cba2a1074f81ff7f74635f6d696e696d61705f650000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 28672,
+      "key": 64,
+      "icon": "tc_minimap_f",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 11903424,
+      "hex": "29007040c0a1b5a1074f81ff7f74635f6d696e696d61705f660000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": 32767,
+      "key": 65,
+      "icon": "tc_minimap_g",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 13137991,
+      "hex": "29ff7f414778c8a1074f81ff7f74635f6d696e696d61705f670000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -32768,
+      "key": 66,
+      "icon": "vip_icon",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 14372558,
+      "hex": "29008042ce4edba1074f81ff7f7669705f69636f6e0000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    },
+    {
+      "id": -1,
+      "key": 67,
+      "icon": "vip_icon_256x256",
+      "position": [
+        30.5078125,
+        -5.25,
+        700.0
+      ],
+      "color": 15607125,
+      "hex": "29ffff435525eea1074f81ff7f7669705f69636f6e5f323536783235360000",
+      "decoded": [
+        30.515625,
+        -5.234375,
+        511.984375
+      ]
+    }
+  ]
+}

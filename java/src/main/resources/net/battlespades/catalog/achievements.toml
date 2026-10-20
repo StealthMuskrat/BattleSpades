@@ -1,0 +1,572 @@
+# Source data: 546c548780c400f21d73ca6713f86194ceb3c844
+icons = ["Minimap_Zombie", "MultiHill", "OccupationTarget", "base_icon", "bomb_icon_256x256", "ctf_capture_point", "ctf_secure_base", "diamond_dropoff", "diamond_icon_256x256", "grenade_icon", "health_icon", "heart_icon_256x256", "intel_icon_256x256", "map_base_16", "map_bomb_16", "map_diamond_16", "map_grave_16", "map_intel_16", "map_pickup_16", "map_player_16", "map_vip_player_16", "marker_attack_16", "marker_bg_16", "marker_build_16", "marker_c4_16", "marker_defend_16", "marker_dynamite_16", "marker_land_mine_16", "marker_machinegun_16", "marker_medpack_16", "marker_radar_station_16", "marker_rally_point_16", "marker_satchel_charge_16", "marker_tunnel_entrance_16", "marker_turret_16", "minimap_ammocrate", "minimap_base", "minimap_blockcrate", "minimap_bomb", "minimap_ctf_capture_point", "minimap_ctf_secure_base", "minimap_diamond", "minimap_diamond_dropoff", "minimap_healthcrate", "minimap_intel", "minimap_multihill", "minimap_occupation_target", "minimap_spawn", "pointer_icon", "spawn_icon", "tc_base_icon", "tc_billboard_a", "tc_billboard_b", "tc_billboard_c", "tc_billboard_d", "tc_billboard_e", "tc_billboard_f", "tc_billboard_g", "tc_minimap_a", "tc_minimap_b", "tc_minimap_base", "tc_minimap_c", "tc_minimap_d", "tc_minimap_e", "tc_minimap_f", "tc_minimap_g", "vip_icon", "vip_icon_256x256"]
+
+[constants]
+ACH_BLOCK_DESTROY_REGION = 2
+ACH_KILL_REGION = 1
+CLASSIC_GRENADE_KILL = 22
+CLASSIC_SPADE_TOOL = 4
+CLASS_CHANGE_KILL = 10
+DRILL_KILL = 6
+DYNAMITE_KILL = 15
+FALL_KILL = 7
+FORCED_TEAM_CHANGE_KILL = 8
+GRENADE_KILL = 3
+HEADSHOT_KILL = 1
+INITIAL_HEALTH = 100.0
+KNIFE_TOOL = 1
+LANDMINE_KILL = 14
+MELEE_KILL = 2
+MINIGUN_TOOL = 8
+MOST_AMMO_CRATES_COLLECTED = 3
+MOST_HEALTH_CRATES_COLLECTED = 2
+PICKAXE_TOOL = 0
+PISTOL_TOOL = 17
+PLAYER_CROUCHING_POS_ABOVE_GROUND = 1.35
+PLAYER_STANDING_POS_ABOVE_GROUND = 2.25
+RIFLE_TOOL = 6
+ROCKET2_KILL = 5
+ROCKET_KILL = 4
+ROCKET_TURRET_KILL = 18
+SHOTGUN_TOOL = 9
+SMG_TOOL = 7
+SNIPER2_RAPID_KILL_ACHIEVE_COUNT = 3
+SNIPER2_RAPID_KILL_ACHIEVE_TIME = 20.0
+SNIPER2_TOOL = 19
+SNIPER_TOOL = 18
+SNUB_PISTOL_TOOL = 36
+SPADE_TOOL = 2
+TEAM_CHANGE_KILL = 9
+WEAPON_KILL = 0
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_1"
+api_name = "zombie_survivor"
+display_name = "Apocalypse Later"
+description = "Survive to the end of a round of Zombie"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_2"
+api_name = "zombie_kills_humans"
+display_name = "Three of a Kind"
+description = "Take out 3 survivors in 1 round"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_3"
+api_name = "zombie_mvp"
+display_name = "Stone Cold Killer"
+description = "Start the round as a zombie, and wipe out the highest number of enemy players"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_4"
+api_name = "zombie_fall"
+display_name = "Dead Drop"
+description = "Playing as a zombie, make an enemy player fall to their death"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_5"
+api_name = "vip_mvp"
+display_name = "The Main Man"
+description = "Start the round as VIP and kill the highest number of enemy players"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_6"
+api_name = "vip_pacifist"
+display_name = "I am the passenger"
+description = "Start the round as VIP, kill no enemy players, and survive anyway"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_7"
+api_name = "diamond_hotfoot"
+display_name = "Diamond Geezer"
+description = "Pick up a diamond within 5 seconds of it spawning, and make it to a dropoff point without dropping it"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_8"
+api_name = "diamond_collector"
+display_name = "Girl's Best Friend"
+description = "Find and drop off 3 diamonds in one match"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_9"
+api_name = "diamond_thief"
+display_name = "Feeling Flush"
+description = "Steal and drop off 5 diamonds found by the enemy team before they pick them up"
+stat = "diamond_thief_count"
+threshold = 5
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_10"
+api_name = "diamond_interceptor"
+display_name = "King of Diamonds"
+description = "Intercept 10 diamonds carried by the enemy team and make it to a dropoff point"
+stat = "diamond_interceptor_count"
+threshold = 10
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_11"
+api_name = "hill_greedy"
+display_name = "One Man Army"
+description = "Be the only player to score points from a hill before it vanishes"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_12"
+api_name = "hill_strike_survivor"
+display_name = "Shock and Awe"
+description = "Trigger 5 airstrikes and survive"
+stat = "hill_strike_survivor_count"
+threshold = 5
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_13"
+api_name = "hill_strike_stay_put"
+display_name = "Strikebreaker"
+description = "Trigger an airstrike and survive without leaving the hill"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_14"
+api_name = "hill_interceptor"
+display_name = "Cubic Heir"
+description = "Take control of 10 contested hills"
+stat = "hill_interceptor_count"
+threshold = 10
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_15"
+api_name = "hill_defender"
+display_name = "Tor Defence"
+description = "Retain control of 10 contested hills"
+stat = "hill_defender_count"
+threshold = 10
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_16"
+api_name = "hill_kill_shooting_out"
+display_name = "Mountain Casualties"
+description = "Take out 50 enemy players while you are in an active hill"
+stat = "hill_kill_shooting_out_count"
+threshold = 50
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_17"
+api_name = "hill_kill_shooting_in"
+display_name = "Butte Hurt"
+description = "Take out 50 enemy players while they are in an active hill"
+stat = "hill_kill_shooting_in_count"
+threshold = 50
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_18"
+api_name = "bomb_survivor"
+display_name = "Bombs Away!"
+description = "Drop a bomb in the enemy base and survive"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_19"
+api_name = "bomb_hotfoot"
+display_name = "Hotfoot"
+description = "Pick up a bomb from a spawn point and make it to the enemy base without dropping it"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_20"
+api_name = "bomb_interceptor"
+display_name = "Bomb Disposal Expert"
+description = "Intercept 5 bomb carriers and defend the bomb until it detonates early."
+stat = "bomb_interceptor_count"
+threshold = 5
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_21"
+api_name = "bomb_final_bomber"
+display_name = "Bomb the Base"
+description = "Be the final player to plant a bomb successfully, and then win the round."
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_22"
+api_name = "demolition_repair"
+display_name = "Fort Process"
+description = "Repair 100 blocks of damage to your base"
+stat = "demolition_repair_count"
+threshold = 100
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_23"
+api_name = "demolition_damage_one_round"
+display_name = "Block Party"
+description = "Cause 100 blocks of damage to the enemy base in one round"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_24"
+api_name = "demolition_damage_many_rounds"
+display_name = "Attack the Blocks"
+description = "Cause 500 blocks of damage to the enemy base over multiple rounds"
+stat = "demolition_damage_many_rounds_count"
+threshold = 500
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_25"
+api_name = "demolition_final_damage"
+display_name = "Put the Boot in"
+description = "Be the final player to cause damage to the enemy base and win"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_26"
+api_name = "minigun_demolish"
+display_name = "Riddle Me This"
+description = "Demolish a structure of 50 blocks or more using the minigun"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_27"
+api_name = "rocket_fall"
+display_name = "Splashback Cashback"
+description = "Make someone fall to their death using rocket launcher knockback"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_28"
+api_name = "pistol_zombie_kill"
+display_name = "Face Off"
+description = "Kill 5 zombies by shooting them in the face with the pistol"
+stat = "pistol_zombie_kill_count"
+threshold = 5
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_29"
+api_name = "grenade_demolish"
+display_name = "Holey Hand Grenade"
+description = "Demolish 5 structures of 100 or more blocks using a grenade"
+stat = "grenade_demolish_count"
+threshold = 5
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_30"
+api_name = "spade_kill"
+display_name = "Dig Deep"
+description = "Kill 10 enemies with the spade"
+stat = "spade_kill_count"
+threshold = 10
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_2_31"
+api_name = "sniper_accuracy"
+display_name = "Hat Trick"
+description = "3 kills with sniper rifle without missing a shot"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_0"
+api_name = "sniper_kill"
+display_name = "Head Hunter"
+description = "25 headshots with the sniper rifle"
+stat = "sniper_kill_count"
+threshold = 25
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_1"
+api_name = "landmine_hidden"
+display_name = "Landmine Craft"
+description = "Kill 5 players with landmines placed on the ground and re-buried"
+stat = "landmine_hidden_count"
+threshold = 5
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_2"
+api_name = "pickaxe_kill"
+display_name = "Take Your Pick"
+description = "Kill 10 enemies with the pickaxe"
+stat = "pickaxe_kill_count"
+threshold = 10
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_3"
+api_name = "jetpack_kill"
+display_name = "Rocket Man"
+description = "Kill 20 enemies while using the jetpack"
+stat = "jetpack_kill_count"
+threshold = 20
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_5"
+api_name = "jetpack_killed_using"
+display_name = "Jet Fighter"
+description = "Kill an enemy while he uses a jetpack"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_6"
+api_name = "jetpack_smg_kill"
+display_name = "Jetpack Drive-by"
+description = "Kill 10 enemies with the SMG while using the jetpack"
+stat = "jetpack_smg_kill_count"
+threshold = 10
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_7"
+api_name = "shotgun_headshots"
+display_name = "Heads You Win"
+description = "10 headshots with the shotgun"
+stat = "shotgun_headshots_count"
+threshold = 10
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_9"
+api_name = "drillgun_demolition"
+display_name = "All Your Base"
+description = "Destroy 1000 blocks of enemy bases in demolition mode using the drill gun"
+stat = "drillgun_demolition_count"
+threshold = 1000
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_10"
+api_name = "dynamite_below"
+display_name = "Floored Genius"
+description = "Kill 10 enemies by placing dynamite below them then blowing out the floor"
+stat = "dynamite_below_count"
+threshold = 10
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_11"
+api_name = "turret_accuracy"
+display_name = "Turret Syndrome"
+description = "Kill 10 enemies with 1 turret"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_13"
+api_name = "turret_evasion"
+display_name = "Collateral Damage"
+description = "Destroy 100 blocks by evading an enemy turret"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_14"
+api_name = "ammo_drop_greedy"
+display_name = "Loaded"
+description = "Collect a full resupply of ammunition in one game"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_15"
+api_name = "health_drop_greedy"
+display_name = "Well Heeled"
+description = "Repair 150 health in one game using health drops"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_16"
+api_name = "map_greatwall_destroy"
+display_name = "The War on Terracotta"
+description = "Destroy the Terracotta Army"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_18"
+api_name = "map_moon_destroy"
+display_name = "Kubrick Equation"
+description = "Lunar Base: Destroy the monolith with the rocket launcher"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_19"
+api_name = "map_london_destroy"
+display_name = "Death Toll"
+description = "Destroy the large bell at the top of Big Ben"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_20"
+api_name = "map_maya_kill"
+display_name = "Personal Sacrifice"
+description = "Melee kill an enemy while standing near the temple altar"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_21"
+api_name = "map_concrete_destroy"
+display_name = "Pillar Assault"
+description = "In demolition mode, destroy all the pillars in the enemy building lobby"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_23"
+api_name = "map_egypt_destroy"
+display_name = "Nose Job"
+description = "Destroy the nose of the Sphinx"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_24"
+api_name = "map_colosseum_kill"
+display_name = "The Undertaker"
+description = "Kill 10 enemies while hiding in the tunnel under the arena"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_27"
+api_name = "map_zombieisland_zombie_kill"
+display_name = "Brain Drain"
+description = "Kill 5 zombies while hiding in the basement"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_28"
+api_name = "map_zombieisland_destroy"
+display_name = "Tower Offense"
+description = "Playing as a zombie, demolish the mansion's towers"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_29"
+api_name = "misc_half_marathon"
+display_name = "Half Marathon"
+description = "Run 21 kilometers"
+stat = "distance_run"
+threshold = 21000
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_30"
+api_name = "misc_marathon"
+display_name = "Marathon Man"
+description = "Run 42 kilometers"
+stat = "distance_run"
+threshold = 42000
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_3_31"
+api_name = "misc_five_in_a_row"
+display_name = "Five Alive"
+description = "Get five kills in a row without dying"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_0"
+api_name = "misc_triple_explosion"
+display_name = "The Big Bang"
+description = "Kill 3 enemies with 1 explosion"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_1"
+api_name = "map_isleofdoom_destroy"
+display_name = "Exit The Dragon"
+description = "Dragon Island: Destroy the stone dragon"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_2"
+api_name = "intel_defence_easy"
+display_name = "Stop, thief!"
+description = "Intercept 5 enemies stealing your intel and defend it until it returns to base."
+stat = "intel_defence_count"
+threshold = 5
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_3"
+api_name = "intel_defence_hard"
+display_name = "Undelivered Message Report"
+description = "Intercept 10 enemies stealing your intel and defend it until it returns to base."
+stat = "intel_defence_count"
+threshold = 10
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_4"
+api_name = "classic_rifle_headshots"
+display_name = "Open Your Mind"
+description = "Score 50 headshots with the classic rifle"
+stat = "classic_rifle_headshot_count"
+threshold = 50
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_5"
+api_name = "airborne_rockets"
+display_name = "Sky rockets in flight"
+description = "Score 5 direct hits with rockets while airborne"
+stat = "airborne_rocket_count"
+threshold = 5
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_6"
+api_name = "knife_zombies"
+display_name = "Bit Late for an Autopsy"
+description = "Knife 10 zombies"
+stat = "knife_zombie_count"
+threshold = 10
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_7"
+api_name = "misc_ten_in_a_row"
+display_name = "Streaker"
+description = "Get ten kills in a row without dying"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_8"
+api_name = "misc_fifteen_in_a_row"
+display_name = "OMG Hax!"
+description = "Get fifteen kills in a row without dying"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_9"
+api_name = "sniper_kill_hard"
+display_name = "Hey, is that a sni-"
+description = "50 headshots with the sniper rifle"
+stat = "sniper_kill_count"
+threshold = 50
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_10"
+api_name = "low_health_killing"
+display_name = "Riskbreaker"
+description = "Kill ten players when your health is below 10% over multiple rounds"
+stat = "low_health_kills"
+threshold = 10
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_11"
+api_name = "lastman_kills_zombies_easy"
+display_name = "Groovy!"
+description = "As last man standing take out at least 5 zombies in one round"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_12"
+api_name = "lastman_kills_zombies_hard"
+display_name = "Come get some!"
+description = "As last man standing take out at least 10 zombies in one round"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_13"
+api_name = "zombie_kills_in_water_ach"
+display_name = "Water on the Brainnnns"
+description = "Kill 5 players as a zombie in the water"
+stat = "zombie_kills_in_water"
+threshold = 5
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_14"
+api_name = "blocks_as_zombie"
+display_name = "Dead Can Dig"
+description = "Destroy 666 blocks as a zombie"
+stat = "block_as_zombie_count"
+threshold = 666
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_15"
+api_name = "zombie_lms_one_round"
+display_name = "28 Seconds Later"
+description = "Survive for 28 seconds as last man standing in one zombie round"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_16"
+api_name = "zombie_lms_multi_round"
+display_name = "Survivalist"
+description = "Survive as last man for 10 minutes total over multiple zombie rounds"
+stat = "zombie_seconds_as_lms_count"
+threshold = 600
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_19"
+api_name = "airborne_for_hour"
+display_name = "Time Flies"
+description = "Spend a total of an hour in the air"
+stat = "airborne_seconds_count"
+threshold = 3600
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_20"
+api_name = "sniper2_rapid_kill"
+display_name = "The Quick and the Dead"
+description = "Kill 3 enemies in 20 seconds with the semi-auto sniper rifle"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_21"
+api_name = "sniper_accuracy_hard"
+display_name = "Wisely Snipes"
+description = "6 kills with sniper rifle without missing a shot"
+
+[[achievement]]
+token = "NEW_ACHIEVEMENT_4_22"
+api_name = "classic_kills_with_intel"
+display_name = "Courier Killer"
+description = "Kill 5 players while carrying the intel in classic"
+stat = "classic_kills_with_intel_count"
+threshold = 5

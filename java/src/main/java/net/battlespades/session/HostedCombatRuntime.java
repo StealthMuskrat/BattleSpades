@@ -44,7 +44,7 @@ public final class HostedCombatRuntime implements AutoCloseable {
         public Iterable<? extends HitTrace.Entity> entities(){return match.entities().registry().all();}public Iterable<? extends HitTrace.Corpse> corpses(){return match.corpses().hittable();}
         public void clearDisguise(PlayerLife p){p.disguise().clear();ports.clearDisguise(p);}public void weaponFired(PlayerLife p,int tool){} // No weapon_fired hook in either ordinary mode.
         public void profileShot(PlayerLife p){match.profiles().shot(match.binding().row(p));}public void recordShot(PlayerLife p){match.combat().shot(match.binding().row(p));}
-        public void observeShot(PlayerLife p,ShootPacket packet,double now){match.review().observe(match,p,packet,now);ports.observeShot(p,packet,now);}public void resolved(ShotTally.Resolved result){ports.resolved(result);}
+        public void observeShot(PlayerLife p,ShootPacket packet,double now){match.review().observe(match,p,packet,now);ports.observeShot(p,packet,now);}public void resolved(ShotTally.Resolved result){host.achievements().ifPresent(a->a.guard("shot_resolved",()->a.resolved(result)));ports.resolved(result);}
         public void validationReport(PlayerLife p,ShotValidation.Event report){match.inputs().account(p,report.kind(),report.enforced(),report.detail());ports.validationReport(p,report);}public void rewindReport(PlayerLife p,LagCompensation.Diagnostic report){ports.rewindReport(p,report);}
         public void feedback(SimplePackets.ShootFeedbackPacket packet,int excluded){host.broadcastExcept(packet,Delivery.UNRELIABLE,excluded);}
         public void shotStimulus(Vector at,int source,int team,double radius,double lifetime){ports.shotStimulus(at,source,team,radius,lifetime);}

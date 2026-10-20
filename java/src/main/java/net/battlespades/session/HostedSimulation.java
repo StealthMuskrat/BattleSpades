@@ -45,7 +45,7 @@ public final class HostedSimulation {
                 case RESPAWNS->periodic.get().respawns(tick,60,match.get().monotonic(),()->{match.get().lives().processRespawns();return CompletableFuture.completedFuture(null);});
                 default->other.asynchronous(phase,tick);
             };}
-            public void synchronous(SimulationFrame.Phase phase,int tick){if(phase==SimulationFrame.Phase.TERRAIN_REPAIR)repair.get().tick(tick);else{if(phase==SimulationFrame.Phase.SECOND_SCHEDULERS&&tick%60==0){host.voting().ifPresent(voting->voting.service().tick(null));match.get().review().tick(match.get());}other.synchronous(phase,tick);}}
+            public void synchronous(SimulationFrame.Phase phase,int tick){if(phase==SimulationFrame.Phase.TERRAIN_REPAIR)repair.get().tick(tick);else{if(phase==SimulationFrame.Phase.SECOND_SCHEDULERS&&tick%60==0){host.voting().ifPresent(voting->voting.service().tick(null));match.get().review().tick(match.get());}if(phase==SimulationFrame.Phase.ACHIEVEMENTS)host.achievements().ifPresent(a->a.guard("tick",()->a.tick(match.get(),1./60)));other.synchronous(phase,tick);}}
             public void subsystem(SimulationFrame.Phase phase,double ms){other.subsystem(phase,ms);}public void failure(String name,Throwable error){other.failure(name,error);}public void tickMetrics(double ms){other.tickMetrics(ms);}public void health(double ms){other.health(ms);}
         },measuredNanos,loop);
         int[] currentTick={0};runtime=new AsyncFixedStepRuntime(()->running,tick->{currentTick[0]=(int)tick;match.get().frameLoop(currentTick[0]);return frame.step(currentTick[0]);},()->replicate.accept(currentTick[0]),()->loop.sleep(0),other::failure,loop);
@@ -76,7 +76,7 @@ public final class HostedSimulation {
         var result=new CompletableFuture<Void>();stopping=result.minimalCompletionStage();
         batch.whenComplete((count,error)->sequence.resume(()->{
             Throwable prior=error==null?null:OwnerSequence.cause(error);
-            CompletionStage<Void> deactivate;try{deactivate=sequence.run(List.<Supplier<CompletionStage<Void>>>of(host::shutdownEndings,()->match.get().mode().deactivate(),host::shutdownResults,host::shutdownReview).iterator());}catch(RuntimeException|Error failure){if(prior!=null)failure.addSuppressed(prior);result.completeExceptionally(failure);return;}
+            CompletionStage<Void> deactivate;try{deactivate=sequence.run(List.<Supplier<CompletionStage<Void>>>of(host::shutdownEndings,()->match.get().mode().deactivate(),host::shutdownResults,host::shutdownAchievements,host::shutdownReview).iterator());}catch(RuntimeException|Error failure){if(prior!=null)failure.addSuppressed(prior);result.completeExceptionally(failure);return;}
             deactivate.whenComplete((unused,cleanup)->sequence.resume(()->{Throwable root=cleanup==null?prior:OwnerSequence.cause(cleanup);if(cleanup!=null&&prior!=null&&root!=prior)root.addSuppressed(prior);if(root==null)result.complete(null);else result.completeExceptionally(root);},result));
         },result));return stopping;
     }

@@ -1,0 +1,74 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+package net.battlespades.session;
+
+import java.nio.file.Path;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import net.battlespades.achievements.AchievementStore;
+import net.battlespades.combat.ShotTally;
+import net.battlespades.match.*;
+import net.battlespades.physics.PlayerPhysics.Vector;
+import net.battlespades.player.*;
+import net.battlespades.runtime.OwnerLoop;
+import net.battlespades.transport.enet.Delivery;
+
+/** Host lifetime achievement counters and generic combat rules. Disk acknowledgments precede announcements. */
+public final class HostedAchievements {
+    public record Identity(String legacyId,String steamId){public Identity{if(legacyId!=null&&!legacyId.matches("[0-9]{1,128}")||steamId!=null&&!steamId.matches("steam:[0-9]{17}"))throw new IllegalArgumentException("Achievement identity must be independently verified");}}
+    public record Prepared(AchievementStore store,Map<String,AchievementStore.Account> snapshot,ExecutorService worker) implements AutoCloseable {public Prepared{snapshot=Map.copyOf(snapshot);}@Override public void close(){worker.shutdownNow();}}
+    /** Null path explicitly selects memory; durable Java state uses its own file, never a legacy SQLite filename. */
+    public static CompletionStage<Prepared> prepare(Path path){var worker=Executors.newSingleThreadExecutor(Thread.ofPlatform().daemon().name("achievement-store").factory());var future=CompletableFuture.supplyAsync(()->{try{var store=new AchievementStore(path);return new Prepared(store,store.snapshot(),worker);}catch(java.io.IOException failure){throw new CompletionException(failure);}},worker);future.whenComplete((value,error)->{if(error!=null)worker.shutdown();});return future;}
+    private static final class Tracker {String identity;boolean resolved;final Map<String,Double> fractions=new HashMap<>();Vector last;int sniper;final ArrayDeque<Double> rapid=new ArrayDeque<>();PlayerLife lastSource;int lastType=-1;}
+    private record Key(String identity,String stat){}
+    private final Thread owner=Thread.currentThread();private final ApplicationHost host;private final Prepared prepared;private final Function<JoinSession,Optional<Identity>> verified;private final LifeRuntime.Clock clock;private final OwnerLoop resume;private final boolean countBotKills;
+    private final Map<JoinSession,Tracker> connectionTrackers=new IdentityHashMap<>();private final Map<PlayerLife,Tracker> trackers=new IdentityHashMap<>();private final Map<String,AchievementStore.Account> accounts=new HashMap<>();private final Map<Key,Long> dirty=new LinkedHashMap<>(),persisting=new LinkedHashMap<>();private final Map<String,String> names=new HashMap<>();private final Map<String,AchievementStore.Request> requests=new LinkedHashMap<>();
+    private final Map<String,Long> faults=new LinkedHashMap<>();private CompletableFuture<Void> shutdown;private CompletionStage<Void> inFlight;private double flushIn=10,retryAt;private boolean roundOpen=true,closing,stopped;
+    public HostedAchievements(ApplicationHost host,Prepared prepared,Function<JoinSession,Optional<Identity>> verified,LifeRuntime.Clock clock,OwnerLoop resume,boolean countBotKills){this.host=Objects.requireNonNull(host);this.prepared=Objects.requireNonNull(prepared);this.verified=Objects.requireNonNull(verified);this.clock=Objects.requireNonNull(clock);this.resume=Objects.requireNonNull(resume);this.countBotKills=countBotKills;accounts.putAll(prepared.snapshot);host.achievements(this);}
+    private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Achievements outside owner");}
+    private Tracker tracker(PlayerLife p){return trackers.computeIfAbsent(p,key->{var session=host.transitionSessions().stream().filter(v->v.playerId().orElse(-1)==p.id()).findFirst().orElse(null);return session==null?new Tracker():connectionTrackers.computeIfAbsent(session,k->new Tracker());});}
+    public String identity(PlayerLife p){owned();if(p==null||p.bot())return null;var t=tracker(p);if(t.resolved)return t.identity;var session=host.transitionSessions().stream().filter(s->s.playerId().orElse(-1)==p.id()).findFirst();var id=session.flatMap(verified).orElse(null);t.identity=id!=null&&id.legacyId!=null?"aosplay:"+id.legacyId:id!=null&&id.steamId!=null?id.steamId:NameUnicode.strip(p.name()).isEmpty()?null:"name:"+NameUnicode.casefold(NameUnicode.strip(p.name()));t.resolved=true;return t.identity;}
+    private void fault(String label,Throwable failure){long n=faults.merge(label,1L,Long::sum);if(n==1)System.getLogger("achievements").log(System.Logger.Level.WARNING,"Achievement hook "+label+" failed",failure);}
+    public Map<String,Long> faults(){owned();return Map.copyOf(faults);}
+    public void guard(String label,Runnable action){owned();if(closing)return;try{action.run();}catch(RuntimeException failure){fault(label,failure);}}
+    public Map<String,Long> progress(String identity){owned();var out=new LinkedHashMap<>(accounts.getOrDefault(identity,new AchievementStore.Account(Map.of(),Map.of())).counters());for(var values:List.of(dirty,persisting))values.forEach((key,value)->{if(key.identity.equals(identity))out.merge(key.stat,value,Math::addExact);});return Map.copyOf(out);}
+    public Map<String,AchievementStore.Unlock> unlocked(String identity){owned();return accounts.getOrDefault(identity,new AchievementStore.Account(Map.of(),Map.of())).unlocks();}
+    public void add(PlayerLife p,String stat,long amount){owned();if(!AchievementCatalog.tiers().containsKey(stat))throw new IllegalArgumentException("Unknown achievement statistic");String id=identity(p);if(closing||id==null||amount<=0)return;names.put(id,p.name());dirty.merge(new Key(id,stat),amount,Math::addExact);long value=progress(id).getOrDefault(stat,0L);if(AchievementCatalog.tiers().get(stat).stream().anyMatch(t->value>=t.threshold()&&!unlocked(id).containsKey(t.apiName())))flush();}
+    public void fraction(PlayerLife p,String stat,double amount){owned();if(!Double.isFinite(amount)||amount<0)throw new IllegalArgumentException("Invalid achievement fraction");var t=tracker(p);double value=t.fractions.getOrDefault(stat,0.)+amount;long whole=(long)(value+1e-9);t.fractions.put(stat,Math.max(0,value-whole));if(whole>0)add(p,stat,whole);}
+    public void unlock(PlayerLife p,String api){owned();if(!AchievementCatalog.definitions().containsKey(api))throw new IllegalArgumentException("Unknown achievement");String id=identity(p);if(closing||id==null||unlocked(id).containsKey(api))return;names.put(id,p.name());requests.putIfAbsent(id+'\0'+api,new AchievementStore.Request(id,api,p.name()));flush();}
+    /** One immutable transaction at a time; failed deltas are restored exactly once for a later retry. */
+    public CompletionStage<Void> flush(){owned();if(stopped)return CompletableFuture.completedFuture(null);if(inFlight!=null)return inFlight;if(dirty.isEmpty()&&requests.isEmpty())return CompletableFuture.completedFuture(null);if(!closing&&clock.monotonic()<retryAt)return CompletableFuture.completedFuture(null);
+        var deltas=new LinkedHashMap<>(dirty);persisting.putAll(deltas);dirty.clear();var pending=new LinkedHashMap<>(requests);requests.clear();var rows=deltas.entrySet().stream().map(e->new AchievementStore.Delta(e.getKey().identity,e.getKey().stat,e.getValue(),names.getOrDefault(e.getKey().identity,"Player"))).toList();var result=new CompletableFuture<Void>();inFlight=result.minimalCompletionStage();double now=clock.wall();
+        CompletableFuture.supplyAsync(()->{try{return prepared.store.transact(rows,List.copyOf(pending.values()),Set.of(),now);}catch(java.io.IOException failure){throw new CompletionException(failure);}},prepared.worker).whenCompleteAsync((receipt,error)->{
+            inFlight=null;persisting.clear();if(error!=null){deltas.forEach((key,value)->dirty.merge(key,value,Math::addExact));pending.forEach(requests::putIfAbsent);retryAt=clock.monotonic()+5;fault("persist",error);result.completeExceptionally(error);return;}accounts.clear();accounts.putAll(receipt.accounts());retryAt=0;for(var created:receipt.created())try{host.broadcast(Announcements.localised("ACHIEVEMENT_GAINED",List.of(created.playerName(),AchievementCatalog.definitions().get(created.apiName()).displayName()),true,false),Delivery.RELIABLE);}catch(RuntimeException failed){fault("announce",failed);}result.complete(null);
+            if(!closing&&(!requests.isEmpty()||dirty.keySet().stream().anyMatch(key->AchievementCatalog.tiers().get(key.stat).stream().anyMatch(tier->progress(key.identity).getOrDefault(key.stat,0L)>=tier.threshold()&&!unlocked(key.identity).containsKey(tier.apiName())))))flush();
+        },resume);return result.minimalCompletionStage();
+    }
+    /** Durable, ordered master handoff; result composition can await this before reserving its envelope. */
+    public CompletionStage<List<String>> takeUnreported(String id){owned();if(closing)return CompletableFuture.completedFuture(List.of());double at=clock.wall();return flushFully().thenCompose(unused->CompletableFuture.supplyAsync(()->{try{return prepared.store.transact(List.of(),List.of(),Set.of(id),at);}catch(java.io.IOException failure){throw new CompletionException(failure);}},prepared.worker)).thenApplyAsync(receipt->{accounts.clear();accounts.putAll(receipt.accounts());return receipt.taken().getOrDefault(id,List.of());},resume);}
+    private CompletionStage<Void> flushFully(){owned();retryAt=0;return flush().thenComposeAsync(unused->dirty.isEmpty()&&requests.isEmpty()?CompletableFuture.completedFuture(null):flushFully(),resume);}
+    public void depart(PlayerLife p,boolean transition){owned();var t=trackers.remove(p);if(t!=null){t.last=null;t.lastSource=null;if(!transition)connectionTrackers.values().removeIf(current->current==t);}flushFully();}
+    public void round(boolean started){owned();roundOpen=started;}
+    public void matchStarted(){owned();roundOpen=true;var all=Collections.newSetFromMap(new IdentityHashMap<Tracker,Boolean>());all.addAll(trackers.values());all.addAll(connectionTrackers.values());for(var t:all){t.sniper=0;t.rapid.clear();t.lastSource=null;}}
+    public void matchEnded(){owned();roundOpen=false;flushFully();}
+    private static int c(String name){return AchievementCatalog.constant(name);}
+    private static boolean is(int value,String... constants){for(var constant:constants)if(value==c(constant))return true;return false;}
+    public void damaged(LifeRuntime.DamageEvidence event){owned();if(event.source()!=null&&event.source()!=event.victim()&&event.removed()>0){var t=tracker(event.victim());t.lastSource=event.source();t.lastType=event.killType();}}
+    public void resolved(ShotTally.Resolved event){owned();if(!event.hit()&&event.tool()==c("SNIPER_TOOL"))tracker(event.player()).sniper=0;}
+    public void died(StandardMatchDomain match,LifeRuntime.DeathEvidence event){owned();var victim=event.victim();var old=tracker(victim);var last=old.lastSource;int lastType=old.lastType;old.lastSource=null;var killer=event.killer();int type=event.presentationType();if(!roundOpen||match.mode().clock().ended||match.mode().clock().retiring||is(type,"FORCED_TEAM_CHANGE_KILL","TEAM_CHANGE_KILL","CLASS_CHANGE_KILL")||killer==null||killer==victim||killer.team()==victim.team()||!Set.of(2,3).contains(killer.team())||!Set.of(2,3).contains(victim.team())||killer.bot()||victim.bot()&&!countBotKills)return;
+        int tool=killer.inventory().tool();boolean gun=is(type,"WEAPON_KILL","HEADSHOT_KILL"),head=type==c("HEADSHOT_KILL"),melee=type==c("MELEE_KILL");boolean zombie=match.zombie().map(z->z.active()).orElse(false);boolean kz=zombie&&killer.team()==2,vz=zombie&&victim.team()==2;long streak=match.binding().row(killer).killStreak;var t=tracker(killer);
+        if(streak==5||streak==10||streak==15)unlock(killer,streak==5?"misc_five_in_a_row":streak==10?"misc_ten_in_a_row":"misc_fifteen_in_a_row");
+        if(melee){if(is(tool,"SPADE_TOOL","CLASSIC_SPADE_TOOL"))add(killer,"spade_kill_count",1);else if(tool==c("PICKAXE_TOOL"))add(killer,"pickaxe_kill_count",1);else if(tool==c("KNIFE_TOOL")&&vz)add(killer,"knife_zombie_count",1);}
+        if(head){if(tool==c("SNIPER_TOOL"))add(killer,"sniper_kill_count",1);else if(tool==c("SHOTGUN_TOOL"))add(killer,"shotgun_headshots_count",1);else if(tool==c("RIFLE_TOOL"))add(killer,"classic_rifle_headshot_count",1);else if(is(tool,"PISTOL_TOOL","SNUB_PISTOL_TOOL")&&vz)add(killer,"pistol_zombie_kill_count",1);}
+        if(gun&&tool==c("SNIPER_TOOL")){t.sniper++;if(t.sniper==3||t.sniper==6)unlock(killer,t.sniper==3?"sniper_accuracy":"sniper_accuracy_hard");}
+        if(gun&&tool==c("SNIPER2_TOOL")){double now=clock.monotonic();t.rapid.addLast(now);while(!t.rapid.isEmpty()&&now-t.rapid.getFirst()>AchievementCatalog.number("SNIPER2_RAPID_KILL_ACHIEVE_TIME"))t.rapid.removeFirst();if(t.rapid.size()>=c("SNIPER2_RAPID_KILL_ACHIEVE_COUNT"))unlock(killer,"sniper2_rapid_kill");}
+        if(killer.flight().snapshot().active()){add(killer,"jetpack_kill_count",1);if(gun&&tool==c("SMG_TOOL"))add(killer,"jetpack_smg_kill_count",1);}if(victim.diedJetpacking())unlock(killer,"jetpack_killed_using");if(killer.alive()&&killer.health()>0&&killer.health()<killer.maxHealth()*.1)add(killer,"low_health_kills",1);
+        if(type==c("FALL_KILL")){if(kz)unlock(killer,"zombie_fall");if(last==killer&&is(lastType,"ROCKET_KILL","ROCKET2_KILL"))unlock(killer,"rocket_fall");}
+        if(kz&&killer.body().state().wade())add(killer,"zombie_kills_in_water",1);if(match.modeCode().equals("cctf")&&killer.pickupId()!=null)add(killer,"classic_kills_with_intel_count",1);
+    }
+    public void tick(StandardMatchDomain match,double dt){owned();if(closing||!(dt>0&&dt<=1))return;if(roundOpen&&!match.mode().clock().ended&&!match.mode().clock().retiring)for(var p:match.lives().players()){if(p.bot())continue;var t=tracker(p);var at=p.position();var previous=t.last;t.last=at;if(!p.alive()||!Set.of(2,3).contains(p.team()))continue;if(p.body().state().airborne())fraction(p,"airborne_seconds_count",dt);else if(previous!=null){double distance=net.battlespades.combat.CombatGeometry.distance(previous,at);if(distance>0&&distance<=2)fraction(p,"distance_run",distance);}}
+        flushIn-=dt;if(flushIn<=0){flushIn=10;flush();}else if(retryAt>0&&clock.monotonic()>=retryAt)flush();
+    }
+    public CompletionStage<Void> shutdown(){owned();if(shutdown!=null&&!shutdown.isCompletedExceptionally())return shutdown.minimalCompletionStage();closing=true;shutdown=flushFully().thenComposeAsync(unused->CompletableFuture.runAsync(()->{},prepared.worker),resume).thenRunAsync(()->{stopped=true;prepared.worker.shutdown();trackers.clear();connectionTrackers.clear();},resume).toCompletableFuture();return shutdown.minimalCompletionStage();}
+    boolean stopped(){owned();return stopped;}
+}

@@ -16,7 +16,7 @@ final class HostedRoundRestart {
         return new RoundRestart<>(new RoundRestart.Services<PlayerLife>(){
             public boolean scoreboard(){return mode.scoreboardEnabled();}public void forceScores(boolean forced){match.scoreboard().forceScores(forced);}
             public CompletionStage<Void> prepareBots(){return prepareBots.get();}
-            public void resetRuntime(){resetHud.run();match.lives().resetRoundRuntime();}
+            public void resetRuntime(){match.hud().clear();resetHud.run();match.lives().resetRoundRuntime();}
             public List<TeamState> teams(){return match.teams();}public CompletionStage<Void> startMode(){return match.events().settleLeaves(mode).thenCompose(unused->{match.events().clear();host.discardTransitionPackets();return mode.startMode();});}
             public void teamScore(TeamState team){match.scoreboard().teamScore(team,null);}
             public List<PlayerLife> players(){return match.lives().players();}public boolean playable(PlayerLife p){return p.team()==2||p.team()==3;}

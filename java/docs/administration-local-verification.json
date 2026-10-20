@@ -63,7 +63,7 @@
     "passwords": {
       "changeme": "the [admin] password is still the shipped default \"changeme\"",
       "short": "the [admin] password is shorter than 12 characters",
-      "😀😀😀😀😀😀😀😀😀😀😀😀": null
+      "\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00\ud83d\ude00": null
     },
     "token_valid": true
   },
@@ -107,12 +107,70 @@
   "frozen_resource_comparison_commit": "b5bde32e291220a1d50d3353710bc13d58d2a9b6",
   "credential_log_redaction_verified_in_actual_udp_log": true,
   "ci": {
-    "status": "pending",
-    "all_five_jobs_passed": false
+    "status": "success",
+    "observed_at_utc": "2026-10-20T00:13:25.830724+00:00",
+    "run_id": 39345668802,
+    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39345668802",
+    "head_sha": "e50298b4f228319f8ccd2c3eed520573afb0a2ee",
+    "tested_tree": "90f75340795767b20aea0e4ef1cc380bd01bb95e",
+    "attempt": 1,
+    "all_five_jobs_passed": true,
+    "all_final_steps_verified": true,
+    "completed_jobs": 5,
+    "completed_final_steps": 65,
+    "jobs": [
+      {
+        "id": 118377524754,
+        "name": "native-enet",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 16
+      },
+      {
+        "id": 118377525065,
+        "name": "build",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 13
+      },
+      {
+        "id": 118378543979,
+        "name": "platform (windows-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 12
+      },
+      {
+        "id": 118378543981,
+        "name": "platform (macos-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 12
+      },
+      {
+        "id": 118378544075,
+        "name": "platform (ubuntu-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 12
+      }
+    ],
+    "configured_source_generators_reproduced": 78,
+    "repeated_archive_byte_comparison": true,
+    "identical_uploaded_artifact_smoked_on_platforms": 3,
+    "local_to_ci_artifact_hash_compared": false,
+    "summary": "All five CI jobs passed for implementation `e50298b4f228319f8ccd2c3eed520573afb0a2ee`, tested tree `90f75340795767b20aea0e4ef1cc380bd01bb95e`, in [run 39345668802](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39345668802). All 65 final steps succeeded or were intentionally skipped. Native impaired transport/loader checks and all 78 configured reference generators passed; the build byte-compared repeated archives. All three platform jobs smoked the uploaded artifact and passed component/integration tests. No local-to-CI artifact hash identity or supported-client acceptance is claimed. Observed 2026-10-20T00:13:25.830724+00:00."
   },
   "standalone_match_startup_enabled": false,
   "steam_master_authentication_bundled": false,
   "full_migration_complete": false,
   "full_python_baseline_passing": false,
-  "supported_client_acceptance": false
+  "supported_client_acceptance": false,
+  "implementation_commit": "e50298b4f228319f8ccd2c3eed520573afb0a2ee",
+  "tested_tree": "90f75340795767b20aea0e4ef1cc380bd01bb95e",
+  "publication": {
+    "status": "published",
+    "branch": "port/java25",
+    "implementation_commit": "e50298b4f228319f8ccd2c3eed520573afb0a2ee"
+  }
 }

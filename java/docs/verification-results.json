@@ -1,7 +1,7 @@
 {
   "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
-  "jar_sha256": "08ee5f09df13f9f7d7191b528bcbc308aaf67455335852066f6e0927bb756c2e",
-  "jar_bytes": 2602821,
+  "jar_sha256": "cfe106761bc7c21c0353af907e12f24625a3af8d6a7685ba421e3bfadc16e62f",
+  "jar_bytes": 2631945,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -20,26 +20,77 @@
   "repeated_build_identical": true,
   "junit": {
     "test": {
-      "suites": 114,
-      "tests": 6347,
+      "suites": 115,
+      "tests": 6350,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "integrationTest": {
       "suites": 4,
-      "tests": 60,
+      "tests": 63,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Administration services implemented; local Java verification passed; CI pending; three missing-GUI-dependency source failures retained",
-  "java_implementation_commit": "bd17e84603d2ef202df9c03cfca932267e3f4e2c",
-  "tested_tree": "ecfac3451c2692972131199fc3476542e0375fc6",
+  "verification_stage": "Administration services implemented and verified; all five CI jobs passed; three missing-tomlkit GUI reference failures retained",
+  "java_implementation_commit": "e50298b4f228319f8ccd2c3eed520573afb0a2ee",
+  "tested_tree": "90f75340795767b20aea0e4ef1cc380bd01bb95e",
   "ci": {
-    "status": "pending",
-    "all_five_jobs_passed": false
+    "status": "success",
+    "observed_at_utc": "2026-10-20T00:13:25.830724+00:00",
+    "run_id": 39345668802,
+    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39345668802",
+    "head_sha": "e50298b4f228319f8ccd2c3eed520573afb0a2ee",
+    "tested_tree": "90f75340795767b20aea0e4ef1cc380bd01bb95e",
+    "attempt": 1,
+    "all_five_jobs_passed": true,
+    "all_final_steps_verified": true,
+    "completed_jobs": 5,
+    "completed_final_steps": 65,
+    "jobs": [
+      {
+        "id": 118377524754,
+        "name": "native-enet",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 16
+      },
+      {
+        "id": 118377525065,
+        "name": "build",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 13
+      },
+      {
+        "id": 118378543979,
+        "name": "platform (windows-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 12
+      },
+      {
+        "id": 118378543981,
+        "name": "platform (macos-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 12
+      },
+      {
+        "id": 118378544075,
+        "name": "platform (ubuntu-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 12
+      }
+    ],
+    "configured_source_generators_reproduced": 78,
+    "repeated_archive_byte_comparison": true,
+    "identical_uploaded_artifact_smoked_on_platforms": 3,
+    "local_to_ci_artifact_hash_compared": false,
+    "summary": "All five CI jobs passed for implementation `e50298b4f228319f8ccd2c3eed520573afb0a2ee`, tested tree `90f75340795767b20aea0e4ef1cc380bd01bb95e`, in [run 39345668802](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39345668802). All 65 final steps succeeded or were intentionally skipped. Native impaired transport/loader checks and all 78 configured reference generators passed; the build byte-compared repeated archives. All three platform jobs smoked the uploaded artifact and passed component/integration tests. No local-to-CI artifact hash identity or supported-client acceptance is claimed. Observed 2026-10-20T00:13:25.830724+00:00."
   },
   "movement": {
     "cases": 118,
@@ -104,7 +155,7 @@
     "net/battlespades/catalog/modes.toml",
     "net/battlespades/catalog/rules.toml"
   ],
-  "local_packaging_note": "Two complete current local archives pass ZIP CRC and match byte-for-byte.",
+  "local_packaging_note": "Current application archive passes ZIP CRC; local repeat-build identity not measured for this batch. CI compared repeated application archives.",
   "admission": {
     "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
     "unicode": "15.0.0",
@@ -396,7 +447,7 @@
   "publication": {
     "status": "published",
     "branch": "port/java25",
-    "implementation_commit": "bd17e84603d2ef202df9c03cfca932267e3f4e2c"
+    "implementation_commit": "e50298b4f228319f8ccd2c3eed520573afb0a2ee"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -715,7 +766,6 @@
       "isolated_retry_same_assertions_passed": true
     }
   },
-  "both_archives_crc_valid": false,
   "reference_shot_geometry_tests": {
     "passed": 223,
     "failures": 0,
@@ -5996,7 +6046,7 @@
     "tested_tree": "83b43cd911c4f3d4ea8b516e571bb8e71d546b14",
     "published": true
   },
-  "repeated_build_verifier": "CI build job",
+  "repeated_build_verifier": "CI build job for e50298b4f228319f8ccd2c3eed520573afb0a2ee",
   "previous_ctf_checkpoint": {
     "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
     "verification_stage": "Accumulated runtime and CTF checkpoint verified locally and by all five CI jobs",
@@ -7961,14 +8011,72 @@
     "frozen_resource_comparison_commit": "b5bde32e291220a1d50d3353710bc13d58d2a9b6",
     "credential_log_redaction_verified_in_actual_udp_log": true,
     "ci": {
-      "status": "pending",
-      "all_five_jobs_passed": false
+      "status": "success",
+      "observed_at_utc": "2026-10-20T00:13:25.830724+00:00",
+      "run_id": 39345668802,
+      "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39345668802",
+      "head_sha": "e50298b4f228319f8ccd2c3eed520573afb0a2ee",
+      "tested_tree": "90f75340795767b20aea0e4ef1cc380bd01bb95e",
+      "attempt": 1,
+      "all_five_jobs_passed": true,
+      "all_final_steps_verified": true,
+      "completed_jobs": 5,
+      "completed_final_steps": 65,
+      "jobs": [
+        {
+          "id": 118377524754,
+          "name": "native-enet",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 16
+        },
+        {
+          "id": 118377525065,
+          "name": "build",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 13
+        },
+        {
+          "id": 118378543979,
+          "name": "platform (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 12
+        },
+        {
+          "id": 118378543981,
+          "name": "platform (macos-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 12
+        },
+        {
+          "id": 118378544075,
+          "name": "platform (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": 12
+        }
+      ],
+      "configured_source_generators_reproduced": 78,
+      "repeated_archive_byte_comparison": true,
+      "identical_uploaded_artifact_smoked_on_platforms": 3,
+      "local_to_ci_artifact_hash_compared": false,
+      "summary": "All five CI jobs passed for implementation `e50298b4f228319f8ccd2c3eed520573afb0a2ee`, tested tree `90f75340795767b20aea0e4ef1cc380bd01bb95e`, in [run 39345668802](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39345668802). All 65 final steps succeeded or were intentionally skipped. Native impaired transport/loader checks and all 78 configured reference generators passed; the build byte-compared repeated archives. All three platform jobs smoked the uploaded artifact and passed component/integration tests. No local-to-CI artifact hash identity or supported-client acceptance is claimed. Observed 2026-10-20T00:13:25.830724+00:00."
     },
     "standalone_match_startup_enabled": false,
     "steam_master_authentication_bundled": false,
     "full_migration_complete": false,
     "full_python_baseline_passing": false,
-    "supported_client_acceptance": false
+    "supported_client_acceptance": false,
+    "implementation_commit": "e50298b4f228319f8ccd2c3eed520573afb0a2ee",
+    "tested_tree": "90f75340795767b20aea0e4ef1cc380bd01bb95e",
+    "publication": {
+      "status": "published",
+      "branch": "port/java25",
+      "implementation_commit": "e50298b4f228319f8ccd2c3eed520573afb0a2ee"
+    }
   },
   "java_component_tests": 6350,
   "java_integration_tests": 63,

@@ -74,8 +74,59 @@
     "sha256": "e781be308e35d357187e45b727ac017affb04f0559f503c8f4ab1c15969d6810"
   },
   "ci": {
-    "status": "pending",
-    "all_five_jobs_passed": false
+    "status": "success",
+    "observed_at_utc": "2026-10-20T01:35:20.853725+00:00",
+    "run_id": 39353628603,
+    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39353628603",
+    "head_sha": "14d6f239a10684699874d103f918bd61738b4f67",
+    "tested_tree": "3430dcb1b8953cb209cee4d1265a4813a02e83a6",
+    "attempt": 1,
+    "all_five_jobs_passed": true,
+    "all_final_steps_verified": true,
+    "completed_jobs": 5,
+    "completed_final_steps": 65,
+    "jobs": [
+      {
+        "id": 118403334771,
+        "name": "build",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 13
+      },
+      {
+        "id": 118403335052,
+        "name": "native-enet",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 16
+      },
+      {
+        "id": 118404110775,
+        "name": "platform (windows-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 12
+      },
+      {
+        "id": 118404110794,
+        "name": "platform (ubuntu-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 12
+      },
+      {
+        "id": 118404110829,
+        "name": "platform (macos-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": 12
+      }
+    ],
+    "configured_source_generators_reproduced": 79,
+    "repeated_archive_byte_comparison": true,
+    "identical_uploaded_artifact_smoked_on_platforms": 3,
+    "local_to_ci_artifact_hash_compared": false,
+    "summary": "All five CI jobs passed for implementation `14d6f239a10684699874d103f918bd61738b4f67`, tested tree `3430dcb1b8953cb209cee4d1265a4813a02e83a6`, in [run 39353628603](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39353628603). All 65 final steps succeeded or were intentionally skipped. Native impaired transport/loader checks and all 79 configured reference generators passed; the build byte-compared repeated archives. All three platform jobs smoked the uploaded artifact and passed component/integration tests. No local-to-CI artifact hash identity or supported-client acceptance is claimed. Observed 2026-10-20T01:35:20.853725+00:00."
   },
   "full_migration_complete": false,
   "supported_client_acceptance": false,
@@ -84,5 +135,12 @@
     "Tutorial host and lessons",
     "achievement evaluation and local profile persistence",
     "master registration/authentication and complete standalone startup"
-  ]
+  ],
+  "implementation_commit": "14d6f239a10684699874d103f918bd61738b4f67",
+  "tested_tree": "3430dcb1b8953cb209cee4d1265a4813a02e83a6",
+  "publication": {
+    "status": "published",
+    "branch": "port/java25",
+    "implementation_commit": "14d6f239a10684699874d103f918bd61738b4f67"
+  }
 }

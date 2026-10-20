@@ -1,7 +1,7 @@
 {
   "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
-  "jar_sha256": "4845b683f93cff29dfbfe140a307b2719d8ce4ec4d5c7297f5038cd9140f931a",
-  "jar_bytes": 2680240,
+  "jar_sha256": "ec52b48ce0aa4bbcf1da0873d3f34759125461f4624a60800a6933fc1ee22ca5",
+  "jar_bytes": 2679721,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -104,7 +104,7 @@
     "net/battlespades/catalog/modes.toml",
     "net/battlespades/catalog/rules.toml"
   ],
-  "local_packaging_note": "Current application archive passes ZIP CRC; local repeated build identity not measured.",
+  "local_packaging_note": "Final application archive passes ZIP CRC; source export and packaged imports preserve original database bytes and reports.",
   "admission": {
     "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
     "unicode": "15.0.0",
@@ -8032,7 +8032,7 @@
   "full_migration_complete": false,
   "supported_client_acceptance": false,
   "round_results": {
-    "observed_utc": "2026-10-20T00:37:55.695747+00:00",
+    "observed_utc": "2026-10-20T00:42:43.937357+00:00",
     "base_commit": "69adcb5760b109c708194e3aa49e9b5f283742fb",
     "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
     "scope": "round/profile delta reservation, departed account credit, durable fleet spool/SQLite import, acknowledged HTTP delivery/retries and actual host reset/shutdown/offline binding",
@@ -8085,11 +8085,11 @@
       "http_and_packaged_import_integration": 2,
       "actual_udp_integration": 2
     },
-    "gradle": "check build passed in 28s; unchanged 6,353 component results reused after correcting only the new UDP test clock driver",
+    "gradle": "Final full component and integration check build passed after removal of automatic unindexed-payload deletion; no assertions or deadlines weakened",
     "initial_verification_correction": "A 35-second UDP network-time jump expired a peer in the slot-reuse test. Advancing only its controlled result UTC clock preserves real peer liveness; credit/identity assertions and deadlines were not relaxed.",
     "assertions_or_deadlines_weakened": false,
-    "jar_sha256": "4845b683f93cff29dfbfe140a307b2719d8ce4ec4d5c7297f5038cd9140f931a",
-    "jar_bytes": 2680240,
+    "jar_sha256": "ec52b48ce0aa4bbcf1da0873d3f34759125461f4624a60800a6933fc1ee22ca5",
+    "jar_bytes": 2679721,
     "jar_crc_valid": true,
     "java_class_major": 69,
     "smoke": {
@@ -8111,7 +8111,7 @@
     },
     "production_source_fingerprint": {
       "files": 293,
-      "sha256": "08e12d36caa6493ce9e02763e5eb7aaaa2e915b9dc355a01aa05b38733126527"
+      "sha256": "0b96509b076af01fabee5e53357dc6547d18e5e375e06b60b63177053c74f083"
     },
     "six_source_directories_match": "546c548780c400f21d73ca6713f86194ceb3c844",
     "frozen_resource_paths_unchanged": 262,
@@ -8127,6 +8127,14 @@
     "achievement_evaluation_or_local_profile_database_implemented": false,
     "full_migration_complete": false,
     "full_python_baseline_passing": false,
-    "supported_client_acceptance": false
+    "supported_client_acceptance": false,
+    "verification_parent_commit": "155314e6e872f4bf6ce9a92d26d01aa96bb61284",
+    "preservation_followup": {
+      "unrelated_hash_named_spool_files_preserved": true,
+      "automatic_unindexed_payload_cleanup_removed": true,
+      "packaged_import_attempts_on_final_artifact": 2,
+      "earlier_implementation": "155314e6e872f4bf6ce9a92d26d01aa96bb61284",
+      "earlier_ci_run": 39348898786
+    }
   }
 }

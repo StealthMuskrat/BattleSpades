@@ -1,6 +1,6 @@
 Migration CI policy: build, native ENet, Linux and Windows only. **Defer macOS testing until the full migration is complete**, then run macOS acceptance.
 
-Current checkpoint: [standalone hosting and update operations](docs/STANDALONE_HOSTING.md). Local verification: 6,463 Java tests, 52 selected original source tests and all four required CI jobs pass. The migration remains incomplete.
+Current checkpoint: [bot foundations](docs/BOT_FOUNDATIONS.md). Local verification: 6,474 Java tests and 73 selected original source tests pass; four-job CI pending. Live bots remain gated and the migration remains incomplete.
 
 # Standard hosted voting checkpoint
 

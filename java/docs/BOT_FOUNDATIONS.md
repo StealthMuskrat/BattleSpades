@@ -1,0 +1,51 @@
+# Bot worker, perception and navigation foundations
+
+This batch ports a connected group of bot subsystems to pure Java. It supplies immutable perception/action proposals, seeded personalities, adaptive difficulty, approximate hearing, fair planning credits, compact collision snapshots, semantic navigation/cache data, retained corridor guidance, path following and a worker lifecycle. A decision controller is a required worker binding; production code never supplies a fixture controller.
+
+**Live bots remain unavailable in standalone hosting.** The detailed local movement/breach/water/construction planner, `SimpleBotBrain`, authoritative director/motor/action gateway, mode policies and cooperative tactics still require migration. `ServerSettings` continues rejecting `bots.enabled=true`. This batch does not claim complete bot AI, supported-client acceptance or fleet capacity. macOS testing remains deferred until the complete migration is finished.
+
+## Source mapping
+
+| Original source | Java implementation | Coverage |
+| --- | --- | --- |
+| `messages.py` | `BotState`, `BotMessages`, `BotProfile` | Detached state and proposals, life/map/mode/topology fences, immutable lists and nested diagnostics; process snapshot framing and authored prefab geometry remain pending |
+| `profiles.py` | `BotProfileFactory` | Separate deterministic trait/name streams, legacy name-draw replay, mixed bands, length limits, release and bounded fallback |
+| `skill_balance.py` | `BotSkillBalancer` | Human K/D/score edge, per-team targets, bounded smoothing, band unions, original profile bases, team/generation changes and disabled recovery; caller supplies numeric settings |
+| `stimuli.py` | `BotStimulusBus` | Event/cadence gates, retail hearing distance, footsteps, expiry, own/squad filtering, distance-ranked uncertain positions and source random draw order |
+| `planning_budget.py` | `PlanningBudget` | FIFO claims, decision ownership, shared search/expansion limits, credit refunds, live waiter refresh, expiry, scaling and bounded profiling |
+| `compact_vxl.py` | `CompactVoxelMap` | Collision-only VXL spans, implicit underground/floor, classic/retail height handling, exposed marker removal and canonical edits |
+| `navigation_atlas.py` | `NavigationAtlas`, `Blake2s128` | Surface layers, components, clearance/passages, monotonic shore flow, validated source cache envelopes and atomic writes |
+| `simple_navigation.py` | `BotNavigationWorld` | Snapshot/delta ownership, block-health overlays, column-version route invalidation, LOS, nearest/goal supports and budgeted corridor setup; detailed local route planning remains pending |
+| `surface_corridor.py` | `SurfaceCorridorSearch` | Retained bidirectional weighted A*, layer-aware reverse traversal, fixed work bounds, exclusions, stale-chain refusal and corner guidance |
+| `path_following.py` | `PathFollowing` | Actual collision-world body-wide lookahead, safe ledges, ceiling/footprint checks, stable steering/gaze, exact-edge alignment and route progress |
+| `thread_supervisor.py` and active worker batch wrappers | `BotWorker` | Snapshot/terrain/frame coalescing, newest-generation frames, owner-isolated decisions, bad-snapshot quarantine, clean recycle, crash recovery, detached diagnostics and retained shutdown |
+
+The source remains unchanged at `546c548780c400f21d73ca6713f86194ceb3c844`. `bot-foundations.toml` exports source data separately from the handwritten policies. No Python, native VXL code, Recast, process launcher or new runtime dependency is packaged.
+
+## Ownership and execution
+
+The producer owns profiles, hearing, adaptive scaling and worker publication. One background thread owns its `BotNavigationWorld`, collision field, planning budget, corridor searches and controller. Ownership checks reject direct gameplay-thread reads of mutable worker state. Frames/results contain detached records, not live players, modes or worlds. Collections and nested diagnostic containers are copied and immutable; map rebasing reuses privately retained immutable source bytes rather than copying megabytes under the publication lock.
+
+The worker applies the complete snapshot and coalesced committed deltas before invoking a controller. It discards frames for another map or a future topology and upgrades an older topology label to the current private world before deciding. Observer exceptions reset only that controller. Full snapshots recreate the controller even for the same epoch, matching clean-slate recycling. A rejected snapshot is quarantined for its publication serial, so it is not parsed repeatedly until a fresh snapshot or explicit restart arrives.
+
+Unexpected worker exit can be recovered by the producer from the retained canonical snapshot plus terrain overlay. Fatal failures are reported through the supplied failure callback. Stop joins the exact worker; if the deadline expires, its ownership and retained state are kept and replacement is refused until that thread exits. A successful close clears its queues. Callback and clock suppliers must be safe on the worker thread.
+
+Per-observer frames coalesce by `(id, generation)`; a 256-entry bound accommodates the protocol roster and rejects excess queued generations. Results retain at most 128 intents. Canonical terrain deltas coalesce by cell, and the source 65,536-pending-cell rebase signal is exposed for the future director. The caller must honor that signal and replace the canonical base; retained terrain overlays are not a fixed-size evicting cache. No old terrain is silently discarded.
+
+## Navigation behavior
+
+The private collision field uses four 64-bit words per column and retains no colors or authoritative world handle. Atlas data is read-only after construction. Source `.botnav` version-2 files use fixed-width planes, a 16-byte BLAKE2s source identity and bounded zlib data. Decode verifies the dimensions, declared lengths, digest, flags, regions, adjacency and strictly decreasing water distances. Corrupt/stale caches fall back to a freshly computed atlas. The BLAKE2s implementation follows [RFC 7693](https://www.rfc-editor.org/rfc/rfc7693); source digest vectors cover empty input and block boundaries, and integration checks decode the shipped MayanJungle cache against its actual VXL bytes.
+
+Global corridor guidance spends at most 512 expansions per slice, 32,768 expansions overall and 32,768 discovered entries. It preserves its frontiers while waiting for planning credit. Late edge exclusions are checked against a completed parent chain; invalidated chains are refused. Guidance points still require the unported detailed planner and authoritative motor before execution.
+
+Delta stamps invalidate nearby route neighborhoods, compacted segments and breach cells while preserving routes after distant edits. A body with stalled exact steps reconsiders its route. Body-wide walking checks use the actual collision field, including shoulder clearance, footprint-induced lifting, ceiling clearance, safe drops and water refusal. These helpers do not authorize a gameplay action.
+
+## Evidence
+
+`bot-foundations.json` is generated by calling the unchanged original methods. It includes 120 profile creations across five seeded/name-limit streams; 789 planning boundaries; sensory cadence/uncertainty/expiry/capacity observations; adaptive scaling and twelve roster updates; twelve complete atlas plane sets and source cache envelopes; malformed cache rejections; compact classic/retail/marker snapshots; ten connected terrain/corridor transitions; four retained search runs; and exact-edge alignment observations. The long corridor needs nine slices, so the retained-work limit is exercised beyond one decision interval.
+
+Worker integration uses real private VXL worlds with a controlled controller supplied only by the test. It verifies worker ownership, newest-frame/terrain coalescing, current-topology handoff, per-observer failure isolation, heartbeat acknowledgment, detached metrics, same-map recycling, bad-snapshot recovery, fatal-exit recovery with retained terrain, and shutdown timeout ownership. This demonstrates the foundation interfaces, not a migrated production brain or director.
+
+## Checkpoint verification
+
+Implemented immutable bot state and messages, seeded profiles, hearing and footsteps, fair planning credits, adaptive skill balancing, collision-only VXL snapshots, semantic navigation atlases and source-compatible cache encoding, retained corridor search, path-following helpers and a private-world worker lifecycle. Restart and crash recovery preserve terrain overlays; snapshots, stale observations, bounded mailboxes and close timeouts have explicit ownership rules. **6,474 Java tests pass** (6,384 component + 90 integration), zero failures/errors/skips. All 73 selected unchanged-source planning, voxel, atlas, skill and path-following regressions pass. New source observations cover 120 profiles, 789 planning boundaries, 21 sensory actions, 12 adaptive updates, 12 complete atlases, five compact snapshots, 10 world transitions and four retained corridor searches; the shipped MayanJungle cache decodes against its raw map. Strict Java 25 check/build, portability and distributions pass. The CRC-valid JAR is 3124266 bytes, SHA-256 `81b91376f3d753637c348bccc89a57bc07139e9b5608bdd9514450daa18c0005`, class major 69. Eight original source directories and all 270 previous resources remain unchanged; two new resources bring the total to 272, with 85 configured source generators. The four required CI jobs are pending for this implementation; macOS is deferred until the full migration is complete. **Live bots remain gated:** the detailed local planner, real brain, director, gateway and host composition remain unfinished. The full migration remains incomplete. See [BOT_FOUNDATIONS.md](BOT_FOUNDATIONS.md).

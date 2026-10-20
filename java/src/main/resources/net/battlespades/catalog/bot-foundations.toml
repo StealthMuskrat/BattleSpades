@@ -1,0 +1,36 @@
+# Unchanged source 546c548780c400f21d73ca6713f86194ceb3c844
+handles = ["Pancake", "Noodles", "Biscuit", "Pickles", "Waffles", "Nugget", "Muffin", "Taco", "Pretzel", "Meatball", "Dumpling", "Toast", "Crumbs", "Beans", "Tater", "Sprout", "Pudding", "Churro", "Gumbo", "Nacho", "Cheddar", "Bagel", "Kiwi", "Mango", "Moose", "Goose", "Hamster", "Walrus", "Possum", "Gecko", "Ferret", "Llama", "Panda", "Koala", "Beaver", "Badger", "Otter", "Raccoon", "Pigeon", "Lobster", "Narwhal", "Capybara", "Frosty", "Sparky", "Rusty", "Dusty", "Smokey", "Ziggy", "Buster", "Scooter", "Rocco", "Boomer", "Tank", "Diesel", "Chunk", "Skipper", "Bubbles", "Wobble", "Doodle", "Zippy", "Gizmo", "Widget", "Sprocket", "Pixel", "Glitch", "Lagger", "Ping", "Noob", "Newbie", "Rookie", "Camper", "Spawny", "SpadeLord", "BlockHead", "DirtDigger", "MoleMan", "Trencher", "Sandbag", "Bunker", "Voxelman", "Cubey", "Blocky", "Bricky", "Shovel", "Pickaxe", "Digger", "Tunneler", "Sapper", "Grenadier", "BlockBandit", "DirtNap", "MudMonkey", "SodBuster", "Gravel", "Scaffold", "Pillbox", "Foxhole", "Dugout", "Rampart", "Parapet", "Intel", "FlagRunner", "Tentmaker", "Jetboy", "RocketMan", "Sniperwolf", "Headhunter", "Spadewalker", "Cratebox", "Minesweep", "JustVibing", "SadPotato", "AngryToast", "LazyLlama", "SleepyBear", "HungryHippo", "CoffeeCup", "TeaTime", "Chonk", "Snacks", "SnackAttack", "BigSnacc", "Yeet", "Oof", "Bonk", "Bruh", "Kaboom", "Splat", "Thunk", "Kerplunk", "Boop", "Grumpy", "Wiggles", "Tofu", "Pesto", "Mochi", "Ramen"]
+titles = ["Sgt", "Cpl", "Pvt", "Doc", "Mr", "Captain", "Major", "Lil", "Big", "The"]
+adjectives = ["Sneaky", "Lucky", "Rusty", "Dusty", "Crispy", "Salty", "Spicy", "Soggy", "Grumpy", "Sleepy", "Fuzzy", "Tiny", "Mega", "Turbo", "Silent", "Brave", "Clumsy", "Wild", "Swift", "Frosty", "Cosmic", "Rogue", "Shady", "Chill", "Toxic", "Lazy", "Mighty", "Wobbly"]
+nouns = ["Mole", "Badger", "Fox", "Hawk", "Otter", "Raven", "Wolf", "Yak", "Potato", "Toaster", "Brick", "Shovel", "Cactus", "Pickle", "Goblin", "Turtle", "Ninja", "Pirate", "Viking", "Wizard", "Gnome", "Duck", "Sniper", "Digger", "Camper", "Rocket", "Bandit", "Noodle"]
+legacy_callsigns = ["Atlas", "Bishop", "Bolt", "Comet", "Echo", "Flint", "Ghost", "Harbor", "Ibis", "Juno", "Kestrel", "Mako", "Nova", "Orbit", "Pixel", "Quartz", "Rook", "Sable", "Tango", "Vex", "Warden"]
+legacy_adjectives = ["Blue", "Brisk", "Calm", "Copper", "Dusty", "Lucky", "Quiet", "Red", "Silver", "Swift", "Wild"]
+legacy_nouns = ["Badger", "Crow", "Fox", "Hawk", "Mole", "Otter", "Raven", "Wolf", "Yak"]
+classes = [0, 1, 12, 3, 16, 17]
+suffixes = ["7", "9", "11", "12", "13", "21", "23", "33", "42", "77", "88", "99", "123", "01", "02", "04", "07", "94", "97", "98", "2k", "_", "_x", "YT", "HD"]
+hearing_distance = 50.0
+map_block_health = 5.0
+
+[bands.casual]
+skill = [0.2, 0.45]
+reaction = [0.38, 0.65]
+tracking = [0.18, 0.32]
+turn_speed = [2.0, 3.2]
+turn_acceleration = [7.0, 11.0]
+aim_noise = [0.2, 0.28]
+
+[bands.normal]
+skill = [0.45, 0.72]
+reaction = [0.22, 0.45]
+tracking = [0.09, 0.2]
+turn_speed = [3.0, 4.8]
+turn_acceleration = [10.0, 17.0]
+aim_noise = [0.055, 0.105]
+
+[bands.hard]
+skill = [0.7, 0.9]
+reaction = [0.18, 0.3]
+tracking = [0.05, 0.13]
+turn_speed = [4.0, 5.8]
+turn_acceleration = [14.0, 22.0]
+aim_noise = [0.022, 0.055]

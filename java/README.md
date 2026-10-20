@@ -1,6 +1,6 @@
 Migration CI policy: build, native ENet, Linux and Windows only. **Defer macOS testing until the full migration is complete**, then run macOS acceptance.
 
-Current checkpoint: [runtime team rules, statistical anticheat review and administrator commands](docs/HUD_AND_ANTICHEAT_REVIEW.md). Local verification: 6,441 Java tests and 41 selected original source tests pass; four-job CI pending. The migration remains incomplete.
+Current checkpoint: [runtime team rules, statistical anticheat review and administrator commands](docs/HUD_AND_ANTICHEAT_REVIEW.md). Local verification: 6,441 Java tests, 41 selected original source tests and all four required CI jobs pass. The migration remains incomplete.
 
 # Standard hosted voting checkpoint
 

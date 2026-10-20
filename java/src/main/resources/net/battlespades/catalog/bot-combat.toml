@@ -1,0 +1,79 @@
+# Unchanged source 546c548780c400f21d73ca6713f86194ceb3c844
+zombie_classes = [4, 14, 15]
+undirected_damage = [18, 25]
+fire_reach = 3.0
+fire_spread = 2.0
+fire_seconds = 4.0
+molotov_speed = 40.0
+molotov_tool = 33
+hearing_distance = 50.0
+
+[[envelope]]
+category = "sniper"
+ideal_min = 40.0
+ideal_max = 120.0
+hard_max = 160.0
+prefers_stationary = true
+burst_shots = [1, 1]
+burst_pause = [0.9, 1.8]
+recoil = 0.09
+
+[[envelope]]
+category = "rifle"
+ideal_min = 25.0
+ideal_max = 70.0
+hard_max = 120.0
+prefers_stationary = false
+burst_shots = [2, 4]
+burst_pause = [0.5, 1.1]
+recoil = 0.055
+
+[[envelope]]
+category = "smg"
+ideal_min = 8.0
+ideal_max = 30.0
+hard_max = 60.0
+prefers_stationary = false
+burst_shots = [4, 8]
+burst_pause = [0.35, 0.8]
+recoil = 0.03
+
+[[envelope]]
+category = "shotgun"
+ideal_min = 4.0
+ideal_max = 14.0
+hard_max = 30.0
+prefers_stationary = false
+burst_shots = [1, 2]
+burst_pause = [0.4, 0.9]
+recoil = 0.075
+
+[[envelope]]
+category = "mg"
+ideal_min = 15.0
+ideal_max = 50.0
+hard_max = 90.0
+prefers_stationary = true
+burst_shots = [6, 12]
+burst_pause = [0.6, 1.2]
+recoil = 0.04
+
+[[envelope]]
+category = "pistol"
+ideal_min = 6.0
+ideal_max = 25.0
+hard_max = 50.0
+prefers_stationary = false
+burst_shots = [2, 3]
+burst_pause = [0.4, 0.9]
+recoil = 0.045
+
+[[envelope]]
+category = "default"
+ideal_min = 10.0
+ideal_max = 35.0
+hard_max = 70.0
+prefers_stationary = false
+burst_shots = [2, 5]
+burst_pause = [0.4, 1.0]
+recoil = 0.0

@@ -1,7 +1,7 @@
 {
   "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
-  "jar_sha256": "8c575e6f917e99e6e5b40a01746c4f2fcc4233daf32d0ec6ed16de4e8872c5b7",
-  "jar_bytes": 3155506,
+  "jar_sha256": "c72e4b7a8fe222e50314457430e9a0ead9b8f9b52324da7de70dd8c0de3a5230",
+  "jar_bytes": 3207951,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -17,11 +17,11 @@
     "META-INF/THIRD_PARTY_NOTICES.md",
     "META-INF/JAVA-THIRD-PARTY-NOTICES.md"
   ],
-  "repeated_build_identical": true,
+  "repeated_build_identical": false,
   "junit": {
     "test": {
-      "suites": 125,
-      "tests": 6388,
+      "suites": 126,
+      "tests": 6393,
       "failures": 0,
       "errors": 0,
       "skipped": 0
@@ -34,405 +34,15 @@
       "skipped": 0
     }
   },
-  "verification_stage": "Bot local navigation verified with 6478 Java tests, 110 selected source tests and all four required CI jobs; macOS deferred until full migration completion",
-  "java_implementation_commit": "faa77d64ef8a26fce2f71d4810223c8a99e51065",
-  "tested_tree": "bbabe41eda3547cc0852c4aa6c2daddfe7c7af09",
+  "verification_stage": "Bot combat and awareness locally verified; four required CI jobs pending; macOS deferred until full migration completion",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "required_checks_passed_macos_deferred",
-    "observed_at_utc": "2026-10-20T21:15:44.990511+00:00",
-    "run_id": 39497419697,
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39497419697",
-    "head_sha": "faa77d64ef8a26fce2f71d4810223c8a99e51065",
-    "tested_tree": "bbabe41eda3547cc0852c4aa6c2daddfe7c7af09",
-    "attempt": 2,
-    "all_required_jobs_passed": true,
-    "all_required_final_steps_verified": true,
+    "status": "pending",
     "required_jobs": 4,
-    "completed_required_final_steps": 53,
-    "jobs": [
-      {
-        "id": 118889755021,
-        "name": "platform (ubuntu-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "run_id": 39497419697,
-        "logs_url": null,
-        "steps": [
-          {
-            "name": "Set up job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 1
-          },
-          {
-            "name": "Run actions/checkout@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 2
-          },
-          {
-            "name": "Run actions/setup-java@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 3
-          },
-          {
-            "name": "Run gradle/actions/setup-gradle@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 4
-          },
-          {
-            "name": "Run actions/download-artifact@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 5
-          },
-          {
-            "name": "Run identical application artifact",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 6
-          },
-          {
-            "name": "Component tests on platform",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 7
-          },
-          {
-            "name": "Run actions/upload-artifact@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 8
-          },
-          {
-            "name": "Post Run gradle/actions/setup-gradle@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 14
-          },
-          {
-            "name": "Post Run actions/setup-java@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 15
-          },
-          {
-            "name": "Post Run actions/checkout@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 16
-          },
-          {
-            "name": "Complete job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 17
-          }
-        ]
-      },
-      {
-        "id": 118889755403,
-        "name": "native-enet",
-        "status": "completed",
-        "conclusion": "success",
-        "run_id": 39497419697,
-        "logs_url": null,
-        "steps": [
-          {
-            "name": "Set up job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 1
-          },
-          {
-            "name": "Run actions/checkout@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 2
-          },
-          {
-            "name": "Run actions/setup-java@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 3
-          },
-          {
-            "name": "Run gradle/actions/setup-gradle@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 4
-          },
-          {
-            "name": "Run actions/setup-python@v5",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 5
-          },
-          {
-            "name": "Compile Java transport probe",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 6
-          },
-          {
-            "name": "Build development-only native ENet oracle",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 7
-          },
-          {
-            "name": "Native interoperability with loss, reorder, duplicates and reconnect",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 8
-          },
-          {
-            "name": "Native application loader, password, live catch-up and scene reload",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 9
-          },
-          {
-            "name": "Rebuild original world and scene oracles and reproduce fixtures",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 10
-          },
-          {
-            "name": "Run actions/upload-artifact@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 11
-          },
-          {
-            "name": "Post Run actions/setup-python@v5",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 19
-          },
-          {
-            "name": "Post Run gradle/actions/setup-gradle@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 20
-          },
-          {
-            "name": "Post Run actions/setup-java@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 21
-          },
-          {
-            "name": "Post Run actions/checkout@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 22
-          },
-          {
-            "name": "Complete job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 23
-          }
-        ]
-      },
-      {
-        "id": 118889756536,
-        "name": "platform (windows-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "run_id": 39497419697,
-        "logs_url": null,
-        "steps": [
-          {
-            "name": "Set up job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 1
-          },
-          {
-            "name": "Run actions/checkout@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 2
-          },
-          {
-            "name": "Run actions/setup-java@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 3
-          },
-          {
-            "name": "Run gradle/actions/setup-gradle@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 4
-          },
-          {
-            "name": "Run actions/download-artifact@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 5
-          },
-          {
-            "name": "Run identical application artifact",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 6
-          },
-          {
-            "name": "Component tests on platform",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 7
-          },
-          {
-            "name": "Run actions/upload-artifact@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 8
-          },
-          {
-            "name": "Post Run gradle/actions/setup-gradle@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 14
-          },
-          {
-            "name": "Post Run actions/setup-java@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 15
-          },
-          {
-            "name": "Post Run actions/checkout@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 16
-          },
-          {
-            "name": "Complete job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 17
-          }
-        ]
-      },
-      {
-        "id": 118889817708,
-        "name": "build",
-        "status": "completed",
-        "conclusion": "success",
-        "run_id": 39497419697,
-        "logs_url": null,
-        "steps": [
-          {
-            "name": "Set up job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 1
-          },
-          {
-            "name": "Run actions/checkout@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 2
-          },
-          {
-            "name": "Run actions/setup-java@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 3
-          },
-          {
-            "name": "Run gradle/actions/setup-gradle@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 4
-          },
-          {
-            "name": "Build and verify migration components",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 5
-          },
-          {
-            "name": "Core configuration smoke test",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 6
-          },
-          {
-            "name": "Verify reproducible application archive",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 7
-          },
-          {
-            "name": "Run actions/upload-artifact@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 8
-          },
-          {
-            "name": "Run actions/upload-artifact@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 9
-          },
-          {
-            "name": "Post Run gradle/actions/setup-gradle@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 16
-          },
-          {
-            "name": "Post Run actions/setup-java@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 17
-          },
-          {
-            "name": "Post Run actions/checkout@v4",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 18
-          },
-          {
-            "name": "Complete job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 19
-          }
-        ]
-      }
-    ],
-    "configured_source_generators_reproduced": 86,
-    "repeated_archive_byte_comparison": true,
-    "identical_uploaded_artifact_smoked_on_platforms": [
-      "ubuntu-latest",
-      "windows-latest"
-    ],
-    "local_to_ci_artifact_hash_compared": false,
-    "full_reference_python_baseline_passing": false,
-    "macos": {
-      "deferred": true,
-      "until": "Full migration completion",
-      "jobs_launched_for_this_checkpoint": 0
-    },
-    "initial_linux_timeout": {
-      "attempt": 1,
-      "job_id": 118887273983,
-      "job_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39497419697/job/118887273983",
-      "test": "standaloneProductionCompositionHostsUdpPeersReloadsMapsChangesModesAndStopsDurably",
-      "failure": "UDP application loop timed out during existing standalone map reload at ApplicationIntegrationTest.java:132",
-      "single_failed_job_retried": true,
-      "code_changed_for_retry": false,
-      "final_retry_passed": true,
-      "intermittent_timing_failure_resolved": false
-    }
+    "all_required_jobs_passed": false,
+    "macos_deferred_until_full_migration_complete": true,
+    "full_reference_python_baseline_passing": false
   },
   "movement": {
     "cases": 118,
@@ -788,9 +398,8 @@
   },
   "publication": {
     "branch": "port/java25",
-    "implementation_commit": "faa77d64ef8a26fce2f71d4810223c8a99e51065",
-    "tested_tree": "bbabe41eda3547cc0852c4aa6c2daddfe7c7af09",
-    "status": "verified implementation published; this checkpoint records required CI checks"
+    "verification_parent": "fbe0bc32a79f99dbab9fe9cf3ed0a00385a32d2c",
+    "status": "implementation pending publication"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -6661,7 +6270,7 @@
     "six_reference_directories_exactly_match_main": true,
     "files_unchanged_from_import": true
   },
-  "repeated_build_scope": "CI byte-compared repeated archives; Linux and Windows smoked the identical uploaded artifact. macOS acceptance is deferred; local-to-CI archive hashes were not compared.",
+  "repeated_build_scope": "CRC verified locally; repeated archive byte comparison pending in CI.",
   "previous_capture_zone_checkpoint": {
     "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
     "verification_stage": "Updated upstream and TC/Multi-Hill checkpoint verified locally; four CI jobs passed, macOS queued awaiting runner",
@@ -8421,9 +8030,9 @@
       "implementation_commit": "e50298b4f228319f8ccd2c3eed520573afb0a2ee"
     }
   },
-  "java_component_tests": 6388,
+  "java_component_tests": 6393,
   "java_integration_tests": 90,
-  "java_tests": 6478,
+  "java_tests": 6483,
   "full_migration_complete": false,
   "supported_client_acceptance": false,
   "round_results": {
@@ -17924,5 +17533,512 @@
     },
     "java_implementation_commit": "faa77d64ef8a26fce2f71d4810223c8a99e51065",
     "tested_tree": "bbabe41eda3547cc0852c4aa6c2daddfe7c7af09"
+  },
+  "previous_bot_navigation_checkpoint": {
+    "java_implementation_commit": "faa77d64ef8a26fce2f71d4810223c8a99e51065",
+    "tested_tree": "bbabe41eda3547cc0852c4aa6c2daddfe7c7af09",
+    "ci": {
+      "status": "required_checks_passed_macos_deferred",
+      "observed_at_utc": "2026-10-20T21:15:44.990511+00:00",
+      "run_id": 39497419697,
+      "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39497419697",
+      "head_sha": "faa77d64ef8a26fce2f71d4810223c8a99e51065",
+      "tested_tree": "bbabe41eda3547cc0852c4aa6c2daddfe7c7af09",
+      "attempt": 2,
+      "all_required_jobs_passed": true,
+      "all_required_final_steps_verified": true,
+      "required_jobs": 4,
+      "completed_required_final_steps": 53,
+      "jobs": [
+        {
+          "id": 118889755021,
+          "name": "platform (ubuntu-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 39497419697,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/download-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run identical application artifact",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Component tests on platform",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Post Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Post Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            }
+          ]
+        },
+        {
+          "id": 118889755403,
+          "name": "native-enet",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 39497419697,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Compile Java transport probe",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Build development-only native ENet oracle",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Native interoperability with loss, reorder, duplicates and reconnect",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Native application loader, password, live catch-up and scene reload",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Rebuild original world and scene oracles and reproduce fixtures",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Post Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Post Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 21
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 22
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 23
+            }
+          ]
+        },
+        {
+          "id": 118889756536,
+          "name": "platform (windows-latest)",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 39497419697,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/download-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run identical application artifact",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Component tests on platform",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Post Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Post Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            }
+          ]
+        },
+        {
+          "id": 118889817708,
+          "name": "build",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 39497419697,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Build and verify migration components",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Core configuration smoke test",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Verify reproducible application archive",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Post Run gradle/actions/setup-gradle@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Post Run actions/setup-java@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            }
+          ]
+        }
+      ],
+      "configured_source_generators_reproduced": 86,
+      "repeated_archive_byte_comparison": true,
+      "identical_uploaded_artifact_smoked_on_platforms": [
+        "ubuntu-latest",
+        "windows-latest"
+      ],
+      "local_to_ci_artifact_hash_compared": false,
+      "full_reference_python_baseline_passing": false,
+      "macos": {
+        "deferred": true,
+        "until": "Full migration completion",
+        "jobs_launched_for_this_checkpoint": 0
+      },
+      "initial_linux_timeout": {
+        "attempt": 1,
+        "job_id": 118887273983,
+        "job_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39497419697/job/118887273983",
+        "test": "standaloneProductionCompositionHostsUdpPeersReloadsMapsChangesModesAndStopsDurably",
+        "failure": "UDP application loop timed out during existing standalone map reload at ApplicationIntegrationTest.java:132",
+        "single_failed_job_retried": true,
+        "code_changed_for_retry": false,
+        "final_retry_passed": true,
+        "intermittent_timing_failure_resolved": false
+      }
+    },
+    "jar_sha256": "8c575e6f917e99e6e5b40a01746c4f2fcc4233daf32d0ec6ed16de4e8872c5b7",
+    "java_tests": 6478
+  },
+  "bot_combat": {
+    "parent": "fbe0bc32a79f99dbab9fe9cf3ed0a00385a32d2c",
+    "observed_utc": "2026-10-20T23:33:54.979433+00:00",
+    "jar_sha256": "c72e4b7a8fe222e50314457430e9a0ead9b8f9b52324da7de70dd8c0de3a5230",
+    "jar_bytes": 3207951,
+    "jar_crc_valid": true,
+    "class_major": 69,
+    "junit": {
+      "test": {
+        "suites": 126,
+        "tests": 6393,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "suites": 7,
+        "tests": 90,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "java_tests": 6483,
+    "source": {
+      "tests": 124,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "source_modules": [
+      "tests/test_bot_combat_tactics.py",
+      "tests/test_bot_natural_locomotion.py",
+      "tests/test_bot_awareness.py"
+    ],
+    "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+    "eight_source_directories_unchanged": true,
+    "frozen_resources_unchanged": 274,
+    "new_resources": 2,
+    "configured_reference_generators": 87,
+    "smokes": [
+      {
+        "args": [
+          "--version"
+        ],
+        "exit": 0,
+        "stdout": "BattleSpades 0.1.0-java25-dev; protocol 168; gameplay incomplete\n",
+        "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+      },
+      {
+        "args": [
+          "--check-config",
+          "config.toml"
+        ],
+        "exit": 0,
+        "stdout": "Core configuration valid: BattleSpades Server, UDP 27015, 24 players, 60 Hz\nValidation covers core/network/join, Match Lobby rules and common scene settings; full gameplay is pending.\n",
+        "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+      },
+      {
+        "args": [
+          "--help"
+        ],
+        "exit": 0,
+        "stdout": "BattleSpades Java 25: dedicated host, world creator and migration diagnostics\n  java -jar BattleSpades.jar --serve --config PATH [--bind HOST] [--port PORT] [--control-stdin] [--shutdown-after SECONDS]\n  java -jar BattleSpades.jar --check-config PATH\n  java -jar BattleSpades.jar --version\n  java -jar BattleSpades.jar --update [--config PATH] [--manifest URL]\n  java -jar BattleSpades.jar --results-import INPUT_NDJSON OUTBOX_DIRECTORY\n  java -jar BattleSpades.jar --ugc-assets RETAIL_ROOT\n  java -jar BattleSpades.jar --ugc-create RETAIL_ROOT DIRECTORY NAME TERRAIN MODE\n  java -jar BattleSpades.jar --ugc-check DIRECTORY NAME\n  java -jar BattleSpades.jar --ugc-host --retail-root RETAIL_ROOT --project NAME [--config PATH] [--publish-root hosted_ugc] [--control-stdin]\n",
+        "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+      },
+      {
+        "args": [
+          "--ugc-host",
+          "/workspace/scratch/dc9e10c1d797/tmp/nonexistent-hosting-project"
+        ],
+        "exit": 2,
+        "stdout": "",
+        "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\nWorld creator error: Unexpected creator argument: /workspace/scratch/dc9e10c1d797/tmp/nonexistent-hosting-project\n"
+      },
+      {
+        "args": [],
+        "exit": 2,
+        "stdout": "",
+        "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\nServer failed: Standalone migration does not yet support: bots.enabled, revival.enabled\n"
+      }
+    ],
+    "full_reference_python_baseline_passing": false,
+    "bot_combat": {
+      "weapon_envelopes": 19,
+      "footwork_transitions": 495,
+      "tactical_queries": 72,
+      "awareness_traces": 18,
+      "awareness_boundaries": 731,
+      "deduplicated_input_records": 337,
+      "worker_owned_mutable_memory": true,
+      "live_bots_enabled": false
+    },
+    "full_migration_complete": false,
+    "macos_deferred_until_full_migration_complete": true,
+    "scope_limitations": [
+      "Live bots remain explicitly disabled: production brain orchestration, mode/cooperative policies, advanced recovery skills, director/gateway/motor and host composition remain incomplete",
+      "BotModeDecision is the immutable role contract, not a mode policy selector",
+      "Source brain/director/motor regressions validate the reference only; Java evidence covers migrated policy boundaries",
+      "Tutorial/community modes, Revival services, native integrations and fleet orchestration remain incomplete",
+      "Supported-client, capacity, full Python baseline and final macOS acceptance remain unverified",
+      "Previous checkpoint intermittent standalone UDP map-reload timeout remains recorded and is not claimed fixed"
+    ]
   }
 }

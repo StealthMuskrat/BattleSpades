@@ -33,6 +33,10 @@ public record StateData(int playerId,int fogColor,float gravity,Lighting lightin
         prefabs=InitialInfo.counted(prefabs,32767);entities=InitialInfo.counted(entities,32767);
         cameraPoints=InitialInfo.counted(cameraPoints,255);cameraRotations=InitialInfo.counted(cameraRotations,255);
     }
+    public StateData withFogColor(int rgb){
+        if(rgb<0||rgb>0xffffff)throw new IllegalArgumentException("Fog RGB");
+        return new StateData(playerId,rgb,gravity,lighting,timeScale,scoreLimit,modeType,teamHeadcountType,team1,team2,lockTeamSwap,lockSpectatorSwap,prefabs,entities,cameraPoints,cameraRotations,hasMapEnded);
+    }
     @Override public int id() { return 45; }
     @Override public void write(Wire.Writer w) {
         w.u8(id()).u8(playerId).color(fogColor).i16(Fixed.encodePosition(gravity)).color(lighting.color);

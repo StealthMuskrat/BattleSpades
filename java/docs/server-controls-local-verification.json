@@ -1,0 +1,92 @@
+{
+  "observed_utc": "2026-10-20T01:05:53.244312+00:00",
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "verification_parent_commit": "521f9d043eea4b511700ef7aa8cefff385c72256",
+  "implemented_families": [
+    "map/changemap",
+    "mode/gamemode",
+    "endround/endgame/forceend",
+    "say",
+    "fog",
+    "time",
+    "balance"
+  ],
+  "java_component_tests": 6353,
+  "java_integration_tests": 70,
+  "java_tests": 6423,
+  "junit": {
+    "test": {
+      "suites": 116,
+      "tests": 6353,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 5,
+      "tests": 70,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "source_tests": {
+    "tests": 23,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "files": [
+      "tests/test_commands.py"
+    ]
+  },
+  "gradle": "Full check build passed; passing component results reused after correcting the new Unicode boundary expectation for the nine-code-point server prefix; no assertions or deadlines weakened",
+  "source_directories_unchanged": [
+    "server",
+    "shared",
+    "aoslib",
+    "protocol",
+    "modes",
+    "tests",
+    "commands"
+  ],
+  "unchanged_existing_resources": 263,
+  "configured_source_generators": 79,
+  "jar_sha256": "cde5abf755c3a139c82114721d69f4ab9571a2274281ad24f99a060f370bb418",
+  "jar_bytes": 2686422,
+  "java_class_major": 69,
+  "smoke": {
+    "version": {
+      "exit": 0
+    },
+    "config": {
+      "exit": 0
+    },
+    "help": {
+      "exit": 0
+    },
+    "ugc_missing": {
+      "exit": 2
+    },
+    "hosting": {
+      "exit": 2
+    }
+  },
+  "production_source_fingerprint": {
+    "files": 383,
+    "sha256": "3aed3a602503478c3fd14ab7530d78ed80c0671409aaff1116f789b543dd7fe6"
+  },
+  "ci": {
+    "status": "pending",
+    "all_five_jobs_passed": false
+  },
+  "full_migration_complete": false,
+  "supported_client_acceptance": false,
+  "remaining": [
+    "restart/reset and teleport",
+    "live netcode tuning",
+    "bots AI and director",
+    "Tutorial host and lessons",
+    "achievement evaluation and local profile persistence",
+    "master registration/authentication and complete standalone startup"
+  ]
+}

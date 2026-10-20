@@ -1,7 +1,7 @@
 {
   "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
-  "jar_sha256": "ec52b48ce0aa4bbcf1da0873d3f34759125461f4624a60800a6933fc1ee22ca5",
-  "jar_bytes": 2679721,
+  "jar_sha256": "cde5abf755c3a139c82114721d69f4ab9571a2274281ad24f99a060f370bb418",
+  "jar_bytes": 2686422,
   "java_class_major": 69,
   "prohibited_packaged_files": [],
   "licenses": [
@@ -17,7 +17,7 @@
     "META-INF/THIRD_PARTY_NOTICES.md",
     "META-INF/JAVA-THIRD-PARTY-NOTICES.md"
   ],
-  "repeated_build_identical": true,
+  "repeated_build_identical": false,
   "junit": {
     "test": {
       "suites": 116,
@@ -28,69 +28,18 @@
     },
     "integrationTest": {
       "suites": 5,
-      "tests": 67,
+      "tests": 70,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
-  "verification_stage": "Durable round-result pipeline implemented and verified; all five CI jobs and all 48 targeted unchanged source tests passed",
-  "java_implementation_commit": "bfb8c0f22a6106e3e78dd6ac77b26c1bdcd5b580",
-  "tested_tree": "15a8a2b046bd31a6f12636887e11ca3a35ed358f",
+  "verification_stage": "Hosted server controls implemented and locally verified; CI pending",
+  "java_implementation_commit": null,
+  "tested_tree": null,
   "ci": {
-    "status": "success",
-    "observed_at_utc": "2026-10-20T00:51:26.625001+00:00",
-    "run_id": 39349329396,
-    "run_url": "https://github.com/StealthMuskrat/BattleSpades/actions/runs/39349329396",
-    "head_sha": "bfb8c0f22a6106e3e78dd6ac77b26c1bdcd5b580",
-    "tested_tree": "15a8a2b046bd31a6f12636887e11ca3a35ed358f",
-    "attempt": 1,
-    "all_five_jobs_passed": true,
-    "all_final_steps_verified": true,
-    "completed_jobs": 5,
-    "completed_final_steps": 65,
-    "jobs": [
-      {
-        "id": 118389524314,
-        "name": "native-enet",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 16
-      },
-      {
-        "id": 118389524809,
-        "name": "build",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 13
-      },
-      {
-        "id": 118390685507,
-        "name": "platform (macos-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 12
-      },
-      {
-        "id": 118390685572,
-        "name": "platform (ubuntu-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 12
-      },
-      {
-        "id": 118390685593,
-        "name": "platform (windows-latest)",
-        "status": "completed",
-        "conclusion": "success",
-        "steps": 12
-      }
-    ],
-    "configured_source_generators_reproduced": 79,
-    "repeated_archive_byte_comparison": true,
-    "identical_uploaded_artifact_smoked_on_platforms": 3,
-    "local_to_ci_artifact_hash_compared": false,
-    "summary": "All five CI jobs passed for implementation `bfb8c0f22a6106e3e78dd6ac77b26c1bdcd5b580`, tested tree `15a8a2b046bd31a6f12636887e11ca3a35ed358f`, in [run 39349329396](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39349329396). All 65 final steps succeeded or were intentionally skipped. Native impaired transport/loader checks and all 79 configured reference generators passed; the build byte-compared repeated archives. All three platform jobs smoked the uploaded artifact and passed component/integration tests. No local-to-CI artifact hash identity or supported-client acceptance is claimed. Observed 2026-10-20T00:51:26.625001+00:00."
+    "status": "pending",
+    "all_five_jobs_passed": false
   },
   "movement": {
     "cases": 118,
@@ -155,7 +104,7 @@
     "net/battlespades/catalog/modes.toml",
     "net/battlespades/catalog/rules.toml"
   ],
-  "local_packaging_note": "Current application archive passes ZIP CRC; local repeat-build identity not measured for this batch. CI compared repeated application archives.",
+  "local_packaging_note": "Current application archive passes ZIP CRC; local repeated build identity not measured.",
   "admission": {
     "source_commit": "6216b771282d2d349ccd67ee58c378f035c83553",
     "unicode": "15.0.0",
@@ -445,9 +394,8 @@
     "command": "python -m pytest -q tests/test_input_loss_recovery.py tests/test_action_clock.py tests/test_action_clock_recovery_review.py"
   },
   "publication": {
-    "status": "published",
-    "branch": "port/java25",
-    "implementation_commit": "bfb8c0f22a6106e3e78dd6ac77b26c1bdcd5b580"
+    "status": "pending",
+    "branch": "port/java25"
   },
   "previous_input_checkpoint": {
     "verification_stage": "ClientData chronology, one-frame phase selection and action cadence",
@@ -6318,7 +6266,7 @@
     "six_reference_directories_exactly_match_main": true,
     "files_unchanged_from_import": true
   },
-  "repeated_build_scope": "CI build compared repeated archives; no local-to-CI artifact hash identity claimed",
+  "repeated_build_scope": "CI repeated archive comparison pending; no local-to-CI artifact identity claimed",
   "previous_capture_zone_checkpoint": {
     "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
     "verification_stage": "Updated upstream and TC/Multi-Hill checkpoint verified locally; four CI jobs passed, macOS queued awaiting runner",
@@ -8079,8 +8027,8 @@
     }
   },
   "java_component_tests": 6353,
-  "java_integration_tests": 67,
-  "java_tests": 6420,
+  "java_integration_tests": 70,
+  "java_tests": 6423,
   "full_migration_complete": false,
   "supported_client_acceptance": false,
   "round_results": {
@@ -8246,5 +8194,97 @@
       "branch": "port/java25",
       "implementation_commit": "bfb8c0f22a6106e3e78dd6ac77b26c1bdcd5b580"
     }
+  },
+  "server_controls": {
+    "observed_utc": "2026-10-20T01:05:53.244312+00:00",
+    "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+    "verification_parent_commit": "521f9d043eea4b511700ef7aa8cefff385c72256",
+    "implemented_families": [
+      "map/changemap",
+      "mode/gamemode",
+      "endround/endgame/forceend",
+      "say",
+      "fog",
+      "time",
+      "balance"
+    ],
+    "java_component_tests": 6353,
+    "java_integration_tests": 70,
+    "java_tests": 6423,
+    "junit": {
+      "test": {
+        "suites": 116,
+        "tests": 6353,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "integrationTest": {
+        "suites": 5,
+        "tests": 70,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "source_tests": {
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "files": [
+        "tests/test_commands.py"
+      ]
+    },
+    "gradle": "Full check build passed; passing component results reused after correcting the new Unicode boundary expectation for the nine-code-point server prefix; no assertions or deadlines weakened",
+    "source_directories_unchanged": [
+      "server",
+      "shared",
+      "aoslib",
+      "protocol",
+      "modes",
+      "tests",
+      "commands"
+    ],
+    "unchanged_existing_resources": 263,
+    "configured_source_generators": 79,
+    "jar_sha256": "cde5abf755c3a139c82114721d69f4ab9571a2274281ad24f99a060f370bb418",
+    "jar_bytes": 2686422,
+    "java_class_major": 69,
+    "smoke": {
+      "version": {
+        "exit": 0
+      },
+      "config": {
+        "exit": 0
+      },
+      "help": {
+        "exit": 0
+      },
+      "ugc_missing": {
+        "exit": 2
+      },
+      "hosting": {
+        "exit": 2
+      }
+    },
+    "production_source_fingerprint": {
+      "files": 383,
+      "sha256": "3aed3a602503478c3fd14ab7530d78ed80c0671409aaff1116f789b543dd7fe6"
+    },
+    "ci": {
+      "status": "pending",
+      "all_five_jobs_passed": false
+    },
+    "full_migration_complete": false,
+    "supported_client_acceptance": false,
+    "remaining": [
+      "restart/reset and teleport",
+      "live netcode tuning",
+      "bots AI and director",
+      "Tutorial host and lessons",
+      "achievement evaluation and local profile persistence",
+      "master registration/authentication and complete standalone startup"
+    ]
   }
 }

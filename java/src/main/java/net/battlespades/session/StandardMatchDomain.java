@@ -71,6 +71,8 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     public HostedPrefabRuntime prefabs(){owned();return Objects.requireNonNull(prefabs);}
     public void failure(String label,Throwable error){owned();services.failure(label,error);}
     public MapMetadata metadata(){owned();return metadata;}public String modeCode(){owned();return config.modeCode();}
+    public String mapName(){owned();return config.mapName();}
+    public void fogColor(int rgb){owned();scene.fogOverride(rgb);}
     private BiFunction<Integer,Integer,Set<BlockDamageModel.Cell>> friendlyPaths=(team,owner)->Set.of();
     public Set<BlockDamageModel.Cell> friendlyPaths(int team,int owner){owned();return Set.copyOf(friendlyPaths.apply(team,owner));}
     public void friendlyPaths(BiFunction<Integer,Integer,Set<BlockDamageModel.Cell>> provider){owned();friendlyPaths=Objects.requireNonNull(provider);}
@@ -99,6 +101,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
     /** Concrete factory binding, registered before the host or any actor exists. */
     public void runtime(Function<ApplicationHost,HostedPlayerRuntime> factory){owned();if(host!=null||runtimeFactory!=null)throw new IllegalStateException("Runtime must bind once before host attachment");runtimeFactory=Objects.requireNonNull(factory);}
     public HostedPlayerRuntime runtime(){owned();return Objects.requireNonNull(runtime,"Player runtime not bound");}
+    public Optional<HostedPlayerRuntime> playerRuntime(){owned();return Optional.ofNullable(runtime);}
     public StandardMatchDomain(SceneConfig requestedConfig,MapMetadata metadata,PreparedMap.Bound prepared,TomlTable raw,
             LifeRuntime.Clock clock,SourceRandom random,OwnerLoop loop,List<String> maps,LifeRuntime.Effects lifeEffects,HostedInputRuntime.Ports inputs,Services services){
         var config=modeConfig(requestedConfig);this.raw=raw;this.geometry=prepared.spawns();
@@ -167,7 +170,7 @@ public final class StandardMatchDomain implements HostedSceneState.HostBoundDoma
             public ClassCatalog.Selection normalize(int id,List<Integer> tools,List<String> prefabs,List<Integer> ugc,int fallback){return hardcore()?Hardcore.normalize(id,tools):ClassCatalog.normalize(id,tools,prefabs,ugc,fallback,selectionDisabled());}
             public boolean selectable(int id){return zombie!=null&&id==4||hardcore()?Hardcore.CLASSES.contains(id)||zombie!=null&&id==4:AdmissionPolicy.classSelectable(id,config.rules(),config.mode(),false,false);}public boolean allowsSelection(PlayerLife p,ClassCatalog.Selection s){return zombie!=null?zombie.allowsSelection(p,s):hardcore()?(p.team()==2||p.team()==3)&&Hardcore.CLASSES.contains(s.classId())&&!(vip!=null&&vip.vip(p.team()).filter(v->v==p).isPresent()):vip==null&&(!config.modeCode().equals("cctf")||(p.team()==2||p.team()==3)&&s.equals(classicSelection(s)));}public boolean liveUgc(PlayerLife p,ClassCatalog.Selection s){return false;}
         },config.rules(),config.admission(),cooldown,clock::monotonic,clock::wall,loop,services::failure);
-        social=new HostedSocialRuntime(this,host,loop,logCommands);host.administration().ifPresent(a->new HostedAdminCommands(this,host,a));media=new HostedMedia(host,this::lives,maps,random,loop);media.joinAudio(()->metadata,this::mode,()->musicEnabled,services::failure);
+        social=new HostedSocialRuntime(this,host,loop,logCommands);host.administration().ifPresent(a->new HostedAdminCommands(this,host,a));new HostedServerCommands(this,host);media=new HostedMedia(host,this::lives,maps,random,loop);media.joinAudio(()->metadata,this::mode,()->musicEnabled,services::failure);
         if(runtimeFactory!=null)runtime=Objects.requireNonNull(runtimeFactory.apply(host));
         if(combatFactory!=null)combatRuntime=Objects.requireNonNull(combatFactory.apply(host));
         if(entityFactory!=null){entities=Objects.requireNonNull(entityFactory.apply(host));construction=new HostedConstructionRuntime(this,host,config,constructionSettings);corpses=new HostedCorpseRuntime(this,host,config,hardcore()?1:metadata.environment().gravity(),entities.wireReady(),hardcore()||config.modeCode().equals("cctf"));prefabs=new HostedPrefabRuntime(this,host,prefabSettings,prefabRoots);if(mode instanceof CtfMode c)ctf=new HostedCtfRuntime(this,host,c,geometry,raw);if(mode instanceof ZoneMode z)zones=new HostedZoneRuntime(this,host,z,geometry,raw,loop);if(mode instanceof CarryMode c)carry=c.settings().code().equals("dia")?new HostedDiamondRuntime(this,host,c,geometry,raw,config.rules(),new SourceRandom(new java.security.SecureRandom().nextLong())):new HostedOccupationRuntime(this,host,c,geometry,raw,config.rules());

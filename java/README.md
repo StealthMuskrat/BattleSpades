@@ -1,3 +1,7 @@
+# Hosted server-control checkpoint
+
+Map/mode requests, round ending, announcements, reconnect-safe fog, remaining time and safe team balance now bind to the real hosted owners. See [SERVER_CONTROLS.md](docs/SERVER_CONTROLS.md). The broader migration remains incomplete.
+
 # BattleSpades Java 25 migration
 
 The standalone Java world creator is available through `--ugc-host`, including native editor tools, authored objects/lights, previews, saves and reopen. See [WORLD_CREATION.md](docs/WORLD_CREATION.md) for launch options and verification limits. General competitive match startup remains gated with exit 2 while its remaining services are migrated.

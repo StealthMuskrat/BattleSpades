@@ -1,0 +1,25 @@
+# Hosted server controls
+
+The standard hosted match registers seven additional administrator command families on its canonical asynchronous command queue:
+
+| Command | Aliases | Runtime effect |
+| --- | --- | --- |
+| `/map [name]` | `changemap` | Query the current map or retain a crash-safe map transition request. |
+| `/mode [code]` | `gamemode` | Query the current mode or retain a canonical mode transition request. |
+| `/endround [1\|2]` | `endgame`, `forceend` | End through the active mode's normal winner, announcement and scheduled ending lifecycle; omitted or invalid team uses the score leader/draw. |
+| `/say <message>` | — | Reliable packet 49, sender 255, top-screen lane 3, with `[SERVER] ` prefix and team-variable resolution. |
+| `/fog <r> <g> <b>` | — | Validate three RGB bytes, reliably broadcast FogColor, and retain the override in the configured scene for subsequent StateData. |
+| `/time [seconds]` | — | Query remaining time or set a new nonnegative whole-second window from the current wall clock. Zero retains the source unlimited-time behavior. |
+| `/balance` | — | Invoke the existing hosted safe team balancer, report moves and any remaining imbalance, and retain dead-only/objective/mode/transition restrictions. |
+
+Every family uses the existing administrator authorization and rate policy. No player name, wire ID or command argument grants privileges. Query commands remain administrator-only. Failed retained preflight notices use the original player-life object; a replacement occupying the same compact ID does not receive them.
+
+Bind `ApplicationHost.matchTransitions(realTransitions)` once before connections, after constructing the transition owner around `HostedTransitionServices`. The registration reads this owner dynamically because scene attachment precedes transition construction. Map and mode commands immediately return retained requests; they do not await a loader rollover inside the serial packet drain. Missing transition or player-runtime owners produce explicit unavailable replies. No replacement transition engine or balancer is constructed by a command.
+
+`ConfiguredScene` owns its optional fog override. Live commands, subsequent joins, `HostedSceneState` snapshots and rollback restoration use that same value. Installing a fresh configured scene starts without the previous override. Source metadata and configuration stay unchanged.
+
+The announcement builder enforces its 256-code-point bound after variable resolution and the server prefix. An oversized resolved packet produces a private length reply; the original command's unprefixed 256-character precheck can instead raise in its packet builder. Time values outside Java's signed 64-bit nonnegative whole-second range receive the invalid-value reply.
+
+This checkpoint does not implement restart/reset, teleport, live netcode tuning, bots commands or the remaining fun/plugin commands. Round ending invokes the existing mode effects; a production embedding must still supply the actual retained end-screen/rollover service. Ordinary standalone match startup remains gated until the remaining owners are complete. Tutorial and Map Creator launchers remain isolated.
+
+Implemented map/mode retained requests, normal round ending, server announcements, live/reconnect/rollback-consistent fog, a fresh remaining-time window and the existing safe manual balancer. Administrator permissions and current player-life notices remain authoritative. Map/mode requests leave the serial packet drain before loader rollover. Missing owners return unavailable. Three grouped actual-UDP integration cases cover permissions, packet lanes and bounds, reconnect/snapshot/rollback/new-map fog, clock mutation, explicit/leader-based ending, dead-only/no-extra-death balancing, held preflight with continuing clock packets, busy/failure replies and actual scene reload. 6,423 Java tests pass (6,353 component + 70 integration), zero failures/errors/skips; all 23 unchanged source command tests pass. All 263 existing resources and the seven source directories are unchanged against their baselines. The CRC-valid application archive is 2686422 bytes, SHA-256 `cde5abf755c3a139c82114721d69f4ab9571a2274281ad24f99a060f370bb418`, class major 69. Version/configuration/help exit 0; missing UGC project and ordinary startup exit 2. CI for this checkpoint is pending. The broader migration remains incomplete; see [SERVER_CONTROLS.md](SERVER_CONTROLS.md).

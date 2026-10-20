@@ -38,9 +38,9 @@ public final class HostedSceneState implements AutoCloseable {
     private ApplicationHost host(){if(host==null)throw new IllegalStateException("Host not attached");return host;}
     public JoinScene scene(){owned();return active.scene;}public Domain domain(){owned();return active.domain;}public PreparedMap.Bound prepared(){owned();return active.prepared;}
     public boolean hasMode(String code){owned();return factories.containsKey(code);}
-    public Integer fogOverride(){owned();return fogOverride;}
-    public void fogOverride(Integer rgb){owned();if(rgb!=null&&(rgb<0||rgb>0xffffff))throw new IllegalArgumentException("Fog RGB");fogOverride=rgb;}
-    public SceneRollover.State snapshot(){owned();return new SceneRollover.State(active.map,active.code,active.mode,active,fogOverride);}
+    public Integer fogOverride(){owned();return active.scene instanceof net.battlespades.scene.ConfiguredScene configured?configured.fogOverride():fogOverride;}
+    public void fogOverride(Integer rgb){owned();if(rgb!=null&&(rgb<0||rgb>0xffffff))throw new IllegalArgumentException("Fog RGB");fogOverride=rgb;if(active.scene instanceof net.battlespades.scene.ConfiguredScene configured)configured.fogOverride(rgb);}
+    public SceneRollover.State snapshot(){owned();return new SceneRollover.State(active.map,active.code,active.mode,active,fogOverride());}
     private Entry create(String map,String code,PreparedMap candidate,long epoch){
         Objects.requireNonNull(map);Objects.requireNonNull(candidate);var factory=factories.get(code);if(factory==null)throw new IllegalArgumentException("Unknown mode: "+code);
         if(!candidate.assembly().metadata().activeMode().equals(net.battlespades.player.Hardcore.base(code)))throw new IllegalArgumentException("Prepared map belongs to another mode");
@@ -57,7 +57,7 @@ public final class HostedSceneState implements AutoCloseable {
     public void restore(SceneRollover.State state){
         owned();host();if(!(state.world() instanceof Entry previous)||!retained.contains(previous)||previous.retired||!state.map().equals(previous.map)||!state.code().equals(previous.code)||state.mode()!=previous.mode)throw new IllegalArgumentException("Foreign or retired scene snapshot");
         if(state.fog()!=null&&(!(state.fog() instanceof Integer rgb)||rgb<0||rgb>0xffffff))throw new IllegalArgumentException("Fog RGB");
-        host.installTransitionScene(previous.scene);active=previous;fogOverride=(Integer)state.fog();
+        host.installTransitionScene(previous.scene);active=previous;fogOverride((Integer)state.fog());
     }
     private static void dispose(Entry entry,Throwable prior){
         if(entry.retired)return;entry.retired=true;Throwable error=prior;

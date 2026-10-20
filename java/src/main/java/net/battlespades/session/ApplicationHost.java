@@ -24,6 +24,10 @@ public final class ApplicationHost implements AutoCloseable {
     private final SnapshotCompression compression;
     private final int eventBudget;
     private JoinScene scene;
+    private net.battlespades.match.MatchTransitions<?> matchTransitions;
+    /** Bind the real retained transition owner once, after scene attachment and before connections. */
+    public void matchTransitions(net.battlespades.match.MatchTransitions<?> service){owned();if(matchTransitions!=null||!sessions.isEmpty())throw new IllegalStateException("Match transitions bind once before connections");matchTransitions=java.util.Objects.requireNonNull(service);}
+    public java.util.Optional<net.battlespades.match.MatchTransitions<?>> matchTransitions(){owned();return java.util.Optional.ofNullable(matchTransitions);}
     private HostedRoundResults results;
     public void results(HostedRoundResults service){owned();if(results!=null||!sessions.isEmpty())throw new IllegalStateException("Results bind once before connections");results=java.util.Objects.requireNonNull(service);}
     public java.util.Optional<HostedRoundResults> results(){owned();return java.util.Optional.ofNullable(results);}

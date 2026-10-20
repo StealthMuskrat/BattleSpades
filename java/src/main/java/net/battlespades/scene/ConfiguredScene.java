@@ -41,6 +41,9 @@ public final class ConfiguredScene implements JoinScene {
     private final ScenePackets.Environment environment;
     private final Supplier<ScenePackets.State> state;
     private final Gameplay gameplay;
+    private Integer fogOverride;
+    public Integer fogOverride(){owned();return fogOverride;}
+    public void fogOverride(Integer rgb){owned();if(rgb!=null&&(rgb<0||rgb>0xffffff))throw new IllegalArgumentException("Fog RGB");fogOverride=rgb;}
     public ConfiguredScene(SceneConfig config,net.battlespades.world.MapMetadata metadata,Supplier<ScenePackets.State> state,Gameplay gameplay){
         this(config,metadata.environment(),state,gameplay);
         if(!net.battlespades.world.MapMetadata.canonicalMode(config.modeCode()).equals(metadata.activeMode()))throw new IllegalArgumentException("Map layout belongs to another mode");
@@ -57,7 +60,7 @@ public final class ConfiguredScene implements JoinScene {
     @Override public boolean spectator(int id){owned();return gameplay.spectator(id);}
     @Override public int requiredCapability(){owned();return gameplay.requiredCapability();}
     @Override public InitialInfo initialInfo(int capability){owned();return ScenePackets.finishInitial(config,gameplay.configureInitialInfo(ScenePackets.baseInitial(config,environment,new ScenePackets.ServerIdentity(0,0,false,config.port())),capability));}
-    @Override public StateData stateData(int id,int capability){owned();return ScenePackets.finishState(config,gameplay.configureStateData(ScenePackets.baseState(config,environment,state.get(),id),capability));}
+    @Override public StateData stateData(int id,int capability){owned();var packet=ScenePackets.finishState(config,gameplay.configureStateData(ScenePackets.baseState(config,environment,state.get(),id),capability));return fogOverride==null?packet:packet.withFogColor(fogOverride);}
     @Override public String skybox(){owned();return ScenePackets.skybox(config,environment);}
     @Override public Admission admit(int id,SimplePackets.NewPlayerConnection request,PlayerPackets.SetClassLoadout pending,int capability){
         // Packet 13 is cached independently before packet 15: its invalid class uses Classic (5),

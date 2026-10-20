@@ -26,6 +26,8 @@ public final class MapCatalog {
         var retail=MapMetadata.retailCatalogue(root);var pools=new HashMap<String,List<String>>();for(var code:ModeCatalog.definitions().keySet()){String canonical=MapMetadata.canonicalMode(code);pools.computeIfAbsent(canonical,ignored->MapMetadata.retailModePool(root,canonical));}
         return new MapCatalog(available,areas,retail,pools,!rotation.isEmpty());
     }
+    /** Owner-side ordering after worker IO, retaining the gameplay random stream and all prepared metadata. */
+    public MapCatalog shuffled(SourceRandom random){var names=new ArrayList<>(available);if(names.size()>1)random.shuffle(names);return new MapCatalog(names,areas,retail,playlists,explicitRotation);}
     public List<String> available(){return available;}
     public Long area(String name){return areas.get(NameUnicode.casefold(name));}
     public Long cap(String name){Object value=retail.getOrDefault(NameUnicode.casefold(name),Map.of()).get("max_players");try{if(value instanceof Boolean b)return b?1L:0L;if(value instanceof Number n)return Double.isFinite(n.doubleValue())?n.longValue():null;return value==null?null:Long.valueOf(value.toString());}catch(NumberFormatException invalid){return null;}}

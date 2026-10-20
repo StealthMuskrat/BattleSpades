@@ -24,7 +24,10 @@ public final class MatchTransitions<C> implements RoundEndSequence.Transition {
     private final SceneRollover<C> rollover;
     private final BiFunction<String,String,CompletionStage<C>> load;
     private final Executor schedule;
-    private boolean preparing,inProgress;
+    private boolean preparing,inProgress,closing;
+    private CompletionStage<?> active=CompletableFuture.completedFuture(null);
+    /** Refuse new requests and settle the accepted map/restart transaction before host disposal. */
+    public CompletionStage<Void> shutdown(){owner.owned();closing=true;var accepted=active;var queued=request;return retireEnding().thenCompose(unused->CompletableFuture.allOf(accepted.handle((value,error)->null).toCompletableFuture(),queued==null?CompletableFuture.completedFuture(null):queued.handle((value,error)->null)));}
     private Ending ending;
     private static final class Ending {
         final CompletableFuture<RoundEndSequence.Result> result;
@@ -55,16 +58,16 @@ public final class MatchTransitions<C> implements RoundEndSequence.Transition {
     public boolean preparing(){owner.owned();return preparing;}public boolean inProgress(){owner.owned();return inProgress;}
     public boolean busyAllowingCurrentRequest(){return busy();}
     public Optional<CompletionStage<RoundEndSequence.Result>> requestCompletion(){owner.owned();return request==null?Optional.empty():Optional.of(request.minimalCompletionStage());}
-    private boolean busy(CompletableFuture<RoundEndSequence.Result> permit){return preparing||inProgress||request!=null&&!request.isDone()&&request!=permit;}
+    private boolean busy(CompletableFuture<RoundEndSequence.Result> permit){return closing||preparing||inProgress||request!=null&&!request.isDone()&&request!=permit;}
     private static String canonical(String value){try{return ModeCatalog.resolve(NameUnicode.strip(value).toLowerCase(Locale.ROOT));}catch(IllegalArgumentException invalid){return null;}}
     private boolean currentMap(String map){return NameUnicode.casefold(WorldPreflight.normalize(services.state().map())).equals(NameUnicode.casefold(map));}
     private boolean currentMode(String code){String old=NameUnicode.strip(services.state().code()).toLowerCase(Locale.ROOT);return Objects.equals(Optional.ofNullable(canonical(old)).orElse(old),code);}
     public RoundEndSequence.Result requestMap(String map,Consumer<String> privateFailure){
-        owner.owned();if(busy())return result(false,BUSY);String name=WorldPreflight.normalize(map);if(name.isEmpty())return result(false,"Invalid or empty map name");if(currentMap(name))return result(true,"Map "+name+" is already loaded");
+        owner.owned();if(closing||busy())return result(false,BUSY);String name=WorldPreflight.normalize(map);if(name.isEmpty())return result(false,"Invalid or empty map name");if(currentMap(name))return result(true,"Map "+name+" is already loaded");
         return retain(permit->change(name,null,null,false,permit,false),privateFailure,"Preparing map "+name);
     }
     public RoundEndSequence.Result requestMode(String mode,Consumer<String> privateFailure){
-        owner.owned();if(busy())return result(false,BUSY);String value=NameUnicode.strip(mode).toLowerCase(Locale.ROOT),code=canonical(value);if(code==null)return result(false,"Unknown mode: "+value);if(currentMode(code))return result(true,"Mode "+code.toUpperCase(Locale.ROOT)+" is already active");
+        owner.owned();if(closing||busy())return result(false,BUSY);String value=NameUnicode.strip(mode).toLowerCase(Locale.ROOT),code=canonical(value);if(code==null)return result(false,"Unknown mode: "+value);if(currentMode(code))return result(true,"Mode "+code.toUpperCase(Locale.ROOT)+" is already active");
         return retain(permit->changeMode(code,permit),privateFailure,"Preparing mode "+code.toUpperCase(Locale.ROOT));
     }
     private RoundEndSequence.Result retain(Function<CompletableFuture<RoundEndSequence.Result>,CompletionStage<RoundEndSequence.Result>> operation,Consumer<String> notice,String accepted){
@@ -94,7 +97,7 @@ public final class MatchTransitions<C> implements RoundEndSequence.Transition {
         owner.owned();if(busy(permit))return CompletableFuture.completedFuture(result(false,BUSY));String name=WorldPreflight.normalize(map);
         if(!modeChange){if(name.isEmpty())return CompletableFuture.completedFuture(result(false,"Invalid or empty map name"));if(currentMap(name))return CompletableFuture.completedFuture(result(true,"Map "+name+" is already loaded"));}
         preparing=true;var done=new CompletableFuture<RoundEndSequence.Result>();var task=ownEnding?new Ending(done):null;if(task!=null)ending=task;
-        var returned=done.handle((value,error)->{try{if(error!=null)throw new CompletionException(OwnerSequence.cause(error));return value;}finally{preparing=false;inProgress=false;if(ending==task)ending=null;}});if(task!=null)task.settled=returned;
+        var returned=done.handle((value,error)->{try{if(error!=null)throw new CompletionException(OwnerSequence.cause(error));return value;}finally{preparing=false;inProgress=false;if(ending==task)ending=null;}});active=returned;if(task!=null)task.settled=returned;
         CompletionStage<C> candidate;try{candidate=Objects.requireNonNull(load.apply(name,code));}catch(Throwable error){preflightFailure(done,error,name,code,modeChange);return returned.minimalCompletionStage();}
         candidate.whenComplete((world,error)->owner.resume(()->{
             if(task!=null&&task.retired)return;
@@ -116,9 +119,9 @@ public final class MatchTransitions<C> implements RoundEndSequence.Transition {
     public CompletionStage<RoundEndSequence.Result> restart(){return restart(false);}
     public CompletionStage<RoundEndSequence.Result> restartFromEnding(){return restart(true);}
     private CompletionStage<RoundEndSequence.Result> restart(boolean ownEnding){
-        owner.owned();if(busy())return CompletableFuture.completedFuture(result(false,BUSY));inProgress=true;var done=new CompletableFuture<RoundEndSequence.Result>();var mode=services.state().mode();
+        owner.owned();if(closing||busy())return CompletableFuture.completedFuture(result(false,BUSY));inProgress=true;var done=new CompletableFuture<RoundEndSequence.Result>();var mode=services.state().mode();
         if(mode==null){inProgress=false;return CompletableFuture.completedFuture(result(false,"No active game mode"));}
-        var task=ownEnding?new Ending(done):null;if(task!=null){task.boundary=true;task.restart=true;ending=task;}
+        active=done;var task=ownEnding?new Ending(done):null;if(task!=null){task.boundary=true;task.restart=true;ending=task;}
         var actions=List.<Supplier<CompletionStage<Void>>>of(()->mode.cancelForTransition(ownEnding),()->{services.resetVote();mode.beginRetirement(false);return services.drainLeaves(mode);},()->{if(task!=null)task.check();services.discardTimeline();return services.restartRound(mode);});
         owner.run(actions.iterator()).whenComplete((unused,error)->owner.resume(()->{inProgress=false;if(ending==task)ending=null;if(error==null)done.complete(result(true,"Match restarted"));else{var cause=OwnerSequence.cause(error);if(cause instanceof Error||cause instanceof CancellationException)done.completeExceptionally(cause);else{services.failure("same-map round restart",cause);done.complete(result(false,"Match restart failed; see server log"));}}},done));return done.minimalCompletionStage();
     }

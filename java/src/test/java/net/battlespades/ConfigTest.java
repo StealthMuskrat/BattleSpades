@@ -30,9 +30,9 @@ class ConfigTest {
         var c=ServerConfig.load(file);assertEquals(java.util.List.of("steam.enabled"),c.unsupportedIntegrations());
         assertEquals(2,Main.run(new String[]{"--check-config",file.toString()},System.out,System.err));
     }
-    @Test void launcherDoesNotAdvertisePlayableServer() {
+    @Test void standaloneRejectsUnsupportedSettingsBeforeOpeningSockets() throws IOException {
         var output=new ByteArrayOutputStream();var error=new ByteArrayOutputStream();
-        assertEquals(2,Main.run(new String[0],new PrintStream(output),new PrintStream(error)));
-        assertTrue(error.toString(java.nio.charset.StandardCharsets.UTF_8).contains("incomplete"));
+        assertEquals(2,Main.run(new String[]{"--serve","--config",config("[bots]\nenabled=true\n[revival]\nenabled=false\n").toString()},new PrintStream(output),new PrintStream(error)));
+        assertTrue(error.toString(java.nio.charset.StandardCharsets.UTF_8).contains("bots.enabled"));
     }
 }

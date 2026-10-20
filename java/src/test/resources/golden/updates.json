@@ -1,0 +1,2657 @@
+{
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "version": "0.3.0-beta.2",
+  "versions": [
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "0.2.0-beta.1",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "0.2.0-beta.2",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "0.2.0-beta.10",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "0.2.0-rc.1",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "0.2.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "0.2.1",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "0.10.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "1.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "v1.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "1.0.0+build.123",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "1.0.0-1",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "1.0.0-a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": " 1.0.0 ",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "1.2.3-00a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.1",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "0.2.0-beta.1",
+      "newer": true
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "0.2.0-beta.2",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "0.2.0-beta.10",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "0.2.0-rc.1",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "0.2.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "0.2.1",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "0.10.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "1.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "v1.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "1.0.0+build.123",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "1.0.0-1",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "1.0.0-a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": " 1.0.0 ",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "1.2.3-00a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.2",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "0.2.0-beta.1",
+      "newer": true
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "0.2.0-beta.2",
+      "newer": true
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "0.2.0-beta.10",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "0.2.0-rc.1",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "0.2.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "0.2.1",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "0.10.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "1.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "v1.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "1.0.0+build.123",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "1.0.0-1",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "1.0.0-a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": " 1.0.0 ",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "1.2.3-00a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-beta.10",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "0.2.0-beta.1",
+      "newer": true
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "0.2.0-beta.2",
+      "newer": true
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "0.2.0-beta.10",
+      "newer": true
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "0.2.0-rc.1",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "0.2.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "0.2.1",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "0.10.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "1.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "v1.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "1.0.0+build.123",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "1.0.0-1",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "1.0.0-a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": " 1.0.0 ",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "1.2.3-00a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0-rc.1",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "0.2.0-beta.1",
+      "newer": true
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "0.2.0-beta.2",
+      "newer": true
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "0.2.0-beta.10",
+      "newer": true
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "0.2.0-rc.1",
+      "newer": true
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "0.2.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "0.2.1",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "0.10.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "1.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "v1.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "1.0.0+build.123",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "1.0.0-1",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "1.0.0-a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0",
+      "current": " 1.0.0 ",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "1.2.3-00a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.0",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "0.2.0-beta.1",
+      "newer": true
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "0.2.0-beta.2",
+      "newer": true
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "0.2.0-beta.10",
+      "newer": true
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "0.2.0-rc.1",
+      "newer": true
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "0.2.0",
+      "newer": true
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "0.2.1",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "0.10.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "1.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "v1.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "1.0.0+build.123",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "1.0.0-1",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "1.0.0-a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.1",
+      "current": " 1.0.0 ",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "1.2.3-00a",
+      "newer": false
+    },
+    {
+      "candidate": "0.2.1",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "0.2.0-beta.1",
+      "newer": true
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "0.2.0-beta.2",
+      "newer": true
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "0.2.0-beta.10",
+      "newer": true
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "0.2.0-rc.1",
+      "newer": true
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "0.2.0",
+      "newer": true
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "0.2.1",
+      "newer": true
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "0.10.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "1.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "v1.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "1.0.0+build.123",
+      "newer": false
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "1.0.0-1",
+      "newer": false
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "1.0.0-a",
+      "newer": false
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "0.10.0",
+      "current": " 1.0.0 ",
+      "newer": false
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "1.2.3-00a",
+      "newer": false
+    },
+    {
+      "candidate": "0.10.0",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "0.2.0-beta.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "0.2.0-beta.2",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "0.2.0-beta.10",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "0.2.0-rc.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "0.2.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "0.2.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "0.10.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "1.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "v1.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "1.0.0+build.123",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "1.0.0-1",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "1.0.0-a",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0",
+      "current": " 1.0.0 ",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "1.2.3-00a",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": "v1.0",
+      "current": "0.2.0-beta.1",
+      "newer": true
+    },
+    {
+      "candidate": "v1.0",
+      "current": "0.2.0-beta.2",
+      "newer": true
+    },
+    {
+      "candidate": "v1.0",
+      "current": "0.2.0-beta.10",
+      "newer": true
+    },
+    {
+      "candidate": "v1.0",
+      "current": "0.2.0-rc.1",
+      "newer": true
+    },
+    {
+      "candidate": "v1.0",
+      "current": "0.2.0",
+      "newer": true
+    },
+    {
+      "candidate": "v1.0",
+      "current": "0.2.1",
+      "newer": true
+    },
+    {
+      "candidate": "v1.0",
+      "current": "0.10.0",
+      "newer": true
+    },
+    {
+      "candidate": "v1.0",
+      "current": "1.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "v1.0",
+      "current": "v1.0",
+      "newer": false
+    },
+    {
+      "candidate": "v1.0",
+      "current": "1.0.0+build.123",
+      "newer": false
+    },
+    {
+      "candidate": "v1.0",
+      "current": "1.0.0-1",
+      "newer": true
+    },
+    {
+      "candidate": "v1.0",
+      "current": "1.0.0-a",
+      "newer": true
+    },
+    {
+      "candidate": "v1.0",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "v1.0",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "v1.0",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "v1.0",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "v1.0",
+      "current": " 1.0.0 ",
+      "newer": false
+    },
+    {
+      "candidate": "v1.0",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": "v1.0",
+      "current": "1.2.3-00a",
+      "newer": false
+    },
+    {
+      "candidate": "v1.0",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "0.2.0-beta.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "0.2.0-beta.2",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "0.2.0-beta.10",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "0.2.0-rc.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "0.2.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "0.2.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "0.10.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "1.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "v1.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "1.0.0+build.123",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "1.0.0-1",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "1.0.0-a",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": " 1.0.0 ",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "1.2.3-00a",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0+build.123",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "0.2.0-beta.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "0.2.0-beta.2",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "0.2.0-beta.10",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "0.2.0-rc.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "0.2.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "0.2.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "0.10.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "1.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "v1.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "1.0.0+build.123",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "1.0.0-1",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "1.0.0-a",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": " 1.0.0 ",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "1.2.3-00a",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-1",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "0.2.0-beta.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "0.2.0-beta.2",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "0.2.0-beta.10",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "0.2.0-rc.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "0.2.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "0.2.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "0.10.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "1.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "v1.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "1.0.0+build.123",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "1.0.0-1",
+      "newer": true
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "1.0.0-a",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": " 1.0.0 ",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "1.2.3-00a",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-a",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "0.2.0-beta.1",
+      "newer": true
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "0.2.0-beta.2",
+      "newer": true
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "0.2.0-beta.10",
+      "newer": true
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "0.2.0-rc.1",
+      "newer": true
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "0.2.0",
+      "newer": true
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "0.2.1",
+      "newer": true
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "0.10.0",
+      "newer": true
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "1.0.0",
+      "newer": true
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "v1.0",
+      "newer": true
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "1.0.0+build.123",
+      "newer": true
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "1.0.0-1",
+      "newer": true
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "1.0.0-a",
+      "newer": true
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": " 1.0.0 ",
+      "newer": true
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "1.2.3-1a",
+      "newer": true
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "1.2.3-00a",
+      "newer": true
+    },
+    {
+      "candidate": "99999999999999999999.0.0",
+      "current": "1.2.3+...",
+      "newer": true
+    },
+    {
+      "candidate": "garbage",
+      "current": "0.2.0-beta.1",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "0.2.0-beta.2",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "0.2.0-beta.10",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "0.2.0-rc.1",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "0.2.0",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "0.2.1",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "0.10.0",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "1.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "v1.0",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "1.0.0+build.123",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "1.0.0-1",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "1.0.0-a",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": " 1.0.0 ",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "1.2.3-00a",
+      "newer": false
+    },
+    {
+      "candidate": "garbage",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "0.2.0-beta.1",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "0.2.0-beta.2",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "0.2.0-beta.10",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "0.2.0-rc.1",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "0.2.0",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "0.2.1",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "0.10.0",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "1.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "v1.0",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "1.0.0+build.123",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "1.0.0-1",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "1.0.0-a",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": " 1.0.0 ",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "1.2.3-00a",
+      "newer": false
+    },
+    {
+      "candidate": "01.0.0",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "0.2.0-beta.1",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "0.2.0-beta.2",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "0.2.0-beta.10",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "0.2.0-rc.1",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "0.2.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "0.2.1",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "0.10.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "1.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "v1.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "1.0.0+build.123",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "1.0.0-1",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "1.0.0-a",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": " 1.0.0 ",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "1.2.3-00a",
+      "newer": false
+    },
+    {
+      "candidate": "1.0.0-01",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "0.2.0-beta.1",
+      "newer": true
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "0.2.0-beta.2",
+      "newer": true
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "0.2.0-beta.10",
+      "newer": true
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "0.2.0-rc.1",
+      "newer": true
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "0.2.0",
+      "newer": true
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "0.2.1",
+      "newer": true
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "0.10.0",
+      "newer": true
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "1.0.0",
+      "newer": false
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "v1.0",
+      "newer": false
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "1.0.0+build.123",
+      "newer": false
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "1.0.0-1",
+      "newer": true
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "1.0.0-a",
+      "newer": true
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": " 1.0.0 ",
+      "newer": false
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "1.2.3-00a",
+      "newer": false
+    },
+    {
+      "candidate": " 1.0.0 ",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "0.2.0-beta.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "0.2.0-beta.2",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "0.2.0-beta.10",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "0.2.0-rc.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "0.2.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "0.2.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "0.10.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "1.0.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "v1.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "1.0.0+build.123",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "1.0.0-1",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "1.0.0-a",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": " 1.0.0 ",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "1.2.3-00a",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-1a",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "0.2.0-beta.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "0.2.0-beta.2",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "0.2.0-beta.10",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "0.2.0-rc.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "0.2.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "0.2.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "0.10.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "1.0.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "v1.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "1.0.0+build.123",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "1.0.0-1",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "1.0.0-a",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": " 1.0.0 ",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "1.2.3-1a",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "1.2.3-00a",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3-00a",
+      "current": "1.2.3+...",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "0.2.0-beta.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "0.2.0-beta.2",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "0.2.0-beta.10",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "0.2.0-rc.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "0.2.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "0.2.1",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "0.10.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "1.0.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "v1.0",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "1.0.0+build.123",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "1.0.0-1",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "1.0.0-a",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "99999999999999999999.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "garbage",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "01.0.0",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "1.0.0-01",
+      "newer": false
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": " 1.0.0 ",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "1.2.3-1a",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "1.2.3-00a",
+      "newer": true
+    },
+    {
+      "candidate": "1.2.3+...",
+      "current": "1.2.3+...",
+      "newer": false
+    }
+  ],
+  "manifests": [
+    {
+      "document": {
+        "schema": 2,
+        "product": "BattleSpades",
+        "components": {
+          "server": {
+            "version": "0.3.0",
+            "protocol": 168,
+            "package": "BattleSpades-server.zip",
+            "size": 123,
+            "sha256": "aBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaB",
+            "root": "server",
+            "urls": [
+              "https://mirror.example/server.zip"
+            ],
+            "preserve": [
+              "config.toml",
+              "bans.json"
+            ],
+            "mirror_directories": [
+              "_internal"
+            ],
+            "remove": [
+              "old/path"
+            ]
+          }
+        }
+      },
+      "valid": true,
+      "release": {
+        "version": "0.3.0",
+        "package": "BattleSpades-server.zip",
+        "urls": [
+          "https://mirror.example/server.zip"
+        ],
+        "size": 123,
+        "sha256": "abababababababababababababababababababababababababababababababab",
+        "root": "server",
+        "required": false,
+        "protocol": 168,
+        "preserve": [
+          "config.toml",
+          "bans.json"
+        ],
+        "mirror_directories": [
+          "_internal"
+        ],
+        "remove": [
+          "old/path"
+        ]
+      }
+    },
+    {
+      "document": {
+        "schema": 2,
+        "product": "BattleSpades",
+        "components": {
+          "server": {
+            "version": "garbage",
+            "protocol": 168,
+            "package": "BattleSpades-server.zip",
+            "size": 123,
+            "sha256": "aBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaB",
+            "root": "server",
+            "urls": [
+              "https://mirror.example/server.zip"
+            ],
+            "preserve": [
+              "config.toml",
+              "bans.json"
+            ],
+            "mirror_directories": [
+              "_internal"
+            ],
+            "remove": [
+              "old/path"
+            ]
+          }
+        }
+      },
+      "valid": false,
+      "release": null
+    },
+    {
+      "document": {
+        "schema": 2,
+        "product": "BattleSpades",
+        "components": {
+          "server": {
+            "version": "0.3.0",
+            "protocol": 168,
+            "package": "../bad.zip",
+            "size": 123,
+            "sha256": "aBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaB",
+            "root": "server",
+            "urls": [
+              "https://mirror.example/server.zip"
+            ],
+            "preserve": [
+              "config.toml",
+              "bans.json"
+            ],
+            "mirror_directories": [
+              "_internal"
+            ],
+            "remove": [
+              "old/path"
+            ]
+          }
+        }
+      },
+      "valid": false,
+      "release": null
+    },
+    {
+      "document": {
+        "schema": 2,
+        "product": "BattleSpades",
+        "components": {
+          "server": {
+            "version": "0.3.0",
+            "protocol": 168,
+            "package": "BattleSpades-server.zip",
+            "size": 123,
+            "sha256": "aBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaB",
+            "root": "server",
+            "urls": [],
+            "preserve": [
+              "config.toml",
+              "bans.json"
+            ],
+            "mirror_directories": [
+              "_internal"
+            ],
+            "remove": [
+              "old/path"
+            ]
+          }
+        }
+      },
+      "valid": false,
+      "release": null
+    },
+    {
+      "document": {
+        "schema": 2,
+        "product": "BattleSpades",
+        "components": {
+          "server": {
+            "version": "0.3.0",
+            "protocol": 168,
+            "package": "BattleSpades-server.zip",
+            "size": 123,
+            "sha256": "aBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaB",
+            "root": "server",
+            "urls": [
+              "http://example.com/s.zip"
+            ],
+            "preserve": [
+              "config.toml",
+              "bans.json"
+            ],
+            "mirror_directories": [
+              "_internal"
+            ],
+            "remove": [
+              "old/path"
+            ]
+          }
+        }
+      },
+      "valid": false,
+      "release": null
+    },
+    {
+      "document": {
+        "schema": 2,
+        "product": "BattleSpades",
+        "components": {
+          "server": {
+            "version": "0.3.0",
+            "protocol": 168,
+            "package": "BattleSpades-server.zip",
+            "size": true,
+            "sha256": "aBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaB",
+            "root": "server",
+            "urls": [
+              "https://mirror.example/server.zip"
+            ],
+            "preserve": [
+              "config.toml",
+              "bans.json"
+            ],
+            "mirror_directories": [
+              "_internal"
+            ],
+            "remove": [
+              "old/path"
+            ]
+          }
+        }
+      },
+      "valid": false,
+      "release": null
+    },
+    {
+      "document": {
+        "schema": 2,
+        "product": "BattleSpades",
+        "components": {
+          "server": {
+            "version": "0.3.0",
+            "protocol": 168,
+            "package": "BattleSpades-server.zip",
+            "size": 0,
+            "sha256": "aBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaB",
+            "root": "server",
+            "urls": [
+              "https://mirror.example/server.zip"
+            ],
+            "preserve": [
+              "config.toml",
+              "bans.json"
+            ],
+            "mirror_directories": [
+              "_internal"
+            ],
+            "remove": [
+              "old/path"
+            ]
+          }
+        }
+      },
+      "valid": false,
+      "release": null
+    },
+    {
+      "document": {
+        "schema": 2,
+        "product": "BattleSpades",
+        "components": {
+          "server": {
+            "version": "0.3.0",
+            "protocol": 168,
+            "package": "BattleSpades-server.zip",
+            "size": 1.2,
+            "sha256": "aBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaB",
+            "root": "server",
+            "urls": [
+              "https://mirror.example/server.zip"
+            ],
+            "preserve": [
+              "config.toml",
+              "bans.json"
+            ],
+            "mirror_directories": [
+              "_internal"
+            ],
+            "remove": [
+              "old/path"
+            ]
+          }
+        }
+      },
+      "valid": false,
+      "release": null
+    },
+    {
+      "document": {
+        "schema": 2,
+        "product": "BattleSpades",
+        "components": {
+          "server": {
+            "version": "0.3.0",
+            "protocol": 168,
+            "package": "BattleSpades-server.zip",
+            "size": 123,
+            "sha256": "bad",
+            "root": "server",
+            "urls": [
+              "https://mirror.example/server.zip"
+            ],
+            "preserve": [
+              "config.toml",
+              "bans.json"
+            ],
+            "mirror_directories": [
+              "_internal"
+            ],
+            "remove": [
+              "old/path"
+            ]
+          }
+        }
+      },
+      "valid": false,
+      "release": null
+    },
+    {
+      "document": {
+        "schema": 2,
+        "product": "BattleSpades",
+        "components": {
+          "server": {
+            "version": "0.3.0",
+            "protocol": 168,
+            "package": "BattleSpades-server.zip",
+            "size": 123,
+            "sha256": "aBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaB",
+            "root": "../outside",
+            "urls": [
+              "https://mirror.example/server.zip"
+            ],
+            "preserve": [
+              "config.toml",
+              "bans.json"
+            ],
+            "mirror_directories": [
+              "_internal"
+            ],
+            "remove": [
+              "old/path"
+            ]
+          }
+        }
+      },
+      "valid": false,
+      "release": null
+    },
+    {
+      "document": {
+        "schema": 2,
+        "product": "BattleSpades",
+        "components": {
+          "server": {
+            "version": "0.3.0",
+            "protocol": 168,
+            "package": "BattleSpades-server.zip",
+            "size": 123,
+            "sha256": "aBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaB",
+            "root": "server",
+            "urls": [
+              "https://mirror.example/server.zip"
+            ],
+            "preserve": [
+              "../config"
+            ],
+            "mirror_directories": [
+              "_internal"
+            ],
+            "remove": [
+              "old/path"
+            ]
+          }
+        }
+      },
+      "valid": false,
+      "release": null
+    },
+    {
+      "document": {
+        "schema": 2,
+        "product": "BattleSpades",
+        "components": {
+          "server": {
+            "version": "0.3.0",
+            "protocol": 168,
+            "package": "BattleSpades-server.zip",
+            "size": 123,
+            "sha256": "aBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaB",
+            "root": "server",
+            "urls": [
+              "https://mirror.example/server.zip"
+            ],
+            "preserve": [
+              "config.toml",
+              "bans.json"
+            ],
+            "mirror_directories": [
+              "_internal"
+            ],
+            "remove": "old"
+          }
+        }
+      },
+      "valid": false,
+      "release": null
+    },
+    {
+      "document": {
+        "schema": 2,
+        "product": "BattleSpades",
+        "components": {
+          "server": {
+            "version": "0.3.0",
+            "protocol": "168",
+            "package": "BattleSpades-server.zip",
+            "size": 123,
+            "sha256": "aBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaB",
+            "root": "server",
+            "urls": [
+              "https://mirror.example/server.zip"
+            ],
+            "preserve": [
+              "config.toml",
+              "bans.json"
+            ],
+            "mirror_directories": [
+              "_internal"
+            ],
+            "remove": [
+              "old/path"
+            ]
+          }
+        }
+      },
+      "valid": true,
+      "release": {
+        "version": "0.3.0",
+        "package": "BattleSpades-server.zip",
+        "urls": [
+          "https://mirror.example/server.zip"
+        ],
+        "size": 123,
+        "sha256": "abababababababababababababababababababababababababababababababab",
+        "root": "server",
+        "required": false,
+        "protocol": null,
+        "preserve": [
+          "config.toml",
+          "bans.json"
+        ],
+        "mirror_directories": [
+          "_internal"
+        ],
+        "remove": [
+          "old/path"
+        ]
+      }
+    },
+    {
+      "document": {
+        "schema": 2,
+        "product": "BattleSpades",
+        "components": {
+          "server": {
+            "version": "0.3.0",
+            "protocol": 168,
+            "package": "BattleSpades-server.zip",
+            "size": 123,
+            "sha256": "aBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaB",
+            "root": "server",
+            "urls": [
+              "https://mirror.example/server.zip"
+            ],
+            "preserve": [
+              "config.toml",
+              "bans.json"
+            ],
+            "mirror_directories": [
+              "_internal"
+            ],
+            "remove": [
+              "old/path"
+            ],
+            "required": true
+          }
+        }
+      },
+      "valid": true,
+      "release": {
+        "version": "0.3.0",
+        "package": "BattleSpades-server.zip",
+        "urls": [
+          "https://mirror.example/server.zip"
+        ],
+        "size": 123,
+        "sha256": "abababababababababababababababababababababababababababababababab",
+        "root": "server",
+        "required": true,
+        "protocol": 168,
+        "preserve": [
+          "config.toml",
+          "bans.json"
+        ],
+        "mirror_directories": [
+          "_internal"
+        ],
+        "remove": [
+          "old/path"
+        ]
+      }
+    },
+    {
+      "document": {
+        "schema": 2,
+        "product": "BattleSpades",
+        "components": {
+          "server": {
+            "version": "v1.2",
+            "protocol": 168,
+            "package": "BattleSpades-server.zip",
+            "size": 123,
+            "sha256": "aBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaB",
+            "root": "server",
+            "urls": [
+              "https://mirror.example/server.zip"
+            ],
+            "preserve": [
+              "config.toml",
+              "bans.json"
+            ],
+            "mirror_directories": [
+              "_internal"
+            ],
+            "remove": [
+              "old/path"
+            ]
+          }
+        }
+      },
+      "valid": true,
+      "release": {
+        "version": "v1.2",
+        "package": "BattleSpades-server.zip",
+        "urls": [
+          "https://mirror.example/server.zip"
+        ],
+        "size": 123,
+        "sha256": "abababababababababababababababababababababababababababababababab",
+        "root": "server",
+        "required": false,
+        "protocol": 168,
+        "preserve": [
+          "config.toml",
+          "bans.json"
+        ],
+        "mirror_directories": [
+          "_internal"
+        ],
+        "remove": [
+          "old/path"
+        ]
+      }
+    },
+    {
+      "document": {
+        "schema": 2,
+        "product": "BattleSpades",
+        "components": {
+          "server": {
+            "version": "0.3.0",
+            "protocol": 168,
+            "package": "BattleSpades-server.zip",
+            "size": 123,
+            "sha256": "aBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaB",
+            "root": "server",
+            "urls": [
+              "http://localhost:8000/package.zip"
+            ],
+            "preserve": [
+              "config.toml",
+              "bans.json"
+            ],
+            "mirror_directories": [
+              "_internal"
+            ],
+            "remove": [
+              "old/path"
+            ]
+          }
+        }
+      },
+      "valid": true,
+      "release": {
+        "version": "0.3.0",
+        "package": "BattleSpades-server.zip",
+        "urls": [
+          "http://localhost:8000/package.zip"
+        ],
+        "size": 123,
+        "sha256": "abababababababababababababababababababababababababababababababab",
+        "root": "server",
+        "required": false,
+        "protocol": 168,
+        "preserve": [
+          "config.toml",
+          "bans.json"
+        ],
+        "mirror_directories": [
+          "_internal"
+        ],
+        "remove": [
+          "old/path"
+        ]
+      }
+    },
+    {
+      "document": {
+        "schema": 2,
+        "product": "BattleSpades",
+        "components": {
+          "server": {
+            "version": "0.3.0",
+            "protocol": 168,
+            "package": "BattleSpades-server.zip",
+            "size": 123,
+            "sha256": "aBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaBaB",
+            "root": "bundle\\server",
+            "urls": [
+              "https://mirror.example/server.zip"
+            ],
+            "preserve": [
+              "config.toml",
+              "bans.json"
+            ],
+            "mirror_directories": [
+              "_internal"
+            ],
+            "remove": [
+              "old/path"
+            ]
+          }
+        }
+      },
+      "valid": true,
+      "release": {
+        "version": "0.3.0",
+        "package": "BattleSpades-server.zip",
+        "urls": [
+          "https://mirror.example/server.zip"
+        ],
+        "size": 123,
+        "sha256": "abababababababababababababababababababababababababababababababab",
+        "root": "bundle\\server",
+        "required": false,
+        "protocol": 168,
+        "preserve": [
+          "config.toml",
+          "bans.json"
+        ],
+        "mirror_directories": [
+          "_internal"
+        ],
+        "remove": [
+          "old/path"
+        ]
+      }
+    }
+  ]
+}

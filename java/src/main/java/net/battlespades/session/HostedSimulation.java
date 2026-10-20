@@ -16,12 +16,11 @@ import net.battlespades.world.TerrainRepair;
 public final class HostedSimulation {
     private final Thread owner=Thread.currentThread();
     private final ApplicationHost host;private final OwnerLoop loop;private final Supplier<StandardMatchDomain> match;
-    private final HostedTelemetry telemetry=new HostedTelemetry();
     private final OwnerSequence sequence;private final AsyncFixedStepRuntime runtime;
     private CompletionStage<Integer> batch=CompletableFuture.completedFuture(0);
     private CompletionStage<Void> stopping;private Throwable failed;
     private long previous;private double pending;
-    private boolean started,running,advancing,pumping;
+    private boolean started,running,advancing,pumping,modeDeactivated;
     /** Player and entity-service binding supplied by StandardMatchFactory, selected again after every scene rollover. */
     public HostedSimulation(ApplicationHost host,OwnerLoop loop,Supplier<StandardMatchDomain> match,SimulationFrame.Services other,
             LongSupplier measuredNanos,IngamePackets.Settings packets){
@@ -48,7 +47,7 @@ public final class HostedSimulation {
                 default->other.asynchronous(phase,tick);
             };}
             public void synchronous(SimulationFrame.Phase phase,int tick){if(phase==SimulationFrame.Phase.TERRAIN_REPAIR)repair.get().tick(tick);else{if(phase==SimulationFrame.Phase.SECOND_SCHEDULERS&&tick%60==0){host.voting().ifPresent(voting->voting.service().tick(null));match.get().review().tick(match.get());}if(phase==SimulationFrame.Phase.A2S)host.discovery().ifPresent(d->d.update());if(phase==SimulationFrame.Phase.ACHIEVEMENTS)host.achievements().ifPresent(a->a.guard("tick",()->a.tick(match.get(),1./60)));other.synchronous(phase,tick);}}
-            public void subsystem(SimulationFrame.Phase phase,double ms){host.telemetry().ifPresent(t->t.metrics().recordSubsystem(phase.name().toLowerCase(Locale.ROOT),ms));other.subsystem(phase,ms);}public void failure(String name,Throwable error){host.telemetry().flatMap(t->t.logging()).ifPresent(l->l.log(net.battlespades.service.LoggingRuntime.Level.ERROR,name,()->"Hosted phase failed",error));other.failure(name,error);}public void tickMetrics(double ms){host.telemetry().ifPresent(t->{t.metrics().recordTick(ms);telemetry.sample(host,match.get(),t.metrics());});other.tickMetrics(ms);}public void health(double ms){other.health(ms);}
+            public void subsystem(SimulationFrame.Phase phase,double ms){host.telemetry().ifPresent(t->t.metrics().recordSubsystem(phase.name().toLowerCase(Locale.ROOT),ms));other.subsystem(phase,ms);}public void failure(String name,Throwable error){host.telemetry().flatMap(t->t.logging()).ifPresent(l->l.log(net.battlespades.service.LoggingRuntime.Level.ERROR,name,()->"Hosted phase failed",error));other.failure(name,error);}public void tickMetrics(double ms){host.telemetry().ifPresent(t->{t.metrics().recordTick(ms);host.sampleTelemetry(match.get());});other.tickMetrics(ms);}public void health(double ms){other.health(ms);}
         },measuredNanos,loop);
         int[] currentTick={0};runtime=new AsyncFixedStepRuntime(()->running,tick->{currentTick[0]=(int)tick;match.get().frameLoop(currentTick[0]);return frame.step(currentTick[0]);},()->replicate.accept(currentTick[0]),()->loop.sleep(0),other::failure,loop);
     }
@@ -72,14 +71,20 @@ public final class HostedSimulation {
             if(running&&!advancing){double elapsed=pending;pending=0;advancing=true;batch=runtime.advance(elapsed);batch.whenComplete((count,error)->sequence.resume(()->{advancing=false;if(error!=null){failed=OwnerSequence.cause(error);running=false;}},new CompletableFuture<>()));}
         }finally{pumping=false;}
     }
+    /** Cleanup keeps its ordering but attempts every independent drain after a handler failure. */
+    private CompletionStage<Void> cleanup(Supplier<CompletionStage<Void>> operation,List<Throwable> failures){
+        var done=new CompletableFuture<Void>();
+        try{operation.get().whenComplete((unused,error)->sequence.resume(()->{if(error!=null)failures.add(OwnerSequence.cause(error));done.complete(null);},done));}
+        catch(Throwable error){failures.add(OwnerSequence.cause(error));done.complete(null);}return done;
+    }
     /** Stops new frames; an in-flight frame and its network/owner continuations finish before mode deactivation. */
     public CompletionStage<Void> stop(){
-        owned();if(stopping!=null)return stopping;running=false;pending=0;
+        owned();if(stopping!=null&&!stopping.toCompletableFuture().isCompletedExceptionally())return stopping;running=false;pending=0;
         var result=new CompletableFuture<Void>();stopping=result.minimalCompletionStage();
         batch.whenComplete((count,error)->sequence.resume(()->{
             Throwable prior=error==null?null:OwnerSequence.cause(error);
-            CompletionStage<Void> deactivate;try{deactivate=sequence.run(List.<Supplier<CompletionStage<Void>>>of(host::shutdownEndings,()->match.get().mode().deactivate(),host::shutdownResults,host::shutdownAchievements,host::shutdownReview,host::shutdownPlugins,host::shutdownTelemetry).iterator());}catch(RuntimeException|Error failure){if(prior!=null)failure.addSuppressed(prior);result.completeExceptionally(failure);return;}
-            deactivate.whenComplete((unused,cleanup)->sequence.resume(()->{Throwable root=cleanup==null?prior:OwnerSequence.cause(cleanup);if(cleanup!=null&&prior!=null&&root!=prior)root.addSuppressed(prior);if(root==null)result.complete(null);else result.completeExceptionally(root);},result));
+            var failures=new ArrayList<Throwable>();CompletionStage<Void> deactivate;try{deactivate=sequence.run(List.<Supplier<CompletionStage<Void>>>of(host::shutdownEndings,()->host.matchTransitions().map(net.battlespades.match.MatchTransitions::shutdown).orElseGet(()->CompletableFuture.completedFuture(null)),()->modeDeactivated?CompletableFuture.completedFuture(null):match.get().mode().deactivate().thenRun(()->modeDeactivated=true),host::shutdownPlugins,host::shutdownResults,host::shutdownAchievements,host::shutdownReview,()->{host.sampleTelemetry(match.get());return host.shutdownTelemetry();}).stream().map(operation->(Supplier<CompletionStage<Void>>)()->cleanup(operation,failures)).iterator());}catch(RuntimeException|Error failure){if(prior!=null)failure.addSuppressed(prior);result.completeExceptionally(failure);return;}
+            deactivate.whenComplete((unused,cleanup)->sequence.resume(()->{Throwable root=cleanup==null?(failures.isEmpty()?prior:failures.getFirst()):OwnerSequence.cause(cleanup);for(var failure:failures)if(failure!=root)root.addSuppressed(failure);if(root!=null&&prior!=null&&root!=prior&&cleanup==null)root.addSuppressed(prior);if(cleanup!=null&&prior!=null&&root!=prior)root.addSuppressed(prior);if(root==null)result.complete(null);else result.completeExceptionally(root);},result));
         },result));return stopping;
     }
 }

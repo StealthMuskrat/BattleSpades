@@ -1,0 +1,36 @@
+# Copy beside the installation's maps/, prefabs/ and plugins/ directories.
+# Human-only offline standard/hardcore hosting; remaining services fail explicitly.
+[server]
+name = "BattleSpades Java"
+port = 27015
+max_players = 24
+lan_discovery = true
+
+[game]
+default_mode = "tdm"
+default_map = "MayanJungle"
+
+[bots]
+enabled = false
+
+[revival]
+enabled = false
+
+[steam]
+enabled = false
+
+[steam_host]
+enabled = false
+
+[admin]
+# Password login stays disabled until an operator supplies a strong password.
+password = "changeme"
+
+[achievements]
+enabled = true
+
+[java]
+achievements_path = "state/achievements-java.json"
+
+[updates]
+update_check_enabled = true

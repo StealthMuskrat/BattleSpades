@@ -1,6 +1,6 @@
 Migration CI policy: build, native ENet, Linux and Windows only. **Defer macOS testing until the full migration is complete**, then run macOS acceptance.
 
-Current checkpoint: [portable Java plugins](docs/PLUGINS.md). Local verification: 6,459 Java tests, 34 selected original source tests and all four required CI jobs pass. The migration remains incomplete.
+Current checkpoint: [standalone hosting and update operations](docs/STANDALONE_HOSTING.md). Local verification: 6,463 Java tests and 52 selected original source tests pass; four-job CI pending. The migration remains incomplete.
 
 # Standard hosted voting checkpoint
 
@@ -16,7 +16,7 @@ Map/mode requests, round ending, announcements, reconnect-safe fog, remaining ti
 
 # BattleSpades Java 25 migration
 
-The standalone Java world creator is available through `--ugc-host`, including native editor tools, authored objects/lights, previews, saves and reopen. See [WORLD_CREATION.md](docs/WORLD_CREATION.md) for launch options and verification limits. General competitive match startup remains gated with exit 2 while its remaining services are migrated.
+The standalone Java world creator is available through `--ugc-host`, including native editor tools, authored objects/lights, previews, saves and reopen. See [WORLD_CREATION.md](docs/WORLD_CREATION.md) for launch options and verification limits. Offline human-only standard/hardcore hosting is available through `--serve` using the explicit [standalone profile](docs/STANDALONE_HOSTING.md). Bots, tutorial/community modes, online and fleet services remain incomplete and unsupported startup settings fail explicitly.
 
 See [FEATURE_PARITY.md](docs/FEATURE_PARITY.md) and the [migration plan](../JAVA25_MIGRATION_PLAN.md).
 

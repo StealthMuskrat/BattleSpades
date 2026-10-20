@@ -11,6 +11,7 @@ public record InitialInfo(Identity identity,Mode mode,MapInfo map,Features featu
         int enablePlayerScore,String serverName,List<Rgba> groundColors,List<Loadout> loadouts,
         int allowShootingHoldingIntel,int friendlyFire,List<Rule> customRules,int enableCorpseExplosion,int ugcMode)
         implements GamePacket {
+    public InitialInfo withIdentity(Identity value){return new InitialInfo(value,mode,map,features,blockWalletMultiplier,blockHealthMultiplier,disabledTools,disabledClasses,movementSpeedMultipliers,ugcPrefabSets,enablePlayerScore,serverName,groundColors,loadouts,allowShootingHoldingIntel,friendlyFire,customRules,enableCorpseExplosion,ugcMode);}
     public record Identity(long steamId,int ip,int port,int queryPort) {
         public Identity { if(queryPort<0 || queryPort>65535) throw new IllegalArgumentException("Query port"); }
     }

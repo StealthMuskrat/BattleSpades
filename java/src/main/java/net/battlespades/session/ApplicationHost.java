@@ -35,6 +35,9 @@ public final class ApplicationHost implements AutoCloseable {
     private HostedDiscovery discovery;
     public void discovery(HostedDiscovery service){owned();if(discovery!=null||!sessions.isEmpty())throw new IllegalStateException("Discovery binds once before connections");discovery=java.util.Objects.requireNonNull(service);}
     public java.util.Optional<HostedDiscovery> discovery(){owned();return java.util.Optional.ofNullable(discovery);}
+    private final HostedTelemetry telemetryCounters=new HostedTelemetry();
+    void sampleTelemetry(StandardMatchDomain match){if(Thread.currentThread()!=owner)throw new IllegalStateException("Metrics outside owner");if(!closed&&telemetry!=null)telemetryCounters.sample(this,match,telemetry.metrics());}
+    void retireTelemetry(StandardMatchDomain match){if(Thread.currentThread()!=owner)throw new IllegalStateException("Metrics outside owner");if(!closed&&telemetry!=null)telemetryCounters.retire(this,match,telemetry.metrics());}
     private net.battlespades.service.TelemetryService telemetry;
     public void telemetry(net.battlespades.service.TelemetryService service){owned();if(telemetry!=null||!sessions.isEmpty())throw new IllegalStateException("Telemetry binds once before connections");telemetry=java.util.Objects.requireNonNull(service);}
     public java.util.Optional<net.battlespades.service.TelemetryService> telemetry(){owned();return java.util.Optional.ofNullable(telemetry);}

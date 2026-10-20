@@ -124,6 +124,8 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
     public Score score(int id){owned();var s=Objects.requireNonNull(scores.get(id));return new Score(s.kills,s.deaths,s.streak,s.lastKilledBy,s.bonuses);}
     /** Match score reset retains connection kill relationships, as original reset_round_scores does. */
     public void resetRoundCounters(){owned();for(var s:scores.values()){s.kills=0;s.deaths=0;s.streak=0;}}
+    /** Same-map runtime retirement clears kill relationships independently of score-only resets. */
+    public void resetRoundRuntime(){owned();feed.reset();for(var s:scores.values()){s.streak=0;s.lastKilledBy=-1;s.bonuses.clear();}}
     /** Synchronous chained blasts retain the outermost non-null instigator, as conduct.blast_instigator does. */
     public BlastScope blast(Integer instigatorId){owned();return blastSource(instigatorId==null?null:player(instigatorId));}
     public BlastScope blastSource(PlayerLife instigator){owned();PlayerLife current=blasts.isEmpty()?null:blasts.getLast().instigator;var scope=new BlastScope(current!=null?current:instigator);blasts.addLast(scope);return scope;}

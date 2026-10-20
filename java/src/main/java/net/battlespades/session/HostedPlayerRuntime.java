@@ -61,7 +61,7 @@ public final class HostedPlayerRuntime implements AutoCloseable {
             public long captures(PlayerLife p){return match.binding().row(p).captures;}public long score(PlayerLife p){return match.binding().row(p).score;}public TeamBalancer.Bots bots(){return ports.bots();}
             public boolean hearingEnabled(){return ports.hearingEnabled();}public void blockDestroyed(GameplaySounds.Position center,int source,int team,double lifetime){ports.blockDestroyed(center,source,team,lifetime);}public void updateBotSkill(double now){ports.updateBotSkill(now);}public void anticheatReport(double now){ports.anticheatReport(now);}
         },clock::monotonic,loop,ports::failure);
-        lives.replication(replication);
+        host.reconciliation().ifPresent(replication::tune);lives.replication(replication);
     }
     private boolean current(PlayerLife p){return match.lives().players().stream().anyMatch(actor->actor==p);}
     private List<PlayerSnapshot> currentSnapshots(Ports ports){

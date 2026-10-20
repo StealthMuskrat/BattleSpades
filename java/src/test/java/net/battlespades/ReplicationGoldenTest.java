@@ -58,6 +58,12 @@ class ReplicationGoldenTest {
         link.accepted=true;fixture.service.broadcast(1,0);assertEquals(List.of("0,99,1"),fixture.anchors);assertEquals(1,fixture.flushes);
         assertEquals(1,fixture.packets);fixture.service.broadcast(1,0);assertEquals(1,fixture.packets);
     }
+    @Test void liveOwnerTuningPreservesCadenceAndHistoryAndBoundsWireLabels(){
+        var f=new Fixture(0);f.operation("state","0,1,1,0,100,0,0,0,-,100,40,0,0,0,0,0,0,0,0,7,255,0");f.service.broadcast(2,0);assertEquals(List.of("0,99,2"),f.anchors);var observer=f.links.get(0).observer.loop();int sent=f.packets;
+        f.service.tune(new ReplicationService.OwnerTuning(false,8,1));assertEquals(observer,f.links.get(0).observer.loop());f.service.broadcast(2,0);assertEquals(sent,f.packets,"Tuning must not reset the cadence bucket");f.service.broadcast(4,0);assertEquals(1,f.anchors.size());assertEquals(108,f.players.get(0).ack);
+        f.service.tune(new ReplicationService.OwnerTuning(true,8,1));f.service.broadcast(6,0);assertEquals("0,108,6",f.anchors.getLast());assertEquals("0,99,2",f.anchors.getFirst());
+        f.service.tune(new ReplicationService.OwnerTuning(true,Integer.MAX_VALUE,0));f.service.broadcast(8,0);assertEquals(Integer.MAX_VALUE,f.players.get(0).ack);assertEquals(1,f.service.tuning().interval());f.service.tune(new ReplicationService.OwnerTuning(true,Integer.MIN_VALUE,1));f.service.broadcast(10,0);assertEquals(0,f.players.get(0).ack);
+    }
     private static final class Fixture implements ReplicationService.World {
         final LinkedHashMap<Integer,Player> players=new LinkedHashMap<>();final LinkedHashMap<Integer,Link> links=new LinkedHashMap<>();
         final List<String> anchors=new ArrayList<>();int flushes,packets;long bytes;

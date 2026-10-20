@@ -1,0 +1,88 @@
+{
+  "observed_utc": "2026-10-20T01:28:01.430309+00:00",
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "verification_parent_commit": "79e4c002288cff3766800ee6882ce64b880e9d66",
+  "implemented_families": [
+    "restart/reset",
+    "tp/teleport",
+    "netcode/nc"
+  ],
+  "java_component_tests": 6355,
+  "java_integration_tests": 72,
+  "java_tests": 6427,
+  "junit": {
+    "test": {
+      "suites": 116,
+      "tests": 6355,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 5,
+      "tests": 72,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "source_tests": {
+    "tests": 44,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "files": [
+      "tests/test_commands.py",
+      "tests/test_match_transitions.py",
+      "tests/test_round_runtime_reset.py"
+    ]
+  },
+  "gradle": "Full check build passed; passing components reused after correcting the new restart test to check loading clock traffic during the source-compatible suspended in-game drain; no assertions or deadlines weakened",
+  "source_directories_unchanged": [
+    "server",
+    "shared",
+    "aoslib",
+    "protocol",
+    "modes",
+    "tests",
+    "commands"
+  ],
+  "unchanged_existing_resources": 263,
+  "configured_source_generators": 79,
+  "jar_sha256": "d8218da12e347fc667101cffb0c9d0db53fa664a2e2075e3a61ea4f6e57e6e06",
+  "jar_bytes": 2695255,
+  "java_class_major": 69,
+  "smoke": {
+    "version": {
+      "exit": 0
+    },
+    "config": {
+      "exit": 0
+    },
+    "help": {
+      "exit": 0
+    },
+    "ugc_missing": {
+      "exit": 2
+    },
+    "hosting": {
+      "exit": 2
+    }
+  },
+  "production_source_fingerprint": {
+    "files": 384,
+    "sha256": "e781be308e35d357187e45b727ac017affb04f0559f503c8f4ab1c15969d6810"
+  },
+  "ci": {
+    "status": "pending",
+    "all_five_jobs_passed": false
+  },
+  "full_migration_complete": false,
+  "supported_client_acceptance": false,
+  "remaining": [
+    "bots AI and director",
+    "Tutorial host and lessons",
+    "achievement evaluation and local profile persistence",
+    "master registration/authentication and complete standalone startup"
+  ]
+}

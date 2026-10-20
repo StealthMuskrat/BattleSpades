@@ -107,6 +107,11 @@ public final class PlayerLife {
     public Optional<ClassCatalog.Selection> pendingSelection(){owned();return Optional.ofNullable(pending);}
     public PlayerPhysics body(){owned();if(body==null)throw new IllegalStateException("No Character body");return body;}
     public PlayerPhysics.Vector position(){owned();return body==null?position:body.state().position();}
+    /** Administrative reposition preserves the current life and input/flight intent; coordinates are native map bounds. */
+    public void teleport(PlayerPhysics.Vector at,boolean stop){
+        owned();Objects.requireNonNull(at);if(at.x()<0||at.x()>=512||at.y()<0||at.y()>=512||at.z()<0||at.z()>=240)throw new IllegalArgumentException("Coordinates must be finite and inside the map");
+        position=at;if(body!=null){body.teleport(at);if(stop)body.velocity(new PlayerPhysics.Vector(0,0,0));}flight.teleported();positionReports.spawned(at);
+    }
     public PlayerPhysics.Vector aim(){owned();return aim;}public LifePackets.KillAction lastDeath(){owned();return lastDeath;}
     public InputTimeline inputTimeline(){owned();return inputTimeline;}
     public ActionClock actionClock(){owned();return actionClock;}

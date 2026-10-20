@@ -26,6 +26,7 @@ public final class ReplicationService {
         private static int integer(org.tomlj.TomlTable raw,String key,int fallback){Object value=raw.get(key);if(value==null)return fallback;if(value instanceof Long n)return Math.toIntExact(n);throw new IllegalArgumentException(key+" must be an integer");}
         private static boolean flag(org.tomlj.TomlTable raw,String key,boolean fallback){Object value=raw.get(key);if(value==null)return fallback;if(value instanceof Boolean b)return b;throw new IllegalArgumentException(key+" must be boolean");}
     }
+    public record OwnerTuning(boolean includeSelf,int loopOffset,int interval){public OwnerTuning{interval=Math.max(1,interval);}}
     public record State(int id,String name,boolean bot,boolean visible,Integer applied,boolean synthesized,
         Boolean flightCapable,boolean airborne,Integer jumpLabel,Integer newestInput,double rtt,
         boolean pack,boolean packPhysics,int defer,int tail,boolean canopy,boolean canopyPhysics,boolean canopyPending,
@@ -49,12 +50,17 @@ public final class ReplicationService {
     private final Thread owner=Thread.currentThread();
     private final World world;
     private final Settings settings;
+    private OwnerTuning tuning;
     private Integer bucket;
     private final Map<Integer,Integer> lastSelf=new HashMap<>(),ack=new HashMap<>();
     private final Map<Integer,Boolean> lastPack=new HashMap<>(),lastCanopy=new HashMap<>();
     private final Map<Integer,Recovery> recovery=new HashMap<>();
-    public ReplicationService(World world,Settings settings){this.world=Objects.requireNonNull(world);this.settings=Objects.requireNonNull(settings);}
+    public ReplicationService(World world,Settings settings){this.world=Objects.requireNonNull(world);this.settings=Objects.requireNonNull(settings);tuning=new OwnerTuning(settings.includeSelf(),settings.loopOffset(),settings.selfInterval());}
     private void owned(){if(Thread.currentThread()!=owner)throw new IllegalStateException("Replication outside owner");}
+    public OwnerTuning tuning(){owned();return tuning;}
+    /** Does not replace cadence buckets, anchors, reliable holds, observer state or input clocks. */
+    public void tune(OwnerTuning value){owned();tuning=Objects.requireNonNull(value);}
+    private int stamp(int applied){return Math.clamp((long)applied+tuning.loopOffset(),0,Integer.MAX_VALUE);}
     public void forgetPlayer(int id){owned();lastSelf.remove(id);lastPack.remove(id);lastCanopy.remove(id);recovery.remove(id);ack.remove(id);}
     private static long crc(String value){var crc=new CRC32();crc.update(value.getBytes(StandardCharsets.UTF_8));return crc.getValue();}
     public static int ping(State s,int loop){
@@ -79,15 +85,15 @@ public final class ReplicationService {
     public byte[] build(int loop,double now,Integer excluded,Integer local){
         owned();return build(world.players().stream().map(p->p.state(loop,now)).toList(),loop,excluded,local);
     }
-    private boolean urgent(State s){return settings.includeSelf&&s!=null&&s.applied!=null&&
+    private boolean urgent(State s){return tuning.includeSelf()&&s!=null&&s.applied!=null&&
         (s.pack!=lastPack.getOrDefault(s.id,false)||s.canopy!=lastCanopy.getOrDefault(s.id,false));}
     private static boolean recoveryAllowed(State s){return Boolean.FALSE.equals(s.flightCapable)&&!s.bot&&!s.pack&&!s.packPhysics&&s.defer==0&&s.tail==0&&!s.canopy&&!s.canopyPhysics&&!s.canopyPending;}
     private boolean ownerDue(State s,Set<Integer> urgent,int loop){
-        if(!settings.includeSelf||s==null||s.applied==null||s.synthesized)return false;
+        if(!tuning.includeSelf()||s==null||s.applied==null||s.synthesized)return false;
         if(urgent.contains(s.id))return true;
         var r=recovery.get(s.id);
         if(r!=null&&s.airborne&&recoveryAllowed(s)&&r.launch<=s.applied&&s.applied<=r.through&&loop<r.expires)return false;
-        int interval=settings.selfInterval;
+        int interval=tuning.interval();
         if(s.airborne)interval=Math.max(interval,Boolean.TRUE.equals(s.flightCapable)?settings.airborneInterval:settings.retailAirborneInterval);
         Integer last=lastSelf.get(s.id);return last==null||(long)loop-last>=interval;
     }
@@ -129,7 +135,7 @@ public final class ReplicationService {
         int nextBucket=Math.floorDiv(loop,settings.interval);
         if(bucket==null?Math.floorMod(loop,settings.interval)!=0:nextBucket<=bucket){urgent(links,players,states,urgent,loop);return;}
         bucket=nextBucket;
-        for(var s:states.values())if(s.bot||s.applied!=null){int stamp=s.bot?Math.max(0,loop):Math.max(0,Math.addExact(s.applied,settings.loopOffset));ack.put(s.id,stamp);players.get(s.id).acknowledge(stamp);}
+        for(var s:states.values())if(s.bot||s.applied!=null){int stamp=s.bot?Math.max(0,loop):stamp(s.applied);ack.put(s.id,stamp);players.get(s.id).acknowledge(stamp);}
         if(settings.split){split(links,players,states,urgent,loop);return;}
         var groups=new LinkedHashMap<Group,List<WorldUpdateLink>>();
         for(var link:links){var s=states.get(link.localPlayerId());boolean due=ownerDue(s,urgent,loop);
@@ -171,7 +177,7 @@ public final class ReplicationService {
     }
     private void urgent(List<? extends WorldUpdateLink> links,Map<Integer,Player> players,Map<Integer,State> states,Set<Integer> urgent,int loop){
         for(var link:links){var s=states.get(link.localPlayerId());if(s==null||!urgent.contains(s.id))continue;
-            int stamp=Math.max(0,Math.addExact(s.applied,settings.loopOffset));ack.put(s.id,stamp);players.get(s.id).acknowledge(stamp);
+            int stamp=stamp(s.applied);ack.put(s.id,stamp);players.get(s.id).acknowledge(stamp);
             byte[] data=build(states.values(),loop,null,s.id);
             if(settings.split){var parsed=SnapshotWire.parse(data);byte[] row=parsed.rows().get(s.id);if(row==null){settle(s,loop);continue;}
                 data=SnapshotWire.ownerPayload(SnapshotWire.ownerPrefix(link.observerState().loop(),parsed.prefix()),row);}

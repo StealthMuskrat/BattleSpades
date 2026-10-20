@@ -14,7 +14,7 @@ public final class HostedTransitionServices implements MatchTransitions.Services
     public interface Bindings {
         void notice(String message);void resetVote();CompletionStage<Void> prepareBots();
         double graceSeconds();void resetRuntime();void resetRepair();void resetJournal();void resetHud();
-        void notePlayed(String map);CompletionStage<Void> rebindBots();CompletionStage<Void> restartRound(TransitionMode mode);
+        void notePlayed(String map);CompletionStage<Void> rebindBots();CompletionStage<Void> resetBotsAfterRestart();CompletionStage<Void> restartRound(TransitionMode mode);
         void failure(String label,Throwable error);
     }
     private final HostedSceneState state;
@@ -40,5 +40,5 @@ public final class HostedTransitionServices implements MatchTransitions.Services
     public CompletionStage<Void> prepareBots(){return bindings.prepareBots();}public double graceSeconds(){return bindings.graceSeconds();}
     public void resetRuntime(){bindings.resetRuntime();}public void resetRepair(){bindings.resetRepair();}public void resetJournal(){bindings.resetJournal();}public void resetHud(){bindings.resetHud();}
     public void notePlayed(String map){bindings.notePlayed(map);}public CompletionStage<Void> rebindBots(){return bindings.rebindBots();}
-    public CompletionStage<Void> restartRound(TransitionMode mode){return bindings.restartRound(mode);}public void failure(String label,Throwable error){bindings.failure(label,error);}
+    public CompletionStage<Void> restartRound(TransitionMode mode){if(state.domain() instanceof StandardMatchDomain match){if(mode!=match.mode())throw new IllegalArgumentException("Restart mode is not the active domain");return HostedRoundRestart.run(match,host,loop,bindings::prepareBots,bindings::resetBotsAfterRestart,bindings::resetHud);}return bindings.restartRound(mode);}public void failure(String label,Throwable error){bindings.failure(label,error);}
 }

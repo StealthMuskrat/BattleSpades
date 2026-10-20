@@ -1,3 +1,7 @@
+# Hosted runtime-control checkpoint
+
+Same-map restart/reset, teleport and persistent live netcode tuning now bind to hosted runtime owners. See [RUNTIME_CONTROLS.md](docs/RUNTIME_CONTROLS.md). The broader migration remains incomplete.
+
 # Hosted server-control checkpoint
 
 Map/mode requests, round ending, announcements, reconnect-safe fog, remaining time and safe team balance now bind to the real hosted owners. See [SERVER_CONTROLS.md](docs/SERVER_CONTROLS.md). The broader migration remains incomplete.

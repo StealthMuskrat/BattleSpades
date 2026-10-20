@@ -41,6 +41,7 @@ public final class PlayerFlight {
     public OptionalDouble roundTripMillis(){owned();return rtt==null?OptionalDouble.empty():OptionalDouble.of(rtt);}
     public void settings(Settings value){owned();settings=Objects.requireNonNull(value);}
     void resetLife(){owned();fuel=100;heldSeconds=idleSeconds=0;clearPack();clearCanopy();}
+    void teleported(){owned();usedThisFall=false;}
     void died(){owned();clearPack();clearCanopy();}
     private void clearPack(){active=physicsActive=requiresRelease=false;defer=tail=0;}
     private void clearCanopy(){canopy=canopyPhysics=canopyOwner=hoverHeld=jumpHeld=deployPending=usedThisFall=fallTouched=false;unsentFrames=0;openFrames=fallbackClock=0;schedule.clear();event=null;}

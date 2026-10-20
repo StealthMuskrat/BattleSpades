@@ -7,6 +7,9 @@ import java.util.function.*;
 import net.battlespades.match.Announcements;
 import net.battlespades.match.RoundEndSequence;
 import net.battlespades.player.NameUnicode;
+import net.battlespades.player.PlayerLife;
+import net.battlespades.physics.PlayerPhysics.Vector;
+import net.battlespades.replication.ReplicationService.OwnerTuning;
 import net.battlespades.protocol.SimplePackets;
 import net.battlespades.protocol.UgcPackets;
 import net.battlespades.transport.enet.Delivery;
@@ -16,6 +19,9 @@ final class HostedServerCommands {
     private final StandardMatchDomain match;private final ApplicationHost host;private final CommandRegistry commands;
     HostedServerCommands(StandardMatchDomain match,ApplicationHost host){
         this.match=match;this.host=host;commands=match.social().commands();
+        commands.register(new CommandRegistry.Command("restart",List.of("reset"),true,false,"/restart","Restart the current round/match",this::restart));
+        sync("tp",List.of("teleport"),"/tp <player> [target] or /tp <x> <y> <z>","Teleport a player",this::teleport);
+        sync("netcode",List.of("nc"),"/netcode [selfrow on|off] [offset <n>] [interval <n>]","Live-tune WorldUpdate self-row reconciliation",this::netcode);
         sync("map",List.of("changemap"),"/map <mapname>","Change the current map",this::map);
         sync("mode",List.of("gamemode"),"/mode <tdm|ctf|cctf|zom|vip|mh|tc|dia|dem|oc|arena>","Change the game mode",this::mode);
         sync("endround",List.of("endgame","forceend"),"/endround [team]","Force the current round to end",this::end);
@@ -38,6 +44,35 @@ final class HostedServerCommands {
         if(isolated(c))return;if(c.args().isEmpty()){notice(c,"Current mode: "+match.modeCode().toUpperCase(Locale.ROOT));notice(c,"Usage: /mode <tdm|ctf|cctf|zom|vip|mh|tc|dia|dem|oc|arena>");return;}
         var transitions=host.matchTransitions();if(transitions.isEmpty()){notice(c,"Match transitions are unavailable");return;}
         transitionReply(c,transitions.get().requestMode(c.args().getFirst(),text->notice(c,text)));
+    }
+    private CompletionStage<Void> restart(CommandRegistry.Context c){
+        if(isolated(c))return done();var transitions=host.matchTransitions();if(transitions.isEmpty()){notice(c,"Match transitions are unavailable");return done();}
+        return transitions.get().restart().thenAccept(result->{if(!result.ok())notice(c,result.message());else host.broadcast(Announcements.overlay("Match restarted!"),Delivery.RELIABLE);});
+    }
+    private PlayerLife find(CommandRegistry.Context c,String name){String key=name.toLowerCase(Locale.ROOT);var p=match.lives().players().stream().filter(v->v.name().toLowerCase(Locale.ROOT).startsWith(key)).findFirst().orElse(null);if(p==null)notice(c,"Player not found: "+name);return p;}
+    private static double coordinate(String value){return switch(value.toLowerCase(Locale.ROOT)){case "nan","+nan","-nan"->Double.NaN;case "inf","+inf","infinity","+infinity"->Double.POSITIVE_INFINITY;case "-inf","-infinity"->Double.NEGATIVE_INFINITY;default->Double.parseDouble(value);};}
+    private void teleport(CommandRegistry.Context c){
+        if(c.args().isEmpty()){notice(c,"Usage: /tp <player> [target] or /tp <x> <y> <z>");return;}
+        if(c.args().size()>=3){double x,y,z;try{x=coordinate(c.args().get(0));y=coordinate(c.args().get(1));z=coordinate(c.args().get(2));}catch(NumberFormatException invalid){teleportPlayer(c);return;}
+            if(!Double.isFinite(x)||!Double.isFinite(y)||!Double.isFinite(z)||x<0||x>=512||y<0||y>=512||z<0||z>=240){notice(c,"Coordinates must be finite and inside the map");return;}
+            c.player().teleport(new Vector(x,y,z),true);notice(c,"Teleported to ("+x+", "+y+", "+z+")");return;
+        }teleportPlayer(c);
+    }
+    private void teleportPlayer(CommandRegistry.Context c){
+        var target=find(c,c.args().getFirst());if(target==null)return;
+        if(c.args().size()>=2){var dest=find(c,c.args().get(1));if(dest==null)return;target.teleport(dest.position(),false);notice(c,"Teleported "+target.name()+" to "+dest.name());}
+        else{c.player().teleport(target.position(),false);notice(c,"Teleported to "+target.name());}
+    }
+    private static String knobs(OwnerTuning tuning){return "selfrow="+(tuning.includeSelf()?"True":"False")+" offset="+tuning.loopOffset()+" interval="+tuning.interval();}
+    private void netcode(CommandRegistry.Context c){
+        var runtime=match.playerRuntime();if(runtime.isEmpty()){notice(c,"WorldUpdate reconciliation is unavailable");return;}var replication=runtime.get().replication();var old=replication.tuning();
+        if(c.args().isEmpty()){notice(c,knobs(old));return;}boolean self=old.includeSelf();int offset=old.loopOffset(),interval=old.interval();
+        try{for(int i=0;i<c.args().size();){String key=c.args().get(i++).toLowerCase(Locale.ROOT);switch(key){
+            case "selfrow","self"->self=Set.of("on","true","1").contains(c.args().get(i++).toLowerCase(Locale.ROOT));
+            case "offset"->offset=Integer.parseInt(c.args().get(i++));case "interval"->interval=Math.max(1,Integer.parseInt(c.args().get(i++)));
+            default->{notice(c,"unknown key: "+key);return;}
+        }}}catch(IndexOutOfBoundsException|NumberFormatException invalid){notice(c,"usage: /netcode selfrow on|off offset <n> interval <n>");return;}
+        var next=new OwnerTuning(self,offset,interval);replication.tune(next);host.rememberReconciliation(next);notice(c,"netcode -> "+knobs(next));
     }
     private void end(CommandRegistry.Context c){
         if(isolated(c))return;var mode=match.mode();if(mode.clock().ended){notice(c,"No active round to end.");return;}int team=0;

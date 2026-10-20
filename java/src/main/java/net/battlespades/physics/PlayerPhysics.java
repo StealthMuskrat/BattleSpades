@@ -44,6 +44,8 @@ public final class PlayerPhysics {
     public State state() {owned();return new State(new Vector(x,y,z),new Vector(vx,vy,vz),airborne,wade,crouch,jump,jumped,fallDistance,climbTimer);}
     public boolean hitboxCrouched(){owned();return crouch&&!flight.hover;}
     public void position(Vector p) {owned();x=p.x;y=p.y;z=p.z;}
+    /** Native set-position wrapper drops stale water contact until the next actual ground contact. */
+    public void teleport(Vector p){owned();position(Objects.requireNonNull(p));wade=false;}
     public void velocity(Vector v) {owned();vx=v.x;vy=v.y;vz=v.z;}
     public void orientation(Vector v) {
         owned();ox=v.x;oy=v.y;oz=v.z;double length=Math.sqrt(ox*ox+oy*oy);

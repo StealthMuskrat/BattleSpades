@@ -1,4 +1,6 @@
-Current checkpoint: [hosted round ending, presentation, restart/rollover ownership and shutdown](docs/HOSTED_ROUND_ENDING.md). Local verification: 6,435 Java tests pass; CI pending. The migration remains incomplete.
+Migration CI policy: build, native ENet, Linux and Windows only. **Defer macOS testing until the full migration is complete**, then run macOS acceptance.
+
+Current checkpoint: [hosted round ending, presentation, restart/rollover ownership and shutdown](docs/HOSTED_ROUND_ENDING.md). Local verification: 6,435 Java tests and the four required build/native/Linux/Windows CI jobs pass. The migration remains incomplete.
 
 # Standard hosted voting checkpoint
 

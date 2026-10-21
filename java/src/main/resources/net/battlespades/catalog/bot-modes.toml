@@ -1,0 +1,428 @@
+# Unchanged source 546c548780c400f21d73ca6713f86194ceb3c844
+class_zombie = 4
+class_fast_zombie = 14
+class_jump_zombie = 15
+block_tool = 5
+team_neutral = 1
+diamond_pickup = 15
+team1 = 2
+team2 = 3
+bomb_pickup = 14
+sniper_tool = 18
+sniper2_tool = 19
+prefab_tool = 23
+landmine_tool = 20
+medpack_tool = 51
+health_crate = 4
+ammo_crate = 3
+block_crate = 5
+superspade_tool = 3
+rocket_turret_tool = 16
+radar_station_tool = 56
+ctf_marker_delay = 30.0
+airstrike_radius = 6.0
+bomb_fuse = 10.0
+bomb_radius = 7.0
+pickup_lock = 2.5
+
+[[strategies]]
+code = "nor"
+objective = "Advance with the team and control the opposing side of the map."
+posture = "balanced"
+
+[[strategies]]
+code = "tdm"
+objective = "Win efficient engagements while maintaining squad pressure."
+posture = "assault"
+
+[[strategies]]
+code = "arena"
+objective = "Eliminate the enemy team while preserving each irreplaceable life."
+posture = "survive"
+
+[[strategies]]
+code = "ctf"
+objective = "Capture enemy intel, escort carriers, and recover friendly intel."
+posture = "escort"
+
+[[strategies]]
+code = "cctf"
+objective = "Capture enemy intel while defending without hidden carrier markers."
+posture = "escort"
+
+[[strategies]]
+code = "zom"
+objective = "Survivors fortify together; infected breach and convert survivors."
+posture = "survive"
+
+[[strategies]]
+code = "vip"
+objective = "Protect the friendly VIP and coordinate attacks on the enemy VIP."
+posture = "escort"
+
+[[strategies]]
+code = "mh"
+objective = "Capture the active hill, then hold its approaches."
+posture = "defend"
+
+[[strategies]]
+code = "dem"
+objective = "Fortify the friendly objective and destroy the opposing objective."
+posture = "build"
+
+[[strategies]]
+code = "tc"
+objective = "Capture connected territories while retaining a defensive line."
+posture = "assault"
+
+[[strategies]]
+code = "dia"
+objective = "Mine, collect, escort, and cash in diamonds at active drop-offs."
+posture = "mine"
+
+[[strategies]]
+code = "oc"
+objective = "Deliver bombs as Blue; intercept and dispose of them as Green."
+posture = "escort"
+
+[[strategies]]
+code = "tut"
+objective = "Remain passive so authored player lessons are not disturbed."
+posture = "survive"
+
+[[strategies]]
+code = "ugc"
+objective = "Remain passive while players author and validate map objectives."
+posture = "survive"
+
+[[strategies]]
+code = "block_hunt"
+objective = "Hiders: E samples colour, fire disguises (unlimited); shovel digs but cannot hurt players. Hunters find everyone."
+posture = "balanced"
+
+[[strategies]]
+code = "false_wall"
+objective = "Hide your cache with /stash, build decoys, then carry the enemy cache back to YOUR base."
+posture = "balanced"
+
+[[strategies]]
+code = "crumbling_run"
+objective = "Touch checkpoints in order. Platforms crumble behind you; /retry returns to your checkpoint."
+posture = "balanced"
+
+[[strategies]]
+code = "last_exit"
+objective = "Collect valuables and hold the announced exit to extract. Only extracted loot scores."
+posture = "balanced"
+
+[[strategies]]
+code = "night_shift"
+objective = "Clear six enemy waves, then reach evacuation. Repair the yellow barricade for a team resupply between waves."
+posture = "balanced"
+
+[[strategies]]
+code = "tunnel_rats"
+objective = "Dig through the bunker and bring two underground caches back to your base."
+posture = "balanced"
+
+[[strategies]]
+code = "bridge_chicken"
+objective = "Build across the gap and deliver your relay to the far island. Falling drops your relay."
+posture = "balanced"
+
+[[strategies]]
+code = "towerfall"
+objective = "Build around your tower, then destroy enemy supports. A falling core loses the round."
+posture = "balanced"
+
+[[strategies]]
+code = "floor_tax"
+objective = "Hold shovel fire to cut the floor. Grenades knock players back. Fall through three floors and you are out; last survivor wins."
+posture = "balanced"
+
+[[strategies]]
+code = "hot_potato"
+objective = "Melee-tag another player to pass the cursed intel. The fuse costs a life; three lives each."
+posture = "balanced"
+
+[[strategies]]
+code = "lockdown"
+objective = "Defeated players respawn in jail. Hold the enemy jail's rescue marker to free your team."
+posture = "balanced"
+
+[[strategies]]
+code = "paint_raid"
+objective = "Use your block tool to paint the marked floor. Most team-coloured cells at the bell wins."
+posture = "balanced"
+
+[[strategies]]
+code = "smugglers_run"
+objective = "Smugglers carry hidden packages to delivery points; guards intercept. Roles alternate."
+posture = "balanced"
+
+[[strategies]]
+code = "one_in_the_spade"
+objective = "One lethal shot. A kill earns another; when empty use your spade. First to 15 wins."
+posture = "balanced"
+
+[[strategies]]
+code = "borrowed_arsenal"
+objective = "Earn two kills with each weapon to advance. Finish the weapon ladder to win; death keeps your progress."
+posture = "balanced"
+
+[[strategies]]
+code = "reverse_siege"
+objective = "The surrounded team must carry supplies out of its fortress. Defenders intercept; roles alternate."
+posture = "balanced"
+
+[[strategies]]
+code = "kingmaker"
+objective = "Hold the marked hill uncontested to score for your team. First to 90 points wins."
+posture = "balanced"
+
+[[strategies]]
+code = "red_light_raid"
+objective = "Race through checkpoints. Freeze on RED; moving resets you. /retry returns to your checkpoint."
+posture = "balanced"
+
+[[strategies]]
+code = "scrapyard_engineers"
+objective = "Collect central scrap to fund construction. Destroy the enemy generator while protecting yours."
+posture = "balanced"
+
+[[strategies]]
+code = "spadeball"
+objective = "Carry or throw the intel into the opposing goal. Spades only; first to five goals wins."
+posture = "balanced"
+
+[[schematics]]
+name = "sandbag_wall"
+layers = [["#####"], ["#####"]]
+anchor = [2, 0]
+tags = ["cover", "barrier", "any"]
+purpose = "cover"
+description = "waist-high 5-wide sandbag line"
+ground_mode = "fill"
+max_fill = 2
+base_level = 0
+max_builders = 2
+palette_chars = ["#"]
+palette_tokens = ["sand"]
+occupant = []
+
+[[schematics]]
+name = "cover_wall"
+layers = [["#######"], ["#_###_#"], ["#######"]]
+anchor = [3, 0]
+tags = ["cover", "barrier", "any"]
+purpose = "cover"
+description = "head-high 7-wide wall with two firing slits"
+ground_mode = "fill"
+max_fill = 2
+base_level = 0
+max_builders = 2
+palette_chars = ["#"]
+palette_tokens = ["concrete"]
+occupant = []
+
+[[schematics]]
+name = "corner_cover"
+layers = [["#####", "#....", "#...."], ["#####", "#....", "#...."]]
+anchor = [2, 1]
+tags = ["cover", "barrier", "any"]
+purpose = "cover"
+description = "L-shaped waist-high cover"
+ground_mode = "fill"
+max_fill = 2
+base_level = 0
+max_builders = 2
+palette_chars = ["#"]
+palette_tokens = ["sand"]
+occupant = []
+
+[[schematics]]
+name = "small_hut"
+layers = [["#####", "#___#", "#___#", "#___#", "##_##", ".._.."], ["##_##", "#___#", "_____", "#___#", "##_##", ".._.."], ["#####", "#___#", "#___#", "#___#", "##_##", ".._.."], ["=====", "=====", "=====", "=====", "=====", "....."]]
+anchor = [2, 2]
+tags = ["shelter", "house", "any"]
+purpose = "shelter"
+description = "5x5 hut: back door, three windows, flat roof"
+ground_mode = "fill"
+max_fill = 2
+base_level = 0
+max_builders = 3
+palette_chars = ["#", "=", "+"]
+palette_tokens = ["wood", "dark", "brick"]
+occupant = [0, 0, 0]
+
+[[schematics]]
+name = "bunker"
+layers = [["#######", "#_____#", "#_____#", "#_____#", "###_###", "..._..."], ["#_____#", "#_____#", "#_____#", "#_____#", "###_###", "..._..."], ["#######", "#_____#", "#_____#", "#_____#", "###_###", "..._..."], ["=======", "=======", "=======", "=======", "======="]]
+anchor = [3, 2]
+tags = ["shelter", "bunker", "defend", "any"]
+purpose = "defend"
+description = "7x5 bunker: wide front firing slit, back door, roof"
+ground_mode = "fill"
+max_fill = 2
+base_level = 0
+max_builders = 3
+palette_chars = ["#", "=", "+"]
+palette_tokens = ["concrete", "dark", "olive"]
+occupant = [0, 0, 0]
+
+[[schematics]]
+name = "pillbox"
+layers = [["#####", "#___#", "#___#", "#___#", "##_##", ".._.."], ["#___#", "_____", "#___#", "#___#", "##_##", ".._.."], ["#####", "#___#", "#___#", "#___#", "##_##", ".._.."], ["=====", "=====", "=====", "=====", "====="]]
+anchor = [2, 2]
+tags = ["shelter", "pillbox", "defend", "any"]
+purpose = "defend"
+description = "5x5 pillbox: front and side slits, back door"
+ground_mode = "fill"
+max_fill = 2
+base_level = 0
+max_builders = 3
+palette_chars = ["#", "=", "+"]
+palette_tokens = ["concrete", "dark", "olive"]
+occupant = [0, 0, 0]
+
+[[schematics]]
+name = "vip_shelter"
+layers = [["#####", "#___#", "#___#", "#___#", "##_##", ".._.."], ["##_##", "#___#", "_____", "#___#", "##_##", ".._.."], ["+++++", "+___+", "+___+", "+___+", "++_++", ".._.."], ["=====", "=====", "=====", "=====", "====="]]
+anchor = [2, 2]
+tags = ["vip", "shelter", "defend"]
+purpose = "vip_shelter"
+description = "VIP box around its occupant: slits, back door, roof"
+ground_mode = "fill"
+max_fill = 2
+base_level = 0
+max_builders = 4
+palette_chars = ["#", "+", "="]
+palette_tokens = ["concrete", "gold", "dark"]
+occupant = [0, 0, 0]
+
+[[schematics]]
+name = "watchtower"
+layers = [["#.#", "...", "#.#", ".#.", ".#.", ".#.", ".#."], ["#.#", "...", "#.#", ".#.", ".#.", ".#.", "._."], ["#.#", "...", "#.#", ".#.", ".#.", "._.", "._."], ["#.#", "...", "#.#", ".#.", "._.", "._.", "._."], ["###", "###", "###", "._.", "._.", "._.", "..."], ["###", "#_#", "___", "._.", "._.", "...", "..."], ["...", "___", "___", "._.", "...", "...", "..."], ["...", "___", "___", "...", "...", "...", "..."]]
+anchor = [1, 1]
+tags = ["overwatch", "tower", "climb", "any"]
+purpose = "overwatch"
+description = "4-high leg tower, 3x3 platform, parapet and back stair"
+ground_mode = "fill"
+max_fill = 2
+base_level = 0
+max_builders = 2
+palette_chars = ["#"]
+palette_tokens = ["wood"]
+occupant = [0, 0, 5]
+
+[[schematics]]
+name = "sniper_nest"
+layers = [["###", "###", "###", ".#."], ["###", "###", "###", "._."], ["###", "#_#", "___", "._."], ["...", "___", "___", "._."], ["...", "___", "___", "..."]]
+anchor = [1, 1]
+tags = ["sniper", "overwatch", "any"]
+purpose = "overwatch"
+description = "2-high raised firing step with parapet and back step"
+ground_mode = "fill"
+max_fill = 2
+base_level = 0
+max_builders = 2
+palette_chars = ["#"]
+palette_tokens = ["olive"]
+occupant = [0, 0, 2]
+
+[[schematics]]
+name = "stairs"
+layers = [["##", "##", "##", "##"], ["##", "##", "##", "__"], ["##", "##", "__", "__"], ["##", "__", "__", "__"], ["__", "__", "__", ".."], ["__", "__", "..", ".."], ["__", "..", "..", ".."]]
+anchor = [1, 3]
+tags = ["traversal", "climb", "stairs", "zombie"]
+purpose = "traversal"
+description = "4-step straight stair"
+ground_mode = "fill"
+max_fill = 2
+base_level = 0
+max_builders = 2
+palette_chars = ["#"]
+palette_tokens = ["stone"]
+occupant = []
+
+[[schematics]]
+name = "objective_ring"
+layers = [["#########", "#.......#", "#.......#", "#.......#", "_......._", "#.......#", "#.......#", "#.......#", "#########"], ["#########", "#.......#", "#.......#", "#.......#", "_......._", "#.......#", "#.......#", "#.......#", "#########"]]
+anchor = [4, 4]
+tags = ["objective", "defend", "ring", "barrier"]
+purpose = "objective"
+description = "defensive ring radius 4"
+ground_mode = "fill"
+max_fill = 2
+base_level = 0
+max_builders = 4
+palette_chars = ["#"]
+palette_tokens = ["sand"]
+occupant = []
+
+[[schematics]]
+name = "base_ring"
+layers = [["###############", "#.............#", "#.............#", "#.............#", "#.............#", "#.............#", "#.............#", "_............._", "#.............#", "#.............#", "#.............#", "#.............#", "#.............#", "#.............#", "###############"], ["###############", "#.............#", "#.............#", "#.............#", "#.............#", "#.............#", "#.............#", "_............._", "#.............#", "#.............#", "#.............#", "#.............#", "#.............#", "#.............#", "###############"]]
+anchor = [7, 7]
+tags = ["objective", "defend", "ring", "barrier"]
+purpose = "objective"
+description = "defensive ring radius 7"
+ground_mode = "fill"
+max_fill = 2
+base_level = 0
+max_builders = 4
+palette_chars = ["#"]
+palette_tokens = ["concrete"]
+occupant = []
+
+[[schematics]]
+name = "bridge_4"
+layers = [["#", "#", "#", "#", "."], ["_", "_", "_", "_", "."], ["_", "_", "_", "_", "."], ["_", "_", "_", "_", "."]]
+anchor = [0, 4]
+tags = ["traversal", "bridge"]
+purpose = "traversal"
+description = "4-cell walking deck"
+ground_mode = "deck"
+max_fill = 2
+base_level = -1
+max_builders = 1
+palette_chars = ["#"]
+palette_tokens = ["wood"]
+occupant = []
+
+[[schematics]]
+name = "bridge_6"
+layers = [["#", "#", "#", "#", "#", "#", "."], ["_", "_", "_", "_", "_", "_", "."], ["_", "_", "_", "_", "_", "_", "."], ["_", "_", "_", "_", "_", "_", "."]]
+anchor = [0, 6]
+tags = ["traversal", "bridge"]
+purpose = "traversal"
+description = "6-cell walking deck"
+ground_mode = "deck"
+max_fill = 2
+base_level = -1
+max_builders = 1
+palette_chars = ["#"]
+palette_tokens = ["wood"]
+occupant = []
+
+[prefabs]
+prefab_caltrop = 11
+prefab_fort_wall = 39
+prefab_ladder = 20
+prefab_platform = 36
+prefab_safety_corridor = 452
+prefab_safety_tube = 120
+prefab_small_platform = 6
+prefab_small_wall = 6
+prefab_square_bunker = 50
+prefab_superbarrier = 96
+prefab_superbridge = 222
+prefab_superdome = 675
+prefab_superminibunker = 68
+prefab_superpole = 126
+prefab_supersmallwall = 32
+prefab_supertower = 138
+prefab_ultrabarrier = 268
+prefab_zombiebone = 142
+prefab_zombiehand = 135
+prefab_zombiehead = 446

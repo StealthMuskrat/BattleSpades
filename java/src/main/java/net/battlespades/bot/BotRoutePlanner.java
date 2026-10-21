@@ -12,7 +12,7 @@ final class BotRoutePlanner {
     BotRoutePlanner(BotNavigationWorld world) { this.world=world; }
     record Neighbor(Cell neighbor,Affordance affordance,double cost,Breach breach) {}
     private record QueueNode(double priority,long sequence,Cell cell) {}
-    private record Clearance(Cell target,int swings) {}
+    record Clearance(Cell target,int swings) {}
     static Cell key(Surface s) { return new Cell(s.x(),s.y(),s.supportZ()); }
     static Vector position(Cell s) { return new Vector(s.x()+.5,s.y()+.5,s.z()-2.25); }
     static Edge edge(Surface a,Surface b) { return new Edge(key(a),key(b)); }
@@ -192,7 +192,7 @@ final class BotRoutePlanner {
     static Breach breach(Cell source,Cell destination,Cell target,List<Cell> blockers,BotDigProfile p,int swings) {
         return new Breach(source,destination,target,blockers,p.toolId(),p.secondary(),Math.max(.05,p.fireInterval()),swings);
     }
-    private Clearance clearance(List<Cell> blockers,int support,BotDigProfile p) {
+    Clearance clearance(List<Cell> blockers,int support,BotDigProfile p) {
         if(blockers.isEmpty()||p.swingsPerBlock()<=0)return new Clearance(null,0);
         if(p.pattern().equals("single"))return new Clearance(blockers.stream().min(Comparator.comparingInt(Cell::z)).orElseThrow(),
             blockers.stream().mapToInt(c->p.swingsForHealth(world.blockHealth(c.x(),c.y(),c.z()))).sum());

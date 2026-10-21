@@ -114,6 +114,9 @@ jobs:
           python -S java/tools/export_bot_navigation.py
           python -S java/tools/export_bot_combat.py
           python -S java/tools/export_bot_recovery.py
+          python -S java/tools/export_bot_modes.py
+          python -S java/tools/export_bot_cooperative.py
+          git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/bot-modes.toml java/src/test/resources/golden/bot-modes.json java/src/test/resources/golden/bot-cooperative.json
           git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/bot-recovery.toml java/src/test/resources/golden/bot-recovery.json
           git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/bot-combat.toml java/src/test/resources/golden/bot-combat.json
           git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/bot-navigation.toml java/src/test/resources/golden/bot-navigation.json

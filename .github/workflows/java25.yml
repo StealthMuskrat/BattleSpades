@@ -113,6 +113,8 @@ jobs:
           python -S java/tools/export_bot_foundations.py
           python -S java/tools/export_bot_navigation.py
           python -S java/tools/export_bot_combat.py
+          python -S java/tools/export_bot_recovery.py
+          git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/bot-recovery.toml java/src/test/resources/golden/bot-recovery.json
           git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/bot-combat.toml java/src/test/resources/golden/bot-combat.json
           git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/bot-navigation.toml java/src/test/resources/golden/bot-navigation.json
           git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/bot-foundations.toml java/src/test/resources/golden/bot-foundations.json

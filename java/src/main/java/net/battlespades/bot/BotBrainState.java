@@ -6,7 +6,9 @@ import static net.battlespades.bot.BotState.*;
 /** Complete per-life decision/route state, confined by the owning brain. */
 final class BotBrainState {
     record RememberedPlan(double until,BotNavigationWorld.RoutePlan plan){}
-    record EscapeSearch(List<Object> key,List<List<Object>> choices,int index){}
+    record EscapeContext(Vector start,List<Object> goalKey,Vector goal,long topology,Set<Affordance> abilities,BotDigProfile dig,boolean wade,Set<Edge> blocked){}
+    record EscapeQuery(Vector target,boolean water,BotDigProfile dig,Set<Edge> blocked){}
+    record EscapeSearch(EscapeContext key,List<EscapeQuery> choices,int index){}
     record FailedShore(double until,Set<Edge> edges){}
     record Bank(double at,Vector position){}
     record Futile(Vector start,Vector goal,double until){}
@@ -53,12 +55,12 @@ final class BotBrainState {
     int chargeAttempts=0;
     int chargeEntity=-1;
     Vector chargeRetreat=null;
-    List<Object> trapCell=null;
+    Cell trapCell=null;
     Vector trapStand=null;
     double trapUntil=0.0;
     double nextTrapAt=0.0;
     boolean chargeTrap=false;
-    List<List<Object>> cannonCells=List.of();
+    List<Cell> cannonCells=List.of();
     Vector cannonOrigin=null;
     double cannonUntil=0.0;
     double cannonShotAt=0.0;
@@ -68,9 +70,9 @@ final class BotBrainState {
     List<Object> breachKey=null;
     double breachStartedAt=0.0;
     double nextBreachAt=0.0;
-    List<Object> blockWorkCell=null;
+    Cell blockWorkCell=null;
     double blockWorkSince=0.0;
-    Map<List<Object>,Double> blockWorkSkip=new LinkedHashMap<>();
+    Map<Cell,Double> blockWorkSkip=new LinkedHashMap<>();
     double nextBlockWorkAt=0.0;
     Vector mineSite=null;
     double mineSiteUntil=0.0;
@@ -83,7 +85,7 @@ final class BotBrainState {
     double nextWaterBuildAt=0.0;
     List<Object> waterStepKey=null;
     RouteStep waterLandingStep=null;
-    List<Object> waterBreachTarget=null;
+    Cell waterBreachTarget=null;
     double waterBestDistance=Double.POSITIVE_INFINITY;
     double waterProgressAt=0.0;
     boolean waterRecovery=false;

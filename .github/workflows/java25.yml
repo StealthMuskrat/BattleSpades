@@ -118,6 +118,10 @@ jobs:
           python -S java/tools/export_bot_cooperative.py
           python -S java/tools/export_bot_gateway.py
           git diff --exit-code -- java/src/test/resources/golden/bot-gateway.json
+          python -S java/tools/export_bot_routes.py
+          git diff --exit-code -- java/src/test/resources/golden/bot-routes.json
+          python -S java/tools/export_bot_brain.py
+          git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/bot-community.toml java/src/test/resources/golden/bot-brain.json
           python -S java/tools/export_bot_live.py
           git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/bot-live.toml java/src/test/resources/golden/bot-live.json
           git diff --exit-code -- java/src/main/resources/net/battlespades/catalog/bot-modes.toml java/src/test/resources/golden/bot-modes.json java/src/test/resources/golden/bot-cooperative.json

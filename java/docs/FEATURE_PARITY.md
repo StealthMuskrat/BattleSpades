@@ -1,3 +1,13 @@
+# Current bot worker brain checkpoint
+
+Implemented the complete worker decision loop and retained navigation execution, corridor/escape recovery, water crossing and landing, breach queues, class deployables, charge safety, objective excavation/repair and community mode actions. `BotWorker.simple` constructs the actual brain on the worker thread. Six grouped tests replay 1,366 unchanged-source observations, including 400 action frames across all twenty community modes.
+
+**6,517 Java tests pass** (6,427 component in 134 suites + 90 integration in 7), zero failures/errors/skips. Strict Java 25 `check build`, portability and distributions pass. The CRC-valid JAR is 3763834 bytes, SHA-256 `e8029c7515d4f655780e183b8aade29000c1ed10cbe3aac304ac10f9c18b0b5e`, class major 69. Configuration/version and expected incomplete-launcher smokes pass. All eight original source directories and all 284 prior resources are unchanged. The three reproducible new resources bring the total to 287; CI configures 94 source generators. Local regeneration reproduced both new fixtures and the community catalog exactly. CI for this worker implementation is pending; earlier CI results below cover their named checkpoints.
+
+**Bot migration remains unfinished and live bots remain gated.** Full director perception/scheduling, live collision/movement/action motor, population policy and transition/startup integration remain necessary. Scripted replay positions do not establish native physics or live-client/capacity acceptance. No macOS job has run; macOS testing remains deferred until the entire migration is complete. The existing intermittent standalone UDP map-reload timeout is not claimed fixed. See [BOT_BRAIN.md](BOT_BRAIN.md).
+
+## Previous verified checkpoints
+
 # Current bot gameplay gateway and director-state checkpoint
 
 Bound bot proposals to ordinary combat, reload, construction, prefab, device and projectile services. Added shared human/bot slot leases, bot identity before spawn effects, fail-closed stale-occupant checks, bounded aim/gaze/key controllers and life/epoch/priority/task fences. The connected host regression covers firing cadence/ammo, reload, deferred palette construction, retirement and slot reuse. Original director methods supply 768 aim and 600 movement-key observations.

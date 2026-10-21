@@ -1,0 +1,81 @@
+# Unchanged source 546c548780c400f21d73ca6713f86194ceb3c844
+
+[block_hunt]
+building = false
+digging = true
+
+[false_wall]
+building = true
+digging = true
+
+[crumbling_run]
+building = false
+digging = false
+
+[last_exit]
+building = true
+digging = true
+
+[night_shift]
+building = true
+digging = true
+
+[tunnel_rats]
+building = true
+digging = true
+
+[bridge_chicken]
+building = true
+digging = true
+
+[towerfall]
+building = true
+digging = true
+
+[floor_tax]
+building = false
+digging = true
+
+[hot_potato]
+building = false
+digging = false
+
+[lockdown]
+building = true
+digging = true
+
+[paint_raid]
+building = false
+digging = false
+
+[smugglers_run]
+building = true
+digging = true
+
+[one_in_the_spade]
+building = false
+digging = false
+
+[borrowed_arsenal]
+building = false
+digging = false
+
+[reverse_siege]
+building = true
+digging = true
+
+[kingmaker]
+building = true
+digging = true
+
+[red_light_raid]
+building = false
+digging = false
+
+[scrapyard_engineers]
+building = true
+digging = true
+
+[spadeball]
+building = true
+digging = false

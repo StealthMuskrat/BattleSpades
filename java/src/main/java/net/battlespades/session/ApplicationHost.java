@@ -6,6 +6,7 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.Map;
 import net.battlespades.protocol.GamePacket;
 import net.battlespades.replication.WorldUpdateLink;
@@ -19,6 +20,16 @@ public final class ApplicationHost implements AutoCloseable {
     private final EnetHost transport;
     private final Map<PeerKey,JoinSession> sessions=new LinkedHashMap<>();
     private final PlayerSlots slots;
+    private final Map<Integer,PeerlessSlot> peerless=new LinkedHashMap<>();
+    /** Bot and human admissions share the same reservation allocator. */
+    public Optional<PeerlessSlot> reservePeerless(){owned();if(closing)return Optional.empty();return slots.reserve().map(r->{var slot=new PeerlessSlot(r);peerless.put(r.id(),slot);return slot;});}
+    public final class PeerlessSlot implements AutoCloseable {
+        private final PlayerSlots.Reservation reservation;private boolean released;
+        private PeerlessSlot(PlayerSlots.Reservation reservation){this.reservation=reservation;}
+        public int id(){owned();if(released)throw new IllegalStateException("Peerless slot released");return reservation.id();}
+        /** Retire the canonical actor before releasing its reusable identity. */
+        @Override public void close(){owned();if(released)return;int id=reservation.id();if(scene.roster().identity(id)!=0)throw new IllegalStateException("Retire peerless actor before releasing slot");peerless.remove(id,this);reservation.close();released=true;}
+    }
     private final JoinSettings settings;
     private final JoinPasswordGate passwords;
     private final SnapshotCompression compression;
@@ -99,7 +110,7 @@ public final class ApplicationHost implements AutoCloseable {
     public List<JoinSession.Metrics> sessions() {owned();return sessions.values().stream().map(JoinSession::metrics).toList();}
     public int playerLimit(){owned();return slots.limit();}
     public int occupiedSlots() {owned();return slots.occupied();}
-    public boolean inGame(int id) {owned();if(closing)return false;for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return session.inGame();return false;}
+    public boolean inGame(int id) {owned();if(closing)return false;if(peerless.containsKey(id))return true;for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return session.inGame();return false;}
     public void service(long nowMillis,int loopCount) throws IOException {
         owned();if(nowMillis<0 || nowMillis<lastNow) throw new IllegalArgumentException("Application clock moved backwards");lastNow=nowMillis;
         transport.service(nowMillis);if(discovery!=null)discovery.service();
@@ -158,8 +169,8 @@ public final class ApplicationHost implements AutoCloseable {
     }
     public List<WorldUpdateLink> snapshotLinks(){owned();return closing?List.of():sessions.values().stream().map(session->(WorldUpdateLink)session).toList();}
     /** Reliable controls retain their loading queue; cosmetic unreliable cues require a live scene. */
-    public boolean sendPlayer(int id,GamePacket packet,Delivery delivery){owned();if(delivery==Delivery.RELIABLE)return sendPlayer(id,packet);if(closing)return false;for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return session.gameplay(packet,delivery);return false;}
-    public boolean sendPlayer(int id,GamePacket packet) {owned();if(closing)return false;for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return session.direct(packet);return false;}
+    public boolean sendPlayer(int id,GamePacket packet,Delivery delivery){owned();if(delivery==Delivery.RELIABLE)return sendPlayer(id,packet);if(closing)return false;if(peerless.containsKey(id))return true;for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return session.gameplay(packet,delivery);return false;}
+    public boolean sendPlayer(int id,GamePacket packet) {owned();if(closing)return false;if(peerless.containsKey(id))return true;for(var session:sessions.values())if(session.playerId().orElse(-1)==id)return session.direct(packet);return false;}
     public List<JoinSession> transitionSessions(){owned();return List.copyOf(sessions.values());}
     public JoinScene transitionScene(){owned();return scene;}
     public void discardTransitionPackets(){owned();if(packets!=null)packets.clear();queuedSessions.clear();}
@@ -173,6 +184,7 @@ public final class ApplicationHost implements AutoCloseable {
         if(telemetry!=null&&!telemetry.stopped())throw new IllegalStateException("Await shutdownTelemetry before closing the host");
         if(roundEnding!=null&&!roundEnding.stopped())throw new IllegalStateException("Await shutdownEndings before closing the host");
         if(achievements!=null&&!achievements.stopped())throw new IllegalStateException("Await shutdownAchievements before closing the host");
+        if(!peerless.isEmpty())throw new IllegalStateException("Retire peerless actors before closing host");
         if(results!=null&&!results.stopped())throw new IllegalStateException("Await shutdownResults before closing the host");closing=true;if(packets!=null)packets.clear();queuedSessions.clear();try {if(review!=null)review.close();if(voting!=null)voting.close();for(var session:sessions.values()) session.close();sessions.clear();if(administration!=null)administration.clear();compression.close();} finally {try{if(discovery!=null)discovery.close();}finally{closed=true;transport.close();}}
     }
 }

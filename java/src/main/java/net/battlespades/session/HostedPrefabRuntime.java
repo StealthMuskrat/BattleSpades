@@ -17,7 +17,7 @@ import org.tomlj.TomlTable;
 /** Worker-prepared model geometry; whole competitive prefabs commit under a shared tick budget. */
 public final class HostedPrefabRuntime implements AutoCloseable {
     public record Settings(int queue,int cells){public static Settings from(TomlTable raw){return new Settings(integer(raw,"network.prefab_queue_limit",32,1,128),integer(raw,"network.prefab_competitive_cell_budget",2048,64,8192));}private static int integer(TomlTable raw,String key,int fallback,int min,int max){var value=raw.get(key);if(value==null)return fallback;if(value instanceof Long n)return (int)Math.max(min,Math.min(max,n));throw new IllegalArgumentException(key+" must be integer");}}
-    private record Preparing(PlayerLife player,long generation,PrefabPacket packet,Future<List<PrefabModels.Block>> future){}
+    private record Preparing(PlayerLife player,long generation,PrefabPacket packet,Future<List<PrefabModels.Block>> future,boolean snap){}
     private record Pending(PlayerLife player,long generation,PrefabPacket packet,List<PrefabModels.Block> blocks,Long reservation,int charged){}
     private final StandardMatchDomain match;private final ApplicationHost host;private final Settings settings;private final PrefabModels models;
     private final ExecutorService worker=Executors.newSingleThreadExecutor(Thread.ofPlatform().daemon().name("prefab-model-prepare").factory());
@@ -25,14 +25,27 @@ public final class HostedPrefabRuntime implements AutoCloseable {
     public HostedPrefabRuntime(StandardMatchDomain match,ApplicationHost host,Settings settings,List<Path> roots){this.match=Objects.requireNonNull(match);this.host=Objects.requireNonNull(host);this.settings=Objects.requireNonNull(settings);models=new PrefabModels(roots);}
     private boolean authorized(PlayerLife p,String name){int tool=p.inventory().tool();String key=name.toLowerCase(Locale.ROOT);return !name.isEmpty()&&p.fire().state().raw()&&Set.of(23,28,22,41,42).contains(tool)&&match.inputs().authorized(p,tool)&&(ClassCatalog.get(p.selection().classId()).prefabs().contains(key)||p.selection().prefabs().stream().anyMatch(n->n.equalsIgnoreCase(name)));}
     public boolean packet(PlayerLife p,GamePacket packet){if(!(packet instanceof PrefabPacket v))return false;if(v.id()==30)place(p,v);return true;}
-    public boolean place(PlayerLife p,PrefabPacket packet){
+    public boolean placeBot(PlayerLife p,String name,Vector at,int yaw){
+        if(!p.bot()||Math.abs(at.x())>1000000||Math.abs(at.y())>1000000||Math.abs(at.z())>1000000)return false;
+        return submit(p,new PrefabPacket(30,match.frameLoop(),name,p.id(),yaw&3,0,0,0,0,(int)Math.rint(at.x()),(int)Math.rint(at.y()),(int)Math.rint(at.z()),p.color(),true),true);
+    }
+    public boolean place(PlayerLife p,PrefabPacket packet){return submit(p,packet,false);}
+    private boolean submit(PlayerLife p,PrefabPacket packet,boolean snap){
         if(!authorized(p,packet.name())||preparing.size()+pending.size()>=settings.queue||preparing.stream().filter(r->r.player==p).count()+pending.stream().filter(r->r.player==p).count()>=4)return false;
-        var anchor=new Cell(packet.x(),packet.y(),packet.z());var future=worker.submit(()->{var model=models.get(packet.name());return model.isEmpty()?List.<PrefabModels.Block>of():PrefabModels.expand(model.get(),anchor,packet.yaw(),packet.pitch(),packet.roll(),packet.color());});preparing.addLast(new Preparing(p,p.generation(),packet,future));return true;
+        var anchor=new Cell(packet.x(),packet.y(),packet.z());var future=worker.submit(()->{var model=models.get(packet.name());return model.isEmpty()?List.<PrefabModels.Block>of():PrefabModels.expand(model.get(),anchor,packet.yaw(),packet.pitch(),packet.roll(),packet.color());});preparing.addLast(new Preparing(p,p.generation(),packet,future,snap));return true;
     }
     private boolean current(PlayerLife p,long generation){return match.lives().players().stream().anyMatch(v->v==p)&&p.generation()==generation&&p.alive()&&p.spawned();}
     private boolean touches(List<PrefabModels.Block> blocks){for(var block:blocks){var c=block.cell();for(int[] d:new int[][]{{1,0,0},{-1,0,0},{0,1,0},{0,-1,0},{0,0,1},{0,0,-1}})if(match.world().solid(c.x()+d[0],c.y()+d[1],c.z()+d[2]))return true;}return false;}
     private boolean visible(PlayerLife p,List<PrefabModels.Block> blocks){if(p.bot())return true;var reference=ShotValidation.references(ShotValidation.view(p),null);var eye=p.position();var ordered=blocks.stream().sorted(Comparator.comparingDouble(b->CombatGeometry.distance(eye,new Vector(b.cell().x()+.5,b.cell().y()+.5,b.cell().z()+.5)))).limit(8).toList();for(var block:ordered){var c=block.cell();if(CombatGeometry.cellVisible(match.world()::solid,reference.eyes(),new CombatGeometry.Cell(c.x(),c.y(),c.z()),Set.of()))return true;}match.inputs().report(p,"prefab_occluded",Map.of());return false;}
     private void admit(Preparing request,List<PrefabModels.Block> blocks){
+        if(request.snap&&!blocks.isEmpty()){
+            var packet=request.packet;int x=packet.x(),y=packet.y();if(x<0||x>=512||y<0||y>=512)return;
+            int surface=0;while(surface<240&&!match.world().solid(x,y,surface))surface++;
+            int max=blocks.stream().mapToInt(b->b.cell().z()).max().orElseThrow();int shift=surface-max-1,z=packet.z()+shift;if(z<1||z>238)return;
+            blocks=blocks.stream().map(b->new PrefabModels.Block(new Cell(b.cell().x(),b.cell().y(),b.cell().z()+shift),b.color())).toList();
+            packet=new PrefabPacket(packet.id(),packet.loop(),packet.name(),packet.player(),packet.yaw(),packet.pitch(),packet.roll(),packet.from(),packet.to(),x,y,z,packet.color(),packet.userBlocks());
+            request=new Preparing(request.player,request.generation,packet,request.future,false);
+        }
         var p=request.player;if(!current(p,request.generation)||!authorized(p,request.packet.name())||blocks.isEmpty()||blocks.stream().anyMatch(b->{var c=b.cell();return c.x()<0||c.x()>=512||c.y()<0||c.y()>=512||c.z()<1||c.z()>238;})||!touches(blocks)||!match.teamRules().infinite(p.team())&&p.inventory().blocks()<blocks.size())return;
         if(!p.bot()&&blocks.stream().noneMatch(b->{var c=b.cell();return CombatGeometry.distance(p.position(),new Vector(c.x()+.5,c.y()+.5,c.z()+.5))<=19;}))return;
         if(!visible(p,blocks)||match.construction().overlaps(blocks.stream().map(PrefabModels.Block::cell).toList()))return;

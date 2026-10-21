@@ -163,10 +163,13 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
         if(replication!=null)replication.forgetPlayer(player.id());player.spawn(at,clock.monotonic(),policy.walletScale(),policy.teamColor(player));inputs.reset(player);
     }
     private void publish(PlayerLife p){roster.create(p.create(),p.color());messages.broadcast(p.create());messages.broadcast(new SimplePackets.SetScore(1,0,p.id(),policy.score(p)));messages.broadcast(new SimplePackets.SetColor(p.id(),p.color()));}
-    @Override public JoinScene.Admission admit(int id,SimplePackets.NewPlayerConnection request,ClassCatalog.Selection selection,int capability){
+    @Override public JoinScene.Admission admit(int id,SimplePackets.NewPlayerConnection request,ClassCatalog.Selection selection,int capability){return admit(id,request,selection,capability,false);}
+    /** Trusted peerless admission marks identity before mode preparation and spawn effects. */
+    public JoinScene.Admission admitBot(int id,SimplePackets.NewPlayerConnection request,ClassCatalog.Selection selection,int capability){return admit(id,request,selection,capability,true);}
+    private JoinScene.Admission admit(int id,SimplePackets.NewPlayerConnection request,ClassCatalog.Selection selection,int capability,boolean bot){
         owned();if(players.containsKey(id))throw new IllegalStateException("Player id already occupied");
         var p=new PlayerLife(id,request.team(),request.local_language(),request.name(),mode,CollisionMap.of(world),rules,selection,policy.walletScale());
-        p.flight().negotiate(capability);p.motion().flightCapability(capability>0);
+        p.bot(bot);p.flight().negotiate(capability);p.motion().flightCapability(capability>0);
         var after=new ArrayList<GamePacket>();boolean spectator=p.team()==0;
         // The synchronous mode preparation occurs even when its respawn gate rejects the first life.
         if(!spectator)policy.prepareSpawn(p);
@@ -216,12 +219,14 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
         owned();if(packet instanceof DropPickup drop&&objectives!=null)return objectives.handle(player(id),drop);
         packet(id,packet);return java.util.concurrent.CompletableFuture.completedFuture(null);
     }
+    /** Shared accepted-result reload boundary for packets and bot proposals. */
+    public boolean reload(PlayerLife p){owned();if(!current(p)||!p.alive()||!p.fire().startReload(clock.monotonic()))return false;messages.broadcast(new LifePackets.WeaponReload(p.id(),p.inventory().tool(),false));return true;}
     @Override public void packet(int id,GamePacket packet){
         owned();var p=player(id);
         if(controls!=null&&controls.packet(p,packet))return;
         if(packet instanceof LifePackets.WeaponReload reload){
             // Source handler ignores client completion/tool/player claims; its owned timer and active tool decide.
-            if(!reload.done()&&p.alive()&&p.fire().startReload(clock.monotonic()))messages.broadcast(new LifePackets.WeaponReload(id,p.inventory().tool(),false));
+            if(!reload.done())reload(p);
             return;
         }
         if(packet instanceof ShootPacket shot&&combat!=null){if(p.alive())combat.shot(p,shot);return;}

@@ -24,6 +24,31 @@ class StandardMatchFactoryTest {
     private static SceneConfig config(){return new SceneConfig("Factory",27015,0,ModeCatalog.get("tdm"),"First",false,false,true,999,0,"plain.txt",new SceneConfig.Team("Blue",0x123456),new SceneConfig.Team("Green",0x323c46),GameRules.serverDefaults());}
     private static ApplicationHost host(HostedSceneState state)throws Exception{return new ApplicationHost(new InetSocketAddress(InetAddress.getLoopbackAddress(),0),EnetSettings.defaults(),4,JoinSettings.defaults(),state.scene(),new BoundedSnapshotCompression(1,2));}
     private StandardMatchFactory factory(OwnerLoop loop,StandardPorts ports,org.tomlj.TomlTable raw,List<StandardMatchFactory.Creation> created){return new StandardMatchFactory(config(),raw,ports,new SourceRandom(0),loop,List.of("First","Second"),candidate->{created.add(candidate);return new StandardMatchFactory.Ports(ports,ports,ports,ports,ports,ports);});}
+    @Test void peerlessBotsShareSlotsAndOrdinaryActionAuthoritiesAndRetireBeforeReuse()throws Exception{
+        var prepared=StandardPorts.prepared(temp.resolve("Bot.vxl"),"tdm");var ports=new StandardPorts();var created=new ArrayList<StandardMatchFactory.Creation>();
+        try(var loop=new OwnerLoop(0,1024,256,error->fail(error))){var factory=factory(loop,ports,org.tomlj.Toml.parse("[modes.tdm]\ntime_limit=0\n"),created);
+            try(var state=new HostedSceneState("First","tdm",prepared,1,10000,factory.modes());var host=host(state)){
+                state.attach(host);var match=(StandardMatchDomain)state.domain();match.mode().start();
+                try(var roster=new HostedBotRoster(host,()->match)){
+                    var selection=ClassCatalog.normalize(5,List.of(6,5,11),GameRules.serverDefaults());
+                    var a=roster.add("[BOT]First",2,selection).orElseThrow();var b=roster.add("[BOT]Second",3,selection).orElseThrow();
+                    assertEquals(2,host.occupiedSlots());assertTrue(a.player().bot());assertTrue(host.inGame(a.player().id()));assertTrue(host.sendPlayer(a.player().id(),new SimplePackets.Restock(a.player().id(),0)));
+                    var at=new net.battlespades.physics.PlayerPhysics.Vector(250.5,250.5,97.25);a.player().body().position(at);a.player().orientation(1,0,0);b.player().body().position(new net.battlespades.physics.PlayerPhysics.Vector(258.5,250.5,97.25));a.player().endProtection(ports.monotonic);b.player().endProtection(ports.monotonic);
+                    var actions=new HostedBotActions(match).gateway();int ammo=a.player().inventory().ammo().clip();
+                    var fire=new net.battlespades.bot.BotMessages.Action(net.battlespades.bot.BotMessages.ActionKind.FIRE,6,null,null,"",-1,0,0,0,0);
+                    assertTrue(actions.execute(a.player(),fire));assertEquals(ammo-1,a.player().inventory().ammo().clip());assertFalse(actions.execute(a.player(),fire));
+                    var reload=new net.battlespades.bot.BotMessages.Action(net.battlespades.bot.BotMessages.ActionKind.RELOAD,6,null,null,"",-1,0,0,0,0);assertTrue(actions.execute(a.player(),reload));assertTrue(a.player().inventory().reloading());
+                    var cell=new net.battlespades.physics.PlayerPhysics.Vector(254,254,99);int blocks=a.player().inventory().blocks();
+                    var build=new net.battlespades.bot.BotMessages.Action(net.battlespades.bot.BotMessages.ActionKind.BUILD,5,cell,null,"rgb:123456",-1,0,0,0,0);assertTrue(actions.execute(a.player(),build));assertEquals(blocks-1,a.player().inventory().blocks());assertFalse(actions.execute(a.player(),build));match.construction().tick();assertTrue(match.world().solid(254,254,99));assertEquals(0x123456,match.world().color(new MutableWorld.Cell(254,254,99))&0xffffff);
+                    // A peerless reservation cannot be silently released while its actor remains advertised.
+                    var extra=host.reservePeerless().orElseThrow();int extraId=extra.id();match.admitBot(extraId,new SimplePackets.NewPlayerConnection(2,5,0,0,"[BOT]Lease"),selection,0);assertThrows(IllegalStateException.class,extra::close);match.disconnected(extraId);extra.close();
+                    int old=a.player().id();assertTrue(roster.remove(a));assertFalse(roster.current(a));var replacement=roster.add("[BOT]New",2,selection).orElseThrow();assertEquals(old,replacement.player().id());assertEquals(a.generation()+1,replacement.generation());assertNotSame(a.player(),replacement.player());assertFalse(actions.execute(a.player(),fire));assertEquals(2,host.occupiedSlots());
+                    assertTrue(ports.errors.isEmpty(),ports.errors.toString());
+                }
+                assertEquals(0,host.occupiedSlots());assertTrue(match.lives().players().isEmpty());match.mode().deactivate().toCompletableFuture().join();
+            }
+        }
+    }
     @Test void immutableCandidateMetadataSurvivesDeletedSourcesSameChecksumAndRollback()throws Exception{
         StandardPorts.writeMap(temp.resolve("First.vxl"));Files.copy(temp.resolve("First.vxl"),temp.resolve("Second.vxl"));Files.writeString(temp.resolve("First.json"),"{\"gravity\":0.5}");Files.writeString(temp.resolve("Second.json"),"{\"gravity\":1.5}");
         var created=new ArrayList<StandardMatchFactory.Creation>();var ports=new StandardPorts();

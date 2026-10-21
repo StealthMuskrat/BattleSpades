@@ -7,9 +7,9 @@ import net.battlespades.player.SourceRandom;
 
 /** Original bounded camera controller and view-relative key feathering. No body movement occurs here. */
 public final class BotAimMotor {
-    private final Thread owner=Thread.currentThread();private final SourceRandom random;private final BotProfile profile;
+    private final Thread owner=Thread.currentThread();private final SourceRandom random;private BotProfile profile;
     private double yaw,pitch,yawVelocity,pitchVelocity,yawAcceleration,pitchAcceleration,yawNoise,pitchNoise,gazeAge,residualForward,residualSide;
-    private Double gazeYaw,gazePitch,gaussian;private String purpose="";
+    private Double gazeYaw,gazePitch;private String purpose="";
     public record State(double yaw,double pitch,double yawVelocity,double pitchVelocity,double yawAcceleration,double pitchAcceleration,double yawNoise,double pitchNoise,String purpose,Double gazeYaw,Double gazePitch,double gazeAge,double residualForward,double residualSide){}
     public record Keys(int forward,int side){}
     public BotAimMotor(BotProfile profile,SourceRandom random,double yaw){this.profile=Objects.requireNonNull(profile);this.random=Objects.requireNonNull(random);this.yaw=yaw;}
@@ -17,7 +17,8 @@ public final class BotAimMotor {
     public State state(){owned();return new State(yaw,pitch,yawVelocity,pitchVelocity,yawAcceleration,pitchAcceleration,yawNoise,pitchNoise,purpose,gazeYaw,gazePitch,gazeAge,residualForward,residualSide);}
     public void hold(){owned();yawVelocity=pitchVelocity=yawAcceleration=pitchAcceleration=0;purpose="";gazeYaw=gazePitch=null;}
     public static double wrap(double angle){return angle-Math.floor((angle+Math.PI)/(Math.PI*2))*(Math.PI*2);}
-    private double gauss(double sigma){double z;if(gaussian!=null){z=gaussian;gaussian=null;}else{double angle=random.random()*Math.PI*2,scale=Math.sqrt(-2*Math.log(1-random.random()));z=Math.cos(angle)*scale;gaussian=Math.sin(angle)*scale;}return z*sigma;}
+    public void profile(BotProfile value){owned();profile=Objects.requireNonNull(value);}
+    private double gauss(double sigma){return random.gauss(0,sigma);}
     public void overshoot(double error){owned();if(Math.abs(error)>.35)yawNoise+=Math.copySign(1,error)*random.uniform(.05,.18)*(1-profile.skill());}
     public void recoil(int tool){owned();double kick=BotCombatProfiles.recoil(tool);if(kick<=0)return;pitchNoise-=kick*(1-.75*profile.recoilControl());yawNoise+=gauss(kick*.25*(1-.5*profile.recoilControl()));}
     public Vector update(Vector eye,Vector target,double dt,double noiseFactor,String nextPurpose){

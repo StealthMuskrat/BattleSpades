@@ -25,6 +25,10 @@ public final class BotIntentState {
     public double pendingDeadline(){owned();return pendingDeadline;}public long pendingLife(){owned();return pendingLife;}
     public Feedback feedback(){owned();return feedback;}public long lastActionFrame(){owned();return lastActionFrame;}
     public double lockStarted(){owned();return lockStarted;}
+    public int lockPlayer(){owned();return lockPlayer;}
+    public boolean locked(double now){owned();return lockPlayer>=0&&now-lockConfirmed<=.45;}
+    /** A carried objective can revoke weapon use between two perception samples. */
+    public boolean suppressWeapons(){owned();boolean weapon=pending!=null&&(pending.kind()==ActionKind.FIRE||pending.kind()==ActionKind.MELEE);if(weapon)clearPending();boolean proposed=intent!=null&&(intent.action().kind()==ActionKind.FIRE||intent.action().kind()==ActionKind.MELEE);if(intent!=null&&(proposed||intent.action().kind()==ActionKind.NONE&&intent.movement().affordance()==Affordance.BREACH&&(intent.look()!=null||intent.toolId()>=0||intent.secondaryFire()||intent.zoom())))intent=new Intent(intent.botId(),intent.botGeneration(),intent.frameId(),intent.mapEpoch(),intent.modeEpoch(),intent.topologyVersion(),intent.createdAt(),intent.expiresAt(),intent.movement(),null,-1,Action.none(),intent.priority(),false,false,intent.debugGoal(),intent.debugPath(),intent.debugRole(),intent.lifeId(),intent.debugNavigation());lockPlayer=-1;return weapon||proposed;}
     public boolean lock(int target,int targetGeneration,double now){owned();return target>=0&&target==lockPlayer&&targetGeneration==lockGeneration&&now-lockConfirmed<=.45;}
     /** Older topology remains usable; current collision and action authorities revalidate it. */
     public boolean accept(Intent next,long life,long map,long mode,long topology,double now){

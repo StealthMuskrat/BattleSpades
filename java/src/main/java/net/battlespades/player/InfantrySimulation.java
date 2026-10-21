@@ -46,6 +46,8 @@ public final class InfantrySimulation {
         p.lagTarget().history().record(p.lagTarget(),tick-1);hooks.lagHistory(p,tick);if(!p.alive()||!p.spawned())return;
         if(p.movementMode().equals("crumbling_run"))throw new IllegalStateException("Race momentum requires its own simulation binding");
         var m=p.motion();var timeline=p.inputTimeline();double now=runtime.movementClock();
+        // Source peerless bots take one ordinary physics step from their held inputs.
+        if(p.bot()){m.lastSimulated=now;move(p);return;}
         Double last=m.lastSimulated;m.lastSimulated=now;if(last==null||now-last>1)m.starvationBaseline=now;
         double silent=now-Math.max(Math.max(m.lastPacket==null?0:m.lastPacket,m.starvationBaseline),p.spawnedAt());
         if(settings.timeoutSeconds>0){
@@ -109,7 +111,7 @@ public final class InfantrySimulation {
     /** Connected-player labelled knockback; detached explosion actor/effect timelines are not supplied here. */
     public void queueVelocityImpulse(PlayerLife p,int label,Vector velocity){
         owned();var m=p.motion();var applied=p.inputTimeline().appliedLabel();
-        if(applied!=null&&applied>=label||m.impulses.size()>=64)impulse(p,velocity);else m.impulses.addLast(new PlayerMotion.Impulse(label,velocity));
+        if(p.bot()||applied!=null&&applied>=label||m.impulses.size()>=64)impulse(p,velocity);else m.impulses.addLast(new PlayerMotion.Impulse(label,velocity));
     }
     private static void impulse(PlayerLife p,Vector value){var v=PlayerMotion.clipped(p.body().state().velocity());p.body().velocity(new Vector(v.x()+value.x(),v.y()+value.y(),v.z()+value.z()));}
     private static void applyImpulses(PlayerLife p,int label){var q=p.motion().impulses;for(var iterator=q.iterator();iterator.hasNext();){var effect=iterator.next();if(effect.label()<=label){impulse(p,effect.velocity());iterator.remove();}}}

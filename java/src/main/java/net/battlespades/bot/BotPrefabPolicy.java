@@ -11,6 +11,7 @@ public final class BotPrefabPolicy {
     public record Bounds(Cell minimum,Cell maximum){}
     public record Geometry(String name,List<List<Cell>> cellsByYaw,List<Bounds> boundsByYaw,int blockCount){public Geometry{cellsByYaw=cellsByYaw.stream().map(List::copyOf).toList();boundsByYaw=List.copyOf(boundsByYaw);}}
     private static final org.tomlj.TomlParseResult CATALOG=net.battlespades.catalog.SourceCatalog.load("bot-modes");
+    public static List<String> names(){return CATALOG.getTable("prefabs").keySet().stream().sorted().toList();}
     public static Integer blockCount(String name){var v=CATALOG.getLong("prefabs."+name.toLowerCase(Locale.ROOT));return v==null?null:Math.toIntExact(v);}
     public static boolean suitable(String name,String purpose){var count=blockCount(name);int limit=switch(purpose){case "climb","variety"->160;case "traversal"->256;default->128;};return count!=null&&count<=limit;}
     public static boolean zombie(String name){return name.toLowerCase(Locale.ROOT).startsWith("prefab_zombie");}

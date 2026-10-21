@@ -14,6 +14,10 @@ public final class PlayerSlots {
     public int limit(){owned();return limit;}
     public int occupied() {owned();return used.cardinality();}
     public Optional<Reservation> reserve() {owned();int id=used.nextClearBit(0);if(id>=limit) return Optional.empty();used.set(id);return Optional.of(new Reservation(id));}
+    private java.util.function.BooleanSupplier humanRoom=()->false;
+    public void humanRoom(java.util.function.BooleanSupplier callback){owned();humanRoom=java.util.Objects.requireNonNull(callback);}
+    /** Peerless allocations use reserve(); only a full human admission may retire a bot. */
+    public Optional<Reservation> reserveHuman(){owned();var slot=reserve();if(slot.isEmpty()&&humanRoom.getAsBoolean())slot=reserve();return slot;}
     public final class Reservation implements AutoCloseable {
         private final int id;private boolean closed;
         private Reservation(int id) {this.id=id;}

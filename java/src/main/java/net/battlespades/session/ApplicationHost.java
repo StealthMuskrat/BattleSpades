@@ -22,6 +22,7 @@ public final class ApplicationHost implements AutoCloseable {
     private final PlayerSlots slots;
     private final Map<Integer,PeerlessSlot> peerless=new LinkedHashMap<>();
     /** Bot and human admissions share the same reservation allocator. */
+    public void botRoomForHuman(java.util.function.BooleanSupplier callback){owned();slots.humanRoom(callback);}
     public Optional<PeerlessSlot> reservePeerless(){owned();if(closing)return Optional.empty();return slots.reserve().map(r->{var slot=new PeerlessSlot(r);peerless.put(r.id(),slot);return slot;});}
     public final class PeerlessSlot implements AutoCloseable {
         private final PlayerSlots.Reservation reservation;private boolean released;
@@ -30,6 +31,13 @@ public final class ApplicationHost implements AutoCloseable {
         /** Retire the canonical actor before releasing its reusable identity. */
         @Override public void close(){owned();if(released)return;int id=reservation.id();if(scene.roster().identity(id)!=0)throw new IllegalStateException("Retire peerless actor before releasing slot");peerless.remove(id,this);reservation.close();released=true;}
     }
+    private HostedBotDirector bots;
+    public void bots(HostedBotDirector director){owned();if(bots!=null||!sessions.isEmpty())throw new IllegalStateException("Bots bind once before connections");bots=java.util.Objects.requireNonNull(director);}
+    private java.util.function.Supplier<HostedBotDirector> botStarter;private boolean botsStopping;
+    public void botStarter(java.util.function.Supplier<HostedBotDirector> factory){owned();if(botStarter!=null||!sessions.isEmpty())throw new IllegalStateException("Bot startup factory binds once");botStarter=java.util.Objects.requireNonNull(factory);}
+    public HostedBotDirector ensureBots(){owned();if(closing||botsStopping)throw new IllegalStateException("Host stopping");if(bots!=null)return bots;if(botStarter==null)throw new IllegalStateException("Bot startup is unavailable");var director=java.util.Objects.requireNonNull(botStarter.get());bots=director;try{director.start(0);return director;}catch(RuntimeException failure){try{director.close();bots=null;}catch(Exception cleanup){failure.addSuppressed(cleanup);}throw failure;}}
+    public Optional<HostedBotDirector> bots(){owned();return Optional.ofNullable(bots);}
+    public java.util.concurrent.CompletionStage<Void> shutdownBots(){owned();botsStopping=true;if(bots==null)return java.util.concurrent.CompletableFuture.completedFuture(null);try{bots.close();bots=null;return java.util.concurrent.CompletableFuture.completedFuture(null);}catch(Exception error){return java.util.concurrent.CompletableFuture.failedFuture(error);}}
     private final JoinSettings settings;
     private final JoinPasswordGate passwords;
     private final SnapshotCompression compression;

@@ -174,7 +174,7 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
         // The synchronous mode preparation occurs even when its respawn gate rejects the first life.
         if(!spectator)policy.prepareSpawn(p);
         var at=policy.spawnPoint(p);if(!spectator)policy.spawnOrientation(p).ifPresent(v->p.orientation(v.x(),v.y(),v.z()));
-        boolean joinsDead=!spectator&&!policy.canRespawn(p);
+        boolean joinsDead=!bot&&!spectator&&!policy.canRespawn(p);
         players.put(id,p);scores.put(id,new Counters());
         try {
             if(spectator||joinsDead)p.camera(at,policy.teamColor(p));
@@ -214,6 +214,8 @@ public final class LifeRuntime implements ConfiguredScene.Gameplay {
         owned();var p=player(id);p.motion().received(clock.monotonic());var arrival=p.inputTimeline().receive(input,p.alive(),p.spawned(),p.aim(),loop,world.topologyVersion(),false);
         if(arrival.fresh()){p.orientation(input.x(),input.y(),input.z());p.motion().controls(input.movementFlags(),(input.actionFlags()&255)|(input.paletteEnabled()?256:0));inputs.receive(p,input,loop);}
     }
+    /** Peerless bots own held controls directly; they have no client chronology or reconciliation stream. */
+    public boolean botInput(PlayerLife p,LiveClientInput input,int loop){owned();if(!current(p)||!p.bot()||input.playerId()!=p.id())return false;p.motion().received(clock.monotonic());p.orientation(input.x(),input.y(),input.z());p.motion().controls(input.movementFlags(),(input.actionFlags()&255)|(input.paletteEnabled()?256:0));inputs.receive(p,input,loop);return true;}
     public void objectives(ObjectiveDropRequests value){owned();if(!players.isEmpty()||objectives!=null)throw new IllegalStateException("Objectives must bind once before admission");objectives=Objects.requireNonNull(value);}
     @Override public java.util.concurrent.CompletionStage<Void> packetAsync(int id,GamePacket packet){
         owned();if(packet instanceof DropPickup drop&&objectives!=null)return objectives.handle(player(id),drop);

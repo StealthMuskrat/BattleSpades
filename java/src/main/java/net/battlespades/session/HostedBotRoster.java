@@ -28,10 +28,16 @@ public final class HostedBotRoster implements AutoCloseable {
     }
     public boolean current(Member member){owned();return members.get(member.player().id())==member&&member.match()==current.get()&&member.match().lives().players().stream().anyMatch(p->p==member.player());}
     private static void selectWeapon(PlayerLife p){var loadout=p.selection().loadout();int selected=loadout.stream().filter(BotCombatProfiles.FIREARMS::contains).findFirst().orElseGet(()->loadout.stream().filter(net.battlespades.combat.CombatCatalog.SPADES::contains).findFirst().orElse(loadout.isEmpty()?6:loadout.getFirst()));p.fire().tool(selected,true);}
-    public boolean remove(Member member){owned();if(members.get(member.player().id())!=member)return false;release(member.player().id());return true;}
-    private void release(int id){
+    public boolean remove(Member member){return remove(member,true);}
+    public boolean remove(Member member,boolean notifyMode){owned();if(members.get(member.player().id())!=member)return false;release(member.player().id(),notifyMode);return true;}
+    private void release(int id){release(id,true);}
+    private void release(int id,boolean notifyMode){
         var lease=leases.get(id);if(lease==null)return;
-        if(lease.match.lives().players().stream().anyMatch(p->p.id()==id))lease.match.disconnected(id);
+        var expected=members.get(id);var live=lease.match.lives().players().stream().filter(p->p.id()==id).findFirst().orElse(null);
+        if(live!=null&&expected!=null&&live!=expected.player())throw new IllegalStateException("Bot lease no longer owns its canonical player");
+        if(live!=null){
+            if(notifyMode)lease.match.disconnected(id);else{lease.match.transitionDetach(id);host.broadcastKnown(new SimplePackets.PlayerLeft(id),net.battlespades.transport.enet.Delivery.RELIABLE,id);}
+        }
         // A throwing cleanup retains both the reservation and lease for retry.
         lease.slot.close();leases.remove(id);members.remove(id);
     }

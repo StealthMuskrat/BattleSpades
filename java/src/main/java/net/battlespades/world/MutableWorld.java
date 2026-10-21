@@ -18,6 +18,12 @@ public final class MutableWorld implements AutoCloseable {
         int column() { return x+y*512; }
     }
     public record Capture(MapSyncSnapshot snapshot,Lease lease) {}
+    public record CommittedCell(Cell cell,boolean solid,int color,double health,long version){}
+    private record CommitListener(java.util.function.Consumer<CommittedCell> action,java.util.function.Consumer<RuntimeException> fault){}
+    private final List<CommitListener> commitListeners=new ArrayList<>();
+    public RemovalLease observeCommits(java.util.function.Consumer<CommittedCell> action,java.util.function.Consumer<RuntimeException> fault){active();var listener=new CommitListener(java.util.Objects.requireNonNull(action),java.util.Objects.requireNonNull(fault));commitListeners.add(listener);return ()->{active();commitListeners.remove(listener);};}
+    public byte[] sourceMapBytes(){active();return base.originalBytes();}
+    public String sourceFormat(){active();return base.classic()?"classic64":"retail";}
     public enum Replay { WAITING, COMPLETE, OVERFLOW, STALE }
     private record Mutation(long sequence,Cell cell) {}
     private record AirColumn(int column,BitSet mask) {}
@@ -148,6 +154,7 @@ public final class MutableWorld implements AutoCloseable {
     }
     void recordCell(Cell cell) {
         active();revision++;
+        if(!commitListeners.isEmpty()){boolean present=solid(cell);var committed=new CommittedCell(cell,present,color(cell),present?health.getOrDefault(cell,0.):0,revision);for(var listener:List.copyOf(commitListeners))try{listener.action.accept(committed);}catch(RuntimeException failure){listener.fault.accept(failure);}}
         if(!leases.isEmpty()) {
             for(var lease:leases) lease.complete=false;
             journal.addLast(new Mutation(revision,cell));
@@ -253,5 +260,5 @@ public final class MutableWorld implements AutoCloseable {
         @Override public void close() {owned();if(!released) {released=true;leases.remove(this);pendingPackets=List.of();cells=List.of();pendingCell=null;prune();}}
     }
     private CellState stateOf(Cell cell) {return new CellState(solid(cell),color(cell),explicit(cell),initialHealth(cell),terrainHealth.accumulated(cell),terrainHealth.scale());}
-    @Override public void close() {owned();if(closed) return;closed=true;for(var l:List.copyOf(leases)) l.close();journal.clear();columns.clear();dirtyColumns.clear();staticLights.clear();lightListeners.clear();topologyListeners.clear();air.clear();health.clear();terrainHealth.close();}
+    @Override public void close() {owned();if(closed) return;closed=true;for(var l:List.copyOf(leases)) l.close();journal.clear();columns.clear();dirtyColumns.clear();staticLights.clear();lightListeners.clear();topologyListeners.clear();commitListeners.clear();air.clear();health.clear();terrainHealth.close();}
 }

@@ -9,6 +9,7 @@ public final class MedpackBehavior extends DamageableEntityBehavior {
     public interface Care {boolean hardcore();double wall();void heal(PlayerLife player,int amount);}
     private final int team,healAmount;private int uses;private final Care care;
     public MedpackBehavior(int team,int healAmount,int uses,double health,Care care){super(health);this.team=team;this.healAmount=healAmount;this.uses=uses;this.care=Objects.requireNonNull(care);touchRadius=3;}
+    public int team(){return team;}
     public int uses(){return uses;}
     @Override public boolean onTouch(MapEntity entity,PlayerLife player,EntityContext context){
         if(player.team()!=team||player.health()>=player.maxHealth())return false;

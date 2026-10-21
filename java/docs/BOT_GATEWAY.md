@@ -15,3 +15,5 @@ Local consolidated verification: 6,511 Java tests (6,421 component in 132 suites
 CI verification: implementation `b867db6492e56868e134b7050d8db594fc4a489b`, tested tree `27d2e389d211a3b6ad1cb6c6332cd90c498dcb5a`, passed all four jobs and all 53 final steps (success or intentional skip) in [run 39598334595](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39598334595). Native transport/loader, 92 configured source generators, repeated archive comparison, Linux and Windows checks passed. No macOS job ran. This verification covers the published boundary checkpoint, not the separately unfinished brain executors.
 
 The subsequent [worker brain checkpoint](BOT_BRAIN.md) supplies the concrete brain and navigation/community/gadget executors. Remaining director and host bindings still gate live bot startup.
+
+The subsequent [live bot runtime checkpoint](BOT_DIRECTOR.md) supplies the director, motor, perception, population, both worker backends and standalone lifecycle bindings. Its verification supersedes the historical startup-gate status above; broader/client/capacity acceptance remains incomplete.

@@ -9,6 +9,7 @@ import net.battlespades.player.PlayerLife;
 public final class ProximityMineBehavior extends DamageableEntityBehavior implements DeployableRuntime.Explosive {
     private final DeviceBlast blast;private final int team,layers;private final double triggerRadius,armDelay,verticalOffset;private Double armedAt;private PlayerLife triggeredBy;
     public ProximityMineBehavior(DeviceBlast blast,double health,int team,double triggerRadius,double armDelay,int layers,double verticalOffset){super(health);Objects.requireNonNull(blast);this.blast=new DeviceBlast(blast.throwerId(),blast.damage(),blast.blockDamage(),blast.craterRadius(),blast.killType(),blast.radius(),blast.forceDestroy(),blast.minimum(),blast.maximum(),blast.damageType(),true);this.team=team;this.triggerRadius=triggerRadius;this.armDelay=armDelay;this.layers=layers;this.verticalOffset=verticalOffset;}
+    public int team(){return team;}
     @Override public DeviceBlast blast(){return blast;}
     @Override public PlayerLife triggeredBy(){return triggeredBy;}
     @Override public Vector explosionCenter(MapEntity entity){return new Vector(entity.x+.5,entity.y+.5,entity.z+verticalOffset);}

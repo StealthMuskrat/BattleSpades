@@ -32,7 +32,9 @@ class ConfigTest {
     }
     @Test void standaloneRejectsUnsupportedSettingsBeforeOpeningSockets() throws IOException {
         var output=new ByteArrayOutputStream();var error=new ByteArrayOutputStream();
-        assertEquals(2,Main.run(new String[]{"--serve","--config",config("[bots]\nenabled=true\n[revival]\nenabled=false\n").toString()},new PrintStream(output),new PrintStream(error)));
-        assertTrue(error.toString(java.nio.charset.StandardCharsets.UTF_8).contains("bots.enabled"));
+        assertEquals(2,Main.run(new String[]{"--serve","--config",config("[bots]\nenabled=false\n[revival]\nenabled=true\n").toString()},new PrintStream(output),new PrintStream(error)));
+        assertTrue(error.toString(java.nio.charset.StandardCharsets.UTF_8).contains("revival.enabled"));
+        var supported=net.battlespades.app.ServerSettings.from(ServerConfig.load(config("[bots]\nenabled=true\nworker=\"process\"\n[revival]\nenabled=false\n")));assertTrue(net.battlespades.bot.BotSettings.from(supported.core().raw()).enabled());
+        var legacy=net.battlespades.bot.BotSettings.from(org.tomlj.Toml.parse("[game]\nbot_count=3\n"));assertTrue(legacy.enabled());assertEquals("fixed",legacy.populationMode());assertEquals(3,legacy.maxBots());assertFalse(net.battlespades.bot.BotSettings.from(org.tomlj.Toml.parse("[game]\nbot_count=3\n[bots]\nenabled=false\n")).enabled());
     }
 }

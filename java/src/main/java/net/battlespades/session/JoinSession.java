@@ -230,7 +230,7 @@ public final class JoinSession implements WorldUpdateLink,AutoCloseable {
     }
     private void begin() {
         if(state==State.CLOSED) return;
-        if(slot==null) {slot=slots.reserve().orElse(null);if(slot==null) {fail(4);return;}}
+        if(slot==null) {slot=slots.reserveHuman().orElse(null);if(slot==null) {fail(4);return;}}
         if(capability<scene.requiredCapability()) {fail(10);return;}
         long epoch=++generation;var source=scene;var info=source.initialInfo(this,slot.id(),capability);
         if(!current(epoch,source)) return;

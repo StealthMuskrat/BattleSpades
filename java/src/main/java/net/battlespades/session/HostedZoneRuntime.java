@@ -55,6 +55,7 @@ public final class HostedZoneRuntime implements AutoCloseable {
     private void award(PlayerLife p,long amount,int reason){award(p,amount,reason,null);}
     private void award(PlayerLife p,long amount,int reason,Hill hill){if(current(p)&&scores.award(match.binding().row(p),amount,reason,null,Optional.of(new ObjectiveScores.Mode(mode.clock().ended,mode.clock().retiring)))&&!settings.territory()&&hill!=null)match.hillEvent(new Scored(hill.zone,p));}
     private void storeOccupants(Hill h,Map<Integer,PlayerLife> occupants){h.occupants.clear();h.occupants.putAll(occupants);h.occupantTeams.clear();for(var p:occupants.values())h.occupantTeams.put(p.id(),p.team());}
+    public double rotationAt(){owned();return nextRotation;}
     public List<State> states(){owned();return active.stream().map(h->new State(h.zone,h.owner,h.attacker,h.progress,h.contested,Set.copyOf(h.occupants.keySet()))).toList();}
     public boolean objective(PlayerLife p){owned();return active.stream().anyMatch(h->h.zone.contains(p.position()));}
     private Vector anchor(int team){var p=geometry.baseAnchor(team);return new Vector(p.x(),p.y(),p.z());}

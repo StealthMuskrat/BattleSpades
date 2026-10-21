@@ -105,6 +105,7 @@ public final class PlayerLife {
     public int jetpack(){owned();return jetpack;}public int parachute(){owned();return parachute;}public int color(){owned();return color;}
     public LifeInventory inventory(){owned();return inventory;}public ClassCatalog.Selection selection(){owned();return selection;}
     public Optional<ClassCatalog.Selection> pendingSelection(){owned();return Optional.ofNullable(pending);}
+    public Optional<PlayerPhysics.State> physicsState(){owned();return body==null?Optional.empty():Optional.of(body.state());}
     public PlayerPhysics body(){owned();if(body==null)throw new IllegalStateException("No Character body");return body;}
     public PlayerPhysics.Vector position(){owned();return body==null?position:body.state().position();}
     /** Administrative reposition preserves the current life and input/flight intent; coordinates are native map bounds. */

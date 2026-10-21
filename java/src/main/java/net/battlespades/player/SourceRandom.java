@@ -12,6 +12,7 @@ public final class SourceRandom {
     private final Thread owner=Thread.currentThread();
     private final int[] state=new int[624];
     private int index=624;
+    private Double gaussian;
     public SourceRandom(long seed){this(BigInteger.valueOf(seed));}
     public SourceRandom(BigInteger seed){
         seed=seed.abs();int[] key=new int[Math.max(1,(seed.bitLength()+31)/32)];
@@ -46,10 +47,18 @@ public final class SourceRandom {
     }
     public double random(){long a=Integer.toUnsignedLong(word())>>>5,b=Integer.toUnsignedLong(word())>>>6;return (a*67108864.0+b)*(1.0/9007199254740992.0);}
     public double uniform(double a,double b){return a+(b-a)*random();}
+    /** CPython Random.gauss shares its cached partner with getstate(). */
+    public double gauss(double mean,double sigma){owned();double z;if(gaussian!=null){z=gaussian;gaussian=null;}else{double angle=random()*Math.PI*2,scale=Math.sqrt(-2*Math.log(1-random()));z=Math.cos(angle)*scale;gaussian=Math.sin(angle)*scale;}return mean+z*sigma;}
+    /** 64-bit CPython 3.12 hash(getstate()), used by the source's isolated loadout second opinion. */
+    public long stateHash(){owned();long inner=2870177450012600261L;for(int word:state)inner=hashLane(inner,Integer.toUnsignedLong(word));inner=hashLane(inner,index);inner=hashEnd(inner,625);long outer=hashLane(2870177450012600261L,3);outer=hashLane(outer,inner);outer=hashLane(outer,gaussian==null?0xfca86420L:doubleHash(gaussian));return hashEnd(outer,3);}
+    private static long hashLane(long acc,long lane){return Long.rotateLeft(acc+lane*0xc2b2ae3d27d4eb4fL,31)*0x9e3779b185ebca87L;}
+    private static long hashEnd(long acc,int length){acc+=length^(2870177450012600261L^3527539L);return acc==-1?1546275796:acc;}
+    private static long doubleHash(double value){if(Double.isInfinite(value))return value>0?314159:-314159;if(value==0)return 0;long bits=Double.doubleToRawLongBits(value),mantissa=bits&0xfffffffffffffL;int exponent=(int)(bits>>>52&2047);if(exponent!=0)mantissa|=1L<<52;int shift=Math.floorMod((exponent==0?-1022:exponent-1023)-52,61);long modulus=(1L<<61)-1,result=shift==0?mantissa:((mantissa<<shift)&modulus)|(mantissa>>>(61-shift));if(bits<0)result=-result;return result==-1?-2:result;}
     public int below(int limit){
         owned();if(limit<=0)throw new IllegalArgumentException("Empty choice");int count=32-Integer.numberOfLeadingZeros(limit);long value;
         do{value=bits(count);}while(value>=limit);return (int)value;
     }
+    public int below31(){owned();long value;do{value=bits(32);}while(value>=0x80000000L);return (int)value;}
     public <T> T choice(List<T> source){return source.get(below(source.size()));}
     public <T> List<T> sample(List<T> source,int count){
         owned();int n=source.size();if(count<0||count>n)throw new IllegalArgumentException("Sample size");

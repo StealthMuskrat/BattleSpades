@@ -9,6 +9,7 @@ import net.battlespades.player.PlayerLife;
 public final class TimedExplosiveBehavior extends DamageableEntityBehavior implements DeployableRuntime.Explosive {
     private final DeviceBlast blast;private final double fuse;private Double detonateAt;private PlayerLife triggeredBy;
     public TimedExplosiveBehavior(DeviceBlast blast,double fuse,double health){super(health);this.blast=Objects.requireNonNull(blast);this.fuse=fuse;hitRadius=.65;}
+    public double detonateAt(){return detonateAt==null?0:detonateAt;}
     @Override public DeviceBlast blast(){return blast;}
     @Override public PlayerLife triggeredBy(){return triggeredBy;}
     @Override public Vector explosionCenter(MapEntity entity){return DeployableRuntime.attachmentCenter(entity);}

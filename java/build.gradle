@@ -79,7 +79,12 @@ tasks.register('verifyPortable', DefaultTask) {
         if (!forbidden.empty) throw new GradleException("Forbidden packaged files: $forbidden")
         def patterns = ['System.load(', 'System.loadLibrary(', 'java.lang.foreign', 'com.sun.jna', 'ProcessBuilder', 'Runtime.getRuntime().exec']
         fileTree('src/main/java').matching { include '**/*.java' }.each { source ->
-            patterns.each { p -> if (source.text.contains(p)) throw new GradleException("Prohibited API $p in $source") }
+            // The configured process bot backend launches this same Java runtime and a fixed private main.
+            // No operator-provided executable/arguments and no native payloads are admitted.
+            patterns.each { p ->
+                def botJvm = p == 'ProcessBuilder' && source == file('src/main/java/net/battlespades/bot/BotProcessSession.java')
+                if (source.text.contains(p) && !botJvm) throw new GradleException("Prohibited API $p in $source")
+            }
         }
         configurations.runtimeClasspath.resolvedConfiguration.resolvedArtifacts.each {
             if (!(it.moduleVersion.id.group in ['org.tomlj', 'org.antlr', 'org.checkerframework'])) {

@@ -1,4 +1,16 @@
-# Current bot worker brain checkpoint
+# Current live bot runtime checkpoint
+
+Implemented the live director, bounded perception and motor scheduling, population and human slot reclamation, stock-mode objectives and Zombie horde/refuge bindings, class/loadout/prefab selection, lifetime class changes, hearing, skill adaptation, banter, administration, and map/round/shutdown integration. Both `thread` and `process` worker settings now run the migrated brain; standalone bot configuration is accepted. The process backend runs a separate Java 25 JVM with detached, bounded messages.
+
+**6,527 Java tests pass** (6,435 component in 136 suites + 92 integration in 7), with zero failures/errors/skips. Strict Java 25 `check build`, portability and distributions pass. Eight grouped component tests add 3,260 unchanged-source observations and connected owner coverage; two integration cases exercise child-process recycling/crash recovery and real UDP humans/bots through Zombie, VIP and same-map restarts. Both new source exports reproduce byte for byte. All eight original source directories and all 287 prior resources are unchanged; there are 289 resources and 96 configured source generators.
+
+The repeated CRC-valid JAR is 3909383 bytes, SHA-256 `1deec62cfec5a1b0fbf0077a966a63ba80285139c25defa2823758ed1ae18ce8`, class major 69. Rebuilt archives are byte-identical. Version/configuration checks pass; the shipped configuration still rejects its unsupported revival integration. A separate packaged-JAR process-worker server starts two bots and shuts down successfully. CI publication/verification is pending for this checkpoint.
+
+The broader migration, full original Python baseline, supported-retail-client gameplay and capacity/soak acceptance remain incomplete. Community/editor standalone modes retain their existing hosting gates. No macOS test/job was launched; macOS remains deferred until the overall migration is complete. The previously recorded intermittent standalone UDP map-reload timeout is not claimed fixed. See [BOT_DIRECTOR.md](docs/BOT_DIRECTOR.md).
+
+## Previous verified checkpoints
+
+# Previous bot worker brain checkpoint
 
 Implemented the complete worker decision loop and retained navigation execution, corridor/escape recovery, water crossing and landing, breach queues, class deployables, charge safety, objective excavation/repair and community mode actions. `BotWorker.simple` constructs the actual brain on the worker thread. Six grouped tests replay 1,366 unchanged-source observations, including 400 action frames across all twenty community modes.
 

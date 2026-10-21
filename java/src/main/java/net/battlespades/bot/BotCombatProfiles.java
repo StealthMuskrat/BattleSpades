@@ -11,6 +11,7 @@ public final class BotCombatProfiles {
                            List<Integer> burstShots,List<Double> burstPause) {
         public Envelope {burstShots=List.copyOf(burstShots);burstPause=List.copyOf(burstPause);}
     }
+    public static final Set<Integer> FIREARMS=Set.copyOf(SourceCatalog.integers(SourceCatalog.load("bot-live").getArray("firearms")));
     private static final Map<String,Envelope> ENVELOPES=new HashMap<>();
     private static final Map<String,Double> RECOIL=new HashMap<>();
     static {
@@ -24,12 +25,12 @@ public final class BotCombatProfiles {
     }
     private BotCombatProfiles() {}
     public static Envelope envelope(int tool) {
-        var p=CombatCatalog.WEAPONS.get(tool);var e=ENVELOPES.getOrDefault(p==null?"":p.category(),ENVELOPES.get("default"));
+        var p=FIREARMS.contains(tool)?CombatCatalog.WEAPONS.get(tool):null;var e=ENVELOPES.getOrDefault(p==null?"":p.category(),ENVELOPES.get("default"));
         if(p!=null&&p.range()>0&&p.range()<e.hardMax()) {
             double maximum=Math.min(e.idealMax(),p.range()*.75);
             return new Envelope(Math.min(e.idealMin(),maximum*.5),maximum,p.range()*.95,e.prefersStationary(),e.burstShots(),e.burstPause());
         }
         return e;
     }
-    public static double recoil(int tool) {var p=CombatCatalog.WEAPONS.get(tool);return p==null?0:RECOIL.getOrDefault(p.category(),0.);}
+    public static double recoil(int tool) {var p=FIREARMS.contains(tool)?CombatCatalog.WEAPONS.get(tool):null;return p==null?0:RECOIL.getOrDefault(p.category(),0.);}
 }

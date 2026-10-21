@@ -24,18 +24,21 @@ public final class CombatFootwork {
         return rangeMode;
     }
     public Vector direction(Player observer,Player enemy,BotProfile profile,double now,int blockedStage) {
+        return direction(observer,enemy,profile,now,blockedStage,observer.reloading());
+    }
+    Vector direction(Player observer,Player enemy,BotProfile profile,double now,int blockedStage,boolean reloading) {
         owned();var identity=new Identity(enemy.id(),enemy.generation(),enemy.lifeId());
         double dx=enemy.position().x()-observer.position().x(),dy=enemy.position().y()-observer.position().y(),distance=Math.hypot(dx,dy);
         if(distance<1e-6)return ZERO;
         if(!identity.equals(target)) {target=identity;phase="";sequence=0;side=(observer.id()&1)!=0?-1:1;}
-        if(observer.reloading()&&!wasReloading)phase="";wasReloading=observer.reloading();
+        if(reloading&&!wasReloading)phase="";wasReloading=reloading;
         if(blockedStage!=0) {phase="recovery";return new Vector(-dy*side/distance,dx*side/distance,0);}
         boolean pressure=observer.lastDamageAt()>lastPressureAt&&now-observer.lastDamageAt()>=0&&now-observer.lastDamageAt()<=.8&&now-startedAt>=.6;
         if(pressure) {lastPressureAt=observer.lastDamageAt();phase="";}
         double moved=flat(observer.position(),origin);
         if(phase.equals("stride")&&(now>=until||moved>=strideLength)) {
             phase="settle";double duration=.22+.5*profile.burstDiscipline()+.25*variation(observer,profile);
-            if(observer.reloading()||now-observer.lastDamageAt()<1.2)duration*=.45;
+            if(reloading||now-observer.lastDamageAt()<1.2)duration*=.45;
             until=now+duration;return ZERO;
         }
         if(phase.equals("settle")&&now<until)return ZERO;
@@ -43,7 +46,7 @@ public final class CombatFootwork {
             sequence++;double variation=variation(observer,profile);
             if(sequence>1&&variation<.3+.2*profile.caution())side=-side;
             double desired=Math.max(3,profile.preferredRange()),radial=Math.max(-.25,Math.min(.25,(distance-desired)/desired));
-            if(observer.reloading()||pressure||observer.health()<45)radial=-.45-.2*profile.caution();
+            if(reloading||pressure||observer.health()<45)radial=-.45-.2*profile.caution();
             double ux=dx/distance,uy=dy/distance,hx=-uy*side+ux*radial,hy=ux*side+uy*radial,length=Math.hypot(hx,hy);
             heading=new Vector(hx/length,hy/length,0);origin=observer.position();strideLength=2+2.4*profile.aggression()+1.4*variation;
             startedAt=now;until=now+.8+.6*profile.caution()+.5*variation;phase="stride";

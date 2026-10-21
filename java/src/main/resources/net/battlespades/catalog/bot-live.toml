@@ -1,0 +1,43 @@
+# Unchanged source 546c548780c400f21d73ca6713f86194ceb3c844
+projectile_gravity = 30.0
+drill_tool = 14
+rocket_tools = [12, 13]
+oriented_tools = [11, 12, 13, 14, 29, 31, 32, 33, 47, 48, 54, 55, 57, 58]
+firearms = [6, 7, 8, 9, 10, 15, 17, 18, 19, 35, 36, 37, 38, 53, 60, 61, 62]
+melee = [0, 1, 2, 3, 4, 24, 34, 44, 45, 49, 50, 52]
+no_sprint_uphill = [5, 15]
+climbing_packs = [66, 68]
+
+[pack_flight_seconds]
+"66" = 0.6
+"67" = 2.3
+"68" = 2.3
+
+[oriented_speeds]
+"11" = 50.0
+"31" = 35.0
+"32" = 50.0
+"33" = 40.0
+"12" = 75.0
+"13" = 150.0
+"14" = 40.0
+"29" = 50.0
+"54" = 40.0
+"55" = 75.0
+"57" = 50.0
+"58" = 75.0
+
+[banter]
+kill = ["gotcha", "boom", "got one", "too slow", "sit down", "nice try {victim}", "there we go", "one down", "lol", "ez", "saw you coming {victim}"]
+kill_long = ["what a shot", "did you see that", "long range special", "{victim} never saw it", "sniped"]
+kill_melee = ["spaded", "get dug", "shovel time", "up close and personal"]
+kill_explosive = ["kaboom", "fire in the hole", "special delivery {victim}", "watch your feet"]
+streak = ["on fire", "{count} in a row", "cant stop wont stop", "anyone going to stop me?", "{count} streak lets go"]
+revenge = ["payback {victim}", "got you back {victim}", "we're even {victim}", "remember me {victim}?"]
+death = ["ouch", "nice shot", "ok that was clean", "how", "wow", "ns {killer}", "lag", "i blinked", "where was he", "aaand dead", "oof"]
+death_streak_ended = ["finally got me", "fair enough {killer}", "good run while it lasted"]
+death_repeat = ["{killer} again?!", "ok {killer} i see you", "{killer} chill", "im coming for you {killer}"]
+death_explosive = ["who threw that", "didnt even hear it", "nice nade {killer}"]
+suicide = ["oops", "that was on purpose", "dont look at me", "gravity wins again"]
+start = ["glhf", "gl all", "lets go", "hf", "good luck have fun"]
+end = ["gg", "gg wp", "ggs", "good game all", "close one"]

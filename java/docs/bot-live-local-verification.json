@@ -1,0 +1,90 @@
+{
+  "parent": "46e4b556f692f9ba501fecdad3cb8ac7360e93f6",
+  "observed_utc": "2026-10-21T01:59:07.780234+00:00",
+  "java_tests": 6507,
+  "junit": {
+    "test": {
+      "suites": 130,
+      "tests": 6417,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrationTest": {
+      "suites": 7,
+      "tests": 90,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "source": {
+    "tests": 71,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "source_modules": [
+    "tests/test_zombie_horde.py",
+    "tests/test_zombie_refuge.py",
+    "tests/test_bot_banter.py",
+    "tests/test_collapse_parity.py"
+  ],
+  "source_commit": "546c548780c400f21d73ca6713f86194ceb3c844",
+  "jar_bytes": 3599171,
+  "jar_sha256": "ec481203835cebc7f2fd3c78b0101140f25af96af639d9cd03f8aa5324658844",
+  "jar_crc_valid": true,
+  "class_major": 69,
+  "smokes": [
+    {
+      "args": [
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "BattleSpades 0.1.0-java25-dev; protocol 168; gameplay incomplete\n",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+    },
+    {
+      "args": [
+        "--check-config",
+        "config.toml"
+      ],
+      "exit": 0,
+      "stdout": "Core configuration valid: BattleSpades Server, UDP 27015, 24 players, 60 Hz\nValidation covers core/network/join, Match Lobby rules and common scene settings; full gameplay is pending.\n",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+    },
+    {
+      "args": [
+        "--help"
+      ],
+      "exit": 0,
+      "stdout": "BattleSpades Java 25: dedicated host, world creator and migration diagnostics\n  java -jar BattleSpades.jar --serve --config PATH [--bind HOST] [--port PORT] [--control-stdin] [--shutdown-after SECONDS]\n  java -jar BattleSpades.jar --check-config PATH\n  java -jar BattleSpades.jar --version\n  java -jar BattleSpades.jar --update [--config PATH] [--manifest URL]\n  java -jar BattleSpades.jar --results-import INPUT_NDJSON OUTBOX_DIRECTORY\n  java -jar BattleSpades.jar --ugc-assets RETAIL_ROOT\n  java -jar BattleSpades.jar --ugc-create RETAIL_ROOT DIRECTORY NAME TERRAIN MODE\n  java -jar BattleSpades.jar --ugc-check DIRECTORY NAME\n  java -jar BattleSpades.jar --ugc-host --retail-root RETAIL_ROOT --project NAME [--config PATH] [--publish-root hosted_ugc] [--control-stdin]\n",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\n"
+    },
+    {
+      "args": [],
+      "exit": 2,
+      "stdout": "",
+      "stderr": "Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/dc9e10c1d797/tmp\nServer failed: Standalone migration does not yet support: bots.enabled, revival.enabled\n"
+    }
+  ],
+  "eight_source_directories_unchanged": true,
+  "frozen_resources_unchanged": 281,
+  "new_resources": 2,
+  "resources": {
+    "java/src/main/resources/net/battlespades/catalog/bot-live.toml": "83b9a74f9557f224c4c4c5dbd73b8f10efe84b840f53592dcdf33528078ec526",
+    "java/src/test/resources/golden/bot-live.json": "1cf05a04cae3471e77650aec6c5e717f2a6c25d35c8c1c54d87f1ef3b68cb2d2"
+  },
+  "configured_reference_generators": 91,
+  "live_bots_enabled": false,
+  "full_bot_migration_complete": false,
+  "full_migration_complete": false,
+  "macos_deferred_until_full_migration_complete": true,
+  "scope_limitations": [
+    "Main brain orchestration and ordinary/water/corridor/breach navigation execution remain incomplete",
+    "Community actions, durable gadgets/charges and objective terrain actions remain incomplete",
+    "Authoritative gateway/director/motor and host composition remain incomplete",
+    "Full Python baseline, capacity, supported-client acceptance and overall migration remain incomplete",
+    "Existing intermittent standalone UDP map reload timeout is not claimed fixed"
+  ]
+}

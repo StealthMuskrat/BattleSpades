@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+package net.battlespades.bot;
+import java.util.*;
+import java.util.function.IntBinaryOperator;
+import net.battlespades.physics.PlayerPhysics.Vector;
+
+/** Resumable public-terrain refuge election for the survivor team. */
+public final class ZombieRefuge {
+    private ZombieRefuge(){}
+    static final int[][] RING={{4,0},{-4,0},{0,4},{0,-4},{3,3},{3,-3},{-3,3},{-3,-3}},WIDE={{8,0},{-8,0},{0,8},{0,-8},{6,6},{6,-6},{-6,6},{-6,-6}};
+    public static boolean breached(Vector refuge,Collection<Vector> zombies,double radius,double height){return zombies.stream().anyMatch(p->Math.hypot(p.x()-refuge.x(),p.y()-refuge.y())<=radius&&Math.abs(p.z()-refuge.z())<=height);}
+    static Vector centroid(Collection<Vector> points){if(points.isEmpty())return null;double x=0,y=0;for(var p:points){x+=p.x();y+=p.y();}return new Vector(x/points.size(),y/points.size(),0);}
+    public static final class Election {
+        private final Thread owner=Thread.currentThread();private final IntBinaryOperator surface,region;private final Vector center,zombies;private final List<Vector> excluded;private Set<Integer> allowed;private final int radius,step,maximum,startY,endX,endY;private int x,y,considered;private double score=Double.NEGATIVE_INFINITY;private Vector best;private boolean done;
+        public Election(IntBinaryOperator surface,List<Vector> survivors,List<Vector> zombies,List<Vector> excluded,IntBinaryOperator region,int radius,int step,int maximum){if(step<=0)throw new IllegalArgumentException("Positive refuge grid step required");this.surface=surface;this.region=region;center=centroid(survivors);this.zombies=centroid(zombies);this.excluded=List.copyOf(excluded);this.radius=radius;this.step=step;this.maximum=maximum;if(center==null){x=y=startY=endX=endY=0;done=true;return;}if(region!=null){allowed=new HashSet<>();for(var p:survivors)allowed.add(region.applyAsInt((int)p.x(),(int)p.y()));allowed.remove(0);if(allowed.isEmpty())allowed=null;}x=Math.floorDiv((int)(center.x()-radius),step)*step;startY=Math.floorDiv((int)(center.y()-radius),step)*step;y=startY;endX=(int)(center.x()+radius);endY=(int)(center.y()+radius);}
+        public boolean advance(int work){if(Thread.currentThread()!=owner)throw new IllegalStateException("Refuge election outside owner");while(!done&&work>0){if(x>endX){done=true;break;}int gx=x,gy=y;y+=step;if(y>endY){y=startY;x+=step;}if(gx<2||gx>=510||gy<2||gy>=510)continue;double distance=Math.hypot(gx-center.x(),gy-center.y());if(distance>radius)continue;if(++considered>maximum){done=true;break;}work--;if(excluded.stream().anyMatch(p->Math.hypot(gx-p.x(),gy-p.y())<12)||allowed!=null&&!allowed.contains(region.applyAsInt(gx,gy)))continue;int top=surface.applyAsInt(gx,gy);if(top>=238)continue;var ring=new ArrayList<Integer>();for(var d:RING)ring.add(surface.applyAsInt(gx+d[0],gy+d[1]));if(ring.stream().anyMatch(z->z>=238))continue;int min=Integer.MAX_VALUE,max=Integer.MIN_VALUE;for(int dx=-1;dx<=1;dx++)for(int dy=-1;dy<=1;dy++){int z=surface.applyAsInt(gx+dx,gy+dy);min=Math.min(min,z);max=Math.max(max,z);}if(max-min>1||top>ring.stream().mapToInt(z->z).min().orElseThrow())continue;var wide=new ArrayList<Integer>();for(var d:WIDE){int z=surface.applyAsInt(gx+d[0],gy+d[1]);if(z<238)wide.add(z);}if(wide.isEmpty())wide.add(top);double advantage=Math.max(ring.stream().mapToInt(z->z).sum()/(double)ring.size()-top,wide.stream().mapToInt(z->z).sum()/(double)wide.size()-top);double value=3*Math.min(advantage,12)-.06*distance;if(zombies!=null)value+=.04*Math.max(-40,Math.min(40,Math.hypot(gx-zombies.x(),gy-zombies.y())-Math.hypot(center.x()-zombies.x(),center.y()-zombies.y())));if(value>score){score=value;best=new Vector(gx+.5,gy+.5,top-2.25);}}return done;}
+        public Vector result(){return done?best:null;}public boolean done(){return done;}public int considered(){return considered;}
+    }
+}

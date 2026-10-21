@@ -1,3 +1,15 @@
+# Current bot gameplay gateway and director-state checkpoint
+
+Bound bot proposals to ordinary combat, reload, construction, prefab, device and projectile services. Added shared human/bot slot leases, bot identity before spawn effects, fail-closed stale-occupant checks, bounded aim/gaze/key controllers and life/epoch/priority/task fences. The connected host regression covers firing cadence/ammo, reload, deferred palette construction, retirement and slot reuse. Original director methods supply 768 aim and 600 movement-key observations.
+
+**6,511 Java tests pass** (6,421 component in 132 suites + 90 integration in 7 suites), zero failures/errors/skips. Strict Java 25 `check build`, portability and distributions pass. The CRC-valid local JAR is 3639035 bytes, SHA-256 `fa4741b4160ced912b2defc64ed4110060e6f30e100584e49de9af10da4e8fa2`, class major 69; configuration/version and expected incomplete-launcher smokes pass. All eight original source directories and all 283 prior resources are unchanged. The reproducible director fixture brings the count to 284, with 92 configured source generators.
+
+All four CI jobs—build, native ENet, Linux and Windows—and all 53 final steps passed or were intentionally skipped for implementation `b867db6492e56868e134b7050d8db594fc4a489b`, tested tree `27d2e389d211a3b6ad1cb6c6332cd90c498dcb5a`, in [run 39598334595](https://github.com/StealthMuskrat/BattleSpades/actions/runs/39598334595). This includes source regeneration, archive reproducibility, native transport/loader probes and platform checks. No macOS job ran. No local-to-CI archive hash identity is claimed.
+
+**Bot migration is unfinished and live bots remain gated.** The concrete brain orchestration and navigation/community/gadget executors, full director perception/scheduling and collision/movement/action motor, population policy and transition/startup integration remain necessary. This checkpoint supplies owner components and host service boundaries; it does not establish supported-client/capacity acceptance, the full Python baseline or overall migration completion. The pre-existing intermittent standalone UDP map-reload timeout is not claimed fixed. See [BOT_GATEWAY.md](BOT_GATEWAY.md).
+
+## Previous verified checkpoints
+
 Migration CI policy: build, native ENet, Linux and Windows only. **Defer macOS testing until the full migration is complete**, then run macOS acceptance.
 
 Current checkpoint: [bot horde and combat controller components](docs/BOT_LIVE.md). Local verification: 6,507 Java tests, 71 selected original source tests and all four required CI jobs pass. Live bots remain gated and the migration remains incomplete.
